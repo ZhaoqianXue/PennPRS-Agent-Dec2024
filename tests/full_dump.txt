@@ -1,0 +1,383 @@
+=== AUDIT REPORT FOR PGS000945 ===
+
+[Endpoint 1] https://www.pgscatalog.org/rest/score/PGS000945
+--- FULL METADATA PAYLOAD ---
+{
+  "id": "PGS000945",
+  "name": "GBE_HC710",
+  "ftp_scoring_file": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/scores/PGS000945/ScoringFiles/PGS000945.txt.gz",
+  "ftp_harmonized_scoring_files": {
+    "GRCh37": {
+      "positions": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/scores/PGS000945/ScoringFiles/Harmonized/PGS000945_hmPOS_GRCh37.txt.gz"
+    },
+    "GRCh38": {
+      "positions": "https://ftp.ebi.ac.uk/pub/databases/spot/pgs/scores/PGS000945/ScoringFiles/Harmonized/PGS000945_hmPOS_GRCh38.txt.gz"
+    }
+  },
+  "publication": {
+    "id": "PGP000244",
+    "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+    "doi": "10.1371/journal.pgen.1010105",
+    "PMID": 35324888,
+    "journal": "PLoS Genet",
+    "firstauthor": "Tanigawa Y",
+    "date_publication": "2022-03-24"
+  },
+  "matches_publication": true,
+  "samples_variants": [],
+  "samples_training": [
+    {
+      "sample_number": 269704,
+      "sample_cases": 324,
+      "sample_controls": 269380,
+      "sample_percent_male": null,
+      "sample_age": null,
+      "phenotyping_free": null,
+      "followup_time": null,
+      "ancestry_broad": "European",
+      "ancestry_free": null,
+      "ancestry_country": "UK",
+      "ancestry_additional": "white British ancestry",
+      "source_GWAS_catalog": null,
+      "source_PMID": null,
+      "source_DOI": null,
+      "cohorts": [
+        {
+          "name_short": "UKB",
+          "name_full": "UK Biobank",
+          "name_others": null
+        }
+      ],
+      "cohorts_additional": null
+    }
+  ],
+  "trait_reported": "Dementia in Alzheimer's disease (time-to-event)",
+  "trait_additional": "https://biobankengine.stanford.edu/RIVAS_HG19/snpnet/HC710",
+  "trait_efo": [
+    {
+      "id": "MONDO_0004975",
+      "label": "Alzheimer disease",
+      "description": "A progressive, neurodegenerative disease characterized by loss of function and death of nerve cells in several areas of the brain leading to loss of cognitive function such as memory and language. [NCIT: P378]",
+      "url": "http://purl.obolibrary.org/obo/MONDO_0004975"
+    },
+    {
+      "id": "MONDO_0001627",
+      "label": "dementia",
+      "description": "Loss of intellectual abilities interfering with an individual's social and occupational functions. Causes include Alzheimer's disease, brain injuries, brain tumors, and vascular disorders. [NCIT: P378]",
+      "url": "http://purl.obolibrary.org/obo/MONDO_0001627"
+    }
+  ],
+  "method_name": "snpnet",
+  "method_params": null,
+  "variants_number": 26,
+  "variants_interactions": 0,
+  "variants_genomebuild": "GRCh37",
+  "weight_type": "NR",
+  "ancestry_distribution": {
+    "dev": {
+      "dist": {
+        "EUR": 100
+      },
+      "count": 269704
+    },
+    "eval": {
+      "dist": {
+        "AFR": 25,
+        "EUR": 50,
+        "SAS": 25
+      },
+      "count": 4
+    }
+  },
+  "date_release": "2021-10-21",
+  "license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details."
+}
+
+==================================================
+
+[Endpoint 2] https://www.pgscatalog.org/rest/performance/search?pgs_id=PGS000945
+Found 4 Performance Records.
+
+[Record #1 - ID: PPM007551]
+  > performance_metrics:
+{
+    "effect_sizes": [],
+    "class_acc": [
+        {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.98515,
+            "ci_lower": 0.97381,
+            "ci_upper": 0.9965
+        }
+    ],
+    "othermetrics": [
+        {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.33632
+        },
+        {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00807
+        },
+        {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02667
+        },
+        {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.7414,
+            "ci_lower": 0.59579,
+            "ci_upper": 0.88702
+        }
+    ]
+}
+  > sampleset:
+{
+    "id": "PSS004614",
+    "samples": [
+        {
+            "sample_number": 6497,
+            "sample_cases": 5,
+            "sample_controls": 6492,
+            "sample_percent_male": null,
+            "sample_age": null,
+            "phenotyping_free": null,
+            "followup_time": null,
+            "ancestry_broad": "African unspecified",
+            "ancestry_free": null,
+            "ancestry_country": "UK",
+            "ancestry_additional": null,
+            "source_GWAS_catalog": null,
+            "source_PMID": null,
+            "source_DOI": null,
+            "cohorts": [
+                {
+                    "name_short": "UKB",
+                    "name_full": "UK Biobank",
+                    "name_others": null
+                }
+            ],
+            "cohorts_additional": null
+        }
+    ]
+}
+  > covariates: age, sex, UKB array type, Genotype PCs
+  > performance_comments: Full Model & PGS R2 is estimated using Nagelkerke's method
+
+[Record #2 - ID: PPM007552]
+  > performance_metrics:
+{
+    "effect_sizes": [],
+    "class_acc": [
+        {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8807,
+            "ci_lower": 0.81377,
+            "ci_upper": 0.94763
+        }
+    ],
+    "othermetrics": [
+        {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.16889
+        },
+        {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0235
+        },
+        {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.04331
+        },
+        {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.66609,
+            "ci_lower": 0.55451,
+            "ci_upper": 0.77766
+        }
+    ]
+}
+  > sampleset:
+{
+    "id": "PSS004615",
+    "samples": [
+        {
+            "sample_number": 24905,
+            "sample_cases": 27,
+            "sample_controls": 24878,
+            "sample_percent_male": null,
+            "sample_age": null,
+            "phenotyping_free": null,
+            "followup_time": null,
+            "ancestry_broad": "European",
+            "ancestry_free": null,
+            "ancestry_country": "UK",
+            "ancestry_additional": "non-white British ancestry",
+            "source_GWAS_catalog": null,
+            "source_PMID": null,
+            "source_DOI": null,
+            "cohorts": [
+                {
+                    "name_short": "UKB",
+                    "name_full": "UK Biobank",
+                    "name_others": null
+                }
+            ],
+            "cohorts_additional": null
+        }
+    ]
+}
+  > covariates: age, sex, UKB array type, Genotype PCs
+  > performance_comments: Full Model & PGS R2 is estimated using Nagelkerke's method
+
+[Record #3 - ID: PPM007553]
+  > performance_metrics:
+{
+    "effect_sizes": [],
+    "class_acc": [
+        {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.9584,
+            "ci_lower": 0.92052,
+            "ci_upper": 0.99629
+        }
+    ],
+    "othermetrics": [
+        {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.25982
+        },
+        {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0131
+        },
+        {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0675
+        },
+        {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.67849,
+            "ci_lower": 0.36185,
+            "ci_upper": 0.99513
+        }
+    ]
+}
+  > sampleset:
+{
+    "id": "PSS004616",
+    "samples": [
+        {
+            "sample_number": 7831,
+            "sample_cases": 6,
+            "sample_controls": 7825,
+            "sample_percent_male": null,
+            "sample_age": null,
+            "phenotyping_free": null,
+            "followup_time": null,
+            "ancestry_broad": "South Asian",
+            "ancestry_free": null,
+            "ancestry_country": "UK",
+            "ancestry_additional": null,
+            "source_GWAS_catalog": null,
+            "source_PMID": null,
+            "source_DOI": null,
+            "cohorts": [
+                {
+                    "name_short": "UKB",
+                    "name_full": "UK Biobank",
+                    "name_others": null
+                }
+            ],
+            "cohorts_additional": null
+        }
+    ]
+}
+  > covariates: age, sex, UKB array type, Genotype PCs
+  > performance_comments: Full Model & PGS R2 is estimated using Nagelkerke's method
+
+[Record #4 - ID: PPM007554]
+  > performance_metrics:
+{
+    "effect_sizes": [],
+    "class_acc": [
+        {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8916,
+            "ci_lower": 0.86249,
+            "ci_upper": 0.9207
+        }
+    ],
+    "othermetrics": [
+        {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.16679
+        },
+        {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.05458
+        },
+        {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.06543
+        },
+        {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.75273,
+            "ci_lower": 0.69847,
+            "ci_upper": 0.80699
+        }
+    ]
+}
+  > sampleset:
+{
+    "id": "PSS004617",
+    "samples": [
+        {
+            "sample_number": 67425,
+            "sample_cases": 80,
+            "sample_controls": 67345,
+            "sample_percent_male": null,
+            "sample_age": null,
+            "phenotyping_free": null,
+            "followup_time": null,
+            "ancestry_broad": "European",
+            "ancestry_free": null,
+            "ancestry_country": "UK",
+            "ancestry_additional": "white British ancestry",
+            "source_GWAS_catalog": null,
+            "source_PMID": null,
+            "source_DOI": null,
+            "cohorts": [
+                {
+                    "name_short": "UKB",
+                    "name_full": "UK Biobank",
+                    "name_others": null
+                }
+            ],
+            "cohorts_additional": "Testing cohort (heldout set)"
+        }
+    ]
+}
+  > covariates: age, sex, UKB array type, Genotype PCs
+  > performance_comments: Full Model & PGS R2 is estimated using Nagelkerke's method

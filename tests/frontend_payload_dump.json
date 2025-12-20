@@ -1,0 +1,104 @@
+{
+  "id": "PGS000945",
+  "metrics": {
+    "PGS_R2": 0.0675,
+    "PGS_AUC": 0.7527,
+    "R2": 0.3363,
+    "AUC": 0.9851
+  },
+  "num_variants": 26,
+  "method": "snpnet",
+  "trait_detailed": "Dementia in Alzheimer's disease (time-to-event) ()",
+  "trait_efo": [
+    "MONDO_0004975",
+    "MONDO_0001627"
+  ],
+  "license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+  "genome_build": [],
+  "pgs_name": "GBE_HC710",
+  "name": "GBE_HC710",
+  "weight_type": "NR",
+  "params": "NR",
+  "variants_genomebuild": "GRCh37",
+  "trait_reported": "Dementia in Alzheimer's disease (time-to-event)",
+  "mapped_traits": [
+    {
+      "id": "MONDO_0004975",
+      "label": "Alzheimer disease",
+      "url": "http://purl.obolibrary.org/obo/MONDO_0004975"
+    },
+    {
+      "id": "MONDO_0001627",
+      "label": "dementia",
+      "url": "http://purl.obolibrary.org/obo/MONDO_0001627"
+    }
+  ],
+  "ancestry_distribution": {
+    "dist": [
+      {
+        "ancestry": "EUR",
+        "percent": 100
+      }
+    ]
+  },
+  "ancestry": "EUR",
+  "publication": {
+    "date": "2022-03-24",
+    "citation": "Tanigawa Y et al. (2022) PLoS Genet",
+    "id": "PGP000244",
+    "doi": "10.1371/journal.pgen.1010105"
+  },
+  "sample_size": 269704,
+  "performance_detailed": [
+    {
+      "ppm_id": "PPM007551",
+      "ancestry": "African unspecified",
+      "cohorts": "UKB",
+      "sample_size": 6497,
+      "auc": 0.98515,
+      "auc_ci_lower": 0.97381,
+      "auc_ci_upper": 0.9965,
+      "r2": 0.02667,
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "comments": "Full Model & PGS R2 is estimated using Nagelkerke's method"
+    },
+    {
+      "ppm_id": "PPM007552",
+      "ancestry": "European",
+      "cohorts": "UKB",
+      "sample_size": 24905,
+      "auc": 0.8807,
+      "auc_ci_lower": 0.81377,
+      "auc_ci_upper": 0.94763,
+      "r2": 0.04331,
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "comments": "Full Model & PGS R2 is estimated using Nagelkerke's method"
+    },
+    {
+      "ppm_id": "PPM007553",
+      "ancestry": "South Asian",
+      "cohorts": "UKB",
+      "sample_size": 7831,
+      "auc": 0.9584,
+      "auc_ci_lower": 0.92052,
+      "auc_ci_upper": 0.99629,
+      "r2": 0.0675,
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "comments": "Full Model & PGS R2 is estimated using Nagelkerke's method"
+    },
+    {
+      "ppm_id": "PPM007554",
+      "ancestry": "European",
+      "cohorts": "UKB",
+      "sample_size": 67425,
+      "auc": 0.8916,
+      "auc_ci_lower": 0.86249,
+      "auc_ci_upper": 0.9207,
+      "r2": 0.06543,
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "comments": "Full Model & PGS R2 is estimated using Nagelkerke's method"
+    }
+  ],
+  "covariates": "age, sex, UKB array type, Genotype PCs",
+  "performance_comments": "Full Model & PGS R2 is estimated using Nagelkerke's method"
+}

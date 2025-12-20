@@ -1,0 +1,148 @@
+# Cursor Rules for PennPRS_Agent Project
+
+## Read-Only Reference Directory
+
+**IMPORTANT**: The `pennprs-agent` folder is **READ-ONLY** and serves **ONLY** as a reference for understanding how to use the PennPRS API.
+
+### Rules:
+- **DO NOT** modify any files within the `pennprs-agent` folder
+- **DO NOT** use any code from `pennprs-agent` folder
+- **ONLY** read and reference files in `pennprs-agent` folder to understand PennPRS API usage
+- All files in `pennprs-agent` are for reference purposes only
+
+### Purpose:
+The `pennprs-agent` folder contains example implementations and documentation that demonstrate how to interact with the PennPRS API. Use it solely as a learning resource, not as a codebase to modify or extend.
+
+---
+
+## AI File and Code Generation Standards
+
+### Objective
+
+Standardize the structure and paths of AI-generated content (documents, code, test files, etc.) to avoid polluting the root directory or creating confusing naming conventions.
+
+### Project Structure Conventions
+
+#### Standard Project Directory Structure
+
+Applicable to any medium-to-large software or research engineering project.
+
+##### Top-Level Directory Structure
+
+```
+project/
+├── .cursor                # Cursor IDE management
+├── openspec               # openspec vibe coding management
+├── README.md              # Project description, installation and usage guide
+├── LICENSE                # Open source or commercial license
+├── requirements.txt       # Python dependencies (or package.json / go.mod, etc.)
+├── setup.py / pyproject.toml  # Optional: build or installation configuration
+├── .gitignore             # Git ignore rules
+├── .env                   # Environment variables file (sensitive info not in repo)
+├── .log                   # Files storing important information
+├── src/                   # Core source code
+├── tests/                 # Test code (unit, integration, e2e)
+├── docs/                  # Documentation, architecture notes, design specifications
+├── data/                  # Data (raw, processed, examples)
+├── scripts/               # Scripts, tools, batch tasks
+├── configs/               # Configuration files (YAML/JSON/TOML)
+├── logs/                  # Runtime log output
+├── notebooks/             # Jupyter analysis or experimental files
+├── results/               # Result output (models, reports, charts, etc.)
+├── output/                # Temporary output or compressed files
+├── docker/                # Containerization deployment related (Dockerfile, compose)
+├── CURSOR.md              # Cursor code memory file
+└── AGENTS.md              # AI memory file
+```
+
+##### Source Code Structure (`src/`)
+
+```
+src/
+├── __init__.py
+├── main.py                # Program entry point
+├── core/                  # Core logic (algorithms, models, pipelines)
+├── modules/               # Functional modules (API, services, tasks)
+├── utils/                 # Common utility functions
+├── interfaces/            # Interface layer (REST/gRPC/CLI)
+├── config/                # Default configuration
+├── data/                  # Data access layer (DAO, repository)
+└── pipelines/             # Workflow or task scheduling logic
+```
+
+##### Test Structure (`tests/`)
+
+```
+tests/
+├── unit/                  # Unit tests
+├── integration/           # Integration tests
+├── e2e/                   # End-to-end tests
+└── fixtures/              # Test data and mocks
+```
+
+##### Experimental Projects Structure (AI/ML)
+
+```
+experiments/
+├── configs/               # Experiment configurations
+├── runs/                  # Results and logs for each run
+├── checkpoints/           # Model weights
+├── metrics/               # Performance metric records
+└── analysis/              # Result analysis scripts
+```
+
+##### Versioning and Environment Management
+
+- `venv/` or `.venv/`: Virtual environment (not in repo)
+- `Makefile` or `tasks.py`: Standardized task execution (build/test/deploy)
+- `.pre-commit-config.yaml`: Code quality hooks
+- `.github/workflows/`: CI/CD pipelines
+
+#### Structure Benefits
+
+This structure provides:
+- **Clear logical layering**
+- **Independent deployment, testing, and documentation**
+- **Extensible, collaborative, and versionable**
+
+Can be adapted to specific languages or frameworks (Python/Node/Go/Java, etc.) as needed.
+
+### File Generation Rules
+
+| File Type | Storage Path | Naming Convention | Notes |
+|-----------|--------------|-------------------|-------|
+| Python Source | `/src` | Module name lowercase, underscore separated | Follow PEP8 |
+| Test Code | `/tests` | `test_module_name.py` | Use pytest format |
+| Documentation (Markdown) | `/docs` | Use module name plus description, e.g., `module_name_description.md` | UTF-8 encoding |
+| Temporary Output or Archives | `/output` | Auto-generate timestamp suffix | Can be auto-cleaned |
+
+### AI Generation Conventions
+
+When AI generates files or code, the following rules **MUST** be followed:
+
+#### Mandatory Rules
+
+1. **DO NOT** create files in the root directory
+2. All new files must be placed in the correct categorized folder
+3. File names should be readable and semantic
+4. Use English for all code, comments, strings, and variable names
+
+#### Default Paths
+
+If file path is not explicitly specified, default to:
+- Code → `/src`
+- Tests → `/tests`
+- Documentation → `/docs`
+- Temporary content → `/output`
+
+### Summary
+
+> **CRITICAL**: Follow the project structure:
+>
+> - Source code goes into `/src`
+> - Test code goes into `/tests`
+> - Documentation goes into `/docs`
+> - **DO NOT create any files in the root directory**
+> - Ensure compliance with naming conventions
+> - All code must be in English (no Chinese characters)
+> - **Maintain Workflow Integrity**: Function 4 development must strictly adhere to the 3-Step Interactive Workflow (Step 0 -> Step 1 -> Step 2) defined in `docs/function4_technical_documentation.md`.

@@ -1,54 +1,103 @@
-# PennPRS_Agent, use ADRD as example
+# PennPRS_Agent
 
-## Users
-- User having indiviual-level data (AD label and genetic data), deployed locally.
-- If no indiviual-level data, we have in-house data can be used.
-- User may also have GWAS summary statsitcis of interest.
+An intelligent agent system for automated PRS (Polygenic Risk Score) model training, focusing on ADRD (Alzheimer's Disease and Related Dementias) risk prediction and stratification.
 
-## Focusing
-- Risk prediction and stratification.
-- Omics data (association and prediction and stratification).
+## Project Structure
 
-## Function
-### Function(1): Benchmarking AD PRS Methods
-- Benchmarking AD PRS methods on your local data (PennPRS FinnGen models, use UKB as testing data);
-- AD GWAS data resources (FinnGen for now) and PRS methods.
+```
+PennPRS_Agent/
+├── docs/                          # Technical documentation & Proposals
+│   ├── function4_technical_documentation.md
+│   ├── project_proposal.md
+│   └── pgs_catalog_description.md
+├── scripts/                       # Debug and utility scripts
+│   └── debug_workflow.py
+├── data/                          # Data resources
+│   └── pgs_all_metadata/          # PGS Catalog metadata
+├── src/                           # Source code (Backend)
+├── frontend/                      # Source code (Frontend)
+├── tests/                         # Test suites
+├── pennprs-agent/                 # READ-ONLY reference directory
+├── .cursorrules                   # Cursor IDE configuration
+└── README.md                      # This file
+```
 
-### Function(2): The One: ensemble models cross phenotypes
-- (PennPRS models for now)
+## Getting Started
 
-### Function(3): Proteomics PRS Models
-- Protomics PRS models for AD, do marginal proteins, also can we do multiple proteins together?
-- Pertentially combine with "The One"
-- (PennPRS models for now)
+### 1. Backend Setup
+From the root directory, run:
+```bash
+export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py
+```
 
-### Function(4): Training PRS Models
-- Train PRS models (provide their own GWAS summary statsitcis, no need to click on our website).
-- Learn about PennPRS https://pennprs.org/ and PGS Catalog https://www.pgscatalog.org/ then setup the agent workflow. 
-- Function(4)Workflow：
-    1. input：
-        - 首先告诉user PennPRS_Agent 有已经train好的prs model （来自 PennPRS https://pennprs.org/result 和 PGS Catalog https://www.pgscatalog.org/ ） ，并且向用户推荐PennPRS_Agent已有的model或者让用户描述需求后向用户推荐PennPRS_Agent已有的model；
-        - 如果user不想使用PennPRS_Agent已有的model，那就允许用户自己训练；
-    2. training：
-        - 如果user选择PennPRS_Agent已有的model，那就不用训练；
-        - 如果user选择自己训练，那就调用PennPRS https://pennprs.org/ 的API（user可以选择PennPRS的GWAS Summary Statistics Data https://pennprs.org/data 也可以上传user自己的GWAS Summary Statistics Data；
-    3. output：
-        - user无论是选择PennPRS_Agent已有的model，还是自己train model，得到结果后都生成一个report包含model的feature，然后询问user是否要做evaluation（如果要就跳转到Function(1)）。
+### 2. Frontend Setup
+From the root directory, run:
+```bash
+cd frontend && npm run dev
+```
+
+## Documentation
 
 
+### Core Documentation
 
-(Use PGS Catalog but not PennPRS at Function(4))
+- **`docs/project_proposal.md`**: Project overview, user requirements, core functions, and tech stack. Describes the four main functions:
+  - Function(1): Benchmarking AD PRS Methods
+  - Function(2): The One - ensemble models cross phenotypes
+  - Function(3): Proteomics PRS Models
+  - Function(4): Training PRS Models
 
-## Random thoughts
-- PennPRS https://pennprs.org/ and PGS Catalog https://www.pgscatalog.org/.
-- Pathway analysis.
-- UKB-RAP and AOU deployment, for now, we do it locally.
-- Can we make it smarter? Which will be useful for certain tasks.
-- Follow-up post-PRS analysis code.
+- **`docs/function4_technical_documentation.md`**: Comprehensive technical documentation for Function(4) - Training PRS Models. Includes the new 3-Step Interactive Workflow:
+  - **Step 0**: Disease Selection (AD, T2D, etc.)
+  - **Step 1**: Model Recommendation & Training (Model Cards with Comparison)
+  - **Step 2**: Downstream Applications (Evaluation, Ensemble, Proteomics)
 
-# Task
-- 请你用中文介绍一下4个Function分别是什么。
-- 我的任务是实现Function(4): Training PRS Models，请你用中文解释一下这部分应该做什么，我并不是很理解我的任务。
-- Function(4): Training PRS Models 应该被分为两部分： 非Agent部分 & Agent部分 。
-- 首先实现非Agent部分，暂时不实现Agent部分，在完成非Agent部分后再开始Agent部分。
-- 不需要提供代码。
+- **`docs/pgs_catalog_description.md`**: Complete guide to PGS Catalog usage, including:
+  - FTP structure and metadata organization
+  - Scoring file formats (formatted and harmonized)
+  - REST API access methods
+  - Column schemas and data formats
+
+### Reference Documentation
+
+- **`pennprs-agent/README.md`**: Reference guide for PennPRS API usage (READ-ONLY). Contains:
+  - PennPRS Tools overview and quick start guide
+  - Web application features (Gradio interface)
+  - Command-line tool usage examples
+  - API tool methods (`PennPRSTool` class)
+  - Default model parameters
+  - Supported PRS methods and populations
+  - **Note**: This directory is read-only and serves as a reference for understanding PennPRS API interactions
+
+## Cursor Rules (`.cursorrules`)
+
+The `.cursorrules` file defines critical project conventions:
+
+### Read-Only Reference Directory
+- **`pennprs-agent/`** folder is **READ-ONLY** - serves only as reference for understanding PennPRS API usage
+- Do not modify or use code from this directory
+
+### Project Structure Standards
+- Source code → `/src`
+- Tests → `/tests`
+- Documentation → `/docs`
+- Temporary output → `/output`
+- **Do not create files in the root directory**
+
+### Code Generation Rules
+- All code, comments, and strings must be in English
+- Follow PEP8 for Python code
+- Use semantic, readable file names
+
+## Tech Stack
+
+- **Frontend**: React + Next.js + TypeScript + Tailwind CSS
+- **Backend**: FastAPI + LangGraph + Pydantic
+- **LLM**: gpt-5-mini
+
+## External Resources
+
+- **PennPRS**: https://pennprs.org/
+- **PGS Catalog**: https://www.pgscatalog.org/
+- **FinnGen**: ADRD GWAS data and pre-trained models
+
