@@ -64,9 +64,10 @@ interface ModelCardProps {
     model: ModelData;
     onSelect: (modelId: string) => void;
     onViewDetails: (model: ModelData) => void;
+    activeAncestry?: string[];
 }
 
-export const getDisplayMetrics = (model: ModelData) => {
+export const getDisplayMetrics = (model: ModelData, forcedAncestry?: string[]) => {
     // Ancestry Mapping (Code -> Full Name prefix)
     const ancestryMap: Record<string, string> = {
         'EUR': 'European',
@@ -83,39 +84,56 @@ export const getDisplayMetrics = (model: ModelData) => {
     let isDerived = false;
     let matchedAncestry = ""; // For tooltip
 
-    // If we have detailed performance records, find the best match
+    // Helper to get matching status
+    const checkAncestryMatch = (ancestryString: string | undefined, targets: string[]) => {
+        if (!ancestryString) return false;
+        const normalized = ancestryString.toLowerCase();
+        return targets.some(t => normalized.includes(t.toLowerCase()) || (ancestryMap[t] && normalized.includes(ancestryMap[t].toLowerCase())));
+    };
+
+    // 1. Check Root Ancestry Match (for Filtering)
+    if (forcedAncestry && forcedAncestry.length > 0) {
+        isMatched = checkAncestryMatch(model.ancestry, forcedAncestry);
+    }
+
+    // 2. Performance Metric Logic
+    // If we have detailed performance records, find the best match to Display
     if (model.performance_detailed && model.performance_detailed.length > 0) {
-        // 1. Try to find match for Model's training ancestry (e.g. "EUR")
-        // The model.ancestry might be "EUR, AFR". We split and check.
-        const modelAncestries = (model.ancestry || "").split(",").map(s => s.trim());
+        // Priority: forcedAncestry (User Select) > model.ancestry (System Default)
+        const targetRaw = forcedAncestry && forcedAncestry.length > 0
+            ? forcedAncestry
+            : (model.ancestry || "").split(",").map(s => s.trim());
 
-        // Convert short codes to long names for comparison (e.g. EUR -> European)
-        const targetAncestryNames = modelAncestries.map(code => ancestryMap[code] || code);
+        const targetAncestryNames = targetRaw.map(code => ancestryMap[code] || code);
 
-        // Look for a record that contains any of our target ancestry names
-        const matchedRecord = model.performance_detailed.find(p => {
+        const matchedRecords = model.performance_detailed.filter(p => {
             const pAnc = (p.ancestry || "").toLowerCase();
             return targetAncestryNames.some(target => pAnc.includes(target.toLowerCase()));
         });
 
+        // Pick Best Match
+        const matchedRecord = matchedRecords.length > 0
+            ? matchedRecords.reduce((prev, current) => (prev.auc || 0) > (current.auc || 0) ? prev : current, matchedRecords[0])
+            : null;
+
         if (matchedRecord && matchedRecord.auc) {
             displayAUC = matchedRecord.auc;
-            // CRITICAL: Use the R2 from the SAME record
             displayR2 = matchedRecord.r2;
+            // If we found a specific performance match, that's even better validation
             isMatched = true;
             isDerived = true;
             matchedAncestry = matchedRecord.ancestry || "";
         } else {
-            // 2. Fallback: Find record with Max AUC
+            // Fallback to Max
             const maxRecord = model.performance_detailed.reduce((prev, current) => {
                 return (prev.auc || 0) > (current.auc || 0) ? prev : current;
             }, model.performance_detailed[0]);
 
             if (maxRecord && maxRecord.auc) {
                 displayAUC = maxRecord.auc;
-                displayR2 = maxRecord.r2; // Sync R2
+                displayR2 = maxRecord.r2 || model.metrics?.R2;
                 isDerived = true;
-                matchedAncestry = maxRecord.ancestry || ""; // "Best available"
+                matchedAncestry = maxRecord.ancestry || "";
             }
         }
     }
@@ -123,7 +141,7 @@ export const getDisplayMetrics = (model: ModelData) => {
     return { displayAUC, displayR2, isMatched, isDerived, matchedAncestry };
 };
 
-export default function ModelCard({ model, onSelect, onViewDetails }: ModelCardProps) {
+export default function ModelCard({ model, onSelect, onViewDetails, activeAncestry }: ModelCardProps) {
     // Loading State
     if (model.isLoading) {
         return (
@@ -147,7 +165,7 @@ export default function ModelCard({ model, onSelect, onViewDetails }: ModelCardP
         );
     }
 
-    const { displayAUC, displayR2, isMatched } = getDisplayMetrics(model);
+    const { displayAUC, displayR2, isMatched } = getDisplayMetrics(model, activeAncestry);
 
     return (
         <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col h-full">

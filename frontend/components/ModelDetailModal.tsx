@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Download, Activity, Dna, Info, BarChart3, FileText, CheckCircle2 } from 'lucide-react';
-import { ModelData } from './ModelCard';
+import { ModelData, getDisplayMetrics } from './ModelCard';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ModelDetailModalProps {
@@ -61,46 +61,7 @@ export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onD
                             <div className="grid grid-cols-3 gap-4">
                                 {/* Logic: Calculate Display Metrics (Same as ModelCard) */}
                                 {(() => {
-                                    // Ancestry Mapping
-                                    const ancestryMap: Record<string, string> = {
-                                        'EUR': 'European', 'AFR': 'African', 'EAS': 'East Asian',
-                                        'SAS': 'South Asian', 'AMR': 'Hispanic', 'MIX': 'Multi-ancestry'
-                                    };
-
-                                    let displayAUC = model.metrics?.AUC;
-                                    let displayR2 = model.metrics?.R2;
-                                    let isMatched = false;
-                                    let isDerived = false;
-                                    let matchedAncestry = "";
-
-                                    if (model.performance_detailed && model.performance_detailed.length > 0) {
-                                        const modelAncestries = (model.ancestry || "").split(",").map(s => s.trim());
-                                        const targetAncestryNames = modelAncestries.map(code => ancestryMap[code] || code);
-
-                                        const matchedRecord = model.performance_detailed.find(p => {
-                                            const pAnc = (p.ancestry || "").toLowerCase();
-                                            return targetAncestryNames.some(target => pAnc.includes(target.toLowerCase()));
-                                        });
-
-                                        if (matchedRecord && matchedRecord.auc) {
-                                            displayAUC = matchedRecord.auc;
-                                            displayR2 = matchedRecord.r2;
-                                            isMatched = true;
-                                            isDerived = true;
-                                            matchedAncestry = matchedRecord.ancestry || "";
-                                        } else {
-                                            const maxRecord = model.performance_detailed.reduce((prev, current) => {
-                                                return (prev.auc || 0) > (current.auc || 0) ? prev : current;
-                                            }, model.performance_detailed[0]);
-
-                                            if (maxRecord && maxRecord.auc) {
-                                                displayAUC = maxRecord.auc;
-                                                displayR2 = maxRecord.r2;
-                                                isDerived = true;
-                                                matchedAncestry = maxRecord.ancestry || "";
-                                            }
-                                        }
-                                    }
+                                    const { displayAUC, displayR2, isMatched, isDerived, matchedAncestry } = getDisplayMetrics(model);
 
                                     return (
                                         <>
@@ -345,9 +306,7 @@ export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onD
                                     <BarChart3 className="w-4 h-4 text-gray-400 group-hover:text-blue-500" /> Build Ensemble Model
                                 </button>
                                 {/* 3. Proteomics */}
-                                <button onClick={() => onDownstreamAction?.("Integrate Proteomics Data")} className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center gap-2 justify-center sm:justify-start">
-                                    <Dna className="w-4 h-4 text-gray-400 group-hover:text-blue-500" /> Integrate Proteomics Data
-                                </button>
+
                                 {/* 4. Train Custom */}
                                 <button onClick={() => onTrainNew?.()} className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center gap-2 justify-center sm:justify-start">
                                     <FileText className="w-4 h-4 text-gray-400 group-hover:text-blue-500" /> Train Custom Model

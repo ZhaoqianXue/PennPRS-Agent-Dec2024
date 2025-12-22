@@ -30,6 +30,10 @@ interface Message {
     id: string
     modelCard?: ModelData
     actions?: string[]
+    // Progress Tracking
+    isProgress?: boolean
+    progressData?: { status: string; total: number; fetched: number; current_action: string } | null
+    footer?: string // Footer text below progress
 }
 
 interface ChatInterfaceProps {
@@ -41,9 +45,31 @@ interface ChatInterfaceProps {
     onViewDetails?: (model: ModelData) => void;
     onTrainNew?: () => void;
     onDownstreamAction?: (action: string) => void;
+    // New concurrent search props
+    onProgressUpdate?: (progress: { status: string; total: number; fetched: number; current_action: string } | null) => void;
+    onSearchStatusChange?: (isSearching: boolean) => void;
+    // Smart features
+    deferAnalysis?: boolean;
+    externalAgentMessage?: string | null;
+    externalAgentModel?: ModelData | null;
+    externalAgentActions?: string[] | null;
+    // Context
+    hasSelectedAncestry?: boolean;
 }
 
-export default function ChatInterface({ initialMessage, onResponse, currentTrait, externalTrigger, onViewDetails, onTrainNew, onDownstreamAction }: ChatInterfaceProps) {
+export default function ChatInterface(props: ChatInterfaceProps) {
+    const {
+        initialMessage,
+        onResponse,
+        currentTrait,
+        externalTrigger,
+        onViewDetails,
+        onTrainNew,
+        onDownstreamAction,
+        onProgressUpdate,
+        onSearchStatusChange,
+        hasSelectedAncestry
+    } = props;
     const [messages, setMessages] = useState<Message[]>([
         {
             id: "welcome",
@@ -59,11 +85,17 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
     const scrollRef = useRef<HTMLDivElement>(null)
     const initialized = useRef(false);
 
+    // Track the current progress message ID to inject live updates
+    const currentProgressMsgId = useRef<string | null>(null);
+
+    // REF to track latest progress for async access in handleSend
+    const searchProgressRef = useRef<{ status: string; total: number; fetched: number; current_action: string } | null>(null);
+
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight
         }
-    }, [messages])
+    }, [messages, searchProgress]) // Scroll on progress update too
 
     // Handle external triggers (e.g. from Canvas "Select" or "Train" actions)
     useEffect(() => {
@@ -76,10 +108,25 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
         if (!text.trim() || loading) return
 
         const userMsg: Message = { id: Date.now().toString(), role: 'user', content: text }
-        setMessages(prev => [...prev, userMsg])
+
+        // Create Progress Message immediately
+        const progressId = `prog-${Date.now()}`;
+        const progressMsg: Message = {
+            id: progressId,
+            role: 'agent',
+            content: "Initializing search...",
+            isProgress: true,
+            progressData: null
+        };
+        currentProgressMsgId.current = progressId;
+
+        setMessages(prev => [...prev, userMsg, progressMsg])
         setInput("")
         setLoading(true)
-        setSearchProgress(null); // Reset progress
+        onSearchStatusChange?.(true);
+        setSearchProgress(null);
+        searchProgressRef.current = null; // Reset Ref
+        onProgressUpdate?.(null);
 
         // Generate Request ID
         const requestId = crypto.randomUUID();
@@ -92,6 +139,8 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
                     const progress = await pRes.json();
                     if (progress.status !== 'unknown') {
                         setSearchProgress(progress);
+                        searchProgressRef.current = progress; // Update Ref
+                        onProgressUpdate?.(progress);
                     }
                 }
             } catch (e) {
@@ -106,9 +155,8 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
                 body: JSON.stringify({ message: userMsg.content, request_id: requestId })
             })
 
-            // Stop polling immediately on response
+            // Stop polling
             clearInterval(pollInterval);
-            setSearchProgress(null);
 
             if (!res.ok) throw new Error("API Error")
 
@@ -116,7 +164,26 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
 
             // Extract Structured Data
             const sr = data.full_state?.structured_response;
+
+            // CORRECT TOTAL Calculation from Response (Priority: Response > Ref > State)
+            let finalCount = 0;
+            if (sr && sr.type === 'model_grid' && sr.models) {
+                finalCount = sr.models.length;
+            } else if (searchProgressRef.current && searchProgressRef.current.total) { // Use Ref!
+                finalCount = searchProgressRef.current.total;
+            }
+
+            // Final Progress State (Done - 100% Full)
+            const finalProgress = {
+                status: 'completed',
+                total: finalCount,
+                fetched: finalCount,
+                current_action: 'Search Complete'
+            };
+            setSearchProgress(finalProgress);
+
             if (sr && onResponse) {
+                // ... (handling callbacks unchanged)
                 if (sr.type === 'model_grid') {
                     onResponse({
                         type: 'model_grid',
@@ -127,39 +194,72 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
                 } else if (sr.type === 'downstream_options') {
                     onResponse({
                         type: 'downstream_options',
-                        downstream: {
-                            modelId: sr.model_id,
-                            trait: sr.trait,
-                            options: sr.options
-                        }
+                        downstream: { modelId: sr.model_id, trait: sr.trait, options: sr.options }
                     });
                 } else if (sr.type === 'model_update') {
                     onResponse({
                         type: 'model_update',
-                        model_update: {
-                            model_id: sr.model_id,
-                            updates: sr.updates
-                        }
+                        model_update: { model_id: sr.model_id, updates: sr.updates }
                     });
                 }
             }
 
-            const agentMsg: Message = {
-                id: (Date.now() + 1).toString(),
-                role: 'agent',
-                content: data.response || "Sorry, I didn't get a response.",
-                modelCard: sr?.best_model,
-                actions: sr?.actions
+            // Determine deferral
+            const isModelGrid = sr && sr.type === 'model_grid';
+            const shouldDefer = isModelGrid && props.deferAnalysis;
+
+            // Update the Progress Message to Final State
+            setMessages(prev => prev.map(m => {
+                if (m.id === progressId) {
+                    // 1. Top Text
+                    let finalContent = "Search completed successfully.";
+
+                    // 2. Bottom Text (Footer)
+                    let footerContent = `Found **${finalCount}** models.`;
+
+                    // Add reminder if ancestry NOT selected and we are in deferral mode (waiting for context)
+                    if (shouldDefer && !props.hasSelectedAncestry) {
+                        footerContent += "\n\n**Action Required:** Please select your target ancestry from the panel on the left to specific model recommendations.";
+                    }
+
+                    return {
+                        ...m,
+                        content: finalContent,
+                        footer: footerContent, // New Footer
+                        progressData: finalProgress, // Bake in final progress (Full)
+                        isProgress: true
+                    };
+                }
+                return m;
+            }));
+
+            // If NOT deferred, append the agent Analysis message
+            if (!shouldDefer) {
+                const agentMsg: Message = {
+                    id: (Date.now() + 1).toString(),
+                    role: 'agent',
+                    content: data.response || "Sorry, I didn't get a response.",
+                    modelCard: sr?.best_model,
+                    actions: sr?.actions
+                }
+                setMessages(prev => [...prev, agentMsg])
             }
-            setMessages(prev => [...prev, agentMsg])
 
         } catch (error) {
             clearInterval(pollInterval);
             setSearchProgress(null);
             console.error(error)
-            // ... (error handling)
+
+            // Update progress message to error
+            setMessages(prev => prev.map(m => {
+                if (m.id === progressId) return { ...m, content: "Search failed. Please try again." };
+                return m;
+            }));
+
         } finally {
             setLoading(false)
+            currentProgressMsgId.current = null; // Detach live updates
+            onSearchStatusChange?.(false);
         }
     }
 
@@ -170,6 +270,20 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
             handleSend(initialMessage);
         }
     }, [initialMessage]);
+
+    // Handle External Agent Messages (Smart Recommendations)
+    useEffect(() => {
+        if (props.externalAgentMessage) {
+            const agentMsg: Message = {
+                id: `ext-${Date.now()}`,
+                role: 'agent',
+                content: props.externalAgentMessage,
+                modelCard: props.externalAgentModel,
+                actions: props.externalAgentActions || ["View Details", "Use this Model", "Train Custom Model"]
+            };
+            setMessages(prev => [...prev, agentMsg]);
+        }
+    }, [props.externalAgentMessage, props.externalAgentModel, props.externalAgentActions]);
 
     return (
         <div className="flex flex-col h-full relative bg-white dark:bg-gray-900">
@@ -189,6 +303,9 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
                                     content={msg.content}
                                     modelCard={msg.modelCard}
                                     actions={msg.actions}
+                                    // Inject live progress if this is the active progress message
+                                    progress={msg.id === currentProgressMsgId.current ? searchProgress : msg.progressData}
+                                    footer={msg.footer}
                                     onViewDetails={onViewDetails}
                                     onTrainNew={onTrainNew}
                                     onDownstreamAction={onDownstreamAction}
@@ -196,26 +313,7 @@ export default function ChatInterface({ initialMessage, onResponse, currentTrait
                             </motion.div>
                         ))}
                     </AnimatePresence>
-                    {loading && (
-                        <div className="ml-12 mb-4">
-                            {searchProgress ? (
-                                <ProgressBar
-                                    status={searchProgress.status}
-                                    total={searchProgress.total}
-                                    fetched={searchProgress.fetched}
-                                    currentAction={searchProgress.current_action}
-                                />
-                            ) : (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="flex items-center gap-2 text-muted-foreground text-sm p-4"
-                                >
-                                    <Loader2 className="h-4 w-4 animate-spin" /> Thinking and Searching...
-                                </motion.div>
-                            )}
-                        </div>
-                    )}
+                    {/* Floating loader removed - fully integrated into bubbles */}
                 </div>
             </div>
 

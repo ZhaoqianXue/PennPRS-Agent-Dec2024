@@ -1,214 +1,113 @@
 "use client";
 
 import { useState } from "react";
-import ChatInterface, { StructuredResponse } from "../components/ChatInterface";
-import CanvasArea, { ViewType } from "../components/CanvasArea";
-import { ModelData } from "../components/ModelCard";
-import ModelDetailModal from "../components/ModelDetailModal";
-import TrainingConfigModal, { TrainingConfig } from "../components/TrainingConfigModal";
+import DiseasePage from "../components/DiseasePage";
+import { Activity, Dna, Image as ImageIcon, ArrowRight } from "lucide-react";
+
+type ModuleType = 'disease' | 'protein' | 'image' | null;
 
 export default function Home() {
-  // Global State
-  const [activeView, setActiveView] = useState<ViewType>('disease_selection');
-  const [currentTrait, setCurrentTrait] = useState<string | null>(null);
+  const [selectedModule, setSelectedModule] = useState<ModuleType>(null);
 
-  // Data State
-  const [models, setModels] = useState<ModelData[]>([]);
-  const [downstreamOps, setDownstreamOps] = useState<{ modelId: string; trait: string; options: string[] } | null>(null);
-
-  // Active Modals State
-  const [selectedModelDetails, setSelectedModelDetails] = useState<ModelData | null>(null);
-  const [isTrainingModalOpen, setIsTrainingModalOpen] = useState(false);
-
-  // External Trigger Mechanism (to send messages from Canvas)
-  const [externalTriggerDetails, setExternalTriggerDetails] = useState<string | null>(null);
-
-  const triggerChat = (msg: string) => {
-    setExternalTriggerDetails(msg);
-    // Reset after a tick to allow re-triggering same message if needed (though unlikely)
-    setTimeout(() => setExternalTriggerDetails(null), 100);
+  // If a module is selected, render that module's page
+  if (selectedModule === 'disease') {
+    return <DiseasePage onBack={() => setSelectedModule(null)} />;
   }
 
-  // --- Handlers ---
-
-  const handleDiseaseSelect = (trait: string) => {
-    setCurrentTrait(trait);
-    triggerChat(`I want to search for models for ${trait}`);
-    // Note: We don't switch view yet, we wait for the agent to return the models
-  };
-
-  const handleChatResponse = (response: StructuredResponse) => {
-    if (response.type === 'model_grid') {
-      setModels(response.models || []);
-      setActiveView('model_grid');
-    } else if (response.type === 'downstream_options') {
-      setDownstreamOps(response.downstream || null);
-      setActiveView('downstream_options');
-    } else if (response.type === 'model_update' && response.model_update) {
-      // Handle partial update
-      const { model_id, updates } = response.model_update;
-
-      setModels(prev => prev.map(m => {
-        if (m.id.toLowerCase() === model_id.toLowerCase()) {
-          // Deep merge metrics
-          const safeMetrics = m.metrics || {};
-          const updateMetrics = updates.metrics || {};
-          const newMetrics = { ...safeMetrics, ...updateMetrics };
-          return { ...m, ...updates, metrics: newMetrics };
-        }
-        return m;
-      }));
-
-      // Also update selected details if open
-      setSelectedModelDetails(prev => {
-        if (!prev) return null;
-        if (prev.id.toLowerCase() === model_id.toLowerCase()) {
-          const safeMetrics = prev.metrics || {};
-          const updateMetrics = updates.metrics || {};
-          const newMetrics = { ...safeMetrics, ...updateMetrics };
-          return { ...prev, ...updates, metrics: newMetrics };
-        }
-        return prev;
-      });
-    }
-  };
-
-  const handleSelectModel = (modelId: string) => {
-    triggerChat(`I want to use existing model ${modelId} `);
-  };
-
-  const handleDeepScan = (modelId: string) => {
-    triggerChat(`Deep fetch metadata for ${modelId}`);
-  };
-
-  const handleTrainNew = () => {
-    setIsTrainingModalOpen(true);
-  };
-
-  const handleTrainingSubmit = (config: TrainingConfig) => {
-    // 1. Optimistic Update: Add "Loading" card immediately
-    const optimisticSource = config.dataSourceType === 'upload' ? "User Upload" : "User Trained";
-
-    const pendingModel: ModelData = {
-      id: `JOB-${Date.now()}`,
-      name: config.jobName || `Custom Model (${config.trait})`,
-      trait: config.trait,
-      ancestry: config.ancestry,
-      method: config.methods.join(", "),
-      source: optimisticSource as ModelData['source'],
-      isLoading: true,
-      status: "running",
-      metrics: { AUC: 0, R2: 0 },
-      sample_size: config.sampleSize || 0
-    };
-
-    // Prepend to models list. ModelGrid sort will keep it at top.
-    setModels(prev => [pendingModel, ...prev]);
-    setActiveView('model_grid');
-
-    // 2. Construct Rich Prompt for Backend
-    let prompt = `I want to train a new model for ${config.trait} (Ancestry: ${config.ancestry}) named '${config.jobName}'.`;
-    prompt += `\nMethods: ${config.methods.join(', ')}`;
-
-    if (config.ensemble) prompt += `\nEnsemble: Enabled`;
-
-    if (config.dataSourceType === 'public') {
-      prompt += `\nData Source: Public GWAS (ID: ${config.gwasId || "Auto"})`;
-    } else {
-      prompt += `\nData Source: User Upload (${config.uploadedFileName})`;
-      prompt += `\n[SYSTEM NOTE: File content handling simulated for agent prototype]`;
-    }
-
-    prompt += `\nTrait Type: ${config.traitType}, Sample Size: ${config.sampleSize}`;
-
-    if (config.advanced) {
-      prompt += `\nHyperparams: kb=${config.advanced.kb}, r2=${config.advanced.r2}, pval_thr=${config.advanced.pval_thr}`;
-    }
-
-    // Trigger Backend
-    triggerChat(prompt);
-    setIsTrainingModalOpen(false);
-  };
-
-  const handleDownstreamAction = (action: string) => {
-    triggerChat(`I want to perform ${action} analysis on the selected model.`);
-  };
-
+  // Otherwise, render the Main Selection Landing Page
   return (
-    <div className="flex h-screen flex-col bg-background font-sans text-foreground overflow-hidden">
-      {/* Header */}
-      <header className="flex h-14 items-center border-b px-6 bg-white dark:bg-gray-900 z-10 shrink-0 shadow-sm">
-        <div className="flex items-center gap-2 font-bold text-lg">
-          <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">PennPRS Agent</span>
-        </div>
-        <div className="ml-auto flex items-center gap-4">
-          {activeView !== 'disease_selection' && (
-            <button
-              onClick={() => {
-                setActiveView('disease_selection');
-                setCurrentTrait(null);
-                setModels([]);
-              }}
-              className="text-sm font-medium text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors"
-            >
-              Reset / Home
-            </button>
-          )}
-        </div>
+    <div className="flex flex-col min-h-screen bg-slate-50 dark:bg-slate-900 font-sans text-foreground">
+
+      {/* Hero Header */}
+      <header className="flex flex-col items-center justify-center pt-20 pb-12 px-6">
+        <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 mb-4 tracking-tight text-center">
+          PennPRS Agent
+        </h1>
+        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl text-center leading-relaxed">
+          An intelligent platform for Polygenic Risk Score analysis across parallel biological domains.
+          Select a module to begin your research.
+        </p>
       </header>
 
-      {/* Split Layout */}
-      <div className="flex-1 flex overflow-hidden">
+      {/* Modules Grid */}
+      <main className="flex-1 flex items-center justify-center p-6 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl w-full px-4">
 
-        {/* Left: Canvas Area (2/3) */}
-        <div className="flex-[2] border-r border-gray-200 dark:border-gray-800 relative">
-          <CanvasArea
-            view={activeView}
-            trait={currentTrait}
-            models={models}
-            downstreamOps={downstreamOps}
-            onSelectDisease={handleDiseaseSelect}
-            onSelectModel={handleSelectModel}
-            onTrainNew={handleTrainNew}
-            onViewDetails={setSelectedModelDetails}
-            onDownstreamAction={handleDownstreamAction}
-          />
+          {/* Module 1: Disease */}
+          <button
+            onClick={() => setSelectedModule('disease')}
+            className="group relative flex flex-col h-[400px] p-8 bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 text-left overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <Activity size={200} />
+            </div>
 
-          {/* Modals placed here to be relative to the App or Global */}
-          <ModelDetailModal
-            model={selectedModelDetails}
-            isOpen={!!selectedModelDetails}
-            onClose={() => setSelectedModelDetails(null)}
-            onSelect={(id) => {
-              handleSelectModel(id);
-              setSelectedModelDetails(null);
-            }}
-            onDeepScan={handleDeepScan}
-            onTrainNew={handleTrainNew}
-            onDownstreamAction={handleDownstreamAction}
-          />
+            <div className="z-10 flex flex-col h-full">
+              <div className="w-14 h-14 mb-6 rounded-2xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                <Activity size={32} />
+              </div>
 
-          <TrainingConfigModal
-            isOpen={isTrainingModalOpen}
-            onClose={() => setIsTrainingModalOpen(false)}
-            onSubmit={handleTrainingSubmit}
-            defaultTrait={currentTrait || "Alzheimer's disease"}
-          />
+              <h3 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">PRS-Disease</h3>
+              <div className="h-1 w-12 bg-blue-500 mb-6 rounded-full"></div>
+
+              <p className="text-gray-500 dark:text-gray-400 text-lg mb-8 leading-relaxed">
+                Predict disease risk (Binary Classification) using large-scale GWAS summary statistics and reference panels.
+              </p>
+
+              <div className="mt-auto flex items-center text-blue-600 dark:text-blue-400 font-semibold group-hover:translate-x-2 transition-transform">
+                Enter Module <ArrowRight className="ml-2 w-5 h-5" />
+              </div>
+            </div>
+          </button>
+
+          {/* Module 2: Protein */}
+          <div className="relative flex flex-col h-[400px] p-8 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-left opacity-75 cursor-not-allowed">
+            <div className="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              Coming Soon
+            </div>
+
+            <div className="z-10 flex flex-col h-full grayscale-[0.5]">
+              <div className="w-14 h-14 mb-6 rounded-2xl bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500">
+                <Dna size={32} />
+              </div>
+
+              <h3 className="text-3xl font-bold text-gray-500 dark:text-gray-400 mb-2">PRS-Protein</h3>
+              <div className="h-1 w-12 bg-gray-300 mb-6 rounded-full"></div>
+
+              <p className="text-gray-500 dark:text-gray-400 text-lg mb-8 leading-relaxed">
+                Predict protein expression levels (Regression) to identify biomarkers and understand disease mechanisms.
+              </p>
+            </div>
+          </div>
+
+          {/* Module 3: Image */}
+          <div className="relative flex flex-col h-[400px] p-8 bg-gray-50 dark:bg-gray-800/50 rounded-3xl border border-dashed border-gray-300 dark:border-gray-700 text-left opacity-75 cursor-not-allowed">
+            <div className="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              Coming Soon
+            </div>
+
+            <div className="z-10 flex flex-col h-full grayscale-[0.5]">
+              <div className="w-14 h-14 mb-6 rounded-2xl bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500">
+                <ImageIcon size={32} />
+              </div>
+
+              <h3 className="text-3xl font-bold text-gray-500 dark:text-gray-400 mb-2">PRS-Image</h3>
+              <div className="h-1 w-12 bg-gray-300 mb-6 rounded-full"></div>
+
+              <p className="text-gray-500 dark:text-gray-400 text-lg mb-8 leading-relaxed">
+                Predict image-derived phenotypes (IDPs) and structural brain changes from genetic data.
+              </p>
+            </div>
+          </div>
+
         </div>
+      </main>
 
-        {/* Right: Chat Interface (1/3) */}
-        <div className="flex-1 min-w-[320px] bg-white dark:bg-gray-900 border-l border-gray-100 dark:border-gray-800 shadow-xl z-20">
-          <ChatInterface
-            onResponse={handleChatResponse}
-            currentTrait={currentTrait}
-            externalTrigger={externalTriggerDetails}
-            onViewDetails={setSelectedModelDetails}
-            onTrainNew={handleTrainNew}
-            onDownstreamAction={handleDownstreamAction}
-          />
-        </div>
+      {/* Footer */}
+      <footer className="py-6 text-center text-gray-400 dark:text-gray-600 text-sm">
+        &copy; {new Date().getFullYear()} PennPRS Team. All rights reserved.
+      </footer>
 
-      </div>
     </div>
   );
 }

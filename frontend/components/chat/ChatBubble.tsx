@@ -2,12 +2,20 @@ import { cn } from "@/lib/utils"
 import ReactMarkdown from 'react-markdown'
 import { Bot, User, Activity, Layers, Dna, Download, PlusCircle } from 'lucide-react'
 import ModelCard, { ModelData } from "../ModelCard"
+import { ProgressBar } from "../ProgressBar"
 
 interface ChatBubbleProps {
     role: 'user' | 'agent'
     content: string
     modelCard?: ModelData
     actions?: string[]
+    progress?: {
+        status: string;
+        total: number;
+        fetched: number;
+        current_action: string;
+    } | null;
+    footer?: string; // New prop for text below progress bar
     onViewDetails?: (model: ModelData) => void
     onTrainNew?: () => void
     onDownstreamAction?: (action: string) => void
@@ -24,7 +32,17 @@ const getActionIcon = (action: string) => {
     }
 }
 
-export function ChatBubble({ role, content, modelCard, actions, onViewDetails, onTrainNew, onDownstreamAction }: ChatBubbleProps) {
+export function ChatBubble({
+    role,
+    content,
+    modelCard,
+    actions,
+    progress,
+    footer,
+    onViewDetails,
+    onTrainNew,
+    onDownstreamAction
+}: ChatBubbleProps) {
     const isUser = role === 'user'
 
     return (
@@ -41,13 +59,31 @@ export function ChatBubble({ role, content, modelCard, actions, onViewDetails, o
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-foreground border border-border"
             )}>
-                {isUser ? (
-                    <div>{content}</div>
-                ) : (
-                    <div className="prose prose-sm dark:prose-invert max-w-none break-words">
-                        <ReactMarkdown>{content}</ReactMarkdown>
+                <div className={cn("prose prose-sm dark:prose-invert max-w-none break-words", isUser ? "text-primary-foreground" : "")}>
+                    {/* Render Text Content */}
+                    <div className="whitespace-pre-wrap leading-relaxed">
+                        {isUser ? content : <ReactMarkdown>{content}</ReactMarkdown>}
                     </div>
-                )}
+
+                    {/* Render Progress Bar if present */}
+                    {progress && (
+                        <div className="mt-4 mb-2 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                            <ProgressBar
+                                status={progress.status}
+                                total={progress.total}
+                                fetched={progress.fetched}
+                                currentAction={progress.current_action}
+                            />
+                        </div>
+                    )}
+
+                    {/* Render Footer Text (Below Progress) */}
+                    {footer && !isUser && (
+                        <div className="mt-2 text-sm whitespace-pre-wrap leading-relaxed border-t border-gray-100 dark:border-gray-700 pt-2">
+                            <ReactMarkdown>{footer}</ReactMarkdown>
+                        </div>
+                    )}
+                </div>
 
                 {/* Render Rich Content: Model Card */}
                 {!isUser && modelCard && (
@@ -56,6 +92,7 @@ export function ChatBubble({ role, content, modelCard, actions, onViewDetails, o
                             model={modelCard}
                             onSelect={() => { }} // No-op for now in chat
                             onViewDetails={(m) => onViewDetails?.(m)}
+                            compact={true}
                         />
                     </div>
                 )}

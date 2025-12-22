@@ -102,16 +102,16 @@ def _fetch_formatted_models(trait: str, request_id: str = None):
     pgs_results = pgs_client.search_scores(trait)
     print(f"[Timing] PGS Search (IDs): {time.time() - t_start:.4f}s")
     
-    # Update total count
-    if request_id and request_id in search_progress:
-        search_progress[request_id]["total"] = len(pgs_results)
-        search_progress[request_id]["status"] = "running"
-        search_progress[request_id]["current_action"] = "Fetching metadata..."
-    
     # 2. Search PennPRS Public Results
     t_penn = time.time()
     penn_results = client.search_public_results(trait)
     print(f"[Timing] PennPRS Search: {time.time() - t_penn:.4f}s")
+
+    # Update total count (PGS + PennPRS)
+    if request_id and request_id in search_progress:
+        search_progress[request_id]["total"] = len(pgs_results) + len(penn_results)
+        search_progress[request_id]["status"] = "running"
+        search_progress[request_id]["current_action"] = "Fetching metadata..."
     
     model_cards = []
     
@@ -422,7 +422,6 @@ def pgs_search(state: AgentState):
         options = [
             "Evaluate on Cohort",
             "Build Ensemble Model",
-            "Integrate Proteomics Data",
             "Download Model",
             "Train Custom Model"
         ]
