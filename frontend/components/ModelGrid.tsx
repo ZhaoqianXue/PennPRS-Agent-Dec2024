@@ -114,7 +114,7 @@ export default function ModelGrid({ models, onSelectModel, onTrainNew, onViewDet
                         className="group flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-50 hover:bg-red-50 text-blue-700 hover:text-red-700 border border-blue-200 hover:border-red-200 transition-colors"
                         title="Click to remove filter"
                     >
-                        {ALL_ANCESTRIES.find(a => a.id === anc)?.label || anc}
+                        {ALL_ANCESTRIES.find(a => a.code === anc)?.label || anc}
                         <X size={14} className="opacity-50 group-hover:opacity-100" />
                     </button>
                 ))}
@@ -139,15 +139,15 @@ export default function ModelGrid({ models, onSelectModel, onTrainNew, onViewDet
                         <>
                             <div className="fixed inset-0 z-10" onClick={() => setIsFilterMenuOpen(false)}></div>
                             <div className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 z-20 py-1 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-                                {ALL_ANCESTRIES.filter(a => !activeAncestry?.includes(a.id)).map(anc => {
+                                {ALL_ANCESTRIES.filter(a => !activeAncestry?.includes(a.code)).map(anc => {
                                     // Count matching models for this ancestry
-                                    const count = models.filter(m => checkAncestryMatch(m.ancestry || "", [anc.id])).length;
+                                    const count = models.filter(m => checkAncestryMatch(m.ancestry || "", [anc.code])).length;
 
                                     return (
                                         <button
-                                            key={anc.id}
+                                            key={anc.code}
                                             onClick={() => {
-                                                toggleAncestry(anc.id);
+                                                toggleAncestry(anc.code);
                                                 setIsFilterMenuOpen(false);
                                             }}
                                             className="w-full text-left px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-between group"
@@ -157,12 +157,12 @@ export default function ModelGrid({ models, onSelectModel, onTrainNew, onViewDet
                                                 <span className={`text-xs px-1.5 py-0.5 rounded-full ${count > 0 ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-500'}`}>
                                                     {count}
                                                 </span>
-                                                <span className="text-xs text-gray-400 font-mono opacity-0 group-hover:opacity-100 transition-opacity">{anc.id}</span>
+                                                <span className="text-xs text-gray-400 font-mono opacity-0 group-hover:opacity-100 transition-opacity">{anc.code}</span>
                                             </div>
                                         </button>
                                     );
                                 })}
-                                {ALL_ANCESTRIES.filter(a => !activeAncestry?.includes(a.id)).length === 0 && (
+                                {ALL_ANCESTRIES.filter(a => !activeAncestry?.includes(a.code)).length === 0 && (
                                     <div className="px-4 py-2 text-xs text-gray-400 text-center italic">
                                         All selected
                                     </div>

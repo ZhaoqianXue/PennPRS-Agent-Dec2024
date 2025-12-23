@@ -145,4 +145,3 @@ If file path is not explicitly specified, default to:
 > - **DO NOT create any files in the root directory**
 > - Ensure compliance with naming conventions
 > - All code must be in English (no Chinese characters)
-> - **Maintain Workflow Integrity**: Function 4 development must strictly adhere to the 3-Step Interactive Workflow (Step 0 -> Step 1 -> Step 2) defined in `docs/function4_technical_documentation.md`.
