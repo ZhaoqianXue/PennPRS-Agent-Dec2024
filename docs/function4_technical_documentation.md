@@ -106,6 +106,14 @@ graph TD
     -   `Function4State`: Tracks step, user choices, job ID, etc.
 -   **`workflow.py`**: LangGraph graph definition.
     -   Nodes: `input_analysis`, `pgs_search`, `model_decision`, `submit_training`, `poll_status`.
+-   **`trait_classifier.py`**: Trait classification interface.
+    -   `classify_trait(trait_name, sample_info)`: Simple keyword-based classifier
+    -   `classify_study_agentic(study_id)`: **Agentic classifier** using GWAS Catalog API
+-   **`agentic_study_classifier.py`**: Intelligent study classifier (see [Agentic Study Classifier Documentation](./agentic_study_classifier.md))
+    -   Uses LangGraph workflow with heuristic pre-classification
+    -   Fetches real study metadata from GWAS Catalog REST API
+    -   Detects Binary vs Continuous from effect types (Beta vs OR)
+    -   Handles edge cases like Proxy-GWAS ("family history") studies
 
 ### 3. API Integration details
 -   **PennPRS API**:

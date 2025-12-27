@@ -709,8 +709,8 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
                             onClick={handleSubmit}
                             disabled={!isFormValid}
                             className={`px-8 py-2.5 text-sm font-bold rounded-xl shadow-lg transition-all duration-200 ${isFormValid
-                                    ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:-translate-y-0.5'
-                                    : 'text-gray-400 bg-gray-200 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
+                                ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:-translate-y-0.5'
+                                : 'text-gray-400 bg-gray-200 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
                                 }`}
                         >
                             Start Training Job

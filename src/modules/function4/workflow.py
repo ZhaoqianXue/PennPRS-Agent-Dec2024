@@ -2,10 +2,10 @@ from typing import Dict, Any, TypedDict, Annotated
 import operator
 from langgraph.graph import StateGraph, END
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from src.core.pennprs_client import PennPRSClient
 from src.core.pgs_catalog_client import PGSCatalogClient
+from src.core.llm_config import get_llm  # Centralized LLM config
 from src.modules.function4.models import Function4State, JobConfiguration, TraitColumn, Report
 from src.modules.function4.report_generator import extract_features, generate_report_markdown
 import os
@@ -28,8 +28,8 @@ class AgentState(TypedDict):
     structured_response: Dict[str, Any] # Structured data for frontend UI
     request_id: str # Tracking ID for progress polling
 
-# Initialize LLM
-llm = ChatOpenAI(model="gpt-5-nano", temperature=0)
+# Initialize LLM from centralized config
+llm = get_llm("function4_workflow")
 
 # Initialize Clients
 client = PennPRSClient()

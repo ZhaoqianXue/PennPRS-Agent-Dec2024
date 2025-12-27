@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { X, Search, Database, ExternalLink, ChevronRight, Check, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -105,6 +105,9 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
     const [error, setError] = useState<string | null>(null);
     const [isClassifying, setIsClassifying] = useState(false);
 
+    // Ref for the results container to scroll to top when loading
+    const resultsContainerRef = useRef<HTMLDivElement>(null);
+
     // Load data from TSV files
     useEffect(() => {
         if (!isOpen) return;
@@ -203,6 +206,10 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
 
     const handleConfirm = useCallback(async () => {
         if (selectedEntry) {
+            // Scroll to top to ensure loading overlay is visible
+            if (resultsContainerRef.current) {
+                resultsContainerRef.current.scrollTop = 0;
+            }
             setIsClassifying(true);
             try {
                 await onSelect(selectedEntry);
@@ -326,7 +333,91 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
                         </div>
 
                         {/* Results */}
-                        <div className="flex-1 overflow-y-auto">
+                        <div ref={resultsContainerRef} className="flex-1 overflow-y-auto relative">
+                            {/* Loading Overlay - Shows when classifying */}
+                            <AnimatePresence>
+                                {isClassifying && (
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        exit={{ opacity: 0 }}
+                                        className="absolute inset-0 z-20 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm flex flex-col items-center justify-center"
+                                    >
+                                        {/* Animated circles */}
+                                        <div className="relative w-24 h-24 mb-6">
+                                            <motion.div
+                                                className="absolute inset-0 rounded-full border-4 border-blue-500/20"
+                                                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0.2, 0.5] }}
+                                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                            />
+                                            <motion.div
+                                                className="absolute inset-2 rounded-full border-4 border-indigo-500/30"
+                                                animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.3, 0.6, 0.3] }}
+                                                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                                            />
+                                            <motion.div
+                                                className="absolute inset-4 rounded-full border-4 border-purple-500/40"
+                                                animate={{ rotate: 360 }}
+                                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                            />
+                                            {/* Center spinner */}
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <motion.div
+                                                    animate={{ rotate: -360 }}
+                                                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                                >
+                                                    <Database className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                                                </motion.div>
+                                            </div>
+                                        </div>
+
+                                        {/* Status text */}
+                                        <motion.h3
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 }}
+                                            className="text-lg font-semibold text-gray-900 dark:text-white mb-2"
+                                        >
+                                            Analyzing Study
+                                        </motion.h3>
+                                        <motion.p
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.2 }}
+                                            className="text-sm text-gray-500 dark:text-gray-400 text-center max-w-xs"
+                                        >
+                                            Fetching study metadata from GWAS Catalog and classifying trait type...
+                                        </motion.p>
+
+                                        {/* Selected study info */}
+                                        {selectedEntry && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: 0.3 }}
+                                                className="mt-6 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl"
+                                            >
+                                                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Selected Study</p>
+                                                <p className="text-sm font-medium text-gray-900 dark:text-white">
+                                                    {selectedEntry.id}
+                                                </p>
+                                                <p className="text-xs text-gray-600 dark:text-gray-300 truncate max-w-[200px]">
+                                                    {selectedEntry.trait}
+                                                </p>
+                                            </motion.div>
+                                        )}
+
+                                        {/* Progress indicator */}
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            animate={{ width: "100%" }}
+                                            transition={{ duration: 3, ease: "easeInOut" }}
+                                            className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full"
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
                             {isLoading ? (
                                 <div className="flex flex-col items-center justify-center py-16 text-gray-400">
                                     <Loader2 className="w-8 h-8 animate-spin mb-3" />
@@ -348,7 +439,8 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
                                         <button
                                             key={`${entry.database}-${entry.id}-${index}`}
                                             onClick={() => handleEntryClick(entry)}
-                                            className={`w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors flex items-start gap-3 ${selectedEntry?.id === entry.id && selectedEntry?.database === entry.database
+                                            disabled={isClassifying}
+                                            className={`w-full p-4 text-left hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors flex items-start gap-3 disabled:pointer-events-none disabled:opacity-50 ${selectedEntry?.id === entry.id && selectedEntry?.database === entry.database
                                                 ? 'bg-blue-50 dark:bg-blue-900/20 border-l-2 border-blue-500'
                                                 : ''
                                                 }`}

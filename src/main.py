@@ -95,6 +95,40 @@ async def classify_trait_endpoint(req: TraitClassifyRequest):
     return classify_trait(req.trait_name, req.sample_info)
 
 
+class StudyClassifyRequest(BaseModel):
+    study_id: str  # GWAS Catalog study accession (e.g., GCST90012877)
+
+
+@app.post("/agent/classify_study")
+async def classify_study_endpoint(req: StudyClassifyRequest):
+    """
+    Agentic study classification using GWAS Catalog API.
+    
+    Fetches real study metadata from GWAS Catalog REST API and uses LLM
+    to make an intelligent classification decision based on:
+    - Trait name and description
+    - Sample size breakdown (cases/controls vs total N)
+    - Association effect types (OR vs Beta)
+    - Ancestry information
+    
+    Returns:
+        {
+            "study_id": "GCST...",
+            "trait_type": "Binary" | "Continuous",
+            "sample_size": int,
+            "n_cases": int | null,
+            "n_controls": int | null,
+            "neff": float | null,
+            "ancestry": "EUR" | "AFR" | ...,
+            "confidence": "high" | "medium" | "low",
+            "reasoning": "explanation"
+        }
+    """
+    from src.modules.function4.trait_classifier import classify_study_agentic
+    
+    return classify_study_agentic(req.study_id)
+
+
 class ProteinAgentRequest(BaseModel):
     message: str
     request_id: str = None  # Optional for progress tracking

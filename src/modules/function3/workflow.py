@@ -7,7 +7,7 @@ from typing import Dict, Any, TypedDict, Annotated, List
 import operator
 from langgraph.graph import StateGraph, END
 from langchain_core.messages import HumanMessage, AIMessage
-from langchain_openai import ChatOpenAI
+from src.core.llm_config import get_llm  # Centralized LLM config
 from src.core.omicspred_client import OmicsPredClient
 import concurrent.futures
 import time
@@ -25,8 +25,8 @@ class ProteinAgentState(TypedDict):
     request_id: str  # Tracking ID for progress polling
 
 
-# Initialize LLM
-llm = ChatOpenAI(model="gpt-5-nano", temperature=0)
+# Initialize LLM from centralized config
+llm = get_llm("function3_workflow")
 
 # Initialize Client
 omicspred_client = OmicsPredClient()
