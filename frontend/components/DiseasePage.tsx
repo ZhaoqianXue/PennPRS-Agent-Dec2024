@@ -7,6 +7,7 @@ import { ModelData } from "./ModelCard";
 import ModelDetailModal from "./ModelDetailModal";
 import { Home } from "lucide-react";
 import { TrainingConfig } from "./TrainingConfigForm";
+import { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
 
 interface DiseasePageProps {
     onBack: () => void;
@@ -197,9 +198,9 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     };
 
     const handleTrainNew = () => {
-        // Switch to the full-page training config view within the canvas
+        // Switch to the train type selection page first
         setPreviousView(activeView);
-        setActiveView('train_config');
+        setActiveView('train_type_selection');
     };
 
     const handleTrainingSubmit = (config: TrainingConfig) => {
@@ -223,6 +224,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         let prompt = `I want to train a new model for ${config.trait} (Ancestry: ${config.ancestry}) named '${config.jobName}'.`;
         prompt += `\nEmail: ${config.email}`;
         prompt += `\nJob Type: ${config.jobType}`;
+        prompt += `\nMethodology Category: ${config.methodologyCategory}`;
         prompt += `\nMethods: ${config.methods.join(', ')}`;
         if (config.ensemble) prompt += `\nEnsemble: Enabled`;
         if (config.dataSourceType === 'public') {
@@ -245,6 +247,13 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
             if (config.advanced.Lc) prompt += `, Lc=${config.advanced.Lc}`;
             if (config.advanced.ndelta) prompt += `, ndelta=${config.advanced.ndelta}`;
             if (config.advanced.phi) prompt += `, phi=${config.advanced.phi}`;
+            // PRS-CS-auto settings
+            if (config.advanced.prscsPhiMode) {
+                prompt += `\nPRS-CS-auto Mode: ${config.advanced.prscsPhiMode}`;
+                if (config.advanced.prscsPhiMode === 'fixedPhi' && config.advanced.prscsPhiValue) {
+                    prompt += `, phi=${config.advanced.prscsPhiValue}`;
+                }
+            }
         }
 
         triggerChat(prompt);
@@ -262,20 +271,89 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         }
     };
 
+    // --- Multi-Ancestry Training Submit ---
+    const handleMultiAncestrySubmit = (config: MultiAncestryTrainingConfig) => {
+        // Create optimistic pending model
+        const ancestries = config.dataSources.map(ds => ds.ancestry).join('+');
+        const pendingModel: ModelData = {
+            id: `JOB-MULTI-${Date.now()}`,
+            name: config.jobName || `Multi-Ancestry Model (${ancestries})`,
+            trait: config.trait || 'Multi-Ancestry PRS',
+            ancestry: ancestries,
+            method: "PROSPER-pseudo",
+            source: "User Trained",
+            isLoading: true,
+            status: "running",
+            metrics: { AUC: 0, R2: 0 },
+            sample_size: config.dataSources.reduce((sum, ds) => sum + (ds.sampleSize || 0), 0)
+        };
+
+        setModels(prev => [pendingModel, ...prev]);
+        setActiveView('model_grid');
+
+        // Build prompt for agent to submit to PennPRS API
+        let prompt = `I want to train a Multi-Ancestry PRS model named '${config.jobName}' for trait '${config.trait}'.`;
+        prompt += `\nEmail: ${config.email}`;
+        prompt += `\nJob Type: multi`;
+        prompt += `\nMethodology: PROSPER-pseudo`;
+        prompt += `\nAncestries: ${ancestries} (${config.dataSources.length} populations)`;
+
+        config.dataSources.forEach((ds, idx) => {
+            prompt += `\n\nAncestry ${idx + 1} (${ds.ancestry}):`;
+            if (ds.dataSourceType === 'public') {
+                prompt += `\n  Data Source: Public ${ds.database === 'finngen' ? 'FinnGen' : 'GWAS Catalog'} (ID: ${ds.gwasId})`;
+            } else {
+                prompt += `\n  Data Source: User Upload (${ds.uploadedFileName})`;
+            }
+            prompt += `\n  Trait Type: ${ds.traitType}, Sample Size: ${ds.sampleSize}`;
+            if (ds.nCases && ds.nControls) {
+                prompt += `, Cases: ${ds.nCases}, Controls: ${ds.nControls}`;
+            }
+        });
+
+        if (config.advanced) {
+            prompt += `\n\nAdvanced PROSPER Parameters:`;
+            prompt += ` nlambda=${config.advanced.nlambda}`;
+            prompt += `, ndelta=${config.advanced.ndelta}`;
+            prompt += `, lambda_min_ratio=${config.advanced.lambda_min_ratio}`;
+            prompt += `, Ll=${config.advanced.Ll}`;
+            prompt += `, Lc=${config.advanced.Lc}`;
+        }
+
+        triggerChat(prompt);
+    };
+
     // --- Mode Selection Handlers ---
 
     const handleModeSelect = (mode: 'search' | 'train') => {
         if (mode === 'search') {
             setActiveView('disease_selection');
         } else {
-            // For train, we now switch to the full-page training config view within the canvas
+            // For train, navigate to train type selection first
             setPreviousView('mode_selection');
+            setActiveView('train_type_selection');
+        }
+    };
+
+    const handleTrainTypeSelect = (type: 'single' | 'multi') => {
+        if (type === 'single') {
+            setPreviousView('train_type_selection');
             setActiveView('train_config');
+        } else {
+            // Multi-ancestry - Navigate to multi-ancestry form
+            setPreviousView('train_type_selection');
+            setActiveView('train_multi_config');
         }
     };
 
     const handleBackToPrevious = () => {
         if (activeView === 'train_config') {
+            setActiveView('train_type_selection');
+        } else if (activeView === 'train_multi_config') {
+            setActiveView('train_type_selection');
+        } else if (activeView === 'train_type_selection') {
+            setActiveView('mode_selection');
+        } else if (activeView === 'coming_soon') {
             setActiveView(previousView);
         } else if (activeView === 'model_grid') {
             // Back from grid -> Go to ancestry selection to allow re-choice? Or Disease?
@@ -343,6 +421,8 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         onModeSelect={handleModeSelect}
                         onBackToSelection={handleBackToPrevious}
                         onTrainingSubmit={handleTrainingSubmit}
+                        onMultiAncestrySubmit={handleMultiAncestrySubmit}
+                        onTrainTypeSelect={handleTrainTypeSelect}
                         // Concurrent Search Props
                         searchProgress={searchProgress}
                         isSearchComplete={isSearchComplete}

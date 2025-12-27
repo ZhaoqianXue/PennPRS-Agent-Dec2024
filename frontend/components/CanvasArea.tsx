@@ -3,12 +3,13 @@ import DiseaseGrid from "./DiseaseGrid";
 import ModelGrid from "./ModelGrid";
 import DownstreamOptions from "./DownstreamOptions";
 import { ModelData } from "./ModelCard";
-import { Search, Database, ArrowLeft, Construction } from "lucide-react";
+import { Search, Database, ArrowLeft, Construction, Users, User } from "lucide-react";
 import TrainingConfigForm, { TrainingConfig } from "./TrainingConfigForm";
+import MultiAncestryTrainingForm, { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
 
 import AncestrySelection from "./AncestrySelection";
 
-export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_config' | 'ancestry_selection' | 'coming_soon' | 'protein_search' | 'protein_grid';
+export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'coming_soon' | 'protein_search' | 'protein_grid';
 
 interface CanvasAreaProps {
     view: ViewType;
@@ -23,6 +24,8 @@ interface CanvasAreaProps {
     onModeSelect: (mode: 'search' | 'train') => void;
     onBackToSelection: () => void;
     onTrainingSubmit: (config: TrainingConfig) => void;
+    onMultiAncestrySubmit?: (config: MultiAncestryTrainingConfig) => void; // NEW
+    onTrainTypeSelect?: (type: 'single' | 'multi') => void;
     // New Props for Ancestry & Concurrent Search
     searchProgress?: { status: string; total: number; fetched: number; current_action: string } | null;
     isSearchComplete?: boolean;
@@ -43,6 +46,8 @@ export default function CanvasArea({
     onModeSelect,
     onBackToSelection,
     onTrainingSubmit,
+    onMultiAncestrySubmit,
+    onTrainTypeSelect,
     searchProgress,
     isSearchComplete,
     onAncestrySubmit,
@@ -109,7 +114,94 @@ export default function CanvasArea({
                     </div>
                 )}
 
-                {/* View: Training Config */}
+                {/* View: Training Type Selection */}
+                {view === 'train_type_selection' && (
+                    <div className="animate-in fade-in zoom-in-95 duration-500 pb-8">
+                        {/* Back Button */}
+                        <div className="mb-6">
+                            <button
+                                onClick={onBackToSelection}
+                                className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                            >
+                                <ArrowLeft size={18} />
+                                <span className="text-sm font-medium">Back</span>
+                            </button>
+                        </div>
+
+                        <div className="text-center space-y-3 mb-8">
+                            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                                Train Custom Model
+                            </h1>
+                            <p className="text-base text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+                                Choose your analysis type based on your GWAS data and research goals.
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col gap-6 w-full max-w-5xl mx-auto">
+                            {/* Single-Ancestry Card */}
+                            <button
+                                onClick={() => onTrainTypeSelect?.('single')}
+                                className="group relative flex flex-col md:flex-row bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 overflow-hidden text-left"
+                            >
+                                {/* Left: Info */}
+                                <div className="flex flex-col justify-center p-6 md:w-1/3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                                            <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                        </div>
+                                        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Single-Ancestry Analysis</h2>
+                                    </div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Train PRS models for a single population</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        Supports <span className="font-semibold text-blue-600 dark:text-blue-400">Pseudo-Training</span> and
+                                        <span className="font-semibold text-orange-600 dark:text-orange-400"> Tuning-Parameter-Free</span> methods.
+                                    </p>
+                                </div>
+
+                                {/* Right: Workflow Image */}
+                                <div className="relative flex-1 bg-gray-50 dark:bg-gray-900/50 p-4 flex items-center justify-center">
+                                    <img
+                                        src="/single_ancestry_workflow.png"
+                                        alt="Single-Ancestry Workflow"
+                                        className="w-full h-auto max-h-64 object-contain"
+                                    />
+                                </div>
+                            </button>
+
+                            {/* Multi-Ancestry Card */}
+                            <button
+                                onClick={() => onTrainTypeSelect?.('multi')}
+                                className="group relative flex flex-col md:flex-row bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 overflow-hidden text-left"
+                            >
+                                {/* Left: Info */}
+                                <div className="flex flex-col justify-center p-6 md:w-1/3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                                            <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                        </div>
+                                        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Multi-Ancestry Analysis</h2>
+                                    </div>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Train PRS models across multiple populations</p>
+                                    <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                        Leverage GWAS data from multiple ancestries using the
+                                        <span className="font-semibold text-purple-600 dark:text-purple-400"> PROSPER</span> method.
+                                    </p>
+                                </div>
+
+                                {/* Right: Workflow Image */}
+                                <div className="relative flex-1 bg-gray-50 dark:bg-gray-900/50 p-4 flex items-center justify-center">
+                                    <img
+                                        src="/multi_ancestry_workflow.png"
+                                        alt="Multi-Ancestry Workflow"
+                                        className="w-full h-auto max-h-64 object-contain"
+                                    />
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* View: Training Config (Single-Ancestry) */}
                 {view === 'train_config' && (
                     <div className="relative min-h-[60vh] animate-in fade-in slide-in-from-right-8 duration-500">
                         {/* Back Button */}
@@ -123,6 +215,15 @@ export default function CanvasArea({
                             </button>
                         </div>
 
+                        {/* Title indicating Single-Ancestry */}
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                                <User className="w-6 h-6 text-blue-600" />
+                                Single-Ancestry Analysis
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-1">Configure your single-ancestry PRS training job</p>
+                        </div>
+
                         <TrainingConfigForm
                             onSubmit={onTrainingSubmit}
                             defaultTrait={trait || undefined}
@@ -131,7 +232,35 @@ export default function CanvasArea({
                     </div>
                 )}
 
-                {/* View Switching */}
+                {/* View: Multi-Ancestry Training Config */}
+                {view === 'train_multi_config' && (
+                    <div className="relative min-h-[60vh] animate-in fade-in slide-in-from-right-8 duration-500">
+                        {/* Back Button */}
+                        <div className="mb-6">
+                            <button
+                                onClick={onBackToSelection}
+                                className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                            >
+                                <ArrowLeft size={18} />
+                                <span className="text-sm font-medium">Back to Selection</span>
+                            </button>
+                        </div>
+
+                        {/* Title indicating Multi-Ancestry */}
+                        <div className="mb-6">
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                                <Users className="w-6 h-6 text-purple-600" />
+                                Multi-Ancestry Analysis
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-1">Configure your multi-ancestry PRS training job using PROSPER</p>
+                        </div>
+
+                        <MultiAncestryTrainingForm
+                            onSubmit={onMultiAncestrySubmit!}
+                            onCancel={onBackToSelection}
+                        />
+                    </div>
+                )}
                 {view === 'disease_selection' && (
                     <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-8 animate-in fade-in slide-in-from-right-8 duration-500 relative">
                         {/* Back Button */}

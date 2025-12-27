@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { X, Search, Database, ExternalLink, ChevronRight, Check, Loader2 } from 'lucide-react';
+import { X, Search, Database, ExternalLink, ChevronRight, Check, Loader2, AlertCircle, RotateCcw } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface GWASEntry {
@@ -204,6 +204,11 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
         };
     }, [debouncedQuery, finngenData, gwasData]);
 
+    // Clear error when tab or search changes
+    useEffect(() => {
+        setError(null);
+    }, [debouncedQuery, activeTab]);
+
     const handleConfirm = useCallback(async () => {
         if (selectedEntry) {
             // Scroll to top to ensure loading overlay is visible
@@ -211,12 +216,16 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
                 resultsContainerRef.current.scrollTop = 0;
             }
             setIsClassifying(true);
+            setError(null);
             try {
                 await onSelect(selectedEntry);
+                onClose();
+            } catch (err: any) {
+                // Handled error - display to user
+                setError(err.message || 'Selection failed');
             } finally {
                 setIsClassifying(false);
             }
-            onClose();
         }
     }, [selectedEntry, onSelect, onClose]);
 
@@ -424,9 +433,37 @@ export default function GWASSearchModal({ isOpen, onClose, onSelect, initialSele
                                     <p className="text-sm">Loading GWAS data...</p>
                                 </div>
                             ) : error ? (
-                                <div className="flex flex-col items-center justify-center py-16 text-red-500">
-                                    <p className="text-sm">{error}</p>
-                                </div>
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="h-full flex flex-col items-center justify-center p-8 text-center"
+                                >
+                                    <div className="w-full max-w-sm p-8 rounded-3xl bg-pink-50/50 dark:bg-red-900/10 border border-pink-100 dark:border-red-900/30 shadow-sm relative overflow-hidden group">
+                                        {/* Background Decoration */}
+                                        <div className="absolute top-0 right-0 -transtale-y-1/2 translate-x-1/2 w-32 h-32 bg-pink-200/20 dark:bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+
+                                        <div className="relative z-10 space-y-6">
+                                            <div className="w-16 h-16 rounded-2xl bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center mx-auto mb-2 border border-pink-50 dark:border-red-900/20">
+                                                <AlertCircle className="w-8 h-8 text-pink-500" />
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Selection Conflict</h3>
+                                                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                                    {error}
+                                                </p>
+                                            </div>
+
+                                            <button
+                                                onClick={() => setError(null)}
+                                                className="w-full py-3.5 px-6 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl active:scale-[0.98] flex items-center justify-center gap-2"
+                                            >
+                                                <RotateCcw className="w-4 h-4" />
+                                                Return to Search
+                                            </button>
+                                        </div>
+                                    </div>
+                                </motion.div>
                             ) : filteredResults.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-16 text-gray-400">
                                     <Database className="w-12 h-12 mb-3 opacity-50" />

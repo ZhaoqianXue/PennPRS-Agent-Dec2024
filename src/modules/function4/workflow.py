@@ -526,7 +526,23 @@ def collect_training_info(state: AgentState):
     if m_n:
         sample_size = int(m_n.group(1))
 
-    # 7. Parse Hyperparams
+    # 7. Parse Methodology Category
+    # "Methodology Category: pseudo-training" or "Methodology Category: tuning-free"
+    m_cat = re.search(r"Methodology Category: (\S+)", last_content)
+    methodology_category = None
+    if m_cat:
+        methodology_category = m_cat.group(1)
+        hyperparams["methodology_category"] = methodology_category
+
+    # 8. Parse PRS-CS-auto Mode (if present)
+    # "PRS-CS-auto Mode: fullyBayesian" or "PRS-CS-auto Mode: fixedPhi, phi=1e-2"
+    m_prscs = re.search(r"PRS-CS-auto Mode: (\w+)(?:, phi=(.+?))?(?:\n|$)", last_content)
+    if m_prscs:
+        hyperparams["prscs_phi_mode"] = m_prscs.group(1)
+        if m_prscs.group(2):
+            hyperparams["prscs_phi_value"] = m_prscs.group(2)
+
+    # 9. Parse Hyperparams
     # "Hyperparams: kb=500, r2=0.1, pval_thr=..."
     m_hyper = re.search(r"Hyperparams: (.+?)(?:\n|$)", last_content)
     if m_hyper:
@@ -558,6 +574,7 @@ def collect_training_info(state: AgentState):
         "traits_col": [traits_col_entry],
         "job_methods": methods,
         "job_ensemble": ensemble,
+        "methodology_category": methodology_category,  # NEW
         "traits_type": [trait_type],
         "traits_population": [ancestry],
         "traits_source": ["User Upload" if data_source_type == "upload" else "Query Data"],

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Upload, Settings2, Info, Search, ChevronRight, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Upload, Settings2, Info, Search, ChevronRight, ExternalLink, HelpCircle } from 'lucide-react';
 import GWASSearchModal, { GWASEntry } from './GWASSearchModal';
 
 export interface TrainingConfig {
@@ -9,6 +9,7 @@ export interface TrainingConfig {
     trait: string;
     ancestry: string;
     methods: string[];
+    methodologyCategory: "pseudo-training" | "tuning-free"; // NEW
     ensemble: boolean;
     dataSourceType: "public" | "upload";
     database?: "GWAS Catalog" | "FinnGen"; // New Option for public
@@ -32,6 +33,9 @@ export interface TrainingConfig {
         Lc?: number;
         ndelta?: number;
         phi?: string;
+        // PRS-CS-auto settings
+        prscsPhiMode?: "fullyBayesian" | "fixedPhi";
+        prscsPhiValue?: string;
     };
 }
 
@@ -48,7 +52,7 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
     const [jobType, setJobType] = useState<"single" | "multi">("single"); // New State
     const [trait, setTrait] = useState("");
     const [ancestry, setAncestry] = useState("EUR");
-    const [methods, setMethods] = useState<string[]>(["Clumping+Thresholding"]);
+    const [methods, setMethods] = useState<string[]>(["LDpred2-pseudo"]);
     const [ensemble, setEnsemble] = useState(false);
 
     // Data Source
@@ -69,6 +73,13 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
     const [binarySampleSizeType, setBinarySampleSizeType] = useState<"nCaseControl" | "nEff">("nCaseControl");
     const [nCase, setNCase] = useState<number | "">("");
     const [nControl, setNControl] = useState<number | "">("");
+
+    // Methodology Category State
+    const [methodologyCategory, setMethodologyCategory] = useState<"pseudo-training" | "tuning-free">("pseudo-training");
+
+    // PRS-CS-auto Settings
+    const [prscsPhiMode, setPrscsPhiMode] = useState<"fullyBayesian" | "fixedPhi">("fullyBayesian");
+    const [prscsPhiValue, setPrscsPhiValue] = useState("1e-2");
 
     const [showAdvanced, setShowAdvanced] = useState(false);
     // C+T-pseudo
@@ -179,6 +190,7 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
             trait,
             ancestry,
             methods,
+            methodologyCategory, // NEW
             ensemble,
             dataSourceType,
             database: dataSourceType === 'public' && selectedGwasEntry
@@ -198,7 +210,10 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
                 lambda_min_ratio: lambdaMinRatio,
                 alpha,
                 p_seq: pSeq,
-                sparse
+                sparse,
+                // PRS-CS-auto settings
+                prscsPhiMode: methods.includes('PRS-CS-auto') ? prscsPhiMode : undefined,
+                prscsPhiValue: methods.includes('PRS-CS-auto') && prscsPhiMode === 'fixedPhi' ? prscsPhiValue : undefined
             } : undefined
         };
         onSubmit(config);
@@ -226,19 +241,6 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
     return (
         <>
             <div className="w-full max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-right-8 duration-500">
-                {/* Header */}
-                <div className="flex items-center justify-between pb-6 border-b border-gray-100 dark:border-gray-800">
-                    <div>
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <span className="bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 p-2 rounded-lg">
-                                <Settings2 className="w-6 h-6" />
-                            </span>
-                            Train Custom Model
-                        </h2>
-                        <p className="text-gray-500 dark:text-gray-400 mt-1">Configure parameters to train a new Polygenic Risk Score model.</p>
-                    </div>
-                </div>
-
                 {/* Body */}
                 <div className="space-y-10">
 
@@ -554,45 +556,168 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
                             Methodology
                         </h3>
                         <div className="space-y-6">
-                            <div className="space-y-3">
-                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Methods</label>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    {['LDpred2-pseudo', 'Lassosum2-pseudo', 'C+T-pseudo'].map(method => (
-                                        <label key={method} className={`flex items-center gap-3 px-4 py-3 border rounded-xl cursor-pointer transition-all ${methods.includes(method)
-                                            ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-500'
-                                            : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                            {/* Two Category Cards */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                                {/* Pseudo-Training (Recommended) */}
+                                <div
+                                    className={`p-5 rounded-2xl border-2 transition-all cursor-pointer ${methodologyCategory === 'pseudo-training'
+                                        ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/20'
+                                        : methodologyCategory === 'tuning-free'
+                                            ? 'border-gray-200 dark:border-gray-700 opacity-40 cursor-not-allowed'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-blue-300'
+                                        }`}
+                                    onClick={() => {
+                                        setMethodologyCategory('pseudo-training');
+                                        if (methodologyCategory !== 'pseudo-training') {
+                                            setMethods(['LDpred2-pseudo']);
+                                            setEnsemble(false);
+                                        }
+                                    }}
+                                >
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${methodologyCategory === 'pseudo-training'
+                                            ? 'border-blue-500 bg-blue-500'
+                                            : 'border-gray-300 dark:border-gray-600'
                                             }`}>
-                                            <input
-                                                type="checkbox"
-                                                checked={methods.includes(method)}
-                                                onChange={() => toggleMethod(method)}
-                                                className="w-5 h-5 text-blue-600 rounded focus:ring-blue-500"
-                                            />
-                                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{method}</span>
-                                        </label>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div className={`flex items-center gap-4 pt-2 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800 ${methods.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                                <label className={`flex items-center gap-3 ${methods.length <= 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
-                                    <div
-                                        className={`w-12 h-7 rounded-full p-1 transition-colors ${ensemble ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'}`}
-                                        onClick={() => methods.length > 1 && setEnsemble(!ensemble)}
-                                    >
-                                        <div className={`w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform ${ensemble ? 'translate-x-5' : ''}`} />
+                                            {methodologyCategory === 'pseudo-training' && (
+                                                <div className="w-2 h-2 bg-white rounded-full" />
+                                            )}
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white">Pseudo-Training</h4>
+                                            <span className="text-xs text-green-600 dark:text-green-400 font-medium">Recommended</span>
+                                        </div>
                                     </div>
-                                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        {ensemble ? "Ensemble Learning On" : "Ensemble Learning Off"}
-                                    </span>
-                                </label>
+                                    <p className="text-xs text-gray-500 mb-4">Methods that utilize pseudo-validation for optimal parameter tuning.</p>
 
-                                <div className="h-4 w-px bg-gray-300 dark:bg-gray-700 mx-2"></div>
-                                <div className="text-xs text-gray-500 flex items-center gap-1.5">
-                                    <Info className="w-4 h-4" />
-                                    Note: If multiple methods are selected, we provide an option to train an ensemble PRS based on the selected methods.
+                                    {/* Methods in this category */}
+                                    <div className={`space-y-2 ${methodologyCategory !== 'pseudo-training' ? 'pointer-events-none' : ''}`}>
+                                        {[
+                                            { id: 'LDpred2-pseudo', tooltip: 'The pseudo-training version of LDpred2, a Bayesian approach that constructs PRS by leveraging information from GWAS summary statistics and LD inferred based on external reference genotype data assuming a spike-and-slab prior on SNP effect sizes.' },
+                                            { id: 'lassosum2-pseudo', tooltip: 'The pseudo-training version of Lassosum2, a method for constructing PGS using summary statistics and a reference panel under a penalized regression framework.' },
+                                            { id: 'C+T-pseudo', tooltip: 'The pseudo-training version of C + T, a model-free method that first constructs a series of PRSs with independent (selected by LD clumping) and significant SNPs based on varying p-value thresholds and then selects the best performing PRS on the tuning dataset.' }
+                                        ].map(method => (
+                                            <label
+                                                key={method.id}
+                                                className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-all ${methods.includes(method.id)
+                                                    ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/30'
+                                                    : 'border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                                    }`}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={methods.includes(method.id)}
+                                                    onChange={() => methodologyCategory === 'pseudo-training' && toggleMethod(method.id)}
+                                                    disabled={methodologyCategory !== 'pseudo-training'}
+                                                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                                                />
+                                                <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{method.id}</span>
+                                                <div className="relative group/tooltip">
+                                                    <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-500 cursor-help" />
+                                                    <div className="absolute z-50 bottom-full right-0 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 pointer-events-none">
+                                                        {method.tooltip}
+                                                        <div className="absolute bottom-0 right-3 transform translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Tuning-Parameter-Free Methods */}
+                                <div
+                                    className={`p-5 rounded-2xl border-2 transition-all cursor-pointer ${methodologyCategory === 'tuning-free'
+                                        ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-900/20'
+                                        : methodologyCategory === 'pseudo-training'
+                                            ? 'border-gray-200 dark:border-gray-700 opacity-40 cursor-not-allowed'
+                                            : 'border-gray-200 dark:border-gray-700 hover:border-blue-300'
+                                        }`}
+                                    onClick={() => {
+                                        setMethodologyCategory('tuning-free');
+                                        if (methodologyCategory !== 'tuning-free') {
+                                            setMethods(['LDpred2-auto']);
+                                            setEnsemble(false);
+                                        }
+                                    }}
+                                >
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${methodologyCategory === 'tuning-free'
+                                            ? 'border-blue-500 bg-blue-500'
+                                            : 'border-gray-300 dark:border-gray-600'
+                                            }`}>
+                                            {methodologyCategory === 'tuning-free' && (
+                                                <div className="w-2 h-2 bg-white rounded-full" />
+                                            )}
+                                        </div>
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white">Tuning-Parameter-Free Methods</h4>
+                                            <span className="text-xs text-gray-500">No validation required</span>
+                                        </div>
+                                    </div>
+                                    <p className="text-xs text-gray-500 mb-4">Methods that automatically determine optimal parameters without tuning.</p>
+
+                                    {/* Methods in this category */}
+                                    <div className={`space-y-2 ${methodologyCategory !== 'tuning-free' ? 'pointer-events-none' : ''}`}>
+                                        {[
+                                            { id: 'LDpred2-auto', recommended: true, tooltip: 'LDpred2-auto is a fully Bayesian, tuning-parameter-free version approach that constructs PRS by leveraging information from GWAS summary statistics and LD inferred based on external reference genotype data assuming a spike-and-slab prior on SNP effect size distribution.' },
+                                            { id: 'DBSLMM', recommended: false, tooltip: 'Deterministic Bayesian Sparse Linear Mixed Model (DBSLMM) is a fully Bayesian approach assuming a flexible modeling assumption on the effect size distribution to achieve robust and accurate prediction performance across a range of genetic architectures.' },
+                                            { id: 'PRS-CS-auto', recommended: false, tooltip: 'PRS-CS-auto is a fully Bayesian approach that utilizes a continuous shrinkage prior on SNP effect sizes.' }
+                                        ].map(method => (
+                                            <label
+                                                key={method.id}
+                                                className={`flex items-center gap-3 px-3 py-2 rounded-lg border transition-all ${methods.includes(method.id)
+                                                    ? 'border-blue-400 bg-blue-50 dark:bg-blue-900/30'
+                                                    : 'border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800'
+                                                    }`}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={methods.includes(method.id)}
+                                                    onChange={() => methodologyCategory === 'tuning-free' && toggleMethod(method.id)}
+                                                    disabled={methodologyCategory !== 'tuning-free'}
+                                                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                                                />
+                                                <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{method.id}</span>
+                                                {method.recommended && (
+                                                    <span className="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400 rounded-full font-medium shrink-0">
+                                                        Recommended
+                                                    </span>
+                                                )}
+                                                <div className="relative group/tooltip">
+                                                    <HelpCircle className="w-4 h-4 text-gray-400 hover:text-blue-500 cursor-help" />
+                                                    <div className="absolute z-50 bottom-full right-0 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 invisible group-hover/tooltip:opacity-100 group-hover/tooltip:visible transition-all duration-200 pointer-events-none">
+                                                        {method.tooltip}
+                                                        <div className="absolute bottom-0 right-3 transform translate-y-1/2 rotate-45 w-2 h-2 bg-gray-900"></div>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
+
+                            {/* Ensemble Learning Toggle - Only show for pseudo-training */}
+                            {methodologyCategory === 'pseudo-training' && (
+                                <div className={`flex flex-wrap items-center gap-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-gray-100 dark:border-gray-800 ${methods.length <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                                    <label className={`flex items-center gap-3 shrink-0 ${methods.length <= 1 ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
+                                        <div
+                                            className={`w-12 h-7 rounded-full p-1 transition-colors ${ensemble ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'}`}
+                                            onClick={() => methods.length > 1 && setEnsemble(!ensemble)}
+                                        >
+                                            <div className={`w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform ${ensemble ? 'translate-x-5' : ''}`} />
+                                        </div>
+                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                                            {ensemble ? "Ensemble Learning On" : "Ensemble Learning Off"}
+                                        </span>
+                                    </label>
+                                    <div className="h-5 w-px bg-gray-300 dark:bg-gray-700 hidden sm:block"></div>
+                                    <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                                        <Info className="w-4 h-4 shrink-0" />
+                                        <span>Note: If multiple methods are selected, we provide an option to train an ensemble PRS based on the selected methods.</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </section>
 
@@ -688,6 +813,51 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                )}
+
+                                {/* PRS-CS-auto */}
+                                {methods.includes('PRS-CS-auto') && (
+                                    <div className="space-y-4 p-4 border border-gray-100 dark:border-gray-800 rounded-xl bg-gray-50/50 dark:bg-gray-800/30">
+                                        <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100">PRS-CS-auto</h4>
+
+                                        {/* Mode Toggle */}
+                                        <div className="space-y-3">
+                                            <label className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">Mode</label>
+                                            <div className="flex items-center gap-4">
+                                                <span className={`text-sm ${prscsPhiMode === 'fullyBayesian' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-400'}`}>
+                                                    fully Bayesian
+                                                </span>
+                                                <div
+                                                    className={`w-14 h-8 rounded-full p-1 cursor-pointer transition-colors ${prscsPhiMode === 'fixedPhi' ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
+                                                        }`}
+                                                    onClick={() => setPrscsPhiMode(prscsPhiMode === 'fullyBayesian' ? 'fixedPhi' : 'fullyBayesian')}
+                                                >
+                                                    <div className={`w-6 h-6 bg-white rounded-full shadow-sm transform transition-transform ${prscsPhiMode === 'fixedPhi' ? 'translate-x-6' : ''
+                                                        }`} />
+                                                </div>
+                                                <span className={`text-sm ${prscsPhiMode === 'fixedPhi' ? 'text-gray-900 dark:text-white font-medium' : 'text-gray-400'}`}>
+                                                    fixed phi
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Phi Dropdown - Only shown when fixed phi is selected */}
+                                        {prscsPhiMode === 'fixedPhi' && (
+                                            <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                <label className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">phi</label>
+                                                <select
+                                                    value={prscsPhiValue}
+                                                    onChange={(e) => setPrscsPhiValue(e.target.value)}
+                                                    className="w-full md:w-48 px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
+                                                >
+                                                    <option value="1e-2">1e-2</option>
+                                                    <option value="1e-4">1e-4</option>
+                                                    <option value="1e-6">1e-6</option>
+                                                    <option value="1">1</option>
+                                                </select>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
 
