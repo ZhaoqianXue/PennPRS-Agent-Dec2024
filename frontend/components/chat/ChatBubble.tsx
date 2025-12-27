@@ -22,14 +22,12 @@ interface ChatBubbleProps {
 }
 
 const getActionIcon = (action: string) => {
-    switch (action) {
-        case "Evaluate on Cohort": return <Activity className="w-4 h-4" />;
-        case "Build Ensemble Model": return <Layers className="w-4 h-4" />;
-        case "Integrate Proteomics Data": return <Dna className="w-4 h-4" />;
-        case "Download Model": return <Download className="w-4 h-4" />;
-        case "Train Custom Model": return <PlusCircle className="w-4 h-4" />;
-        default: return <Activity className="w-4 h-4" />;
-    }
+    if (action.includes("Evaluate")) return <Activity className="w-4 h-4" />;
+    if (action.includes("Ensemble")) return <Layers className="w-4 h-4" />;
+    if (action.includes("Proteomics")) return <Dna className="w-4 h-4" />;
+    if (action.includes("Download")) return <Download className="w-4 h-4" />;
+    if (action.includes("Train")) return <PlusCircle className="w-4 h-4" />;
+    return <Activity className="w-4 h-4" />;
 }
 
 export function ChatBubble({
@@ -54,7 +52,7 @@ export function ChatBubble({
             )}
 
             <div className={cn(
-                "relative max-w-[85%] rounded-lg px-4 py-3 text-sm shadow-sm flex flex-col gap-4",
+                "relative max-w-[85%] rounded-lg px-4 py-3 text-sm shadow-sm flex flex-col gap-4 font-sans",
                 isUser
                     ? "bg-primary text-primary-foreground"
                     : "bg-muted text-foreground border border-border"
@@ -87,39 +85,65 @@ export function ChatBubble({
 
                 {/* Render Rich Content: Model Card */}
                 {!isUser && modelCard && (
-                    <div className="w-full max-w-sm mt-2">
+                    <div className="w-[320px] mt-2">
                         <ModelCard
                             model={modelCard}
                             onSelect={() => { }} // No-op for now in chat
                             onViewDetails={(m) => onViewDetails?.(m)}
-                            compact={true}
                         />
                     </div>
                 )}
 
-                {/* Render Rich Content: Action Buttons */}
+                {/* Render Rich Content: Action Buttons - Grouped with Descriptions */}
                 {!isUser && actions && actions.length > 0 && (
-                    <div className="flex flex-col gap-2 mt-2">
-                        {actions.map((action, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => {
-                                    if (action === "Train Custom Model" && onTrainNew) {
-                                        onTrainNew()
-                                    } else if (action === "Download Model" && modelCard?.download_url) {
-                                        window.open(modelCard.download_url, '_blank');
-                                    } else if (onDownstreamAction) {
-                                        onDownstreamAction(action)
-                                    }
-                                }}
-                                className="w-full text-left px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm hover:shadow text-sm font-medium text-gray-700 dark:text-gray-200 flex items-center gap-3 group"
-                            >
-                                <span className="p-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-md group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
-                                    {getActionIcon(action)}
-                                </span>
-                                {action}
-                            </button>
-                        ))}
+                    <div className="flex flex-col gap-4 mt-3 font-sans">
+                        {/* Group 1: Primary Actions - Download & Train */}
+                        <div className="space-y-2">
+                            <p className="text-xs text-gray-600 dark:text-gray-400">
+                                If this model meets your requirements, you can download it directly. Otherwise, consider training a custom model tailored to your specific needs.
+                            </p>
+                            <div className="flex flex-col gap-2">
+                                {actions.filter(a => a.includes("Download") || a.includes("Train")).map((action, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => {
+                                            if (action.includes("Train") && onTrainNew) {
+                                                onTrainNew()
+                                            } else if (action.includes("Download") && modelCard?.download_url) {
+                                                window.open(modelCard.download_url, '_blank');
+                                            }
+                                        }}
+                                        className="w-full text-left px-3 py-2 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-all text-sm font-medium text-violet-700 dark:text-violet-300 flex items-center gap-3 group"
+                                    >
+                                        <span className="p-1 bg-violet-100 dark:bg-violet-800/50 text-violet-600 dark:text-violet-400 rounded-md group-hover:bg-violet-200 dark:group-hover:bg-violet-700/60 transition-colors">
+                                            {action.includes("Download") ? <Download className="w-3.5 h-3.5" /> : <PlusCircle className="w-3.5 h-3.5" />}
+                                        </span>
+                                        {action}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Group 2: Exploration Actions - Evaluate & Ensemble */}
+                        <div className="space-y-2">
+                            <p className="text-xs text-gray-600 dark:text-gray-400">
+                                You can also further validate or explore this model by evaluating its performance on additional cohorts, or by integrating it into an ensemble approach.
+                            </p>
+                            <div className="flex flex-col gap-2">
+                                {actions.filter(a => a.includes("Evaluate") || a.includes("Ensemble")).map((action, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => onDownstreamAction?.(action)}
+                                        className="w-full text-left px-3 py-2 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-all text-sm font-medium text-teal-700 dark:text-teal-300 flex items-center gap-3 group"
+                                    >
+                                        <span className="p-1 bg-teal-100 dark:bg-teal-800/50 text-teal-600 dark:text-teal-400 rounded-md group-hover:bg-teal-200 dark:group-hover:bg-teal-700/60 transition-colors">
+                                            {action.includes("Evaluate") ? <Activity className="w-3.5 h-3.5" /> : <Layers className="w-3.5 h-3.5" />}
+                                        </span>
+                                        {action}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>

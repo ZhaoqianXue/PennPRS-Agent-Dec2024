@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "PennPRS Agent",
-  description: "Automated Polygenic Risk Score Training & Analysis",
+  title: "PennPRS Lab",
+  description: "Your intelligent research platform for Polygenic Risk Score analysis",
 };
 
 export default function RootLayout({

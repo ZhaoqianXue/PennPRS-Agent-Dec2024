@@ -7,8 +7,8 @@ export interface ModelData {
     trait: string;
     ancestry: string;
     method: string;
-    metrics?: { R2?: number; AUC?: number; HR?: number; OR?: number; Beta?: number; H2?: number; };
-    source: "PennPRS" | "PGS Catalog" | "User Trained" | "PennPRS (Custom)" | "User Upload";
+    metrics?: { R2?: number; AUC?: number; HR?: number; OR?: number; Beta?: number; H2?: number; Rho?: number; };
+    source: "PennPRS" | "PGS Catalog" | "User Trained" | "PennPRS (Custom)" | "User Upload" | "OmicsPred";
     download_url?: string;
     num_variants?: number;
     sample_size?: number;
@@ -55,6 +55,8 @@ export interface ModelData {
         label: string;
         url?: string;
     }[];
+    // Development/Training Cohorts
+    dev_cohorts?: string;
     // UI States
     isLoading?: boolean; // For optimistic loading state
     status?: "pending" | "running" | "completed" | "failed";
@@ -168,11 +170,11 @@ export default function ModelCard({ model, onSelect, onViewDetails, activeAncest
     const { displayAUC, displayR2, isMatched } = getDisplayMetrics(model, activeAncestry);
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow p-5 flex flex-col h-full">
-            <div className="flex justify-between items-start mb-3">
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow p-3 flex flex-col h-[280px] w-full">
+            <div className="flex justify-between items-start mb-1">
                 <div>
                     {/* Header: ID, Source, External Link */}
-                    <div className="flex justify-between items-start mb-2">
+                    <div className="flex justify-between items-start mb-1">
                         <div className="flex flex-col">
                             <div className="flex items-center gap-2">
                                 <span className="font-mono text-sm font-bold text-blue-600 dark:text-blue-400">
@@ -206,65 +208,73 @@ export default function ModelCard({ model, onSelect, onViewDetails, activeAncest
                 </div>
             </div>
 
-            <div className="space-y-2 mb-4 flex-1 cursor-pointer" onClick={() => onViewDetails(model)}>
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+            <div className="space-y-1 flex-1 cursor-pointer overflow-hidden" onClick={() => onViewDetails(model)}>
+                <div className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
                     <Activity className="w-4 h-4 text-gray-400" />
                     <div className="truncate font-medium">{model.trait}</div>
                 </div>
-                {/* Tags Row: Method | Ancestry | Training Samples (Explicit Labels & Placeholders) */}
-                <div className="flex flex-col gap-1.5 mb-3">
+                {/* Tags Row: Method | Ancestry | Samples | Cohort (Explicit Labels) */}
+                <div className="flex flex-col gap-0.5">
                     {/* Method */}
-                    <div className="flex items-center gap-2 text-xs">
-                        <span className="text-gray-500 font-medium min-w-[50px]">Method:</span>
-                        <span className="px-2 py-0.5 rounded font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-1.5 text-[11px]">
+                        <span className="text-gray-500 font-medium min-w-[55px]">Method:</span>
+                        <span className="px-1.5 py-0.5 rounded font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 truncate max-w-[150px]">
                             {model.method || "N/A"}
                         </span>
                     </div>
 
                     {/* Training Ancestry */}
-                    <div className="flex items-center gap-2 text-xs">
-                        <span className="text-gray-500 font-medium min-w-[50px]">Ancestry:</span>
-                        <span className="px-2 py-0.5 rounded font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-800">
+                    <div className="flex items-center gap-1.5 text-[11px]">
+                        <span className="text-gray-500 font-medium min-w-[55px]">Ancestry:</span>
+                        <span className="px-1.5 py-0.5 rounded font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-800 truncate max-w-[150px]">
                             {model.ancestry || "N/A"}
                         </span>
                     </div>
 
                     {/* Training Samples */}
-                    <div className="flex items-center gap-2 text-xs">
-                        <span className="text-gray-500 font-medium min-w-[50px]">Samples:</span>
-                        <span className="px-2 py-0.5 rounded font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800">
+                    <div className="flex items-center gap-1.5 text-[11px]">
+                        <span className="text-gray-500 font-medium min-w-[55px]">Samples:</span>
+                        <span className="px-1.5 py-0.5 rounded font-medium bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800 truncate max-w-[150px]">
                             {model.sample_size ? (model.sample_size >= 1000 ? `${(model.sample_size / 1000).toFixed(1)}k` : model.sample_size) : "N/A"}
+                        </span>
+                    </div>
+
+                    {/* Score Development/Training Cohort(s) */}
+                    <div className="flex items-center gap-1.5 text-[11px]">
+                        <span className="text-gray-500 font-medium min-w-[55px]">Cohort:</span>
+                        <span className="px-1.5 py-0.5 rounded font-medium bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-100 dark:border-amber-800 truncate max-w-[150px]" title={model.dev_cohorts || "N/A"}>
+                            {model.dev_cohorts ? (model.dev_cohorts.split(", ").length > 2 ? `${model.dev_cohorts.split(", ").slice(0, 2).join(", ")}...` : model.dev_cohorts) : "N/A"}
                         </span>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 py-2 border-t border-gray-100 dark:border-gray-800">
+                <div className="grid grid-cols-3 gap-1 py-1 border-t border-gray-100 dark:border-gray-800">
                     {/* AUC */}
                     <div className="text-center border-r border-gray-100 dark:border-gray-800 last:border-0">
-                        <div className="text-[10px] text-gray-400 font-medium mb-0.5 uppercase tracking-wider relative inline-block">
+                        <div className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">
                             AUC
                         </div>
-                        <div className={`font-mono font-bold text-sm ${isMatched ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}`}>
+                        <div className={`font-mono font-bold text-xs ${isMatched ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}`}>
                             {displayAUC ? displayAUC.toFixed(3) : "N/A"}
                         </div>
                     </div>
 
                     {/* R2 */}
                     <div className="text-center border-r border-gray-100 dark:border-gray-800 last:border-0">
-                        <div className="text-[10px] text-gray-400 font-medium mb-0.5 uppercase tracking-wider">
+                        <div className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">
                             R²
                         </div>
-                        <div className="font-mono font-bold text-sm text-purple-600 dark:text-purple-400">
+                        <div className="font-mono font-bold text-xs text-purple-600 dark:text-purple-400">
                             {displayR2 ? displayR2.toFixed(4) : "N/A"}
                         </div>
                     </div>
 
                     {/* Variants */}
                     <div className="text-center border-r border-gray-100 dark:border-gray-800 last:border-0">
-                        <div className="text-[10px] text-gray-400 font-medium mb-0.5 uppercase tracking-wider">
+                        <div className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">
                             Variants
                         </div>
-                        <div className="font-mono font-bold text-sm text-gray-700 dark:text-gray-300">
+                        <div className="font-mono font-bold text-xs text-gray-700 dark:text-gray-300">
                             {model.num_variants ? (
                                 model.num_variants > 1000
                                     ? `${(model.num_variants / 1000).toFixed(1)}k`
@@ -278,7 +288,7 @@ export default function ModelCard({ model, onSelect, onViewDetails, activeAncest
             <div className="flex gap-2 mt-auto">
                 <button
                     onClick={() => onViewDetails(model)}
-                    className="flex-1 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg py-2 text-sm font-medium transition-colors"
+                    className="flex-1 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg py-1 text-xs font-medium transition-colors"
                 >
                     Details
                 </button>

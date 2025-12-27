@@ -169,18 +169,35 @@ export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onD
                                         <div className="grid grid-cols-3 gap-2"><span className="text-gray-500">Parameters:</span><span className="col-span-2 text-gray-900 dark:text-gray-100">{model.params || "N/A"}</span></div>
                                         <div className="grid grid-cols-3 gap-2"><span className="text-gray-500">Weight Type:</span><span className="col-span-2 text-gray-900 dark:text-gray-100">{model.weight_type || "N/A"}</span></div>
                                     </div>
+                                    {/* Score Development/Training Cohort(s) */}
+                                    <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+                                        <div className="grid grid-cols-3 gap-2">
+                                            <span className="text-gray-500">Score Development/Training Cohort(s):</span>
+                                            <span className="col-span-2 text-amber-700 dark:text-amber-400 font-medium" title={model.dev_cohorts || "N/A"}>
+                                                {model.dev_cohorts || "N/A"}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {/* Section C: Performance Metrics (Table) */}
                                 <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
-                                    <h5 className="font-bold text-gray-800 dark:text-gray-200 mb-3 font-sans text-sm border-l-4 border-green-500 pl-2">Performance Metrics</h5>
+                                    <h5 className="font-bold text-gray-800 dark:text-gray-200 mb-3 font-sans text-sm border-l-4 border-green-500 pl-2">Performance Metrics (Evaluated Cohorts)</h5>
+
+                                    {/* Dev/Training Cohorts Banner - clarifying the table below shows Evaluated Cohorts */}
+                                    {model.dev_cohorts && (
+                                        <div className="mb-3 p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg text-xs">
+                                            <span className="font-medium text-amber-700 dark:text-amber-400">Score Development/Training Cohort(s): </span>
+                                            <span className="text-amber-600 dark:text-amber-300">{model.dev_cohorts}</span>
+                                        </div>
+                                    )}
 
                                     <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg">
                                         <table className="w-full text-sm text-left">
                                             <thead className="bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
                                                 <tr>
                                                     <th className="px-3 py-2 font-medium">Ancestry</th>
-                                                    <th className="px-3 py-2 font-medium">Cohorts</th>
+                                                    <th className="px-3 py-2 font-medium">Evaluated Cohort(s)</th>
                                                     <th className="px-3 py-2 font-medium text-right">Sample Size</th>
                                                     <th className="px-3 py-2 font-medium text-right">AUC [95% CI]</th>
                                                     <th className="px-3 py-2 font-medium text-right">R²</th>
@@ -296,29 +313,44 @@ export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onD
                                 </button>
                             )}
 
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {/* 1. Evaluate */}
-                                <button onClick={() => onDownstreamAction?.("Evaluate on Cohort")} className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center gap-2 justify-center sm:justify-start">
-                                    <Activity className="w-4 h-4 text-gray-400 group-hover:text-blue-500" /> Evaluate on Cohort
-                                </button>
-                                {/* 2. Ensemble */}
-                                <button onClick={() => onDownstreamAction?.("Build Ensemble Model")} className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center gap-2 justify-center sm:justify-start">
-                                    <BarChart3 className="w-4 h-4 text-gray-400 group-hover:text-blue-500" /> Build Ensemble Model
-                                </button>
-                                {/* 3. Proteomics */}
+                            <div className="space-y-3">
+                                {/* Group 1: Primary Actions - Download & Train */}
+                                <div className="space-y-1.5">
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                                        Ready to use this model? Download it directly, or train a custom model for your specific needs.
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {/* Download */}
+                                        <button
+                                            onClick={() => model.download_url && window.open(model.download_url, '_blank')}
+                                            disabled={!model.download_url}
+                                            className="px-3 py-1.5 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg text-xs font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                                        >
+                                            <Download className="w-3.5 h-3.5" /> Download this Model
+                                        </button>
+                                        {/* Train Custom */}
+                                        <button onClick={() => onTrainNew?.()} className="px-3 py-1.5 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg text-xs font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors flex items-center justify-center gap-1.5">
+                                            <FileText className="w-3.5 h-3.5" /> Train a Custom Model
+                                        </button>
+                                    </div>
+                                </div>
 
-                                {/* 4. Train Custom */}
-                                <button onClick={() => onTrainNew?.()} className="px-4 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-blue-500 hover:text-blue-600 transition-colors flex items-center gap-2 justify-center sm:justify-start">
-                                    <FileText className="w-4 h-4 text-gray-400 group-hover:text-blue-500" /> Train Custom Model
-                                </button>
-                                {/* 5. Download (Full Width) */}
-                                <button
-                                    onClick={() => model.download_url && window.open(model.download_url, '_blank')}
-                                    disabled={!model.download_url}
-                                    className="col-span-1 sm:col-span-2 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-sm font-medium text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center gap-2"
-                                >
-                                    <Download className="w-4 h-4" /> Download Model Files
-                                </button>
+                                {/* Group 2: Exploration Actions - Evaluate & Ensemble */}
+                                <div className="space-y-1.5">
+                                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                                        Further validate or explore this model's potential.
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {/* Evaluate */}
+                                        <button onClick={() => onDownstreamAction?.("Evaluate this Model on Cohort(s)")} className="px-3 py-1.5 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg text-xs font-medium text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors flex items-center justify-center gap-1.5">
+                                            <Activity className="w-3.5 h-3.5" /> Evaluate on Cohort(s)
+                                        </button>
+                                        {/* Ensemble */}
+                                        <button onClick={() => onDownstreamAction?.("Ensemble this Model Across Phenotypes")} className="px-3 py-1.5 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg text-xs font-medium text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors flex items-center justify-center gap-1.5">
+                                            <BarChart3 className="w-3.5 h-3.5" /> Ensemble Across Phenotypes
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
 
                             <div className="flex justify-center mt-2">

@@ -3,12 +3,12 @@ import DiseaseGrid from "./DiseaseGrid";
 import ModelGrid from "./ModelGrid";
 import DownstreamOptions from "./DownstreamOptions";
 import { ModelData } from "./ModelCard";
-import { Search, Database, ArrowLeft } from "lucide-react";
+import { Search, Database, ArrowLeft, Construction } from "lucide-react";
 import TrainingConfigForm, { TrainingConfig } from "./TrainingConfigForm";
 
 import AncestrySelection from "./AncestrySelection";
 
-export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_config' | 'ancestry_selection';
+export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_config' | 'ancestry_selection' | 'coming_soon' | 'protein_search' | 'protein_grid';
 
 interface CanvasAreaProps {
     view: ViewType;
@@ -217,6 +217,31 @@ export default function CanvasArea({
                             trait={downstreamOps.trait}
                             onAction={onDownstreamAction}
                         />
+                    </div>
+                )}
+
+                {/* View: Coming Soon (Under Development) */}
+                {view === 'coming_soon' && (
+                    <div className="flex flex-col items-center justify-center min-h-[60vh] animate-in fade-in zoom-in-95 duration-500">
+                        <div className="text-center space-y-6 max-w-md">
+                            <div className="w-24 h-24 mx-auto rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                                <Construction className="w-12 h-12 text-amber-600 dark:text-amber-400" />
+                            </div>
+                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                                Feature Under Development
+                            </h1>
+                            <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                                This feature is currently being developed and will be available in a future release.
+                                Thank you for your patience!
+                            </p>
+                            <button
+                                onClick={onBackToSelection}
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                            >
+                                <ArrowLeft className="w-4 h-4" />
+                                Return to Previous Page
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

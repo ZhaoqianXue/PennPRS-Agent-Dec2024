@@ -11,7 +11,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ModelData } from "./ModelCard"
 
 export interface StructuredResponse {
-    type: 'model_grid' | 'downstream_options' | 'model_update';
+    type: 'model_grid' | 'downstream_options' | 'model_update' | 'protein_grid' | 'protein_detail';
     models?: ModelData[];
     downstream?: {
         modelId: string;
@@ -22,6 +22,9 @@ export interface StructuredResponse {
     // Rich content fields (mirrored from backend)
     best_model?: ModelData;
     actions?: string[];
+    // Protein-specific fields
+    search_query?: string;
+    platform?: string;
 }
 
 interface Message {
@@ -34,6 +37,7 @@ interface Message {
     isProgress?: boolean
     progressData?: { status: string; total: number; fetched: number; current_action: string } | null
     footer?: string // Footer text below progress
+    isWaitingForAncestry?: boolean
 }
 
 interface ChatInterfaceProps {
@@ -74,7 +78,7 @@ export default function ChatInterface(props: ChatInterfaceProps) {
         {
             id: "welcome",
             role: "agent",
-            content: "Welcome to PennPRS! I'm PennPRS Agent — here to help you navigate and use this platform. I can answer questions, design research workflows, and analyze results. Let me know what you need help with! First, you can type in the chat box or select a disease of interest from the side panel, and I can recommend the corresponding PRS Model for you!"
+            content: "Welcome to PennPRS Lab! I'm your research assistant — here to help you navigate and leverage this platform. I can answer questions, design research workflows, and analyze results. Let me know what you need help with! To begin, you can type in the chat box or select a disease of interest from the side panel, and I'll recommend the most suitable PRS models for you."
         }
     ])
     const [input, setInput] = useState("")
@@ -90,6 +94,15 @@ export default function ChatInterface(props: ChatInterfaceProps) {
 
     // REF to track latest progress for async access in handleSend
     const searchProgressRef = useRef<{ status: string; total: number; fetched: number; current_action: string } | null>(null);
+
+    // Update messages when ancestry is submitted
+    useEffect(() => {
+        if (props.hasSelectedAncestry) {
+            setMessages(prev => prev.map(m =>
+                m.isWaitingForAncestry ? { ...m, isWaitingForAncestry: false } : m
+            ));
+        }
+    }, [props.hasSelectedAncestry]);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -116,7 +129,8 @@ export default function ChatInterface(props: ChatInterfaceProps) {
             role: 'agent',
             content: "Initializing search...",
             isProgress: true,
-            progressData: null
+            progressData: null,
+            isWaitingForAncestry: !props.hasSelectedAncestry
         };
         currentProgressMsgId.current = progressId;
 
@@ -167,10 +181,11 @@ export default function ChatInterface(props: ChatInterfaceProps) {
 
             // CORRECT TOTAL Calculation from Response (Priority: Response > Ref > State)
             let finalCount = 0;
+            const progressSnapshot = searchProgressRef.current as { status: string; total: number; fetched: number; current_action: string } | null;
             if (sr && sr.type === 'model_grid' && sr.models) {
                 finalCount = sr.models.length;
-            } else if (searchProgressRef.current && searchProgressRef.current.total) { // Use Ref!
-                finalCount = searchProgressRef.current.total;
+            } else if (progressSnapshot && progressSnapshot.total) {
+                finalCount = progressSnapshot.total;
             }
 
             // Final Progress State (Done - 100% Full)
@@ -216,11 +231,6 @@ export default function ChatInterface(props: ChatInterfaceProps) {
 
                     // 2. Bottom Text (Footer)
                     let footerContent = `Found **${finalCount}** models.`;
-
-                    // Add reminder if ancestry NOT selected and we are in deferral mode (waiting for context)
-                    if (shouldDefer && !props.hasSelectedAncestry) {
-                        footerContent += "\n\n**Action Required:** Please select your target ancestry from the panel on the left to specific model recommendations.";
-                    }
 
                     return {
                         ...m,
@@ -278,7 +288,7 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                 id: `ext-${Date.now()}`,
                 role: 'agent',
                 content: props.externalAgentMessage,
-                modelCard: props.externalAgentModel,
+                modelCard: props.externalAgentModel ?? undefined,
                 actions: props.externalAgentActions || ["View Details", "Use this Model", "Train Custom Model"]
             };
             setMessages(prev => [...prev, agentMsg]);
@@ -300,12 +310,12 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                             >
                                 <ChatBubble
                                     role={msg.role}
-                                    content={msg.content}
+                                    content={msg.isWaitingForAncestry ? "Action Required: Please select your target ancestry from the panel on the left to specific model recommendations." : msg.content}
                                     modelCard={msg.modelCard}
                                     actions={msg.actions}
                                     // Inject live progress if this is the active progress message
-                                    progress={msg.id === currentProgressMsgId.current ? searchProgress : msg.progressData}
-                                    footer={msg.footer}
+                                    progress={msg.isWaitingForAncestry ? null : (msg.id === currentProgressMsgId.current ? searchProgress : msg.progressData)}
+                                    footer={msg.isWaitingForAncestry ? undefined : msg.footer}
                                     onViewDetails={onViewDetails}
                                     onTrainNew={onTrainNew}
                                     onDownstreamAction={onDownstreamAction}
@@ -373,7 +383,7 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                     </Button>
                 </div>
                 <div className="text-center text-xs text-muted-foreground mt-2">
-                    PennPRS Agent &copy; 2025
+                    PennPRS Lab &copy; 2025
                 </div>
             </div>
         </div >

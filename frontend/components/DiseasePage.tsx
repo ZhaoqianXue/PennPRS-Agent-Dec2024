@@ -5,7 +5,7 @@ import ChatInterface, { StructuredResponse } from "./ChatInterface";
 import CanvasArea, { ViewType } from "./CanvasArea";
 import { ModelData } from "./ModelCard";
 import ModelDetailModal from "./ModelDetailModal";
-import { ArrowLeft } from "lucide-react";
+import { Home } from "lucide-react";
 import { TrainingConfig } from "./TrainingConfigForm";
 
 interface DiseasePageProps {
@@ -121,16 +121,15 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                 }
 
                 msg += `The model with the highest AUC is **${best.name}** (ID: ${best.id}).\n`;
-                msg += `I've displayed the best model card below. You can view detailed information for this result and others in the **Canvas** panel.\n\n`;
-                msg += `How would you like to proceed?`;
+                msg += `I've displayed the best model card below. You can view detailed information for this result and others in the **Canvas** panel.`;
 
                 setSmartRecommendation(msg);
                 setSmartRecommendationModel(best);
                 setSmartRecommendationActions([
-                    "Evaluate on Cohort",
-                    "Build Ensemble Model",
-                    "Download Model",
-                    "Train Custom Model"
+                    "Evaluate this Model on Cohort(s)",
+                    "Ensemble this Model Across Phenotypes",
+                    "Download this Model",
+                    "Train a Custom Model"
                 ]);
             } else {
                 const ancLabel = selectedAncestry.map(a => ancestryMap[a] || a).join(", ");
@@ -222,10 +221,12 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         setActiveView('model_grid');
 
         let prompt = `I want to train a new model for ${config.trait} (Ancestry: ${config.ancestry}) named '${config.jobName}'.`;
+        prompt += `\nEmail: ${config.email}`;
+        prompt += `\nJob Type: ${config.jobType}`;
         prompt += `\nMethods: ${config.methods.join(', ')}`;
         if (config.ensemble) prompt += `\nEnsemble: Enabled`;
         if (config.dataSourceType === 'public') {
-            prompt += `\nData Source: Public GWAS (ID: ${config.gwasId || "Auto"})`;
+            prompt += `\nData Source: Public ${config.database || "GWAS Catalog"} (ID: ${config.gwasId || "Auto"})`;
         } else {
             prompt += `\nData Source: User Upload (${config.uploadedFileName})`;
             prompt += `\n[SYSTEM NOTE: File content handling simulated for agent prototype]`;
@@ -233,6 +234,17 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         prompt += `\nTrait Type: ${config.traitType}, Sample Size: ${config.sampleSize}`;
         if (config.advanced) {
             prompt += `\nHyperparams: kb=${config.advanced.kb}, r2=${config.advanced.r2}, pval_thr=${config.advanced.pval_thr}`;
+            // Add new advanced params if present
+            if (config.advanced.delta) prompt += `, delta=${config.advanced.delta}`;
+            if (config.advanced.nlambda) prompt += `, nlambda=${config.advanced.nlambda}`;
+            if (config.advanced.lambda_min_ratio) prompt += `, lambda_min_ratio=${config.advanced.lambda_min_ratio}`;
+            if (config.advanced.alpha) prompt += `, alpha=${config.advanced.alpha}`;
+            if (config.advanced.p_seq) prompt += `, p_seq=${config.advanced.p_seq}`;
+            if (config.advanced.sparse !== undefined) prompt += `, sparse=${config.advanced.sparse}`;
+            if (config.advanced.Ll) prompt += `, Ll=${config.advanced.Ll}`;
+            if (config.advanced.Lc) prompt += `, Lc=${config.advanced.Lc}`;
+            if (config.advanced.ndelta) prompt += `, ndelta=${config.advanced.ndelta}`;
+            if (config.advanced.phi) prompt += `, phi=${config.advanced.phi}`;
         }
 
         triggerChat(prompt);
@@ -241,7 +253,13 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     };
 
     const handleDownstreamAction = (action: string) => {
-        triggerChat(`I want to perform ${action} analysis on the selected model.`);
+        // Check if action is Evaluate or Ensemble - these are under development
+        if (action.includes("Evaluate") || action.includes("Ensemble")) {
+            setPreviousView(activeView);
+            setActiveView('coming_soon');
+        } else {
+            triggerChat(`I want to perform ${action} analysis on the selected model.`);
+        }
     };
 
     // --- Mode Selection Handlers ---
@@ -287,7 +305,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         className="text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors"
                         title="Back to Modules"
                     >
-                        <ArrowLeft size={20} />
+                        <Home size={20} />
                     </button>
                     <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Disease PRS Module</span>
                 </div>
@@ -365,7 +383,6 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                             if (s) setIsSearchComplete(false);
                         }}
                         deferAnalysis={true}
-                        externalAgentMessage={smartRecommendation}
                         externalAgentMessage={smartRecommendation}
                         externalAgentModel={smartRecommendationModel}
                         externalAgentActions={smartRecommendationActions}

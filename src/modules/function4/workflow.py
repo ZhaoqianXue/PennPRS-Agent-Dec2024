@@ -29,7 +29,7 @@ class AgentState(TypedDict):
     request_id: str # Tracking ID for progress polling
 
 # Initialize LLM
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatOpenAI(model="gpt-5-nano", temperature=0)
 
 # Initialize Clients
 client = PennPRSClient()
@@ -296,6 +296,26 @@ def _fetch_formatted_models(trait: str, request_id: str = None):
             
             return total if total > 0 else 0
 
+        # Extract Development/Training Cohorts from samples_variants AND samples_training
+        dev_cohorts_list = []
+        # Check samples_variants (GWAS source cohorts)
+        samples_variants = details.get("samples_variants", [])
+        for sv in samples_variants:
+            cohorts = sv.get("cohorts", [])
+            for c in cohorts:
+                name_short = c.get("name_short")
+                if name_short and name_short not in dev_cohorts_list:
+                    dev_cohorts_list.append(name_short)
+        # Check samples_training (Training cohorts)
+        samples_training = details.get("samples_training", [])
+        for st in samples_training:
+            cohorts = st.get("cohorts", [])
+            for c in cohorts:
+                name_short = c.get("name_short")
+                if name_short and name_short not in dev_cohorts_list:
+                    dev_cohorts_list.append(name_short)
+        dev_cohorts_str = ", ".join(dev_cohorts_list) if dev_cohorts_list else None
+
         model_cards.append({
             "id": pid,
             "name": details.get('name') or res.get('name', 'Unnamed Model'),
@@ -309,7 +329,7 @@ def _fetch_formatted_models(trait: str, request_id: str = None):
             "sample_size": get_sample_size_safe(details), # Safe extraction
             "source": "PGS Catalog",
 
-            "download_url": res.get('ftp_scoring_file'),
+            "download_url": details.get('ftp_scoring_file') or res.get('ftp_scoring_file'),
             # New Fields
             "trait_detailed": details.get("trait_reported"),
             "trait_efo": [t.get("id") for t in details.get("trait_efo", [])], # Keep simple list for compatibility if needed
@@ -325,7 +345,9 @@ def _fetch_formatted_models(trait: str, request_id: str = None):
             "weight_type": details.get("weight_type"),
             "params": details.get("method_params"),
             "variants_genomebuild": details.get("variants_genomebuild"),
-            "trait_reported": details.get("trait_reported")
+            "trait_reported": details.get("trait_reported"),
+            # Development/Training Cohorts
+            "dev_cohorts": dev_cohorts_str
         })
 
 
@@ -416,14 +438,13 @@ def pgs_search(state: AgentState):
         best_model_data = model_cards[0]
         
         msg += f"The model with the highest AUC is **{best_model_data.get('name')}** (ID: {best_model_data.get('id')}).\n"
-        msg += "I've displayed the best model card below. You can view detailed information for this result and others in the **Canvas** panel.\n\n"
-        msg += "How would you like to proceed?"
+        msg += "I've displayed the best model card below. You can view detailed information for this result and others in the **Canvas** panel."
 
         options = [
-            "Evaluate on Cohort",
-            "Build Ensemble Model",
-            "Download Model",
-            "Train Custom Model"
+            "Evaluate this Model on Cohort(s)",
+            "Ensemble this Model Across Phenotypes",
+            "Download this Model",
+            "Train a Custom Model"
         ]
     else:
         msg += "No models found. Would you like to **Train Custom Model**?"
