@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Download, Activity, Dna, Info, BarChart3, FileText, CheckCircle2 } from 'lucide-react';
+import { X, Download, Activity, Dna, Info, BarChart3, FileText, CheckCircle2, Bookmark } from 'lucide-react';
 import { ModelData, getDisplayMetrics } from './ModelCard';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -11,9 +11,12 @@ interface ModelDetailModalProps {
     onDeepScan?: (modelId: string) => void;
     onTrainNew?: () => void;
     onDownstreamAction?: (action: string) => void;
+    onModelDownload?: (model: ModelData, event?: React.MouseEvent) => void;
+    onModelSave?: (model: ModelData, event?: React.MouseEvent) => void;
+    isModelSaved?: boolean;
 }
 
-export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onDeepScan, onTrainNew, onDownstreamAction }: ModelDetailModalProps) {
+export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onDeepScan, onTrainNew, onDownstreamAction, onModelDownload, onModelSave, isModelSaved }: ModelDetailModalProps) {
     if (!model) return null;
 
     return (
@@ -313,43 +316,50 @@ export default function ModelDetailModal({ model, isOpen, onClose, onSelect, onD
                                 </button>
                             )}
 
-                            <div className="space-y-3">
-                                {/* Group 1: Primary Actions - Download & Train */}
+                            <div className="space-y-4">
+                                {/* Group 1: Download & Save Actions - Green/Teal Theme */}
                                 <div className="space-y-1.5">
                                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                                        Ready to use this model? Download it directly, or train a custom model for your specific needs.
+                                        Download this model to use it, or save it for later access. Both options will bookmark the model for easy retrieval.
                                     </p>
                                     <div className="grid grid-cols-2 gap-2">
-                                        {/* Download */}
+                                        {/* Download - triggers download + save */}
                                         <button
-                                            onClick={() => model.download_url && window.open(model.download_url, '_blank')}
-                                            disabled={!model.download_url}
-                                            className="px-3 py-1.5 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg text-xs font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
+                                            onClick={(e) => onModelDownload ? onModelDownload(model, e) : (model.download_url && window.open(model.download_url, '_blank'))}
+                                            disabled={!model.download_url && !onModelDownload}
+                                            className="px-3 py-1.5 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg text-xs font-medium text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors flex items-center justify-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed"
                                         >
                                             <Download className="w-3.5 h-3.5" /> Download this Model
                                         </button>
-                                        {/* Train Custom */}
-                                        <button onClick={() => onTrainNew?.()} className="px-3 py-1.5 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg text-xs font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors flex items-center justify-center gap-1.5">
-                                            <FileText className="w-3.5 h-3.5" /> Train a Custom Model
+                                        {/* Save - bookmark only, no download */}
+                                        <button
+                                            onClick={(e) => onModelSave?.(model, e)}
+                                            disabled={isModelSaved}
+                                            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-1.5 ${isModelSaved
+                                                    ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700/50 text-green-700 dark:text-green-300 cursor-default'
+                                                    : 'bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30'
+                                                }`}
+                                        >
+                                            {isModelSaved ? (
+                                                <><CheckCircle2 className="w-3.5 h-3.5" /> Saved</>
+                                            ) : (
+                                                <><Bookmark className="w-3.5 h-3.5" /> Save this Model</>
+                                            )}
                                         </button>
                                     </div>
                                 </div>
 
-                                {/* Group 2: Exploration Actions - Evaluate & Ensemble */}
+                                {/* Group 2: Train Custom - Purple Theme */}
                                 <div className="space-y-1.5">
                                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                                        Further validate or explore this model's potential.
+                                        Want a model tailored to your specific needs? Train a custom model with your own data.
                                     </p>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        {/* Evaluate */}
-                                        <button onClick={() => onDownstreamAction?.("Evaluate this Model on Cohort(s)")} className="px-3 py-1.5 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg text-xs font-medium text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors flex items-center justify-center gap-1.5">
-                                            <Activity className="w-3.5 h-3.5" /> Evaluate on Cohort(s)
-                                        </button>
-                                        {/* Ensemble */}
-                                        <button onClick={() => onDownstreamAction?.("Ensemble this Model Across Phenotypes")} className="px-3 py-1.5 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg text-xs font-medium text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-colors flex items-center justify-center gap-1.5">
-                                            <BarChart3 className="w-3.5 h-3.5" /> Ensemble Across Phenotypes
-                                        </button>
-                                    </div>
+                                    <button
+                                        onClick={() => onTrainNew?.()}
+                                        className="w-full px-3 py-1.5 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg text-xs font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors flex items-center justify-center gap-1.5"
+                                    >
+                                        <FileText className="w-3.5 h-3.5" /> Train a Custom Model
+                                    </button>
                                 </div>
                             </div>
 

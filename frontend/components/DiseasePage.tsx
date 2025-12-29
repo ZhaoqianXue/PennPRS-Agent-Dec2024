@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ChatInterface, { StructuredResponse } from "./ChatInterface";
 import CanvasArea, { ViewType } from "./CanvasArea";
 import { ModelData } from "./ModelCard";
 import ModelDetailModal from "./ModelDetailModal";
-import { Home } from "lucide-react";
+import { Home, Bookmark, Download } from "lucide-react";
 import { TrainingConfig } from "./TrainingConfigForm";
 import { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface DiseasePageProps {
     onBack: () => void;
@@ -26,6 +27,9 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     // Active Modals State
     const [selectedModelDetails, setSelectedModelDetails] = useState<ModelData | null>(null);
 
+    // Selected Model for Actions Page (after download)
+    const [selectedActionModel, setSelectedActionModel] = useState<ModelData | null>(null);
+
     // External Trigger Mechanism
     const [externalTriggerDetails, setExternalTriggerDetails] = useState<string | null>(null);
 
@@ -37,6 +41,60 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     // Ancestry Selection State
     const [selectedAncestry, setSelectedAncestry] = useState<string[]>([]);
     const [isAncestrySubmitted, setIsAncestrySubmitted] = useState(false);
+
+    // Saved/Downloaded Models State
+    const [savedModels, setSavedModels] = useState<ModelData[]>([]);
+
+    // Flying Animation State
+    const [flyingModel, setFlyingModel] = useState<{ model: ModelData; startPos: { x: number; y: number } } | null>(null);
+    const savedButtonRef = useRef<HTMLButtonElement>(null);
+
+    // Navigation History - Simple Stack
+    const [viewStack, setViewStack] = useState<ViewType[]>(['mode_selection']);
+    const [forwardStack, setForwardStack] = useState<ViewType[]>([]);
+
+    // Push a new view onto the stack (used for forward navigation)
+    const pushView = (newView: ViewType) => {
+        setViewStack(prev => [...prev, newView]);
+        setForwardStack([]); // Clear forward history when navigating to new view
+        setActiveView(newView);
+    };
+
+    // Go back one step
+    const goBack = () => {
+        if (viewStack.length > 1) {
+            const newStack = [...viewStack];
+            const currentView = newStack.pop()!;
+            const previousView = newStack[newStack.length - 1];
+
+            setViewStack(newStack);
+            setForwardStack(prev => [currentView, ...prev]);
+
+            // Cleanup for specific views
+            if (activeView === 'model_actions') {
+                setSelectedActionModel(null);
+            } else if (activeView === 'model_grid') {
+                setIsAncestrySubmitted(false);
+            }
+
+            setActiveView(previousView);
+        }
+    };
+
+    // Go forward one step
+    const goForward = () => {
+        if (forwardStack.length > 0) {
+            const newForwardStack = [...forwardStack];
+            const nextView = newForwardStack.shift()!;
+
+            setForwardStack(newForwardStack);
+            setViewStack(prev => [...prev, nextView]);
+            setActiveView(nextView);
+        }
+    };
+
+    const canGoBack = viewStack.length > 1;
+    const canGoForward = forwardStack.length > 0;
 
     const triggerChat = (msg: string) => {
         setExternalTriggerDetails(msg);
@@ -59,7 +117,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         setSmartRecommendationActions(null);
 
         // SWITCH to Ancestry Selection immediately
-        setActiveView('ancestry_selection');
+        pushView('ancestry_selection');
 
         // TRIGGER Search
         triggerChat(`I want to search for models for ${trait}`);
@@ -127,8 +185,6 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                 setSmartRecommendation(msg);
                 setSmartRecommendationModel(best);
                 setSmartRecommendationActions([
-                    "Evaluate this Model on Cohort(s)",
-                    "Ensemble this Model Across Phenotypes",
                     "Download this Model",
                     "Train a Custom Model"
                 ]);
@@ -139,7 +195,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                 setSmartRecommendationActions(["Train Custom Model"]);
             }
 
-            setActiveView('model_grid');
+            pushView('model_grid');
         }
     }, [activeView, isSearchComplete, isAncestrySubmitted, models, selectedAncestry, currentTrait]);
 
@@ -157,13 +213,13 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
 
             // If user has already submitted ancestry choice, move them to grid
             if (isAncestrySubmitted) {
-                setActiveView('model_grid');
+                pushView('model_grid');
             }
             // Else: Do nothing, models are stored. User is still selecting.
 
         } else if (response.type === 'downstream_options') {
             setDownstreamOps(response.downstream || null);
-            setActiveView('downstream_options');
+            pushView('downstream_options');
         } else if (response.type === 'model_update' && response.model_update) {
             // ... (existing update logic)
             const { model_id, updates } = response.model_update;
@@ -200,7 +256,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     const handleTrainNew = () => {
         // Switch to the train type selection page first
         setPreviousView(activeView);
-        setActiveView('train_type_selection');
+        pushView('train_type_selection');
     };
 
     const handleTrainingSubmit = (config: TrainingConfig) => {
@@ -219,7 +275,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         };
 
         setModels(prev => [pendingModel, ...prev]);
-        setActiveView('model_grid');
+        pushView('model_grid');
 
         let prompt = `I want to train a new model for ${config.trait} (Ancestry: ${config.ancestry}) named '${config.jobName}'.`;
         prompt += `\nEmail: ${config.email}`;
@@ -265,10 +321,74 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         // Check if action is Evaluate or Ensemble - these are under development
         if (action.includes("Evaluate") || action.includes("Ensemble")) {
             setPreviousView(activeView);
-            setActiveView('coming_soon');
+            pushView('coming_soon');
         } else {
             triggerChat(`I want to perform ${action} analysis on the selected model.`);
         }
+    };
+
+    // --- Handle Model Save (Bookmark only, no download) ---
+    const handleModelSave = (model: ModelData, event?: React.MouseEvent) => {
+        // Check if already saved
+        if (savedModels.some(m => m.id === model.id)) {
+            return; // Already saved
+        }
+
+        // Get start position for animation
+        let startPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        if (event) {
+            startPos = { x: event.clientX, y: event.clientY };
+        }
+
+        // Trigger flying animation
+        setFlyingModel({ model, startPos });
+
+        // Add to saved models after a short delay (for animation)
+        setTimeout(() => {
+            setSavedModels(prev => [model, ...prev]);
+            setFlyingModel(null);
+        }, 600);
+
+        // Navigate to actions page
+        setSelectedActionModel(model);
+        setPreviousView(activeView);
+        pushView('model_actions');
+    };
+
+    // --- Handle Model Download with Navigation to Actions Page ---
+    const handleModelDownload = (model: ModelData, event?: React.MouseEvent) => {
+        // Trigger download if URL is available
+        if (model.download_url) {
+            window.open(model.download_url, '_blank');
+        }
+
+        // Also save the model (bookmark)
+        if (!savedModels.some(m => m.id === model.id)) {
+            // Get start position for animation
+            let startPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+            if (event) {
+                startPos = { x: event.clientX, y: event.clientY };
+            }
+
+            // Trigger flying animation
+            setFlyingModel({ model, startPos });
+
+            // Add to saved models after animation
+            setTimeout(() => {
+                setSavedModels(prev => [model, ...prev]);
+                setFlyingModel(null);
+            }, 600);
+        }
+
+        // Set the selected model for the actions page and navigate
+        setSelectedActionModel(model);
+        setPreviousView(activeView);
+        pushView('model_actions');
+    };
+
+    // --- Remove Model from Saved ---
+    const handleRemoveSavedModel = (modelId: string) => {
+        setSavedModels(prev => prev.filter(m => m.id !== modelId));
     };
 
     // --- Multi-Ancestry Training Submit ---
@@ -289,7 +409,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         };
 
         setModels(prev => [pendingModel, ...prev]);
-        setActiveView('model_grid');
+        pushView('model_grid');
 
         // Build prompt for agent to submit to PennPRS API
         let prompt = `I want to train a Multi-Ancestry PRS model named '${config.jobName}' for trait '${config.trait}'.`;
@@ -327,48 +447,28 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
 
     const handleModeSelect = (mode: 'search' | 'train') => {
         if (mode === 'search') {
-            setActiveView('disease_selection');
+            pushView('disease_selection');
         } else {
             // For train, navigate to train type selection first
             setPreviousView('mode_selection');
-            setActiveView('train_type_selection');
+            pushView('train_type_selection');
         }
     };
 
     const handleTrainTypeSelect = (type: 'single' | 'multi') => {
         if (type === 'single') {
             setPreviousView('train_type_selection');
-            setActiveView('train_config');
+            pushView('train_config');
         } else {
             // Multi-ancestry - Navigate to multi-ancestry form
             setPreviousView('train_type_selection');
-            setActiveView('train_multi_config');
+            pushView('train_multi_config');
         }
     };
 
     const handleBackToPrevious = () => {
-        if (activeView === 'train_config') {
-            setActiveView('train_type_selection');
-        } else if (activeView === 'train_multi_config') {
-            setActiveView('train_type_selection');
-        } else if (activeView === 'train_type_selection') {
-            setActiveView('mode_selection');
-        } else if (activeView === 'coming_soon') {
-            setActiveView(previousView);
-        } else if (activeView === 'model_grid') {
-            // Back from grid -> Go to ancestry selection to allow re-choice? Or Disease?
-            // User requested: "Back to Disease List" for Model Grid previously.
-            // But now flow is Disease -> Ancestry -> Grid.
-            // Let's decide: Back should go to Ancestry Selection to refine.
-            setActiveView('ancestry_selection');
-            // BUT ensure we don't reset everything (isAncestrySubmitted=true maybe should be false if we go back?)
-            setIsAncestrySubmitted(false); // Enable editing again
-        } else if (activeView === 'ancestry_selection') {
-            setActiveView('disease_selection');
-        } else {
-            // Default back behavior for other views
-            setActiveView('mode_selection');
-        }
+        // Simply go back one step in the navigation stack
+        goBack();
     };
 
     // --- RENDER ---
@@ -391,6 +491,9 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                     {(activeView !== 'mode_selection') && (
                         <button
                             onClick={() => {
+                                // Reset navigation stack and go to mode_selection
+                                setViewStack(['mode_selection']);
+                                setForwardStack([]);
                                 setActiveView('mode_selection');
                                 setCurrentTrait(null);
                                 setModels([]);
@@ -400,8 +503,53 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                             Start Over
                         </button>
                     )}
+
+                    {/* My Models Button - Navigate to my_models view */}
+                    <button
+                        ref={savedButtonRef}
+                        onClick={() => {
+                            setPreviousView(activeView);
+                            pushView('my_models');
+                        }}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg text-sm font-medium text-violet-700 dark:text-violet-300 hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors"
+                    >
+                        <Bookmark className="w-4 h-4" />
+                        <span>My Models</span>
+                        {savedModels.length > 0 && (
+                            <span className="ml-1 px-1.5 py-0.5 text-xs bg-violet-600 text-white rounded-full min-w-[20px] text-center">
+                                {savedModels.length}
+                            </span>
+                        )}
+                    </button>
                 </div>
             </header>
+
+            {/* Flying Animation */}
+            <AnimatePresence>
+                {flyingModel && savedButtonRef.current && (
+                    <motion.div
+                        initial={{
+                            x: flyingModel.startPos.x - 20,
+                            y: flyingModel.startPos.y - 20,
+                            scale: 1,
+                            opacity: 1
+                        }}
+                        animate={{
+                            x: savedButtonRef.current.getBoundingClientRect().left + savedButtonRef.current.getBoundingClientRect().width / 2 - 20,
+                            y: savedButtonRef.current.getBoundingClientRect().top + savedButtonRef.current.getBoundingClientRect().height / 2 - 20,
+                            scale: 0.3,
+                            opacity: 0.8
+                        }}
+                        exit={{ opacity: 0, scale: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className="fixed z-[100] pointer-events-none"
+                    >
+                        <div className="w-10 h-10 bg-violet-500 rounded-lg shadow-lg flex items-center justify-center">
+                            <Bookmark className="w-5 h-5 text-white" />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Split Layout */}
             <div className="flex-1 flex overflow-hidden">
@@ -428,6 +576,20 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         isSearchComplete={isSearchComplete}
                         onAncestrySubmit={handleAncestrySubmit}
                         activeAncestry={selectedAncestry}
+                        // Model Actions Page
+                        selectedActionModel={selectedActionModel}
+                        // My Models Page
+                        savedModels={savedModels}
+                        onRemoveSavedModel={handleRemoveSavedModel}
+                        onSelectSavedModel={(model) => {
+                            setSelectedActionModel(model);
+                            setPreviousView(activeView);
+                            pushView('model_actions');
+                        }}
+                        // Navigation Props
+                        onGoToModelGrid={() => pushView('model_grid')}
+                        canGoForward={canGoForward}
+                        onGoForward={goForward}
                     />
 
                     {/* Modals placed here to be relative to the App or Global */}
@@ -442,6 +604,15 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         onDeepScan={handleDeepScan}
                         onTrainNew={handleTrainNew}
                         onDownstreamAction={handleDownstreamAction}
+                        onModelDownload={(model, event) => {
+                            setSelectedModelDetails(null);
+                            handleModelDownload(model, event);
+                        }}
+                        onModelSave={(model, event) => {
+                            setSelectedModelDetails(null);
+                            handleModelSave(model, event);
+                        }}
+                        isModelSaved={selectedModelDetails ? savedModels.some(m => m.id === selectedModelDetails.id) : false}
                     />
 
 
@@ -456,6 +627,8 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         onViewDetails={setSelectedModelDetails}
                         onTrainNew={handleTrainNew}
                         onDownstreamAction={handleDownstreamAction}
+                        onModelDownload={handleModelDownload}
+                        onModelSave={handleModelSave}
                         onProgressUpdate={(p) => setSearchProgress(p)}
                         onSearchStatusChange={(s) => {
                             setIsSearching(s);
@@ -467,6 +640,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         externalAgentModel={smartRecommendationModel}
                         externalAgentActions={smartRecommendationActions}
                         hasSelectedAncestry={isAncestrySubmitted}
+                        savedModelIds={savedModels.map(m => m.id)}
                     />
                 </div>
 

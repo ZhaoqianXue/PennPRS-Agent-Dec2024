@@ -2,14 +2,14 @@ import React from "react";
 import DiseaseGrid from "./DiseaseGrid";
 import ModelGrid from "./ModelGrid";
 import DownstreamOptions from "./DownstreamOptions";
-import { ModelData } from "./ModelCard";
-import { Search, Database, ArrowLeft, Construction, Users, User } from "lucide-react";
+import ModelCard, { ModelData, getDisplayMetrics } from "./ModelCard";
+import { Search, Database, ArrowLeft, ArrowRight, Construction, Users, User, Bookmark, Trash2, Download, Activity, Layers, CheckCircle2 } from "lucide-react";
 import TrainingConfigForm, { TrainingConfig } from "./TrainingConfigForm";
 import MultiAncestryTrainingForm, { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
 
 import AncestrySelection from "./AncestrySelection";
 
-export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'coming_soon' | 'protein_search' | 'protein_grid';
+export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'coming_soon' | 'protein_search' | 'protein_grid' | 'model_actions' | 'my_models';
 
 interface CanvasAreaProps {
     view: ViewType;
@@ -24,13 +24,23 @@ interface CanvasAreaProps {
     onModeSelect: (mode: 'search' | 'train') => void;
     onBackToSelection: () => void;
     onTrainingSubmit: (config: TrainingConfig) => void;
-    onMultiAncestrySubmit?: (config: MultiAncestryTrainingConfig) => void; // NEW
+    onMultiAncestrySubmit?: (config: MultiAncestryTrainingConfig) => void;
     onTrainTypeSelect?: (type: 'single' | 'multi') => void;
     // New Props for Ancestry & Concurrent Search
     searchProgress?: { status: string; total: number; fetched: number; current_action: string } | null;
     isSearchComplete?: boolean;
     onAncestrySubmit?: (ancestries: string[]) => void;
     activeAncestry?: string[];
+    // Model Actions Page Props
+    selectedActionModel?: ModelData | null;
+    // My Models Page Props
+    savedModels?: ModelData[];
+    onRemoveSavedModel?: (modelId: string) => void;
+    onSelectSavedModel?: (model: ModelData) => void;
+    // Navigation Props
+    onGoToModelGrid?: () => void;
+    canGoForward?: boolean;
+    onGoForward?: () => void;
 }
 
 export default function CanvasArea({
@@ -51,7 +61,14 @@ export default function CanvasArea({
     searchProgress,
     isSearchComplete,
     onAncestrySubmit,
-    activeAncestry
+    activeAncestry,
+    selectedActionModel,
+    savedModels,
+    onRemoveSavedModel,
+    onSelectSavedModel,
+    onGoToModelGrid,
+    canGoForward,
+    onGoForward
 }: CanvasAreaProps) {
 
     return (
@@ -370,6 +387,354 @@ export default function CanvasArea({
                                 <ArrowLeft className="w-4 h-4" />
                                 Return to Previous Page
                             </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* View: Model Actions (After Download/Save) - Using ModelDetailModal-style content */}
+                {view === 'model_actions' && selectedActionModel && (() => {
+                    const model = selectedActionModel;
+                    const { displayAUC, displayR2, isMatched, isDerived, matchedAncestry } = getDisplayMetrics(model);
+
+                    return (
+                        <div className="animate-in fade-in duration-500 min-h-full">
+                            {/* Gradient Background */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-violet-50 dark:from-gray-900 dark:via-gray-900 dark:to-violet-950/30" />
+
+                            <div className="relative z-10">
+                                {/* Navigation Header */}
+                                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200/50 dark:border-gray-700/50 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            onClick={onBackToSelection}
+                                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        >
+                                            <ArrowLeft size={18} />
+                                            <span className="text-sm font-medium">Back</span>
+                                        </button>
+                                        <button
+                                            onClick={onGoForward}
+                                            disabled={!canGoForward}
+                                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30 disabled:cursor-not-allowed"
+                                        >
+                                            <ArrowRight size={18} />
+                                        </button>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-sm text-gray-500">Viewing:</span>
+                                        <span className="text-sm font-mono font-medium text-violet-600 dark:text-violet-400">{model.id}</span>
+                                    </div>
+                                </div>
+
+                                {/* Main Content - Two Column Layout */}
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 h-full">
+
+                                    {/* Left Column - Full Model Details (Same as ModelDetailModal) */}
+                                    <div className="border-r border-gray-200/50 dark:border-gray-700/50 overflow-y-auto max-h-[calc(100vh-180px)]">
+                                        <div className="p-6 space-y-6">
+                                            {/* Model Header */}
+                                            <div className="flex items-center justify-between gap-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="p-2 bg-violet-100 dark:bg-violet-900/40 rounded-lg">
+                                                        <Database className="w-5 h-5 text-violet-600 dark:text-violet-400" />
+                                                    </div>
+                                                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">{model.name}</h2>
+                                                </div>
+                                                <span className="flex items-center gap-1.5 text-sm font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-full">
+                                                    <CheckCircle2 className="w-3.5 h-3.5" /> Saved
+                                                </span>
+                                            </div>
+
+                                            {/* Key Metrics - Same as ModelDetailModal */}
+                                            <div className="grid grid-cols-3 gap-4">
+                                                {/* 1. AUC */}
+                                                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800 relative overflow-hidden">
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <div className="text-xs uppercase tracking-wider text-blue-600 dark:text-blue-400 font-semibold">AUC</div>
+                                                        {isMatched && <span className="text-[10px] bg-blue-100 text-blue-700 px-1.5 rounded-full font-medium" title="Matched to Training Ancestry">Matched</span>}
+                                                        {!isMatched && isDerived && <span className="text-[10px] bg-gray-100 text-gray-600 px-1.5 rounded-full font-medium" title={`Best Available (from ${matchedAncestry})`}>Best ({matchedAncestry})</span>}
+                                                    </div>
+                                                    <div className="text-2xl font-bold font-mono text-blue-700 dark:text-blue-300">
+                                                        {displayAUC ? displayAUC.toFixed(3) : "N/A"}
+                                                    </div>
+                                                    <div className="text-[10px] text-blue-500 mt-1">Classification Accuracy</div>
+                                                </div>
+
+                                                {/* 2. R2 */}
+                                                <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-100 dark:border-purple-800">
+                                                    <div className="text-xs uppercase tracking-wider text-purple-600 dark:text-purple-400 font-semibold mb-1">R²</div>
+                                                    <div className="text-2xl font-bold font-mono text-purple-700 dark:text-purple-300">
+                                                        {displayR2 ? displayR2.toFixed(4) : "N/A"}
+                                                    </div>
+                                                    <div className="text-[10px] text-purple-500 mt-1">Variance Explained</div>
+                                                </div>
+
+                                                {/* 3. Sample Size */}
+                                                <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg border border-gray-100 dark:border-gray-800">
+                                                    <div className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-1">Sample Size</div>
+                                                    <div className="text-2xl font-bold font-mono text-gray-900 dark:text-white truncate">
+                                                        {model.sample_size ? (model.sample_size / 1000).toFixed(1) + 'k' : '-'}
+                                                    </div>
+                                                    <div className="text-[10px] text-gray-500 mt-1 truncate" title={model.ancestry}>
+                                                        {model.ancestry || "Unknown Ancestry"}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Secondary Metrics Row */}
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-100 dark:border-green-800 flex items-center justify-between">
+                                                    <span className="text-xs font-semibold text-green-700 dark:text-green-400">
+                                                        {model.metrics?.HR ? 'Hazard Ratio' : model.metrics?.OR ? 'Odds Ratio' : model.metrics?.Beta ? 'Beta' : 'Effect Size'}
+                                                    </span>
+                                                    <span className="text-lg font-mono font-bold text-green-700 dark:text-green-300">
+                                                        {model.metrics?.HR ? model.metrics.HR.toFixed(2) :
+                                                            model.metrics?.OR ? model.metrics.OR.toFixed(2) :
+                                                                model.metrics?.Beta ? model.metrics.Beta.toFixed(2) : "N/A"}
+                                                    </span>
+                                                </div>
+
+                                                <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                                                    <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">Variants</span>
+                                                    <span className="text-lg font-mono font-bold text-gray-800 dark:text-gray-200">
+                                                        {model.num_variants ? model.num_variants.toLocaleString() : "N/A"}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            {/* Introduction Description */}
+                                            <div className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-b border-gray-100 dark:border-gray-800 pb-4">
+                                                This Polygenic Risk Score model targets <strong>{model.trait}</strong> and was developed using the <strong>{model.method}</strong> method.
+                                                {model.source === 'PGS Catalog'
+                                                    ? " It is curated from the PGS Catalog."
+                                                    : " It was trained via PennPRS."}
+                                                <div className="flex items-center gap-2 mt-2 text-xs text-green-600 dark:text-green-400">
+                                                    <CheckCircle2 className="w-3 h-3" />
+                                                    <span>Ready for Scoring</span>
+                                                </div>
+                                            </div>
+
+                                            {/* Detailed Info Section */}
+                                            <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-800 text-sm space-y-4 font-mono text-xs">
+                                                {/* Section A: Predicted Trait */}
+                                                <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
+                                                    <h5 className="font-bold text-gray-800 dark:text-gray-200 mb-3 font-sans text-sm border-l-4 border-blue-500 pl-2">Predicted Trait</h5>
+                                                    <div className="grid grid-cols-3 gap-2 mb-2">
+                                                        <span className="text-gray-500">Reported Trait:</span>
+                                                        <span className="col-span-2 text-gray-900 dark:text-gray-100 font-medium">{model.trait_reported || model.trait || "N/A"}</span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Section B: Score Construction */}
+                                                <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
+                                                    <h5 className="font-bold text-gray-800 dark:text-gray-200 mb-3 font-sans text-sm border-l-4 border-purple-500 pl-2">Score Construction</h5>
+                                                    <div className="grid grid-cols-1 gap-y-2">
+                                                        <div className="grid grid-cols-3 gap-2"><span className="text-gray-500">PGS Name:</span><span className="col-span-2 font-medium text-gray-900 dark:text-gray-100">{model.pgs_name || model.id || "N/A"}</span></div>
+                                                        <div className="grid grid-cols-3 gap-2"><span className="text-gray-500">Genome Build:</span><span className="col-span-2 text-gray-900 dark:text-gray-100">{model.variants_genomebuild || "N/A"}</span></div>
+                                                        <div className="grid grid-cols-3 gap-2"><span className="text-gray-500">Variants:</span><span className="col-span-2 text-gray-900 dark:text-gray-100">{model.num_variants ? model.num_variants.toLocaleString() : "N/A"}</span></div>
+                                                        <div className="grid grid-cols-3 gap-2"><span className="text-gray-500">Method:</span><span className="col-span-2 text-gray-900 dark:text-gray-100">{model.method || "N/A"}</span></div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Section C: Source */}
+                                                <div>
+                                                    <h5 className="font-bold text-gray-800 dark:text-gray-200 mb-3 font-sans text-sm border-l-4 border-yellow-500 pl-2">Source & Metadata</h5>
+                                                    <div className="grid grid-cols-3 gap-2">
+                                                        <span className="text-gray-500">PGS Catalog:</span>
+                                                        <a href={`https://www.pgscatalog.org/score/${model.id}/`} target="_blank" rel="noreferrer" className="col-span-2 text-blue-600 hover:underline font-mono text-xs break-all">
+                                                            https://www.pgscatalog.org/score/{model.id}/
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Download Button */}
+                                            {model.download_url && (
+                                                <button
+                                                    onClick={() => window.open(model.download_url, '_blank')}
+                                                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-medium hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors"
+                                                >
+                                                    <Download className="w-4 h-4" />
+                                                    Download Model Files
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Right Column - Downstream Analysis Options */}
+                                    <div className="p-8 overflow-y-auto max-h-[calc(100vh-180px)]">
+                                        <div className="space-y-6">
+                                            {/* Header */}
+                                            <div>
+                                                <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-2">
+                                                    Downstream Analysis
+                                                </h1>
+                                                <p className="text-gray-500 dark:text-gray-400">
+                                                    Choose how you want to use this model for further analysis
+                                                </p>
+                                            </div>
+
+                                            {/* Action Cards */}
+                                            <div className="grid grid-cols-1 gap-6">
+                                                {/* Evaluate Card */}
+                                                <button
+                                                    onClick={() => onDownstreamAction("Evaluate this Model on Cohort(s)")}
+                                                    className="group relative flex items-start gap-6 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl hover:border-teal-300 dark:hover:border-teal-600 transition-all duration-300 text-left overflow-hidden"
+                                                >
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-teal-400/20 to-transparent rounded-full blur-2xl group-hover:w-48 group-hover:h-48 transition-all duration-500" />
+
+                                                    <div className="shrink-0 p-4 bg-gradient-to-br from-teal-400 to-teal-600 rounded-2xl shadow-lg shadow-teal-500/25 group-hover:scale-110 transition-transform duration-300">
+                                                        <Activity className="w-8 h-8 text-white" />
+                                                    </div>
+                                                    <div className="flex-1 relative">
+                                                        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                                                            Evaluate on Cohort(s)
+                                                        </h2>
+                                                        <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                                                            Validate the model's performance by evaluating it on your own cohorts or external datasets. Compare predictions across different populations.
+                                                        </p>
+                                                        <div className="mt-4 flex items-center gap-2 text-sm font-medium text-teal-600 dark:text-teal-400">
+                                                            <span>Start Evaluation</span>
+                                                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                        </div>
+                                                    </div>
+                                                </button>
+
+                                                {/* Ensemble Card */}
+                                                <button
+                                                    onClick={() => onDownstreamAction("Ensemble this Model Across Phenotypes")}
+                                                    className="group relative flex items-start gap-6 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-2xl hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 text-left overflow-hidden"
+                                                >
+                                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400/20 to-transparent rounded-full blur-2xl group-hover:w-48 group-hover:h-48 transition-all duration-500" />
+
+                                                    <div className="shrink-0 p-4 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl shadow-lg shadow-purple-500/25 group-hover:scale-110 transition-transform duration-300">
+                                                        <Layers className="w-8 h-8 text-white" />
+                                                    </div>
+                                                    <div className="flex-1 relative">
+                                                        <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                                                            Ensemble Across Phenotypes
+                                                        </h2>
+                                                        <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
+                                                            Combine this model with other PRS models to create a powerful ensemble. Leverage multi-trait genetic architecture for improved prediction accuracy.
+                                                        </p>
+                                                        <div className="mt-4 flex items-center gap-2 text-sm font-medium text-purple-600 dark:text-purple-400">
+                                                            <span>Create Ensemble</span>
+                                                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                            </div>
+
+                                            {/* Quick Actions */}
+                                            <div className="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                                                <button
+                                                    onClick={onGoToModelGrid || onBackToSelection}
+                                                    className="flex-1 px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                                                >
+                                                    Browse More Models
+                                                </button>
+                                                <button
+                                                    onClick={onTrainNew}
+                                                    className="flex-1 px-4 py-3 text-sm font-medium text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20 rounded-xl hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors"
+                                                >
+                                                    Train Custom Model
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })()}
+
+                {/* View: My Models - Saved/Downloaded Models Library */}
+                {view === 'my_models' && (
+                    <div className="animate-in fade-in duration-500 min-h-full">
+                        {/* Gradient Background */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-violet-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-indigo-950/30" />
+
+                        <div className="relative z-10 p-8">
+                            {/* Back Button */}
+                            <button
+                                onClick={() => onModeSelect('search')}
+                                className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm mb-6"
+                            >
+                                <ArrowLeft size={18} />
+                                <span className="text-sm font-medium">Back to Search</span>
+                            </button>
+
+                            {/* Header */}
+                            <div className="text-center mb-10">
+                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25 mb-6">
+                                    <Bookmark className="w-8 h-8 text-white" />
+                                </div>
+                                <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-3">
+                                    My Saved Models
+                                </h1>
+                                <p className="text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+                                    Access your downloaded and bookmarked PRS models. Click on a model to view details and perform downstream analysis.
+                                </p>
+                            </div>
+
+                            {/* Models Grid - Using ModelCard component for consistency */}
+                            {savedModels && savedModels.length > 0 ? (
+                                <div className="max-w-6xl mx-auto">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-10">
+                                        {savedModels.map((model) => (
+                                            <div key={model.id} className="relative group">
+                                                {/* Remove button overlay */}
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        onRemoveSavedModel?.(model.id);
+                                                    }}
+                                                    className="absolute top-2 right-2 z-10 p-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors opacity-0 group-hover:opacity-100 shadow-sm"
+                                                    title="Remove from saved"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+
+                                                {/* Use same ModelCard as search results */}
+                                                <ModelCard
+                                                    model={model}
+                                                    onSelect={() => onSelectSavedModel?.(model)}
+                                                    onViewDetails={() => onSelectSavedModel?.(model)}
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Quick Actions */}
+                                    <div className="flex justify-center gap-4">
+                                        <button
+                                            onClick={() => onModeSelect('search')}
+                                            className="px-6 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                                        >
+                                            Search More Models
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                /* Empty State */
+                                <div className="max-w-md mx-auto text-center py-16">
+                                    <div className="w-24 h-24 mx-auto mb-6 rounded-3xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                                        <Bookmark className="w-12 h-12 text-gray-300 dark:text-gray-600" />
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                                        No Saved Models Yet
+                                    </h2>
+                                    <p className="text-gray-500 dark:text-gray-400 mb-8">
+                                        Start by searching for PRS models and save the ones you want to use for downstream analysis.
+                                    </p>
+                                    <button
+                                        onClick={() => onModeSelect('search')}
+                                        className="px-8 py-3 bg-gradient-to-r from-violet-500 to-indigo-600 text-white font-medium rounded-xl hover:from-violet-600 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
+                                    >
+                                        Search for Models
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import ReactMarkdown from 'react-markdown'
-import { Bot, User, Activity, Layers, Dna, Download, PlusCircle } from 'lucide-react'
+import { Bot, User, Activity, Layers, Dna, Download, PlusCircle, Bookmark, CheckCircle2 } from 'lucide-react'
 import ModelCard, { ModelData } from "../ModelCard"
 import { ProgressBar } from "../ProgressBar"
 
@@ -19,6 +19,9 @@ interface ChatBubbleProps {
     onViewDetails?: (model: ModelData) => void
     onTrainNew?: () => void
     onDownstreamAction?: (action: string) => void
+    onModelDownload?: (model: ModelData, event?: React.MouseEvent) => void
+    onModelSave?: (model: ModelData, event?: React.MouseEvent) => void
+    isModelSaved?: boolean
 }
 
 const getActionIcon = (action: string) => {
@@ -26,6 +29,7 @@ const getActionIcon = (action: string) => {
     if (action.includes("Ensemble")) return <Layers className="w-4 h-4" />;
     if (action.includes("Proteomics")) return <Dna className="w-4 h-4" />;
     if (action.includes("Download")) return <Download className="w-4 h-4" />;
+    if (action.includes("Save")) return <Bookmark className="w-4 h-4" />;
     if (action.includes("Train")) return <PlusCircle className="w-4 h-4" />;
     return <Activity className="w-4 h-4" />;
 }
@@ -39,7 +43,10 @@ export function ChatBubble({
     footer,
     onViewDetails,
     onTrainNew,
-    onDownstreamAction
+    onDownstreamAction,
+    onModelDownload,
+    onModelSave,
+    isModelSaved
 }: ChatBubbleProps) {
     const isUser = role === 'user'
 
@@ -94,65 +101,85 @@ export function ChatBubble({
                     </div>
                 )}
 
-                {/* Render Rich Content: Action Buttons - Grouped with Descriptions */}
+                {/* Render Rich Content: Action Buttons - Download/Save (Teal) & Train (Purple) */}
                 {!isUser && actions && actions.length > 0 && (
                     <div className="flex flex-col gap-4 mt-3 font-sans">
-                        {/* Group 1: Primary Actions - Download & Train */}
-                        <div className="space-y-2">
-                            <p className="text-xs text-gray-600 dark:text-gray-400">
-                                If this model meets your requirements, you can download it directly. Otherwise, consider training a custom model tailored to your specific needs.
-                            </p>
-                            <div className="flex flex-col gap-2">
-                                {actions.filter(a => a.includes("Download") || a.includes("Train")).map((action, idx) => (
+                        {/* Group 1: Download & Save Actions - Teal Theme */}
+                        {actions.some(a => a.includes("Download")) && (
+                            <div className="space-y-2">
+                                <p className="text-xs text-gray-600 dark:text-gray-400">
+                                    Download this model to use it, or save it for later access. Both options will bookmark the model for easy retrieval.
+                                </p>
+                                <div className="flex flex-col gap-2">
+                                    {/* Download Button */}
                                     <button
-                                        key={idx}
-                                        onClick={() => {
-                                            if (action.includes("Train") && onTrainNew) {
-                                                onTrainNew()
-                                            } else if (action.includes("Download") && modelCard?.download_url) {
+                                        onClick={(e) => {
+                                            if (onModelDownload && modelCard) {
+                                                onModelDownload(modelCard, e);
+                                            } else if (modelCard?.download_url) {
                                                 window.open(modelCard.download_url, '_blank');
                                             }
                                         }}
-                                        className="w-full text-left px-3 py-2 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-all text-sm font-medium text-violet-700 dark:text-violet-300 flex items-center gap-3 group"
-                                    >
-                                        <span className="p-1 bg-violet-100 dark:bg-violet-800/50 text-violet-600 dark:text-violet-400 rounded-md group-hover:bg-violet-200 dark:group-hover:bg-violet-700/60 transition-colors">
-                                            {action.includes("Download") ? <Download className="w-3.5 h-3.5" /> : <PlusCircle className="w-3.5 h-3.5" />}
-                                        </span>
-                                        {action}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Group 2: Exploration Actions - Evaluate & Ensemble */}
-                        <div className="space-y-2">
-                            <p className="text-xs text-gray-600 dark:text-gray-400">
-                                You can also further validate or explore this model by evaluating its performance on additional cohorts, or by integrating it into an ensemble approach.
-                            </p>
-                            <div className="flex flex-col gap-2">
-                                {actions.filter(a => a.includes("Evaluate") || a.includes("Ensemble")).map((action, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => onDownstreamAction?.(action)}
                                         className="w-full text-left px-3 py-2 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 rounded-lg hover:bg-teal-100 dark:hover:bg-teal-900/30 transition-all text-sm font-medium text-teal-700 dark:text-teal-300 flex items-center gap-3 group"
                                     >
                                         <span className="p-1 bg-teal-100 dark:bg-teal-800/50 text-teal-600 dark:text-teal-400 rounded-md group-hover:bg-teal-200 dark:group-hover:bg-teal-700/60 transition-colors">
-                                            {action.includes("Evaluate") ? <Activity className="w-3.5 h-3.5" /> : <Layers className="w-3.5 h-3.5" />}
+                                            <Download className="w-3.5 h-3.5" />
                                         </span>
-                                        {action}
+                                        Download this Model
                                     </button>
-                                ))}
+                                    {/* Save Button */}
+                                    <button
+                                        onClick={(e) => {
+                                            if (onModelSave && modelCard) {
+                                                onModelSave(modelCard, e);
+                                            }
+                                        }}
+                                        disabled={isModelSaved}
+                                        className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm font-medium flex items-center gap-3 group ${isModelSaved
+                                            ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700/50 text-green-700 dark:text-green-300 cursor-default'
+                                            : 'bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700/50 hover:bg-teal-100 dark:hover:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                                            }`}
+                                    >
+                                        <span className={`p-1 rounded-md transition-colors ${isModelSaved
+                                            ? 'bg-green-100 dark:bg-green-800/50 text-green-600 dark:text-green-400'
+                                            : 'bg-teal-100 dark:bg-teal-800/50 text-teal-600 dark:text-teal-400 group-hover:bg-teal-200 dark:group-hover:bg-teal-700/60'
+                                            }`}>
+                                            {isModelSaved ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
+                                        </span>
+                                        {isModelSaved ? 'Model Saved' : 'Save this Model'}
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        )}
+
+                        {/* Group 2: Train Custom - Purple Theme */}
+                        {actions.some(a => a.includes("Train")) && (
+                            <div className="space-y-2">
+                                <p className="text-xs text-gray-600 dark:text-gray-400">
+                                    Want a model tailored to your specific needs? Train a custom model with your own data.
+                                </p>
+                                <button
+                                    onClick={() => onTrainNew?.()}
+                                    className="w-full text-left px-3 py-2 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700/50 rounded-lg hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-all text-sm font-medium text-violet-700 dark:text-violet-300 flex items-center gap-3 group"
+                                >
+                                    <span className="p-1 bg-violet-100 dark:bg-violet-800/50 text-violet-600 dark:text-violet-400 rounded-md group-hover:bg-violet-200 dark:group-hover:bg-violet-700/60 transition-colors">
+                                        <PlusCircle className="w-3.5 h-3.5" />
+                                    </span>
+                                    Train a Custom Model
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
 
-            {isUser && (
-                <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
-                    <User className="h-4 w-4" />
-                </div>
-            )}
-        </div>
+            {
+                isUser && (
+                    <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm">
+                        <User className="h-4 w-4" />
+                    </div>
+                )
+            }
+        </div >
     )
 }

@@ -49,6 +49,8 @@ interface ChatInterfaceProps {
     onViewDetails?: (model: ModelData) => void;
     onTrainNew?: () => void;
     onDownstreamAction?: (action: string) => void;
+    onModelDownload?: (model: ModelData, event?: React.MouseEvent) => void;
+    onModelSave?: (model: ModelData, event?: React.MouseEvent) => void;
     // New concurrent search props
     onProgressUpdate?: (progress: { status: string; total: number; fetched: number; current_action: string } | null) => void;
     onSearchStatusChange?: (isSearching: boolean) => void;
@@ -59,6 +61,8 @@ interface ChatInterfaceProps {
     externalAgentActions?: string[] | null;
     // Context
     hasSelectedAncestry?: boolean;
+    // For checking if model is already saved
+    savedModelIds?: string[];
 }
 
 export default function ChatInterface(props: ChatInterfaceProps) {
@@ -70,9 +74,12 @@ export default function ChatInterface(props: ChatInterfaceProps) {
         onViewDetails,
         onTrainNew,
         onDownstreamAction,
+        onModelDownload,
+        onModelSave,
         onProgressUpdate,
         onSearchStatusChange,
-        hasSelectedAncestry
+        hasSelectedAncestry,
+        savedModelIds
     } = props;
     const [messages, setMessages] = useState<Message[]>([
         {
@@ -319,6 +326,9 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                                     onViewDetails={onViewDetails}
                                     onTrainNew={onTrainNew}
                                     onDownstreamAction={onDownstreamAction}
+                                    onModelDownload={onModelDownload}
+                                    onModelSave={onModelSave}
+                                    isModelSaved={msg.modelCard ? savedModelIds?.includes(msg.modelCard.id) : false}
                                 />
                             </motion.div>
                         ))}
