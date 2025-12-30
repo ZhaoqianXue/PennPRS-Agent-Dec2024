@@ -562,7 +562,7 @@ export default function CanvasArea({
                                     </div>
 
                                     {/* Right Column - Downstream Analysis Options */}
-                                    <div className="p-8 overflow-y-auto max-h-[calc(100vh-180px)]">
+                                    <div className="p-8 flex flex-col justify-center">
                                         <div className="space-y-6">
                                             {/* Header */}
                                             <div>
@@ -624,22 +624,6 @@ export default function CanvasArea({
                                                     </div>
                                                 </button>
                                             </div>
-
-                                            {/* Quick Actions */}
-                                            <div className="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                                                <button
-                                                    onClick={onGoToModelGrid || onBackToSelection}
-                                                    className="flex-1 px-4 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                                                >
-                                                    Browse More Models
-                                                </button>
-                                                <button
-                                                    onClick={onTrainNew}
-                                                    className="flex-1 px-4 py-3 text-sm font-medium text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20 rounded-xl hover:bg-violet-100 dark:hover:bg-violet-900/30 transition-colors"
-                                                >
-                                                    Train Custom Model
-                                                </button>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -657,11 +641,11 @@ export default function CanvasArea({
                         <div className="relative z-10 p-8">
                             {/* Back Button */}
                             <button
-                                onClick={() => onModeSelect('search')}
+                                onClick={onGoToModelGrid}
                                 className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm mb-6"
                             >
                                 <ArrowLeft size={18} />
-                                <span className="text-sm font-medium">Back to Search</span>
+                                <span className="text-sm font-medium">Back to Search Results</span>
                             </button>
 
                             {/* Header */}
@@ -704,16 +688,6 @@ export default function CanvasArea({
                                             </div>
                                         ))}
                                     </div>
-
-                                    {/* Quick Actions */}
-                                    <div className="flex justify-center gap-4">
-                                        <button
-                                            onClick={() => onModeSelect('search')}
-                                            className="px-6 py-3 text-sm font-medium text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                                        >
-                                            Search More Models
-                                        </button>
-                                    </div>
                                 </div>
                             ) : (
                                 /* Empty State */
@@ -728,10 +702,10 @@ export default function CanvasArea({
                                         Start by searching for PRS models and save the ones you want to use for downstream analysis.
                                     </p>
                                     <button
-                                        onClick={() => onModeSelect('search')}
+                                        onClick={onGoToModelGrid}
                                         className="px-8 py-3 bg-gradient-to-r from-violet-500 to-indigo-600 text-white font-medium rounded-xl hover:from-violet-600 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
                                     >
-                                        Search for Models
+                                        Go to Search Results
                                     </button>
                                 </div>
                             )}
@@ -739,6 +713,6 @@ export default function CanvasArea({
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     );
 }
