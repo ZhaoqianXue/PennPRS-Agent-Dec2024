@@ -92,7 +92,7 @@ def input_analysis(state: AgentState):
 def _fetch_formatted_models(trait: str, request_id: str = None):
     import concurrent.futures
     import time
-    from src.main import search_progress # Import shared state
+    from src.core.state import search_progress # Import shared state
     
     # 1. Search PGS Catalog
     if request_id and request_id in search_progress:

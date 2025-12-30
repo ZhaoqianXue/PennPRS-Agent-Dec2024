@@ -109,41 +109,33 @@ def input_analysis(state: ProteinAgentState):
     }
 
 
-# Helper: Fetch and format protein scores
+# Helper: Fetch and fully hydrate protein scores with detailed performance data
 def _fetch_formatted_protein_scores(
     protein_query: str, 
     platform: str = None,
     request_id: str = None
 ) -> tuple[List[Dict], List[Dict]]:
     """
-    Fetch protein scores from OmicsPred and format for UI.
-    Supports multi-protein search (comma-separated).
+    Fetch protein scores from OmicsPred and fully hydrate them with details (R2, Rho, etc.).
+    Matches the user experience of Disease Search (Search -> Count -> Progress Bar -> Details).
     
     Returns:
-        Tuple of (formatted_model_cards, raw_results)
+        Tuple of (formatted_model_cards, raw_detailed_results)
     """
-    from src.main import search_progress  # Import shared progress state
+    from src.core.state import search_progress  # Import shared progress state
     
-    # Update progress
+    # 1. Update progress: Initial Search
     if request_id and request_id in search_progress:
         search_progress[request_id]["current_action"] = "Searching OmicsPred..."
         search_progress[request_id]["status"] = "running"
     
     t_start = time.time()
     
-    raw_results = []
+    search_results = []
     seen_ids = set()
     
-    # Helper to detect if query looks like a gene ID
-    import re
-    def is_ensembl_id(term: str) -> bool:
-        return bool(re.match(r'^ENSG\d+$', term.strip(), re.IGNORECASE))
+    # --- PHASE 1: Initial Discovery (Get IDs) ---
     
-    def is_uniprot_id(term: str) -> bool:
-        # UniProt IDs are like P16581, Q9Y6K9, etc.
-        return bool(re.match(r'^[A-Z]\d{4,}[A-Z0-9]*$', term.strip(), re.IGNORECASE))
-
-    # Determine search strategy
     if protein_query:
         # Check for multiple terms (comma-separated)
         terms = [t.strip() for t in protein_query.split(',') if t.strip()]
@@ -153,8 +145,7 @@ def _fetch_formatted_protein_scores(
             if request_id and request_id in search_progress:
                 search_progress[request_id]["current_action"] = f"Searching for {len(terms)} genes/proteins..."
             
-            # Parallel search for each term using general search
-            # (OmicsPred gene endpoint doesn't return scores directly)
+            # Parallel search for each term
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_term = {executor.submit(omicspred_client.search_scores_general, term): term for term in terms}
                 
@@ -165,47 +156,70 @@ def _fetch_formatted_protein_scores(
                             sid = res.get("id") or res.get("opgs_id")
                             if sid and sid not in seen_ids:
                                 seen_ids.add(sid)
-                                raw_results.append(res)
+                                search_results.append(res)
                     except Exception as exc:
                         print(f"Term search generated exception: {exc}")
         else:
-            # Single term search using general search
+            # Single term search
             single_term = terms[0] if terms else protein_query
-            raw_results = omicspred_client.search_scores_general(single_term)
+            search_results = omicspred_client.search_scores_general(single_term)
             
     elif platform:
-        raw_results = omicspred_client.get_scores_by_platform(platform)  # Fetch ALL results with pagination
+        search_results = omicspred_client.get_scores_by_platform(platform)
     else:
-        # No query - return empty, user must specify a gene or protein
-        raw_results = []
+        search_results = []
 
+    total_models = len(search_results)
+    print(f"[Timing] Initial Search: {time.time() - t_start:.4f}s (Found: {total_models})")
     
-    # Update progress with count
+    if total_models == 0:
+        return [], []
+
+    # --- PHASE 2: Fetch Detailed Info (Parallel) ---
+    
+    # Init Progress Bar for Retrieval
     if request_id and request_id in search_progress:
-        search_progress[request_id]["total"] = len(raw_results)
-        search_progress[request_id]["current_action"] = "Fetching details..."
+        search_progress[request_id]["total"] = total_models
+        search_progress[request_id]["fetched"] = 0
+        search_progress[request_id]["current_action"] = "Retrieving model details (Ancestry, R2, Rho)..."
+
+    detailed_models = []
     
-    print(f"[Timing] OmicsPred Search: {time.time() - t_start:.4f}s (Count: {len(raw_results)})")
-    
-    # Format for UI - API already returns complete data, no need to fetch details individually
-    model_cards = []
-    t_format = time.time()
-    
-    for idx, score in enumerate(raw_results):
+    # Helper for parallel execution
+    def fetch_single_detail(item):
         try:
-            # format_score_for_ui can work with a single data dict since API returns complete info
-            formatted = omicspred_client.format_score_for_ui(score)
-            model_cards.append(formatted)
-            
-            # Update progress periodically
-            if request_id and request_id in search_progress and idx % 50 == 0:
-                search_progress[request_id]["fetched"] = idx + 1
-                search_progress[request_id]["current_action"] = f"Formatting {idx + 1}/{len(raw_results)}..."
-                
-        except Exception as exc:
-            print(f"Score format generated exception: {exc}")
+            sid = item.get("id") or item.get("opgs_id")
+            if not sid: return None
+            # Fetch FULL details (calls public + private API)
+            details = omicspred_client.get_score_details(sid)
+            # Format immediately
+            formatted = omicspred_client.format_score_for_ui(details)
+            return formatted
+        except Exception as e:
+            print(f"Error fetching details for {item.get('id')}: {e}")
+            return None
+
+    t_details = time.time()
     
-    print(f"[Timing] Format {len(raw_results)} scores: {time.time() - t_format:.4f}s")
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        # Submit all tasks
+        futures = [executor.submit(fetch_single_detail, item) for item in search_results]
+        
+        # Process as they complete to update progress
+        completed_count = 0
+        for future in concurrent.futures.as_completed(futures):
+            result = future.result()
+            if result:
+                detailed_models.append(result)
+            
+            completed_count += 1
+            if request_id and request_id in search_progress:
+                search_progress[request_id]["fetched"] = completed_count
+                # Optional: Update action text periodically
+                if completed_count % 5 == 0:
+                     search_progress[request_id]["current_action"] = f"Retrieving details {completed_count}/{total_models}..."
+
+    print(f"[Timing] Detail Fetch & Format: {time.time() - t_details:.4f}s")
     
     # Sort by R2 or sample size (descending)
     def get_sort_key(card):
@@ -214,9 +228,9 @@ def _fetch_formatted_protein_scores(
         sample = card.get("sample_size") or 0
         return (r2, sample)
     
-    model_cards.sort(key=get_sort_key, reverse=True)
+    detailed_models.sort(key=get_sort_key, reverse=True)
     
-    return model_cards, raw_results
+    return detailed_models, search_results  # Return formatted detailed models
 
 
 # Node: Protein Search

@@ -5,8 +5,8 @@ import ChatInterface, { StructuredResponse } from "./ChatInterface";
 import CanvasArea, { ViewType } from "./CanvasArea";
 import { ModelData } from "./ModelCard";
 import ProteinDetailModal from "./ProteinDetailModal";
-import SearchSummaryView from "./SearchSummaryView";
-import { Home, Dna, Bookmark, Search, Database, ArrowLeft, User, Users, Activity, SendHorizontal, Loader2 } from "lucide-react";
+import ProteinSearchSummary from "./ProteinSearchSummary";
+import { Home, Dna, Bookmark, Search, Database, ArrowLeft, User, Users, Activity, SendHorizontal, Loader2, Download } from "lucide-react";
 import TrainingConfigForm, { TrainingConfig } from "./TrainingConfigForm";
 import MultiAncestryTrainingForm, { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
 import { AnimatePresence, motion } from "framer-motion";
@@ -30,6 +30,8 @@ interface ProteinModelData extends ModelData {
     platform?: string;
     dataset_name?: string;
     dataset_id?: string;
+    dev_cohorts?: string;
+    tissue?: string;
     dev_sample_size?: number;
     eval_sample_size?: number;
     ancestry_dev?: Record<string, unknown>;
@@ -223,9 +225,6 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
         setSmartRecommendationModel(null);
         setSmartRecommendationActions(null);
 
-        // NEW FLOW: Stay on protein_search while searching (shows loading state)
-        // View will transition to protein_search_summary when search completes
-
         // TRIGGER Search
         const searchMsg = `Search for protein scores for ${query}`;
         triggerChat(searchMsg);
@@ -336,6 +335,7 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
     };
 
     const handleViewDetails = (model: ModelData) => {
+        // Model data is now fully pre-fetched by the backend workflow
         setSelectedModelDetails(model as ProteinModelData);
     };
 
@@ -423,7 +423,7 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
 
                     {/* Protein Detail Modal */}
                     <ProteinDetailModal
-                        model={selectedModelDetails}
+                        model={selectedModelDetails as any}
                         isOpen={!!selectedModelDetails}
                         onClose={() => setSelectedModelDetails(null)}
                     />
@@ -861,9 +861,9 @@ function ProteinCanvasArea({
     if (view === 'protein_search_summary') {
         return (
             <div className="h-full overflow-y-auto">
-                <SearchSummaryView
+                <ProteinSearchSummary
                     trait={query || "Protein Search"}
-                    models={models as ModelData[]}
+                    models={models as ProteinModelData[]}
                     onAncestrySubmit={onAncestrySubmit}
                     activeAncestry={activeAncestry}
                 />
@@ -957,75 +957,112 @@ function ProteinScoreCard({ model, onViewDetails, onSelect }: ProteinScoreCardPr
     const metrics = model.metrics || {};
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 hover:shadow-lg hover:border-violet-400/50 transition-all group">
-            {/* Header */}
-            <div className="flex items-start justify-between mb-3">
-                <div className="flex-1">
-                    <h3 className="font-bold text-gray-800 dark:text-gray-100 group-hover:text-violet-600 transition-colors line-clamp-2">
-                        {model.protein_name || model.gene_name || model.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">{model.id}</span>
-                        {model.gene_name && model.gene_name !== model.protein_name && (
-                            <span className="text-xs px-1.5 py-0.5 bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 rounded">
-                                {model.gene_name}
-                            </span>
-                        )}
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all p-4 flex flex-col h-[320px] w-full group overflow-hidden">
+            {/* Header: ID & Platform */}
+            <div className="flex justify-between items-start mb-2">
+                <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                        <span className="font-mono text-xs font-bold text-violet-600 dark:text-violet-400">
+                            {model.id}
+                        </span>
+                        <span className="text-[10px] px-1.5 py-0.5 rounded border bg-violet-50 text-violet-600 border-violet-100 dark:bg-violet-900/20 dark:text-violet-300 dark:border-violet-800">
+                            OmicsPred
+                        </span>
                     </div>
                 </div>
                 {model.platform && (
-                    <span className={`ml-2 px-2 py-1 text-xs font-semibold rounded-full ${model.platform.includes('Olink') || model.platform === 'Target'
-                        ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400'
-                        : 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
+                    <span className={`px-2 py-0.5 text-[10px] font-semibold rounded-full border ${model.platform.includes('Olink')
+                        ? 'bg-indigo-50 text-indigo-700 border-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-400'
+                        : 'bg-purple-50 text-purple-700 border-purple-100 dark:bg-purple-900/30 dark:text-purple-400'
                         }`}>
                         {model.platform}
                     </span>
                 )}
             </div>
 
-            {/* Info */}
-            <div className="space-y-1 text-sm mb-4">
-                {model.dataset_name && (
-                    <p className="text-gray-600 dark:text-gray-400">
-                        <span className="text-gray-500">Dataset:</span> {model.dataset_name}
-                    </p>
-                )}
-                <div className="flex justify-between text-gray-600 dark:text-gray-400">
-                    <span><span className="text-gray-500">Variants:</span> {model.num_variants?.toLocaleString() || 'N/A'}</span>
-                    <span><span className="text-gray-500">Samples:</span> {model.sample_size?.toLocaleString() || 'N/A'}</span>
+            {/* Title & Protein Info */}
+            <div className="mb-3 cursor-pointer" onClick={onViewDetails}>
+                <h3 className="font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-violet-600 transition-colors" title={model.protein_name || model.name}>
+                    {model.protein_name || model.name}
+                </h3>
+                <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    <Dna className="w-3.5 h-3.5 text-violet-400" />
+                    <span className="truncate">{model.gene_name || "N/A"}</span>
+                    {model.uniprot_id && (
+                        <span className="text-[10px] text-gray-400 font-mono">({model.uniprot_id})</span>
+                    )}
                 </div>
             </div>
 
-            {/* Metrics */}
-            <div className="flex gap-2 mb-4">
-                <div className="flex-1 px-3 py-2 bg-violet-50 dark:bg-violet-900/20 rounded-lg text-center border border-violet-100 dark:border-violet-800">
-                    <p className="text-[10px] text-gray-500 uppercase tracking-wide">R²</p>
-                    <p className="font-bold text-violet-600 dark:text-violet-400 font-mono">
-                        {metrics.R2 ? (typeof metrics.R2 === 'number' ? metrics.R2.toFixed(4) : metrics.R2) : 'N/A'}
-                    </p>
-                </div>
-                {metrics.Rho && (
-                    <div className="flex-1 px-3 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg text-center border border-purple-100 dark:border-purple-800">
-                        <p className="text-[10px] text-gray-500 uppercase tracking-wide">ρ</p>
-                        <p className="font-bold text-purple-600 dark:text-purple-400 font-mono">
-                            {typeof metrics.Rho === 'number' ? metrics.Rho.toFixed(3) : metrics.Rho}
-                        </p>
+            {/* Detail Metadata Grid */}
+            <div className="flex-1 space-y-1.5 mb-4 overflow-hidden">
+                <div className="flex flex-col gap-1">
+                    {/* Method */}
+                    <div className="flex items-center gap-2 text-[11px]">
+                        <span className="text-gray-400 font-medium min-w-[55px]">Method:</span>
+                        <span className="px-1.5 py-0.5 rounded bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-gray-700 truncate flex-1">
+                            {model.method || "N/A"}
+                        </span>
                     </div>
-                )}
+                    {/* Ancestry */}
+                    <div className="flex items-center gap-2 text-[11px]">
+                        <span className="text-gray-400 font-medium min-w-[55px]">Ancestry:</span>
+                        <span className="px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-100 dark:border-blue-800 truncate flex-1">
+                            {model.ancestry || "EUR"}
+                        </span>
+                    </div>
+                    {/* Samples */}
+                    <div className="flex items-center gap-2 text-[11px]">
+                        <span className="text-gray-400 font-medium min-w-[55px]">Samples:</span>
+                        <span className="px-1.5 py-0.5 rounded bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-100 dark:border-green-800 truncate flex-1">
+                            {model.sample_size ? model.sample_size.toLocaleString() : "N/A"}
+                        </span>
+                    </div>
+                    {/* Tissue */}
+                    <div className="flex items-center gap-2 text-[11px]">
+                        <span className="text-gray-400 font-medium min-w-[55px]">Tissue:</span>
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border border-amber-100 dark:border-amber-800 truncate flex-1" title={model.tissue}>
+                            {model.tissue || "N/A"}
+                        </span>
+                    </div>
+                </div>
             </div>
 
-            {/* Actions */}
+            {/* Performance Metrics Stats */}
+            <div className="grid grid-cols-3 gap-1 py-2 border-t border-gray-100 dark:border-gray-800 mb-3">
+                <div className="text-center border-r border-gray-100 dark:border-gray-800">
+                    <div className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">R²</div>
+                    <div className="font-mono font-bold text-sm text-violet-600 dark:text-violet-400">
+                        {metrics.R2 && typeof metrics.R2 === 'number' ? metrics.R2.toFixed(3) : "N/A"}
+                    </div>
+                </div>
+                <div className="text-center border-r border-gray-100 dark:border-gray-800">
+                    <div className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">Rho</div>
+                    <div className="font-mono font-bold text-sm text-indigo-600 dark:text-indigo-400">
+                        {metrics.Rho && typeof metrics.Rho === 'number' ? metrics.Rho.toFixed(3) : "0.000"}
+                    </div>
+                </div>
+                <div className="text-center">
+                    <div className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">Variants</div>
+                    <div className="font-mono font-bold text-sm text-gray-700 dark:text-gray-300">
+                        {model.num_variants ? (model.num_variants > 1000 ? (model.num_variants / 1000).toFixed(1) + 'k' : model.num_variants) : 'N/A'}
+                    </div>
+                </div>
+            </div>
+
+            {/* Actions Buttons */}
             <div className="flex gap-2">
                 <button
                     onClick={onViewDetails}
-                    className="flex-1 px-4 py-2 text-sm font-medium text-violet-600 border border-violet-300 dark:border-violet-600 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors"
+                    className="flex-1 px-3 py-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 >
                     View Details
                 </button>
                 <button
                     onClick={onSelect}
-                    className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-500 to-purple-500 rounded-lg hover:from-violet-600 hover:to-purple-600 transition-colors"
+                    className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 rounded-lg transition-colors flex items-center justify-center gap-1"
                 >
+                    <Download className="w-3 h-3" />
                     Select
                 </button>
             </div>
@@ -1044,74 +1081,61 @@ function ProteinChatCard({ model, onViewDetails }: ProteinChatCardProps) {
     const metrics = model.metrics || {};
 
     return (
-        <div className="w-full max-w-[320px] bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-all">
-            {/* Header */}
-            <div className="flex items-start justify-between mb-2">
-                <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-gray-800 dark:text-gray-100 text-sm line-clamp-2">
-                        {model.protein_name || model.gene_name || model.name}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[11px] text-gray-500 dark:text-gray-400 font-mono">{model.id}</span>
-                        {model.platform && (
-                            <span className="px-1.5 py-0.5 text-[10px] font-medium rounded bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400">
-                                {model.platform}
-                            </span>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-            {/* Gene Name Badge */}
-            {model.gene_name && model.gene_name !== model.protein_name && (
-                <div className="mb-2">
-                    <span className="text-xs px-2 py-0.5 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded">
-                        Gene: {model.gene_name}
+        <div className="w-full max-w-[320px] bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm p-4 hover:shadow-md transition-all group overflow-hidden">
+            {/* Header: ID & Platform */}
+            <div className="flex justify-between items-start mb-2">
+                <div className="flex flex-col gap-0.5 min-w-0">
+                    <span className="font-mono text-[10px] font-bold text-violet-600 dark:text-violet-400 truncate">
+                        {model.id}
                     </span>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-sm line-clamp-1 group-hover:text-violet-600 transition-colors" title={model.protein_name || model.name}>
+                        {model.protein_name || model.name}
+                    </h3>
                 </div>
-            )}
-
-            {/* Metrics Grid */}
-            <div className="grid grid-cols-3 gap-2 mb-3">
-                <div className="text-center p-2 bg-violet-50 dark:bg-violet-900/20 rounded-lg border border-violet-100 dark:border-violet-800">
-                    <p className="text-[9px] text-gray-500 uppercase">R²</p>
-                    <p className="font-bold text-violet-600 dark:text-violet-400 text-sm font-mono">
-                        {metrics.R2 ? metrics.R2.toFixed(3) : 'N/A'}
-                    </p>
-                </div>
-                <div className="text-center p-2 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800">
-                    <p className="text-[9px] text-gray-500 uppercase">ρ (Rho)</p>
-                    <p className="font-bold text-purple-600 dark:text-purple-400 text-sm font-mono">
-                        {metrics.Rho ? metrics.Rho.toFixed(3) : 'N/A'}
-                    </p>
-                </div>
-                <div className="text-center p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-200 dark:border-slate-700">
-                    <p className="text-[9px] text-gray-500 uppercase">Variants</p>
-                    <p className="font-bold text-slate-700 dark:text-slate-300 text-sm font-mono">
-                        {model.num_variants ? (model.num_variants > 1000 ? (model.num_variants / 1000).toFixed(1) + 'k' : model.num_variants) : 'N/A'}
-                    </p>
-                </div>
+                {model.platform && (
+                    <span className="px-1.5 py-0.5 text-[9px] font-semibold rounded bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-800 whitespace-nowrap">
+                        {model.platform}
+                    </span>
+                )}
             </div>
 
-            {/* Dataset Info */}
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-3">
-                <span>{model.dataset_name || 'Unknown'}</span>
+            {/* Gene & Protein Info */}
+            <div className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-400 mb-3">
+                <Dna className="w-3 h-3 text-violet-400" />
+                <span className="truncate">{model.gene_name || "N/A"}</span>
                 <span className="mx-1">•</span>
-                <span>{model.ancestry} ancestry</span>
-                {model.sample_size && (
-                    <>
-                        <span className="mx-1">•</span>
-                        <span>{model.sample_size.toLocaleString()} samples</span>
-                    </>
-                )}
+                <span className="text-blue-600 dark:text-blue-400">{model.ancestry || "EUR"}</span>
+            </div>
+
+            {/* Metrics Row (Compact) */}
+            <div className="grid grid-cols-3 gap-1.5 mb-4">
+                <div className="text-center py-1.5 bg-violet-50/50 dark:bg-violet-900/10 rounded-lg border border-violet-100/50 dark:border-violet-800/50">
+                    <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">R²</p>
+                    <p className="font-bold text-violet-600 dark:text-violet-400 text-xs font-mono">
+                        {metrics.R2 && typeof metrics.R2 === 'number' ? metrics.R2.toFixed(3) : "N/A"}
+                    </p>
+                </div>
+                <div className="text-center py-1.5 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-lg border border-indigo-100/50 dark:border-indigo-800/50">
+                    <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">Rho</p>
+                    <p className="font-bold text-indigo-600 dark:text-indigo-400 text-xs font-mono">
+                        {metrics.Rho && typeof metrics.Rho === 'number' ? metrics.Rho.toFixed(3) : "0.000"}
+                    </p>
+                </div>
+                <div className="text-center py-1.5 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-700">
+                    <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">Samples</p>
+                    <p className="font-bold text-gray-700 dark:text-gray-300 text-xs font-mono">
+                        {model.sample_size ? (model.sample_size >= 1000 ? `${(model.sample_size / 1000).toFixed(1)}k` : model.sample_size) : "N/A"}
+                    </p>
+                </div>
             </div>
 
             {/* View Details Button */}
             <button
                 onClick={onViewDetails}
-                className="w-full px-3 py-2 text-sm font-medium text-violet-600 border border-violet-300 dark:border-violet-600 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors"
+                className="w-full py-2 text-xs font-medium text-violet-600 border border-violet-200 dark:border-violet-700 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-all flex items-center justify-center gap-1.5"
             >
                 View Details
+                <ArrowLeft className="w-3 h-3 rotate-180" />
             </button>
         </div>
     );

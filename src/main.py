@@ -26,7 +26,7 @@ app.add_middleware(
 
 # Global Progress Store (InMemory)
 # {request_id: {"status": "running"|"completed", "total": 0, "fetched": 0, "current_action": ""}}
-search_progress = {}
+from src.core.state import search_progress
 
 class AgentRequest(BaseModel):
     message: str
