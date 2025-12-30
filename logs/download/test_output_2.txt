@@ -1,0 +1,16 @@
+Testing Protein Search Performance for 'COL1A1'...
+--------------------------------------------------
+Step 1: Initializing state...
+Step 2: Invoking workflow...
+ERROR:src.core.omicspred_client:Error getting scores for platform 'Olink': HTTPSConnectionPool(host='rest.omicspred.org', port=443): Max retries exceeded with url: /api/proteomics/Olink?limit=500&offset=0 (Caused by ResponseError('too many 503 error responses'))
+ERROR:src.core.omicspred_client:Error getting scores for platform 'Somalogic': HTTPSConnectionPool(host='rest.omicspred.org', port=443): Max retries exceeded with url: /api/proteomics/Somalogic?limit=500&offset=0 (Caused by ResponseError('too many 503 error responses'))
+[Timing] OmicsPred General Search 'col1a1': 31.4136s (Total: 0)
+[Timing] OmicsPred Search: 31.4138s (Count: 0)
+[Timing] Format 0 scores: 0.0000s
+
+Search Result Summary:
+Total Response Time: 31.4217 seconds
+Agent Message: I found **0** proteomics genetic scores related to **'col1a1'** in OmicsPred....
+Number of scores found: 0
+No models found.
+--------------------------------------------------

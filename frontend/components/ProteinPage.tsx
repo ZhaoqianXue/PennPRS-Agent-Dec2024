@@ -1,11 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ChatInterface, { StructuredResponse } from "./ChatInterface";
 import CanvasArea, { ViewType } from "./CanvasArea";
 import { ModelData } from "./ModelCard";
 import ProteinDetailModal from "./ProteinDetailModal";
-import { Home, Dna } from "lucide-react";
+import SearchSummaryView from "./SearchSummaryView";
+import { Home, Dna, Bookmark, Search, Database, ArrowLeft, User, Users, Activity, SendHorizontal, Loader2 } from "lucide-react";
+import TrainingConfigForm, { TrainingConfig } from "./TrainingConfigForm";
+import MultiAncestryTrainingForm, { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
+import { AnimatePresence, motion } from "framer-motion";
+import { ProgressBar } from "./ProgressBar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ChatBubble } from "@/components/chat/ChatBubble";
 
 interface ProteinPageProps {
     onBack: () => void;
@@ -44,11 +52,50 @@ interface ProteinModelData extends ModelData {
 }
 
 export default function ProteinPage({ onBack }: ProteinPageProps) {
-    // Global State
-    const [activeView, setActiveView] = useState<ViewType>('protein_search');
-    const [previousView, setPreviousView] = useState<ViewType>('protein_search');
+    // Global State - INITIALIZED TO 'protein_mode_selection'
+    const [activeView, setActiveView] = useState<ViewType>('protein_mode_selection');
+    const [previousView, setPreviousView] = useState<ViewType>('protein_mode_selection');
     const [currentQuery, setCurrentQuery] = useState<string | null>(null);
     const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+
+    // Navigation History - Simple Stack
+    const [viewStack, setViewStack] = useState<ViewType[]>(['protein_mode_selection']);
+    const [forwardStack, setForwardStack] = useState<ViewType[]>([]);
+
+    // Push a new view onto the stack (used for forward navigation)
+    const pushView = (newView: ViewType) => {
+        setViewStack(prev => [...prev, newView]);
+        setForwardStack([]); // Clear forward history when navigating to new view
+        setActiveView(newView);
+    };
+
+    // Go back one step
+    const goBack = () => {
+        if (viewStack.length > 1) {
+            const newStack = [...viewStack];
+            const currentView = newStack.pop()!;
+            const previousView = newStack[newStack.length - 1];
+
+            setViewStack(newStack);
+            setForwardStack(prev => [currentView, ...prev]);
+            setActiveView(previousView);
+        }
+    };
+
+    // Go forward one step
+    const goForward = () => {
+        if (forwardStack.length > 0) {
+            const newForwardStack = [...forwardStack];
+            const nextView = newForwardStack.shift()!;
+
+            setForwardStack(newForwardStack);
+            setViewStack(prev => [...prev, nextView]);
+            setActiveView(nextView);
+        }
+    };
+
+    const canGoBack = viewStack.length > 1;
+    const canGoForward = forwardStack.length > 0;
 
     // Data State
     const [models, setModels] = useState<ProteinModelData[]>([]);
@@ -64,6 +111,10 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
     const [searchProgress, setSearchProgress] = useState<{ status: string; total: number; fetched: number; current_action: string } | null>(null);
     const [isSearchComplete, setIsSearchComplete] = useState(false);
 
+    // Ancestry Selection State (matching Disease flow)
+    const [selectedAncestry, setSelectedAncestry] = useState<string[]>([]);
+    const [isAncestrySubmitted, setIsAncestrySubmitted] = useState(false);
+
     // Smart Recommendation State
     const [smartRecommendation, setSmartRecommendation] = useState<string | null>(null);
     const [smartRecommendationModel, setSmartRecommendationModel] = useState<ProteinModelData | null>(null);
@@ -76,63 +127,193 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
 
     // --- Handlers ---
 
-    const handleProteinSearch = (query: string, platform?: string) => {
-        // RESET States
+    // --- Mode Selection Handler ---
+    const handleModeSelect = (mode: 'search' | 'train') => {
+        if (mode === 'search') {
+            pushView('protein_search');
+        } else {
+            // For train, navigate to train type selection first
+            setPreviousView('protein_mode_selection');
+            pushView('protein_train_type_selection');
+        }
+    };
+
+    // --- Training Handlers ---
+    const handleTrainTypeSelect = (type: 'single' | 'multi') => {
+        if (type === 'single') {
+            setPreviousView('protein_train_type_selection');
+            pushView('protein_train_config');
+        } else {
+            // Multi-ancestry - Navigate to multi-ancestry form
+            setPreviousView('protein_train_type_selection');
+            pushView('protein_train_multi_config');
+        }
+    };
+
+    const handleTrainingSubmit = (config: TrainingConfig) => {
+        // Build prompt for agent to submit to PennPRS API (same as disease training)
+        let prompt = `I want to train a new model for ${config.trait} (Ancestry: ${config.ancestry}) named '${config.jobName}'.`;
+        prompt += `\nEmail: ${config.email}`;
+        prompt += `\nJob Type: ${config.jobType}`;
+        prompt += `\nMethodology Category: ${config.methodologyCategory}`;
+        prompt += `\nMethods: ${config.methods.join(', ')}`;
+        if (config.ensemble) prompt += `\nEnsemble: Enabled`;
+        if (config.dataSourceType === 'public') {
+            prompt += `\nData Source: Public ${config.database || "GWAS Catalog"} (ID: ${config.gwasId || "Auto"})`;
+        } else {
+            prompt += `\nData Source: User Upload (${config.uploadedFileName})`;
+            prompt += `\n[SYSTEM NOTE: File content handling simulated for agent prototype]`;
+        }
+        prompt += `\nTrait Type: ${config.traitType}, Sample Size: ${config.sampleSize}`;
+        if (config.advanced) {
+            prompt += `\nHyperparams: kb=${config.advanced.kb}, r2=${config.advanced.r2}, pval_thr=${config.advanced.pval_thr}`;
+        }
+
+        triggerChat(prompt);
+        // Navigate back to mode selection after submit
+        setViewStack(['protein_mode_selection']);
+        setForwardStack([]);
+        setActiveView('protein_mode_selection');
+    };
+
+    const handleMultiAncestrySubmit = (config: MultiAncestryTrainingConfig) => {
+        // Build prompt for agent to submit to PennPRS API (same as disease multi-ancestry)
+        const ancestries = config.dataSources.map(ds => ds.ancestry).join('+');
+        let prompt = `I want to train a Multi-Ancestry PRS model named '${config.jobName}' for trait '${config.trait}'.`;
+        prompt += `\nEmail: ${config.email}`;
+        prompt += `\nJob Type: multi`;
+        prompt += `\nMethodology: PROSPER-pseudo`;
+        prompt += `\nAncestries: ${ancestries} (${config.dataSources.length} populations)`;
+
+        config.dataSources.forEach((ds, idx) => {
+            prompt += `\n\nAncestry ${idx + 1} (${ds.ancestry}):`;
+            if (ds.dataSourceType === 'public') {
+                prompt += `\n  Data Source: Public ${ds.database === 'finngen' ? 'FinnGen' : 'GWAS Catalog'} (ID: ${ds.gwasId})`;
+            } else {
+                prompt += `\n  Data Source: User Upload (${ds.uploadedFileName})`;
+            }
+            prompt += `\n  Trait Type: ${ds.traitType}, Sample Size: ${ds.sampleSize}`;
+        });
+
+        if (config.advanced) {
+            prompt += `\n\nAdvanced PROSPER Parameters:`;
+            prompt += ` nlambda=${config.advanced.nlambda}`;
+            prompt += `, ndelta=${config.advanced.ndelta}`;
+            prompt += `, lambda_min_ratio=${config.advanced.lambda_min_ratio}`;
+        }
+
+        triggerChat(prompt);
+        // Navigate back to mode selection after submit
+        setViewStack(['protein_mode_selection']);
+        setForwardStack([]);
+        setActiveView('protein_mode_selection');
+    };
+
+    const handleProteinSearch = (query: string) => {
+        // RESET States (matching Disease flow)
         setCurrentQuery(query);
-        setSelectedPlatform(platform || null);
+        setSelectedPlatform(null);
         setModels([]);
         setIsSearching(true);
         setIsSearchComplete(false);
+        setIsAncestrySubmitted(false);
         setSearchProgress(null);
+        setSelectedAncestry([]);
         setSmartRecommendation(null);
         setSmartRecommendationModel(null);
         setSmartRecommendationActions(null);
 
-        // SWITCH to grid view
-        setActiveView('protein_grid');
+        // NEW FLOW: Stay on protein_search while searching (shows loading state)
+        // View will transition to protein_search_summary when search completes
 
         // TRIGGER Search
-        let searchMsg = `Search for protein scores for ${query}`;
-        if (platform) {
-            searchMsg += ` on ${platform} platform`;
-        }
+        const searchMsg = `Search for protein scores for ${query}`;
         triggerChat(searchMsg);
     };
 
-    const handlePlatformSelect = (platform: string) => {
-        handleProteinSearch("", platform);
+    // Handle ancestry submit (matching Disease flow)
+    const handleAncestrySubmit = (ancestries: string[]) => {
+        setIsAncestrySubmitted(true);
+        setSelectedAncestry(ancestries);
+        // Effect will handle transition to grid
     };
 
     // --- Effects ---
+
+    // Effect 1: When search completes, transition to search_summary view
     useEffect(() => {
-        if (activeView === 'protein_grid' && isSearchComplete && models.length > 0) {
-            // Generate smart recommendation
-            const best = models.reduce((prev, current) => {
-                const prevR2 = prev.metrics?.R2 || 0;
-                const currR2 = current.metrics?.R2 || 0;
-                return prevR2 > currR2 ? prev : current;
-            }, models[0]);
-
-            let msg = `I found **${models.length}** proteomics genetic scores`;
-            if (currentQuery) {
-                msg += ` related to **'${currentQuery}'**`;
-            }
-            if (selectedPlatform) {
-                msg += ` on the **${selectedPlatform}** platform`;
-            }
-            msg += ` from OmicsPred.\n\n`;
-            msg += `The top scoring model is **${best.name}** (ID: ${best.id}).\n`;
-            msg += `You can view detailed information for this result and others in the **Canvas** panel.`;
-
-            setSmartRecommendation(msg);
-            setSmartRecommendationModel(best);
-            setSmartRecommendationActions([
-                "View Score Details",
-                "Download this Score",
-                "Browse Another Platform"
-            ]);
+        if (isSearchComplete && models.length > 0 && activeView === 'protein_search') {
+            // Transition to search summary view
+            pushView('protein_search_summary');
         }
-    }, [activeView, isSearchComplete, models, currentQuery, selectedPlatform]);
+    }, [isSearchComplete, models.length, activeView]);
+
+    // Effect 2: Handle transition from search_summary to grid when ancestry is submitted
+    useEffect(() => {
+        if (activeView === 'protein_search_summary' && isAncestrySubmitted) {
+            // GENERATE SMART RECOMMENDATION (matching Disease flow exactly)
+            const ancestryMap: Record<string, string> = {
+                'EUR': 'European', 'AFR': 'African', 'EAS': 'East Asian',
+                'SAS': 'South Asian', 'AMR': 'Hispanic', 'MIX': 'Others'
+            };
+
+            const relevantModels = models.filter(m => {
+                if (m.source === "User Trained" || m.source === "PennPRS (Custom)" || m.source === "User Upload") return true;
+
+                // If NO ancestry selected, show ALL models
+                if (selectedAncestry.length === 0) return true;
+
+                if (!m.ancestry) return false;
+
+                // Strict Check
+                const normalized = m.ancestry.toLowerCase();
+                return selectedAncestry.some(t => {
+                    const targetCode = t.toUpperCase();
+                    const targetName = ancestryMap[targetCode] || t;
+                    return normalized.includes(targetCode.toLowerCase()) || normalized.includes(targetName.toLowerCase());
+                });
+            });
+
+            // Find Best Model (Max R2 for protein models)
+            if (relevantModels.length > 0) {
+                const best = relevantModels.reduce((prev, current) => {
+                    const prevR2 = prev.metrics?.R2 || 0;
+                    const currR2 = current.metrics?.R2 || 0;
+                    return prevR2 > currR2 ? prev : current;
+                }, relevantModels[0]);
+
+                let ancLabel = "All Ancestries";
+                if (selectedAncestry.length > 0) {
+                    ancLabel = selectedAncestry.map(a => ancestryMap[a] || a).join(", ");
+                }
+
+                // EXACT BACKEND FORMAT RESTORATION
+                let msg = `I found **${relevantModels.length}** proteomics scores for **'${currentQuery}'** `;
+                if (selectedAncestry.length > 0) {
+                    msg += `matching your ancestry criteria (**${ancLabel}**).\n\n`;
+                } else {
+                    msg += `across all ancestries.\n\n`;
+                }
+
+                msg += `The score with the highest R² is **${best.name}** (ID: ${best.id}).\n`;
+                msg += `I've displayed the best score card below. You can view detailed information for this result and others in the **Canvas** panel.`;
+
+                setSmartRecommendation(msg);
+                setSmartRecommendationModel(best);
+                setSmartRecommendationActions([
+                    "Download this Score",
+                    "View Score Details"
+                ]);
+            } else {
+                const ancLabel = selectedAncestry.map(a => ancestryMap[a] || a).join(", ");
+                setSmartRecommendation(`I searched for scores matching **${ancLabel}** but found no direct matches in the training data.\n\nYou can browse the full list or try searching for a different gene/protein.`);
+                setSmartRecommendationModel(null);
+                setSmartRecommendationActions(["Search Another Gene/Protein"]);
+            }
+
+            pushView('protein_grid');
+        }
+    }, [activeView, isAncestrySubmitted, models, selectedAncestry, currentQuery]);
 
     const handleChatResponse = (response: StructuredResponse) => {
         if (response.type === 'protein_grid' || response.type === 'model_grid') {
@@ -168,19 +349,16 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
                 triggerChat(`Download score ${model?.id || 'unknown'}`);
             }
         } else if (action.includes("Browse")) {
-            // Go back to platform selection
-            setActiveView('protein_search');
+            // Go back to protein search view
+            goBack();
         } else {
             triggerChat(`I want to ${action.toLowerCase()}`);
         }
     };
 
     const handleBackToPrevious = () => {
-        if (activeView === 'protein_grid') {
-            setActiveView('protein_search');
-        } else {
-            setActiveView('protein_search');
-        }
+        // Simply go back one step in the navigation stack
+        goBack();
     };
 
     // --- RENDER ---
@@ -201,10 +379,13 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
                     <span className="bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Proteomics PRS Models</span>
                 </div>
                 <div className="ml-auto flex items-center gap-4">
-                    {(activeView !== 'protein_search') && (
+                    {(activeView !== 'protein_mode_selection') && (
                         <button
                             onClick={() => {
-                                setActiveView('protein_search');
+                                // Reset navigation stack and go to mode_selection
+                                setViewStack(['protein_mode_selection']);
+                                setForwardStack([]);
+                                setActiveView('protein_mode_selection');
                                 setCurrentQuery(null);
                                 setModels([]);
                             }}
@@ -224,15 +405,20 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
                     <ProteinCanvasArea
                         view={activeView}
                         query={currentQuery}
-                        platform={selectedPlatform}
                         models={models}
                         onSearch={handleProteinSearch}
-                        onPlatformSelect={handlePlatformSelect}
                         onSelectModel={handleSelectModel}
                         onViewDetails={handleViewDetails}
                         onBackToSelection={handleBackToPrevious}
                         searchProgress={searchProgress}
+                        isSearching={isSearching}
                         isSearchComplete={isSearchComplete}
+                        onModeSelect={handleModeSelect}
+                        onTrainTypeSelect={handleTrainTypeSelect}
+                        onTrainingSubmit={handleTrainingSubmit}
+                        onMultiAncestrySubmit={handleMultiAncestrySubmit}
+                        onAncestrySubmit={handleAncestrySubmit}
+                        activeAncestry={selectedAncestry}
                     />
 
                     {/* Protein Detail Modal */}
@@ -272,29 +458,39 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
 interface ProteinCanvasAreaProps {
     view: ViewType;
     query: string | null;
-    platform: string | null;
     models: ProteinModelData[];
-    onSearch: (query: string, platform?: string) => void;
-    onPlatformSelect: (platform: string) => void;
+    onSearch: (query: string) => void;
     onSelectModel: (modelId: string) => void;
     onViewDetails: (model: ModelData) => void;
     onBackToSelection: () => void;
     searchProgress: { status: string; total: number; fetched: number; current_action: string } | null;
+    isSearching: boolean;
     isSearchComplete: boolean;
+    onModeSelect: (mode: 'search' | 'train') => void;
+    onTrainTypeSelect: (type: 'single' | 'multi') => void;
+    onTrainingSubmit: (config: TrainingConfig) => void;
+    onMultiAncestrySubmit: (config: MultiAncestryTrainingConfig) => void;
+    onAncestrySubmit: (ancestries: string[]) => void;
+    activeAncestry: string[];
 }
 
 function ProteinCanvasArea({
     view,
     query,
-    platform,
     models,
     onSearch,
-    onPlatformSelect,
     onSelectModel,
     onViewDetails,
     onBackToSelection,
     searchProgress,
-    isSearchComplete
+    isSearching,
+    isSearchComplete,
+    onModeSelect,
+    onTrainTypeSelect,
+    onTrainingSubmit,
+    onMultiAncestrySubmit,
+    onAncestrySubmit,
+    activeAncestry
 }: ProteinCanvasAreaProps) {
     const [searchInput, setSearchInput] = useState("");
 
@@ -316,112 +512,361 @@ function ProteinCanvasArea({
         }
     ];
 
+    // View: Mode Selection (Start)
+    if (view === 'protein_mode_selection') {
+        return (
+            <div className="h-full w-full bg-gray-50/50 dark:bg-gray-900/50 overflow-y-auto p-4 sm:p-6">
+                <div className="flex flex-col items-center justify-center min-h-[70vh] animate-in fade-in zoom-in-95 duration-500">
+                    <div className="text-center space-y-4 mb-12">
+                        <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-gray-900 dark:text-white">
+                            Proteomics PRS Module
+                        </h1>
+                        <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
+                            Choose how you want to proceed with your Proteomics Polygenic Risk Score analysis.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl px-4">
+                        {/* Search Card */}
+                        <button
+                            onClick={() => onModeSelect('search')}
+                            className="group relative flex flex-col items-center p-10 bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 text-center"
+                        >
+                            <div className="mb-6 p-6 bg-violet-50 dark:bg-violet-900/30 rounded-full group-hover:bg-violet-100 dark:group-hover:bg-violet-900/50 transition-colors">
+                                <Search className="w-12 h-12 text-violet-600 dark:text-violet-400" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Search Existing Models</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Browse pre-trained proteomics scores from OmicsPred.
+                            </p>
+                        </button>
+
+                        {/* Train Card */}
+                        <button
+                            onClick={() => onModeSelect('train')}
+                            className="group relative flex flex-col items-center p-10 bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 text-center"
+                        >
+                            <div className="mb-6 p-6 bg-purple-50 dark:bg-purple-900/30 rounded-full group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                                <Database className="w-12 h-12 text-purple-600 dark:text-purple-400" />
+                            </div>
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Train Custom Model</h2>
+                            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                Upload GWAS summary statistics to train a new model.
+                            </p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // View: Training Type Selection
+    if (view === 'protein_train_type_selection') {
+        return (
+            <div className="h-full w-full bg-gray-50/50 dark:bg-gray-900/50 overflow-y-auto p-4 sm:p-6">
+                <div className="animate-in fade-in zoom-in-95 duration-500 pb-8">
+                    {/* Back Button */}
+                    <div className="mb-6">
+                        <button
+                            onClick={onBackToSelection}
+                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            <ArrowLeft size={18} />
+                            <span className="text-sm font-medium">Back</span>
+                        </button>
+                    </div>
+
+                    <div className="text-center space-y-3 mb-8">
+                        <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">
+                            Train Custom Model
+                        </h1>
+                        <p className="text-base text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
+                            Choose your analysis type based on your GWAS data and research goals.
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col gap-6 w-full max-w-5xl mx-auto">
+                        {/* Single-Ancestry Card */}
+                        <button
+                            onClick={() => onTrainTypeSelect('single')}
+                            className="group relative flex flex-col md:flex-row bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-blue-300 dark:hover:border-blue-600 transition-all duration-300 overflow-hidden text-left"
+                        >
+                            {/* Left: Info */}
+                            <div className="flex flex-col justify-center p-6 md:w-1/3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl group-hover:bg-blue-100 dark:group-hover:bg-blue-900/50 transition-colors">
+                                        <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                                    </div>
+                                    <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Single-Ancestry Analysis</h2>
+                                </div>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Train PRS models for a single population</p>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    Supports <span className="font-semibold text-blue-600 dark:text-blue-400">Pseudo-Training</span> and
+                                    <span className="font-semibold text-orange-600 dark:text-orange-400"> Tuning-Parameter-Free</span> methods.
+                                </p>
+                            </div>
+
+                            {/* Right: Workflow Image */}
+                            <div className="relative flex-1 bg-gray-50 dark:bg-gray-900/50 p-4 flex items-center justify-center">
+                                <img
+                                    src="/single_ancestry_workflow.png"
+                                    alt="Single-Ancestry Workflow"
+                                    className="w-full h-auto max-h-64 object-contain"
+                                />
+                            </div>
+                        </button>
+
+                        {/* Multi-Ancestry Card */}
+                        <button
+                            onClick={() => onTrainTypeSelect('multi')}
+                            className="group relative flex flex-col md:flex-row bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 overflow-hidden text-left"
+                        >
+                            {/* Left: Info */}
+                            <div className="flex flex-col justify-center p-6 md:w-1/3 border-b md:border-b-0 md:border-r border-gray-100 dark:border-gray-700">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-xl group-hover:bg-purple-100 dark:group-hover:bg-purple-900/50 transition-colors">
+                                        <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                                    </div>
+                                    <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">Multi-Ancestry Analysis</h2>
+                                </div>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Train PRS models across multiple populations</p>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    Leverage GWAS data from multiple ancestries using the
+                                    <span className="font-semibold text-purple-600 dark:text-purple-400"> PROSPER</span> method.
+                                </p>
+                            </div>
+
+                            {/* Right: Workflow Image */}
+                            <div className="relative flex-1 bg-gray-50 dark:bg-gray-900/50 p-4 flex items-center justify-center">
+                                <img
+                                    src="/multi_ancestry_workflow.png"
+                                    alt="Multi-Ancestry Workflow"
+                                    className="w-full h-auto max-h-64 object-contain"
+                                />
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // View: Training Config (Single-Ancestry)
+    if (view === 'protein_train_config') {
+        return (
+            <div className="h-full w-full bg-gray-50/50 dark:bg-gray-900/50 overflow-y-auto p-4 sm:p-6">
+                <div className="relative min-h-[60vh] animate-in fade-in slide-in-from-right-8 duration-500">
+                    {/* Back Button */}
+                    <div className="mb-6">
+                        <button
+                            onClick={onBackToSelection}
+                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            <ArrowLeft size={18} />
+                            <span className="text-sm font-medium">Back to Selection</span>
+                        </button>
+                    </div>
+
+                    {/* Title indicating Single-Ancestry */}
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                            <User className="w-6 h-6 text-blue-600" />
+                            Single-Ancestry Analysis
+                        </h2>
+                        <p className="text-sm text-gray-500 mt-1">Configure your single-ancestry PRS training job</p>
+                    </div>
+
+                    <TrainingConfigForm
+                        onSubmit={onTrainingSubmit}
+                        onCancel={onBackToSelection}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    // View: Multi-Ancestry Training Config
+    if (view === 'protein_train_multi_config') {
+        return (
+            <div className="h-full w-full bg-gray-50/50 dark:bg-gray-900/50 overflow-y-auto p-4 sm:p-6">
+                <div className="relative min-h-[60vh] animate-in fade-in slide-in-from-right-8 duration-500">
+                    {/* Back Button */}
+                    <div className="mb-6">
+                        <button
+                            onClick={onBackToSelection}
+                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            <ArrowLeft size={18} />
+                            <span className="text-sm font-medium">Back to Selection</span>
+                        </button>
+                    </div>
+
+                    {/* Title indicating Multi-Ancestry */}
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                            <Users className="w-6 h-6 text-purple-600" />
+                            Multi-Ancestry Analysis
+                        </h2>
+                        <p className="text-sm text-gray-500 mt-1">Configure your multi-ancestry PRS training job using PROSPER</p>
+                    </div>
+
+                    <MultiAncestryTrainingForm
+                        onSubmit={onMultiAncestrySubmit}
+                        onCancel={onBackToSelection}
+                    />
+                </div>
+            </div>
+        );
+    }
+
+    // View: Protein Search
     if (view === 'protein_search') {
         return (
-            <div className="h-full flex flex-col items-center justify-center p-8 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-                {/* Search Header */}
-                <div className="text-center mb-12">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                        Proteomics PRS Models
-                    </h1>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl">
-                        Search for single or multiple proteins (comma-separated) to find genetic prediction models from
-                        <a href="https://www.omicspred.org" target="_blank" rel="noopener noreferrer" className="text-violet-600 hover:underline ml-1">
-                            OmicsPred
-                        </a>
-                    </p>
-                </div>
+            <div className="h-full flex flex-col p-8 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 overflow-hidden relative">
 
-                {/* Search Bar */}
-                <div className="w-full max-w-2xl mb-12">
-                    <div className="relative">
-                        <input
-                            type="text"
-                            value={searchInput}
-                            onChange={(e) => setSearchInput(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter' && searchInput.trim()) {
-                                    onSearch(searchInput.trim());
-                                }
-                            }}
-                            placeholder="Search by protein name (e.g., APOE, IL6), gene symbol, or UniProt ID..."
-                            className="w-full px-6 py-4 text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/20 outline-none transition-all"
-                        />
-                        <button
-                            onClick={() => searchInput.trim() && onSearch(searchInput.trim())}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 px-6 py-2 bg-gradient-to-r from-violet-500 to-purple-500 text-white font-semibold rounded-xl hover:from-violet-600 hover:to-purple-600 transition-all"
-                        >
-                            Search
-                        </button>
+                {/* Loading Overlay (Disease-style) */}
+                {isSearching && !isSearchComplete && (
+                    <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center animate-in fade-in duration-300">
+                        <div className="text-center space-y-6 max-w-md">
+                            <div>
+                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Searching OmicsPred...</h2>
+                                <p className="text-gray-500 dark:text-gray-400">
+                                    Retrieving molecular data and PRS models for <span className="font-semibold text-violet-600">"{query || searchInput || "your selection"}"</span>
+                                </p>
+                            </div>
+                            {searchProgress ? (
+                                <ProgressBar
+                                    status={searchProgress.status}
+                                    total={searchProgress.total}
+                                    fetched={searchProgress.fetched}
+                                    currentAction={searchProgress.current_action}
+                                />
+                            ) : (
+                                <div className="flex justify-center py-4">
+                                    <div className="animate-spin rounded-full h-10 w-10 border-4 border-violet-500 border-t-transparent"></div>
+                                </div>
+                            )}
+                        </div>
                     </div>
+                )}
+
+                {/* Back Button */}
+                <div className="mb-4 shrink-0">
+                    <button
+                        onClick={onBackToSelection}
+                        className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800"
+                    >
+                        <ArrowLeft size={18} />
+                        <span className="text-sm font-medium">Back</span>
+                    </button>
                 </div>
 
-                {/* Featured Scenarios */}
-                <div className="w-full max-w-4xl mb-12">
-                    <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 text-center">
-                        Featured Scenarios
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <button
-                            onClick={() => onSearch("APOE, BIN1, CLU, ABCA7, CR1, PICALM, MS4A6A, CD33, TREM2, SORL1")}
-                            className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-violet-400 transition-all text-left group"
-                        >
-                            <div className="font-bold text-gray-800 dark:text-gray-100 group-hover:text-violet-600 mb-1">
-                                Alzheimer's Disease (AD)
-                            </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-                                APOE, BIN1, CLU, ABCA7, CR1, PICALM, MS4A6A, CD33...
-                            </div>
-                        </button>
-
-                        <button
-                            onClick={() => onSearch("IL6, TNF, CRP, IL1B, IL18, CXCL8, IL10, IL2")}
-                            className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-violet-400 transition-all text-left group"
-                        >
-                            <div className="font-bold text-gray-800 dark:text-gray-100 group-hover:text-violet-600 mb-1">
-                                Inflammation Panel
-                            </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-                                IL6, TNF, CRP, IL1B, IL18, CXCL8, IL10, IL2...
-                            </div>
-                        </button>
-
-                        <button
-                            onClick={() => onSearch("PCSK9, LPA, ANGPTL3, APOC3, APOB, LDLR, LPL")}
-                            className="p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-violet-400 transition-all text-left group"
-                        >
-                            <div className="font-bold text-gray-800 dark:text-gray-100 group-hover:text-violet-600 mb-1">
-                                Lipid Metabolism
-                            </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
-                                PCSK9, LPA, ANGPTL3, APOC3, APOB, LDLR, LPL...
-                            </div>
-                        </button>
+                <div className="flex-1 flex flex-col items-center max-w-5xl mx-auto w-full overflow-y-auto">
+                    {/* Search Header */}
+                    <div className="text-center mb-8 shrink-0">
+                        <h1 className="text-3xl font-bold bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                            Select Target Biomarker
+                        </h1>
+                        <p className="text-gray-600 dark:text-gray-400">
+                            Choose a reference gene or protein to find associated models
+                        </p>
                     </div>
-                </div>
 
-                {/* Platform Cards */}
-                <div className="w-full max-w-4xl">
-                    <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-6 text-center">
-                        Or Browse by Platform
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {platforms.map((p) => (
+                    {/* Search Bar */}
+                    <div className="w-full max-w-2xl mb-10 shrink-0">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && searchInput.trim()) {
+                                        onSearch(searchInput.trim());
+                                    }
+                                }}
+                                placeholder="Search any gene or protein (e.g., TNF, IL6)..."
+                                className="w-full px-6 py-4 text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/20 outline-none transition-all shadow-sm"
+                            />
                             <button
-                                key={p.id}
-                                onClick={() => onPlatformSelect(p.id)}
-                                className="group relative p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all text-left"
+                                onClick={() => searchInput.trim() && onSearch(searchInput.trim())}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 rounded-xl hover:bg-violet-200 dark:hover:bg-violet-900/50 transition-all"
                             >
-                                <div className={`absolute top-0 left-0 w-2 h-full rounded-l-2xl bg-gradient-to-b ${p.color}`}></div>
-                                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 ml-2">{p.name}</h3>
-                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 ml-2">{p.description}</p>
-                                <span className="inline-block ml-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    {p.proteins}
-                                </span>
+                                <Search size={24} />
                             </button>
-                        ))}
+                        </div>
+                    </div>
+
+                    {/* Selection Grids */}
+                    <div className="w-full grid md:grid-cols-1 gap-10 pb-8">
+
+                        {/* Reference Genes */}
+                        <div className="space-y-4">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <Dna className="w-5 h-5 text-violet-500" />
+                                Reference Genes
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {["COL1A1", "APOE", "EGFR", "TP53"].map((gene) => (
+                                    <button
+                                        key={gene}
+                                        onClick={() => onSearch(gene)}
+                                        className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-violet-400 dark:hover:border-violet-500 hover:shadow-md transition-all text-left"
+                                    >
+                                        <div className="font-bold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 mb-1">
+                                            {gene}
+                                        </div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                                            Gene Symbol
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Featured Proteins */}
+                        <div className="space-y-4">
+                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <Activity className="w-5 h-5 text-purple-500" />
+                                Featured Proteins
+                            </h2>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {[
+                                    { name: "P53", id: "P53" },
+                                    { name: "Albumin", id: "Albumin" },
+                                    { name: "C-Reactive Protein", id: "CRP" },
+                                    { name: "Insulin", id: "Insulin" }
+                                ].map((prot) => (
+                                    <button
+                                        key={prot.id}
+                                        onClick={() => onSearch(prot.id)}
+                                        className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-md transition-all text-left"
+                                    >
+                                        <div className="font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 mb-1 truncate">
+                                            {prot.name}
+                                        </div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                                            Protein
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        );
+    }
+
+    // View: Protein Search Summary (NEW - matching Disease flow)
+    if (view === 'protein_search_summary') {
+        return (
+            <div className="h-full overflow-y-auto">
+                <SearchSummaryView
+                    trait={query || "Protein Search"}
+                    models={models as ModelData[]}
+                    onAncestrySubmit={onAncestrySubmit}
+                    activeAncestry={activeAncestry}
+                />
             </div>
         );
     }
@@ -440,7 +885,7 @@ function ProteinCanvasArea({
                         </button>
                         <span className="text-gray-300 dark:text-gray-600">|</span>
                         <span className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                            {query ? `Results for "${query}"` : platform ? `${platform} Scores` : "All Scores"}
+                            {query ? `Results for "${query}"` : "Protein Scores"}
                         </span>
                         <span className="px-3 py-1 bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400 rounded-full text-sm">
                             {models.length} scores
@@ -687,13 +1132,7 @@ interface ProteinChatInterfaceProps {
     externalAgentActions: string[] | null;
 }
 
-import { useState as useReactState, useRef, useEffect as useReactEffect } from "react";
-import { SendHorizontal, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ChatBubble } from "@/components/chat/ChatBubble";
-import { AnimatePresence, motion } from "framer-motion";
-import { ProgressBar } from "./ProgressBar";
+
 
 interface Message {
     role: 'user' | 'agent';
@@ -717,31 +1156,31 @@ function ProteinChatInterface({
     externalAgentModel,
     externalAgentActions
 }: ProteinChatInterfaceProps) {
-    const [messages, setMessages] = useReactState<Message[]>([
+    const [messages, setMessages] = useState<Message[]>([
         {
             role: 'agent',
             content: "Welcome to **PennPRS-Protein**! 🧬\n\nI can help you search for genetic prediction models for protein expression levels from OmicsPred.\n\nTry asking: *\"Find scores for APOE\"* or *\"Browse Olink proteins\"*",
             id: 'welcome'
         }
     ]);
-    const [input, setInput] = useReactState("");
-    const [isLoading, setIsLoading] = useReactState(false);
+    const [input, setInput] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Auto-scroll to bottom
-    useReactEffect(() => {
+    useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
     // Handle external triggers
-    useReactEffect(() => {
+    useEffect(() => {
         if (externalTrigger) {
             handleSend(externalTrigger);
         }
     }, [externalTrigger]);
 
     // Handle external agent message (for smart recommendations)
-    useReactEffect(() => {
+    useEffect(() => {
         if (externalAgentMessage) {
             const newMsg: Message = {
                 role: 'agent',

@@ -11,7 +11,7 @@ import AncestrySelection from "./AncestrySelection";
 import SearchSummaryView from "./SearchSummaryView";
 import { ProgressBar } from "./ProgressBar";
 
-export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'search_summary' | 'coming_soon' | 'protein_search' | 'protein_grid' | 'model_actions' | 'my_models';
+export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'search_summary' | 'coming_soon' | 'protein_mode_selection' | 'protein_search' | 'protein_grid' | 'protein_search_summary' | 'protein_train_type_selection' | 'protein_train_config' | 'protein_train_multi_config' | 'model_actions' | 'my_models';
 
 interface CanvasAreaProps {
     view: ViewType;

@@ -133,6 +133,15 @@ def _fetch_formatted_protein_scores(
     
     raw_results = []
     seen_ids = set()
+    
+    # Helper to detect if query looks like a gene ID
+    import re
+    def is_ensembl_id(term: str) -> bool:
+        return bool(re.match(r'^ENSG\d+$', term.strip(), re.IGNORECASE))
+    
+    def is_uniprot_id(term: str) -> bool:
+        # UniProt IDs are like P16581, Q9Y6K9, etc.
+        return bool(re.match(r'^[A-Z]\d{4,}[A-Z0-9]*$', term.strip(), re.IGNORECASE))
 
     # Determine search strategy
     if protein_query:
@@ -142,9 +151,10 @@ def _fetch_formatted_protein_scores(
         if len(terms) > 1:
             print(f"[Multi-Search] Searching for {len(terms)} terms: {terms}")
             if request_id and request_id in search_progress:
-                search_progress[request_id]["current_action"] = f"Searching for {len(terms)} proteins..."
+                search_progress[request_id]["current_action"] = f"Searching for {len(terms)} genes/proteins..."
             
-            # Parallel search for each term
+            # Parallel search for each term using general search
+            # (OmicsPred gene endpoint doesn't return scores directly)
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
                 future_to_term = {executor.submit(omicspred_client.search_scores_general, term): term for term in terms}
                 
@@ -159,14 +169,16 @@ def _fetch_formatted_protein_scores(
                     except Exception as exc:
                         print(f"Term search generated exception: {exc}")
         else:
-            # Single term search
-            raw_results = omicspred_client.search_scores_general(protein_query)
+            # Single term search using general search
+            single_term = terms[0] if terms else protein_query
+            raw_results = omicspred_client.search_scores_general(single_term)
             
     elif platform:
         raw_results = omicspred_client.get_scores_by_platform(platform)  # Fetch ALL results with pagination
     else:
-        # No query - get some sample scores from Olink
-        raw_results = omicspred_client.get_scores_by_platform("Olink", max_results=50)
+        # No query - return empty, user must specify a gene or protein
+        raw_results = []
+
     
     # Update progress with count
     if request_id and request_id in search_progress:

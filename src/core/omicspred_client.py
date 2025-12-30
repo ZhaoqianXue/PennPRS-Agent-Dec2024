@@ -154,6 +154,57 @@ class OmicsPredClient:
             logger.error(f"Error getting protein details for {protein_id}: {e}")
             return {}
     
+    def get_gene_scores(self, gene_query: str) -> List[Dict[str, Any]]:
+        """
+        Get all genetic scores for a specific gene.
+        Supports both Ensembl IDs (ENSG...) and gene symbols (COL1A1).
+        
+        Args:
+            gene_query: Gene Ensembl ID or symbol (e.g., ENSG00000108821 or COL1A1)
+            
+        Returns:
+            List of score dictionaries associated with this gene
+        """
+        try:
+            t0 = time.time()
+            
+            # Try gene endpoint first
+            url = f"{self.BASE_URL}/api/gene/{gene_query}"
+            response = self.session.get(url, timeout=30)
+            
+            if response.status_code == 200:
+                data = response.json()
+                # The gene endpoint returns gene info with associated scores
+                scores = data.get("associated_scores", [])
+                if not scores:
+                    # Try getting scores from 'scores' key
+                    scores = data.get("scores", [])
+                print(f"[Timing] OmicsPred Gene '{gene_query}': {time.time() - t0:.4f}s (Count: {len(scores)})")
+                return scores
+            
+            # Fallback: Search using protein endpoint with gene filter
+            url = f"{self.BASE_URL}/api/protein/search"
+            response = self.session.get(url, params={"gene": gene_query}, timeout=30)
+            
+            if response.status_code == 200:
+                protein_data = response.json()
+                protein_results = protein_data.get("results", [])
+                
+                all_scores = []
+                for protein in protein_results:
+                    scores = protein.get("associated_scores", [])
+                    all_scores.extend(scores)
+                
+                print(f"[Timing] OmicsPred Gene Search (fallback) '{gene_query}': {time.time() - t0:.4f}s (Scores: {len(all_scores)})")
+                return all_scores
+            
+            return []
+            
+        except Exception as e:
+            logger.error(f"Error getting gene scores for '{gene_query}': {e}")
+            return []
+
+    
     def list_platforms(self) -> List[Dict[str, Any]]:
         """
         List available omics platforms (Olink, Somalogic, etc.).

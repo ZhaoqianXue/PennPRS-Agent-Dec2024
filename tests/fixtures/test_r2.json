@@ -1,0 +1,76 @@
+{
+    "size": 1,
+    "count": 304391,
+    "next": "https://rest.omicspred.org/api/score/all/?limit=1&offset=1",
+    "previous": null,
+    "results": [
+        {
+            "id": "OPGS000001",
+            "name": "CLEC12A.11187.11.3",
+            "trait_reported": "C-type lectin domain family 12 member A",
+            "trait_reported_id": "Q5QGZ9",
+            "method_name": "Bayesian Ridge regression",
+            "method_params": null,
+            "dataset_id": "OPD000001",
+            "dataset_name": null,
+            "publication": {
+                "id": "OPP000001",
+                "title": "An atlas of genetic scores to predict multi-omic traits.",
+                "doi": "10.1038/s41586-023-05844-9",
+                "pmid": 36991119,
+                "journal": "Nature",
+                "firstauthor": "Xu Y",
+                "date_publication": "2023-03-29"
+            },
+            "platform": {
+                "name": "Somalogic",
+                "full_name": "Somalogic",
+                "version": "3.0",
+                "technic": "aptamer-based multiplex protein assay",
+                "type": "Proteomics"
+            },
+            "tissue": {
+                "id": "UBERON_0001969",
+                "label": "blood plasma",
+                "description": "The liquid component of blood, in which erythrocytes are suspended.",
+                "url": "http://purl.obolibrary.org/obo/UBERON_0001969",
+                "type": "tissue"
+            },
+            "genes": [
+                {
+                    "name": "CLEC12A",
+                    "external_id": "ENSG00000172322",
+                    "descriptions": [
+                        "C-type lectin domain family 12 member A"
+                    ],
+                    "external_id_source": "Ensembl",
+                    "synonyms": [],
+                    "biotype": "protein_coding",
+                    "retired_gene_model": false
+                }
+            ],
+            "transcripts": [],
+            "proteins": [
+                {
+                    "name": "C-type lectin domain family 12 member A",
+                    "external_id": "Q5QGZ9",
+                    "external_id_source": "UniProt",
+                    "synonyms": [
+                        "C-type lectin-like molecule 1 [CLL-1]",
+                        "Dendritic cell-associated lectin 2 [DCAL-2]",
+                        "Myeloid inhibitory C-type lectin-like receptor [MICL]"
+                    ],
+                    "descriptions": [
+                        "Cell surface receptor that modulates signaling cascades and mediates tyrosine phosphorylation of target MAP kinases."
+                    ]
+                }
+            ],
+            "metabolites": [],
+            "variants_number": 134,
+            "variants_interactions": 0,
+            "variants_genomebuild": "GRCh37",
+            "comment": null,
+            "license": "Creative Commons Attribution 4.0 International (CC BY 4.0)"
+        }
+    ]
+}

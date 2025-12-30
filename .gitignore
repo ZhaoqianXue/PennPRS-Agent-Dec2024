@@ -5,3 +5,13 @@ __pycache__/
 downloads/
 output/
 pennprs-agent/
+
+# Large data files
+*.tsv
+data/omicspred/*.tsv
+data/cache_omicspred/*.json
+logs/download/*.txt
+
+# Temporary files
+*.tmp
+*.log
