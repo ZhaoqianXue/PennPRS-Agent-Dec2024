@@ -8,8 +8,10 @@ import TrainingConfigForm, { TrainingConfig } from "./TrainingConfigForm";
 import MultiAncestryTrainingForm, { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
 
 import AncestrySelection from "./AncestrySelection";
+import SearchSummaryView from "./SearchSummaryView";
+import { ProgressBar } from "./ProgressBar";
 
-export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'coming_soon' | 'protein_search' | 'protein_grid' | 'model_actions' | 'my_models';
+export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'search_summary' | 'coming_soon' | 'protein_search' | 'protein_grid' | 'model_actions' | 'my_models';
 
 interface CanvasAreaProps {
     view: ViewType;
@@ -291,6 +293,26 @@ export default function CanvasArea({
                             </button>
                         </div>
 
+                        {/* Search Loading Overlay */}
+                        {searchProgress && !isSearchComplete && (
+                            <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center animate-in fade-in duration-300">
+                                <div className="text-center space-y-6 max-w-md">
+                                    <div>
+                                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Searching Models...</h2>
+                                        <p className="text-gray-500 dark:text-gray-400">
+                                            Retrieving PRS models from PGS Catalog and PennPRS for <span className="font-semibold text-blue-600">"{trait}"</span>
+                                        </p>
+                                    </div>
+                                    <ProgressBar
+                                        status={searchProgress.status}
+                                        total={searchProgress.total}
+                                        fetched={searchProgress.fetched}
+                                        currentAction={searchProgress.current_action}
+                                    />
+                                </div>
+                            </div>
+                        )}
+
                         <div className="text-center space-y-2 pt-12">
                             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 Select a Target Disease
@@ -322,6 +344,27 @@ export default function CanvasArea({
                             searchProgress={searchProgress || null}
                             isSearchComplete={!!isSearchComplete}
                             activeAncestry={activeAncestry || []} // Pass activeAncestry to AncestrySelection
+                        />
+                    </div>
+                )}
+
+                {/* View: Search Summary (new flow) */}
+                {view === 'search_summary' && trait && onAncestrySubmit && (
+                    <div className="animate-in fade-in slide-in-from-right-8 duration-500 h-full">
+                        <div className="mb-4">
+                            <button
+                                onClick={onBackToSelection}
+                                className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+                            >
+                                <ArrowLeft size={18} />
+                                <span className="text-sm font-medium">Back</span>
+                            </button>
+                        </div>
+                        <SearchSummaryView
+                            trait={trait}
+                            models={models}
+                            onAncestrySubmit={onAncestrySubmit}
+                            activeAncestry={activeAncestry}
                         />
                     </div>
                 )}

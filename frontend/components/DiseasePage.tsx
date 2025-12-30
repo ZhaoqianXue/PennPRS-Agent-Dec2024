@@ -116,8 +116,8 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         setSmartRecommendationModel(null);
         setSmartRecommendationActions(null);
 
-        // SWITCH to Ancestry Selection immediately
-        pushView('ancestry_selection');
+        // NEW FLOW: Stay on disease_selection while searching (shows loading state)
+        // View will transition to search_summary when search completes
 
         // TRIGGER Search
         triggerChat(`I want to search for models for ${trait}`);
@@ -129,9 +129,9 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     const [smartRecommendationActions, setSmartRecommendationActions] = useState<string[] | null>(null);
 
     // --- Effects ---
-    // Safety Net: Ensure we transition if both conditions are met
+    // Handle transition from search_summary to model_grid when ancestry is submitted
     useEffect(() => {
-        if (activeView === 'ancestry_selection' && isSearchComplete && isAncestrySubmitted) {
+        if (activeView === 'search_summary' && isAncestrySubmitted) {
             // GENERATE SMART RECOMMENDATION
             // 1. Filter models strictly by ancestry (re-using logic to match ModelGrid behavior)
             const ancestryMap: Record<string, string> = {
@@ -197,7 +197,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
 
             pushView('model_grid');
         }
-    }, [activeView, isSearchComplete, isAncestrySubmitted, models, selectedAncestry, currentTrait]);
+    }, [activeView, isAncestrySubmitted, models, selectedAncestry, currentTrait]);
 
     const handleAncestrySubmit = (ancestries: string[]) => {
         setIsAncestrySubmitted(true);
@@ -211,11 +211,8 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
             setIsSearchComplete(true);
             setIsSearching(false);
 
-            // If user has already submitted ancestry choice, move them to grid
-            if (isAncestrySubmitted) {
-                pushView('model_grid');
-            }
-            // Else: Do nothing, models are stored. User is still selecting.
+            // NEW FLOW: Transition to search_summary view to show summary with ancestry filtering
+            pushView('search_summary');
 
         } else if (response.type === 'downstream_options') {
             setDownstreamOps(response.downstream || null);
