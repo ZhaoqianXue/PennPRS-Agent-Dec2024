@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { ProgressBar } from "./ProgressBar";
 
-import { SendHorizontal, Loader2 } from "lucide-react"
+import { SendHorizontal, Loader2, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChatBubble } from "@/components/chat/ChatBubble"
@@ -134,7 +134,7 @@ export default function ChatInterface(props: ChatInterfaceProps) {
         const progressMsg: Message = {
             id: progressId,
             role: 'agent',
-            content: "Initializing search...",
+            content: "Searching for clinical PRS models...",
             isProgress: true,
             progressData: null,
             isWaitingForAncestry: !props.hasSelectedAncestry
@@ -205,14 +205,48 @@ export default function ChatInterface(props: ChatInterfaceProps) {
             setSearchProgress(finalProgress);
 
             if (sr && onResponse) {
-                // ... (handling callbacks unchanged)
                 if (sr.type === 'model_grid') {
+                    // Extract stats for summary
+                    const models = sr.models || [];
+                    const ancestries = new Set();
+                    const cohorts = new Set();
+                    models.forEach((m: any) => {
+                        if (m.ancestry) m.ancestry.split(',').forEach((a: string) => ancestries.add(a.trim().toLowerCase()));
+                        if (m.dev_cohorts) m.dev_cohorts.split(',').forEach((c: string) => cohorts.add(c.trim()));
+                    });
+
                     onResponse({
                         type: 'model_grid',
                         models: sr.models,
                         best_model: sr.best_model,
-                        actions: sr.actions
+                        actions: sr.actions,
                     });
+
+                    // Update the Progress Message with a premium summary
+                    setMessages(prev => prev.map(m => {
+                        if (m.id === progressId) {
+                            let summaryContent = `### 🔍 Analysis Complete
+
+I have analyzed the available PRS landscape for **${props.currentTrait || 'this trait'}**. Here are the key findings from our knowledge base:
+
+*   **Total Models Found**: \`${finalCount}\` clinical-grade scores
+*   **Population Diversity**: \`${ancestries.size}\` distinct ancestry groups
+*   **Research Depth**: Evaluated across \`${cohorts.size}\` unique cohorts
+
+---
+
+**Guidance**: To refine these results for your specific study, please **select a target ancestry** from the filter panel on the left. This will allow me to recommend the most accurate model for your population.`;
+
+                            return {
+                                ...m,
+                                content: summaryContent,
+                                footer: undefined, // Removed duplicate footer
+                                progressData: finalProgress,
+                                isProgress: true
+                            };
+                        }
+                        return m;
+                    }));
                 } else if (sr.type === 'downstream_options') {
                     onResponse({
                         type: 'downstream_options',
@@ -221,8 +255,24 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                 } else if (sr.type === 'model_update') {
                     onResponse({
                         type: 'model_update',
-                        model_update: { model_id: sr.model_id, updates: sr.updates }
+                        model_update: { model_id: (sr as any).model_id, updates: (sr as any).updates }
                     });
+                }
+
+                // Overall progress update for any structured response that is not model_grid (which has its own summary)
+                if (sr.type !== 'model_grid') {
+                    setMessages(prev => prev.map(m => {
+                        if (m.id === progressId) {
+                            return {
+                                ...m,
+                                content: "### ✅ Task Successfully Completed\n\nThe requested analysis has been processed. You can now view the updated results in the main panel.",
+                                footer: undefined,
+                                progressData: finalProgress,
+                                isProgress: true
+                            };
+                        }
+                        return m;
+                    }));
                 }
             }
 
@@ -230,25 +280,7 @@ export default function ChatInterface(props: ChatInterfaceProps) {
             const isModelGrid = sr && sr.type === 'model_grid';
             const shouldDefer = isModelGrid && props.deferAnalysis;
 
-            // Update the Progress Message to Final State
-            setMessages(prev => prev.map(m => {
-                if (m.id === progressId) {
-                    // 1. Top Text
-                    let finalContent = "Search completed successfully.";
-
-                    // 2. Bottom Text (Footer)
-                    let footerContent = `Found **${finalCount}** models.`;
-
-                    return {
-                        ...m,
-                        content: finalContent,
-                        footer: footerContent, // New Footer
-                        progressData: finalProgress, // Bake in final progress (Full)
-                        isProgress: true
-                    };
-                }
-                return m;
-            }));
+            // The message update is now handled inside the model_grid check for better context
 
             // If NOT deferred, append the agent Analysis message
             if (!shouldDefer) {
@@ -304,6 +336,14 @@ export default function ChatInterface(props: ChatInterfaceProps) {
 
     return (
         <div className="flex flex-col h-full relative bg-white dark:bg-gray-900">
+            {/* Chat Header */}
+            <div className="p-4 border-b bg-white dark:bg-gray-900 shrink-0">
+                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
+                    <Activity className="text-blue-500" size={20} />
+                    PennPRS Agent
+                </h2>
+            </div>
+
             {/* Chat Area */}
             <div className="flex-1 overflow-y-auto p-4 scroll-smooth" ref={scrollRef}>
                 <div className="space-y-6">
@@ -317,18 +357,19 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                             >
                                 <ChatBubble
                                     role={msg.role}
-                                    content={msg.isWaitingForAncestry ? "Action Required: Please select your target ancestry from the panel on the left to specific model recommendations." : msg.content}
+                                    content={msg.content}
                                     modelCard={msg.modelCard}
                                     actions={msg.actions}
                                     // Inject live progress if this is the active progress message
-                                    progress={msg.isWaitingForAncestry ? null : (msg.id === currentProgressMsgId.current ? searchProgress : msg.progressData)}
-                                    footer={msg.isWaitingForAncestry ? undefined : msg.footer}
+                                    progress={msg.id === currentProgressMsgId.current ? searchProgress : msg.progressData}
+                                    footer={msg.footer}
                                     onViewDetails={onViewDetails}
                                     onTrainNew={onTrainNew}
                                     onDownstreamAction={onDownstreamAction}
                                     onModelDownload={onModelDownload}
                                     onModelSave={onModelSave}
                                     isModelSaved={msg.modelCard ? savedModelIds?.includes(msg.modelCard.id) : false}
+                                    isLoading={msg.id === currentProgressMsgId.current && loading}
                                 />
                             </motion.div>
                         ))}
@@ -388,12 +429,23 @@ export default function ChatInterface(props: ChatInterfaceProps) {
                         disabled={loading}
                         className="flex-1"
                     />
-                    <Button onClick={() => handleSend()} disabled={loading || !input.trim()}>
+                    <Button
+                        onClick={() => handleSend()}
+                        disabled={loading || !input.trim()}
+                        className="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 shadow-md transition-all active:scale-95"
+                    >
                         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <SendHorizontal className="h-4 w-4" />}
                     </Button>
                 </div>
-                <div className="text-center text-xs text-muted-foreground mt-2">
-                    PennPRS Lab &copy; 2025
+                <div className="text-center text-[10px] text-gray-400 mt-2 flex flex-col gap-0.5 select-none">
+                    <div>PennPRS Lab &copy; 2025</div>
+                    <div className="flex items-center justify-center gap-1 opacity-60">
+                        <span>Data:</span>
+                        <a href="https://www.pgscatalog.org/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:underline transition-colors text-[9px]">PGS Catalog</a>
+                        <span className="mx-0.5">•</span>
+                        <span>Training:</span>
+                        <a href="https://pennprs.org/" target="_blank" rel="noopener noreferrer" className="hover:text-blue-500 hover:underline transition-colors text-[9px]">PennPRS</a>
+                    </div>
                 </div>
             </div>
         </div >

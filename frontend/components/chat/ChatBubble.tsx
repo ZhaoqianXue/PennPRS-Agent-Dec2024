@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import ReactMarkdown from 'react-markdown'
-import { Bot, User, Activity, Layers, Dna, Download, PlusCircle, Bookmark, CheckCircle2 } from 'lucide-react'
+import { Bot, User, Activity, Layers, Dna, Download, PlusCircle, Bookmark, CheckCircle2, Loader2 } from 'lucide-react'
 import ModelCard, { ModelData } from "../ModelCard"
 import { ProgressBar } from "../ProgressBar"
 
@@ -8,6 +8,7 @@ interface ChatBubbleProps {
     role: 'user' | 'agent'
     content: string
     modelCard?: ModelData
+    customCard?: React.ReactNode
     actions?: string[]
     progress?: {
         status: string;
@@ -21,7 +22,8 @@ interface ChatBubbleProps {
     onDownstreamAction?: (action: string) => void
     onModelDownload?: (model: ModelData, event?: React.MouseEvent) => void
     onModelSave?: (model: ModelData, event?: React.MouseEvent) => void
-    isModelSaved?: boolean
+    isModelSaved?: boolean;
+    isLoading?: boolean;
 }
 
 const getActionIcon = (action: string) => {
@@ -38,6 +40,7 @@ export function ChatBubble({
     role,
     content,
     modelCard,
+    customCard,
     actions,
     progress,
     footer,
@@ -46,7 +49,8 @@ export function ChatBubble({
     onDownstreamAction,
     onModelDownload,
     onModelSave,
-    isModelSaved
+    isModelSaved,
+    isLoading
 }: ChatBubbleProps) {
     const isUser = role === 'user'
 
@@ -66,21 +70,19 @@ export function ChatBubble({
             )}>
                 <div className={cn("prose prose-sm dark:prose-invert max-w-none break-words", isUser ? "text-primary-foreground" : "")}>
                     {/* Render Text Content */}
-                    <div className="whitespace-pre-wrap leading-relaxed">
-                        {isUser ? content : <ReactMarkdown>{content}</ReactMarkdown>}
+                    <div className="whitespace-pre-wrap leading-relaxed flex flex-col gap-2">
+                        {isUser ? content : (
+                            <div className="flex flex-col gap-2">
+                                {isLoading && (
+                                    <div className="flex items-center gap-2 text-blue-500 font-medium animate-pulse mb-1">
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <span>Searching and analyzing...</span>
+                                    </div>
+                                )}
+                                <ReactMarkdown>{content}</ReactMarkdown>
+                            </div>
+                        )}
                     </div>
-
-                    {/* Render Progress Bar if present */}
-                    {progress && (
-                        <div className="mt-4 mb-2 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
-                            <ProgressBar
-                                status={progress.status}
-                                total={progress.total}
-                                fetched={progress.fetched}
-                                currentAction={progress.current_action}
-                            />
-                        </div>
-                    )}
 
                     {/* Render Footer Text (Below Progress) */}
                     {footer && !isUser && (
@@ -90,14 +92,16 @@ export function ChatBubble({
                     )}
                 </div>
 
-                {/* Render Rich Content: Model Card */}
-                {!isUser && modelCard && (
+                {/* Render Rich Content: Custom Card or Model Card */}
+                {!isUser && (customCard || modelCard) && (
                     <div className="w-[320px] mt-2">
-                        <ModelCard
-                            model={modelCard}
-                            onSelect={() => { }} // No-op for now in chat
-                            onViewDetails={(m) => onViewDetails?.(m)}
-                        />
+                        {customCard || (
+                            <ModelCard
+                                model={modelCard!}
+                                onSelect={() => { }} // No-op for now in chat
+                                onViewDetails={(m) => onViewDetails?.(m)}
+                            />
+                        )}
                     </div>
                 )}
 

@@ -80,6 +80,14 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
 
             setViewStack(newStack);
             setForwardStack(prev => [currentView, ...prev]);
+
+            // Cleanup for specific views
+            if (activeView === 'protein_grid') {
+                setIsAncestrySubmitted(false);
+            } else if (activeView === 'protein_search_summary') {
+                setIsSearchComplete(false);
+            }
+
             setActiveView(previousView);
         }
     };
@@ -226,7 +234,7 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
         setSmartRecommendationActions(null);
 
         // TRIGGER Search
-        const searchMsg = `Search for protein scores for ${query}`;
+        const searchMsg = `I want to search for genetic scores for ${query}`;
         triggerChat(searchMsg);
     };
 
@@ -239,13 +247,8 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
 
     // --- Effects ---
 
-    // Effect 1: When search completes, transition to search_summary view
-    useEffect(() => {
-        if (isSearchComplete && models.length > 0 && activeView === 'protein_search') {
-            // Transition to search summary view
-            pushView('protein_search_summary');
-        }
-    }, [isSearchComplete, models.length, activeView]);
+    // --- Effects (Empty - transitions handled manually in handleChatResponse or ancestry submit) ---
+
 
     // Effect 2: Handle transition from search_summary to grid when ancestry is submitted
     useEffect(() => {
@@ -301,7 +304,7 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
                 setSmartRecommendationModel(best);
                 setSmartRecommendationActions([
                     "Download this Score",
-                    "View Score Details"
+                    "Train Custom Model"
                 ]);
             } else {
                 const ancLabel = selectedAncestry.map(a => ancestryMap[a] || a).join(", ");
@@ -319,6 +322,8 @@ export default function ProteinPage({ onBack }: ProteinPageProps) {
             setModels((response.models || []) as ProteinModelData[]);
             setIsSearchComplete(true);
             setIsSearching(false);
+            // Transition to search summary view to show summary with ancestry filtering
+            pushView('protein_search_summary');
         } else if (response.type === 'protein_detail') {
             // Handle detail view response
             if (response.best_model) {
@@ -860,7 +865,19 @@ function ProteinCanvasArea({
     // View: Protein Search Summary (NEW - matching Disease flow)
     if (view === 'protein_search_summary') {
         return (
-            <div className="h-full overflow-y-auto">
+            <div className="h-full overflow-y-auto bg-gray-50/50 dark:bg-gray-900/50 p-6">
+                <div className="max-w-4xl mx-auto">
+                    {/* Back Button */}
+                    <div className="mb-4">
+                        <button
+                            onClick={onBackToSelection}
+                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors px-3 py-1.5 rounded-lg hover:bg-white/50 dark:hover:bg-gray-800"
+                        >
+                            <ArrowLeft size={18} />
+                            <span className="text-sm font-medium">Back to Search</span>
+                        </button>
+                    </div>
+                </div>
                 <ProteinSearchSummary
                     trait={query || "Protein Search"}
                     models={models as ProteinModelData[]}
@@ -926,7 +943,6 @@ function ProteinCanvasArea({
                                         key={model.id}
                                         model={model}
                                         onViewDetails={() => onViewDetails(model)}
-                                        onSelect={() => onSelectModel(model.id)}
                                     />
                                 ))}
                             </div>
@@ -950,10 +966,9 @@ function ProteinCanvasArea({
 interface ProteinScoreCardProps {
     model: ProteinModelData;
     onViewDetails: () => void;
-    onSelect: () => void;
 }
 
-function ProteinScoreCard({ model, onViewDetails, onSelect }: ProteinScoreCardProps) {
+function ProteinScoreCard({ model, onViewDetails }: ProteinScoreCardProps) {
     const metrics = model.metrics || {};
 
     return (
@@ -1058,88 +1073,11 @@ function ProteinScoreCard({ model, onViewDetails, onSelect }: ProteinScoreCardPr
                 >
                     View Details
                 </button>
-                <button
-                    onClick={onSelect}
-                    className="flex-1 px-3 py-1.5 text-xs font-medium text-white bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 rounded-lg transition-colors flex items-center justify-center gap-1"
-                >
-                    <Download className="w-3 h-3" />
-                    Select
-                </button>
             </div>
         </div>
     );
 }
-
-// === Protein Chat Card Component (Compact for Chat Interface) ===
-
-interface ProteinChatCardProps {
-    model: ProteinModelData;
-    onViewDetails: () => void;
-}
-
-function ProteinChatCard({ model, onViewDetails }: ProteinChatCardProps) {
-    const metrics = model.metrics || {};
-
-    return (
-        <div className="w-full max-w-[320px] bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm p-4 hover:shadow-md transition-all group overflow-hidden">
-            {/* Header: ID & Platform */}
-            <div className="flex justify-between items-start mb-2">
-                <div className="flex flex-col gap-0.5 min-w-0">
-                    <span className="font-mono text-[10px] font-bold text-violet-600 dark:text-violet-400 truncate">
-                        {model.id}
-                    </span>
-                    <h3 className="font-bold text-gray-900 dark:text-white text-sm line-clamp-1 group-hover:text-violet-600 transition-colors" title={model.protein_name || model.name}>
-                        {model.protein_name || model.name}
-                    </h3>
-                </div>
-                {model.platform && (
-                    <span className="px-1.5 py-0.5 text-[9px] font-semibold rounded bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-400 border border-violet-200 dark:border-violet-800 whitespace-nowrap">
-                        {model.platform}
-                    </span>
-                )}
-            </div>
-
-            {/* Gene & Protein Info */}
-            <div className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-400 mb-3">
-                <Dna className="w-3 h-3 text-violet-400" />
-                <span className="truncate">{model.gene_name || "N/A"}</span>
-                <span className="mx-1">•</span>
-                <span className="text-blue-600 dark:text-blue-400">{model.ancestry || "EUR"}</span>
-            </div>
-
-            {/* Metrics Row (Compact) */}
-            <div className="grid grid-cols-3 gap-1.5 mb-4">
-                <div className="text-center py-1.5 bg-violet-50/50 dark:bg-violet-900/10 rounded-lg border border-violet-100/50 dark:border-violet-800/50">
-                    <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">R²</p>
-                    <p className="font-bold text-violet-600 dark:text-violet-400 text-xs font-mono">
-                        {metrics.R2 && typeof metrics.R2 === 'number' ? metrics.R2.toFixed(3) : "N/A"}
-                    </p>
-                </div>
-                <div className="text-center py-1.5 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-lg border border-indigo-100/50 dark:border-indigo-800/50">
-                    <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">Rho</p>
-                    <p className="font-bold text-indigo-600 dark:text-indigo-400 text-xs font-mono">
-                        {metrics.Rho && typeof metrics.Rho === 'number' ? metrics.Rho.toFixed(3) : "0.000"}
-                    </p>
-                </div>
-                <div className="text-center py-1.5 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg border border-gray-100 dark:border-gray-700">
-                    <p className="text-[8px] text-gray-400 font-medium uppercase tracking-wider">Samples</p>
-                    <p className="font-bold text-gray-700 dark:text-gray-300 text-xs font-mono">
-                        {model.sample_size ? (model.sample_size >= 1000 ? `${(model.sample_size / 1000).toFixed(1)}k` : model.sample_size) : "N/A"}
-                    </p>
-                </div>
-            </div>
-
-            {/* View Details Button */}
-            <button
-                onClick={onViewDetails}
-                className="w-full py-2 text-xs font-medium text-violet-600 border border-violet-200 dark:border-violet-700 rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-all flex items-center justify-center gap-1.5"
-            >
-                View Details
-                <ArrowLeft className="w-3 h-3 rotate-180" />
-            </button>
-        </div>
-    );
-}
+// ProteinChatCard definition removed as it is no longer used
 
 // === Protein Chat Interface ===
 
@@ -1166,6 +1104,8 @@ interface Message {
     actions?: string[];
     isProgress?: boolean;
     progressData?: { status: string; total: number; fetched: number; current_action: string } | null;
+    footer?: string;
+    isWaitingForAncestry?: boolean;
 }
 
 function ProteinChatInterface({
@@ -1183,12 +1123,13 @@ function ProteinChatInterface({
     const [messages, setMessages] = useState<Message[]>([
         {
             role: 'agent',
-            content: "Welcome to **PennPRS-Protein**! 🧬\n\nI can help you search for genetic prediction models for protein expression levels from OmicsPred.\n\nTry asking: *\"Find scores for APOE\"* or *\"Browse Olink proteins\"*",
+            content: "Welcome to PennPRS Lab! I'm your research assistant — here to help you navigate and leverage this platform. I can answer questions, design research workflows, and analyze results. Let me know what you need help with! To begin, you can type in the chat box or select a protein of interest from the canvas, and I'll recommend the most suitable proteomics PRS models for you.",
             id: 'welcome'
         }
     ]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Auto-scroll to bottom
@@ -1217,43 +1158,40 @@ function ProteinChatInterface({
         }
     }, [externalAgentMessage, externalAgentModel, externalAgentActions]);
 
+    const currentProgressMsgId = useRef<string | null>(null);
+
     const handleSend = async (text: string = input) => {
         if (!text.trim() || isLoading) return;
 
         const userMsg: Message = { role: 'user', content: text, id: `user-${Date.now()}` };
-        setMessages(prev => [...prev, userMsg]);
+
+        // Add progress message (Disease-style)
+        const progressId = `progress-${Date.now()}`;
+        const progressMsg: Message = {
+            role: 'agent',
+            content: "Searching for proteomics PRS models...",
+            id: progressId,
+            isProgress: true,
+            // progressData remove from here
+        };
+        currentProgressMsgId.current = progressId;
+
+        setMessages(prev => [...prev, userMsg, progressMsg]);
         setInput("");
         setIsLoading(true);
         onSearchStatusChange(true);
 
-        const requestId = `protein-${Date.now()}`;
-
-        // Add progress message
-        setMessages(prev => [...prev, {
-            role: 'agent',
-            content: "Searching OmicsPred...",
-            id: `progress-${requestId}`,
-            isProgress: true,
-            progressData: { status: "starting", total: 0, fetched: 0, current_action: "Initializing..." }
-        }]);
+        const requestId = crypto.randomUUID();
 
         // Start polling for progress
         const pollInterval = setInterval(async () => {
             try {
                 const progressRes = await fetch(`http://localhost:8000/agent/search_progress/${requestId}`);
-                const progressData = await progressRes.json();
-
-                if (progressData.status !== "unknown") {
-                    onProgressUpdate(progressData);
-
-                    setMessages(prev => prev.map(m =>
-                        m.id === `progress-${requestId}`
-                            ? { ...m, progressData }
-                            : m
-                    ));
-
-                    if (progressData.status === "completed") {
-                        clearInterval(pollInterval);
+                if (progressRes.ok) {
+                    const progressData = await progressRes.json();
+                    if (progressData.status !== "unknown") {
+                        onProgressUpdate(progressData); // Keep updating Canvas progress bar
+                        // Note: We do NOT update the Chat message with progress data anymore
                     }
                 }
             } catch (e) {
@@ -1272,41 +1210,86 @@ function ProteinChatInterface({
             onSearchStatusChange(false);
             onProgressUpdate(null);
 
+            if (!res.ok) throw new Error("API Error");
+
             const data = await res.json();
-            const structuredResponse = data.full_state?.structured_response;
+            const sr = data.full_state?.structured_response;
 
-            // Remove progress message and add final response
-            setMessages(prev => {
-                const filtered = prev.filter(m => m.id !== `progress-${requestId}`);
-                const agentMsg: Message = {
-                    role: 'agent',
-                    content: data.response,
-                    id: `agent-${Date.now()}`,
-                    modelCard: structuredResponse?.best_model,
-                    actions: structuredResponse?.actions
+            // Prepare Summary (Disease-style summary in Chat)
+            if (sr && (sr.type === 'protein_grid' || sr.type === 'model_grid')) {
+                const resultsCount = sr.models?.length || 0;
+                const ancestries = new Set();
+                const cohorts = new Set();
+                const models = sr.models || [];
+
+                models.forEach((m: any) => {
+                    if (m.ancestry) m.ancestry.split(',').forEach((a: string) => ancestries.add(a.trim().toLowerCase()));
+                    if (m.dev_cohorts) m.dev_cohorts.split(',').forEach((c: string) => cohorts.add(c.trim()));
+                });
+
+                const summaryContent = `### 🔍 Analysis Complete
+
+I have analyzed the available PRS landscape for **${currentQuery || text}**. Here are the key findings from OmicsPred:
+
+*   **Total Models Found**: \`${resultsCount}\` proteomics clinical scores
+*   **Population Diversity**: \`${ancestries.size}\` distinct ancestry groups
+*   **Research Depth**: Evaluated across \`${cohorts.size}\` unique cohorts
+
+---
+
+**Guidance**: To refine these results for your specific study, please **select a target ancestry** from the filter panel on the left. This will allow me to recommend the most accurate model for your population.`;
+
+                const finalProgress = {
+                    status: 'completed',
+                    total: resultsCount,
+                    fetched: resultsCount,
+                    current_action: 'Search Complete'
                 };
-                return [...filtered, agentMsg];
-            });
 
-            if (structuredResponse) {
-                onResponse(structuredResponse as StructuredResponse);
+                setMessages(prev => prev.map(m => {
+                    if (m.id === progressId) {
+                        return {
+                            ...m,
+                            content: summaryContent,
+                            isProgress: true
+                        };
+                    }
+                    return m;
+                }));
+
+                onResponse(sr);
+            } else {
+                // Handle non-grid responses
+                setMessages(prev => {
+                    const filtered = prev.filter(m => m.id !== progressId);
+                    const agentMsg: Message = {
+                        role: 'agent',
+                        content: data.response || "Task completed successfully.",
+                        id: `agent-${Date.now()}`,
+                        modelCard: sr?.best_model,
+                        actions: sr?.actions
+                    };
+                    return [...filtered, agentMsg];
+                });
+
+                if (sr) onResponse(sr);
             }
 
         } catch (error) {
             clearInterval(pollInterval);
+            onSearchStatusChange(false);
             console.error("Protein agent error:", error);
 
-            setMessages(prev => {
-                const filtered = prev.filter(m => !m.isProgress);
-                return [...filtered, {
-                    role: 'agent',
-                    content: "Sorry, I encountered an error connecting to the backend. Please make sure the server is running.",
-                    id: `error-${Date.now()}`
-                }];
-            });
+            setMessages(prev => prev.map(m => {
+                if (m.id === progressId) {
+                    return { ...m, content: "Sorry, I encountered an error during the search. Please try again." };
+                }
+                return m;
+            }));
         }
 
         setIsLoading(false);
+        currentProgressMsgId.current = null;
     };
 
     return (
@@ -1315,11 +1298,8 @@ function ProteinChatInterface({
             <div className="p-4 border-b bg-white dark:bg-gray-900">
                 <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                     <Dna className="text-violet-500" size={20} />
-                    Protein Agent
+                    PennPRS Agent
                 </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Powered by OmicsPred
-                </p>
             </div>
 
             {/* Messages */}
@@ -1332,51 +1312,74 @@ function ProteinChatInterface({
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.2 }}
                         >
-                            {msg.isProgress ? (
-                                <div className="flex flex-col items-center gap-2 py-4">
-                                    <div className="w-full max-w-sm">
-                                        <ProgressBar
-                                            status={msg.progressData?.status || "starting"}
-                                            total={msg.progressData?.total || 0}
-                                            fetched={msg.progressData?.fetched || 0}
-                                            currentAction={msg.progressData?.current_action || "Initializing..."}
+                            <ChatBubble
+                                role={msg.role}
+                                content={msg.content}
+                                actions={msg.actions}
+                                // Pass ProteinScoreCard as customCard for consistent styling in chat
+                                customCard={
+                                    msg.role === 'agent' && msg.modelCard && !msg.isProgress ? (
+                                        <ProteinScoreCard
+                                            model={msg.modelCard as ProteinModelData}
+                                            onViewDetails={() => onViewDetails(msg.modelCard!)}
                                         />
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    <ChatBubble
-                                        role={msg.role}
-                                        content={msg.content}
-                                        actions={msg.actions}
-                                        onViewDetails={onViewDetails}
-                                        onDownstreamAction={onDownstreamAction}
-                                        onTrainNew={() => { }}
-                                    />
-                                    {/* Use ProteinChatCard instead of ModelCard for protein data */}
-                                    {msg.role === 'agent' && msg.modelCard && (
-                                        <div className="ml-12 mt-2">
-                                            <ProteinChatCard
-                                                model={msg.modelCard as ProteinModelData}
-                                                onViewDetails={() => onViewDetails(msg.modelCard!)}
-                                            />
-                                        </div>
-                                    )}
-                                </>
-                            )}
+                                    ) : undefined
+                                }
+                                // No progress passed to ChatBubble to avoid rendering it
+                                footer={msg.footer}
+                                onViewDetails={onViewDetails}
+                                onDownstreamAction={onDownstreamAction}
+                                onTrainNew={() => { }}
+                                isLoading={msg.id === currentProgressMsgId.current && isLoading}
+                            />
+                            {/* Previous external card rendering block removed */}
                         </motion.div>
                     ))}
                 </AnimatePresence>
+                {/* Removed static suggestions in favor of onFocus popup */}
+
                 <div ref={messagesEndRef} />
             </div>
 
             {/* Input */}
-            <div className="p-4 border-t bg-white dark:bg-gray-900">
-                <div className="flex gap-2">
+            <div className="p-4 border-t bg-white dark:bg-gray-900 shrink-0">
+                <div className="flex gap-2 relative">
+                    <AnimatePresence>
+                        {showSuggestions && (
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 10 }}
+                                className="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden z-30"
+                            >
+                                <div className="p-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Suggested Queries
+                                </div>
+                                {["I want to search for genetic scores for COL1A1", "I want to search for genetic scores for APOE", "I want to search for genetic scores for EGFR", "I want to search for genetic scores for TP53"].map((suggestion, idx) => (
+                                    <button
+                                        key={idx}
+                                        className="w-full text-left px-4 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 text-gray-700 dark:text-gray-200"
+                                        onMouseDown={(e) => {
+                                            e.preventDefault();
+                                            handleSend(suggestion);
+                                            setShowSuggestions(false);
+                                        }}
+                                    >
+                                        <span className="bg-violet-100 dark:bg-violet-900 text-violet-600 dark:text-violet-300 p-1 rounded">
+                                            <SendHorizontal className="h-3 w-3" />
+                                        </span>
+                                        {suggestion}
+                                    </button>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                     <Input
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setShowSuggestions(false)}
                         placeholder="Ask about proteins..."
                         disabled={isLoading}
                         className="flex-1"
@@ -1389,7 +1392,18 @@ function ProteinChatInterface({
                         {isLoading ? <Loader2 className="animate-spin" size={18} /> : <SendHorizontal size={18} />}
                     </Button>
                 </div>
+                {/* Attribution Footer */}
+                <div className="text-center text-[10px] text-gray-400 mt-2 flex flex-col gap-0.5 select-none shrink-0">
+                    <div>PennPRS Lab &copy; 2025</div>
+                    <div className="flex items-center justify-center gap-1 opacity-60">
+                        <span>Data:</span>
+                        <a href="https://www.omicspred.org/" target="_blank" rel="noopener noreferrer" className="hover:text-violet-500 hover:underline transition-colors text-[9px]">OmicsPred</a>
+                        <span className="mx-0.5">•</span>
+                        <span>Training:</span>
+                        <a href="https://pennprs.org/" target="_blank" rel="noopener noreferrer" className="hover:text-violet-500 hover:underline transition-colors text-[9px]">PennPRS</a>
+                    </div>
+                </div>
             </div>
-        </div>
+        </div >
     );
 }
