@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, Activity } from 'lucide-react';
+import OpenTargetsSearchModal from './OpenTargetsSearchModal';
 
-interface Disease {
-    id: string;
-    name: string;
-    description: string;
-}
-
-const diseases: Disease[] = [
-    { id: "Alzheimer's disease", name: "Alzheimer's Disease", description: "Neurodegenerative disorder prediction" },
-    { id: "Type 2 diabetes", name: "Type 2 Diabetes", description: "Metabolic risk assessment" },
-    { id: "Coronary artery disease", name: "Coronary Artery Disease", description: "Cardiovascular health monitoring" },
-    { id: "Breast cancer", name: "Breast Cancer", description: "Oncology risk profiling" },
-    { id: "Prostate cancer", name: "Prostate Cancer", description: "Male oncology screening" },
-    { id: "Atrial fibrillation", name: "Atrial Fibrillation", description: "Cardiac arrhythmia risk" },
-    { id: "Asthma", name: "Asthma", description: "Respiratory disease prediction" },
-    { id: "Rheumatoid arthritis", name: "Rheumatoid Arthritis", description: "Autoimmune disorder assessment" },
+// Quick access diseases
+const quickAccessDiseases = [
+    { id: "Alzheimer's disease", name: "Alzheimer's Disease", description: "MONDO_0004975" },
+    { id: "Type 2 diabetes", name: "Type 2 Diabetes", description: "MONDO_0005148" },
+    { id: "Coronary artery disease", name: "Coronary Artery Disease", description: "MONDO_0004994" },
+    { id: "Breast cancer", name: "Breast Cancer", description: "MONDO_0007254" },
+    { id: "Prostate cancer", name: "Prostate Cancer", description: "MONDO_0008315" },
+    { id: "Atrial fibrillation", name: "Atrial Fibrillation", description: "MONDO_0004981" },
+    { id: "Asthma", name: "Asthma", description: "MONDO_0004979" },
+    { id: "Rheumatoid arthritis", name: "Rheumatoid Arthritis", description: "MONDO_0008383" },
 ];
 
 interface DiseaseGridProps {
@@ -23,44 +19,43 @@ interface DiseaseGridProps {
 }
 
 export default function DiseaseGrid({ onSelect }: DiseaseGridProps) {
-    const [searchInput, setSearchInput] = useState("");
-
-    const filteredDiseases = diseases.filter(disease =>
-        disease.name.toLowerCase().includes(searchInput.toLowerCase()) ||
-        disease.description.toLowerCase().includes(searchInput.toLowerCase())
-    );
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <div className="w-full max-w-6xl mx-auto space-y-8">
-            {/* Search Bar */}
-            <div className="w-full max-w-2xl mx-auto relative">
-                <input
-                    type="text"
-                    value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter' && filteredDiseases.length === 1) {
-                            onSelect(filteredDiseases[0].id);
-                        }
-                    }}
-                    placeholder="Search any disease or phenotype (e.g., diabetes, cancer)..."
-                    className="w-full px-6 py-4 pr-14 text-base bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm hover:shadow-md"
-                />
+            {/* Search Bar - Click to open modal */}
+            <div className="w-full max-w-2xl mx-auto">
                 <button
-                    onClick={() => {
-                        if (filteredDiseases.length === 1) {
-                            onSelect(filteredDiseases[0].id);
-                        }
-                    }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors"
+                    onClick={() => setIsModalOpen(true)}
+                    className="w-full px-4 py-4 text-left flex items-center gap-3 bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-2xl hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-lg transition-all cursor-text"
                 >
-                    <Search size={24} />
+                    <Search className="w-5 h-5 text-gray-400" />
+                    <span className="text-gray-500 dark:text-gray-400 text-base">
+                        Search for a target, drug, disease, or phenotype...
+                    </span>
                 </button>
             </div>
 
-            {/* Disease Cards Grid */}
+            {/* Open Targets Search Modal */}
+            <OpenTargetsSearchModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSelect={(query) => {
+                    setIsModalOpen(false);
+                    onSelect(query);
+                }}
+            />
+
+            {/* Quick Access Section */}
+            <div className="text-center">
+                <span className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                    Quick Access
+                </span>
+            </div>
+
+            {/* Quick Access Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {filteredDiseases.map((disease) => (
+                {quickAccessDiseases.map((disease) => (
                     <button
                         key={disease.id}
                         onClick={() => onSelect(disease.id)}
@@ -69,18 +64,12 @@ export default function DiseaseGrid({ onSelect }: DiseaseGridProps) {
                         <div className="font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 mb-1 text-base">
                             {disease.name}
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                        <div className="text-xs text-gray-400 dark:text-gray-500 font-mono">
                             {disease.description}
                         </div>
                     </button>
                 ))}
             </div>
-
-            {filteredDiseases.length === 0 && (
-                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-                    No diseases found matching "{searchInput}"
-                </div>
-            )}
         </div>
     );
 }

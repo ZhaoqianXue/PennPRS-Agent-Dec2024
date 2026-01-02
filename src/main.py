@@ -198,6 +198,165 @@ async def get_protein_score_details(score_id: str):
     return formatted
 
 
+# ========== Open Targets Platform Search API ==========
+
+class OpenTargetsSearchRequest(BaseModel):
+    query: str
+    entity_types: list = None  # Optional: ['disease', 'target', 'drug']
+    page: int = 0
+    size: int = 10
+
+
+@app.post("/opentargets/search")
+async def opentargets_search(req: OpenTargetsSearchRequest):
+    """
+    Search Open Targets Platform for entities matching the query.
+    
+    If entity_types is not specified, returns ALL entity types (disease, target, drug)
+    sorted by relevance score - this is the "满血版" (full version).
+    
+    Returns entities with MONDO/EFO IDs for diseases, ENSG IDs for targets, CHEMBL IDs for drugs.
+    Includes score and highlights for each result.
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    results = client.search(
+        query=req.query,
+        entity_types=req.entity_types,
+        page=req.page,
+        size=req.size
+    )
+    
+    return client.format_search_results_for_ui(results)
+
+
+class OpenTargetsFullSearchRequest(BaseModel):
+    """Request model for full search without entity type restrictions."""
+    query: str
+    page: int = 0
+    size: int = 10
+
+
+@app.post("/opentargets/full_search")
+async def opentargets_full_search(req: OpenTargetsFullSearchRequest):
+    """
+    满血版 FULL SEARCH - Search ALL entity types without any restrictions.
+    
+    Returns disease, target (gene/protein), AND drug entities together,
+    sorted by relevance score. Includes highlights for each result.
+    
+    This endpoint mirrors the exact behavior of https://platform.opentargets.org search.
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    results = client.full_search(
+        query=req.query,
+        page=req.page,
+        size=req.size
+    )
+    
+    return client.format_search_results_for_ui(results)
+
+
+class OpenTargetsGroupedSearchRequest(BaseModel):
+    """Request model for grouped autocomplete search."""
+    query: str
+    size: int = 50
+
+
+@app.post("/opentargets/grouped_search")
+async def opentargets_grouped_search(req: OpenTargetsGroupedSearchRequest):
+    """
+    GROUPED SEARCH - Returns results organized by entity type for autocomplete UI.
+    Mimics the Open Targets Platform autocomplete dropdown with sections:
+    
+    - topHit: The single best matching result
+    - targets: Gene/protein results (ENSG IDs)  
+    - diseases: Disease results (MONDO/EFO IDs)
+    - drugs: Drug results (CHEMBL IDs)
+    - studies: GWAS study results (GCST IDs)
+    
+    This is the "满血版" autocomplete matching platform.opentargets.org exactly.
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    results = client.grouped_search(
+        query=req.query,
+        size=req.size
+    )
+    
+    return client.format_grouped_search_for_ui(results)
+
+
+@app.post("/opentargets/search/disease")
+async def opentargets_search_disease(req: OpenTargetsSearchRequest):
+    """
+    Search Open Targets Platform for diseases/phenotypes.
+    
+    Returns results with MONDO/EFO ontology IDs (e.g., MONDO_0004975).
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    results = client.search_diseases(
+        query=req.query,
+        page=req.page,
+        size=req.size
+    )
+    
+    return client.format_search_results_for_ui(results)
+
+
+@app.post("/opentargets/search/target")
+async def opentargets_search_target(req: OpenTargetsSearchRequest):
+    """
+    Search Open Targets Platform for targets (genes/proteins).
+    
+    Returns results with Ensembl gene IDs (e.g., ENSG00000130203).
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    results = client.search_targets(
+        query=req.query,
+        page=req.page,
+        size=req.size
+    )
+    
+    return client.format_search_results_for_ui(results)
+
+
+@app.get("/opentargets/disease/{disease_id}")
+async def opentargets_get_disease(disease_id: str):
+    """
+    Get detailed information about a disease.
+    
+    Args:
+        disease_id: Disease ID (e.g., 'MONDO_0004975', 'EFO_0000249')
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    return client.get_disease_details(disease_id)
+
+
+@app.get("/opentargets/target/{ensembl_id}")
+async def opentargets_get_target(ensembl_id: str):
+    """
+    Get detailed information about a target (gene/protein).
+    
+    Args:
+        ensembl_id: Ensembl gene ID (e.g., 'ENSG00000130203')
+    """
+    from src.core.opentargets_client import OpenTargetsClient
+    
+    client = OpenTargetsClient()
+    return client.get_target_details(ensembl_id)
+
+
 if __name__ == "__main__":
     uvicorn.run("src.main:app", host="0.0.0.0", port=8000, reload=True)
 

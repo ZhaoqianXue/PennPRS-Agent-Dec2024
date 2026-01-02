@@ -14,6 +14,7 @@ import { ProgressBar } from "./ProgressBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatBubble } from "@/components/chat/ChatBubble";
+import ProteinTargetGrid from "./ProteinTargetGrid";
 
 interface ProteinPageProps {
     onBack: () => void;
@@ -736,7 +737,7 @@ function ProteinCanvasArea({
                             <div>
                                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Searching OmicsPred...</h2>
                                 <p className="text-gray-500 dark:text-gray-400">
-                                    Retrieving molecular data and PRS models for <span className="font-semibold text-violet-600">"{query || searchInput || "your selection"}"</span>
+                                    Retrieving molecular data and PRS models for <span className="font-semibold text-violet-600">"{query || "your selection"}"</span>
                                 </p>
                             </div>
                             {searchProgress ? (
@@ -773,90 +774,12 @@ function ProteinCanvasArea({
                             Select Target Biomarker
                         </h1>
                         <p className="text-gray-600 dark:text-gray-400">
-                            Choose a reference gene or protein to find associated models
+                            Search for any gene or protein using Open Targets Platform
                         </p>
                     </div>
 
-                    {/* Search Bar */}
-                    <div className="w-full max-w-2xl mb-10 shrink-0">
-                        <div className="relative">
-                            <input
-                                type="text"
-                                value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && searchInput.trim()) {
-                                        onSearch(searchInput.trim());
-                                    }
-                                }}
-                                placeholder="Search any gene or protein (e.g., TNF, IL6)..."
-                                className="w-full px-6 py-4 text-lg rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 focus:border-violet-500 focus:ring-4 focus:ring-violet-500/20 outline-none transition-all shadow-sm"
-                            />
-                            <button
-                                onClick={() => searchInput.trim() && onSearch(searchInput.trim())}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 rounded-xl hover:bg-violet-200 dark:hover:bg-violet-900/50 transition-all"
-                            >
-                                <Search size={24} />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Selection Grids */}
-                    <div className="w-full grid md:grid-cols-1 gap-10 pb-8">
-
-                        {/* Reference Genes */}
-                        <div className="space-y-4">
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                                <Dna className="w-5 h-5 text-violet-500" />
-                                Reference Genes
-                            </h2>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {["COL1A1", "APOE", "EGFR", "TP53"].map((gene) => (
-                                    <button
-                                        key={gene}
-                                        onClick={() => onSearch(gene)}
-                                        className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-violet-400 dark:hover:border-violet-500 hover:shadow-md transition-all text-left"
-                                    >
-                                        <div className="font-bold text-gray-900 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 mb-1">
-                                            {gene}
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                                            Gene Symbol
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Featured Proteins */}
-                        <div className="space-y-4">
-                            <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                                <Activity className="w-5 h-5 text-purple-500" />
-                                Featured Proteins
-                            </h2>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {[
-                                    { name: "P53", id: "P53" },
-                                    { name: "Albumin", id: "Albumin" },
-                                    { name: "C-Reactive Protein", id: "CRP" },
-                                    { name: "Insulin", id: "Insulin" }
-                                ].map((prot) => (
-                                    <button
-                                        key={prot.id}
-                                        onClick={() => onSearch(prot.id)}
-                                        className="group p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-purple-400 dark:hover:border-purple-500 hover:shadow-md transition-all text-left"
-                                    >
-                                        <div className="font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 mb-1 truncate">
-                                            {prot.name}
-                                        </div>
-                                        <div className="text-xs text-gray-500 dark:text-gray-400">
-                                            Protein
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+                    {/* Open Targets Search Grid */}
+                    <ProteinTargetGrid onSelect={onSearch} />
                 </div>
             </div>
         );
