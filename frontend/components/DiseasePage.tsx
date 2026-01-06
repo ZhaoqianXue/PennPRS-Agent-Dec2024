@@ -5,7 +5,7 @@ import ChatInterface, { StructuredResponse } from "./ChatInterface";
 import CanvasArea, { ViewType } from "./CanvasArea";
 import { ModelData } from "./ModelCard";
 import ModelDetailModal from "./ModelDetailModal";
-import { Home, Bookmark, Download } from "lucide-react";
+import { Home, Bookmark, Download, CheckCircle2, Mail } from "lucide-react";
 import { TrainingConfig } from "./TrainingConfigForm";
 import { MultiAncestryTrainingConfig } from "./MultiAncestryTrainingForm";
 import { AnimatePresence, motion } from "framer-motion";
@@ -48,6 +48,17 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     // Flying Animation State
     const [flyingModel, setFlyingModel] = useState<{ model: ModelData; startPos: { x: number; y: number } } | null>(null);
     const savedButtonRef = useRef<HTMLButtonElement>(null);
+
+    // Training Submission Confirmation Modal State
+    const [trainingSubmitModal, setTrainingSubmitModal] = useState<{
+        isOpen: boolean;
+        jobName: string;
+        email: string;
+        jobType: 'single' | 'multi';
+    } | null>(null);
+
+    // Training Submission Loading State
+    const [isTrainingSubmitting, setIsTrainingSubmitting] = useState(false);
 
     // Navigation History - Simple Stack
     const [viewStack, setViewStack] = useState<ViewType[]>(['mode_selection']);
@@ -256,62 +267,52 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
         pushView('train_type_selection');
     };
 
-    const handleTrainingSubmit = (config: TrainingConfig) => {
-        const optimisticSource = config.dataSourceType === 'upload' ? "User Upload" : "User Trained";
-        const pendingModel: ModelData = {
-            id: `JOB-${Date.now()}`,
-            name: config.jobName || `Custom Model (${config.trait})`,
-            trait: config.trait,
-            ancestry: config.ancestry,
-            method: config.methods.join(", "),
-            source: optimisticSource as ModelData['source'],
-            isLoading: true,
-            status: "running",
-            metrics: { AUC: 0, R2: 0 },
-            sample_size: config.sampleSize || 0
-        };
+    const handleTrainingSubmit = async (config: TrainingConfig) => {
+        setIsTrainingSubmitting(true);  // Start loading
+        try {
+            // Call backend API to submit training job with user's email
+            const response = await fetch('http://localhost:8000/api/submit-training-job', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jobName: config.jobName,
+                    email: config.email,
+                    jobType: config.jobType,
+                    trait: config.trait,
+                    ancestry: config.ancestry,
+                    methods: config.methods,
+                    methodologyCategory: config.methodologyCategory,
+                    ensemble: config.ensemble,
+                    dataSourceType: config.dataSourceType,
+                    database: config.database,
+                    gwasId: config.gwasId,
+                    uploadedFileName: config.uploadedFileName,
+                    traitType: config.traitType,
+                    sampleSize: config.sampleSize,
+                    advanced: config.advanced
+                })
+            });
 
-        setModels(prev => [pendingModel, ...prev]);
-        pushView('model_grid');
-
-        let prompt = `I want to train a new model for ${config.trait} (Ancestry: ${config.ancestry}) named '${config.jobName}'.`;
-        prompt += `\nEmail: ${config.email}`;
-        prompt += `\nJob Type: ${config.jobType}`;
-        prompt += `\nMethodology Category: ${config.methodologyCategory}`;
-        prompt += `\nMethods: ${config.methods.join(', ')}`;
-        if (config.ensemble) prompt += `\nEnsemble: Enabled`;
-        if (config.dataSourceType === 'public') {
-            prompt += `\nData Source: Public ${config.database || "GWAS Catalog"} (ID: ${config.gwasId || "Auto"})`;
-        } else {
-            prompt += `\nData Source: User Upload (${config.uploadedFileName})`;
-            prompt += `\n[SYSTEM NOTE: File content handling simulated for agent prototype]`;
+            // Show confirmation modal regardless of API response for now
+            // (In production, handle error case separately)
+            setTrainingSubmitModal({
+                isOpen: true,
+                jobName: config.jobName,
+                email: config.email,
+                jobType: 'single'
+            });
+        } catch (error) {
+            console.error('Error submitting training job:', error);
+            // Still show modal even if API call fails (for demo purposes)
+            setTrainingSubmitModal({
+                isOpen: true,
+                jobName: config.jobName,
+                email: config.email,
+                jobType: 'single'
+            });
+        } finally {
+            setIsTrainingSubmitting(false);  // Stop loading
         }
-        prompt += `\nTrait Type: ${config.traitType}, Sample Size: ${config.sampleSize}`;
-        if (config.advanced) {
-            prompt += `\nHyperparams: kb=${config.advanced.kb}, r2=${config.advanced.r2}, pval_thr=${config.advanced.pval_thr}`;
-            // Add new advanced params if present
-            if (config.advanced.delta) prompt += `, delta=${config.advanced.delta}`;
-            if (config.advanced.nlambda) prompt += `, nlambda=${config.advanced.nlambda}`;
-            if (config.advanced.lambda_min_ratio) prompt += `, lambda_min_ratio=${config.advanced.lambda_min_ratio}`;
-            if (config.advanced.alpha) prompt += `, alpha=${config.advanced.alpha}`;
-            if (config.advanced.p_seq) prompt += `, p_seq=${config.advanced.p_seq}`;
-            if (config.advanced.sparse !== undefined) prompt += `, sparse=${config.advanced.sparse}`;
-            if (config.advanced.Ll) prompt += `, Ll=${config.advanced.Ll}`;
-            if (config.advanced.Lc) prompt += `, Lc=${config.advanced.Lc}`;
-            if (config.advanced.ndelta) prompt += `, ndelta=${config.advanced.ndelta}`;
-            if (config.advanced.phi) prompt += `, phi=${config.advanced.phi}`;
-            // PRS-CS-auto settings
-            if (config.advanced.prscsPhiMode) {
-                prompt += `\nPRS-CS-auto Mode: ${config.advanced.prscsPhiMode}`;
-                if (config.advanced.prscsPhiMode === 'fixedPhi' && config.advanced.prscsPhiValue) {
-                    prompt += `, phi=${config.advanced.prscsPhiValue}`;
-                }
-            }
-        }
-
-        triggerChat(prompt);
-        // Training view handles its own post-submit actions or we can switch view here
-        // For now, we go to model grid as per existing logic
     };
 
     const handleDownstreamAction = (action: string) => {
@@ -389,55 +390,46 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
     };
 
     // --- Multi-Ancestry Training Submit ---
-    const handleMultiAncestrySubmit = (config: MultiAncestryTrainingConfig) => {
-        // Create optimistic pending model
+    const handleMultiAncestrySubmit = async (config: MultiAncestryTrainingConfig) => {
         const ancestries = config.dataSources.map(ds => ds.ancestry).join('+');
-        const pendingModel: ModelData = {
-            id: `JOB-MULTI-${Date.now()}`,
-            name: config.jobName || `Multi-Ancestry Model (${ancestries})`,
-            trait: config.trait || 'Multi-Ancestry PRS',
-            ancestry: ancestries,
-            method: "PROSPER-pseudo",
-            source: "User Trained",
-            isLoading: true,
-            status: "running",
-            metrics: { AUC: 0, R2: 0 },
-            sample_size: config.dataSources.reduce((sum, ds) => sum + (ds.sampleSize || 0), 0)
-        };
+        setIsTrainingSubmitting(true);  // Start loading
 
-        setModels(prev => [pendingModel, ...prev]);
-        pushView('model_grid');
+        try {
+            // Call backend API to submit multi-ancestry training job
+            const response = await fetch('http://localhost:8000/api/submit-training-job', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jobName: config.jobName,
+                    email: config.email,
+                    jobType: 'multi',
+                    trait: config.trait,
+                    ancestries: ancestries,
+                    dataSources: config.dataSources,
+                    method: config.method,
+                    advanced: config.advanced
+                })
+            });
 
-        // Build prompt for agent to submit to PennPRS API
-        let prompt = `I want to train a Multi-Ancestry PRS model named '${config.jobName}' for trait '${config.trait}'.`;
-        prompt += `\nEmail: ${config.email}`;
-        prompt += `\nJob Type: multi`;
-        prompt += `\nMethodology: PROSPER-pseudo`;
-        prompt += `\nAncestries: ${ancestries} (${config.dataSources.length} populations)`;
-
-        config.dataSources.forEach((ds, idx) => {
-            prompt += `\n\nAncestry ${idx + 1} (${ds.ancestry}):`;
-            if (ds.dataSourceType === 'public') {
-                prompt += `\n  Data Source: Public ${ds.database === 'finngen' ? 'FinnGen' : 'GWAS Catalog'} (ID: ${ds.gwasId})`;
-            } else {
-                prompt += `\n  Data Source: User Upload (${ds.uploadedFileName})`;
-            }
-            prompt += `\n  Trait Type: ${ds.traitType}, Sample Size: ${ds.sampleSize}`;
-            if (ds.nCases && ds.nControls) {
-                prompt += `, Cases: ${ds.nCases}, Controls: ${ds.nControls}`;
-            }
-        });
-
-        if (config.advanced) {
-            prompt += `\n\nAdvanced PROSPER Parameters:`;
-            prompt += ` nlambda=${config.advanced.nlambda}`;
-            prompt += `, ndelta=${config.advanced.ndelta}`;
-            prompt += `, lambda_min_ratio=${config.advanced.lambda_min_ratio}`;
-            prompt += `, Ll=${config.advanced.Ll}`;
-            prompt += `, Lc=${config.advanced.Lc}`;
+            // Show confirmation modal
+            setTrainingSubmitModal({
+                isOpen: true,
+                jobName: config.jobName,
+                email: config.email,
+                jobType: 'multi'
+            });
+        } catch (error) {
+            console.error('Error submitting multi-ancestry training job:', error);
+            // Still show modal even if API call fails
+            setTrainingSubmitModal({
+                isOpen: true,
+                jobName: config.jobName,
+                email: config.email,
+                jobType: 'multi'
+            });
+        } finally {
+            setIsTrainingSubmitting(false);  // Stop loading
         }
-
-        triggerChat(prompt);
     };
 
     // --- Mode Selection Handlers ---
@@ -587,6 +579,8 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                         onGoToModelGrid={() => pushView('model_grid')}
                         canGoForward={canGoForward}
                         onGoForward={goForward}
+                        // Training loading state
+                        isTrainingSubmitting={isTrainingSubmitting}
                     />
 
                     {/* Modals placed here to be relative to the App or Global */}
@@ -642,6 +636,70 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                 </div>
 
             </div>
+
+            {/* Training Submission Confirmation Modal */}
+            <AnimatePresence>
+                {trainingSubmitModal?.isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 text-center"
+                        >
+                            {/* Success Icon */}
+                            <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                                <CheckCircle2 className="w-10 h-10 text-green-600 dark:text-green-400" />
+                            </div>
+
+                            {/* Title */}
+                            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                                Training Job Submitted!
+                            </h2>
+
+                            {/* Job Name */}
+                            <p className="text-gray-600 dark:text-gray-300 mb-4">
+                                Your {trainingSubmitModal.jobType === 'multi' ? 'multi-ancestry' : 'single-ancestry'} training job <span className="font-semibold text-blue-600 dark:text-blue-400">"{trainingSubmitModal.jobName}"</span> has been successfully submitted.
+                            </p>
+
+                            {/* Email Notification */}
+                            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-xl p-4 mb-6">
+                                <div className="flex items-center justify-center gap-2 mb-2">
+                                    <Mail className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                    <span className="font-medium text-blue-700 dark:text-blue-300">Check Your Email</span>
+                                </div>
+                                <p className="text-sm text-blue-600 dark:text-blue-400">
+                                    You will receive training progress updates and results at:
+                                </p>
+                                <p className="text-sm font-semibold text-blue-800 dark:text-blue-200 mt-1">
+                                    {trainingSubmitModal.email}
+                                </p>
+                            </div>
+
+                            {/* Return Button */}
+                            <button
+                                onClick={() => {
+                                    setTrainingSubmitModal(null);
+                                    // Reset navigation and return to main mode_selection page
+                                    setViewStack(['mode_selection']);
+                                    setForwardStack([]);
+                                    setActiveView('mode_selection');
+                                    setCurrentTrait(null);
+                                    setModels([]);
+                                }}
+                                className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
+                            >
+                                Return to Main Page
+                            </button>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }

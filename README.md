@@ -28,6 +28,7 @@ PennPRS_Agent/
 From the root directory, run:
 ```bash
 export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py
+# export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py --reload
 ```
 
 ### 2. Frontend Setup

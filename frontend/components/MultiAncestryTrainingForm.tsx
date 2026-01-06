@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Search, X, ChevronDown, ChevronUp, Plus, Trash2, HelpCircle, Info, Lock, ChevronRight, Upload, ExternalLink } from "lucide-react";
+import { Search, X, ChevronDown, ChevronUp, Plus, Trash2, HelpCircle, Info, Lock, ChevronRight, Upload, ExternalLink, Loader2 } from "lucide-react";
 import GWASSearchModal, { GWASEntry } from "./GWASSearchModal";
 
 // Type Definitions
@@ -35,6 +35,7 @@ export interface MultiAncestryTrainingConfig {
 interface MultiAncestryTrainingFormProps {
     onSubmit: (config: MultiAncestryTrainingConfig) => void;
     onCancel?: () => void;
+    isSubmitting?: boolean;  // New: loading state for submit button
 }
 
 const ANCESTRY_OPTIONS = [
@@ -71,7 +72,7 @@ const inferAncestryFromText = (text: string): string | null => {
     return null;
 };
 
-export default function MultiAncestryTrainingForm({ onSubmit, onCancel }: MultiAncestryTrainingFormProps) {
+export default function MultiAncestryTrainingForm({ onSubmit, onCancel, isSubmitting = false }: MultiAncestryTrainingFormProps) {
     // Job Details
     const [jobName, setJobName] = useState("");
     const [email, setEmail] = useState("");
@@ -785,13 +786,20 @@ export default function MultiAncestryTrainingForm({ onSubmit, onCancel }: MultiA
                     </button>
                     <button
                         onClick={handleSubmit}
-                        disabled={!isValid()}
-                        className={`px-8 py-2.5 text-sm font-semibold rounded-xl transition-all shadow-lg ${isValid()
+                        disabled={!isValid() || isSubmitting}
+                        className={`px-8 py-2.5 text-sm font-semibold rounded-xl transition-all shadow-lg flex items-center gap-2 ${isValid() && !isSubmitting
                             ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 hover:shadow-xl'
                             : 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
                             }`}
                     >
-                        Submit Training Job
+                        {isSubmitting ? (
+                            <>
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                Submitting...
+                            </>
+                        ) : (
+                            'Submit Training Job'
+                        )}
                     </button>
                 </div>
             </div>

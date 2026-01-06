@@ -43,6 +43,8 @@ interface CanvasAreaProps {
     onGoToModelGrid?: () => void;
     canGoForward?: boolean;
     onGoForward?: () => void;
+    // Training loading state
+    isTrainingSubmitting?: boolean;
 }
 
 export default function CanvasArea({
@@ -70,7 +72,8 @@ export default function CanvasArea({
     onSelectSavedModel,
     onGoToModelGrid,
     canGoForward,
-    onGoForward
+    onGoForward,
+    isTrainingSubmitting
 }: CanvasAreaProps) {
 
     return (
@@ -247,6 +250,7 @@ export default function CanvasArea({
                             onSubmit={onTrainingSubmit}
                             defaultTrait={trait || undefined}
                             onCancel={onBackToSelection}
+                            isSubmitting={isTrainingSubmitting}
                         />
                     </div>
                 )}
@@ -277,6 +281,7 @@ export default function CanvasArea({
                         <MultiAncestryTrainingForm
                             onSubmit={onMultiAncestrySubmit!}
                             onCancel={onBackToSelection}
+                            isSubmitting={isTrainingSubmitting}
                         />
                     </div>
                 )}

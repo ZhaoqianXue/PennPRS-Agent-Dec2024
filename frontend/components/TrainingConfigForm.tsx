@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Upload, Settings2, Info, Search, ChevronRight, ExternalLink, HelpCircle } from 'lucide-react';
+import { Upload, Settings2, Info, Search, ChevronRight, ExternalLink, HelpCircle, Loader2 } from 'lucide-react';
 import GWASSearchModal, { GWASEntry } from './GWASSearchModal';
 
 export interface TrainingConfig {
@@ -43,9 +43,10 @@ interface TrainingConfigFormProps {
     onSubmit: (config: TrainingConfig) => void;
     defaultTrait?: string;
     onCancel?: () => void;
+    isSubmitting?: boolean;  // New: loading state for submit button
 }
 
-export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }: TrainingConfigFormProps) {
+export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel, isSubmitting = false }: TrainingConfigFormProps) {
     // Form State
     const [jobName, setJobName] = useState("");
     const [email, setEmail] = useState(""); // New State
@@ -877,13 +878,20 @@ export default function TrainingConfigForm({ onSubmit, defaultTrait, onCancel }:
                         )}
                         <button
                             onClick={handleSubmit}
-                            disabled={!isFormValid}
-                            className={`px-8 py-2.5 text-sm font-bold rounded-xl shadow-lg transition-all duration-200 ${isFormValid
+                            disabled={!isFormValid || isSubmitting}
+                            className={`px-8 py-2.5 text-sm font-bold rounded-xl shadow-lg transition-all duration-200 flex items-center gap-2 ${isFormValid && !isSubmitting
                                 ? 'text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 hover:shadow-xl hover:-translate-y-0.5'
                                 : 'text-gray-400 bg-gray-200 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
                                 }`}
                         >
-                            Start Training Job
+                            {isSubmitting ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                    Submitting...
+                                </>
+                            ) : (
+                                'Start Training Job'
+                            )}
                         </button>
                     </div>
 
