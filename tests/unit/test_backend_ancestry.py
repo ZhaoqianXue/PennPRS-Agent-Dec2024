@@ -10,7 +10,7 @@ sys.path.append(os.path.join(os.getcwd(), 'src'))
 # Mock llm_config to avoid complex dependency if needed, or rely on real one
 # Assuming we can just import the module
 try:
-    from src.modules.function4.trait_classifier import classify_trait, _fallback_classification
+    from src.modules.disease.trait_classifier import classify_trait, _fallback_classification
 except ImportError as e:
     print(f"Error importing modules: {e}")
     sys.exit(1)

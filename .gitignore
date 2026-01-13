@@ -5,6 +5,7 @@ __pycache__/
 downloads/
 output/
 pennprs-agent/
+pgscatalog/
 
 # Large data files
 *.tsv

@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 # Load env before importing modules that might need it
 load_dotenv()
 
-from src.modules.function4.workflow import app as workflow_app
-from src.modules.function3.workflow import app as protein_workflow_app
+from src.modules.disease.workflow import app as workflow_app
+from src.modules.protein.workflow import app as protein_workflow_app
 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -90,7 +90,7 @@ async def classify_trait_endpoint(req: TraitClassifyRequest):
     Also extracts ancestry information from sample_info.
     Returns: {"trait_type": "Binary" | "Continuous", "ancestry": "EUR" | "AFR" | ..., "confidence": "high" | "medium" | "low"}
     """
-    from src.modules.function4.trait_classifier import classify_trait
+    from src.modules.disease.trait_classifier import classify_trait
     
     return classify_trait(req.trait_name, req.sample_info)
 
@@ -124,7 +124,7 @@ async def classify_study_endpoint(req: StudyClassifyRequest):
             "reasoning": "explanation"
         }
     """
-    from src.modules.function4.trait_classifier import classify_study_agentic
+    from src.modules.disease.trait_classifier import classify_study_agentic
     
     return classify_study_agentic(req.study_id)
 

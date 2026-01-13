@@ -2,16 +2,19 @@
 
 ## Read-Only Reference Directory
 
-**IMPORTANT**: The `pennprs-agent` folder is **READ-ONLY** and serves **ONLY** as a reference for understanding how to use the PennPRS API.
+**IMPORTANT**: The `pennprs-agent` and `pgscatalog` folders are **READ-ONLY** and serve **ONLY** as references.
 
 ### Rules:
-- **DO NOT** modify any files within the `pennprs-agent` folder
-- **DO NOT** use any code from `pennprs-agent` folder
-- **ONLY** read and reference files in `pennprs-agent` folder to understand PennPRS API usage
-- All files in `pennprs-agent` are for reference purposes only
+- **DO NOT** modify any files within the `pennprs-agent` or `pgscatalog` folders
+- **DO NOT** use any code from these folders directly in the project
+- **ONLY** read and reference files in these folders to understand PennPRS API usage (`pennprs-agent`) or PGS Catalog tools and data structures (`pgscatalog`)
+- All files in these folders are for reference purposes only
 
 ### Purpose:
-The `pennprs-agent` folder contains example implementations and documentation that demonstrate how to interact with the PennPRS API. Use it solely as a learning resource, not as a codebase to modify or extend.
+- **pennprs-agent**: Contains example implementations and documentation that demonstrate how to interact with the PennPRS API.
+- **pgscatalog**: Contains the source code for PGS Catalog tools (`pgsc_calc`, `pygscatalog`, `PGS_Catalog`, `pgs-harmonizer`) for reference on PGS implementation standards.
+
+Use these solely as learning resources, not as a codebase to modify or extend.
 
 ---
 

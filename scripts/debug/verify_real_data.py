@@ -2,8 +2,8 @@ import sys
 import os
 sys.path.append(os.getcwd())
 
-from src.modules.function4.workflow import _fetch_formatted_models
-from src.modules.function4.report_generator import extract_features
+from src.modules.disease.workflow import _fetch_formatted_models
+from src.modules.disease.report_generator import extract_features
 import time
 
 def test_real_data():

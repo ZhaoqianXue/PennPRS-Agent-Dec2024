@@ -575,6 +575,7 @@ export default function DiseasePage({ onBack }: DiseasePageProps) {
                             setPreviousView(activeView);
                             pushView('model_actions');
                         }}
+                        onSaveModel={handleModelSave}
                         // Navigation Props
                         onGoToModelGrid={() => pushView('model_grid')}
                         canGoForward={canGoForward}

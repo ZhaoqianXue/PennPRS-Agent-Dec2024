@@ -7,3 +7,6 @@ pydantic
 requests
 python-dotenv
 pytest
+httpx
+tenacity
+openai

@@ -1,0 +1,97 @@
+{
+  "total": 12,
+  "categories": {
+    "PRS_PERFORMANCE": 2,
+    "HERITABILITY": 0,
+    "GENETIC_CORRELATION": 2,
+    "NOT_RELEVANT": 8
+  },
+  "avg_confidence": 0.6583333333333333,
+  "failures": 3,
+  "details": [
+    {
+      "pmid": "37219552",
+      "title": "Coronary Artery Calcium Score and Polygenic Risk Score for the Prediction of Coronary Heart Disease Events.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "No reasoning provided"
+    },
+    {
+      "pmid": "40214032",
+      "title": "Assessment of a Polygenic Risk Score in Screening for Prostate Cancer.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.78,
+      "reasoning": "The paper uses a PRS to select individuals for screening and reports participant counts and cancer detection outcomes, but it does not present extractable genetic metrics (no PRS performance values, no SNP-heritability or genetic correlation estimates). It does, however, provide sample sizes and indicate UK-related population context, which is helpful metadata but not category-specific quantitative genetic data. [Available data: has_sample_size, has_ancestry_info]"
+    },
+    {
+      "pmid": "35195259",
+      "title": "A polygenic risk score improves risk stratification of coronary artery disease: a large-scale prospective Chinese cohort study.",
+      "primary_category": "PRS_PERFORMANCE",
+      "confidence": 0.95,
+      "reasoning": "The study develops and evaluates a PRS for coronary artery disease and provides explicit quantitative performance metrics (HR comparing extreme PRS groups, C-statistic improvement, and NRI), all of which are extractable PRS performance data. There is no reported SNP-heritability or genetic correlation data in the abstract. Population information and sample sizes are provided, enabling assessment of study scale and ancestry (East Asian/Chinese). [Available data: has_prs_metrics, has_sample_size, has_ancestry_info]"
+    },
+    {
+      "pmid": "34431594",
+      "title": "A genome-wide association study of the frailty index highlights brain pathways in ageing.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.75,
+      "reasoning": "The paper presents a GWAS meta-analysis identifying loci for the frailty index and reports sample sizes and ancestry (European descent), but does not provide the specific extractable quantitative metrics (PRS performance, SNP-heritability, or genetic correlations) required for the PRS, heritability, or genetic correlation extractors. Therefore, it should be routed as NOT_RELEVANT for the targeted data extractors while noting the presence of GWAS results and sample size information. [Available data: has_sample_size, has_ancestry_info]"
+    },
+    {
+      "pmid": "30038396",
+      "title": "Gene discovery and polygenic prediction from a genome-wide association study of educational attainment in 1.1 million individuals.",
+      "primary_category": "PRS_PERFORMANCE",
+      "confidence": 0.95,
+      "reasoning": "The paper provides extractable quantitative data for two genetic-data categories: clear PRS performance metrics (variance explained by polygenic scores) and SNP-based heritability estimates. PRS_PERFORMANCE is labeled as the primary category due to its emphasis on polygenic prediction and explicit variance-explained figures, while HERITABILITY is also clearly present. There are no explicit genetic correlation (rg) values reported in the abstract. [Available data: has_prs_metrics, has_heritability, has_sample_size]"
+    },
+    {
+      "pmid": "37300932",
+      "title": "Dissecting shared genetic architecture between obesity and multiple sclerosis.",
+      "primary_category": "GENETIC_CORRELATION",
+      "confidence": 0.9,
+      "reasoning": "The paper centers on shared genetic architecture between obesity (BMI) and multiple sclerosis, primarily reporting a significant genetic correlation (rg) and a causal association via Mendelian randomization, with supporting cross-trait SNP overlap. There are no reported PRS performance metrics or SNP-heritability (h2) values in the abstract, so the extractable quantitative data relevant to this classification is genetic correlation (rg) and the MR-based causal estimate. Therefore, GENETIC_CORRELATION is the dominant category with high confidence; PRS_PERFORMANCE and HERITABILITY are not evidenced by extractable metrics in the abstract. [Available data: has_genetic_correlation]"
+    },
+    {
+      "pmid": "37990415",
+      "title": "Gut microbiome and frailty: insight from genetic correlation and mendelian randomization.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "No reasoning provided"
+    },
+    {
+      "pmid": "26414676",
+      "title": "An atlas of genetic correlations across human diseases and traits.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "No reasoning provided"
+    },
+    {
+      "pmid": "36928559",
+      "title": "A genome-wide association study of frailty identifies significant genetic correlation with neuropsychiatric, cardiovascular, and inflammation pathways.",
+      "primary_category": "GENETIC_CORRELATION",
+      "confidence": 0.85,
+      "reasoning": "The abstract describes a large-scale GWAS of frailty (n = 386,565 European descent) and explicitly notes significant genetic correlation with neuropsychiatric, cardiovascular, and inflammation pathways, indicating extractable quantitative genetic data related to genetic correlations. There is no explicit mention of PRS performance metrics or SNP-heritability estimates in the abstract, so PRS_PERFORMANCE and HERITABILITY categories are unlikely. The primary detectable quantitative signal is genetic correlation (rg) with other pathways; sample size and ancestry are also reported, enabling contextual data extraction. [Available data: has_genetic_correlation, has_sample_size, has_ancestry_info]"
+    },
+    {
+      "pmid": "33497610",
+      "title": "Adaptive immunity to SARS-CoV-2 and COVID-19.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.9,
+      "reasoning": "This paper appears to be a conceptual/biological immunology review rather than a genetics-focused study reporting quantitative data on PRS performance, SNP-heritability, or genetic correlations. Consequently, there is no extractable quantitative genetic data based on the abstract provided."
+    },
+    {
+      "pmid": "33087395",
+      "title": "Covid-19 vaccine trial protocols released.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.92,
+      "reasoning": "Based on the available information (title and absence of an abstract), the paper appears to be a communications/registration note about releasing trial protocols rather than reporting any quantitative genetic data (PRS performance, SNP-heritability, or genetic correlations). Consequently, it does not provide extractable genetic metrics and is classified as NOT_RELEVANT for downstream genetic-data extraction."
+    },
+    {
+      "pmid": "32592501",
+      "title": "The cytokine storm and COVID-19.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.9,
+      "reasoning": "The paper is a narrative review of immunopathology related to COVID-19, not a genetics study. It does not present or imply extractable quantitative genetic metrics (PRS performance, SNP-heritability, or genetic correlations). Therefore, NOT_RELEVANT is the appropriate primary and only category. No genetic data to extract from the abstract."
+    }
+  ]
+}

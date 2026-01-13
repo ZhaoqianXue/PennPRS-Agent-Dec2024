@@ -39,6 +39,7 @@ interface CanvasAreaProps {
     savedModels?: ModelData[];
     onRemoveSavedModel?: (modelId: string) => void;
     onSelectSavedModel?: (model: ModelData) => void;
+    onSaveModel?: (model: ModelData, event?: React.MouseEvent) => void;
     // Navigation Props
     onGoToModelGrid?: () => void;
     canGoForward?: boolean;
@@ -70,6 +71,7 @@ export default function CanvasArea({
     savedModels,
     onRemoveSavedModel,
     onSelectSavedModel,
+    onSaveModel,
     onGoToModelGrid,
     canGoForward,
     onGoForward,
@@ -370,6 +372,8 @@ export default function CanvasArea({
                             models={models}
                             onAncestrySubmit={onAncestrySubmit}
                             activeAncestry={activeAncestry}
+                            onViewDetails={onViewDetails}
+                            onSaveModel={onSaveModel}
                         />
                     </div>
                 )}
@@ -391,6 +395,7 @@ export default function CanvasArea({
                             onSelectModel={onSelectModel}
                             onTrainNew={onTrainNew}
                             onViewDetails={onViewDetails}
+                            onSaveModel={onSaveModel}
                             activeAncestry={activeAncestry}
                             onAncestryChange={onAncestrySubmit}
                         />

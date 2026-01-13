@@ -1,0 +1,97 @@
+{
+  "total": 12,
+  "categories": {
+    "PRS_PERFORMANCE": 0,
+    "HERITABILITY": 0,
+    "GENETIC_CORRELATION": 0,
+    "NOT_RELEVANT": 12
+  },
+  "avg_confidence": 0.0,
+  "failures": 12,
+  "details": [
+    {
+      "pmid": "37219552",
+      "title": "Coronary Artery Calcium Score and Polygenic Risk Score for the Prediction of Coronary Heart Disease Events.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "40214032",
+      "title": "Assessment of a Polygenic Risk Score in Screening for Prostate Cancer.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "35195259",
+      "title": "A polygenic risk score improves risk stratification of coronary artery disease: a large-scale prospective Chinese cohort study.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "34431594",
+      "title": "A genome-wide association study of the frailty index highlights brain pathways in ageing.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "30038396",
+      "title": "Gene discovery and polygenic prediction from a genome-wide association study of educational attainment in 1.1 million individuals.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "37300932",
+      "title": "Dissecting shared genetic architecture between obesity and multiple sclerosis.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "37990415",
+      "title": "Gut microbiome and frailty: insight from genetic correlation and mendelian randomization.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "26414676",
+      "title": "An atlas of genetic correlations across human diseases and traits.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "36928559",
+      "title": "A genome-wide association study of frailty identifies significant genetic correlation with neuropsychiatric, cardiovascular, and inflammation pathways.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "33497610",
+      "title": "Adaptive immunity to SARS-CoV-2 and COVID-19.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "33087395",
+      "title": "Covid-19 vaccine trial protocols released.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    },
+    {
+      "pmid": "32592501",
+      "title": "The cytokine storm and COVID-19.",
+      "primary_category": "NOT_RELEVANT",
+      "confidence": 0.0,
+      "reasoning": "Error during classification: Error code: 400 - {'error': {'message': \"Unknown parameter: 'response_format.json_schema.type'.\", 'type': 'invalid_request_error', 'param': 'response_format.json_schema.type', 'code': 'unknown_parameter'}}"
+    }
+  ]
+}

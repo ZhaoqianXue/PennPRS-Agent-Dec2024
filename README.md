@@ -1,74 +1,181 @@
-# PennPRS_Agent
+# PennPRS Agent
 
-An intelligent agent system for automated PRS (Polygenic Risk Score) model training, focusing on ADRD (Alzheimer's Disease and Related Dementias) risk prediction and stratification.
+A comprehensive intelligent agent platform for Polygenic Risk Score (PRS) analysis, featuring disease risk prediction, proteomics scoring, and automated model training. The platform integrates data from PGS Catalog, PennPRS, OmicsPred, and Open Targets.
+
+## Features
+
+- **PennPRS-Disease**: Search, evaluate, and train PRS models for complex disease risk prediction
+- **PennPRS-Protein**: Predict protein expression levels using OmicsPred genetic scores
+- **PennPRS-Image**: Predict image-derived phenotypes (IDPs) - *Coming Soon*
+- **Multi-Ancestry Support**: Train and evaluate models across diverse populations
+- **Agentic Workflow**: LangGraph-powered intelligent classification and recommendation
 
 ## Project Structure
 
 ```
 PennPRS_Agent/
-├── docs/                          # Technical documentation & Proposals
-│   ├── function4_technical_documentation.md
-│   ├── project_proposal.md
-│   └── pgs_catalog_description.md
-├── scripts/                       # Debug and utility scripts
-│   └── debug_workflow.py
-├── data/                          # Data resources
-│   └── pgs_all_metadata/          # PGS Catalog metadata
-├── src/                           # Source code (Backend)
-├── frontend/                      # Source code (Frontend)
-├── tests/                         # Test suites
-├── pennprs-agent/                 # READ-ONLY reference directory
-├── .cursorrules                   # Cursor IDE configuration
-└── README.md                      # This file
+├── docs/                              # Technical documentation
+│   ├── README.md                      # Documentation index
+│   ├── architecture/                  # System architecture docs
+│   │   └── web_flow_redesign.md      # Web application flow
+│   ├── protein/                       # Protein module docs
+│   │   └── technical_documentation.md
+│   ├── disease/                       # Disease module docs
+│   │   ├── technical_documentation.md
+│   │   ├── development_log.md
+│   │   └── agentic_study_classifier.md
+│   ├── api/                           # API documentation
+│   │   └── api_endpoints.md
+│   ├── data/                          # Data schema docs
+│   │   ├── pgs_catalog_description.md
+│   │   └── OMICSPRED_TSV_SCHEMA.md
+│   └── project/                       # Project-level docs
+│       └── project_proposal.md
+├── src/                               # Backend source code
+│   ├── main.py                        # FastAPI entry point
+│   ├── core/                          # Core clients and utilities
+│   │   ├── llm_config.py             # Centralized LLM configuration
+│   │   ├── pennprs_client.py         # PennPRS API client
+│   │   ├── pgs_catalog_client.py     # PGS Catalog API client
+│   │   ├── omicspred_client.py       # OmicsPred local data client
+│   │   └── opentargets_client.py     # Open Targets Platform client
+│   ├── modules/                       # Functional modules
+│   │   ├── protein/                   # Protein workflow (LangGraph)
+│   │   └── disease/                   # Disease workflow (LangGraph)
+│   ├── utils/                         # Common utilities
+│   └── interfaces/                    # Interface layer
+├── frontend/                          # React/Next.js frontend
+│   ├── app/                           # Next.js app router
+│   │   └── page.tsx                  # Main landing page
+│   └── components/                    # React components
+│       ├── DiseasePage.tsx           # Disease module page
+│       ├── ProteinPage.tsx           # Protein module page
+│       ├── ModelGrid.tsx             # Model card grid
+│       ├── TrainingConfigForm.tsx    # Training configuration
+│       ├── MultiAncestryTrainingForm.tsx  # Multi-ancestry training
+│       └── ...                        # Additional components
+├── data/                              # Data resources
+│   ├── pgs_all_metadata/             # PGS Catalog metadata (local cache)
+│   ├── omicspred/                    # OmicsPred scores database (~185MB TSV)
+│   └── pennprs_gwas_metadata/        # PennPRS GWAS metadata
+├── scripts/                           # Debug and utility scripts
+│   ├── debug/                        # Debugging scripts
+│   └── download/                     # Data download scripts
+├── tests/                             # Test suites
+│   ├── unit/                         # Unit tests
+│   ├── integration/                  # Integration tests
+│   └── fixtures/                     # Test data and mocks
+├── pennprs-agent/                     # READ-ONLY reference directory
+├── .cursorrules                       # Cursor IDE configuration
+├── requirements.txt                   # Python dependencies
+└── README.md                          # This file
 ```
 
 ## Getting Started
 
+### Prerequisites
+
+- Python 3.9+
+- Node.js 18+
+- OpenAI API key
+
 ### 1. Backend Setup
-From the root directory, run:
+
+From the root directory:
+
 ```bash
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Set environment variables
+cp .env.example .env
+# Edit .env to add your OPENAI_API_KEY
+
+# Start the backend server
 export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py
-# export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py --reload
+# For development with auto-reload:
+export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py --reload
 ```
 
 ### 2. Frontend Setup
-From the root directory, run:
+
+From the root directory:
+
 ```bash
-cd frontend && npm run dev
+cd frontend
+npm install
+npm run dev
 ```
+
+Open [http://localhost:3000](http://localhost:3000) to access the application.
 
 ## Documentation
 
+For comprehensive documentation, see [`docs/README.md`](./docs/README.md).
 
-### Core Documentation
+### Core Modules
 
-- **`docs/project_proposal.md`**: Project overview, user requirements, core functions, and tech stack. Describes the four main functions:
-  - Function(1): Benchmarking AD PRS Methods
-  - Function(2): The One - ensemble models cross phenotypes
-  - Function(3): Proteomics PRS Models
-  - Function(4): Training PRS Models
+| Module | Documentation | Description |
+|--------|---------------|-------------|
+| **PennPRS-Disease** | [Disease Docs](./docs/disease/technical_documentation.md) | Disease risk prediction with PGS Catalog integration |
+| **PennPRS-Protein** | [Protein Docs](./docs/protein/technical_documentation.md) | Protein expression prediction using OmicsPred |
+| **Agentic Classifier** | [Classifier Docs](./docs/disease/agentic_study_classifier.md) | Intelligent GWAS study classification |
 
-- **`docs/function4_technical_documentation.md`**: Comprehensive technical documentation for Function(4) - Training PRS Models. Includes the new 3-Step Interactive Workflow:
-  - **Step 0**: Disease Selection (AD, T2D, etc.)
-  - **Step 1**: Model Recommendation & Training (Model Cards with Comparison)
-  - **Step 2**: Downstream Applications (Evaluation, Ensemble, Proteomics)
+### API Reference
 
-- **`docs/pgs_catalog_description.md`**: Complete guide to PGS Catalog usage, including:
-  - FTP structure and metadata organization
-  - Scoring file formats (formatted and harmonized)
-  - REST API access methods
-  - Column schemas and data formats
+| Endpoint | Description |
+|----------|-------------|
+| `/agent/invoke` | Disease PRS agent interaction |
+| `/protein/invoke` | Protein PRS agent interaction |
+| `/opentargets/*` | Open Targets Platform search |
+| `/agent/classify_study` | Agentic GWAS study classification |
 
-### Reference Documentation
+See [API Endpoints Documentation](./docs/api/api_endpoints.md) for complete reference.
 
-- **`pennprs-agent/README.md`**: Reference guide for PennPRS API usage (READ-ONLY). Contains:
-  - PennPRS Tools overview and quick start guide
-  - Web application features (Gradio interface)
-  - Command-line tool usage examples
-  - API tool methods (`PennPRSTool` class)
-  - Default model parameters
-  - Supported PRS methods and populations
-  - **Note**: This directory is read-only and serves as a reference for understanding PennPRS API interactions
+## Tech Stack
+
+### Frontend
+- **Framework**: React 18 + Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui, Lucide Icons
+- **Animations**: Framer Motion
+- **Charts**: Recharts
+
+### Backend
+- **Framework**: FastAPI
+- **Agent Framework**: LangGraph + LangChain
+- **Data Validation**: Pydantic
+- **LLM**: OpenAI GPT models (configurable via `src/core/llm_config.py`)
+
+### Data Sources
+- **PGS Catalog**: Disease PRS models and metadata
+- **PennPRS**: Training API and public models
+- **OmicsPred**: Proteomics genetic scores
+- **Open Targets Platform**: Disease and gene search
+- **GWAS Catalog**: Study classification data
+
+## Configuration
+
+### Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `OPENAI_API_KEY` | Yes | OpenAI API key for LLM |
+| `PENNPRS_EMAIL` | No | Default email for PennPRS API jobs |
+
+### LLM Configuration
+
+All LLM models are centrally configured in `src/core/llm_config.py`:
+
+```python
+from src.core.llm_config import get_llm
+
+# Get configured LLM instance
+llm = get_llm("disease_workflow")
+llm = get_llm("agentic_classifier")
+llm = get_llm("protein_workflow")
+```
 
 ## Cursor Rules (`.cursorrules`)
 
@@ -90,15 +197,14 @@ The `.cursorrules` file defines critical project conventions:
 - Follow PEP8 for Python code
 - Use semantic, readable file names
 
-## Tech Stack
-
-- **Frontend**: React + Next.js + TypeScript + Tailwind CSS
-- **Backend**: FastAPI + LangGraph + Pydantic
-- **LLM**: gpt-5-mini
-
 ## External Resources
 
 - **PennPRS**: https://pennprs.org/
 - **PGS Catalog**: https://www.pgscatalog.org/
-- **FinnGen**: ADRD GWAS data and pre-trained models
+- **OmicsPred**: https://www.omicspred.org/
+- **Open Targets Platform**: https://platform.opentargets.org/
+- **GWAS Catalog**: https://www.ebi.ac.uk/gwas/
 
+## License
+
+© 2026 PennPRS Team. All rights reserved.

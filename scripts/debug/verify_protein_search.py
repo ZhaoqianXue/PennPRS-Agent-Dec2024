@@ -12,7 +12,7 @@ os.environ["OPENAI_API_KEY"] = "dummy"
 
 sys.path.append(os.getcwd())
 
-from src.modules.function3.workflow import _fetch_formatted_protein_scores
+from src.modules.protein.workflow import _fetch_formatted_protein_scores
 
 def test_multi_protein_search():
     print("Testing multi-protein search...")

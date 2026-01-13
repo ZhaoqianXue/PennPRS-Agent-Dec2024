@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ModelConfig:
     """Configuration for a single LLM model."""
-    model: str = "gpt-5-nano"
+    model: str = "gpt-4.1-nano"
     temperature: float = 0.0
     max_tokens: Optional[int] = None
     timeout: Optional[int] = 30
@@ -69,53 +69,77 @@ class LLMConfig:
     # Used when no specific configuration is requested
     # =========================================================================
     DEFAULT = ModelConfig(
-        model="gpt-5-nano",
+        model="gpt-4.1-nano",
         temperature=0.0,
         timeout=30
     )
     
     # =========================================================================
-    # FUNCTION 3: Proteomics PRS Workflow
-    # Used in: src/modules/function3/workflow.py
+    # PROTEIN MODULE: PennPRS-Protein Workflow
+    # Used in: src/modules/protein/workflow.py
     # Purpose: Protein search and result interpretation
     # =========================================================================
-    FUNCTION3_WORKFLOW = ModelConfig(
-        model="gpt-5-nano",
+    PROTEIN_WORKFLOW = ModelConfig(
+        model="gpt-4.1-nano",
         temperature=0.0,
         timeout=30
     )
     
     # =========================================================================
-    # FUNCTION 4: PRS Training Workflow
-    # Used in: src/modules/function4/workflow.py
+    # DISEASE MODULE: PennPRS-Disease Workflow
+    # Used in: src/modules/disease/workflow.py
     # Purpose: Disease/trait analysis, model recommendations
     # =========================================================================
-    FUNCTION4_WORKFLOW = ModelConfig(
-        model="gpt-5-nano",
+    DISEASE_WORKFLOW = ModelConfig(
+        model="gpt-4.1-nano",
         temperature=0.0,
         timeout=30
     )
     
     # =========================================================================
     # TRAIT CLASSIFIER (Simple)
-    # Used in: src/modules/function4/trait_classifier.py
+    # Used in: src/modules/disease/trait_classifier.py
     # Purpose: Quick trait classification (Binary vs Continuous)
     # =========================================================================
     TRAIT_CLASSIFIER = ModelConfig(
-        model="gpt-5-nano",
+        model="gpt-4.1-nano",
         temperature=0.0,
         timeout=30
     )
     
     # =========================================================================
     # AGENTIC STUDY CLASSIFIER
-    # Used in: src/modules/function4/agentic_study_classifier.py
+    # Used in: src/modules/disease/agentic_study_classifier.py
     # Purpose: Intelligent GWAS study classification with API data
     # Note: Uses JSON mode for structured output
     # =========================================================================
     AGENTIC_CLASSIFIER = ModelConfig(
-        model="gpt-5-nano",
+        model="gpt-4.1-nano",
         temperature=0.0,
+        timeout=60,
+        json_mode=True
+    )
+    
+    # =========================================================================
+    # LITERATURE MODULE: Paper Classifier
+    # Used in: src/modules/literature/paper_classifier.py
+    # Purpose: Classify papers into PRS/heritability/genetic correlation
+    # =========================================================================
+    LITERATURE_CLASSIFIER = ModelConfig(
+        model="gpt-4.1-nano",
+        temperature=0.1,
+        timeout=30,
+        json_mode=True
+    )
+    
+    # =========================================================================
+    # LITERATURE MODULE: Information Extractors
+    # Used in: src/modules/literature/information_extractor.py
+    # Purpose: Extract PRS, h², rg data from paper abstracts
+    # =========================================================================
+    LITERATURE_EXTRACTOR = ModelConfig(
+        model="gpt-4.1-nano",
+        temperature=0.1,
         timeout=60,
         json_mode=True
     )
@@ -127,13 +151,25 @@ class LLMConfig:
 
 _CONFIG_MAP = {
     "default": LLMConfig.DEFAULT,
-    "function3": LLMConfig.FUNCTION3_WORKFLOW,
-    "function3_workflow": LLMConfig.FUNCTION3_WORKFLOW,
-    "function4": LLMConfig.FUNCTION4_WORKFLOW,
-    "function4_workflow": LLMConfig.FUNCTION4_WORKFLOW,
+    "protein": LLMConfig.PROTEIN_WORKFLOW,
+    "protein_workflow": LLMConfig.PROTEIN_WORKFLOW,
+    "disease": LLMConfig.DISEASE_WORKFLOW,
+    "disease_workflow": LLMConfig.DISEASE_WORKFLOW,
     "trait_classifier": LLMConfig.TRAIT_CLASSIFIER,
     "agentic_classifier": LLMConfig.AGENTIC_CLASSIFIER,
     "agentic_study_classifier": LLMConfig.AGENTIC_CLASSIFIER,
+    # Literature Mining Module
+    "literature_classifier": LLMConfig.LITERATURE_CLASSIFIER,
+    "paper_classifier": LLMConfig.LITERATURE_CLASSIFIER,
+    "literature_extractor": LLMConfig.LITERATURE_EXTRACTOR,
+    "prs_extractor": LLMConfig.LITERATURE_EXTRACTOR,
+    "heritability_extractor": LLMConfig.LITERATURE_EXTRACTOR,
+    "genetic_correlation_extractor": LLMConfig.LITERATURE_EXTRACTOR,
+    # Backward compatibility aliases
+    "function3": LLMConfig.PROTEIN_WORKFLOW,
+    "function3_workflow": LLMConfig.PROTEIN_WORKFLOW,
+    "function4": LLMConfig.DISEASE_WORKFLOW,
+    "function4_workflow": LLMConfig.DISEASE_WORKFLOW,
 }
 
 
@@ -148,8 +184,8 @@ def get_llm(module: str = "default") -> ChatOpenAI:
     Args:
         module: Module name. Options:
             - "default": Default configuration
-            - "function3" / "function3_workflow": Proteomics workflow
-            - "function4" / "function4_workflow": PRS training workflow
+            - "protein" / "protein_workflow": Proteomics workflow
+            - "disease" / "disease_workflow": PRS training workflow
             - "trait_classifier": Simple trait classifier
             - "agentic_classifier" / "agentic_study_classifier": Agentic classifier
     
@@ -205,8 +241,8 @@ def print_config_summary():
     
     unique_configs = {
         "DEFAULT": LLMConfig.DEFAULT,
-        "FUNCTION3_WORKFLOW": LLMConfig.FUNCTION3_WORKFLOW,
-        "FUNCTION4_WORKFLOW": LLMConfig.FUNCTION4_WORKFLOW,
+        "PROTEIN_WORKFLOW": LLMConfig.PROTEIN_WORKFLOW,
+        "DISEASE_WORKFLOW": LLMConfig.DISEASE_WORKFLOW,
         "TRAIT_CLASSIFIER": LLMConfig.TRAIT_CLASSIFIER,
         "AGENTIC_CLASSIFIER": LLMConfig.AGENTIC_CLASSIFIER,
     }

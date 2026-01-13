@@ -18,7 +18,7 @@ import time
 import sys
 from collections import defaultdict
 
-from src.modules.function4.agentic_study_classifier import classify_trait_from_study
+from src.modules.disease.agentic_study_classifier import classify_trait_from_study
 
 
 # ============================================================================

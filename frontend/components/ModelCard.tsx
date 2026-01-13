@@ -66,6 +66,7 @@ interface ModelCardProps {
     model: ModelData;
     onSelect: (modelId: string) => void;
     onViewDetails: (model: ModelData) => void;
+    onSaveModel?: (model: ModelData) => void;
     activeAncestry?: string[];
 }
 
@@ -143,7 +144,7 @@ export const getDisplayMetrics = (model: ModelData, forcedAncestry?: string[]) =
     return { displayAUC, displayR2, isMatched, isDerived, matchedAncestry };
 };
 
-export default function ModelCard({ model, onSelect, onViewDetails, activeAncestry }: ModelCardProps) {
+export default function ModelCard({ model, onSelect, onViewDetails, onSaveModel, activeAncestry }: ModelCardProps) {
     // Loading State
     if (model.isLoading) {
         return (
@@ -291,6 +292,12 @@ export default function ModelCard({ model, onSelect, onViewDetails, activeAncest
                     className="flex-1 bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg py-1 text-xs font-medium transition-colors"
                 >
                     Details
+                </button>
+                <button
+                    onClick={() => onSaveModel?.(model)}
+                    className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg py-1 text-xs font-medium transition-all shadow-sm hover:shadow-md"
+                >
+                    Save Model
                 </button>
             </div>
         </div>
