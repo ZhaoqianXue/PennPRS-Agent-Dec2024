@@ -8,12 +8,20 @@ load_dotenv()
 
 from src.modules.disease.workflow import app as workflow_app
 from src.modules.protein.workflow import app as protein_workflow_app
+from src.modules.heritability.router import router as heritability_router
+from src.modules.genetic_correlation.router import router as genetic_correlation_router
 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from langchain_core.messages import HumanMessage
 
 app = FastAPI(title="PennPRS Agent")
+
+# Include heritability API routes
+app.include_router(heritability_router)
+# Include genetic correlation API routes
+app.include_router(genetic_correlation_router)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -35,6 +43,13 @@ class AgentRequest(BaseModel):
 @app.get("/")
 async def root():
     return {"message": "PennPRS Agent is running"}
+
+@app.on_event("startup")
+async def startup_event():
+    print("\n\n=== REGISTERED ROUTES ===")
+    for route in app.routes:
+        print(f"{route.path} [{route.methods}]")
+    print("=========================\n\n")
 
 @app.get("/agent/search_progress/{request_id}")
 async def get_search_progress(request_id: str):
@@ -209,11 +224,11 @@ class OpenTargetsSearchRequest(BaseModel):
 
 @app.post("/opentargets/search")
 async def opentargets_search(req: OpenTargetsSearchRequest):
-    """
+    """ 
     Search Open Targets Platform for entities matching the query.
     
     If entity_types is not specified, returns ALL entity types (disease, target, drug)
-    sorted by relevance score - this is the "满血版" (full version).
+    sorted by relevance score - this is the "Premium/Full" (full version).
     
     Returns entities with MONDO/EFO IDs for diseases, ENSG IDs for targets, CHEMBL IDs for drugs.
     Includes score and highlights for each result.
@@ -241,7 +256,7 @@ class OpenTargetsFullSearchRequest(BaseModel):
 @app.post("/opentargets/full_search")
 async def opentargets_full_search(req: OpenTargetsFullSearchRequest):
     """
-    满血版 FULL SEARCH - Search ALL entity types without any restrictions.
+    Premium/Full FULL SEARCH - Search ALL entity types without any restrictions.
     
     Returns disease, target (gene/protein), AND drug entities together,
     sorted by relevance score. Includes highlights for each result.
@@ -278,7 +293,7 @@ async def opentargets_grouped_search(req: OpenTargetsGroupedSearchRequest):
     - drugs: Drug results (CHEMBL IDs)
     - studies: GWAS study results (GCST IDs)
     
-    This is the "满血版" autocomplete matching platform.opentargets.org exactly.
+    This is the "Premium/Full" autocomplete matching platform.opentargets.org exactly.
     """
     from src.core.opentargets_client import OpenTargetsClient
     
