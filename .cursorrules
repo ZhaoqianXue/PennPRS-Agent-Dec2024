@@ -62,15 +62,12 @@ project/
 
 ```
 src/
-├── __init__.py
-├── main.py                # Program entry point
-├── core/                  # Core logic (algorithms, models, pipelines)
-├── modules/               # Functional modules (API, services, tasks)
-├── utils/                 # Common utility functions
-├── interfaces/            # Interface layer (REST/gRPC/CLI)
-├── config/                # Default configuration
-├── data/                  # Data access layer (DAO, repository)
-└── pipelines/             # Workflow or task scheduling logic
+├── client/                # Frontend (Next.js)
+├── server/                # Backend (FastAPI)
+│   ├── main.py            # Entry point
+│   ├── core/              # Core logic
+│   └── modules/           # Functional modules
+└── core/                  # Domain algorithms
 ```
 
 ##### Test Structure (`tests/`)
@@ -114,7 +111,9 @@ Can be adapted to specific languages or frameworks (Python/Node/Go/Java, etc.) a
 
 | File Type | Storage Path | Naming Convention | Notes |
 |-----------|--------------|-------------------|-------|
-| Python Source | `/src` | Module name lowercase, underscore separated | Follow PEP8 |
+| Python Backend | `/src/server` | Module name lowercase, underscore separated | Follow PEP8 |
+| Frontend | `/src/client` | camelCase/PascalCase | Follow ESLint |
+| Domain Logic | `/src/core` | | |
 | Test Code | `/tests` | `test_module_name.py` | Use pytest format |
 | Documentation (Markdown) | `/docs` | Use module name plus description, e.g., `module_name_description.md` | UTF-8 encoding |
 | Temporary Output or Archives | `/output` | Auto-generate timestamp suffix | Can be auto-cleaned |
@@ -133,7 +132,8 @@ When AI generates files or code, the following rules **MUST** be followed:
 #### Default Paths
 
 If file path is not explicitly specified, default to:
-- Code → `/src`
+- Frontend → `/src/client`
+- Backend → `/src/server`
 - Tests → `/tests`
 - Documentation → `/docs`
 - Temporary content → `/output`

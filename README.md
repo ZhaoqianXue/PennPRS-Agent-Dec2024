@@ -16,58 +16,30 @@ A comprehensive intelligent agent platform for Polygenic Risk Score (PRS) analys
 PennPRS_Agent/
 ├── docs/                              # Technical documentation
 │   ├── README.md                      # Documentation index
-│   ├── architecture/                  # System architecture docs
-│   │   └── web_flow_redesign.md      # Web application flow
-│   ├── protein/                       # Protein module docs
-│   │   └── technical_documentation.md
-│   ├── disease/                       # Disease module docs
-│   │   ├── technical_documentation.md
-│   │   ├── development_log.md
-│   │   └── agentic_study_classifier.md
-│   ├── api/                           # API documentation
-│   │   └── api_endpoints.md
-│   ├── data/                          # Data schema docs
-│   │   ├── pgs_catalog_description.md
-│   │   └── OMICSPRED_TSV_SCHEMA.md
-│   └── project/                       # Project-level docs
-│       └── project_proposal.md
-├── src/                               # Backend source code
-│   ├── main.py                        # FastAPI entry point
-│   ├── core/                          # Core clients and utilities
-│   │   ├── llm_config.py             # Centralized LLM configuration
-│   │   ├── pennprs_client.py         # PennPRS API client
-│   │   ├── pgs_catalog_client.py     # PGS Catalog API client
-│   │   ├── omicspred_client.py       # OmicsPred local data client
-│   │   └── opentargets_client.py     # Open Targets Platform client
-│   ├── modules/                       # Functional modules
-│   │   ├── protein/                   # Protein workflow (LangGraph)
-│   │   └── disease/                   # Disease workflow (LangGraph)
-│   ├── utils/                         # Common utilities
-│   └── interfaces/                    # Interface layer
-├── frontend/                          # React/Next.js frontend
-│   ├── app/                           # Next.js app router
-│   │   └── page.tsx                  # Main landing page
-│   └── components/                    # React components
-│       ├── DiseasePage.tsx           # Disease module page
-│       ├── ProteinPage.tsx           # Protein module page
-│       ├── ModelGrid.tsx             # Model card grid
-│       ├── TrainingConfigForm.tsx    # Training configuration
-│       ├── MultiAncestryTrainingForm.tsx  # Multi-ancestry training
-│       └── ...                        # Additional components
+│   └── ...                            # Module docs
+├── src/                               # Source code
+│   ├── client/                        # Frontend (Next.js)
+│   │   ├── app/                       # App router
+│   │   └── package.json               # Client dependencies
+│   ├── server/                        # Backend (FastAPI)
+│   │   ├── main.py                    # Entry point
+│   │   ├── core/                      # Core logic & clients
+│   │   ├── modules/                   # Functional modules
+│   │   └── requirements.txt           # Backend dependencies
+│   └── core/                          # Domain algorithms (R/Python)
+├── shared/                            # Shared code
+│   └── contracts/                     # Shared types/constants
 ├── data/                              # Data resources
-│   ├── pgs_all_metadata/             # PGS Catalog metadata (local cache)
-│   ├── omicspred/                    # OmicsPred scores database (~185MB TSV)
-│   └── pennprs_gwas_metadata/        # PennPRS GWAS metadata
-├── scripts/                           # Debug and utility scripts
-│   ├── debug/                        # Debugging scripts
-│   └── download/                     # Data download scripts
+├── output/                            # Generated outputs (logs, results, etc.)
+│   └── logs/                          # Backend and frontend logs
+├── scripts/                           # Utility scripts
 ├── tests/                             # Test suites
-│   ├── unit/                         # Unit tests
-│   ├── integration/                  # Integration tests
-│   └── fixtures/                     # Test data and mocks
+│   ├── unit/                          # Unit tests
+│   └── integration/                   # Integration tests
 ├── pennprs-agent/                     # READ-ONLY reference directory
+├── pgscatalog/                        # READ-ONLY reference directory
 ├── .cursorrules                       # Cursor IDE configuration
-├── requirements.txt                   # Python dependencies
+├── package.json                       # Root scripts
 └── README.md                          # This file
 ```
 
@@ -85,16 +57,16 @@ From the root directory:
 
 ```bash
 # Install Python dependencies
-pip install -r requirements.txt
+pip install -r src/server/requirements.txt
 
 # Set environment variables
 cp .env.example .env
 # Edit .env to add your OPENAI_API_KEY
 
 # Start the backend server
-export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py
+export PYTHONPATH=$PYTHONPATH:. && python3 src/server/main.py
 # For development with auto-reload:
-export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py --reload
+export PYTHONPATH=$PYTHONPATH:. && python3 src/server/main.py --reload
 ```
 
 ### 2. Frontend Setup
@@ -102,7 +74,7 @@ export PYTHONPATH=$PYTHONPATH:. && python3 src/main.py --reload
 From the root directory:
 
 ```bash
-cd frontend
+cd src/client
 npm install
 npm run dev
 ```
@@ -134,19 +106,17 @@ See [API Endpoints Documentation](./docs/api/api_endpoints.md) for complete refe
 
 ## Tech Stack
 
-### Frontend
+### Frontend (`src/client`)
 - **Framework**: React 18 + Next.js 15 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui, Lucide Icons
-- **Animations**: Framer Motion
-- **Charts**: Recharts
 
-### Backend
+### Backend (`src/server`)
 - **Framework**: FastAPI
 - **Agent Framework**: LangGraph + LangChain
 - **Data Validation**: Pydantic
-- **LLM**: OpenAI GPT models (configurable via `src/core/llm_config.py`)
+- **LLM**: OpenAI GPT models (configurable via `src/server/core/llm_config.py`)
 
 ### Data Sources
 - **PGS Catalog**: Disease PRS models and metadata
@@ -166,36 +136,19 @@ See [API Endpoints Documentation](./docs/api/api_endpoints.md) for complete refe
 
 ### LLM Configuration
 
-All LLM models are centrally configured in `src/core/llm_config.py`:
-
-```python
-from src.core.llm_config import get_llm
-
-# Get configured LLM instance
-llm = get_llm("disease_workflow")
-llm = get_llm("agentic_classifier")
-llm = get_llm("protein_workflow")
-```
+All LLM models are centrally configured in `src/server/core/llm_config.py`. The project uses `gpt-5-mini` as the default model.
 
 ## Cursor Rules (`.cursorrules`)
 
-The `.cursorrules` file defines critical project conventions:
-
-### Read-Only Reference Directory
-- **`pennprs-agent/`** folder is **READ-ONLY** - serves only as reference for understanding PennPRS API usage
-- Do not modify or use code from this directory
+### Read-Only Reference Directories
+- **`pennprs-agent/`** and **`pgscatalog/`** folders are **READ-ONLY** - they serve only as references for API usage and data structures.
 
 ### Project Structure Standards
-- Source code → `/src`
+- Frontend code → `/src/client`
+- Backend code → `/src/server`
+- Shared code → `/shared`
 - Tests → `/tests`
-- Documentation → `/docs`
-- Temporary output → `/output`
 - **Do not create files in the root directory**
-
-### Code Generation Rules
-- All code, comments, and strings must be in English
-- Follow PEP8 for Python code
-- Use semantic, readable file names
 
 ## External Resources
 

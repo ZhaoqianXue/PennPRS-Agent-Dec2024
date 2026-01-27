@@ -1,0 +1,1220 @@
+2026-01-15 03:26:13,376 - INFO - Found 10 Open Access papers for query: (heritability OR "SNP heritability" OR "h2" OR "LDSC") AND (Alzheimer OR "Alzheimer's disease" OR AD)
+2026-01-15 03:26:13,376 - INFO - Fetching full text for PMC12733674...
+2026-01-15 03:26:14,050 - INFO -   ✓ Got 2,703 chars of full text
+2026-01-15 03:26:14,555 - INFO - Fetching full text for PMC12728773...
+2026-01-15 03:26:17,265 - INFO -   ✓ Got 2,731 chars of full text
+2026-01-15 03:26:17,771 - INFO - Fetching full text for PMC12211776...
+2026-01-15 03:26:17,998 - INFO -   ✓ Got 65,596 chars of full text
+2026-01-15 03:26:18,503 - INFO - Fetching full text for PMC12419754...
+2026-01-15 03:26:20,371 - INFO -   ✓ Got 86,378 chars of full text
+2026-01-15 03:26:20,876 - INFO - Fetching full text for PMC12702048...
+2026-01-15 03:26:23,268 - INFO -   ✓ Got 44,882 chars of full text
+2026-01-15 03:26:26,867 - INFO - 
+============================================================
+2026-01-15 03:26:26,867 - INFO - Paper 1/5: Investigating genetic relationship between cancer and Alzheimer's disease...
+2026-01-15 03:26:26,867 - INFO - PMID: , PMCID: PMC12733674
+2026-01-15 03:26:26,867 - INFO - Full text length: 2,703 chars
+2026-01-15 03:26:50,244 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-15 03:26:50,274 - INFO - HeritabilityExtractor: Extracted 0 items from PMID:PMC12733674
+2026-01-15 03:26:50,275 - WARNING -   ✗ No heritability estimates extracted
+2026-01-15 03:26:51,280 - INFO - 
+============================================================
+2026-01-15 03:26:51,281 - INFO - Paper 2/5: Investigating the Shared Genetic Architecture Between Kidney Function and Alzhei...
+2026-01-15 03:26:51,281 - INFO - PMID: , PMCID: PMC12728773
+2026-01-15 03:26:51,281 - INFO - Full text length: 2,731 chars
+2026-01-15 03:27:17,252 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-15 03:27:17,258 - INFO - DEBUG_RAW_LLM_RESPONSE_START
+{
+  "extractions": [
+    {
+      "trait": "Alzheimer's disease (AD)",
+      "heritability_estimate": {
+        "h2": 0.05,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": 0.025,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "other",
+        "method_detail": "Reported in context of local correlations. Paper used LDSC, cond/conjFDR, and LAVA; this h2 is reported alongside LAVA local-correlation results (likely a LAVA local or regional heritability estimate), but the text does not explicitly name the specific estimation method for the h2 value.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European (EUR)",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.70,
+        "source_text": "In EUR, 52 regions showed significant local correlations (Bonferroni‐corrected), and heritability (AD: h² = 0.05, p ≈ 0.025; eGFR: h² = 0.10, p < 1E‐10)."
+      }
+    },
+    {
+      "trait": "estimated glomerular filtration rate (eGFR)",
+      "heritability_estimate": {
+        "h2": 0.10,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": 1e-10,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "other",
+        "method_detail": "Reported in context of local correlations. Paper used LDSC, cond/conjFDR, and LAVA; this h2 is reported alongside LAVA local-correlation results (likely a LAVA local or regional heritability estimate), but the text does not explicitly name the specific estimation method for the h2 value.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European (EUR)",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.70,
+        "source_text": "In EUR, 52 regions showed significant local correlations (Bonferroni‐corrected), and heritability (AD: h² = 0.05, p ≈ 0.025; eGFR: h² = 0.10, p < 1E‐10)."
+      }
+    }
+  ],
+  "extraction_notes": "Two SNP-heritability values were reported in the excerpt for European ancestry: AD h2=0.05 (p≈0.025) and eGFR h2=0.10 (p<1E-10). The paper states it used LDSC, cond/conjFDR, and LAVA; the heritability values appear in the sentence describing local correlations (LAVA), so they are likely local/regional heritability estimates rather than genome-wide GREML/LDSC global estimates, but the text does not explicitly label the method used to compute these h2 values. Standard errors, sample sizes, scale (observed vs liability), and LDSC intercept/lambda_GC are not provided in the supplied text. Confidence is moderate (0.70) due to ambiguity about whether these are local vs genome-wide estimates and because key metadata (SE, N, scale) are missing."
+}
+DEBUG_RAW_LLM_RESPONSE_END
+2026-01-15 03:27:17,261 - INFO - HeritabilityExtractor: Extracted 2 items from PMID:PMC12728773
+2026-01-15 03:27:17,262 - INFO -   ✓ Extracted: Alzheimer's disease (AD)
+2026-01-15 03:27:17,262 - INFO -     - h²: 0.05 (SE: None, p: 0.025)
+2026-01-15 03:27:17,263 - INFO -     - Method: HeritabilityMethod.OTHER, Scale: not_specified
+2026-01-15 03:27:17,263 - INFO -     - Pop: N=None, Ancestry=European (EUR)
+2026-01-15 03:27:17,263 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:27:17,263 - INFO -     - Evidence HTML present: True
+2026-01-15 03:27:17,263 - INFO -   ✓ Extracted: estimated glomerular filtration rate (eGFR)
+2026-01-15 03:27:17,263 - INFO -     - h²: 0.1 (SE: None, p: 1e-10)
+2026-01-15 03:27:17,263 - INFO -     - Method: HeritabilityMethod.OTHER, Scale: not_specified
+2026-01-15 03:27:17,263 - INFO -     - Pop: N=None, Ancestry=European (EUR)
+2026-01-15 03:27:17,263 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:27:17,263 - INFO -     - Evidence HTML present: True
+2026-01-15 03:27:18,268 - INFO - 
+============================================================
+2026-01-15 03:27:18,269 - INFO - Paper 3/5: Integrated genetic analysis of Alzheimer's disease and stroke subtypes: insights...
+2026-01-15 03:27:18,269 - INFO - PMID: 40596977, PMCID: PMC12211776
+2026-01-15 03:27:18,269 - INFO - Full text length: 65,596 chars
+2026-01-15 03:27:56,978 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-15 03:27:56,988 - INFO - DEBUG_RAW_LLM_RESPONSE_START
+{
+  "extractions": [
+    {
+      "trait": "Alzheimer's disease",
+      "heritability_estimate": {
+        "h2": 0.24,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": null,
+        "method_detail": "Quoted in Discussion as a literature estimate (refs 41,42). Original method for this 24% estimate is not specified in the text. The present paper used LDSC for analyses but did not report its own SNP-heritability point estimate for AD.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 455258,
+        "ancestry": "predominantly European (LD scores calculated from European 1000 Genomes reference; GWAS cohorts largely European)",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.5,
+        "source_text": "Complex diseases like AD and IS are largely influenced by the collective impact of numerous common genetic variants, with each variant contributing a minor portion of the overall risk [ 40 ], it is estimated that these common genetic variants account for about 24% of the variance in AD and about 18% in stroke [ 41 , 42 ]."
+      }
+    },
+    {
+      "trait": "Stroke (any stroke)",
+      "heritability_estimate": {
+        "h2": 0.18,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": null,
+        "method_detail": "Quoted in Discussion as a literature estimate (refs 41,42). Original method for this 18% estimate is not specified in the text. The present paper used LDSC for analyses but did not report its own SNP-heritability point estimate for stroke.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 446696,
+        "ancestry": "predominantly European (LD scores calculated from European 1000 Genomes reference; GWAS cohorts largely European)",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.5,
+        "source_text": "Complex diseases like AD and IS are largely influenced by the collective impact of numerous common genetic variants, with each variant contributing a minor portion of the overall risk [ 40 ], it is estimated that these common genetic variants account for about 24% of the variance in AD and about 18% in stroke [ 41 , 42 ]."
+      }
+    }
+  ],
+  "extraction_notes": "The paper describes using LDSC (including constrained-intercept = 0) for heritability and genetic correlation analyses but does not report SNP-heritability (h2) point estimates, SEs, p-values or LDSC intercept/lambda_gc values from the authors' own analyses. The only explicit h2-like figures in the text are literature-cited estimates (24% for AD, 18% for stroke). Sample sizes are taken from Table 1 in the paper (AD N=455,258; Any stroke N=446,696). There is an inconsistency in the manuscript where an earlier paragraph cites a stroke GWAS meta-analysis of 521,612 subjects (from ref 15) but Table 1 lists N=446,696; sample_size fields above use the Table 1 values. Confidence is moderate-low because the reported h2 values are cited from prior studies (refs 41,42) and the current paper did not provide SEs, p-values, or explicit method attribution for those percentages."
+}
+DEBUG_RAW_LLM_RESPONSE_END
+2026-01-15 03:27:56,991 - INFO - HeritabilityExtractor: Extracted 2 items from PMID:40596977
+2026-01-15 03:27:56,992 - INFO -   ✓ Extracted: Alzheimer's disease
+2026-01-15 03:27:56,992 - INFO -     - h²: 0.24 (SE: None, p: None)
+2026-01-15 03:27:56,992 - INFO -     - Method: None, Scale: not_specified
+2026-01-15 03:27:56,992 - INFO -     - Pop: N=455258, Ancestry=predominantly European (LD scores calculated from European 1000 Genomes reference; GWAS cohorts largely European)
+2026-01-15 03:27:56,992 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:27:56,992 - INFO -     - Evidence HTML present: True
+2026-01-15 03:27:56,992 - INFO -   ✓ Extracted: Stroke (any stroke)
+2026-01-15 03:27:56,992 - INFO -     - h²: 0.18 (SE: None, p: None)
+2026-01-15 03:27:56,992 - INFO -     - Method: None, Scale: not_specified
+2026-01-15 03:27:56,992 - INFO -     - Pop: N=446696, Ancestry=predominantly European (LD scores calculated from European 1000 Genomes reference; GWAS cohorts largely European)
+2026-01-15 03:27:56,992 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:27:56,992 - INFO -     - Evidence HTML present: True
+2026-01-15 03:27:57,998 - INFO - 
+============================================================
+2026-01-15 03:27:57,998 - INFO - Paper 4/5: Alzheimer disease is (sometimes) highly heritable: Drivers of variation in herit...
+2026-01-15 03:27:57,998 - INFO - PMID: 40906820, PMCID: PMC12419754
+2026-01-15 03:27:57,999 - INFO - Full text length: 86,378 chars
+2026-01-15 03:30:26,556 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-15 03:30:26,566 - INFO - DEBUG_RAW_LLM_RESPONSE_START
+{
+  "extractions": [
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.24,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Lee et al. (2013) GCTA estimate; 499,757 SNPs (less dense genotyping noted).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 7139,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "The resulting LOAD heritability estimate of 24% was based on a sample of 7,139 participants (3,290 cases, 3,849 controls) that included both elderly screened and population controls [71,72]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.33,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Ridge et al. (2013) using ADGC dataset (imputed to HapMap II; ~2,042,116 SNPs after QC).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 10922,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "Concurrent ly, Ridge et al. (2013) leveraged the Alzheimer’s Disease Genetics Consortium (ADGC) dataset, including 10,922 individuals (5,708 cases, 5,214 controls), and estimated a higher heritability estimate of 33% [74]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.53,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Ridge et al. (2016) update including 30 ADGC studies; noted use of many SNPs (8,712,879) and requirement for non-missing data across known AD genes.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 9699,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "A 2016 update included data from 30 studies within the ADGC, and the heritability estimate increased to 53%. This study included only 9,699 individuals (3,877 cases, 5,822 controls) [75]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — age >80 subgroup",
+      "heritability_estimate": {
+        "h2": 0.241,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Lo et al. (2019) age-stratified GCTA estimate (>80 years).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 5198,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "Lo et al. (2019) with a much larger sample size of unrelated individuals estimated a higher heritability for participants >80 years of age (n = 5,198; h2 = 24.1%) compared with those aged 60–69 years of age (n = 12,698; h2 = 16.9%)."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — age 60–69 subgroup",
+      "heritability_estimate": {
+        "h2": 0.169,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Lo et al. (2019) age-stratified GCTA estimate (60–69 years).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 12698,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "Lo et al. (2019) ... those aged 60–69 years of age (n = 12,698; h2 = 16.9%)."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — sex: women",
+      "heritability_estimate": {
+        "h2": 0.215,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Lo et al. (2019) sex-specific GCTA estimate (reported in review).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.85,
+        "source_text": "Differences by sex were subtler with a slightly higher LOAD heritability among women (21.5%) compared with men (19.5%) [78]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — sex: men",
+      "heritability_estimate": {
+        "h2": 0.195,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Lo et al. (2019) sex-specific GCTA estimate (reported in review).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.85,
+        "source_text": "Differences by sex were subtler with a slightly higher LOAD heritability among women (21.5%) compared with men (19.5%) [78]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.21,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Wang et al. (2021) analysis of 2-phase ADGC data with cohort indicators; reported heritability ~21%.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.8,
+        "source_text": "Wang et al. (2021) similarly incorporated cohort indicators in their analysis of 2-phase ADGC data, obtaining an expected comparable heritability estimate of 21% [78]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — histopathologically confirmed cohorts (range across cohorts)",
+      "heritability_estimate": {
+        "h2": 0.31,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Baker et al. (2023) reported histopathologically confirmed heritability across five cohorts of 31% - 57% using a consistent model with a 5% liability threshold (this entry records the lower bound of the reported range).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.75,
+        "source_text": "Baker et al (2023) illustrated this by demonstrating that the histopathologically confirmed LOAD yielded higher heritability estimates (31% - 57%) compared to clinically diagnosed LOAD (12% - 32%) when applying a consistent model with a 5% liability threshold to five independent cohorts [79]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — histopathologically confirmed cohorts (range across cohorts)",
+      "heritability_estimate": {
+        "h2": 0.57,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Baker et al. (2023) reported histopathologically confirmed heritability across five cohorts of 31% - 57% using a consistent model with a 5% liability threshold (this entry records the upper bound of the reported range).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.75,
+        "source_text": "Baker et al (2023) illustrated this by demonstrating that the histopathologically confirmed LOAD yielded higher heritability estimates (31% - 57%) compared to clinically diagnosed LOAD (12% - 32%) when applying a consistent model with a 5% liability threshold to five independent cohorts [79]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — clinically diagnosed cohorts (range across cohorts)",
+      "heritability_estimate": {
+        "h2": 0.12,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Baker et al. (2023) reported clinically diagnosed LOAD heritability across five cohorts of 12% - 32% using a consistent model with a 5% liability threshold (this entry records the lower bound of the reported range).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.75,
+        "source_text": "Baker et al (2023) ... clinically diagnosed LOAD (12% - 32%) when applying a consistent model with a 5% liability threshold to five independent cohorts [79]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — clinically diagnosed cohorts (range across cohorts)",
+      "heritability_estimate": {
+        "h2": 0.32,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Baker et al. (2023) reported clinically diagnosed LOAD heritability across five cohorts of 12% - 32% using a consistent model with a 5% liability threshold (this entry records the upper bound of the reported range).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.75,
+        "source_text": "Baker et al (2023) ... clinically diagnosed LOAD (12% - 32%) when applying a consistent model with a 5% liability threshold to five independent cohorts [79]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.0688,
+        "se": null,
+        "scale": "observed",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Zheng et al. (2017) reported an observed-scale LDSC heritability estimate of 6.88% (based on Lambert et al. 2013 stage 1 summary statistics).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 54162,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "Zheng et al. (2017) ... reported observed-scale heritability estimates of 6.88% ... [87]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.068,
+        "se": null,
+        "scale": "observed",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Chen et al. (2021) reported an observed-scale LDSC heritability estimate of 6.80% (review citation).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 54162,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "Zheng et al. (2017) and Chen et al. (2021) reported similar observed-scale heritability estimates of 6.88% and 6.80%, respectively [87,89]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.13,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Brainstorm Consortium (2018) liability-scale LDSC estimate using a population prevalence of 17% for transformation.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.17
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "In contrast, the Brainstorm Consortium et al. (2018) provided a markedly different liability-scale heritability estimate of 13%, using a population prevalence of 17% for the transformation [88]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.07,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Kunkle et al. (2019) stage-1 summary statistics LDSC estimate reported as 7% in a re-evaluation context.",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 63926,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.85,
+        "source_text": "As an example, heritability estimates using data from Kunkle et al (2019) increased from 7% with LDSC (Table 3) to 21% using LDAK [99]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD)",
+      "heritability_estimate": {
+        "h2": 0.031,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Wightman et al. (2021) GWAS (n = 761,702; 43,725 cases, 717,979 controls) produced an LDSC-based heritability reported in review as 3.1% (reference [26]).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 761702,
+        "ancestry": "European",
+        "prevalence": null
+      },
+      "extraction_metadata": {
+        "confidence": 0.9,
+        "source_text": "Wightman et al. (2021) ... resulting in a sample size of 761,702 (43,725 cases, 717,979 controls) and its own heritability estimate based on this LOAD GWAS [26]. (Earlier the review states the range includes 3.1% [26].)"
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — Kunkle dataset, LDAK re-evaluation",
+      "heritability_estimate": {
+        "h2": 0.21,
+        "se": null,
+        "scale": "not_specified",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "other",
+        "method_detail": "LDAK re-evaluation (reference [99]) of Kunkle et al. (2019) data increased estimate from 7% (LDSC) to 21% (LDAK).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": 63926,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.85,
+        "source_text": "As an example, heritability estimates using data from Kunkle et al (2019) increased from 7% with LDSC ( Table 3 ) to 21% using LDAK [99]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — re-evaluation GCTA lower bound",
+      "heritability_estimate": {
+        "h2": 0.25,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Re-evaluation across multiple datasets (reference [97]) using a consistent population prevalence of 5%; reported GCTA estimates ranged 25%–31% (this entry = lower bound).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.7,
+        "source_text": "With a consistent population prevalence of 5%: ... the GCTA estimates were higher at 25% to 31% [97]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — re-evaluation GCTA upper bound",
+      "heritability_estimate": {
+        "h2": 0.31,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "GCTA",
+        "method_detail": "Re-evaluation across multiple datasets (reference [97]) using a consistent population prevalence of 5%; reported GCTA estimates ranged 25%–31% (this entry = upper bound).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.7,
+        "source_text": "With a consistent population prevalence of 5%: ... the GCTA estimates were higher at 25% to 31% [97]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC lower bound",
+      "heritability_estimate": {
+        "h2": 0.09,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Re-evaluation (reference [97]) using consistent prevalence of 5% reported LDSC range 9%–17% (this entry = lower bound).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.65,
+        "source_text": "With a consistent population prevalence of 5%: the LOAD heritability estimates using LDSC ranged from 9% to 17% [97]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC upper bound",
+      "heritability_estimate": {
+        "h2": 0.17,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Re-evaluation (reference [97]) using consistent prevalence of 5% reported LDSC range 9%–17% (this entry = upper bound).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.65,
+        "source_text": "With a consistent population prevalence of 5%: the LOAD heritability estimates using LDSC ranged from 9% to 17% [97]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC wide-range example",
+      "heritability_estimate": {
+        "h2": 0.03,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Re-evaluation (reference [98]) reported an LDSC range 3%–42% using consistent prevalence of 5% (this entry = lower bound).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.6,
+        "source_text": "the LOAD heritability estimates using LDSC ranged from 3% to 42% [98]."
+      }
+    },
+    {
+      "trait": "Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC wide-range example (upper)",
+      "heritability_estimate": {
+        "h2": 0.42,
+        "se": null,
+        "scale": "liability",
+        "p_value": null,
+        "z_score": null
+      },
+      "method": {
+        "estimation_method": "LDSC",
+        "method_detail": "Re-evaluation (reference [98]) reported an LDSC range 3%–42% using consistent prevalence of 5% (this entry = upper bound).",
+        "intercept": null,
+        "lambda_gc": null
+      },
+      "population": {
+        "sample_size": null,
+        "ancestry": "European",
+        "prevalence": 0.05
+      },
+      "extraction_metadata": {
+        "confidence": 0.6,
+        "source_text": "the LOAD heritability estimates using LDSC ranged from 3% to 42% [98]."
+      }
+    }
+  ],
+  "extraction_notes": "I extracted all SNP-based heritability (h2) values explicitly reported or summarized in the review. Where the review reported ranges across cohorts or re-evaluations I captured the numeric bounds as separate extractions (and flagged the use of a 5% prevalence where the review explicitly stated it). The review generally did not report standard errors, p-values, or LDSC intercept/lambda_gc values for these heritability estimates, so those fields are null. All studies reviewed were reported as European-ancestry; I set ancestry = \"European\" when the review explicitly tied the estimate to a named GWAS/sample with European participants or when the review stated all included studies were European. Scale is set to 'liability' only when the review explicitly stated liability-scale conversion or specified a prevalence (e.g., Brainstorm 17% or Baker et al. 5%); otherwise I marked 'not_specified' or 'observed' where the review explicitly said observed-scale. Confidence values reflect (a) clear single-study numeric values (higher confidence) vs (b) bounds from re-evaluations or ranges across cohorts (lower confidence). If you want me to (1) prune entries to one per original study (rather than bounds/summaries), (2) try to map each extraction to the original paper and pull missing SE/p-values/intercepts (if available), or (3) convert all liability/observed not_specified values to a unified scale given a chosen prevalence, I can do that next."
+}
+DEBUG_RAW_LLM_RESPONSE_END
+2026-01-15 03:30:26,567 - INFO - HeritabilityExtractor: Extracted 24 items from PMID:40906820
+2026-01-15 03:30:26,568 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,568 - INFO -     - h²: 0.24 (SE: None, p: None)
+2026-01-15 03:30:26,568 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,568 - INFO -     - Pop: N=7139, Ancestry=European
+2026-01-15 03:30:26,568 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,568 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,568 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,568 - INFO -     - h²: 0.33 (SE: None, p: None)
+2026-01-15 03:30:26,568 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,568 - INFO -     - Pop: N=10922, Ancestry=European
+2026-01-15 03:30:26,568 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,568 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,568 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,568 - INFO -     - h²: 0.53 (SE: None, p: None)
+2026-01-15 03:30:26,568 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,568 - INFO -     - Pop: N=9699, Ancestry=European
+2026-01-15 03:30:26,568 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,568 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,568 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — age >80 subgroup
+2026-01-15 03:30:26,568 - INFO -     - h²: 0.241 (SE: None, p: None)
+2026-01-15 03:30:26,568 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,568 - INFO -     - Pop: N=5198, Ancestry=European
+2026-01-15 03:30:26,568 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,568 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,568 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — age 60–69 subgroup
+2026-01-15 03:30:26,568 - INFO -     - h²: 0.169 (SE: None, p: None)
+2026-01-15 03:30:26,568 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,568 - INFO -     - Pop: N=12698, Ancestry=European
+2026-01-15 03:30:26,568 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,568 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,568 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — sex: women
+2026-01-15 03:30:26,568 - INFO -     - h²: 0.215 (SE: None, p: None)
+2026-01-15 03:30:26,568 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,568 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — sex: men
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.195 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.21 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: not_specified
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — histopathologically confirmed cohorts (range across cohorts)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.31 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: liability
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — histopathologically confirmed cohorts (range across cohorts)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.57 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: liability
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — clinically diagnosed cohorts (range across cohorts)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.12 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: liability
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — clinically diagnosed cohorts (range across cohorts)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.32 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: liability
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.0688 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: observed
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=54162, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,569 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,569 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,569 - INFO -     - h²: 0.068 (SE: None, p: None)
+2026-01-15 03:30:26,569 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: observed
+2026-01-15 03:30:26,569 - INFO -     - Pop: N=54162, Ancestry=European
+2026-01-15 03:30:26,569 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.13 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: liability
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.07 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: not_specified
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=63926, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD)
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.031 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: not_specified
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=761702, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — Kunkle dataset, LDAK re-evaluation
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.21 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.OTHER, Scale: not_specified
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=63926, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — re-evaluation GCTA lower bound
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.25 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: liability
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — re-evaluation GCTA upper bound
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.31 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.GCTA, Scale: liability
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC lower bound
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.09 (SE: None, p: None)
+2026-01-15 03:30:26,570 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: liability
+2026-01-15 03:30:26,570 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,570 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,570 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,570 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC upper bound
+2026-01-15 03:30:26,570 - INFO -     - h²: 0.17 (SE: None, p: None)
+2026-01-15 03:30:26,571 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: liability
+2026-01-15 03:30:26,571 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,571 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,571 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,571 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC wide-range example
+2026-01-15 03:30:26,571 - INFO -     - h²: 0.03 (SE: None, p: None)
+2026-01-15 03:30:26,571 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: liability
+2026-01-15 03:30:26,571 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,571 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,571 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:26,571 - INFO -   ✓ Extracted: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC wide-range example (upper)
+2026-01-15 03:30:26,571 - INFO -     - h²: 0.42 (SE: None, p: None)
+2026-01-15 03:30:26,571 - INFO -     - Method: HeritabilityMethod.LDSC, Scale: liability
+2026-01-15 03:30:26,571 - INFO -     - Pop: N=None, Ancestry=European
+2026-01-15 03:30:26,571 - INFO -     - QC: Intercept=None, LambdaGC=None
+2026-01-15 03:30:26,571 - INFO -     - Evidence HTML present: False
+2026-01-15 03:30:27,576 - INFO - 
+============================================================
+2026-01-15 03:30:27,577 - INFO - Paper 5/5: Similarities and differences between Alzheimer's disease and schizophrenia: drug...
+2026-01-15 03:30:27,577 - INFO - PMID: 41399369, PMCID: PMC12702048
+2026-01-15 03:30:27,577 - INFO - Full text length: 44,882 chars
+2026-01-15 03:30:51,642 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2026-01-15 03:30:51,646 - INFO - DEBUG_RAW_LLM_RESPONSE_START
+{
+  "extractions": [],
+  "extraction_notes": "No SNP-heritability (h²) estimates (numeric h2 values, standard errors, z-scores or p-values for h2>0) are reported in the provided paper text. The authors state that they performed LDSC to estimate heritability and genetic correlation between Alzheimer's disease (AD) and schizophrenia (SZ), and report a genetic association/genetic correlation (p < 0.05), but do not give numeric SNP-heritability estimates, SEs, LDSC intercepts, or lambda_GC values.\n\nRelevant verbatim source text excerpts:\n- \"Linkage Disequilibrium Score Regression (LDSC) was performed to first estimate the heritability of two traits, Alzheimer's disease (AD) and schizophrenia (SZ), and subsequently calculate the genetic correlation between them.\" (Methods / Linkage disequilibrium score regression)\n- \"We observed an association between the genetic loci of the two traits (p < 0.05) by Linkage Disequilibrium Score Regression.\" (Abstract / Results)\n- \"By comparing the datasets of AD and SZ with multiple GWAS analyses, we observed an association between the genetic loci of the two traits (p < 0.05). This suggests a potential genetic correlation between AD and SZ (Figure 2).\" (Results / Genetic correlation of AD and SZ)\n\nStudy/sample information relevant to potential heritability analysis (reported in the paper):\n- Alzheimer's disease GWAS: 17,008 AD cases and 37,154 controls (source: Lambert J.C. et al., referenced in the paper). The paper does not explicitly state ancestry for this AD GWAS within the provided text.\n- Schizophrenia GWAS: 33,640 cases and 43,456 controls (Schizophrenia Working Group of the PGC). The paper does not explicitly state ancestry for this SZ GWAS within the provided text.\n- The paper reports use of additional datasets (see Table 1 and Supplementary materials), but no numeric h2 or LDSC quality metrics are presented in the provided excerpt.\n\nExtraction confidence: 0.90 that no usable SNP-heritability numeric estimates are present in the provided full-text excerpt. If you have access to Figures (e.g., Figure 2), Table 1, or Supplementary Materials referenced in the paper, those may contain the numeric LDSC h2 estimates, intercepts, or lambda_GC; please provide them or allow access and I can extract the numeric values."
+}
+DEBUG_RAW_LLM_RESPONSE_END
+2026-01-15 03:30:51,646 - INFO - HeritabilityExtractor: Extracted 0 items from PMID:41399369
+2026-01-15 03:30:51,646 - WARNING -   ✗ No heritability estimates extracted
+
+======================================================================
+PMC Full-Text Heritability Extraction Test
+======================================================================
+
+Step 1: Fetching Open Access papers from Europe PMC...
+Query: heritability + Alzheimer's disease
+--------------------------------------------------
+
+✓ Successfully fetched 5 papers with full text
+
+1. [PMC12733674] Investigating genetic relationship between cancer and Alzheimer's dise...
+   , 2025 | Full text: 2,703 chars
+2. [PMC12728773] Investigating the Shared Genetic Architecture Between Kidney Function ...
+   , 2025 | Full text: 2,731 chars
+3. [PMC12211776] Integrated genetic analysis of Alzheimer's disease and stroke subtypes...
+   , 2025 | Full text: 65,596 chars
+4. [PMC12419754] Alzheimer disease is (sometimes) highly heritable: Drivers of variatio...
+   , 2025 | Full text: 86,378 chars
+5. [PMC12702048] Similarities and differences between Alzheimer's disease and schizophr...
+   , 2026 | Full text: 44,882 chars
+
+--------------------------------------------------
+Step 2: Running HeritabilityExtractor on papers...
+--------------------------------------------------
+
+======================================================================
+EXTRACTION RESULTS SUMMARY
+======================================================================
+
+Total Papers Processed: 5
+Papers with Extractions: 3
+Papers without Extractions: 2
+Total h² Estimates Extracted: 28
+
+Success Rate: 60.0%
+Avg Estimates per Paper: 9.3
+
+--------------------------------------------------
+DETAILED EXTRACTIONS:
+--------------------------------------------------
+
+PMC12728773: Investigating the Shared Genetic Architecture Between Kidney...
+  • [ID: H2-PMC12728773-001] Trait: Alzheimer's disease (AD)
+    h² = 0.05 (SE=None, p=0.025, z=None)
+    Method: other (Reported in context of local correlations. Paper used LDSC, cond/conjFDR, and LAVA; this h2 is reported alongside LAVA local-correlation results (likely a LAVA local or regional heritability estimate), but the text does not explicitly name the specific estimation method for the h2 value.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European (EUR), Prev=None
+    Pub: ,  (None)
+    Confidence: 0.7
+    Evidence HTML: ✓ Present
+    (HTML snippet length: 429)
+  • [ID: H2-PMC12728773-002] Trait: estimated glomerular filtration rate (eGFR)
+    h² = 0.1 (SE=None, p=1e-10, z=None)
+    Method: other (Reported in context of local correlations. Paper used LDSC, cond/conjFDR, and LAVA; this h2 is reported alongside LAVA local-correlation results (likely a LAVA local or regional heritability estimate), but the text does not explicitly name the specific estimation method for the h2 value.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European (EUR), Prev=None
+    Pub: ,  (None)
+    Confidence: 0.7
+    Evidence HTML: ✓ Present
+    (HTML snippet length: 429)
+
+PMC12211776: Integrated genetic analysis of Alzheimer's disease and strok...
+  • [ID: H2-40596977-001] Trait: Alzheimer's disease
+    h² = 0.24 (SE=None, p=None, z=None)
+    Method: None (Quoted in Discussion as a literature estimate (refs 41,42). Original method for this 24% estimate is not specified in the text. The present paper used LDSC for analyses but did not report its own SNP-heritability point estimate for AD.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=455258, Ancestry=predominantly European (LD scores calculated from European 1000 Genomes reference; GWAS cohorts largely European), Prev=None
+    Pub: ,  (None)
+    Confidence: 0.5
+    Evidence HTML: ✓ Present
+    (HTML snippet length: 596)
+  • [ID: H2-40596977-002] Trait: Stroke (any stroke)
+    h² = 0.18 (SE=None, p=None, z=None)
+    Method: None (Quoted in Discussion as a literature estimate (refs 41,42). Original method for this 18% estimate is not specified in the text. The present paper used LDSC for analyses but did not report its own SNP-heritability point estimate for stroke.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=446696, Ancestry=predominantly European (LD scores calculated from European 1000 Genomes reference; GWAS cohorts largely European), Prev=None
+    Pub: ,  (None)
+    Confidence: 0.5
+    Evidence HTML: ✓ Present
+    (HTML snippet length: 596)
+
+PMC12419754: Alzheimer disease is (sometimes) highly heritable: Drivers o...
+  • [ID: H2-40906820-001] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.24 (SE=None, p=None, z=None)
+    Method: GCTA (Lee et al. (2013) GCTA estimate; 499,757 SNPs (less dense genotyping noted).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=7139, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-002] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.33 (SE=None, p=None, z=None)
+    Method: GCTA (Ridge et al. (2013) using ADGC dataset (imputed to HapMap II; ~2,042,116 SNPs after QC).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=10922, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-003] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.53 (SE=None, p=None, z=None)
+    Method: GCTA (Ridge et al. (2016) update including 30 ADGC studies; noted use of many SNPs (8,712,879) and requirement for non-missing data across known AD genes.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=9699, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-004] Trait: Late-onset Alzheimer’s disease (LOAD) — age >80 subgroup
+    h² = 0.241 (SE=None, p=None, z=None)
+    Method: GCTA (Lo et al. (2019) age-stratified GCTA estimate (>80 years).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=5198, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-005] Trait: Late-onset Alzheimer’s disease (LOAD) — age 60–69 subgroup
+    h² = 0.169 (SE=None, p=None, z=None)
+    Method: GCTA (Lo et al. (2019) age-stratified GCTA estimate (60–69 years).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=12698, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-006] Trait: Late-onset Alzheimer’s disease (LOAD) — sex: women
+    h² = 0.215 (SE=None, p=None, z=None)
+    Method: GCTA (Lo et al. (2019) sex-specific GCTA estimate (reported in review).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.85
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-007] Trait: Late-onset Alzheimer’s disease (LOAD) — sex: men
+    h² = 0.195 (SE=None, p=None, z=None)
+    Method: GCTA (Lo et al. (2019) sex-specific GCTA estimate (reported in review).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.85
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-008] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.21 (SE=None, p=None, z=None)
+    Method: GCTA (Wang et al. (2021) analysis of 2-phase ADGC data with cohort indicators; reported heritability ~21%.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.8
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-009] Trait: Late-onset Alzheimer’s disease (LOAD) — histopathologically confirmed cohorts (range across cohorts)
+    h² = 0.31 (SE=None, p=None, z=None)
+    Method: GCTA (Baker et al. (2023) reported histopathologically confirmed heritability across five cohorts of 31% - 57% using a consistent model with a 5% liability threshold (this entry records the lower bound of the reported range).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.75
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-010] Trait: Late-onset Alzheimer’s disease (LOAD) — histopathologically confirmed cohorts (range across cohorts)
+    h² = 0.57 (SE=None, p=None, z=None)
+    Method: GCTA (Baker et al. (2023) reported histopathologically confirmed heritability across five cohorts of 31% - 57% using a consistent model with a 5% liability threshold (this entry records the upper bound of the reported range).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.75
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-011] Trait: Late-onset Alzheimer’s disease (LOAD) — clinically diagnosed cohorts (range across cohorts)
+    h² = 0.12 (SE=None, p=None, z=None)
+    Method: GCTA (Baker et al. (2023) reported clinically diagnosed LOAD heritability across five cohorts of 12% - 32% using a consistent model with a 5% liability threshold (this entry records the lower bound of the reported range).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.75
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-012] Trait: Late-onset Alzheimer’s disease (LOAD) — clinically diagnosed cohorts (range across cohorts)
+    h² = 0.32 (SE=None, p=None, z=None)
+    Method: GCTA (Baker et al. (2023) reported clinically diagnosed LOAD heritability across five cohorts of 12% - 32% using a consistent model with a 5% liability threshold (this entry records the upper bound of the reported range).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.75
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-013] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.0688 (SE=None, p=None, z=None)
+    Method: LDSC (Zheng et al. (2017) reported an observed-scale LDSC heritability estimate of 6.88% (based on Lambert et al. 2013 stage 1 summary statistics).), Scale: observed
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=54162, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-014] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.068 (SE=None, p=None, z=None)
+    Method: LDSC (Chen et al. (2021) reported an observed-scale LDSC heritability estimate of 6.80% (review citation).), Scale: observed
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=54162, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-015] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.13 (SE=None, p=None, z=None)
+    Method: LDSC (Brainstorm Consortium (2018) liability-scale LDSC estimate using a population prevalence of 17% for transformation.), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.17
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-016] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.07 (SE=None, p=None, z=None)
+    Method: LDSC (Kunkle et al. (2019) stage-1 summary statistics LDSC estimate reported as 7% in a re-evaluation context.), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=63926, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.85
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-017] Trait: Late-onset Alzheimer’s disease (LOAD)
+    h² = 0.031 (SE=None, p=None, z=None)
+    Method: LDSC (Wightman et al. (2021) GWAS (n = 761,702; 43,725 cases, 717,979 controls) produced an LDSC-based heritability reported in review as 3.1% (reference [26]).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=761702, Ancestry=European, Prev=None
+    Pub: ,  (None)
+    Confidence: 0.9
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-018] Trait: Late-onset Alzheimer’s disease (LOAD) — Kunkle dataset, LDAK re-evaluation
+    h² = 0.21 (SE=None, p=None, z=None)
+    Method: other (LDAK re-evaluation (reference [99]) of Kunkle et al. (2019) data increased estimate from 7% (LDSC) to 21% (LDAK).), Scale: not_specified
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=63926, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.85
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-019] Trait: Late-onset Alzheimer’s disease (LOAD) — re-evaluation GCTA lower bound
+    h² = 0.25 (SE=None, p=None, z=None)
+    Method: GCTA (Re-evaluation across multiple datasets (reference [97]) using a consistent population prevalence of 5%; reported GCTA estimates ranged 25%–31% (this entry = lower bound).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.7
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-020] Trait: Late-onset Alzheimer’s disease (LOAD) — re-evaluation GCTA upper bound
+    h² = 0.31 (SE=None, p=None, z=None)
+    Method: GCTA (Re-evaluation across multiple datasets (reference [97]) using a consistent population prevalence of 5%; reported GCTA estimates ranged 25%–31% (this entry = upper bound).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.7
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-021] Trait: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC lower bound
+    h² = 0.09 (SE=None, p=None, z=None)
+    Method: LDSC (Re-evaluation (reference [97]) using consistent prevalence of 5% reported LDSC range 9%–17% (this entry = lower bound).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.65
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-022] Trait: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC upper bound
+    h² = 0.17 (SE=None, p=None, z=None)
+    Method: LDSC (Re-evaluation (reference [97]) using consistent prevalence of 5% reported LDSC range 9%–17% (this entry = upper bound).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.65
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-023] Trait: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC wide-range example
+    h² = 0.03 (SE=None, p=None, z=None)
+    Method: LDSC (Re-evaluation (reference [98]) reported an LDSC range 3%–42% using consistent prevalence of 5% (this entry = lower bound).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.6
+    Evidence HTML: ✗ Missing
+  • [ID: H2-40906820-024] Trait: Late-onset Alzheimer’s disease (LOAD) — re-evaluation LDSC wide-range example (upper)
+    h² = 0.42 (SE=None, p=None, z=None)
+    Method: LDSC (Re-evaluation (reference [98]) reported an LDSC range 3%–42% using consistent prevalence of 5% (this entry = upper bound).), Scale: liability
+    QC: Intercept=None, LambdaGC=None
+    Pop: N=None, Ancestry=European, Prev=0.05
+    Pub: ,  (None)
+    Confidence: 0.6
+    Evidence HTML: ✗ Missing
+
+✓ Results saved to: /Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/data/test_results/pmc_heritability_extraction_test_20260115_033052.json

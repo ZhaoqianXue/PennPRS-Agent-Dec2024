@@ -1,0 +1,28 @@
+[
+  {
+    "id": "LIT-ALZ-2023-001",
+    "source": "literature_mining",
+    "pmid": "35383826",
+    "name": null,
+    "trait": "Alzheimer's disease (clinical diagnosis)",
+    "trait_efo": null,
+    "auc": 0.81,
+    "r2": null,
+    "c_index": null,
+    "or_per_sd": null,
+    "variants_number": null,
+    "method": null,
+    "method_detail": null,
+    "sample_size": 1947,
+    "ancestry": null,
+    "ancestry_broad": null,
+    "cohort": null,
+    "gwas_id": null,
+    "gwas_source": null,
+    "publication": "Brain : a journal of neurology, 2023",
+    "publication_year": 2023,
+    "extraction_confidence": 0.9,
+    "extracted_at": "2026-01-13 04:33:50.197208",
+    "raw_text_snippet": "The prediction accuracy of Alzheimer's disease clinical diagnosis by the combination of all biomarkers, APOE and polygenic risk score reached area under receiver operating characteristic curve (AUC) = 0.81, with the most significant contributors being \u03b54, A\u03b240 or A\u03b242, GFAP and NfL."
+  }
+]

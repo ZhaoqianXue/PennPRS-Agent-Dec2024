@@ -6,13 +6,20 @@ downloads/
 output/
 pennprs-agent/
 pgscatalog/
-
+.pytest_cache/
+node_modules/
+.next/
 # Large data files
 *.tsv
-data/omicspred/*.tsv
-data/cache_omicspred/*.json
-logs/download/*.txt
+*.gz
+*.zip
+*.tar
+*.csv
+data/**
+!data/README.md
+output/logs/download/*.txt
 
 # Temporary files
 *.tmp
 *.log
+

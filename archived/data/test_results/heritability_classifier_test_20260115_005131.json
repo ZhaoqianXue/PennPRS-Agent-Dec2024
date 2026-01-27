@@ -1,0 +1,2028 @@
+{
+  "metadata": {
+    "test_date": "2026-01-15T00:51:31.735381",
+    "model": "gpt-4.1-nano",
+    "elapsed_seconds": 289.87,
+    "ground_truth_version": "1.0"
+  },
+  "summary": {
+    "total_papers": 200,
+    "positive_samples": 100,
+    "negative_samples": 100
+  },
+  "metrics": {
+    "true_positives": 97,
+    "true_negatives": 81,
+    "false_positives": 19,
+    "false_negatives": 3,
+    "recall": 0.97,
+    "precision": 0.8362,
+    "specificity": 0.81,
+    "accuracy": 0.89,
+    "f1_score": 0.8981
+  },
+  "false_negatives": [
+    {
+      "pmid": "39813287",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": "The abstract discusses GWAS signals, chromatin interactions, and heritability enrichment in specific cell types related to childhood obesity, but it does not report SNP-heritability estimates, genetic correlation values, or develop/apply polygenic risk scores. Therefore, it does not meet criteria for any of the targeted categories involving quantitative genetic metrics.",
+      "primary_category": "NOT_RELEVANT"
+    },
+    {
+      "pmid": "34326547",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": "The abstract discusses effect-size distributions, sample size requirements, and polygenicity across diseases, but does not mention polygenic risk scores, heritability estimates, or genetic correlation metrics. There are no explicit indicators of PRS development, heritability estimation, or genetic correlation analysis, thus the paper is classified as not relevant for these categories.",
+      "primary_category": "NOT_RELEVANT"
+    },
+    {
+      "pmid": "29472613",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": "The paper reports polygenic score associations with cognitive traits related to theory of mind, indicating genetic correlation evidence. However, it explicitly states that SNP heritability was non-significant, providing no evidence for heritability estimates. The presence of polygenic score associations supports classification as PRS performance and genetic correlation, but not heritability.",
+      "primary_category": "PRS_PERFORMANCE"
+    }
+  ],
+  "false_positives": [
+    {
+      "pmid": "31327509",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper discusses polygenic risk scores derived from GWAS data, their application to familial clustering of vitiligo, and the genetic architecture underlying disease subtypes, indicating PRS development and evaluation. It also references the role of common variants and familial transmission, supporting heritability estimates. The familial clustering and shared genetic variants imply genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38153744",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper discusses the use of polygenic risk scores (PRS) to stratify breast cancer risk and evaluate genetic risk-based screening strategies, which qualifies it as PRS-related. It also references genetic risk assessment in a way that suggests underlying heritability considerations, but does not report explicit heritability estimates. There is no mention of genetic correlation analysis between traits, so that category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32873964",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses heritability estimates, genetic correlation analysis, and the development of sex-specific polygenic risk score models, indicating the presence of all three types of quantitative genetic data.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34662357",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper explicitly discusses a polygenic risk score for BMI, including variance explained and gene-environment interactions, supporting classification as PRS-related. It also mentions BMI's heritability, indicating heritability estimates are likely reported. The focus on genetic influence and interactions suggests possible genetic correlation analysis, although explicit rg values are not provided. Overall, the paper contains multiple genetic metrics, warranting all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37181462",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper discusses genetic susceptibility and a genetic risk score but does not report heritability estimates or genetic correlation metrics. It primarily investigates associations and interactions involving genetic risk, thus it is relevant for heritability and genetic correlation but not for PRS performance metrics.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "24550740",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper reports the development and validation of a genomic risk score (GRS) for celiac disease, including performance metrics such as AUC and variance explained, indicating PRS application. It also explicitly mentions heritability estimates (up to 43%), supporting heritability classification. There is no mention of genetic correlation analysis, so that category remains false.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38689001",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses the development and validation of polygenic risk scores for blood pressure traits, including risk stratification and performance metrics, indicating PRS-related analysis. It reports that the loci explain a significant portion of SNP-based heritability, supporting heritability estimation. Additionally, it references PRS associations across different ancestries, implying genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36944631",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract reports a polygenic risk score for left ventricular mass, indicating PRS development and evaluation. It also discusses genome-wide associations and genetic links to cardiac traits, implying heritability estimates. The mention of associations with cardiomyopathies and shared genetic architecture suggests genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32785646",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract reports a genome-wide association study identifying susceptibility loci, discusses genetic correlation with FBC using LD score regression, and mentions genetic risk stratification, all supporting classification into PRS, heritability, and genetic correlation categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38460828",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract describes a GWAS and polygenic score approach, indicating analysis of genetic risk prediction (PRS). It also reports heritability estimates and genetic variants associated with BHI, supporting heritability classification. The mention of GWAS and genetic variants suggests potential genetic correlation analysis, although explicit rg values are not provided. Overall, the paper contains multiple genetic data elements relevant to all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32692746",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper discusses the use of a polygenic risk score (PRSBMI) to assess genetic contribution to obesity, indicating PRS evaluation. It also references genetic contributions and the genetic architecture of BMI, which suggests heritability and genetic correlation analyses, although explicit heritability and rg values are not reported. Therefore, it is classified as involving PRS, heritability, and genetic correlation concepts, with high confidence for PRS and moderate confidence for heritability and genetic correlation.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36653681",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses a polygenic risk score used for disease risk prediction, indicating PRS performance analysis. It references heritable etiology and genetic architecture, implying heritability considerations. The mention of shared genetic architecture and cross-ancestry analysis supports the presence of genetic correlation data. Therefore, all three categories are applicable with high confidence based on the provided evidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35247066",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper reports the use of a polygenic score (pPS) related to beta cell function and its association with diabetes traits, indicating PRS analysis. It also discusses genetically determined beta cell function and heritability aspects, supported by references to genetic risk alleles and validation in UK Biobank, which implies heritability and genetic correlation analyses.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38412310",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses polygenic scores (PGS) and their associations with hormone traits, indicating PRS development/application. It reports variance explained (heritability estimates) and discusses genetic architecture, supporting heritability classification. The analysis of genetic scores across traits suggests genetic correlation. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36786746",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper reports the use of smoking-related genetic risk scores (GRS), discusses genetic correlations (rg) between traits, and performs Mendelian randomization analyses, which involve genetic risk scores. Although it does not explicitly report heritability estimates, it involves genetic data and analyses related to genetic architecture. Therefore, it is classified as involving PRS and genetic correlation analysis, with moderate confidence in heritability due to absence of direct heritability estimates.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37721739",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper reports the calculation and association of a genetic risk score (GRS) with AMD severity, including AUC metrics, indicating evaluation of a polygenic risk score model. There is no mention of heritability estimates or methods like LDSC or GCTA. The focus is on GRS-based risk stratification, supporting classification as PRS_PERFORMANCE. No evidence of genetic correlation analysis is present.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37243694",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper reports on polygenic risk scores and their association with breast cancer risk, indicating PRS evaluation. It also discusses genetic factors and familial risk, suggesting potential heritability and genetic correlation analyses. Although explicit heritability or rg estimates are not provided, the context implies that such quantitative data may be derivable or relevant for extraction.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39349817",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly mentions polygenic risk score analysis indicating PRS performance, reports a large GWAS identifying associated loci suggesting heritability estimates, and discusses leveraging genetic correlation between components of MetS. These points support classification into all three categories with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32242144",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper primarily reports a GWAS identifying loci related to vitamin D levels and discusses Mendelian randomization analyses, which are related to genetic correlation. There is no mention of developing or evaluating polygenic risk scores or reporting heritability estimates directly. Therefore, it is classified as reporting heritability and genetic correlation data but not PRS-related data.",
+      "primary_category": "HERITABILITY"
+    }
+  ],
+  "detailed_results": [
+    {
+      "pmid": "39086896",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract describes analyses involving SNP heritability estimates and genetic correlation assessments between traits, using methods like LD score regression and pleiotropy analysis. There is no indication of development, validation, or evaluation of polygenic risk scores or related predictive models. Therefore, the paper is classified as reporting heritability and genetic correlation data but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39965571",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of polygenic risk scores (PRSs) and tests for their significance, indicating PRS development and application. It reports SNP-heritability estimates using methods like LDSC and GCTA, confirming heritability data. Additionally, it mentions testing for genetic correlation (rg) < 1 across environmental bins, indicating genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39397453",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP heritability estimates for NSCL/P using GWAS summary statistics, indicating a focus on heritability estimation. There are no mentions of polygenic risk scores, genetic risk prediction, or related performance metrics, so PRS-related classification is not applicable. Similarly, no genetic correlation analysis is described, leading to a low confidence for that category.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "38559127",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions SNP heritability estimates and methods like GWAS, which are indicative of heritability analysis. There is no mention of polygenic risk scores, genetic risk prediction, or related metrics, so the paper does not meet criteria for PRS performance. Similarly, there is no indication of genetic correlation analysis between traits. Therefore, the paper is classified as reporting heritability estimates with high confidence, and not relevant for PRS or genetic correlation extraction.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "29741616",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses polygenic risk score prediction, SNP heritability estimates, and genetic correlation analyses between PENS and psychiatric conditions, indicating the presence of all three data types. The confidence scores are high due to clear mentions of these analyses and metrics.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "40229250",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses the development of a genetically informed brain atlas that incorporates heritability estimates and genetic correlations, and explicitly mentions polygenic risk scores and their explanatory power. The presence of heritability and genetic correlation terms, along with references to genetic architecture and validation, supports classification into all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35654973",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions polygenic scores (PGS) and their association with autism traits, indicating PRS analysis. It reports SNP heritability estimates for autism in different subgroups, supporting heritability classification. Additionally, it discusses genetic differences and associations between traits, implying genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39813287",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": "The abstract discusses GWAS signals, chromatin interactions, and heritability enrichment in specific cell types related to childhood obesity, but it does not report SNP-heritability estimates, genetic correlation values, or develop/apply polygenic risk scores. Therefore, it does not meet criteria for any of the targeted categories involving quantitative genetic metrics.",
+      "primary_category": "NOT_RELEVANT"
+    },
+    {
+      "pmid": "34997191",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on estimating SNP-heritability and genetic correlations among depression subtypes, providing quantitative heritability and rg estimates. There is no indication of development, validation, or evaluation of polygenic risk scores or genetic risk prediction models, thus it does not meet criteria for PRS performance. Therefore, it is classified as reporting heritability and genetic correlation data, but not PRS.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "29440776",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP heritability estimation using Bayesian models and mentions genetic correlation among phenotypes and individuals, indicating heritability and genetic correlation analysis. There is no mention of polygenic risk scores, PRS development, validation, or performance metrics, leading to a low confidence for PRS classification.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "28937693",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP-based heritability estimates and genetic correlation between traits but does not mention development, validation, or evaluation of polygenic risk scores or genetic risk prediction models. Therefore, it is classified as reporting heritability and genetic correlation data, but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35994476",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-based heritability estimates and multiple genetic correlation analyses with various traits, but there is no mention of developing, applying, or evaluating polygenic risk scores or related prediction models. Therefore, the paper is classified as reporting heritability and genetic correlation data, but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "40832388",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP-heritability estimates, develops and reports polygenic scores with predictive performance, and discusses genetic correlations with multiple traits. These indicators confirm the presence of heritability estimates, PRS-related data, and genetic correlation metrics, warranting classification into all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30510236",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on SNP heritability estimation and genetic correlation analysis using summary statistics, with no mention of polygenic risk scores, PRS development, or risk prediction metrics. Therefore, it is classified as reporting heritability and genetic correlation data but not PRS-related data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39497418",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports heritability estimates and genetic correlation analyses, including SNP-based heritability and linkage disequilibrium score regression results, but does not mention development, validation, or evaluation of polygenic risk scores. Therefore, the paper is classified as reporting heritability and genetic correlation data but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "32637052",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP heritability estimation methods, modeling assumptions, and applications, indicating the paper reports heritability estimates. There are no mentions of polygenic risk scores, genetic risk prediction, or genetic correlation metrics, leading to a high confidence in heritability classification and low confidence in PRS or genetic correlation categories.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "29234009",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily reports SNP heritability estimates for childhood behaviour problems and compares them with twin heritability, indicating a focus on heritability metrics. There are no mentions of polygenic risk scores, genetic risk prediction, or genetic correlation analyses. Therefore, it is classified as a heritability study with high confidence, and unlikely to contain PRS or genetic correlation data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "37068172",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract primarily discusses methods for estimating SNP-based heritability using genome-wide data and various statistical approaches. There is no mention of polygenic risk scores, genetic risk prediction, or related performance metrics. Therefore, the paper is classified as reporting heritability estimates with high confidence, and it does not contain extractable PRS or genetic correlation data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "37790574",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of polygenic risk scores to analyze gene-environment interactions, reports SNP-heritability differences, and tests for genetic correlation (rg<1). These are clear indicators that the paper involves PRS application, heritability estimation, and genetic correlation analysis, warranting all three labels with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38007651",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper clearly develops and applies a gene-based polygenic risk score for Alzheimer's disease, with explicit mention of heritability estimates. There is no mention of genetic correlation analysis, so that category remains false. The strong language and specific metrics support high confidence in PRS and heritability classifications.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "31212010",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses polygenic risk score analysis, heritability estimates, and genetic correlation analysis, providing clear indicators for all three categories. The mention of heritability percentages, LD Score regression, and polygenic risk scores supports classification into all relevant categories with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "25698070",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP heritability estimates for age at onset and episodicity in major depressive disorder, supported by terms like 'SNP heritability', 'GREML', 'GCTA', and 'heritability'. It does not mention polygenic risk scores, genetic risk prediction, or PRS-related metrics, thus is classified as heritability-focused with high confidence. There is minimal evidence for genetic correlation reporting.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "28193307",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP-heritability estimates and uses methods such as LD score regression, indicating it provides heritability data. It also discusses genetic architecture and analyses that are relevant to genetic correlation, though it does not explicitly report rg values. There are no indications of PRS development, application, or performance metrics, so it is not classified as PRS-related.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "32782262",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on variance components analysis and SNP-heritability estimation across large datasets, with no mention of polygenic risk scores, genetic risk prediction, or genetic correlation metrics. Therefore, it is primarily relevant for heritability estimation, not PRS or genetic correlation analysis.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35347114",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the derivation and association of polygenic risk scores, reports SNP-heritability estimates, and examines genetic overlap (correlations) with other psychiatric disorders. These indicators support classification into all three categories with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "28530675",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses exclusively on SNP heritability estimation and modeling across traits, with no references to polygenic risk scores, genetic risk prediction, or related metrics. Therefore, the paper is classified as reporting heritability estimates but does not involve PRS or genetic correlation analysis.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31436836",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP-based heritability estimates and genetic correlations between traits, supported by mentions of heritability values and genetic correlation coefficients. However, it does not involve the development, application, or evaluation of polygenic risk scores or genetic risk prediction models, thus it is not classified as PRS_PERFORMANCE.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35708486",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports the development and validation of a genetic risk score (PRS), explicitly discusses SNP-heritability estimates, and mentions genetic correlations related to sex differences and shared genetic architecture. These indicators justify classifying the paper into all three categories with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "41493071",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses heritability of BMI and its modulation by age and sex using LDSC, indicating heritability estimates. It also references G×E interactions and genetic correlation analysis, but there is no mention of polygenic risk scores, PRS development, or performance metrics. Therefore, the paper is classified as reporting heritability and genetic correlation estimates, but not PRS-related data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "32546850",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses genome-wide association studies, SNP heritability estimates, and genetic correlations, indicating the paper reports heritability and genetic correlation metrics. It also mentions polygenic risk scores and their predictive testing, fulfilling criteria for PRS performance reporting. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37500827",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper discusses SNP heritability estimates and associations with polygenic risk scores for neuropsychiatric disorders, as well as cross-trait genetic associations, indicating it reports heritability, genetic correlations, and polygenic risk score analyses.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39639524",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports heritability estimates and genetic correlations using LDSC, but does not mention development, evaluation, or validation of polygenic risk scores or related performance metrics. Therefore, the paper is classified as reporting heritability and genetic correlation data, but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31409341",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-heritability estimates (20.1%) for severe malaria, indicating heritability data. It also discusses genetic variants and their biological functions, as well as open questions about genetic correlations, but does not mention PRS development, validation, or performance metrics. Therefore, the paper is classified as reporting heritability and genetic correlation data but not involving PRS models.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "29603866",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly reports SNP-heritability estimates using GREML and LD-score regression, indicating heritability data. It also discusses genetic overlap assessed via PRS and LD-score regression, indicating genetic correlation analysis. Additionally, the mention of PRS predicting traits confirms the involvement of polygenic risk scores, warranting classification as PRS performance-related research.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37944514",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses polygenic scores and their predictive performance, as well as SNP heritability estimates derived from LDpred2-auto. There is no mention of genetic correlation analysis between traits, so that category is not applicable. The focus on genetic parameters and risk prediction models supports classification into PRS_PERFORMANCE and HERITABILITY categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35383355",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on heritability estimation using SNP-based methods (LDSC, GCTA, GREML, BOLT-REML) and discusses the development of a fast heritability estimation approach. There are no mentions of polygenic risk scores, genetic risk prediction, or related metrics, indicating the paper is centered on SNP-heritability estimation rather than PRS or genetic correlation analysis.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39734669",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract does not mention development, application, or validation of polygenic risk scores or related performance metrics, indicating no PRS analysis. However, it explicitly discusses SNP heritability estimates and reports genetic correlation between traits, supported by multiple methods such as LDSC, HESS, and pleiotropy analyses. Therefore, the paper is classified as reporting heritability and genetic correlation data but not PRS data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "40056998",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports analyses of SNP-based heritability and genetic correlation between bipolar disorder and BMI, using methods like LDSC and GREML, indicating heritability and genetic correlation data extraction. There is no mention of developing, applying, or evaluating polygenic risk scores or related performance metrics, so PRS classification is not applicable.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35668300",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily focuses on evaluating and combining SNP-to-gene linking strategies to assess disease heritability, with explicit mention of heritability estimates and related methods. There is no indication of PRS development, validation, or performance metrics, nor any mention of genetic correlation analysis. Therefore, it is classified as reporting heritability estimates with high confidence, and not relevant for PRS or genetic correlation extraction.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "28892061",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP-based heritability estimates derived from LD score regression and functional annotations, indicating a focus on heritability analysis. There are no mentions of polygenic risk scores, genetic risk prediction, or genetic correlation metrics, leading to a classification of heritability only.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "30333497",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP heritability estimates and reports heritability values and methods, indicating heritability data. It also reports genetic correlation (rg) between traits. However, there is no mention of polygenic risk scores, PRS development, validation, or performance metrics, so it does not meet criteria for PRS-related classification.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "24670270",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on methods for estimating and quantifying the uncertainty in SNP heritability estimates, including Bayesian approaches and variance analysis. There is no mention of polygenic risk scores, genetic risk prediction, or related metrics. Therefore, the paper is classified as reporting heritability estimates with high confidence, and not relevant for PRS or genetic correlation data extraction.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "40312552",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract describes analyses of heritability and genetic correlation between IBD and SLE, including SNP heritability enrichment and genetic correlation metrics. However, there is no mention of developing, applying, or evaluating polygenic risk scores or related performance metrics. Therefore, the paper is classified as reporting heritability and genetic correlation data but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "38348734",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports heritability estimates using HESS and evaluates genetic correlations between IBD and psoriasis, but there is no mention of polygenic risk scores, PRS development, validation, or performance metrics. Therefore, the paper is classified as reporting heritability and genetic correlation data but not PRS-related data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "37577588",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract centers on SNP heritability estimation and discusses biases and interpretation of heritability measures in admixed populations. There is no mention of polygenic risk scores, genetic risk prediction, or related performance metrics. Therefore, the paper is classified as reporting heritability estimates with high confidence, but not involving PRS or genetic correlation analysis.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "36379924",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses heritability estimates, including SNP-heritability, and reports genetic correlations with other traits. It also mentions polygenic risk score analyses, including PRS validation and cross-trait analyses, supporting classification into all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "40596977",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions LDSC for heritability and genetic correlations, indicating SNP-based heritability estimates and genetic correlation analysis. There is no mention of developing, applying, or evaluating polygenic risk scores or related performance metrics, so is_prs is set to false. The focus on heritability and genetic correlation methods and results supports classification into heritability and genetic correlation categories, with high confidence. The absence of PRS-related terms or performance metrics leads to a low confidence in PRS classification.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "38913556",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly focuses on heritability estimation using LDSC and its extension, with no mention of polygenic risk scores, genetic risk prediction, or genetic correlation analysis. Therefore, the paper is classified as reporting heritability estimates with high confidence, but not involving PRS or genetic correlation metrics.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31358995",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily focuses on estimating SNP-heritability from biobank-scale data and discusses methods and results related to heritability estimates. There are no indications of developing, applying, or evaluating polygenic risk scores or genetic risk prediction models, nor does it mention genetic correlations between traits. Therefore, it is classified as a heritability study with high confidence, and unlikely to contain extractable PRS or genetic correlation data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "30150289",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports the development and validation of a genomic predictor for height, with performance metrics indicating a polygenic risk score application. It also explicitly discusses SNP heritability estimates using GCTA, supporting heritability classification. There is no mention of genetic correlation analysis, so that category remains false.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "28285025",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses SNP heritability estimates and employs LD score regression to assess genetic correlation between smoking behaviors and schizophrenia. There is no indication of PRS development, application, or performance metrics, leading to a low confidence in PRS-related classification. Therefore, the paper is classified as reporting heritability and genetic correlation data but not PRS data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39038848",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on methods for estimating SNP heritability using summary statistics, with no mention of polygenic risk scores, genetic risk prediction, or genetic correlation analysis. Therefore, the paper is primarily relevant for heritability estimation, with high confidence, and does not pertain to PRS or genetic correlation metrics.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "41315359",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-based heritability estimates, identifies genetic effects and pleiotropy, and discusses causal links between traits, all indicating the presence of heritability and genetic correlation data. The focus on polygenic heritability and shared genetic factors supports classification into all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34157784",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses LDSC as a method for estimating SNP heritability and functional enrichment, with no mention of polygenic risk scores, genetic risk prediction, or genetic correlation metrics. Therefore, the paper is classified as reporting heritability estimates with high confidence, but not involving PRS or genetic correlation analyses.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "37693606",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP-heritability estimation using methods like stratified LD score regression and GCTA, indicating heritability analysis. It also references shared genetic architecture and genetic correlation analysis between traits. There is no mention of polygenic risk scores, risk prediction, or validation of genetic risk models, so PRS-related classification is not supported.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "34326547",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": "The abstract discusses effect-size distributions, sample size requirements, and polygenicity across diseases, but does not mention polygenic risk scores, heritability estimates, or genetic correlation metrics. There are no explicit indicators of PRS development, heritability estimation, or genetic correlation analysis, thus the paper is classified as not relevant for these categories.",
+      "primary_category": "NOT_RELEVANT"
+    },
+    {
+      "pmid": "31999318",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper explicitly reports SNP heritability estimates and genetic correlation coefficients between traits, fulfilling criteria for heritability and genetic correlation categories. There is no mention of developing, applying, or evaluating polygenic risk scores or related predictive models, so the PRS category is not applicable.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "37645810",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on heritability estimation and genetic architecture of facial phenotypes, with no mention of polygenic risk scores, genetic risk prediction, or related metrics. It reports SNP heritability and uses methods like LDSC, indicating a strong heritability focus. There is no evidence supporting genetic correlation analysis or PRS development.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31712720",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly reports polygenic risk scores, heritability estimates using LD score regression, and genetic correlation coefficients between traits, indicating the paper contains quantitative genetic data relevant to all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36966243",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP-based heritability estimates for gene-environment interaction effects on BMI, using LDSC and LDAK-SumHer methods, which clearly indicates heritability analysis. It also discusses validation of genetic interactions across traits, implying genetic correlation analysis. There is no mention of PRS development, application, or performance metrics, so it does not meet criteria for PRS-related classification.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35896974",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on estimating SNP-based heritability and genetic correlations using genome-wide SNP data and specific statistical methods. There is no mention of developing, applying, or evaluating polygenic risk scores or related predictive models. Therefore, it is classified as reporting heritability and genetic correlation estimates but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39755698",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP-heritability enrichment and the genetic architecture of psychiatric disorders, indicating heritability estimates are reported. It also mentions brain connectivity and shared genetic architecture, suggesting genetic correlation analysis, but does not explicitly provide rg values or methods for genetic correlation estimation. There is no mention of polygenic risk scores, prediction models, or validation related to PRS, so it is unlikely to contain PRS performance data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "36692326",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses SNP heritability estimates for height, indicating the presence of heritability data. There is no mention of polygenic risk scores, genetic risk prediction, or genetic correlation analyses. Therefore, the paper is classified as reporting heritability estimates with high confidence, but not involving PRS or genetic correlation metrics.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "40178748",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract describes extensive analysis of genetic architecture, including heritability estimation and genetic correlation analysis using LDSC and related methods. There is no mention of developing, applying, or evaluating polygenic risk scores or related predictive models, so PRS classification is not applicable. The focus on heritability estimates and genetic correlation metrics supports classifying the paper as reporting SNP-heritability and genetic correlation data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31056107",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses evaluating gene prioritization strategies and mentions heritability estimation methods such as LD score regression and GCTA, indicating focus on SNP-heritability. There is no mention of polygenic risk scores, genetic risk prediction, or related metrics, so PRS and genetic correlation categories are unlikely relevant.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "40791713",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily reports SNP-based heritability estimates and genetic correlation analyses between traits, with no mention of polygenic risk scores, prediction models, or validation related to PRS. Therefore, it is classified as reporting heritability and genetic correlation data but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "28859627",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-heritability estimates for depressive symptoms at different ages, indicating the paper focuses on heritability analysis. There are no mentions of polygenic risk scores, genetic risk prediction, or related metrics, so it does not meet criteria for PRS performance. The paper does not discuss genetic correlations between traits, thus not relevant for that category.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39192095",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP heritability of telomere length, including increased heritability estimates and methods used to assess heritability, but does not mention genetic risk scores, PRS development, or validation. There is no indication of genetic correlation analysis between traits. Therefore, the paper is classified as reporting heritability estimates with high confidence, but not involving PRS or genetic correlation metrics.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "38040712",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily focuses on developing and demonstrating a new method for estimating SNP-heritability using summary statistics and LD matrices. There are no indications of PRS development, validation, or performance metrics, nor any mention of genetic correlation analysis. Therefore, it is classified as reporting heritability estimates with high confidence, and not relevant for PRS or genetic correlation extraction.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "30559463",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly reports SNP-heritability estimates using LD score regression and mentions polygenic risk scoring related to telomere length, indicating both heritability and PRS performance data. There is no mention of genetic correlation between traits, so that category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37300932",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily focuses on heritability estimates and genetic correlation analysis between obesity (BMI) and multiple sclerosis, supported by specific methods and quantitative results. There is no indication of development, validation, or evaluation of polygenic risk scores or genetic risk prediction models, leading to a low confidence for PRS classification. Therefore, it is classified as reporting heritability and genetic correlation data, but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35210625",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-heritability estimates, polygenic risk score analyses, and genetic associations with traits, indicating the presence of heritability, PRS, and genetic correlation data. The use of terms like 'polygenic', 'heritability', and 'genetic associations' supports classification into all three categories with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35180032",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses polygenic risk scores and SNP heritability estimates, indicating the presence of PRS-related and heritability data. There is no mention of genetic correlation analysis or rg estimates, so that category remains false. The confidence scores are high for PRS and heritability due to direct mentions, while the genetic correlation evidence is weak or absent.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "40049657",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-based heritability estimates and genetic association analyses, including GWAS and PheWAS, indicating heritability and genetic correlation data. There is no mention of polygenic risk scores, prediction models, or risk stratification, so the paper does not meet criteria for PRS classification.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "41315334",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP-heritability estimates and discusses changes in heritability related to environmental exposure, indicating heritability analysis. It also references genetic effects and increases in SNP-heritability, implying genetic correlation analysis. However, there is no mention of polygenic risk scores, risk prediction, or validation of genetic risk models, so PRS-related classification is not supported.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "33987664",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract primarily focuses on estimating SNP-heritability in admixed populations using LDSC and related methods, with no mention of polygenic risk scores, genetic risk prediction, or performance metrics. While there is some discussion of heritability enrichment and tissue-specific heritability, these are distinct from PRS development or evaluation. Therefore, the paper is classified as reporting heritability estimates with high confidence, and not relevant for PRS or genetic correlation extraction.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "30380590",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses heritability estimates derived from twin studies and SNP-based methods, indicating the presence of heritability data. It also references genetic variants and shared genetic influences, supporting genetic correlation analysis. However, there is no mention of developing, applying, or evaluating polygenic risk scores or related predictive models, leading to a low confidence for PRS classification.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "38721342",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses shared genetic architecture and genetic correlation between IBD and PBC, including LD score regression analysis, but does not mention development, application, or evaluation of polygenic risk scores or related performance metrics. Therefore, it is classified as reporting heritability and genetic correlation estimates, but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "28388634",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on estimating SNP-heritability across multiple traits using methods such as LDSC and GCTA, indicating a heritability analysis. There is no mention of polygenic risk scores, genetic risk prediction, or related performance metrics, so the paper does not meet criteria for PRS. It also does not report genetic correlations between traits, so that category is not applicable.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31194737",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of polygenic risk scores, reports SNP heritability estimates, and provides genetic correlation analyses between traits, indicating the paper contains extractable data relevant to all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36925053",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on heritability estimation and the relationship between natural selection signatures and neurodegenerative disorders, indicating analysis of SNP-heritability and genetic correlations. There is no mention of developing, applying, or evaluating polygenic risk scores or related performance metrics, leading to low confidence in PRS classification. The strong focus on heritability and genetic correlation methods supports their inclusion.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "41282776",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper discusses SNP-based heritability estimates and improvements in polygenic prediction, indicating it reports both heritability and PRS-related data. There is no mention of genetic correlation analysis, so that label remains false. The evidence is explicit and strong for heritability and PRS, leading to high confidence in those categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35538069",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses genetic correlation analysis between traits and reports SNP-heritability estimates, indicating heritability and genetic correlation data. However, there is no mention of polygenic risk scores, their development, validation, or performance metrics. Therefore, the paper is classified as reporting heritability and genetic correlation estimates but not PRS-related data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35271803",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on partitioning gene-level heritability and estimating SNP-based heritability for complex traits, with no mention of polygenic risk scores, genetic risk prediction, or PRS-related metrics. The key terms and methods indicate a heritability analysis rather than PRS development or validation. There is no evidence of genetic correlation analysis in the abstract.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "30038396",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly reports polygenic scores and their predictive performance, indicating PRS development and evaluation, thus is_prs=true. It also reports a SNP heritability estimate, supporting heritability classification. There is no mention of genetic correlation metrics or analysis, so is_genetic_correlation=false.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35750789",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP-heritability estimates for traits and methods such as LDSC, indicating focus on heritability analysis. There is no mention of polygenic risk scores, genetic risk prediction, or related metrics, so PRS-related classification is unlikely. Similarly, no references to genetic correlations or cross-trait genetic correlation analyses are present.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "40327306",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports SNP heritability estimates using LD score regression and assesses genetic causality between traits via Mendelian randomization, indicating heritability and genetic correlation analysis. It does not develop or evaluate polygenic risk scores or report PRS performance metrics, so it is classified as heritability and genetic correlation relevant but not PRS-related.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "33542196",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses the use of polygenic scores derived from model organism genes to predict tobacco consumption, indicating PRS development and validation. It also reports SNP-heritability estimates and enrichment analyses, supporting heritability classification. There is no mention of genetic correlation analyses between traits, so that category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "26299295",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports SNP heritability estimates for behavioral phenotypes using methods like GCTA and GREML, indicating heritability analysis. There is no mention of polygenic risk scores, genetic risk prediction, or related performance metrics, so PRS-related classification is not supported. No evidence of genetic correlation analysis is present.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35279859",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract focuses on SNP-based heritability estimation, discussing models, methods, and results related to heritability distribution across the genome. There are no indications of PRS development, validation, or performance metrics, nor any mention of genetic correlation analysis. Therefore, the paper is classified as reporting heritability estimates with high confidence, and not relevant for PRS or genetic correlation extraction.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "36806400",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper primarily reports SNP-heritability and genetic correlation estimates derived from meta-analyses, with no mention of developing, applying, or evaluating polygenic risk scores or related predictive models. Therefore, it is classified as reporting heritability and genetic correlation data but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "27568811",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on estimating SNP heritability of sleep duration and investigating genetic overlap with other traits, but does not mention development, validation, or evaluation of polygenic risk scores or genetic risk prediction models. Therefore, it is classified as reporting heritability and genetic correlation estimates, but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "29472613",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": "The paper reports polygenic score associations with cognitive traits related to theory of mind, indicating genetic correlation evidence. However, it explicitly states that SNP heritability was non-significant, providing no evidence for heritability estimates. The presence of polygenic score associations supports classification as PRS performance and genetic correlation, but not heritability.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35289357",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.95,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly centers on SNP heritability estimation methods and does not mention polygenic risk scores, genetic risk prediction, or related performance metrics. Therefore, it strongly indicates focus on heritability estimation without involving PRS or genetic correlation analysis.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "38766033",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses genetic analyses involving GWAS, SNP-heritability estimates, and genetic correlation assessments between traits. It reports heritability and genetic overlap, and mentions polygenic traits, indicating the presence of quantitative genetic data suitable for extraction. The use of methods like LDSC and GWAS output confirms the relevance for heritability and genetic correlation, while the focus on genetic variation and polygenic traits supports PRS-related data.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "31595288",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper focuses on the contribution of genetic variation to disease heritability through annotations and LD score regression, which are methods for estimating SNP-heritability and genetic correlations. There is no indication of development or evaluation of polygenic risk scores or predictive models, thus it is classified as reporting heritability and genetic correlation data but not PRS performance.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35618892",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses SNP-heritability estimates for refractive error and references methods like LDSC, indicating a focus on heritability estimation. There is no mention of polygenic risk scores, genetic risk prediction, or related performance metrics, so the paper is classified as reporting heritability estimates without PRS or genetic correlation data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35421325",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract discusses methods for estimating SNP heritability using LDSC and related techniques, with no mention of polygenic risk scores, genetic risk prediction, or PRS-related metrics. Therefore, the paper is classified as reporting heritability estimates with high confidence, and it does not contain extractable PRS or genetic correlation data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "31919934",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The paper reports the development and association of a genetic risk score (PRS) with atrial fibrillation, indicating PRS performance evaluation. It also explicitly reports SNP-heritability (22.9%), supporting heritability classification. There is no mention of genetic correlation analysis between traits, so that category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "25113566",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": true,
+      "reasoning": "The abstract reports heritability estimates using GCTA and discusses genetic correlations between traits, but does not mention development, application, or evaluation of polygenic risk scores or related metrics. Therefore, the paper is classified as reporting heritability and genetic correlation data, but not PRS data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "39132911",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper clearly involves a polygenic score model for predicting aortic diameter and adverse events, with performance metrics provided, supporting classification as PRS_PERFORMANCE. It also discusses associations between genetic factors and traits, suggesting genetic correlation analysis, but does not explicitly report rg values or methods for heritability estimation, thus not supporting heritability classification. The evidence for genetic correlation is moderate, based on the context of shared genetic architecture, but lacks explicit rg reporting.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32498804",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the application and evaluation of a genome-wide polygenic risk score for coronary artery disease, including its association with disease prevalence and risk stratification, which clearly indicates involvement of PRS performance metrics. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30355576",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly discusses the construction and application of a polygenic risk score for stroke, including hazard ratios and risk stratification, which clearly indicates involvement of PRS/PGS/GRS. There is no mention of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35048562",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly focuses on the development and validation of polygenic risk scores for rheumatoid arthritis, including their association with disease progression and risk prediction metrics. There is no mention of heritability estimates or genetic correlation analyses, so only the PRS category applies with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34541285",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the calculation of a polygenic risk score (PRS) based on genetic variants, indicating involvement in PRS development or evaluation. There is no mention of heritability estimates or genetic correlation analysis, so those categories are not applicable. The confidence for PRS is high due to explicit mention, while confidence for heritability and genetic correlation is low due to lack of relevant indicators.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33844929",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the evaluation and application of polygenic risk scores (PRS) for coronary heart disease, including their influence on risk prediction and heterogeneity across different family-based groups. There are no mentions of heritability estimates or genetic correlation metrics, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "31327509",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper discusses polygenic risk scores derived from GWAS data, their application to familial clustering of vitiligo, and the genetic architecture underlying disease subtypes, indicating PRS development and evaluation. It also references the role of common variants and familial transmission, supporting heritability estimates. The familial clustering and shared genetic variants imply genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32716505",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the use of a polygenic risk score (PRS) to assess genetic risk for melanoma, including comparisons of polygenic load among families and cases. There is no mention of heritability estimates (h²) or genetic correlation metrics (rg). Therefore, the paper clearly belongs to the PRS_PERFORMANCE category with high confidence, but does not provide evidence for heritability or genetic correlation estimates.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38153744",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper discusses the use of polygenic risk scores (PRS) to stratify breast cancer risk and evaluate genetic risk-based screening strategies, which qualifies it as PRS-related. It also references genetic risk assessment in a way that suggests underlying heritability considerations, but does not report explicit heritability estimates. There is no mention of genetic correlation analysis between traits, so that category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36804918",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper's title explicitly references polygenic risk scores and their association with specific clinical outcomes, indicating it involves PRS development or application. No abstract or additional details suggest reporting heritability estimates or genetic correlations. Therefore, it is classified as PRS_PERFORMANCE with high confidence, while heritability and genetic correlation categories are unlikely relevant.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32770166",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper focuses on creating a combined risk score that includes genetic factors to improve disease prediction, indicating the use of polygenic risk scores or similar genetic risk models. There is no explicit mention of heritability estimates or genetic correlation analysis in the abstract.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34101481",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses polygenic risk scores (PRS) in the context of breast cancer risk assessment, including risk stratification and personalization, which clearly indicates PRS-related analysis. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37096571",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses the development and evaluation of a polygenic risk score for melanoma, including performance metrics and risk prediction, which qualifies it for the PRS_PERFORMANCE category. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "28376175",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly focuses on the development, application, and evaluation of polygenic risk scores for cancer risk prediction, with detailed statistical associations and risk stratification metrics. There is no mention of heritability estimates or genetic correlation analyses, so only the PRS category is applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "26291059",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper focuses on the application of polygenic risk scores to stratify prostate cancer screening and estimate overdiagnosis, with no mention of heritability estimates or genetic correlation analysis. Therefore, it is classified as PRS_PERFORMANCE with high confidence, and not relevant for heritability or genetic correlation categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32873964",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses heritability estimates, genetic correlation analysis, and the development of sex-specific polygenic risk score models, indicating the presence of all three types of quantitative genetic data.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33956350",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper discusses the use of a polygenic risk score (GRS) to assess inherited prostate cancer risk and its association with tumor multifocality and laterality, which clearly involves PRS development and application. There are no reported heritability or genetic correlation estimates in the abstract, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34662357",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper explicitly discusses a polygenic risk score for BMI, including variance explained and gene-environment interactions, supporting classification as PRS-related. It also mentions BMI's heritability, indicating heritability estimates are likely reported. The focus on genetic influence and interactions suggests possible genetic correlation analysis, although explicit rg values are not provided. Overall, the paper contains multiple genetic metrics, warranting all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37181462",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper discusses genetic susceptibility and a genetic risk score but does not report heritability estimates or genetic correlation metrics. It primarily investigates associations and interactions involving genetic risk, thus it is relevant for heritability and genetic correlation but not for PRS performance metrics.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "36723444",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of a polygenic risk score (PRS) for Alzheimer's disease and its relation to cognitive decline, indicating involvement of PRS modeling and risk prediction. There are no mentions of heritability estimates or genetic correlation metrics, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "24550740",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper reports the development and validation of a genomic risk score (GRS) for celiac disease, including performance metrics such as AUC and variance explained, indicating PRS application. It also explicitly mentions heritability estimates (up to 43%), supporting heritability classification. There is no mention of genetic correlation analysis, so that category remains false.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38689001",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses the development and validation of polygenic risk scores for blood pressure traits, including risk stratification and performance metrics, indicating PRS-related analysis. It reports that the loci explain a significant portion of SNP-based heritability, supporting heritability estimation. Additionally, it references PRS associations across different ancestries, implying genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "29555425",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract discusses genetic correlation (rg) between Alzheimer's disease and other traits, including specific statistical values and methods (e.g., p-values), but does not mention polygenic risk scores, heritability estimates, or related metrics. Therefore, it is classified as relevant for genetic correlation analysis only, with high confidence, and no evidence supporting PRS or heritability categories.",
+      "primary_category": "GENETIC_CORRELATION"
+    },
+    {
+      "pmid": "37681503",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper reports on a polygenic score (PGS) for melanoma, including hazard ratios and risk stratification, which qualifies as PRS performance evaluation. It also explores the relationship between genetic risk and melanoma incidence, indicating analysis of genetic correlation. However, it does not report SNP-heritability estimates, so heritability classification is false.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "40397457",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and evaluation of a polygenic risk score (PRS) for peripheral artery disease, including risk prediction performance metrics such as odds ratios and C statistics. There is no mention of heritability estimates (h²) or genetic correlation analyses. Therefore, the paper is classified as involving PRS performance with high confidence, but not reporting heritability or genetic correlation data.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "41184235",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the development of a polygenic risk score (PRS) for heart failure, its application in risk prediction, and validation of its predictive ability. There are no indications of heritability estimates or genetic correlation analyses reported in the abstract, leading to a high confidence in PRS classification and low confidence in heritability and genetic correlation categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36944631",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract reports a polygenic risk score for left ventricular mass, indicating PRS development and evaluation. It also discusses genome-wide associations and genetic links to cardiac traits, implying heritability estimates. The mention of associations with cardiomyopathies and shared genetic architecture suggests genetic correlation analysis. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34548389",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper clearly develops and evaluates a polygenic risk score for kidney function (eGFR), with multiple associations reported, supporting classification as PRS_PERFORMANCE. It also discusses associations between the genetic PRS and plasma proteins, indicating analysis of shared genetic architecture, which supports classification as involving genetic correlation. However, it does not report explicit heritability estimates, so the heritability category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37414900",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly discusses the development and validation of a polygenic risk score for coronary artery disease, including performance metrics such as odds ratios and hazard ratios, indicating it involves PRS modeling and evaluation. There is no mention of heritability estimates or genetic correlation analyses in the abstract, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30185664",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the construction and evaluation of polygenic risk scores (PRS) for predicting weight loss after bariatric surgery, including performance metrics such as AUC and model fit improvements. There are no mentions of heritability estimates or genetic correlation analyses. Therefore, the paper clearly belongs to the PRS_PERFORMANCE category with high confidence, but does not provide evidence for heritability or genetic correlation data.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35195259",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly focuses on developing and evaluating a polygenic risk score for coronary artery disease, reporting hazard ratios and risk stratification metrics, which clearly indicates PRS-related analysis. There is no mention of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30309464",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper focuses on constructing and validating a polygenic risk score for coronary artery disease, reporting risk prediction metrics and stratification based on genetic variants. There are no indications of heritability estimates or genetic correlation analyses in the abstract, but the emphasis on a genomic risk score clearly supports classification as PRS_PERFORMANCE.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32785646",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract reports a genome-wide association study identifying susceptibility loci, discusses genetic correlation with FBC using LD score regression, and mentions genetic risk stratification, all supporting classification into PRS, heritability, and genetic correlation categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38460828",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract describes a GWAS and polygenic score approach, indicating analysis of genetic risk prediction (PRS). It also reports heritability estimates and genetic variants associated with BHI, supporting heritability classification. The mention of GWAS and genetic variants suggests potential genetic correlation analysis, although explicit rg values are not provided. Overall, the paper contains multiple genetic data elements relevant to all three categories.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38528230",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of polygenic risk scores (PRSs) to improve disease prediction, indicating involvement of PRS models and performance evaluation. There is no mention of heritability estimates or genetic correlation metrics, so those categories are not applicable. The high confidence score for PRS reflects clear evidence of PR application and evaluation in this study.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35818558",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly discusses a genome-wide polygenic score (GPS) for coronary artery disease and its association with disease risk, indicating involvement of PRS/PGS. There are no mentions of heritability estimates or genetic correlation metrics, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38261344",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses polygenic risk scores related to alcohol phenotypes, their validation, and associations with phenotypes, indicating the paper involves PRS performance evaluation. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33788949",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper focuses on constructing and evaluating a polygenic risk score for adult height and short stature prediction, with explicit mention of PRS development, validation, and performance metrics. There is no mention of heritability estimates or genetic correlation analyses, leading to a clear classification as PRS_PERFORMANCE only.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33194723",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and validation of a polygenic risk score for prostate cancer susceptibility, indicating involvement with PRS models and risk prediction. There are no mentions of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35675159",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the development and testing of a genome-wide polygenic risk score (PRS) and reports its association with BMI, indicating involvement of PRS modeling and performance evaluation. There are no mentions of heritability estimates or genetic correlation metrics, so only the PRS category is confidently applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38470993",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development, validation, and performance evaluation of a polygenic risk score for type 2 diabetes in African Americans, including risk prediction metrics and model testing. There are no mentions of heritability estimates or genetic correlation analyses, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32692746",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper discusses the use of a polygenic risk score (PRSBMI) to assess genetic contribution to obesity, indicating PRS evaluation. It also references genetic contributions and the genetic architecture of BMI, which suggests heritability and genetic correlation analyses, although explicit heritability and rg values are not reported. Therefore, it is classified as involving PRS, heritability, and genetic correlation concepts, with high confidence for PRS and moderate confidence for heritability and genetic correlation.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36281732",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper clearly focuses on the association of a gout polygenic risk score with disease traits across different populations, providing evidence of PRS development and its predictive associations. There are no reported heritability or genetic correlation estimates in the abstract, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36034645",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of polygenic risk scores (PRS) for coronary artery disease, including their association with various clinical outcomes and risk stratification, indicating PRS development/application. It also reports genetic correlation estimates (rg) and discusses shared genetic architecture and pleiotropy, supporting the classification of genetic correlation. There is no mention of heritability estimates (h²), so that category is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36333501",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses polygenic risk scores (PRS), their performance, and validation across populations, indicating the paper involves PRS development and evaluation. There is no mention of heritability estimates or genetic correlation analysis, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32517536",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of a polygenic risk score (PRS) to predict myocardial injury after surgery, including performance evaluation and association analysis. There are no mentions of heritability estimates or genetic correlation metrics, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35055391",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and evaluation of polygenic risk scores (PRS) for childhood asthma, including performance metrics such as AUC, indicating the paper involves PRS models. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "25951326",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the construction of a genetic risk score and its relationship with lipid outcomes, indicating PRS development and evaluation, thus is_prs=true. It also discusses the relationship between genetic markers and traits across populations, implying analysis of genetic correlations, so is_genetic_correlation=true. There is no mention of heritability estimates or methods like LDSC or GCTA, so is_heritability=false. Confidence scores reflect the strength of these indicators.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36745605",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of polygenic scores for type 1 diabetes, evaluating their impact on classification accuracy, which indicates involvement of PRS/PGS. There is no mention of heritability estimates or genetic correlation metrics, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36915130",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract discusses the interaction between diet and polygenic risk, and explicitly mentions 'genetic correlation' between traits, indicating the paper reports genetic correlation estimates. There is no mention of polygenic risk scores, heritability estimates, or related metrics, so only the genetic correlation category is applicable.",
+      "primary_category": "GENETIC_CORRELATION"
+    },
+    {
+      "pmid": "32068817",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper clearly focuses on the application and evaluation of a polygenic risk score for coronary heart disease, including its association with incident events and predictive performance metrics. There are no indications of heritability or genetic correlation estimates in the abstract, so only the PRS category is applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36653681",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses a polygenic risk score used for disease risk prediction, indicating PRS performance analysis. It references heritable etiology and genetic architecture, implying heritability considerations. The mention of shared genetic architecture and cross-ancestry analysis supports the presence of genetic correlation data. Therefore, all three categories are applicable with high confidence based on the provided evidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "23599444",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper focuses on constructing and evaluating a genetic risk score for coronary heart disease, including risk prediction improvements and reclassification, which clearly indicates PRS-related analysis. There is no mention of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36689693",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses the development and application of a polygenic risk score (PRS) for breast cancer, including its association with disease risk and tumor characteristics. There are no mentions of heritability estimates or genetic correlation analyses. Therefore, the paper is classified as involving PRS performance data with high confidence, but not reporting heritability or genetic correlation metrics.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35247066",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper reports the use of a polygenic score (pPS) related to beta cell function and its association with diabetes traits, indicating PRS analysis. It also discusses genetically determined beta cell function and heritability aspects, supported by references to genetic risk alleles and validation in UK Biobank, which implies heritability and genetic correlation analyses.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37057096",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the use of a polygenic risk score (PRS) to categorize genetic risk for asthma, indicating PRS development/application. It also discusses the interaction between genetic risk and lifestyle factors, implying analysis of shared genetic architecture, which supports genetic correlation. There is no mention of heritability estimates or methods like LDSC or GCTA, so heritability is not applicable here. The confidence scores reflect strong evidence for PRS and genetic correlation, but weak for heritability.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30815984",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper focuses on developing and evaluating a weighted genetic risk score (wGRS) for CYP2A6 activity, including its predictive performance and association with smoking behaviors. It does not report SNP-heritability estimates or genetic correlation metrics, but clearly involves PRS-related analysis, warranting classification as PRS_PERFORMANCE.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36111372",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly reports the creation and application of a polygenic risk score (PRS) for venous thromboembolism, including hazard ratios and associations, which clearly indicates PRS performance analysis. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37414299",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract discusses environmental exposure (ambient sulfur dioxide) and its association with idiopathic pulmonary fibrosis, but contains no mention of genetic risk scores, heritability estimates, or genetic correlation analyses. There are no keywords or methods related to polygenic risk scores, SNP-heritability, or genetic correlation metrics. Therefore, the paper does not contain extractable quantitative genetic data relevant to the specified categories.",
+      "primary_category": "NOT_RELEVANT"
+    },
+    {
+      "pmid": "23433573",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract discusses the construction and application of a weighted LDL-C gene score, which is a form of polygenic risk score, used to distinguish familial hypercholesterolaemia cases. There are no reported heritability estimates or genetic correlation analyses in the abstract. Therefore, the paper is classified as involving PRS but not heritability or genetic correlation data.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "29574091",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly describes the derivation and application of a genetic risk score based on SNPs, with analysis of its association with disease prevalence and risk prediction, which qualifies as PRS performance reporting. There is no mention of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "29321194",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract describes the development and validation of a polygenic hazard score for aggressive prostate cancer, involving SNPs and genetic risk prediction, which clearly aligns with PRS performance metrics. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39483246",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses the use of a genetic risk score (GRS) for coronary artery calcification and its association with disease risk, including predictive performance metrics. There are no mentions of heritability estimates or genetic correlation analyses, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33216869",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly describes the development and application of a polygenic risk score for longevity, including its association with survival outcomes, which qualifies it as a PRS performance study. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35245370",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly reports the creation of a polygenic risk score for mitral valve prolapse and demonstrates its utility in risk prediction, fulfilling criteria for the PRS_PERFORMANCE category. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32386537",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly focuses on the development, validation, and evaluation of polygenic risk scores for coronary heart disease, including performance metrics such as hazard ratios and associations across different populations. There is no mention of heritability estimates or genetic correlation analyses, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "40675087",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and evaluation of a polygenic risk score (PRS) model for colorectal cancer, including performance metrics such as C-index, IDI, and NRI, indicating PRS-related analysis. There are no mentions of heritability estimates or genetic correlation metrics, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38458077",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of a polygenic risk score (PRS) for atrial fibrillation and reports a significant interaction with diabetes status, indicating analysis involving genetic risk prediction. It also references genetic predisposition and shared genetic factors, supporting the classification of genetic correlation. There is no mention of heritability estimates or methods like LDSC or GCTA, so heritability is not supported.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38412310",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly discusses polygenic scores (PGS) and their associations with hormone traits, indicating PRS development/application. It reports variance explained (heritability estimates) and discusses genetic architecture, supporting heritability classification. The analysis of genetic scores across traits suggests genetic correlation. Therefore, all three categories are applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36786746",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper reports the use of smoking-related genetic risk scores (GRS), discusses genetic correlations (rg) between traits, and performs Mendelian randomization analyses, which involve genetic risk scores. Although it does not explicitly report heritability estimates, it involves genetic data and analyses related to genetic architecture. Therefore, it is classified as involving PRS and genetic correlation analysis, with moderate confidence in heritability due to absence of direct heritability estimates.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37659638",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the use of a polygenic risk score (PRS) based on 256 variants and analyzes its joint association with environmental exposures, indicating PRS development/application. It also discusses genetic variants and their interaction with pesticides, implying analysis of genetic relationships, which supports genetic correlation. There is no mention of heritability estimates (h²) or methods like LDSC or GCTA, so heritability classification is not supported.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34091660",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and application of polygenic risk scores (PRSs) for predicting coronary artery disease events, including validation and risk stratification based on PRS categories. There are no mentions of heritability estimates or genetic correlation analyses, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30510241",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract describes a genome-wide association study identifying risk variants for colorectal cancer, but it does not mention polygenic risk scores, heritability estimates, or genetic correlation analyses. Therefore, it does not contain extractable quantitative genetic data related to PRS, heritability, or genetic correlation metrics.",
+      "primary_category": "NOT_RELEVANT"
+    },
+    {
+      "pmid": "36334310",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and application of a genome-wide polygenic risk score (PRS) for blood pressure, its association with blood pressure traits and cardiovascular events, and reports risk prediction metrics such as hazard ratios. These are strong indicators that the paper involves PRS performance evaluation. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35980763",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and validation of a polygenic risk score (PRS) for atrial fibrillation, including performance metrics such as hazard ratios and improvements in predictive accuracy. There are no mentions of heritability estimates or genetic correlation analyses, so only the PRS category is applicable with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33563654",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the use of a polygenic risk score (PGS) for type 2 diabetes, including its predictive performance and risk stratification, which clearly indicates involvement with PRS development and evaluation. There are no mentions of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35016652",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper explicitly discusses the development and application of a polygenic risk score for obesity, including its association with BMI and interaction with lifestyle factors. There is no mention of heritability estimates or genetic correlation analyses, so only the PRS category is applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37721739",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper reports the calculation and association of a genetic risk score (GRS) with AMD severity, including AUC metrics, indicating evaluation of a polygenic risk score model. There is no mention of heritability estimates or methods like LDSC or GCTA. The focus is on GRS-based risk stratification, supporting classification as PRS_PERFORMANCE. No evidence of genetic correlation analysis is present.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "30968590",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the calculation and validation of cancer-specific genetic risk scores based on SNPs, including their association with cancer risk and risk stratification, which clearly indicates PRS-related analysis. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38816834",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract discusses the development and evaluation of polygenic risk scores for BMI, including performance comparisons and gene-environment interactions, indicating relevance to PRS modeling and prediction. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39348659",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and application of a polygenic risk score (PRS) for predicting non-small cell lung cancer (NSCLC), including the use of susceptibility loci and risk prediction models. There are no mentions of heritability estimates or genetic correlation analyses, so only the PRS category is assigned with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33769540",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses the evaluation of polygenic risk scores (PRS) for breast cancer, including their association with disease risk, discrimination metrics, and risk stratification. There are no mentions of heritability estimates or genetic correlation analyses. Therefore, the paper is classified as involving PRS performance evaluation with high confidence, and not relevant for heritability or genetic correlation extraction.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "37243694",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The paper reports on polygenic risk scores and their association with breast cancer risk, indicating PRS evaluation. It also discusses genetic factors and familial risk, suggesting potential heritability and genetic correlation analyses. Although explicit heritability or rg estimates are not provided, the context implies that such quantitative data may be derivable or relevant for extraction.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "38587023",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the calculation of a genetic risk score (GRS) for Parkinson's disease, which is a form of polygenic risk score, indicating PRS involvement. It also reports an association between GRS and motor complications, supporting genetic correlation analysis. There is no mention of heritability estimates or methods like LDSC or GCTA, so heritability is not supported. The evidence for PRS and genetic correlation is strong and explicit, leading to high confidence in those labels.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32820175",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses polygenic risk scores and their role in modifying disease penetrance, indicating the paper involves PRS concepts and potential risk prediction. There is no mention of heritability estimates or genetic correlation metrics, so these are unlikely to be present. The focus on polygenic background and risk gradients supports classification as PRS-related research.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36869385",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the development of a PRS model based on susceptibility loci identified through GWAS, indicating involvement in polygenic risk scoring and risk prediction. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36152628",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and application of polygenic risk scores for exposures, including methods, validation, and sharing of results, which clearly indicates PRS-related data. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "34946808",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development, validation, and performance assessment of a polygenic risk score for Parkinson's disease, indicating the paper involves PRS modeling and evaluation. There is no mention of heritability estimates or genetic correlation analysis, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "39349817",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.8,
+      "is_correct": false,
+      "reasoning": "The abstract explicitly mentions polygenic risk score analysis indicating PRS performance, reports a large GWAS identifying associated loci suggesting heritability estimates, and discusses leveraging genetic correlation between components of MetS. These points support classification into all three categories with high confidence.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36835879",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly reports the development and evaluation of a polygenic risk score (PRS) for prostate cancer, including performance metrics such as AUC and NRI, indicating it involves PRS performance assessment. There are no mentions of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32242144",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": true,
+      "heritability_confidence": 0.9,
+      "is_correct": false,
+      "reasoning": "The paper primarily reports a GWAS identifying loci related to vitamin D levels and discusses Mendelian randomization analyses, which are related to genetic correlation. There is no mention of developing or evaluating polygenic risk scores or reporting heritability estimates directly. Therefore, it is classified as reporting heritability and genetic correlation data but not PRS-related data.",
+      "primary_category": "HERITABILITY"
+    },
+    {
+      "pmid": "35598204",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the derivation and application of a polygenic score based on SNPs, as well as associations with disease risk, supporting PRS classification. It also reports genetic association metrics (hazard ratios) related to genetic predictors, indicating genetic correlation analysis. There is no mention of heritability estimates (h²) or methods like LDSC or GCTA, so heritability classification is not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "33623038",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions a polygenic hazard score (a form of polygenic risk score) and reports its association with prostate cancer outcomes, including hazard ratios and risk stratification, indicating evaluation of a PRS model. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35602235",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly reports the use of polygenic risk scores and their associations with side effects, indicating PRS analysis. It also discusses shared genetic factors and potential common genetic influences on side effects, implying genetic correlation analysis. There is no mention of heritability estimates (h²) or methods like LDSC or GCTA, so heritability classification is not supported.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "40468860",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The paper clearly focuses on polygenic risk scores, evaluating their performance in disease prediction, which qualifies it for the PRS_PERFORMANCE category. There is no mention of heritability estimates or genetic correlation analysis, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "32588423",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and evaluation of polygenic risk scores for multiple cancers, including risk prediction performance metrics and risk stratification, which clearly indicates involvement with PRS models. There is no mention of heritability estimates or genetic correlation analyses, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "36343017",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly focuses on polygenic risk scores for breast cancer, including their evaluation and application in risk prediction models. There is no mention of heritability estimates or genetic correlation analyses. Therefore, the paper is classified as involving PRS performance with high confidence, but not reporting heritability or genetic correlation metrics.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "35026030",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly discusses the development and evaluation of a polygenic risk score (PRS) for colorectal cancer, including risk prediction performance metrics and the use of multiple genetic variants. There is no mention of heritability estimates or genetic correlation analyses. Therefore, the paper clearly belongs to the PRS_PERFORMANCE category with high confidence, but does not provide data relevant to heritability or genetic correlation.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "25683114",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract clearly discusses the development and validation of a genetic risk score based on common susceptibility loci for colorectal cancer, which aligns with PRS development and evaluation. There are no indications of heritability estimates or genetic correlation analysis in the abstract.",
+      "primary_category": "PRS_PERFORMANCE"
+    },
+    {
+      "pmid": "29674426",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": "The abstract explicitly mentions the evaluation of a polygenic risk score (PRS) and its association with disease risk, including odds ratios and discriminative metrics, indicating the paper develops or evaluates a PRS model. There are no mentions of heritability estimates or genetic correlation metrics, so those categories are not applicable.",
+      "primary_category": "PRS_PERFORMANCE"
+    }
+  ]
+}

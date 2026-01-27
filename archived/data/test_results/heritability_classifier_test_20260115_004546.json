@@ -1,0 +1,2429 @@
+{
+  "metadata": {
+    "test_date": "2026-01-15T00:45:46.065302",
+    "model": "gpt-4.1-nano",
+    "elapsed_seconds": 301.64,
+    "ground_truth_version": "1.0"
+  },
+  "summary": {
+    "total_papers": 200,
+    "positive_samples": 100,
+    "negative_samples": 100
+  },
+  "metrics": {
+    "true_positives": 0,
+    "true_negatives": 100,
+    "false_positives": 0,
+    "false_negatives": 100,
+    "recall": 0.0,
+    "precision": 0.0,
+    "specificity": 1.0,
+    "accuracy": 0.5,
+    "f1_score": 0.0
+  },
+  "false_negatives": [
+    {
+      "pmid": "39086896",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39965571",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39397453",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38559127",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29741616",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40229250",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35654973",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39813287",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34997191",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29440776",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28937693",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35994476",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40832388",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30510236",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39497418",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32637052",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29234009",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37068172",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37790574",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38007651",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31212010",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "25698070",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28193307",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32782262",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35347114",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28530675",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31436836",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35708486",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41493071",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32546850",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37500827",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39639524",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31409341",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29603866",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37944514",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35383355",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39734669",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40056998",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35668300",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28892061",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30333497",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "24670270",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40312552",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38348734",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37577588",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36379924",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40596977",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38913556",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31358995",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30150289",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28285025",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39038848",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41315359",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34157784",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37693606",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34326547",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31999318",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37645810",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31712720",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36966243",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35896974",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39755698",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36692326",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40178748",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31056107",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40791713",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28859627",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39192095",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38040712",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30559463",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37300932",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35210625",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35180032",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40049657",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41315334",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33987664",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30380590",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38721342",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28388634",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31194737",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36925053",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41282776",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35538069",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35271803",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30038396",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35750789",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40327306",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33542196",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "26299295",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35279859",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36806400",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "27568811",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29472613",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35289357",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38766033",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31595288",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35618892",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35421325",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31919934",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "25113566",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    }
+  ],
+  "false_positives": [],
+  "detailed_results": [
+    {
+      "pmid": "39086896",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39965571",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39397453",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38559127",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29741616",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40229250",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35654973",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39813287",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34997191",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29440776",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28937693",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35994476",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40832388",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30510236",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39497418",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32637052",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29234009",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37068172",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37790574",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38007651",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31212010",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "25698070",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28193307",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32782262",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35347114",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28530675",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31436836",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35708486",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41493071",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32546850",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37500827",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39639524",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31409341",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29603866",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37944514",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35383355",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39734669",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40056998",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35668300",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28892061",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30333497",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "24670270",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40312552",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38348734",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37577588",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36379924",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40596977",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38913556",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31358995",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30150289",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28285025",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39038848",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41315359",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34157784",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37693606",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34326547",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31999318",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37645810",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31712720",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36966243",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35896974",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39755698",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36692326",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40178748",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31056107",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40791713",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28859627",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39192095",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38040712",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30559463",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37300932",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35210625",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35180032",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40049657",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41315334",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33987664",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30380590",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38721342",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28388634",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31194737",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36925053",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41282776",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35538069",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35271803",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30038396",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35750789",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40327306",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33542196",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "26299295",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35279859",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36806400",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "27568811",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29472613",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35289357",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38766033",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31595288",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35618892",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35421325",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31919934",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "25113566",
+      "expected_is_heritability": true,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": false,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39132911",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32498804",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30355576",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35048562",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34541285",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33844929",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "31327509",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32716505",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38153744",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36804918",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32770166",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34101481",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37096571",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "28376175",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "26291059",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32873964",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33956350",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34662357",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37181462",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36723444",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "24550740",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38689001",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29555425",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37681503",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40397457",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "41184235",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36944631",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34548389",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37414900",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30185664",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35195259",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30309464",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32785646",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38460828",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38528230",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35818558",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38261344",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33788949",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33194723",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35675159",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38470993",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32692746",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36281732",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36034645",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36333501",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32517536",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35055391",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "25951326",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36745605",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36915130",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32068817",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36653681",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "23599444",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36689693",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35247066",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37057096",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30815984",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36111372",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37414299",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "23433573",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29574091",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29321194",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39483246",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33216869",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35245370",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32386537",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40675087",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38458077",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38412310",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36786746",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37659638",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34091660",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30510241",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36334310",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35980763",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33563654",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35016652",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37721739",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "30968590",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38816834",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39348659",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33769540",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "37243694",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "38587023",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32820175",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36869385",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36152628",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "34946808",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "39349817",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36835879",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32242144",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35598204",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "33623038",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35602235",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "40468860",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "32588423",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "36343017",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "35026030",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "25683114",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    },
+    {
+      "pmid": "29674426",
+      "expected_is_heritability": false,
+      "predicted_is_heritability": false,
+      "heritability_confidence": 0.0,
+      "is_correct": true,
+      "reasoning": ""
+    }
+  ]
+}

@@ -101,6 +101,8 @@ project/
 ├── data/                  # Raw and processed datasets
 ├── scripts/               # Project-level tools and batch tasks
 ├── results/               # Reports, charts, and scientific outputs
+├── experiments/           # AI/ML experiments, runs, and analysis
+├── archived/              # Legacy code and unused files
 └── docker/                # Containerization deployment related (Dockerfile, compose)
 
 ```
@@ -205,7 +207,9 @@ If file path is not explicitly specified, default to:
 - Shared types/contracts → `/shared/<contracts>/`
 - Tests → `/tests`
 - Documentation → `/docs`
+- Experiments → `/experiments`
 - Temporary content → `/output`
+- Archived/Legacy content → `/archived`
 
 ### Summary
 

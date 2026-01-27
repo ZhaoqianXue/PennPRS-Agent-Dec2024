@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+langgraph
+langchain
+langchain-openai
+pydantic
+requests
+python-dotenv
+pytest
+httpx
+tenacity
+openai
+pandas
+thefuzz
+python-Levenshtein

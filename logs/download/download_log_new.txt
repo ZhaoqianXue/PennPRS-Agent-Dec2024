@@ -1,55 +1,0 @@
-[DEBUG] Script started...
-[*] Detected total rows: 304391
-[*] Found existing progress: 3026 batches.
-[*] Total Target Rows: 304391
-[*] Remaining Batches: 18 (Batch Size: 100)
-[*] Parallel Workers: 5
---------------------------------------------------
-
-[*] Fetching offset 302500...
-
-[*] Fetching offset 302600...
-
-[*] Fetching offset 302800...
-
-[*] Fetching offset 302900...
-
-[*] Fetching offset 303000...
-
-[*] Fetching offset 303100...
-
-[*] Fetching offset 303200...
-[+] PROGRESS:  99.44% | Done: 3027/3044 | ETA:  1.0 min[+] PROGRESS:  99.47% | Done: 3028/3044 | ETA:  0.6 min
-[*] Fetching offset 303300...
-
-[*] Fetching offset 303400...
-
-[*] Fetching offset 303500...
-[+] PROGRESS:  99.51% | Done: 3029/3044 | ETA:  0.6 min
-[*] Fetching offset 303600...
-
-[*] Fetching offset 303700...
-
-[+] PROGRESS:  99.54% | Done: 3030/3044 | Last Offset: 302500 | ETA:  0.4 min
-[+] PROGRESS:  99.57% | Done: 3031/3044 | ETA:  0.3 min[+] PROGRESS:  99.61% | Done: 3032/3044 | ETA:  0.3 min[+] PROGRESS:  99.64% | Done: 3033/3044 | ETA:  0.2 min
-[*] Fetching offset 303800...
-[+] PROGRESS:  99.67% | Done: 3034/3044 | ETA:  0.2 min
-[*] Fetching offset 303900...
-
-[*] Fetching offset 304000...
-
-[+] PROGRESS:  99.70% | Done: 3035/3044 | Last Offset: 303300 | ETA:  0.2 min
-
-[*] Fetching offset 304100...
-
-[*] Fetching offset 304200...
-
-[*] Fetching offset 304300...
-[+] PROGRESS:  99.74% | Done: 3036/3044 | ETA:  0.2 min[+] PROGRESS:  99.77% | Done: 3037/3044 | ETA:  0.2 min[+] PROGRESS:  99.80% | Done: 3038/3044 | ETA:  0.1 min[+] PROGRESS:  99.84% | Done: 3039/3044 | ETA:  0.1 min
-[+] PROGRESS:  99.87% | Done: 3040/3044 | Last Offset: 304000 | ETA:  0.1 min
-[+] PROGRESS:  99.90% | Done: 3041/3044 | ETA:  0.1 min[+] PROGRESS:  99.93% | Done: 3042/3044 | ETA:  0.0 min[+] PROGRESS:  99.97% | Done: 3043/3044 | ETA:  0.0 min[+] PROGRESS: 100.00% | Done: 3044/3044 | ETA:  0.0 min
-[+] Global Download Complete in 0.3 minutes. File: omicspred_scores_full.tsv
-[*] Deduplicating final file...
-/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/download_omicspred.py:314: DtypeWarning: Columns (6,11,12,14,15,16,23,24,30,31,32) have mixed types. Specify dtype option on import or set low_memory=False.
-  df_final = pd.read_csv(OUTPUT_FILE, sep='\t')
-[+] Final deduplicated file saved. Total rows: 304391

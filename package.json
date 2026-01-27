@@ -1,0 +1,15 @@
+{
+    "name": "pennprs-agent-monorepo",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev:client": "cd src/client && npm run dev",
+        "dev:server": "export PYTHONPATH=$PYTHONPATH:. && python3 src/server/main.py --reload",
+        "install:client": "cd src/client && npm install",
+        "install:server": "pip install -r src/server/requirements.txt",
+        "start": "echo 'Run npm run dev:client and npm run dev:server in separate terminals'"
+    },
+    "workspaces": [
+        "src/client"
+    ]
+}

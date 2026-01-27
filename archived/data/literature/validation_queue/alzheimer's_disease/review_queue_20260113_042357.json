@@ -1,0 +1,22 @@
+[
+  {
+    "extraction_id": "H2-35383826-001",
+    "extraction_type": "heritability",
+    "status": "needs_review",
+    "issues": [],
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "validated_data": null,
+    "validated_at": "2026-01-13 04:23:57.110823"
+  },
+  {
+    "extraction_id": "H2-36907103-001",
+    "extraction_type": "heritability",
+    "status": "needs_review",
+    "issues": [],
+    "is_duplicate": false,
+    "duplicate_of": null,
+    "validated_data": null,
+    "validated_at": "2026-01-13 04:23:57.110833"
+  }
+]

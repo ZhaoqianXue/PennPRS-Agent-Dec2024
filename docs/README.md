@@ -21,7 +21,9 @@ docs/
 │   ├── pgs_catalog_description.md     # PGS Catalog data format
 │   └── OMICSPRED_TSV_SCHEMA.md        # OmicsPred data schema
 └── project/                            # Project-level documentation
-    └── project_proposal.md            # Project overview and proposal
+    ├── project_proposal.md            # Project overview and proposal
+    ├── implementation_modules.md      # Module implementation plan
+    └── llm_optimization_plan.md       # LLM optimization strategy
 ```
 
 ## Quick Links
@@ -53,4 +55,4 @@ docs/
 
 ---
 
-*Last Updated: 2026-01-08*
+*Last Updated: 2026-01-19*
