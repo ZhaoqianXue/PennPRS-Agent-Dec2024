@@ -28,9 +28,12 @@ def verify_module_1():
         "num_variants": 200,
         "publication": {"date": "2021-06-15"}
     }
-    grade = evaluator.evaluate(card_gold)
+    result_gold = evaluator.evaluate(card_gold)
+    grade = result_gold.grade
     print(f"Gold Case Grade: {grade} (Expected: GOLD)")
+    print(f"Reasoning: {result_gold.reasoning}")
     assert grade == RecommendationGrade.GOLD, "Failed Gold Case"
+    assert len(result_gold.reasoning) > 0, "Missing reasoning for Gold"
     
     # 2. Bronze Case
     card_bronze = {
@@ -39,9 +42,12 @@ def verify_module_1():
         "num_variants": 20,
         "publication": {"date": "2015-01-01"}
     }
-    grade_b = evaluator.evaluate(card_bronze)
+    result_bronze = evaluator.evaluate(card_bronze)
+    grade_b = result_bronze.grade
     print(f"Bronze Case Grade: {grade_b} (Expected: BRONZE)")
+    print(f"Reasoning: {result_bronze.reasoning}")
     assert grade_b == RecommendationGrade.BRONZE, "Failed Bronze Case"
+    assert len(result_bronze.reasoning) > 0, "Missing reasoning for Bronze"
     print("Module 1 Passed.")
 
 def verify_module_2():
