@@ -59,12 +59,30 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 To achieve the "Co-scientist" level of autonomy and reasoning, the system **MUST** be built as a **Single Agent Architecture** (powered by **gpt-5-mini**). The agent acts as a unified central brain, utilizing **Dynamic Planning** and **Tool-Augmented Generation** to navigate the complex recommendation workflow within a **single persistent conversation state**. Multi-agent delegation or sub-agent hierarchies are strictly prohibited to maintain persona integrity and state coherence.
 
-The agent's capabilities are organized into **four external Toolsets** and one internal **Core Logic**:
+The agent's capabilities are organized into **three external Toolsets** and one internal **Core Logic**:
 
-- **PRS Model Tools**: For direct model searching in catalogs and quantitative quality threshold assessment.
-- **Genetic Graph Tools**: For traversing Knowledge Graphs (h2, rg, embeddings) to identify genetic proxies.
-- **Scientific Evidence Tools**: For retrieving literature, benchmarks, and clinical consensus to build the reasoning context.
-- **PennPRS Tools**: For interfacing with the PennPRS backend for autonomous model training.
+- **PRS Model Tools**:
+    <!-- For direct model searching, metadata retrieval, and model filtering/selection. -->
+    - **PGSCatalog Search**: Searches for trait-specific PRS models and retrieves full metadata.
+        - *Purpose*: To retrieve all available PRS models associated with a specific trait and return comprehensive metadata fields, providing the full raw data required for downstream filtering and evaluation.
+    - **Web Search Client**: Wrapper for Google Search/PubMed to fetch *Clinical Guidelines and Review Papers*. 
+        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks within the PRS Model Tools.
+    - **PGS Performance Benchmarker**: Calculates statistical distributions across all retrieved candidate models.
+        - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
+    - **Trait Genetic Parameters**: Fetches $h^2$ and $r_g$ data for a given trait.
+        - *Purpose*: To assist the Agent in selecting or filtering PRS models by providing theoretical performance bounds ($h^2$) and identifying genetic proxies ($r_g$).
+
+- **Genetic Graph Tools**:
+    <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) to identify genetic proxies. -->
+    - **GWAS Atlas Interface**: Traverses $r_g$ and $h^2$ for proxy discovery and theoretical bounds.
+    - **Web Search Client**: Wrapper for Google Search/PubMed to fetch *Clinical Guidelines and Review Papers*. 
+        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks within the PRS Model Tools.
+
+- **PennPRS Tools**:
+    <!-- For interfacing with the PennPRS backend for autonomous model training. -->
+    - **PennPRS Client**: For interfacing with the PennPRS backend for autonomous model training.
+    - **Web Search Client**: Wrapper for Google Search/PubMed to fetch **Clinical Guidelines and Review Papers**. 
+
 - **Reasoning & Persona (Internal)**: The central logic responsible for "fine-dining" answer synthesis, ensuring every response is reasoned, evidence-backed, and maintains the specialized co-scientist persona.
 
 ## Implementation Plan
@@ -182,12 +200,21 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 
 ### Module 3 - Toolset
 
+#### Tool Definitions
+
+1.  **PRS Model Tools**
+
+2.  **Genetic Graph Tools**
+
+3.  **PennPRS Tools**
+
+
 #### Implementation Status
 
+- **Implemented**:
+    -   `PGSCatalog Search` (wrapped via `PGSCatalogClient` in Module 1).
 - **Not Implemented**:
-    - **Web Search Client (Consensus Retrieval)**: Wrapper for Google Search/PubMed to fetch **Clinical Guidelines and Review Papers**. Purpose: To answer "What is the current clinical consensus and SOTA method for this disease?"
-    - **PGS Stats Aggregator (Market Benchmarking)**: Tool to calculate statistical distributions (e.g., top 10% AUC) from the catalog. Purpose: To answer "How does this candidate compare to the global average?"
-    - **GWAS Atlas Interface (Theoretical Calibration)**: (Extends Module 2) Explicitly used to fetch $h^2$ limits. Purpose: To answer "Is the model's performance theoretically plausible given the trait's heritability?"
+
 
 ### Module 4 - System Prompt
 
