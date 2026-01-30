@@ -1,4 +1,6 @@
-# Standard Operating Procedure 
+# Standard Operating Procedure
+
+## Target Journal: Nature Genetics
 
 ## Brainstorming
 
@@ -43,11 +45,12 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 - **Disease Knowledge Graph**: Build a "brain" for the system using:
     - **h² (Heritability)**: To understand the genetic contribution to the trait.
     - **Genetic Correlation (rg)**: To quantify the pleiotropy and shared genetic risk between diseases.
-    - **Base Model Embeddings**: To find mathematical similarities between existing PRS models.
+    - **Base Model Embeddings (HOLD)**: To find mathematical similarities between existing PRS models.
 
 - **Validation**: Utilize the **All of Us** cohort (NIH research program) as the gold standard to validate the performance of recommended models.
 
-- **LLM Strategy (Co-Scientist Expert Persona)**: The platform is engineered as a **specialized Co-Scientist** rather than a generic assistant. By mastering deep domain knowledge (PRS methodology, genetic architecture, and clinical statistics), the agent acts as an expert evaluator capable of high-level model selection and sophisticated cross-disease reasoning.
+- **LLM Strategy (Co-Scientist Expert Persona)**: The platform is engineered as a **specialized Co-Scientist** rather than a generic assistant.
+    - **Core Philosophy**: **Context-Driven Scientific Reasoning.** The Agent achieves expert-level performance by using tools to dynamically construct a **"Scientific Reasoning Context"**. Instead of relying solely on internal weights, it actively fetches **Scientific Standards and Evidence** (e.g., theoretical limits, statistical baselines, expert consensus) to **guide discovery, evaluate quality, and orchestrate execution**. This enables the Agent to act as a rigorous intellectual partner capable of navigating complex research workflows independently, rather than merely verifying isolated facts.
     - **Management Constraint**: All system prompts must be centralized in a **single file** to facilitate management and version control.
 
 ## Architecture
@@ -56,64 +59,45 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 To achieve the "Co-scientist" level of autonomy and reasoning, the system **MUST** be built as a **Single Agent Architecture** (powered by **gpt-5-mini**). The agent acts as a unified central brain, utilizing **Dynamic Planning** and **Tool-Augmented Generation** to navigate the complex recommendation workflow within a **single persistent conversation state**. Multi-agent delegation or sub-agent hierarchies are strictly prohibited to maintain persona integrity and state coherence.
 
-The agent's capabilities are organized into three external **Toolsets** and one internal **Core Logic**:
+The agent's capabilities are organized into **four external Toolsets** and one internal **Core Logic**:
 
 - **PRS Model Tools**: For direct model searching in catalogs and quantitative quality threshold assessment.
 - **Genetic Graph Tools**: For traversing Knowledge Graphs (h2, rg, embeddings) to identify genetic proxies.
+- **Scientific Evidence Tools**: For retrieving literature, benchmarks, and clinical consensus to build the reasoning context.
 - **PennPRS Tools**: For interfacing with the PennPRS backend for autonomous model training.
 - **Reasoning & Persona (Internal)**: The central logic responsible for "fine-dining" answer synthesis, ensuring every response is reasoned, evidence-backed, and maintains the specialized co-scientist persona.
 
-### Agent Engineering Constraints
-
-To ensure agent reliability and long-horizon coherence, the following architectural decisions are **mandatory** (derived from LLM Agentic Engineering Knowledge Base):
-
-1. **Static Tool Binding with Masking**
-   - All tools are **defined at session start** and remain constant throughout the agent loop.
-   - Tool availability is controlled via **logit masking** (constrained decoding), not dynamic injection/removal.
-   - This preserves **KV-cache efficiency** and prevents model confusion from disappearing tool definitions.
-   - *Reference: Manus - "Mask, Don't Remove"*
-
-2. **JIT (Just-In-Time) Context Loading**
-   - Tools return **lightweight references** (IDs, file paths, URLs) instead of full data objects.
-   - Full data is loaded **on-demand** when the agent explicitly requests it.
-   - This preserves **context budget** and enables progressive disclosure.
-   - *Example*: `search_pgs_catalog()` returns `[PGS000025, PGS000142]` instead of full model metadata.
-   - *Reference: Anthropic - "Just in time context strategies"*
-
-3. **Error Trace Retention**
-   - Failed tool calls and error messages **remain in the message history**.
-   - The agent is allowed to "see" its own failures to avoid repeating the same mistake.
-   - No automatic retry-and-hide behavior; errors are explicit feedback.
-   - *Reference: Manus - "Keep the Wrong Stuff In"*
-
-4. **Monolithic State (Strict Single Agent)**
-   - The system is built on a **single LLM loop** without delegating to sub-agents.
-   - This prevents context fragmentation and ensures the **Co-Scientist persona** has full visibility of every step.
-   - Any logic that would traditionally be a "separate agent" must be implemented as a **tool calling capability** within the same brain.
-   - *Rationale: Direct accountability and persona consistency.*
-
 ## Implementation Plan
 
-1.  **Phase 1: Foundation & Metrics (Success Definition)**
-    - **Module 1: Define Quality Thresholds**: Establish quantitative metrics (e.g., $R^2$, AUC, sample size) for the agent to distinguish between "High-Quality" and "Sub-optimal" matches.
-    - **Module 2: Build Knowledge Graph (KG)**: Integrate `genetic_correlation`, `heritability`, and model embeddings into a developer-accessible graph search space.
+1.  **Phase 1: Foundation**
 
-2.  **Phase 2: Agent Core & Toolset Engineering**
-    - **Module 3: Prompt Engineering**: Develop the specialized **gpt-5-mini** system prompt, focusing on **Plan-and-Solve** logic and "Fine-dining" persona. *(Constraints: #2 JIT Context Loading)*
-    - **Module 4: Toolset Implementation**: Standardize and wrap **PRS Model Tools, Genetic Graph Tools, and PennPRS Tools** as reliable tool-calling interfaces. *(Constraints: #1 Static Tool Binding, #2 JIT Context Loading)*
-    - **Module 5: Dynamic Planning**: Implement the autonomous logic for the agent to navigate between assessment and augmented paths without manual intervention. *(Constraints: #3 Error Trace Retention)*
+    - **Module 1: PGS Catalog Data Schema**: Define the data interface and metadata extraction for PGS models.
 
-3.  **Phase 3: Deep System Integration**
-    - **Module 6: PennPRS Backend Bridge**: Finalize the API integration for **PennPRS Tools** to enable one-click autonomous model training execution.
-    - **Module 7: Execution Environment**: Ensure the agent can securely invoke tools and process genomic metadata in a stable server-side environment.
+    - **Module 2: Knowledge Graph**: Integrate `genetic_correlation` and `heritability` into a graph-based proxy discovery system.
 
-4.  **Phase 4: Pilot & Fine-Dining Synthesis**
-    - **Module 8: Output Synthesis Tuning**: Refine the agent’s ability to weave fragmented tool results into evidence-backed, professional co-scientist reports.
-    - **Module 9: Pipeline Pilot**: Execute end-to-end development runs for **Cancer, Mental, Neurodegenerative, and Heart Diseases**.
+2.  **Phase 2: Agent Core**
+
+    The following engineering constraints are **mandatory** (derived from LLM Agentic Engineering Knowledge Base):
+
+    - **Module 3: Toolset**
+        - Wrap **PGS Catalog, GWAS Atlas, and PennPRS** as callable tool interfaces.
+        - **Static Tool Binding with Masking**: All tools defined at session start; availability controlled via logit masking, not dynamic injection. *(Manus: Mask, Don't Remove)*
+        - **Consistent Tool Naming**: Use standardized domain prefixes (e.g., `domain_action`) for efficient logit mask grouping. *(Manus: Prefix-Based Action Selection)*
+        - **Self-Contained & Robust**: Each tool must be error-tolerant with unambiguous input/output schemas. *(Anthropic: Tool Design)*
+        - **Minimal Viable Toolset**: Curate the smallest set covering functionality; avoid ambiguous decision points. *(Anthropic: Tool Curation)*
+        - **JIT Context Loading**: Tools return lightweight references (IDs, paths); full data loaded on-demand. *(Anthropic: Just-in-time context strategies)*
+        - **Append-Only Context**: Serialize tool results deterministically; no mid-loop modification to preserve KV-cache. *(Manus: Design Around the KV-Cache)*
+        - **Error Trace Retention**: Failed tool calls remain in history as explicit feedback; no retry-and-hide. *(Manus: Keep the Wrong Stuff In)*
+
+    - **Module 4: System Prompt**
+        - Develop the **gpt-5-mini** prompt with Plan-and-Solve decision logic.
+        - Define JSON/Markdown templates for recommendation reports.
+        - **Prompt Altitude**: Write at the right abstraction level; avoid hardcoding brittle logic or vague guidance. *(Anthropic: Right Altitude)*
+        - **Attention Manipulation via Recitation**: Implement `todo.md` style progress tracking to push objectives into recent attention span. *(Manus: Manipulate Attention Through Recitation)*
 
 ## Implementation Log
 
-### Module 1 - Quality Thresholds Definition
+### Module 1 - PGS Catalog Data Schema
 
 #### PGS Catalog Models Available Fields
 Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/rest_api/serializers.py`, the following fields are available from the PGS Catalog API (combining Score and Performance endpoints).
@@ -147,23 +131,16 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 | **`performance_comments`** | Additional performance notes | Performance |
 | **`associated_pgs_id`** | The PGS ID associated with performance | Performance |
 
-#### LLM-Driven Quality Thresholds
+#### Agent Context Injection
 
-Instead of hard-coded heuristic tiers, we will leverage the **Large Lange Model** to determine model quality dynamically.
-
-- **Mechanism**: The Agent will receive the structured metadata (fields listed above) in its context window.
-- **Prompt Logic**: The system prompt will instruct the LLM to evaluate models.
-- **Evolution Note**: Initial metadata-based judgments may be limited. Subsequent **Tool-Driven JIT Context Loading** (e.g., autonomously invoking tools for deep methodology scrutiny, study design validation, or cross-referencing external benchmarks) enables the **Co-scientist Expert Scrutiny** phase. This ensures that the agent resolves high-stakes ambiguity through first-hand evidence to reach a definitive scientific judgment, while efficiently managing the attention budget.
+The structured metadata fields above are serialized into the agent's context window for LLM-driven evaluation. The agent uses this data to assess model quality dynamically via **JIT Context Loading** - initially receiving lightweight references (PGS IDs), then loading full metadata on-demand.
 
 #### Implementation Status
 
 - **Implemented**: 
-    - Deterministic `QualityEvaluator` (Python) to pre-calculate `RecommendationGrade` (Gold/Silver/Bronze) based on strict metadata thresholds (e.g. `num_variants > 100`, `sample_size > 50k`).
-    - Strong Types (`QualityMetrics`, `RecommendationGrade`).
-    - **Agentic Study Classifier**: LLM-powered classification of study methodology (Binary vs Continuous) and automated sample size extraction (Neff calculation) from GWAS Catalog metadata.
-- **Not Implemented**:
-    - **LLM Prompt Logic**: The dynamic reasoning prompt ("Plan-and-Solve") to consume these grades is part of Phase 2 (Module 3).
-    - **Co-Scientist Expert Selection**: Advanced reasoning logic that leverages domain knowledge to critically evaluate, compare, and select the best PRS model(s) from the candidate set, providing professional scientific rationale for recommendations.
+    - `PGSCatalogClient` for API queries.
+    - `QualityMetrics` data schema (Pydantic model matching `shared/contracts/api.ts`).
+    - `QualityEvaluator.extract_metrics()` for structured metadata extraction from raw API responses.
 
 ### Module 2 - Knowledge Graph Definition
 
@@ -186,8 +163,9 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 
 - **Input**: Target Trait (e.g., "Alzheimer's").
 - **Traversal & Prioritization**: 
-    1. Query neighbors where `p_value < 0.05` (Significance).
-    2. Rank neighbors by a weighted score of **$r_g^2 \times h^2_{proxy\_node}$** to favor proxies that are both highly correlated and biologically viable for PRS transfer.
+    1. Query neighbors where `p_value < 0.05` (rg Significance).
+    2. Filter neighbors where `h2_z > 2` (Heritability Validity).
+    3. Rank neighbors by a weighted score of **$r_g^2 \times h^2_{proxy\_node}$** to favor proxies that are both highly correlated and biologically viable for PRS transfer.
 - **Output**: Prioritized list of genetically related traits (Proxies) to serve as search candidates for Module 1.
 
 #### Implementation Status
@@ -196,7 +174,32 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
     - `KnowledgeGraphService` wrapping `GWASAtlasGCClient`.
     - Dynamic Graph Construction (Nodes/Edges).
     - Filter: `p < 0.05` significance threshold applied.
+    - **Node Heritability**: `get_neighbors()` now queries `GWASAtlasClient` (heritability module) and populates $h^2$ attributes for each graph node.
+    - **Weighted Scoring**: `get_prioritized_neighbors()` method ranks neighbors by $r_g^2 \times h^2$ score, excluding nodes without $h^2$ data.
+    - **ID Mapping**: `GWASAtlasGCClient` now supports bidirectional mapping via `get_trait_name_by_id()` and `get_trait_id_by_name()` methods.
 - **Not Implemented**:
-    - **Node Heritability**: Heritability ($h^2$) attributes are currently `None` in graph nodes; integration with the heritability client is pending.
-    - **Weighted Scoring**: Ranking neighbors by $r_g^2 \times h^2$ (to prioritize proxies) is not yet implemented.
-    - **ID Mapping**: Automatic conversion between EFO IDs and GWAS Atlas Numeric IDs is mocked/pending.
+    - None. Module 2 core functionality is complete.
+
+### Module 3 - Toolset
+
+#### Implementation Status
+
+- **Not Implemented**:
+    - **Web Search Client (Consensus Retrieval)**: Wrapper for Google Search/PubMed to fetch **Clinical Guidelines and Review Papers**. Purpose: To answer "What is the current clinical consensus and SOTA method for this disease?"
+    - **PGS Stats Aggregator (Market Benchmarking)**: Tool to calculate statistical distributions (e.g., top 10% AUC) from the catalog. Purpose: To answer "How does this candidate compare to the global average?"
+    - **GWAS Atlas Interface (Theoretical Calibration)**: (Extends Module 2) Explicitly used to fetch $h^2$ limits. Purpose: To answer "Is the model's performance theoretically plausible given the trait's heritability?"
+
+### Module 4 - System Prompt
+
+#### LLM-Driven Quality Thresholds
+
+Instead of hard-coded heuristic tiers, we will leverage the **Large Lange Model** to determine model quality dynamically.
+
+- **Mechanism**: The Agent will receive the structured metadata (fields listed above) in its context window.
+- **Prompt Logic**: The system prompt will instruct the LLM to evaluate models.
+- **Evolution Note**: Initial metadata-based judgments may be limited. Subsequent **Tool-Driven JIT Context Loading** (e.g., autonomously invoking tools for deep methodology scrutiny, study design validation, or cross-referencing external benchmarks) enables the **Co-scientist Expert Scrutiny** phase. This ensures that the agent resolves high-stakes ambiguity through first-hand evidence to reach a definitive scientific judgment, while efficiently managing the attention budget.
+
+#### Implementation Status
+- **Not Implemented**:
+    - **LLM Prompt Logic**: The dynamic reasoning prompt ("Plan-and-Solve") to consume these grades is part of Phase 2 (Module 4).
+    - **Co-Scientist Expert Selection**: Logic to construct the **"Evaluation Reference Frame"** using the three knowledge tools (Theoretical $h^2$, Market Stats, Clinical Consensus) to strictly filter qualified models.

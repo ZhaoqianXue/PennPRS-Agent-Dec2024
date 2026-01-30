@@ -23,3 +23,17 @@ class KnowledgeGraphResult(BaseModel):
     """ Response model for graph queries """
     nodes: List[KnowledgeGraphNode] = Field(default_factory=list)
     edges: List[GeneticCorrelationEdge] = Field(default_factory=list)
+
+
+class PrioritizedNeighbor(BaseModel):
+    """
+    Represents a neighbor trait with weighted score for prioritization.
+    Score = rg^2 * h2 (genetic correlation squared times heritability)
+    """
+    trait_id: str = Field(..., description="Trait ID (GWAS Atlas numeric ID)")
+    trait_name: str = Field(..., description="Trait display name")
+    rg: float = Field(..., description="Genetic correlation coefficient")
+    h2: float = Field(..., description="Heritability of the proxy trait")
+    score: float = Field(..., description="Weighted score: rg^2 * h2")
+    p_value: float = Field(..., description="Significance P-value of genetic correlation")
+

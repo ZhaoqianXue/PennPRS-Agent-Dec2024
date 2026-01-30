@@ -122,6 +122,46 @@ class GWASAtlasGCClient:
         logger.info(f"Returning {len(results)} results")
         return results
 
+    def get_trait_name_by_id(self, trait_id: int) -> Optional[str]:
+        """
+        Get trait name for a given numeric GWAS Atlas ID.
+        
+        Args:
+            trait_id: Numeric GWAS Atlas trait ID
+            
+        Returns:
+            Trait name string, or None if not found
+        """
+        # Try both string and int keys since _id_map uses mixed types
+        name = self._id_map.get(str(trait_id)) or self._id_map.get(trait_id)
+        return str(name) if name else None
+    
+    def get_trait_id_by_name(self, trait_name: str) -> Optional[int]:
+        """
+        Get numeric GWAS Atlas ID for a given trait name.
+        
+        Args:
+            trait_name: Trait name to look up
+            
+        Returns:
+            Numeric trait ID, or None if not found
+        """
+        # Build reverse mapping if not exists
+        if not hasattr(self, '_name_to_id_map') or not self._name_to_id_map:
+            self._name_to_id_map = {}
+            for id_key, name in self._id_map.items():
+                # Normalize to lowercase for case-insensitive matching
+                self._name_to_id_map[str(name).lower()] = id_key
+        
+        # Try exact match (case-insensitive)
+        result = self._name_to_id_map.get(trait_name.lower())
+        if result is not None:
+            try:
+                return int(result)
+            except (ValueError, TypeError):
+                return result
+        return None
+
     def get_pair_correlation(self, id1: int, id2: int) -> Optional[GeneticCorrelationResult]:
         """
         Get correlation between two specific trait IDs.

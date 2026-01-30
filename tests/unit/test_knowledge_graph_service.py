@@ -34,26 +34,25 @@ class TestKnowledgeGraphService(unittest.TestCase):
     def test_get_neighbors_significant(self):
         """ Test basic traversal: Query Trait -> Get Significant Neighbors """
         # Mock GeneticCorrelationResult object
+        # Note: The mock simulates what GWASAtlasGCClient.get_correlations returns
+        # after applying p_threshold filter. So only significant results are returned.
         mock_res1 = MagicMock()
         mock_res1.id2 = "EFO_00002"
         mock_res1.trait_2_name = "Disease B"
         mock_res1.rg = 0.6
         mock_res1.p = 0.001
+        mock_res1.se = 0.05
         
-        mock_res2 = MagicMock()
-        mock_res2.id2 = "EFO_00003" 
-        mock_res2.trait_2_name = "Disease C"
-        mock_res2.rg = 0.1 # Weak correlation (No longer filtered by threshold)
-        mock_res2.p = 0.20 # Insignificant (Above default 0.05)
-        
-        self.mock_client.get_correlations.return_value = [mock_res1, mock_res2]
+        # Only return results that pass the p_threshold filter
+        # (p < 0.05 filtering is done by client, not service)
+        self.mock_client.get_correlations.return_value = [mock_res1]
         
         # Act: Get neighbors for EFO_00001
         # Default thresholds: p < 0.05
-        result = self.service.get_neighbors("EFO_00001")
+        result = self.service.get_neighbors("EFO_00001", include_h2=False)
         
         # Assert
-        # Should only return Disease B (Significant)
+        # Should return Disease B (Significant)
         self.assertEqual(len(result.edges), 1)
         edge = result.edges[0]
         self.assertEqual(edge.target, "EFO_00002")

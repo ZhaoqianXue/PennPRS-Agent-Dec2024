@@ -1,16 +1,9 @@
 """
 Core Logic for Module 1: PRS Quality Evaluation.
-Implements the 'Tier 1/2/3' logic defined in 'proposal.md'.
+Extracts quantitative metrics from raw metadata to be used by the LLM for dynamic quality assessment.
 """
-from enum import Enum
 from typing import Dict, Any, Optional
 from pydantic import BaseModel, Field
-
-class RecommendationGrade(str, Enum):
-    """ Matches shared/contracts/api.ts """
-    GOLD = 'GOLD'      # Tier 1
-    SILVER = 'SILVER'  # Tier 2
-    BRONZE = 'BRONZE'  # Tier 3
 
 class QualityMetrics(BaseModel):
     """ Matches shared/contracts/api.ts """
@@ -22,58 +15,47 @@ class QualityMetrics(BaseModel):
     is_polygenic: bool = False
 
 class QualityEvaluator:
-    """ Evaluates raw model data against Quality Thresholds. """
+    """ Evaluates raw model data and extracts Quality Metrics. """
     
-    def evaluate(self, model_card: Dict[str, Any]) -> RecommendationGrade:
+    def extract_metrics(self, model_card: Dict[str, Any]) -> QualityMetrics:
         """
-        Determines the quality tier (GOLD/SILVER/BRONZE) for a given model.
+        Extracts structured metrics from raw metadata.
         Args:
             model_card: Dictionary containing raw metadata from PGS Catalog/PennPRS.
         Returns:
-            RecommendationGrade Enum.
+            QualityMetrics object.
         """
-        # Extract fields safely
-        metrics = model_card.get('metrics', {})
-        auc = float(metrics.get("AUC") or 0)
-        r2 = float(metrics.get("R2") or 0)
+        # Extract metrics (AUC, R2)
+        metrics_raw = model_card.get('metrics', {})
+        auc = float(metrics_raw.get("AUC") or 0) if metrics_raw.get("AUC") is not None else None
+        r2 = float(metrics_raw.get("R2") or 0) if metrics_raw.get("R2") is not None else None
         
-        # 'sample_size' might be top-level or nested
+        # Sample size
         try:
             sample_size = int(model_card.get('sample_size') or 0)
         except (ValueError, TypeError):
-            sample_size = 0
+            sample_size = None
         
-        # 'publication' -> {"date": "2021-01-01"}
+        # Publication year
         pub_date = model_card.get('publication', {}).get('date', "")
         try:
-            year = int(pub_date.split("-")[0]) if pub_date else 0
+            year = int(pub_date.split("-")[0]) if pub_date else None
         except (ValueError, IndexError):
-            year = 0
+            year = None
             
-        # 'num_variants' -> Integer
+        # Number of variants
         try: 
             num_variants = int(model_card.get('num_variants') or 0)
         except (ValueError, TypeError):
-            num_variants = 0
+            num_variants = None
         
-        # Logic Implementation
+        is_polygenic = (num_variants > 100) if num_variants is not None else False
         
-        # Tier 1 (Gold) Criteria
-        is_polygenic = num_variants > 100
-        is_recent = year >= 2020
-        is_large = sample_size > 50000
-        has_good_metrics = (auc > 0.65) or (r2 > 0.05) 
-        
-        if is_polygenic and is_recent and is_large and has_good_metrics:
-            return RecommendationGrade.GOLD
-            
-        # Tier 2 (Silver) Criteria (Baseline)
-        is_polygenic_base = num_variants > 50 # Proposal says > 50
-        is_recent_base = year >= 2018
-        is_medium = sample_size > 10000
-        
-        if is_polygenic_base and is_recent_base and is_medium:
-            return RecommendationGrade.SILVER
-            
-        # Default Bronze (Legacy/Warning)
-        return RecommendationGrade.BRONZE
+        return QualityMetrics(
+            auc=auc,
+            r2=r2,
+            sample_size=sample_size,
+            num_variants=num_variants,
+            publication_year=year,
+            is_polygenic=is_polygenic
+        )

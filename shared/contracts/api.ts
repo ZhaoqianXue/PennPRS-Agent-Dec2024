@@ -7,17 +7,6 @@
 // --- Module 1: Quality Thresholds ---
 
 /**
- * Recommendation Grade (Tier System)
- * Used to classify PRS Model Quality based on metrics.
- * Defined in Module 1 Specification.
- */
-export enum RecommendationGrade {
-    GOLD = 'GOLD',     // Tier 1: Recommended (High Sample, Recent, Polygenic)
-    SILVER = 'SILVER', // Tier 2: Baseline (Acceptable Metrics)
-    BRONZE = 'BRONZE'  // Tier 3: Legacy/Warning (Old, Small Sample, Oligogenic)
-}
-
-/**
  * Quality Metrics Interface
  * Tracks quantitative indicators for quality assessment.
  */
@@ -37,9 +26,8 @@ export interface QualityMetrics {
  */
 export interface EvaluatedModelCard {
     id: string;
-    grade: RecommendationGrade;
     metrics: QualityMetrics;
-    quality_reasoning?: string[]; // Explanations for the grade assignments
+    quality_reasoning?: string[]; // Explanations or caveats extracted from metadata
 }
 
 
