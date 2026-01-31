@@ -165,7 +165,8 @@ The structured metadata fields above are serialized into the agent's context win
     - `QualityMetrics` data schema (Pydantic model matching `shared/contracts/api.ts`).
     - `QualityEvaluator.extract_metrics()` for structured metadata extraction from raw API responses.
 - **Not Implemented**:
-    
+    - None. Module 1 core functionality is complete.
+
 ### Module 2 - Knowledge Graph Definition
 
 #### GWAS Atlas Data Schema
