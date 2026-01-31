@@ -59,29 +59,34 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 To achieve the "Co-scientist" level of autonomy and reasoning, the system **MUST** be built as a **Single Agent Architecture** (powered by **gpt-5-mini**). The agent acts as a unified central brain, utilizing **Dynamic Planning** and **Tool-Augmented Generation** to navigate the complex recommendation workflow within a **single persistent conversation state**. Multi-agent delegation or sub-agent hierarchies are strictly prohibited to maintain persona integrity and state coherence.
 
-The agent's capabilities are organized into **three external Toolsets** and one internal **Core Logic**:
+The agent's capabilities are organized into **three external Tool Sets** (Action Space) and one internal **Reasoning & Persona** (Cognitive Space):
 
 - **PRS Model Tools**:
     <!-- For direct model searching, metadata retrieval, and model filtering/selection. -->
-    - **PGSCatalog Search**: Searches for trait-specific PRS models and retrieves full metadata.
+    - **`prs_model_pgscatalog_search`**: Searches for trait-specific PRS models and retrieves full metadata.
         - *Purpose*: To retrieve all available PRS models associated with a specific trait and return comprehensive metadata fields, providing the full raw data required for downstream filtering and evaluation.
-    - **Web Search Client**: Wrapper for Google Search/PubMed to fetch *Clinical Guidelines and Review Papers*. 
-        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks within the PRS Model Tools.
-    - **PGS Performance Benchmarker**: Calculates statistical distributions across all retrieved candidate models.
+    - **`prs_model_web_search`**: Wrapper for Google Search/PubMed to fetch *Clinical Guidelines and Review Papers*. 
+        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks.
+    - **`prs_model_performance_profiler`**: Calculates statistical distributions across all retrieved candidate models.
         - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
-    - **Trait Genetic Parameters**: Fetches $h^2$ and $r_g$ data for a given trait.
+    - **`prs_model_genetic_parameters`**: Fetches $h^2$ and $r_g$ data for a given trait.
         - *Purpose*: To assist the Agent in selecting or filtering PRS models by providing theoretical performance bounds ($h^2$) and identifying genetic proxies ($r_g$).
 
 - **Genetic Graph Tools**:
-    <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) to identify genetic proxies. -->
-    - **GWAS Atlas Interface**: Traverses $r_g$ and $h^2$ for proxy discovery and theoretical bounds.
-    - **Web Search Client**: Wrapper for Google Search/PubMed to fetch *Clinical Guidelines and Review Papers*. 
-        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks within the PRS Model Tools.
+    <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) and providing scientific validation. -->
+    - **`genetic_graph_get_neighbors`**: Traverses the Knowledge Graph to find **genetically correlated traits**.
+        - *Purpose*: To identify traits that share a significant genetic basis with the target trait, providing the initial candidates for cross-disease model recommendation.
+    - **`genetic_graph_rank_correlated_traits`**: Ranks **genetically correlated traits** based on heritability and genetic correlation strength.
+        - *Purpose*: To prioritize candidate proxy traits by weighting their genetic overlap ($r_g$) against their own genetic signal strength ($h^2$), ensuring recommendations focus on the most biologically and statistically viable alternatives.
+    - **`genetic_graph_verify_study_power`**: Fetches study metadata (sample size, cohorts) to assess the statistical reliability of the correlation.
+        - *Purpose*: To provide the LLM with the underlying statistical evidence (sample sizes, population composition) of the correlation data, enabling the Agent to perform quality control and filter out noisy or underpowered genetic links.
+    - **`genetic_graph_cross_validate_mechanism`**: Cross-references shared genetic loci/genes (via Open Targets/PheWAS) to provide biological rationale for the correlation.
+        - *Purpose*: To construct a biological reasoning context by identifying shared genetic loci or target genes, transforming a statistical correlation into a mechanistic justification for model transfer.
 
 - **PennPRS Tools**:
     <!-- For interfacing with the PennPRS backend for autonomous model training. -->
-    - **PennPRS Client**: For interfacing with the PennPRS backend for autonomous model training.
-    - **Web Search Client**: Wrapper for Google Search/PubMed to fetch **Clinical Guidelines and Review Papers**. 
+    - **`pennprs_train_model`**: Interfaces with the PennPRS backend to initiate and monitor autonomous model training.
+        - *Purpose*: To provide a pathway for generating high-quality, trait-specific models when existing models are insufficient, ensuring the Agent can offer a complete solution from discovery to implementation.
 
 - **Reasoning & Persona (Internal)**: The central logic responsible for "fine-dining" answer synthesis, ensuring every response is reasoned, evidence-backed, and maintains the specialized co-scientist persona.
 
@@ -91,18 +96,18 @@ The agent's capabilities are organized into **three external Toolsets** and one 
 
     - **Module 1: PGS Catalog Data Schema**: Define the data interface and metadata extraction for PGS models.
 
-    - **Module 2: Knowledge Graph**: Integrate `genetic_correlation` and `heritability` into a graph-based proxy discovery system.
+    - **Module 2: Knowledge Graph**: Integrate `genetic_correlation` and `heritability` into a discovery system for **genetically correlated traits**.
 
 2.  **Phase 2: Agent Core**
 
     The following engineering constraints are **mandatory** (derived from LLM Agentic Engineering Knowledge Base):
 
-    - **Module 3: Toolset**
-        - Wrap **PGS Catalog, GWAS Atlas, and PennPRS** as callable tool interfaces.
+    - **Module 3: Tools**
+        - Wrap **PRS Model, Genetic Graph, and PennPRS** functionalities as callable tool interfaces using `domain_action` prefixing.
         - **Static Tool Binding with Masking**: All tools defined at session start; availability controlled via logit masking, not dynamic injection. *(Manus: Mask, Don't Remove)*
         - **Consistent Tool Naming**: Use standardized domain prefixes (e.g., `domain_action`) for efficient logit mask grouping. *(Manus: Prefix-Based Action Selection)*
         - **Self-Contained & Robust**: Each tool must be error-tolerant with unambiguous input/output schemas. *(Anthropic: Tool Design)*
-        - **Minimal Viable Toolset**: Curate the smallest set covering functionality; avoid ambiguous decision points. *(Anthropic: Tool Curation)*
+        - **Minimal Viable Tool Set**: Curate the smallest set covering functionality; avoid ambiguous decision points. *(Anthropic: Tool Curation)*
         - **JIT Context Loading**: Tools return lightweight references (IDs, paths); full data loaded on-demand. *(Anthropic: Just-in-time context strategies)*
         - **Append-Only Context**: Serialize tool results deterministically; no mid-loop modification to preserve KV-cache. *(Manus: Design Around the KV-Cache)*
         - **Error Trace Retention**: Failed tool calls remain in history as explicit feedback; no retry-and-hide. *(Manus: Keep the Wrong Stuff In)*
@@ -159,54 +164,194 @@ The structured metadata fields above are serialized into the agent's context win
     - `PGSCatalogClient` for API queries.
     - `QualityMetrics` data schema (Pydantic model matching `shared/contracts/api.ts`).
     - `QualityEvaluator.extract_metrics()` for structured metadata extraction from raw API responses.
-
+- **Not Implemented**:
+    
 ### Module 2 - Knowledge Graph Definition
 
-#### Graph Schema
+#### GWAS Atlas Data Schema
 
-The Knowledge Graph is defined as a **Genetic Architecture Graph**, capturing both trait-specific signals and shared risk.
+Based on `data/heritability/gwas_atlas/gwas_atlas.tsv` and `data/genetic_correlation/gwas_atlas/gwas_atlas_gc.tsv`, the following fields are available for constructing the Knowledge Graph.
 
-- **Nodes**: **Traits**.
-    - **Attributes**: **Heritability ($h^2$)**. Used as a "Signal Strength" weight to prioritize traits with robust genetic architectures as viable proxy sources.
-    - **Data Source**: `src/server/modules/heritability/gwas_atlas_client.py` (Local pre-computed TSV).
-    - **Metrics**: $h^2$ (Observed scale).
-- **Edges**: **Genetic Correlation ($r_g$)**.
-    - **Data Source**: `src/server/modules/genetic_correlation/gwas_atlas_client.py` (Local pre-computed TSV).
-    - **Metrics**: $r_g$ (Coefficient), $SE$, $P$-value.
-- **Constraint**: No Model Nodes, no Embedding Similarity edges, no Ontology edges.
+##### 1. Heritability Dataset (`data/heritability/gwas_atlas/gwas_atlas.tsv`)
+
+| Field Name | Description | Note |
+| :--- | :--- | :--- |
+| **`id`** | Internal GWAS Atlas numeric ID for the study | |
+| **`PMID`** | PubMed Identifier of the publication | |
+| **`Year`** | Year of publication | |
+| **`File`** | Link or name of the source summary statistics file | |
+| **`Website`** | Source website for the data | |
+| **`Consortium`** | Research consortium (e.g., PGC, UKB) | |
+| **`Domain`** | Top-level trait category (e.g., Psychiatric) | |
+| **`ChapterLevel`** | ICD-10 based chapter classification | |
+| **`SubchapterLevel`** | Specific subchapter classification | |
+| **`Trait`** | Human-readable trait name | Used for labeling nodes |
+| **`uniqTrait`** | **Primary Key**. Unique string identifier for the trait-study pair | Links to GC dataset |
+| **`Population`** | Ancestry composition of the cohort | Default: EUR |
+| **`Ncase`** | Number of cases (for binary traits) | |
+| **`Ncontrol`** | Number of controls (for binary traits) | |
+| **`N`** | **Total Sample Size**. Total number of individuals | Key for study prioritization |
+| **`Genome`** | Genome build (e.g., hg18, hg19) | |
+| **`Nsnps`** | Number of SNPs used in the heritability analysis | |
+| **`Nhits`** | Number of genome-wide significant hits reported | |
+| **`SNPh2`** | **Observed scale SNP heritability ($h^2_{obs}$)** | Main node attribute |
+| **`SNPh2_se`** | Standard error of $h^2_{obs}$ | |
+| **`SNPh2_z`** | **Z-score of $h^2_{obs}$ ($h^2\_Z$)** | Used for heritability validity |
+| **`SNPh2_l`** | Liability scale SNP heritability ($h^2_{lia}$) | |
+| **`SNPh2_l_se`** | Standard error of $h^2_{lia}$ | |
+| **`LambdaGC`** | Genomic inflation factor ($\lambda_{GC}$) | |
+| **`Chi2`** | Mean $\chi^2$ statistic | |
+| **`Intercept`** | LD Score Regression intercept | |
+| **`Note`** | Additional notes (e.g., population prevalence used for liability scale) | |
+| **`DateAdded`** | Date the record was added to GWAS Atlas | |
+| **`DateLastModified`** | Date of last record update | |
+
+##### 2. Genetic Correlation Dataset (`data/genetic_correlation/gwas_atlas/gwas_atlas_gc.tsv`)
+
+| Field Name | Description | Note |
+| :--- | :--- | :--- |
+| **`id1`** | Identifier for Trait 1 | Corresponds to `id` in Heritability TSV |
+| **`id2`** | Identifier for Trait 2 | Corresponds to `id` in Heritability TSV |
+| **`rg`** | **Genetic Correlation Coefficient ($r_g$)** | Primary edge weight |
+| **`se`** | Standard error of $r_g$ | |
+| **`z`** | Z-score of $r_g$ | |
+| **`p`** | **P-value of $r_g$** | Used for significance filtering |
+| **`gcov_int`** | Genetic covariance intercept | |
+| **`gcov_int_se`** | Standard error of the intercept | |
+
+#### Data Reality Analysis
+
+The GWAS Atlas datasets form a natural graph structure, but with a critical nuance:
+
+| Dataset | Format | Granularity |
+|:---|:---|:---|
+| Heritability | Node list | **Study-level** (each row = one Study) |
+| Genetic Correlation | Edge list | **Study-pair-level** (each edge = one Study1-Study2 pair) |
+
+**Critical Insight**: The `id` in both datasets refers to **Study**, not **Trait**. The same Trait can have multiple Studies:
+
+| Trait | Study Count |
+|:---|:---:|
+| High-density lipoprotein cholesterol | 31 |
+| Waist-hip ratio | 30 |
+| Body Mass Index | 25 |
+| Schizophrenia | 4 |
+
+This means a single Trait-pair (e.g., HDL vs BMI) may have up to 31 x 25 = 775 edges at the Study level.
+
+#### Graph Schema: Trait-Centric with Study Provenance
+
+**Design Principle**: Each Trait has exactly **ONE node**, but retains **ALL Study information** as provenance.
+
+##### Node Schema (Traits)
+
+| Attribute | Type | Description |
+|:---|:---|:---|
+| `trait_id` | string | Canonical trait name (`uniqTrait`). **Primary Key**. |
+| `domain` | string | Top-level category (e.g., Psychiatric) |
+| `chapter_level` | string | ICD-10 chapter classification |
+| `h2_meta` | float | **Meta-analyzed $h^2$** (inverse-variance weighted) |
+| `h2_se_meta` | float | SE of meta-analyzed $h^2$ |
+| `h2_z_meta` | float | Z-score of meta-analyzed $h^2$ |
+| `n_studies` | int | Number of Studies aggregated |
+| `studies` | array | All Studies for this Trait (full provenance) |
+
+- **Data Source**: `src/server/modules/heritability/gwas_atlas_client.py`
+- **Study Provenance**: Each element in `studies` contains `{study_id, pmid, year, population, n, snp_h2, snp_h2_se, snp_h2_z, consortium, ...}`.
+- **NA Handling**: Studies without valid $h^2$ estimates are excluded from meta-analysis but retained in provenance.
+
+##### Edge Schema (Genetic Correlations)
+
+| Attribute | Type | Description |
+|:---|:---|:---|
+| `source_trait` | string | Source trait canonical name |
+| `target_trait` | string | Target trait canonical name |
+| `rg_meta` | float | **Meta-analyzed $r_g$** (inverse-variance weighted) |
+| `rg_se_meta` | float | SE of meta-analyzed $r_g$ |
+| `rg_z_meta` | float | Z-score of meta-analyzed $r_g$ |
+| `rg_p_meta` | float | P-value of meta-analyzed $r_g$ |
+| `n_correlations` | int | Number of Study-pair correlations aggregated |
+| `correlations` | array | All Study-pair correlations (full provenance) |
+
+- **Data Source**: `src/server/modules/genetic_correlation/gwas_atlas_client.py`
+- **Constraint**: No self-loops (edges between Studies of the same Trait are excluded).
+
+##### Aggregation Strategy: Inverse-Variance Weighted Meta-Analysis
+
+Both Node ($h^2$) and Edge ($r_g$) aggregation use the same fixed-effect meta-analysis formula:
+
+$$\theta_{meta} = \frac{\sum_i w_i \cdot \theta_i}{\sum_i w_i}, \quad w_i = \frac{1}{SE_i^2}$$
+
+$$SE_{meta} = \frac{1}{\sqrt{\sum_i w_i}}$$
+
+$$Z_{meta} = \frac{\theta_{meta}}{SE_{meta}}, \quad P_{meta} = 2 \cdot \Phi(-|Z_{meta}|)$$
+
+Where $\theta$ represents either $h^2$ (for nodes) or $r_g$ (for edges).
+
+This approach:
+- Weights estimates by precision (1/SE^2), giving more influence to well-powered studies.
+- Provides a single, consolidated estimate per Trait (node) or Trait-pair (edge).
+- Retains all individual estimates in `studies` (node) / `correlations` (edge) arrays for transparency.
+- Maintains full provenance for reproducibility and sensitivity analysis.
 
 #### Interaction Logic (Dynamic Service)
 
-The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed on-demand from local GWAS Atlas data.
+The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed on-demand with Trait-level aggregation.
 
-- **Input**: Target Trait (e.g., "Alzheimer's").
+- **Input**: Target Trait (e.g., "Alzheimer's disease").
+- **Graph Construction**:
+    1. **Node Aggregation**: Group Studies by `uniqTrait`, apply inverse-variance weighted meta-analysis for $h^2$.
+    2. **Edge Aggregation**: For each Trait pair, apply inverse-variance weighted meta-analysis for $r_g$.
+    3. **Self-Loop Removal**: Exclude edges where source and target are the same Trait.
 - **Traversal & Prioritization**: 
-    1. Query neighbors where `p_value < 0.05` (rg Significance).
-    2. Filter neighbors where `h2_z > 2` (Heritability Validity).
-    3. Rank neighbors by a weighted score of **$r_g^2 \times h^2_{proxy\_node}$** to favor proxies that are both highly correlated and biologically viable for PRS transfer.
-- **Output**: Prioritized list of genetically related traits (Proxies) to serve as search candidates for Module 1.
+    1. Query neighbors where `|rg_z_meta| > 2` (Meta-analyzed $r_g$ significance, ~p < 0.05).
+    2. Filter neighbors where `h2_z_meta > 2` (Meta-analyzed heritability validity).
+    3. Rank neighbors by weighted score: **$r_{g,meta}^2 \times h^2_{meta}$** to favor traits that are both highly correlated and biologically viable for PRS transfer.
+- **Output**: Prioritized list of **genetically correlated traits** to serve as search candidates for Module 1.
 
 #### Implementation Status
 
-- **Implemented**: 
-    - `KnowledgeGraphService` wrapping `GWASAtlasGCClient`.
+- **Implemented (v1 - Study-Level, Legacy)**: 
+    - `KnowledgeGraphService` with `GWASAtlasGCClient`.
     - Dynamic Graph Construction (Nodes/Edges).
-    - Filter: `p < 0.05` significance threshold applied.
-    - **Node Heritability**: `get_neighbors()` now queries `GWASAtlasClient` (heritability module) and populates $h^2$ attributes for each graph node.
-    - **Weighted Scoring**: `get_prioritized_neighbors()` method ranks neighbors by $r_g^2 \times h^2$ score, excluding nodes without $h^2$ data.
-    - **ID Mapping**: `GWASAtlasGCClient` now supports bidirectional mapping via `get_trait_name_by_id()` and `get_trait_id_by_name()` methods.
+    - Filter: `p < 0.05` significance threshold.
+    - **Node Heritability**: `get_neighbors()` queries `GWASAtlasClient` and populates $h^2$ attributes.
+    - **Weighted Scoring**: `get_prioritized_neighbors()` ranks neighbors by $r_g^2 \times h^2$ score.
+    - **ID Mapping**: Bidirectional mapping via `get_trait_name_by_id()` and `get_trait_id_by_name()`.
+
+- **Implemented (v2 - Trait-Centric with Meta-Analysis)**:
+    - **Data Models**: `TraitNode`, `GeneticCorrelationEdgeMeta`, `TraitCentricGraphResult` with full schema per spec.
+    - **Meta-Analysis Pipeline**: `inverse_variance_meta_analysis()` utility function implementing the formula.
+    - **TraitAggregator**: Groups Studies by `uniqTrait`, applies meta-analysis, populates `h2_meta`, `h2_se_meta`, `h2_z_meta`, `n_studies`, `studies[]`.
+    - **EdgeAggregator**: Groups Study-pairs by Trait-pair, applies meta-analysis, populates `rg_meta`, `rg_se_meta`, `rg_z_meta`, `rg_p_meta`, `n_correlations`, `correlations[]`.
+    - **Self-Loop Removal**: Edges between Studies of the same Trait are excluded during aggregation.
+    - **New Service Methods**:
+        - `get_trait_node(trait_id)`: Returns `TraitNode` with meta-analyzed heritability.
+        - `get_prioritized_neighbors_v2(trait_id, rg_z_threshold, h2_z_threshold)`: Trait-level prioritization with Z-score filtering.
+        - `get_trait_centric_graph(trait_id)`: Returns complete `TraitCentricGraphResult`.
+    - **Unified Filtering**: Uses `|rg_z_meta| > 2` and `h2_z_meta > 2` (Z-score based, consistent approach).
+
 - **Not Implemented**:
     - None. Module 2 core functionality is complete.
 
-### Module 3 - Toolset
+### Module 3 - Tools
 
 #### Tool Definitions
 
 1.  **PRS Model Tools**
+    - `prs_model_pgscatalog_search`
+    - `prs_model_web_search`
+    - `prs_model_performance_profiler`
+    - `prs_model_genetic_parameters`
 
 2.  **Genetic Graph Tools**
+    - `genetic_graph_get_neighbors`
+    - `genetic_graph_rank_correlated_traits`
+    - `genetic_graph_verify_study_power`
+    - `genetic_graph_cross_validate_mechanism`
 
 3.  **PennPRS Tools**
+    - `pennprs_train_model`
 
 
 #### Implementation Status
