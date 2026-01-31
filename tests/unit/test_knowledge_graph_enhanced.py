@@ -133,10 +133,11 @@ class TestKnowledgeGraphEnhancements(unittest.TestCase):
         
         # Mock heritability: Trait A has h2=0.6, Trait B has h2=0.3
         def h2_side_effect(trait_name, limit=1):
-            h2_map = {"Trait A": 0.6, "Trait B": 0.3}
+            h2_map = {"Trait A": (0.6, 10.0), "Trait B": (0.3, 8.0)}  # (h2, h2_z)
             if trait_name in h2_map:
                 mock_est = MagicMock(spec=HeritabilityEstimate)
-                mock_est.h2_obs = h2_map[trait_name]
+                mock_est.h2_obs = h2_map[trait_name][0]
+                mock_est.h2_z = h2_map[trait_name][1]  # Z > 2 to pass filter
                 return [mock_est]
             return []
         
@@ -185,6 +186,7 @@ class TestKnowledgeGraphEnhancements(unittest.TestCase):
             if trait_name == "Trait With H2":
                 mock_est = MagicMock(spec=HeritabilityEstimate)
                 mock_est.h2_obs = 0.5
+                mock_est.h2_z = 10.0  # Z > 2 to pass filter
                 return [mock_est]
             return []  # No h2 for "Trait Without H2"
         
