@@ -2,17 +2,18 @@
 
 ## Read-Only Reference Directory
 
-**IMPORTANT**: The `pennprs-agent` and `pgscatalog` folders are **READ-ONLY** and serve **ONLY** as references.
+**IMPORTANT**: The `pennprs-agent`, `pgscatalog`, and `TissueLab` folders are **READ-ONLY** and serve **ONLY** as references.
 
 ### Rules:
-- **DO NOT** modify any files within the `pennprs-agent` or `pgscatalog` folders
+- **DO NOT** modify any files within the `pennprs-agent`, `pgscatalog`, or `TissueLab` folders
 - **DO NOT** use any code from these folders directly in the project
-- **ONLY** read and reference files in these folders to understand PennPRS API usage (`pennprs-agent`) or PGS Catalog tools and data structures (`pgscatalog`)
+- **ONLY** read and reference files in these folders to understand PennPRS API usage (`pennprs-agent`), PGS Catalog tools and data structures (`pgscatalog`), or agentic medical imaging workflows (`TissueLab`)
 - All files in these folders are for reference purposes only
 
 ### Purpose:
 - **pennprs-agent**: Contains example implementations and documentation that demonstrate how to interact with the PennPRS API.
 - **pgscatalog**: Contains the source code for PGS Catalog tools (`pgsc_calc`, `pygscatalog`, `PGS_Catalog`, `pgs-harmonizer`) for reference on PGS implementation standards.
+- **TissueLab**: A co-evolving agentic AI system for medical imaging analysis, specifically used for learning single agent tool calling patterns and building robust agentic ecosystems.
 
 Use these solely as learning resources, not as a codebase to modify or extend.
 

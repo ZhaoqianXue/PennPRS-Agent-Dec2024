@@ -69,18 +69,14 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
         - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks.
     - **`prs_model_performance_profiler`**: Calculates statistical distributions across all retrieved candidate models.
         - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
-    - **`prs_model_genetic_parameters`**: Fetches $h^2$ and $r_g$ data for a given trait.
-        - *Purpose*: To assist the Agent in selecting or filtering PRS models by providing theoretical performance bounds ($h^2$) and identifying genetic proxies ($r_g$).
 
 - **Genetic Graph Tools**:
     <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) and providing scientific validation. -->
-    - **`genetic_graph_get_neighbors`**: Traverses the Knowledge Graph to find **genetically correlated traits**.
-        - *Purpose*: To identify traits that share a significant genetic basis with the target trait, providing the initial candidates for cross-disease model recommendation.
-    - **`genetic_graph_rank_correlated_traits`**: Ranks **genetically correlated traits** based on heritability and genetic correlation strength.
-        - *Purpose*: To prioritize candidate proxy traits by weighting their genetic overlap ($r_g$) against their own genetic signal strength ($h^2$), ensuring recommendations focus on the most biologically and statistically viable alternatives.
-    - **`genetic_graph_verify_study_power`**: Fetches study metadata (sample size, cohorts) to assess the statistical reliability of the correlation.
-        - *Purpose*: To provide the LLM with the underlying statistical evidence (sample sizes, population composition) of the correlation data, enabling the Agent to perform quality control and filter out noisy or underpowered genetic links.
-    - **`genetic_graph_cross_validate_mechanism`**: Cross-references shared genetic loci/genes (via Open Targets/PheWAS) to provide biological rationale for the correlation.
+    - **`genetic_graph_get_neighbors`**: Traverses the Knowledge Graph to find **genetically correlated traits**, pre-ranked by transfer viability score ($r_g^2 \times h^2$).
+        - *Purpose*: To identify and prioritize traits that share a significant genetic basis with the target trait, providing **ranked** candidates for cross-disease model recommendation. The deterministic ranking (genetic overlap weighted by signal strength) is applied automatically to avoid unnecessary tool call overhead.
+    - **`genetic_graph_get_correlation_provenance`**: Fetches detailed study-pair metadata (sample sizes, cohorts, populations) for a specific genetic correlation edge.
+        - *Purpose*: To provide JIT context on the underlying statistical evidence of a correlation when the Agent needs to perform deep quality control on a specific cross-disease link. Loaded on-demand, not during initial neighbor discovery.
+    - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via Open Targets/PheWAS) to provide biological rationale for the correlation.
         - *Purpose*: To construct a biological reasoning context by identifying shared genetic loci or target genes, transforming a statistical correlation into a mechanistic justification for model transfer.
 
 - **PennPRS Tools**:
@@ -343,13 +339,11 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
     - `prs_model_pgscatalog_search`
     - `prs_model_web_search`
     - `prs_model_performance_profiler`
-    - `prs_model_genetic_parameters`
 
 2.  **Genetic Graph Tools**
-    - `genetic_graph_get_neighbors`
-    - `genetic_graph_rank_correlated_traits`
-    - `genetic_graph_verify_study_power`
-    - `genetic_graph_cross_validate_mechanism`
+    - `genetic_graph_get_neighbors` (includes built-in ranking by $r_g^2 \times h^2$)
+    - `genetic_graph_get_correlation_provenance`
+    - `genetic_graph_validate_mechanism`
 
 3.  **PennPRS Tools**
     - `pennprs_train_model`

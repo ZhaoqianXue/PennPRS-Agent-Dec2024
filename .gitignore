@@ -6,6 +6,7 @@ downloads/
 output/
 pennprs-agent/
 pgscatalog/
+TissueLab/
 .pytest_cache/
 node_modules/
 .next/
