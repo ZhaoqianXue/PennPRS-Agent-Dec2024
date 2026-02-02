@@ -53,6 +53,8 @@ Miscellaneous utility scripts for various tasks.
 | `verify_omicspred_details.py` | Verify OmicsPred details |
 | `inspect_pennprs_file.py` | Inspect PennPRS file format |
 | `benchmark_search.py` | Benchmark search performance |
+| `fetch_example_data.py` | Fetch example PGS model data for SOP/Documentation |
+| `verify_phase1.py` | Verify Phase 1 implementation and data contracts |
 
 ### `data_processing/` - Data Transformation
 

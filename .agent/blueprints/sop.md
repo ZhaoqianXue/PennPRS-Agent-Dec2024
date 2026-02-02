@@ -65,24 +65,30 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
     <!-- For direct model searching, metadata retrieval, and model filtering/selection. -->
     - **`prs_model_pgscatalog_search`**: Searches for trait-specific PRS models and retrieves full metadata.
         - *Purpose*: To retrieve all available PRS models associated with a specific trait and return comprehensive metadata fields, providing the full raw data required for downstream filtering and evaluation.
-    - **`prs_model_web_search`**: Wrapper for Google Search/PubMed to fetch *Clinical Guidelines and Review Papers*. 
-        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks.
-    - **`prs_model_performance_profiler`**: Calculates statistical distributions across all retrieved candidate models.
+    - **`prs_model_domain_knowledge`**: Queries a **constrained set of authoritative websites** (not local RAG) to fetch *Clinical Guidelines and Review Papers*.
+        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks. The search scope is restricted to a curated whitelist of web pages to avoid unbounded context pollution.
+    - **`prs_model_performance_landscape`**: Calculates statistical distributions across all retrieved candidate models.
         - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
 
 - **Genetic Graph Tools**:
     <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) and providing scientific validation. -->
     - **`genetic_graph_get_neighbors`**: Traverses the Knowledge Graph to find **genetically correlated traits**, pre-ranked by transfer viability score ($r_g^2 \times h^2$).
         - *Purpose*: To identify and prioritize traits that share a significant genetic basis with the target trait, providing **ranked** candidates for cross-disease model recommendation. The deterministic ranking (genetic overlap weighted by signal strength) is applied automatically to avoid unnecessary tool call overhead.
-    - **`genetic_graph_get_correlation_provenance`**: Fetches detailed study-pair metadata (sample sizes, cohorts, populations) for a specific genetic correlation edge.
+    - **`genetic_graph_verify_study_power`**: Fetches detailed study-pair metadata (sample sizes, cohorts, populations) for a specific genetic correlation edge.
         - *Purpose*: To provide JIT context on the underlying statistical evidence of a correlation when the Agent needs to perform deep quality control on a specific cross-disease link. Loaded on-demand, not during initial neighbor discovery.
-    - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via Open Targets/PheWAS) to provide biological rationale for the correlation.
-        - *Purpose*: To construct a biological reasoning context by identifying shared genetic loci or target genes, transforming a statistical correlation into a mechanistic justification for model transfer.
+    - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via Open Targets/PheWAS) to provide biological rationale for the correlation. **This tool is the Agent's "Biological Translator".**
+        - *Purpose*: The essence of this tool is to transform "statistical correlation" into "biological causal logic". When the system discovers that two diseases (e.g., Crohn's disease and Ulcerative colitis) have high genetic correlation ($r_g$), this tool digs into the underlying biological evidence:
+            1. **Find shared loci/genes**: By interfacing with Open Targets (drug target database) or PheWAS (phenome-wide association studies), identify which specific genes or genetic loci jointly control both diseases.
+            2. **Construct explanatory context**: It provides not just a number, but an "evidence list". For example: "Both diseases share the pathogenic pathway of the IL23R gene."
+            3. **Justify model transfer**: If the Agent wants to apply Disease A's PRS model to Disease B, the "biological mechanism evidence" from this tool is the strongest justification. It transforms the Agent's decision from "blind attempt" to "evidence-based scientific inference".
+        - *Summary*: It is the Agent's "biological translator", responsible for proving that cross-disease model recommendations are scientifically grounded in life science principles.
 
 - **PennPRS Tools**:
-    <!-- For interfacing with the PennPRS backend for autonomous model training. -->
-    - **`pennprs_train_model`**: Interfaces with the PennPRS backend to initiate and monitor autonomous model training.
-        - *Purpose*: To provide a pathway for generating high-quality, trait-specific models when existing models are insufficient, ensuring the Agent can offer a complete solution from discovery to implementation.
+    <!-- For interfacing with the PennPRS backend for model training configuration. -->
+    - **`pennprs_train_model`**: Generates a **recommended training configuration** based on the Agent's reasoning context (target trait, available GWAS data, recommended method, parameters).
+        - *Purpose*: To prepare a pre-filled training request form for user review. The Agent synthesizes its scientific judgment into actionable configuration values. The user can directly submit or adjust before submission.
+        - *Output*: JSON configuration object displayed in the UI as an editable form.
+        - *Interaction Model*: **Human-in-the-Loop** — Agent proposes the configuration, user reviews/modifies if needed, then submits via UI action (not an autonomous agent operation).
 
 - **Reasoning & Persona (Internal)**: The central logic responsible for "fine-dining" answer synthesis, ensuring every response is reasoned, evidence-backed, and maintains the specialized co-scientist persona.
 
@@ -119,40 +125,52 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
 ### Module 1 - PGS Catalog Data Schema
 
 #### PGS Catalog Models Available Fields
-Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/rest_api/serializers.py`, the following fields are available from the PGS Catalog API (combining Score and Performance endpoints).
+Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/rest_api/serializers.py`, the following fields are available from the PGS Catalog API. 
 
-| Field Name (API Key) | Description | Source |
-| :--- | :--- | :--- |
-| **`id`** | Unique Model ID (e.g., PGS000025) | Score |
-| **`name`** | Model display name | Score |
-| **`trait_reported`** | Original reported trait | Score |
-| **`trait_additional`** | Additional trait information | Score |
-| **`trait_efo`** | EFO Ontology mappings | Score |
-| **`method_name`** | Algorithm used (e.g. LDpred2) | Score |
-| **`method_params`** | Parameters used in the method | Score |
-| **`variants_number`** | Count of variants in model | Score |
-| **`variants_interactions`** | Variant interactions info | Score |
-| **`variants_genomebuild`** | Genome build (e.g. GRCh37) | Score |
-| **`weight_type`** | Type of weights used | Score |
-| **`ancestry_distribution`** | Detailed ancestry breakdown | Score |
-| **`publication`** | Publication metadata (DOI, PMID, etc.) | Score/Performance |
-| **`date_release`** | Date the score was released | Score |
-| **`license`** | Usage license | Score |
-| **`ftp_scoring_file`** | URL to original scoring file | Score |
-| **`ftp_harmonized_scoring_files`** | URL to harmonized scoring file | Score |
-| **`matches_publication`** | Flag if score matches publication | Score |
-| **`samples_variants`** | Samples used for variant selection | Score |
-| **`samples_training`** | Samples used for training | Score |
-| **`performance_metrics`** | Metrics (AUC, R2, etc.) | Performance |
-| **`phenotyping_reported`** | Phenotype description in validation | Performance |
-| **`covariates`** | Covariates used in validation | Performance |
-| **`sampleset`** | Sample set used for validation | Performance |
-| **`performance_comments`** | Additional performance notes | Performance |
-| **`associated_pgs_id`** | The PGS ID associated with performance | Performance |
+**Target Classification**: `[Agent + UI]` fields are serialized into the LLM context for scientific reasoning, whereas `[UI Only]` fields are passed exclusively to the frontend for comprehensive model detail presentation to minimize agent context noise.
+
+| Field Name (API Key) | Example1 | Example2 | Description | Source | Target |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`id`** | PGS000831 | PGS000018 | Unique Model ID | Score | [Agent + UI] |
+| **`name`** | Total_cholesterol_PGS | metaGRS_CAD | Model display name | Score | [UI Only] |
+| **`trait_reported`** | Total cholesterol | Coronary artery disease | Original reported trait | Score | [Agent + UI] |
+| **`trait_additional`** | null | null | Additional trait information | Score | [UI Only] |
+| **`trait_efo`** | total cholesterol measurement | coronary artery disease | EFO Ontology mappings | Score | [Agent + UI] |
+| **`method_name`** | Pruning of FDR filtered SNPs | metaGRS | Algorithm used (e.g. LDpred2) | Score | [Agent + UI] |
+| **`method_params`** | FDR < 5%, r^2 < 0.2 | metaGRS log(HR) mixing... | Parameters used in the method | Score | [UI Only] |
+| **`variants_number`** | 1,032 | 1,745,179 | Count of variants in model | Score | [Agent + UI] |
+| **`variants_interactions`** | 0 | 0 | Variant interactions info | Score | [UI Only] |
+| **`variants_genomebuild`** | hg19 | hg19 | Genome build (e.g. GRCh37) | Score | [UI Only] |
+| **`weight_type`** | beta | NR | Type of weights used | Score | [UI Only] |
+| **`ancestry_distribution`** | GWAS: EUR (100%) | GWAS: AFR (100%) | Detailed ancestry breakdown | Score | [Agent + UI] |
+| **`publication`** | Genetic Predisposition Impacts... | Genomic Risk Prediction of... | Publication metadata | Score/Performance | [Agent + UI] |
+| **`date_release`** | 2021-07-29 | 2019-10-14 | Date the score was released | Score | [Agent + UI] |
+| **`license`** | CC BY-NC-ND 4.0 | PGS obtained from the... | Usage license | Score | [UI Only] |
+| **`ftp_scoring_file`** | https://ftp.ebi.ac.uk/... | https://ftp.ebi.ac.uk/... | URL to original scoring file | Score | [UI Only] |
+| **`ftp_hm_scoring_files`** | GRCh37, GRCh38 URLs | GRCh37, GRCh38 URLs | URL to harmonized scoring files | Score | [UI Only] |
+| **`matches_publication`** | True | True | Flag if score matches publication | Score | [UI Only] |
+| **`samples_variants`** | n=283,785 | n=382,026 | Samples used for variant selection | Score | [UI Only] |
+| **`samples_training`** | n=0 | n=3,000 | Samples used for training | Score | [Agent + UI] |
+| **`performance_metrics`** | R²: 0.087, AUC: 0.78 | HR: 1.71, AUC: 0.81 | Metrics (AUC, R2, etc.) | Performance | [Agent + UI] |
+| **`phenotyping_reported`** | Total cholesterol | Incident coronary artery disease | Phenotype description in validation | Performance | [Agent + UI] |
+| **`covariates`** | Age, sex, PCs(1-7), season | sex, genetic PCs (1-10)... | Covariates used in validation | Performance | [Agent + UI] |
+| **`sampleset`** | null | null | Sample set used for validation | Performance | [Agent + UI] |
+| **`performance_comments`** | null | null | Additional performance notes | Performance | [UI Only] |
+| **`associated_pgs_id`** | PGS000831 | PGS000018 | The PGS ID associated with performance | Performance | [UI Only] |
 
 #### Agent Context Injection
 
-The structured metadata fields above are serialized into the agent's context window for LLM-driven evaluation. The agent uses this data to assess model quality dynamically via **JIT Context Loading** - initially receiving lightweight references (PGS IDs), then loading full metadata on-demand.
+The structured metadata fields above provide the foundational evidence for evaluation. The agent utilizes **JIT Context Loading** to dynamically construct a **Scientific Reasoning Context**—transforming lightweight model references into a rigorous evaluation frame by fetching clinical benchmarks, performance landscapes, and expert consensus to guide scientific judgment.
+
+**Target Classification**: The `[Agent + UI]` fields in the table above are serialized into the LLM context for scientific reasoning, whereas `[UI Only]` fields are passed exclusively to the frontend for comprehensive model detail presentation to minimize agent context noise.
+
+**Combined Results Workflow**:
+1. `prs_model_pgscatalog_search` returns fields with Target `[Agent + UI]`.
+2. **Hard-coded pre-filtering**: Remove models where AUC & R² are all empty (no performance data).
+3. **Combined context injection**: The filtered search results, `prs_model_domain_knowledge` results, and `prs_model_performance_landscape` results are returned to the LLM **simultaneously**.
+4. **LLM Decision**: The Agent makes a determination of **High-Quality Match / Sub-optimal Match / No Match**.
+
+**Open Question**: For different Traits, should we implement different filtering standards, or trust that the LLM has this capability? (To be determined during implementation.)
 
 #### Implementation Status
 
@@ -161,7 +179,7 @@ The structured metadata fields above are serialized into the agent's context win
     - `QualityMetrics` data schema (Pydantic model matching `shared/contracts/api.ts`).
     - `QualityEvaluator.extract_metrics()` for structured metadata extraction from raw API responses.
 - **Not Implemented**:
-    - None. Module 1 core functionality is complete.
+    - #### Agent Context Injection
 
 ### Module 2 - Knowledge Graph Definition
 
@@ -337,16 +355,16 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 
 1.  **PRS Model Tools**
     - `prs_model_pgscatalog_search`
-    - `prs_model_web_search`
-    - `prs_model_performance_profiler`
+    - `prs_model_domain_knowledge`
+    - `prs_model_performance_landscape`
 
 2.  **Genetic Graph Tools**
     - `genetic_graph_get_neighbors` (includes built-in ranking by $r_g^2 \times h^2$)
-    - `genetic_graph_get_correlation_provenance`
+    - `genetic_graph_verify_study_power`
     - `genetic_graph_validate_mechanism`
 
 3.  **PennPRS Tools**
-    - `pennprs_train_model`
+    - `pennprs_train_model` (Human-in-the-Loop: outputs form config for user review)
 
 
 #### Implementation Status
