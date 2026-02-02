@@ -107,7 +107,7 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
     - **Module 3: Tools**
         - Wrap **PRS Model, Genetic Graph, and PennPRS** functionalities as callable tool interfaces using `domain_action` prefixing.
         - **Static Tool Binding with Masking**: All tools defined at session start; availability controlled via logit masking, not dynamic injection. *(Manus: Mask, Don't Remove)*
-        - **Consistent Tool Naming**: Use standardized domain prefixes (e.g., `domain_action`) for efficient logit mask grouping. *(Manus: Prefix-Based Action Selection)*
+        - **Consistent Tool Naming**: Use standardized domain prefixes (e.g., `prs_model_*`, `genetic_graph_*`, `pennprs_*`) for efficient logit mask grouping. *(Manus: Prefix-Based Action Selection)*
         - **Self-Contained & Robust**: Each tool must be error-tolerant with unambiguous input/output schemas. *(Anthropic: Tool Design)*
         - **Minimal Viable Tool Set**: Curate the smallest set covering functionality; avoid ambiguous decision points. *(Anthropic: Tool Curation)*
         - **JIT Context Loading**: Tools return lightweight references (IDs, paths); full data loaded on-demand. *(Anthropic: Just-in-time context strategies)*
@@ -344,6 +344,7 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
         - `get_trait_node(trait_id)`: Returns `TraitNode` with meta-analyzed heritability.
         - `get_prioritized_neighbors_v2(trait_id, rg_z_threshold, h2_z_threshold)`: Trait-level prioritization with Z-score filtering.
         - `get_trait_centric_graph(trait_id)`: Returns complete `TraitCentricGraphResult`.
+        - `get_edge_provenance(source_trait, target_trait)`: Returns detailed study-pair provenance for genetic correlation edges. Used by Module 3 `genetic_graph_verify_study_power` tool.
     - **Unified Filtering**: Uses `|rg_z_meta| > 2` and `h2_z_meta > 2` (Z-score based, consistent approach).
 
 - **Not Implemented**:
@@ -351,27 +352,275 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 
 ### Module 3 - Tools
 
-#### Tool Definitions
+#### Tool Specifications
 
-1.  **PRS Model Tools**
-    - `prs_model_pgscatalog_search`
-    - `prs_model_domain_knowledge`
-    - `prs_model_performance_landscape`
+##### 1. PRS Model Tools
 
-2.  **Genetic Graph Tools**
-    - `genetic_graph_get_neighbors` (includes built-in ranking by $r_g^2 \times h^2$)
-    - `genetic_graph_verify_study_power`
-    - `genetic_graph_validate_mechanism`
+###### `prs_model_pgscatalog_search`
 
-3.  **PennPRS Tools**
-    - `pennprs_train_model` (Human-in-the-Loop: outputs form config for user review)
+| Attribute | Specification |
+|:---|:---|
+| **Input** | `trait_query: str` — User's target trait (e.g., "Type 2 Diabetes", "Schizophrenia") |
+| **Output** | `PGSSearchResult` — Filtered list of models with `[Agent + UI]` fields only |
+| **Data Source** | PGS Catalog REST API (`/rest/score/search`) |
+| **Dependency** | `PGSCatalogClient` (Module 1) |
+| **Hard-coded Filter** | Remove models where `performance_metrics.auc` AND `performance_metrics.r2` are both null |
+| **Token Budget** | ~500 tokens per model summary; max 10 models in initial response |
 
+```python
+# Output Schema
+class PGSSearchResult:
+    query_trait: str
+    total_found: int
+    after_filter: int
+    models: list[PGSModelSummary]  # [Agent + UI] fields only
+
+class PGSModelSummary:
+    id: str                    # PGS000025
+    trait_reported: str
+    trait_efo: str
+    method_name: str
+    variants_number: int
+    ancestry_distribution: str
+    publication: str
+    date_release: str
+    samples_training: str
+    performance_metrics: dict  # {auc: float, r2: float, ...}
+    phenotyping_reported: str
+    covariates: str
+    sampleset: str
+```
+
+###### `prs_model_domain_knowledge`
+
+| Attribute | Specification |
+|:---|:---|
+| **Input** | `query: str` — Domain knowledge query (e.g., "PRS clinical utility for CAD", "AUC thresholds for clinical PRS") |
+| **Output** | `DomainKnowledgeResult` — Structured snippets from authoritative sources |
+| **Data Source** | **Constrained Web Search** — Whitelist of authoritative URLs |
+| **Dependency** | External search API (Google Custom Search / SerpAPI) with domain restriction |
+| **Token Budget** | Max 800 tokens per query response |
+
+```python
+# Whitelist Categories
+DOMAIN_KNOWLEDGE_WHITELIST = {
+    "pgscatalog.org": ["/docs", "/about"],
+    "ebi.ac.uk/gwas": ["/docs"],
+    "nature.com": ["10.1038/s41588-021-00783-5"],  # PRS Reporting Standards
+    "heart.org": ["/prs"],  # AHA Guidelines
+    "pubmed.ncbi.nlm.nih.gov": [CURATED_PMID_LIST]
+}
+
+# Output Schema
+class DomainKnowledgeResult:
+    query: str
+    sources: list[SourceSnippet]
+    summary: str  # LLM-digestible summary
+
+class SourceSnippet:
+    url: str
+    title: str
+    snippet: str  # Max 200 tokens per snippet
+    relevance_score: float
+```
+
+###### `prs_model_performance_landscape`
+
+| Attribute | Specification |
+|:---|:---|
+| **Input** | `models: list[PGSModelSummary]` — Filtered models from `pgscatalog_search` |
+| **Output** | `PerformanceLandscape` — Statistical distribution summary |
+| **Data Source** | Computed from input models (no external API) |
+| **Dependency** | None (pure computation) |
+| **Token Budget** | ~200 tokens (compact statistical summary) |
+
+```python
+# Output Schema
+class PerformanceLandscape:
+    total_models: int
+    
+    auc_distribution: MetricDistribution
+    r2_distribution: MetricDistribution
+    
+    top_performer: TopPerformerSummary
+    verdict_context: str  # "Top model is +15% above median AUC"
+
+class MetricDistribution:
+    min: float
+    max: float
+    median: float
+    p25: float
+    p75: float
+    missing_count: int
+
+class TopPerformerSummary:
+    pgs_id: str
+    auc: float
+    r2: float
+    percentile_rank: float  # e.g., 95 = top 5%
+```
+
+##### 2. Genetic Graph Tools
+
+###### `genetic_graph_get_neighbors`
+
+| Attribute | Specification |
+|:---|:---|
+| **Input** | `trait_id: str` — Target trait canonical name (e.g., "Schizophrenia") |
+| **Output** | `NeighborResult` — Pre-ranked list of genetically correlated traits |
+| **Data Source** | GWAS Atlas (Module 2 Knowledge Graph) |
+| **Dependency** | `KnowledgeGraphService.get_prioritized_neighbors_v2()` |
+| **Ranking** | Auto-sorted by $r_g^2 \times h^2$ (descending) |
+| **Filters** | `\|rg_z_meta\| > 2`, `h2_z_meta > 2` |
+| **Token Budget** | ~100 tokens per neighbor; max 10 neighbors |
+
+```python
+# Output Schema
+class NeighborResult:
+    target_trait: str
+    target_h2_meta: float
+    neighbors: list[RankedNeighbor]
+
+class RankedNeighbor:
+    trait_id: str
+    domain: str           # e.g., "Psychiatric"
+    rg_meta: float        # Genetic correlation
+    rg_z_meta: float
+    h2_meta: float        # Neighbor's heritability
+    transfer_score: float # rg² × h²
+    n_correlations: int   # Number of study-pairs aggregated
+    # NOTE: h2_se_meta, rg_se_meta, rg_p_meta intentionally omitted for token efficiency.
+    #       Use genetic_graph_verify_study_power for detailed provenance if needed.
+```
+
+###### `genetic_graph_verify_study_power`
+
+| Attribute | Specification |
+|:---|:---|
+| **Input** | `source_trait: str`, `target_trait: str` — Trait pair to investigate |
+| **Output** | `StudyPowerResult` — Detailed study-pair provenance for the edge |
+| **Data Source** | GWAS Atlas GC dataset (Module 2) |
+| **Dependency** | `KnowledgeGraphService.get_edge_provenance()` |
+| **JIT Loading** | Only called when Agent needs deep quality control on a specific link |
+| **Token Budget** | ~300 tokens (provenance details) |
+
+```python
+# Output Schema
+class StudyPowerResult:
+    source_trait: str
+    target_trait: str
+    rg_meta: float
+    n_correlations: int
+    
+    correlations: list[CorrelationProvenance]
+
+class CorrelationProvenance:
+    study1_id: int
+    study1_n: int
+    study1_population: str
+    study1_pmid: str
+    
+    study2_id: int
+    study2_n: int
+    study2_population: str
+    study2_pmid: str
+    
+    rg: float
+    se: float
+    p: float
+```
+
+###### `genetic_graph_validate_mechanism`
+
+| Attribute | Specification |
+|:---|:---|
+| **Input** | `source_trait: str`, `target_trait: str` — Trait pair to validate biologically |
+| **Output** | `MechanismValidation` — Shared genes/loci evidence |
+| **Data Source** | Open Targets Platform API, PheWAS Catalog |
+| **Dependency** | External API clients (to be implemented) |
+| **JIT Loading** | Only called to justify cross-disease model transfer |
+| **Token Budget** | ~500 tokens (biological evidence summary) |
+
+```python
+# Output Schema
+class MechanismValidation:
+    source_trait: str
+    target_trait: str
+    
+    shared_genes: list[SharedGene]
+    shared_pathways: list[str]
+    
+    mechanism_summary: str  # LLM-digestible explanation
+    confidence_level: str   # "High", "Moderate", "Low"
+
+class SharedGene:
+    gene_symbol: str       # e.g., "IL23R"
+    gene_id: str           # ENSG ID
+    source_association: float  # Disease A association score
+    target_association: float  # Disease B association score
+    druggability: str      # "High", "Medium", "Low"
+    pathways: list[str]
+```
+
+##### 3. PennPRS Tools
+
+###### `pennprs_train_model`
+
+| Attribute | Specification |
+|:---|:---|
+| **Input** | Agent's reasoning context (trait, GWAS availability, method recommendation) |
+| **Output** | `TrainingConfig` — Pre-filled form configuration for user review |
+| **Data Source** | Agent's accumulated context + PennPRS API schema |
+| **Dependency** | PennPRS API form schema |
+| **Interaction** | **Human-in-the-Loop** — UI displays form, user submits |
+| **Token Budget** | ~300 tokens (form configuration) |
+
+```python
+# Output Schema
+class TrainingConfig:
+    # Pre-filled by Agent
+    target_trait: str
+    recommended_method: str  # e.g., "LDpred2", "PRS-CS"
+    method_rationale: str    # Agent's reasoning for method choice
+    
+    # Form fields (editable by user)
+    gwas_summary_stats: str  # URL or file path
+    ld_reference: str        # e.g., "1000G EUR"
+    ancestry: str            # Target population
+    validation_cohort: str   # Optional
+    
+    # Metadata
+    agent_confidence: str    # "High", "Moderate", "Low"
+    estimated_runtime: str   # e.g., "~2 hours"
+
+# UI Action (not agent tool)
+# User reviews form → clicks "Submit" → PennPRS API called
+```
+
+#### Engineering Constraints Compliance
+
+| Constraint | Implementation |
+|:---|:---|
+| **Static Tool Binding with Masking** | All 7 tools defined at session start; availability controlled via logit masking based on workflow state |
+| **Consistent Tool Naming** | `prs_model_*`, `genetic_graph_*`, `pennprs_*` prefixes for efficient logit mask grouping |
+| **Self-Contained & Robust** | Each tool has explicit Input/Output schema; error handling returns structured error objects |
+| **Minimal Viable Tool Set** | 7 tools covering full workflow; no ambiguous decision points |
+| **JIT Context Loading** | `verify_study_power` and `validate_mechanism` loaded on-demand, not during initial discovery |
+| **Append-Only Context** | Tool results serialized deterministically; no mid-loop modification |
+| **Error Trace Retention** | Failed tool calls remain in history with error details for Agent learning |
 
 #### Implementation Status
 
 - **Implemented**:
-    -   `PGSCatalog Search` (wrapped via `PGSCatalogClient` in Module 1).
+    - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). Needs output filtering to `[Agent + UI]` fields.
+    - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool.
+    - `genetic_graph_get_neighbors`: Wrapped via `KnowledgeGraphService.get_prioritized_neighbors_v2()` (Module 2). Tool wrapper in `src/server/core/tools/genetic_graph_tools.py`.
+    - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
+
 - **Not Implemented**:
+    - `prs_model_domain_knowledge`: Requires constrained web search setup (whitelist + search API).
+    - `genetic_graph_validate_mechanism`: Requires Open Targets API client integration.
+    - `pennprs_train_model`: Requires PennPRS API form schema integration.
 
 
 ### Module 4 - System Prompt
