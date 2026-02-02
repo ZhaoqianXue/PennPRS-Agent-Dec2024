@@ -614,13 +614,14 @@ class TrainingConfig:
 - **Implemented**:
     - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). Needs output filtering to `[Agent + UI]` fields.
     - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool.
-    - `genetic_graph_get_neighbors`: Wrapped via `KnowledgeGraphService.get_prioritized_neighbors_v2()` (Module 2). Tool wrapper in `src/server/core/tools/genetic_graph_tools.py`.
+    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Local file retrieval from `src/server/core/knowledge/prs_model_domain_knowledge.md`. Upgradable to web search.
+    - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.
     - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
+    - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Open Targets GraphQL API integration.
+    - `pennprs_train_model`: `src/server/core/tools/pennprs_tools.py` - Intelligent method recommendation + PennPRS API submission.
 
 - **Not Implemented**:
-    - `prs_model_domain_knowledge`: Requires constrained web search setup (whitelist + search API).
-    - `genetic_graph_validate_mechanism`: Requires Open Targets API client integration.
-    - `pennprs_train_model`: Requires PennPRS API form schema integration.
+    - None. All Module 3 tools are complete.
 
 
 ### Module 4 - System Prompt
