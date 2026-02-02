@@ -200,6 +200,102 @@ class TestKnowledgeGraphEnhancements(unittest.TestCase):
         self.assertEqual(result[0].trait_id, "201")
 
 
+class TestGetEdgeProvenance(unittest.TestCase):
+    """Test get_edge_provenance method for genetic_graph_verify_study_power tool."""
+    
+    def setUp(self):
+        if KnowledgeGraphService is None:
+            self.skipTest("KnowledgeGraphService not implemented yet")
+        
+        # Mock the GC client
+        self.mock_gc_client = MagicMock()
+        
+        # Mock the heritability client  
+        self.mock_h2_client = MagicMock()
+        
+        # Create service with both clients injected
+        self.service = KnowledgeGraphService(
+            gc_client=self.mock_gc_client,
+            h2_client=self.mock_h2_client
+        )
+    
+    def test_get_edge_provenance_returns_study_pairs(self):
+        """Test get_edge_provenance returns detailed study-pair data."""
+        import pandas as pd
+        
+        # Mock correlations DataFrame
+        mock_df = pd.DataFrame([
+            {'id1': 123, 'id2': 456, 'trait1': 'Schizophrenia', 'trait2': 'Bipolar disorder', 
+             'rg': 0.65, 'se': 0.05, 'p': 1e-10},
+            {'id1': 789, 'id2': 101, 'trait1': 'Schizophrenia', 'trait2': 'Bipolar disorder',
+             'rg': 0.55, 'se': 0.08, 'p': 1e-6}
+        ])
+        self.mock_gc_client.get_correlations_for_trait.return_value = mock_df
+        
+        # Mock heritability data for study metadata
+        mock_h2 = MagicMock()
+        mock_h2.study_id = 123
+        mock_h2.sample_size = 50000
+        mock_h2.population = "EUR"
+        mock_h2.pmid = "12345678"
+        self.mock_h2_client.get_all_estimates.return_value = [mock_h2]
+        
+        # Act
+        result = self.service.get_edge_provenance(
+            source_trait="Schizophrenia",
+            target_trait="Bipolar disorder"
+        )
+        
+        # Assert
+        self.assertIsNotNone(result)
+        self.assertEqual(result.source_trait, "Schizophrenia")
+        self.assertEqual(result.target_trait, "Bipolar disorder")
+        self.assertEqual(result.n_correlations, 2)
+        self.assertIsInstance(result.correlations, list)
+        self.assertEqual(len(result.correlations), 2)
+        
+        # Check first correlation has expected fields
+        corr = result.correlations[0]
+        self.assertEqual(corr.study1_id, 123)
+        self.assertAlmostEqual(corr.rg, 0.65, places=2)
+    
+    def test_get_edge_provenance_nonexistent_returns_none(self):
+        """Test get_edge_provenance returns None for non-existent edge."""
+        import pandas as pd
+        
+        # Mock empty DataFrame
+        self.mock_gc_client.get_correlations_for_trait.return_value = pd.DataFrame()
+        
+        # Act
+        result = self.service.get_edge_provenance(
+            source_trait="NonExistent1",
+            target_trait="NonExistent2"
+        )
+        
+        # Assert
+        self.assertIsNone(result)
+    
+    def test_get_edge_provenance_no_matching_target(self):
+        """Test get_edge_provenance returns None when target trait not found."""
+        import pandas as pd
+        
+        # Mock DataFrame with correlations but NOT with target trait
+        mock_df = pd.DataFrame([
+            {'id1': 123, 'id2': 456, 'trait1': 'Schizophrenia', 'trait2': 'Depression',
+             'rg': 0.4, 'se': 0.06, 'p': 0.001}
+        ])
+        self.mock_gc_client.get_correlations_for_trait.return_value = mock_df
+        
+        # Act
+        result = self.service.get_edge_provenance(
+            source_trait="Schizophrenia",
+            target_trait="Bipolar disorder"  # Not in DataFrame
+        )
+        
+        # Assert - should return None since target not found
+        self.assertIsNone(result)
+
+
 class TestIDMapping(unittest.TestCase):
     """Test ID mapping between EFO IDs and GWAS Atlas Numeric IDs."""
     

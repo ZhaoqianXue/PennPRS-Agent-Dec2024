@@ -356,3 +356,134 @@ class KnowledgeGraphService:
                     edges.append(edge)
         
         return TraitCentricGraphResult(nodes=nodes, edges=edges)
+
+    def get_edge_provenance(
+        self,
+        source_trait: str,
+        target_trait: str
+    ):
+        """
+        Get detailed study-pair provenance for a specific genetic correlation edge.
+        
+        Implements sop.md Module 3 genetic_graph_verify_study_power dependency.
+        JIT Loading: Only called when Agent needs deep quality control.
+        
+        Args:
+            source_trait: Source trait canonical name
+            target_trait: Target trait canonical name
+            
+        Returns:
+            StudyPowerResult with correlation provenance, or None if edge not found
+        """
+        from src.server.core.tool_schemas import StudyPowerResult, CorrelationProvenance
+        from src.server.modules.knowledge_graph.meta_analysis import inverse_variance_meta_analysis
+        
+        # Get raw correlations for source trait
+        if hasattr(self.gc_client, 'get_correlations_for_trait'):
+            correlations_df = self.gc_client.get_correlations_for_trait(source_trait)
+        elif hasattr(self.gc_client, '_data') and not self.gc_client._data.empty:
+            # Fallback to filtering internal data
+            gc_df = self.gc_client._data
+            correlations_df = gc_df[
+                (gc_df['trait1'].str.lower() == source_trait.lower()) |
+                (gc_df['uniqTrait1'].str.lower() == source_trait.lower())
+            ] if 'trait1' in gc_df.columns else pd.DataFrame()
+        else:
+            return None
+        
+        if correlations_df.empty:
+            return None
+        
+        # Filter to edges involving target_trait
+        target_lower = target_trait.lower()
+        
+        if 'trait2' in correlations_df.columns:
+            edge_correlations = correlations_df[
+                correlations_df['trait2'].str.lower() == target_lower
+            ]
+        elif 'uniqTrait2' in correlations_df.columns:
+            edge_correlations = correlations_df[
+                correlations_df['uniqTrait2'].str.lower() == target_lower
+            ]
+        else:
+            return None
+        
+        if edge_correlations.empty:
+            return None
+        
+        # Build study metadata cache
+        study_cache = self._build_study_cache()
+        
+        # Build provenance list
+        provenance_list = []
+        for _, row in edge_correlations.iterrows():
+            study1_id = int(row.get('id1', 0))
+            study2_id = int(row.get('id2', 0))
+            
+            study1_meta = study_cache.get(study1_id, {})
+            study2_meta = study_cache.get(study2_id, {})
+            
+            prov = CorrelationProvenance(
+                study1_id=study1_id,
+                study1_n=study1_meta.get('n', 0),
+                study1_population=study1_meta.get('population', 'Unknown'),
+                study1_pmid=study1_meta.get('pmid', ''),
+                study2_id=study2_id,
+                study2_n=study2_meta.get('n', 0),
+                study2_population=study2_meta.get('population', 'Unknown'),
+                study2_pmid=study2_meta.get('pmid', ''),
+                rg=float(row.get('rg', 0)),
+                se=float(row.get('se', 0)),
+                p=float(row.get('p', 1))
+            )
+            provenance_list.append(prov)
+        
+        if not provenance_list:
+            return None
+        
+        # Calculate meta-analyzed rg using inverse-variance weighting
+        rg_se_pairs = [(p.rg, p.se) for p in provenance_list if p.se > 0]
+        if rg_se_pairs:
+            rg_values = [v for v, _ in rg_se_pairs]
+            se_values = [s for _, s in rg_se_pairs]
+            meta_result = inverse_variance_meta_analysis(rg_values, se_values)
+            rg_meta = meta_result.get('theta_meta', provenance_list[0].rg)
+        else:
+            rg_meta = provenance_list[0].rg if provenance_list else 0.0
+
+        return StudyPowerResult(
+            source_trait=source_trait,
+            target_trait=target_trait,
+            rg_meta=rg_meta,
+            n_correlations=len(provenance_list),
+            correlations=provenance_list
+        )
+    
+    def _build_study_cache(self) -> Dict[int, dict]:
+        """
+        Build cache of study metadata (n, population, pmid) from heritability data.
+        
+        Returns:
+            Dict mapping study_id to metadata dict
+        """
+        if hasattr(self, '_study_cache'):
+            return self._study_cache
+        
+        self._study_cache = {}
+        
+        if hasattr(self.h2_client, 'get_all_estimates'):
+            try:
+                h2_data = self.h2_client.get_all_estimates()
+                for est in h2_data:
+                    study_id = getattr(est, 'study_id', None)
+                    if study_id:
+                        self._study_cache[study_id] = {
+                            'n': getattr(est, 'sample_size', 0),
+                            'population': getattr(est, 'population', 'Unknown'),
+                            'pmid': getattr(est, 'pmid', '')
+                        }
+            except Exception as e:
+                logger.warning(f"Failed to build study cache: {e}")
+        
+        return self._study_cache
+
