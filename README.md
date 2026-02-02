@@ -136,7 +136,7 @@ See [API Endpoints Documentation](./docs/api/api_endpoints.md) for complete refe
 
 ### LLM Configuration
 
-All LLM models are centrally configured in `src/server/core/llm_config.py`. The project uses `gpt-5-mini` as the default model.
+All LLM models are centrally configured in `src/server/core/llm_config.py`. The project uses `gpt-5.2` as the default model.
 
 ## Cursor Rules (`.cursorrules`)
 

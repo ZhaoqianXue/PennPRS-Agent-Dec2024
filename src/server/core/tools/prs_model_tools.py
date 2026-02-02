@@ -3,11 +3,11 @@
 PRS Model Tools for Module 3.
 Implements sop.md L356-462 tool specifications.
 """
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Iterable, Tuple
 from statistics import median, quantiles
 from src.server.core.tool_schemas import (
     PGSModelSummary, PGSSearchResult,
-    PerformanceLandscape, MetricDistribution, TopPerformerSummary,
+    PerformanceLandscape, MetricDistribution,
     ToolError
 )
 
@@ -15,7 +15,7 @@ from src.server.core.tool_schemas import (
 def prs_model_pgscatalog_search(
     client,  # PGSCatalogClient
     trait_query: str,
-    limit: int = 10
+    limit: int = 25
 ) -> PGSSearchResult:
     """
     Search for trait-specific PRS models and retrieve [Agent + UI] metadata.
@@ -38,39 +38,24 @@ def prs_model_pgscatalog_search(
     
     models = []
     
-    # 2. Fetch details and performance for each score
+    # 2. Fetch details/performance for ALL candidate IDs (up to client-side cap),
+    #    then rank and slice. This makes "topN" deterministic and meaningful.
+    candidates: List[PGSModelSummary] = []
     for res in search_results:
-        if len(models) >= limit:
-            break
-            
-        pgs_id = res['id']
-        
-        # Get metadata and performance
+        pgs_id = res["id"]
+
         details = client.get_score_details(pgs_id)
         performance = client.get_score_performance(pgs_id)
-        
         if not details:
             continue
-            
-        # Extract performance metrics
-        auc = None
-        r2 = None
-        
-        # PGS Catalog performance search returns a list of results, each with effect_sizes
-        for p in performance:
-            for es in p.get("effect_sizes", []):
-                name = es.get("name_short", "").upper()
-                estimate = es.get("estimate")
-                if name == "AUC" and estimate is not None:
-                    auc = float(estimate)
-                elif (name == "R²" or name == "R2") and estimate is not None:
-                    r2 = float(estimate)
-        
+
+        auc, r2 = _extract_auc_r2_from_performance_records(performance)
+
         # Hard-coded Filter: Remove models where both are null
         if auc is None and r2 is None:
             continue
-            
-        # Map to [Agent + UI] fields
+
+        cohorts = _extract_cohorts(details)
         summary = PGSModelSummary(
             id=pgs_id,
             trait_reported=details.get("trait_reported", "Unknown"),
@@ -84,9 +69,31 @@ def prs_model_pgscatalog_search(
             performance_metrics={"auc": auc, "r2": r2},
             phenotyping_reported=performance[0].get("phenotyping_reported", "Unknown") if performance else "Unknown",
             covariates=performance[0].get("covariates", "Unknown") if performance else "Unknown",
-            sampleset=performance[0].get("sampleset", {}).get("name", "Unknown") if performance else "Unknown"
+            sampleset=performance[0].get("sampleset", {}).get("name", "Unknown") if performance else "Unknown",
+            training_development_cohorts=cohorts
         )
-        models.append(summary)
+        candidates.append(summary)
+
+    # Ranking rule (deterministic):
+    # 1) AUC desc (None -> -inf)
+    # 2) R2 desc (None -> -inf)
+    # 3) training sample size desc (parsed from "n=...")
+    # 4) variants_number desc
+    # 5) stable tie-break by PGS id asc
+    def _rank_key(m: PGSModelSummary) -> Tuple[float, float, float, float, str]:
+        auc = m.performance_metrics.get("auc")
+        r2 = m.performance_metrics.get("r2")
+        n = _parse_sample_size(m.samples_training)
+        return (
+            float(auc) if auc is not None else float("-inf"),
+            float(r2) if r2 is not None else float("-inf"),
+            float(n) if n is not None else float("-inf"),
+            float(m.variants_number),
+            m.id
+        )
+
+    candidates.sort(key=_rank_key, reverse=True)
+    models = candidates[:limit]
         
     return PGSSearchResult(
         query_trait=trait_query,
@@ -121,68 +128,279 @@ def _format_samples(samples: List[Dict[str, Any]]) -> str:
     return f"n={total_n:,}"
 
 
-def prs_model_performance_landscape(models: List[PGSModelSummary]) -> PerformanceLandscape:
+def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
     """
-    Calculate statistical distributions across all retrieved candidate models.
+    Extract cohort short names from training/development-related sample blocks.
+
+    Best-effort:
+    - Use `samples_training` and `samples_variants` cohorts from score details.
+    - Return a deduplicated, sorted list of cohort short names (fallback to full name if short missing).
+    """
+    def _cohort_names(sample_block: Dict[str, Any]) -> Iterable[str]:
+        for c in sample_block.get("cohorts", []) or []:
+            name = c.get("name_short") or c.get("name_full") or c.get("name_others")
+            if name:
+                yield str(name)
+
+    cohorts: set[str] = set()
+    for s in (details.get("samples_training", []) or []):
+        cohorts.update(_cohort_names(s))
+    for s in (details.get("samples_variants", []) or []):
+        cohorts.update(_cohort_names(s))
+
+    return sorted(cohorts)
+
+
+def _extract_auc_r2_from_performance_records(performance_records: List[Dict[str, Any]]) -> Tuple[Optional[float], Optional[float]]:
+    """
+    Extract (best) AUC and R2 from a list of performance/search records.
+
+    A score can have multiple performance entries; we take the maximum AUC and maximum R²
+    across entries to avoid missing strong validations.
+    """
+    best_auc: Optional[float] = None
+    best_r2: Optional[float] = None
+    for p in performance_records or []:
+        for es in p.get("effect_sizes", []) or []:
+            name = str(es.get("name_short", "")).upper()
+            estimate = es.get("estimate")
+            if estimate is None:
+                continue
+            try:
+                val = float(estimate)
+            except Exception:
+                continue
+            if name == "AUC":
+                best_auc = val if best_auc is None else max(best_auc, val)
+            elif name in {"R²", "R2"}:
+                best_r2 = val if best_r2 is None else max(best_r2, val)
+    return best_auc, best_r2
+
+
+def _parse_sample_size(samples_training: str) -> Optional[int]:
+    """Parse 'n=12,345' style strings into integers."""
+    if not samples_training:
+        return None
+    text = str(samples_training).strip()
+    if text.upper() == "N/A":
+        return None
+    if not text.lower().startswith("n="):
+        return None
+    try:
+        return int(text[2:].replace(",", "").strip())
+    except Exception:
+        return None
+
+
+def _count_ancestry_codes(ancestry_distribution: str) -> Dict[str, int]:
+    """
+    Best-effort parse ancestry codes from formatted ancestry strings.
+
+    Example inputs:
+    - "GWAS: EUR (100%) | DEV: AFR (50%), EUR (50%)"
+    Returns counts by code.
+    """
+    if not ancestry_distribution:
+        return {}
+    codes = ["EUR", "AFR", "EAS", "SAS", "AMR", "MAE", "GME", "ASN"]
+    upper = ancestry_distribution.upper()
+    counts: Dict[str, int] = {}
+    for code in codes:
+        # Count occurrences of standalone codes (very lightweight heuristic).
+        # This keeps the logic deterministic and token-efficient.
+        n = upper.count(code)
+        if n:
+            counts[code] = counts.get(code, 0) + n
+    return counts
+
+
+def prs_model_performance_landscape(
+    client,  # PGSCatalogClient
+    candidate_models: List[PGSModelSummary],
+    max_scores: Optional[int] = None,
+    max_performance_records: Optional[int] = None
+) -> PerformanceLandscape:
+    """
+    Calculate GLOBAL performance landscape across the entire PGS Catalog.
     
-    Implements sop.md L430-462 specification.
+    This is a global reference frame used to compare the candidate top-N models
+    against the broader ecosystem, enabling meaningful "market baseline" reasoning.
+
+    Implements sop.md L430-462 specification (updated: global reference).
     Token Budget: ~200 tokens.
     
     Args:
-        models: Filtered models from prs_model_pgscatalog_search
+        client: PGSCatalogClient instance (used for `/rest/score/all` and `/rest/performance/all`)
+        candidate_models: Candidate models from prs_model_pgscatalog_search (unused for distribution
+            computation, but kept for tool-call ergonomics in the agent workflow)
+        max_scores: Optional cap for score/all iteration (safety/testing)
+        max_performance_records: Optional cap for performance/all iteration (safety/testing)
         
     Returns:
-        PerformanceLandscape with distributions and top performer
+        PerformanceLandscape with global distributions (7 required categories)
     """
-    if not models:
-        return PerformanceLandscape(
-            total_models=0,
-            auc_distribution=MetricDistribution(
-                min=0, max=0, median=0, p25=0, p75=0, missing_count=0
-            ),
-            r2_distribution=MetricDistribution(
-                min=0, max=0, median=0, p25=0, p75=0, missing_count=0
-            ),
-            top_performer=TopPerformerSummary(pgs_id="N/A", auc=None, r2=None, percentile_rank=0),
-            verdict_context="No models available for analysis"
-        )
-    
-    # Extract metrics, handling None values
-    auc_values: List[tuple] = []  # (id, auc)
-    r2_values: List[tuple] = []   # (id, r2)
+    # Build performance index: PGS id -> best (auc, r2) across ALL performance records
+    perf_best: Dict[str, Tuple[Optional[float], Optional[float]]] = {}
+    for rec in client.iter_all_performances(batch_size=500, max_records=max_performance_records):
+        pgs_id = rec.get("associated_pgs_id")
+        if not pgs_id:
+            continue
+        pm = (rec.get("performance_metrics") or {})
+        # Normalize to a "performance/search-like" record list so we can reuse parsing
+        auc, r2 = _extract_auc_r2_from_performance_records([pm])
+        prev = perf_best.get(pgs_id, (None, None))
+        best_auc = auc if prev[0] is None else (max(prev[0], auc) if auc is not None else prev[0])
+        best_r2 = r2 if prev[1] is None else (max(prev[1], r2) if r2 is not None else prev[1])
+        perf_best[pgs_id] = (best_auc, best_r2)
+
+    auc_vals: List[float] = []
+    r2_vals: List[float] = []
+    sample_size_vals: List[float] = []
+    variants_vals: List[float] = []
+
     auc_missing = 0
     r2_missing = 0
-    
-    for m in models:
-        auc = m.performance_metrics.get("auc")
-        r2 = m.performance_metrics.get("r2")
-        
-        if auc is not None:
-            auc_values.append((m.id, auc))
+    sample_size_missing = 0
+
+    ancestry_counts: Dict[str, int] = {}
+    cohort_counts: Dict[str, int] = {}
+    method_counts: Dict[str, int] = {}
+
+    total_scores = 0
+    for score in client.iter_all_scores(batch_size=200, max_scores=max_scores):
+        total_scores += 1
+
+        pgs_id = score.get("id")
+        if not pgs_id:
+            continue
+
+        # PRS method
+        method = (score.get("method_name") or "Unknown").strip() or "Unknown"
+        method_counts[method] = method_counts.get(method, 0) + 1
+
+        # Variants
+        try:
+            variants_vals.append(float(score.get("variants_number") or 0))
+        except Exception:
+            variants_vals.append(0.0)
+
+        # Sample size (training)
+        train_samples = score.get("samples_training", []) or []
+        train_n = sum(int(s.get("sample_number") or 0) for s in train_samples)
+        if train_n > 0:
+            sample_size_vals.append(float(train_n))
+        else:
+            sample_size_missing += 1
+
+        # Ancestry: parse structured ancestry_distribution when available
+        ancestry_dist = score.get("ancestry_distribution") or {}
+        # Count major ancestry category in GWAS dist (best-effort)
+        try:
+            gwas = ancestry_dist.get("gwas", {}) or {}
+            dist = gwas.get("dist", {}) or {}
+            if dist:
+                major = max(dist.items(), key=lambda x: x[1])[0]
+                ancestry_counts[str(major).upper()] = ancestry_counts.get(str(major).upper(), 0) + 1
+        except Exception:
+            pass
+
+        # Cohorts: from samples_training + samples_variants
+        cohorts = _extract_cohorts(score)
+        for c in cohorts:
+            cohort_counts[c] = cohort_counts.get(c, 0) + 1
+
+        # AUC / R2 (best per score)
+        best_auc, best_r2 = perf_best.get(pgs_id, (None, None))
+        if best_auc is not None:
+            auc_vals.append(float(best_auc))
         else:
             auc_missing += 1
-            
-        if r2 is not None:
-            r2_values.append((m.id, r2))
+        if best_r2 is not None:
+            r2_vals.append(float(best_r2))
         else:
             r2_missing += 1
+
+    zero = MetricDistribution(min=0, max=0, median=0, p25=0, p75=0, missing_count=0)
+    if total_scores == 0:
+        return PerformanceLandscape(
+            total_models=0,
+            ancestry={},
+            sample_size=zero,
+            auc=zero,
+            r2=zero,
+            variants=zero,
+            training_development_cohorts={},
+            prs_methods={}
+        )
+
+    return PerformanceLandscape(
+        total_models=total_scores,
+        ancestry=dict(sorted(ancestry_counts.items(), key=lambda x: x[1], reverse=True)),
+        sample_size=_calculate_distribution(sample_size_vals, sample_size_missing),
+        auc=_calculate_distribution(auc_vals, auc_missing),
+        r2=_calculate_distribution(r2_vals, r2_missing),
+        variants=_calculate_distribution(variants_vals, 0),
+        training_development_cohorts=dict(sorted(cohort_counts.items(), key=lambda x: x[1], reverse=True)),
+        prs_methods=dict(sorted(method_counts.items(), key=lambda x: x[1], reverse=True))
+    )
     
-    # Calculate distributions
-    auc_distribution = _calculate_distribution([v for _, v in auc_values], auc_missing)
-    r2_distribution = _calculate_distribution([v for _, v in r2_values], r2_missing)
-    
-    # Find top performer (by AUC, fallback to R2)
-    top_performer = _find_top_performer(auc_values, r2_values)
-    
-    # Generate verdict context
-    verdict = _generate_verdict(auc_values, auc_distribution)
-    
+    auc_vals: List[float] = []
+    r2_vals: List[float] = []
+    sample_size_vals: List[float] = []
+    variants_vals: List[float] = []
+
+    auc_missing = 0
+    r2_missing = 0
+    sample_size_missing = 0
+
+    ancestry_counts: Dict[str, int] = {}
+    cohort_counts: Dict[str, int] = {}
+    method_counts: Dict[str, int] = {}
+
+    for m in models:
+        # AUC / R2
+        auc = m.performance_metrics.get("auc")
+        r2 = m.performance_metrics.get("r2")
+        if auc is not None:
+            auc_vals.append(float(auc))
+        else:
+            auc_missing += 1
+        if r2 is not None:
+            r2_vals.append(float(r2))
+        else:
+            r2_missing += 1
+
+        # Sample size (training)
+        n = _parse_sample_size(m.samples_training)
+        if n is not None:
+            sample_size_vals.append(float(n))
+        else:
+            sample_size_missing += 1
+
+        # Variants
+        variants_vals.append(float(m.variants_number))
+
+        # Ancestry (best-effort parse)
+        for code, count in _count_ancestry_codes(m.ancestry_distribution).items():
+            ancestry_counts[code] = ancestry_counts.get(code, 0) + int(count)
+
+        # Cohorts
+        for c in (m.training_development_cohorts or []):
+            cohort_counts[c] = cohort_counts.get(c, 0) + 1
+
+        # PRS methods
+        method = (m.method_name or "Unknown").strip() or "Unknown"
+        method_counts[method] = method_counts.get(method, 0) + 1
+
     return PerformanceLandscape(
         total_models=len(models),
-        auc_distribution=auc_distribution,
-        r2_distribution=r2_distribution,
-        top_performer=top_performer,
-        verdict_context=verdict
+        ancestry=ancestry_counts,
+        sample_size=_calculate_distribution(sample_size_vals, sample_size_missing),
+        auc=_calculate_distribution(auc_vals, auc_missing),
+        r2=_calculate_distribution(r2_vals, r2_missing),
+        variants=_calculate_distribution(variants_vals, 0),
+        training_development_cohorts=dict(sorted(cohort_counts.items(), key=lambda x: x[1], reverse=True)),
+        prs_methods=dict(sorted(method_counts.items(), key=lambda x: x[1], reverse=True))
     )
 
 
@@ -217,60 +435,6 @@ def _calculate_distribution(values: List[float], missing_count: int) -> MetricDi
         p75=p75,
         missing_count=missing_count
     )
-
-
-def _find_top_performer(
-    auc_values: List[tuple], 
-    r2_values: List[tuple]
-) -> TopPerformerSummary:
-    """Find the top performing model by AUC (preferred) or R2."""
-    if auc_values:
-        # Find best by AUC
-        top_id, top_auc = max(auc_values, key=lambda x: x[1])
-        # Find corresponding R2
-        r2_map = dict(r2_values)
-        top_r2 = r2_map.get(top_id)
-        # Calculate percentile (percentage of models at or below this AUC)
-        all_aucs = [v for _, v in auc_values]
-        rank = sum(1 for v in all_aucs if v <= top_auc) / len(all_aucs) * 100
-    elif r2_values:
-        # Fallback to R2 if no AUC data
-        top_id, top_r2 = max(r2_values, key=lambda x: x[1])
-        top_auc = None
-        all_r2s = [v for _, v in r2_values]
-        rank = sum(1 for v in all_r2s if v <= top_r2) / len(all_r2s) * 100
-    else:
-        return TopPerformerSummary(pgs_id="N/A", auc=None, r2=None, percentile_rank=0)
-    
-    return TopPerformerSummary(
-        pgs_id=top_id,
-        auc=top_auc,
-        r2=top_r2,
-        percentile_rank=rank
-    )
-
-
-def _generate_verdict(
-    auc_values: List[tuple], 
-    auc_distribution: MetricDistribution
-) -> str:
-    """Generate a human-readable verdict context."""
-    if not auc_values:
-        return "Performance data limited - no AUC metrics available"
-    
-    best_auc = max(v for _, v in auc_values)
-    median_auc = auc_distribution.median
-    
-    if median_auc > 0:
-        pct_above = ((best_auc - median_auc) / median_auc * 100)
-        if pct_above > 0:
-            return f"Top model is +{pct_above:.0f}% above median AUC"
-        elif pct_above < 0:
-            return f"Top model is {abs(pct_above):.0f}% below median AUC"
-        else:
-            return "Top model matches median AUC"
-    else:
-        return "Median AUC is zero - check data quality"
 
 
 # --- Domain Knowledge Tool ---

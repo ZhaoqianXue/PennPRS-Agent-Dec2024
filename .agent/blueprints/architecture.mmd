@@ -1,0 +1,70 @@
+flowchart TB
+    subgraph UserInterface["User Interface"]
+        Query["User Query<br/>(Target Trait)"]
+    end
+
+    subgraph AgentCore["Single Agent Loop (gpt-5.2)"]
+        direction TB
+        Reasoning["Reasoning & Persona<br/>(System Prompt)"]
+        
+        subgraph Step1["Step 1: Direct Match Assessment"]
+            direction LR
+            S1_Search["prs_model_pgscatalog_search<br/>(TARGET)"]
+            S1_Knowledge["prs_model_domain_knowledge"]
+            S1_Landscape["prs_model_performance_landscape"]
+        end
+        
+        Decision1{{"Quality<br/>Threshold?"}}
+        
+        subgraph Step2a["Step 2a: Cross-Disease Transfer"]
+            direction TB
+            S2a_Neighbors["genetic_graph_get_neighbors<br/>(TARGET → related_traits[])"]
+            S2a_Loop["FOR each related_trait"]
+            S2a_Search["prs_model_pgscatalog_search<br/>(RELATED)"]
+            S2a_Validate["genetic_graph_validate_mechanism<br/>(TARGET ↔ RELATED)"]
+        end
+        
+        subgraph Step2b["Step 2b: Direct Training"]
+            S2b_Train["pennprs_train_model<br/>(TARGET)"]
+        end
+    end
+
+    subgraph ExternalData["External Data Sources"]
+        PGS["PGS Catalog API"]
+        GWAS["GWAS Atlas<br/>(h², rg)"]
+        OpenTargets["Open Targets<br/>ExPheWAS"]
+        PennPRS["PennPRS<br/>Training API"]
+    end
+
+    subgraph Output["Recommendation Output"]
+        Direct["Direct Model<br/>Recommendation"]
+        CrossDisease["Cross-Disease<br/>Model Transfer"]
+        TrainNew["Training<br/>Configuration"]
+    end
+
+    Query --> Reasoning
+    Reasoning --> Step1
+    S1_Search --> PGS
+    S1_Knowledge --> PGS
+    S1_Landscape --> S1_Search
+    
+    Step1 --> Decision1
+    Decision1 -->|"HIGH_QUALITY"| Direct
+    Decision1 -->|"SUB_OPTIMAL<br/>NO_MATCH"| Step2a
+    
+    S2a_Neighbors --> GWAS
+    S2a_Loop --> S2a_Search
+    S2a_Search --> PGS
+    S2a_Validate --> OpenTargets
+    
+    Step2a -->|"Found<br/>Transfer Model"| CrossDisease
+    Step2a -->|"No Viable<br/>Transfer"| Step2b
+    
+    S2b_Train --> PennPRS
+    Step2b --> TrainNew
+
+    style AgentCore fill:#1a1b26,stroke:#7aa2f7,stroke-width:2px
+    style Step1 fill:#24283b,stroke:#9ece6a,stroke-width:1px
+    style Step2a fill:#24283b,stroke:#bb9af7,stroke-width:1px
+    style Step2b fill:#24283b,stroke:#f7768e,stroke-width:1px
+    style Decision1 fill:#414868,stroke:#ff9e64

@@ -3,7 +3,7 @@
 **Goal:** Integrate PheWAS (Phenome-Wide Association Study) evidence into the `validate_mechanism` tool to provide additional multi-omics proof for cross-disease PRS model recommendation.
 
 **Skill:** subagent-driven-development
-**Rules:** rules.md (Monorepo, Contract-First, gpt-5-mini default)
+**Rules:** rules.md (Monorepo, Contract-First, gpt-5.2 default)
 
 ---
 

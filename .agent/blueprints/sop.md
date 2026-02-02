@@ -26,13 +26,13 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 - **Recommendation Logic (Sequential Workflow)**:
     - **Step 1: Direct Match Assessment**: Search for existing models for the target disease.
-        - *High-Quality Match*: If models exist and pass the quality threshold, recommend the best-performing one.
+        - *High-Quality Match*: If models exist and pass the quality threshold, recommend the best-performing one. **Always offer Direct Training as a follow-up option.**
         - *Sub-optimal Match*: If models exist but fail the quality threshold, recommend the best available as a baseline and **proceed to Step 2**.
         - *No Match*: If no direct models exist, **proceed to Step 2**.
     - **Step 2: Augmented Recommendation**: Triggered when direct models are insufficient or missing.
-        - *Cross-Disease Transfer*: Recommend models from **genetically related diseases** using the Knowledge Graph.
-        - *Direct Training*: Initiate a new model training pipeline on **PennPRS**.
-    - **Automation Note**: This entire pipeline is **fully autonomous**. Aside from the initial search query, no further user input or manual intervention is required to navigate through the assessment and augmentation steps.
+        - *Cross-Disease Transfer*: Discover **genetically related diseases** using the Knowledge Graph and provide biological validation for the correlation to support model transfer decisions.
+        - *On-Demand Training*: Regardless of the recommendation outcome, the system always provides a "Direct Training" option at the end of the report. The **PennPRS** training pipeline is only initiated after explicit user interaction.
+    - **Automation Note**: The recommendation generation (Steps 1 and 2) is **fully autonomous**. The training pipeline (PennPRS) is **on-demand**, triggered by explicit user confirmation from the recommendation report.
 
 - **Product Vision & Benchmarking**:
     - **Positioning**: This system benchmarks against the world's most powerful Generative LLMs (**ChatGPT, Claude, Gemini**), but is specifically engineered and optimized for the **PRS domain**.
@@ -57,7 +57,85 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 ### Immutable Architectural Constraint: Single Agent Loop
 
-To achieve the "Co-scientist" level of autonomy and reasoning, the system **MUST** be built as a **Single Agent Architecture** (powered by **gpt-5-mini**). The agent acts as a unified central brain, utilizing **Dynamic Planning** and **Tool-Augmented Generation** to navigate the complex recommendation workflow within a **single persistent conversation state**. Multi-agent delegation or sub-agent hierarchies are strictly prohibited to maintain persona integrity and state coherence.
+To achieve the "Co-scientist" level of autonomy and reasoning, the system **MUST** be built as a **Single Agent Architecture** (powered by **gpt-5.2**). The agent acts as a unified central brain, utilizing **Dynamic Planning** and **Tool-Augmented Generation** to navigate the complex recommendation workflow within a **single persistent conversation state**. Multi-agent delegation or sub-agent hierarchies are strictly prohibited to maintain persona integrity and state coherence.
+
+### Architecture Diagram
+
+> **Rendered SVG**: See [architecture.svg](architecture.svg) (generated via [pretty-mermaid](../../.agent/skills/pretty-mermaid-skills/SKILL.md) with `tokyo-night` theme)
+
+```mermaid
+flowchart TB
+    subgraph UserInterface["User Interface"]
+        Query["User Query<br/>(Target Trait)"]
+    end
+
+    subgraph AgentCore["Single Agent Loop (gpt-5.2)"]
+        direction TB
+        Reasoning["Reasoning & Persona<br/>(System Prompt)"]
+        
+        subgraph Step1["Step 1: Direct Match Assessment"]
+            direction LR
+            S1_Search["prs_model_pgscatalog_search<br/>(TARGET)"]
+            S1_Knowledge["prs_model_domain_knowledge"]
+            S1_Landscape["prs_model_performance_landscape"]
+        end
+        
+        Decision1{{"Quality<br/>Threshold?"}}
+        
+        subgraph Step2a["Step 2a: Cross-Disease Transfer"]
+            direction TB
+            S2a_Neighbors["genetic_graph_get_neighbors<br/>(TARGET → neighbor_traits[])"]
+            S2a_Loop["FOR each neighbor_trait"]
+            S2a_Validate["genetic_graph_validate_mechanism<br/>(TARGET ↔ neighbor_trait)"]
+            S2a_Search["prs_model_pgscatalog_search<br/>(NEIGHBOR)"]
+        end
+        
+        subgraph Step2b["Step 2b: Training Configuration"]
+            S2b_Trigger["User Click: 'Train New Model'"]
+            S2b_Train["pennprs_train_model<br/>(TARGET)"]
+        end
+    end
+
+    subgraph ExternalData["External Data Sources"]
+        PGS["PGS Catalog API"]
+        GWAS["GWAS Atlas<br/>(h², rg)"]
+        OpenTargets["Open Targets<br/>ExPheWAS"]
+        PennPRS["PennPRS<br/>Training API"]
+    end
+
+    subgraph Output["Recommendation Output"]
+        Direct["Direct Model<br/>Recommendation"]
+        CrossDisease["Cross-Disease<br/>Model Transfer"]
+        TrainNew["Training<br/>Configuration"]
+    end
+
+    Query --> Reasoning
+    Reasoning --> Step1
+    S1_Search --> PGS
+    S1_Knowledge --> PGS
+    S1_Landscape --> S1_Search
+    
+    Step1 --> Decision1
+    Decision1 -->|"HIGH_QUALITY"| Direct
+    Decision1 -->|"SUB_OPTIMAL / NO_MATCH"| Step2a
+    
+    S2a_Neighbors --> GWAS
+    S2a_Validate --> OpenTargets
+    S2a_Validate -->|"Support Evidence"| S2a_Neighbors
+    S2a_Loop --> S2a_Validate
+    S2a_Validate --> S2a_Search
+    S2a_Search --> PGS
+    
+    Step2a --> CrossDisease
+    
+    Direct --> S2b_Trigger
+    CrossDisease --> S2b_Trigger
+    S2b_Trigger --> S2b_Train
+    S2b_Train --> PennPRS
+    S2b_Train --> TrainNew
+```
+
+### Tool Sets Overview
 
 The agent's capabilities are organized into **three external Tool Sets** (Action Space) and one internal **Reasoning & Persona** (Cognitive Space):
 
@@ -86,11 +164,15 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
 - **PennPRS Tools**:
     <!-- For interfacing with the PennPRS backend for model training configuration. -->
     - **`pennprs_train_model`**: Generates a **recommended training configuration** based on the Agent's reasoning context (target trait, available GWAS data, recommended method, parameters).
-        - *Purpose*: To prepare a pre-filled training request form for user review. The Agent synthesizes its scientific judgment into actionable configuration values. The user can directly submit or adjust before submission.
+        - *Purpose*: To prepare a pre-filled training request form for user review. The Agent synthesizes its scientific judgment into actionable configuration values. **This tool is triggered by explicit user action from any recommendation output.**
         - *Output*: JSON configuration object displayed in the UI as an editable form.
-        - *Interaction Model*: **Human-in-the-Loop** — Agent proposes the configuration, user reviews/modifies if needed, then submits via UI action (not an autonomous agent operation).
+        - *Interaction Model*: **Human-in-the-Loop** — Agent proposes the configuration upon user request, user reviews/modifies if needed, then submits via UI action.
 
-- **Reasoning & Persona (Internal)**: The central logic responsible for "fine-dining" answer synthesis, ensuring every response is reasoned, evidence-backed, and maintains the specialized co-scientist persona.
+- **Reasoning & Persona (System Prompt)**: The cognitive core of the agent, implemented as a structured system prompt that:
+    - **Encodes the Sequential Workflow**: Instructs the LLM to navigate Step 1 (Direct Match Assessment) → Step 2 (Augmented Recommendation) decision logic autonomously.
+    - **Constructs the Evaluation Reference Frame**: Dynamically assembles scientific standards using `prs_model_domain_knowledge` (Clinical Consensus) and `prs_model_performance_landscape` (Market Statistics) to guide quality judgments.
+    - **Maintains Co-Scientist Persona**: Ensures all responses are reasoned, evidence-backed, and reflect the specialized scientific partner voice.
+    - **Manages Attention via Recitation**: Uses structured scratchpad/todo tracking to push critical objectives into the LLM's recent attention span.
 
 ## Implementation Plan
 
@@ -111,14 +193,29 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
         - **Self-Contained & Robust**: Each tool must be error-tolerant with unambiguous input/output schemas. *(Anthropic: Tool Design)*
         - **Minimal Viable Tool Set**: Curate the smallest set covering functionality; avoid ambiguous decision points. *(Anthropic: Tool Curation)*
         - **JIT Context Loading**: Tools return lightweight references (IDs, paths); full data loaded on-demand. *(Anthropic: Just-in-time context strategies)*
+        - **File System as Context (Large Observations)**: Large tool observations MUST be persisted to disk and referenced by stable paths/IDs, not injected verbatim into the LLM context. *(Manus: Use the File System as Context)*
+            - **Rule**: If a tool output exceeds a configured size threshold (e.g., >50KB JSON or >2,000 tokens equivalent), the tool MUST:
+                1. Persist the full payload to a file (under `output/agent_artifacts/` or an equivalent runtime artifact directory).
+                2. Return a compact in-context summary plus a **stable reference**: `{artifact_id, artifact_path, sha256, content_type, bytes, summary}`.
+            - **Restorable Compression**: Context compaction MUST be reversible by preserving the `artifact_path` (and `url` when applicable). Never discard the reference.
+            - **Human-safe**: Artifact paths must never include secrets; redact tokens/credentials before writing.
         - **Append-Only Context**: Serialize tool results deterministically; no mid-loop modification to preserve KV-cache. *(Manus: Design Around the KV-Cache)*
+        - **Stable Prompt Prefix (KV-cache)**: Keep the system prompt + tool definitions prefix **bitwise stable** across turns/sessions. Avoid any dynamic tokens at the beginning of the prompt (e.g., timestamps, random IDs, run counters). *(Manus: Design Around the KV-Cache)*
+            - **Hard rule**: Never include "Current time", "Today is ...", or per-request metadata in the system prompt header. If time is needed, retrieve it via a tool and place it in the append-only observation stream.
+            - **Deterministic serialization**: For JSON-like tool outputs, enforce stable key ordering and canonical formatting (e.g., sorted keys, stable float rounding policy, stable whitespace).
+        - **Cache Breakpoints (Optional)**: If the serving stack supports explicit cache breakpoints, place a breakpoint **after** the stable prefix (system prompt + tool schemas) and avoid moving it. *(Manus: Design Around the KV-Cache)*
         - **Error Trace Retention**: Failed tool calls remain in history as explicit feedback; no retry-and-hide. *(Manus: Keep the Wrong Stuff In)*
 
     - **Module 4: System Prompt**
-        - Develop the **gpt-5-mini** prompt with Plan-and-Solve decision logic.
-        - Define JSON/Markdown templates for recommendation reports.
+        - **Persona Definition**: Define the Co-scientist Expert voice, tone, response patterns, and boundaries (what it will/won't do).
+        - **Plan-and-Solve Decision Logic**: Develop the **gpt-5.2** prompt encoding the Sequential Workflow (L27-35) as structured decision steps with explicit transition conditions.
+        - **Evaluation Reference Frame Construction**: Specify how the agent combines outputs from `prs_model_domain_knowledge` and `prs_model_performance_landscape` to form quality judgment criteria.
+        - **Tool Orchestration Protocol**: Define the logical flow for selecting and chaining tools. Specifically, guide the agent to use `genetic_graph_validate_mechanism` as a biological validator for traits discovered via `genetic_graph_get_neighbors`.
+        - **Human-in-the-Loop Integration**: Define how the agent provides the "Train New Model" option at the end of every recommendation report, waiting for user interaction before calling `pennprs_train_model`.
+        - **Scratchpad/State Format**: Define the `todo.md` style internal state tracking format for workflow progress. *(Manus: Manipulate Attention Through Recitation)*
+        - **Output Report Templates**: Define JSON/Markdown templates for recommendation reports with required fields and evidence citations.
+        - **Error Recovery Protocol**: Specify agent behavior when tools fail (retry logic, fallback strategies, escalation to human).
         - **Prompt Altitude**: Write at the right abstraction level; avoid hardcoding brittle logic or vague guidance. *(Anthropic: Right Altitude)*
-        - **Attention Manipulation via Recitation**: Implement `todo.md` style progress tracking to push objectives into recent attention span. *(Manus: Manipulate Attention Through Recitation)*
 
 ## Implementation Log
 
@@ -365,7 +462,8 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 | **Data Source** | PGS Catalog REST API (`/rest/score/search`) |
 | **Dependency** | `PGSCatalogClient` (Module 1) |
 | **Hard-coded Filter** | Remove models where `performance_metrics.auc` AND `performance_metrics.r2` are both null |
-| **Token Budget** | ~500 tokens per model summary; max 10 models in initial response |
+| **Ranking (Deterministic)** | Sort candidates by **AUC (desc)** → **R² (desc)** → **Training Sample Size (desc)** → **Variants (SNPs) (desc)** → **PGS ID (asc)**, then return top-N |
+| **Token Budget** | ~500 tokens per model summary; max 25 models in initial response |
 
 ```python
 # Output Schema
@@ -373,7 +471,7 @@ class PGSSearchResult:
     query_trait: str
     total_found: int
     after_filter: int
-    models: list[PGSModelSummary]  # [Agent + UI] fields only
+    models: list[PGSModelSummary]  # [Agent + UI] fields only (default top-25)
 
 class PGSModelSummary:
     id: str                    # PGS000025
@@ -389,6 +487,7 @@ class PGSModelSummary:
     phenotyping_reported: str
     covariates: str
     sampleset: str
+    training_development_cohorts: list[str]  # union of cohort short names from training/development samples
 ```
 
 ###### `prs_model_domain_knowledge`
@@ -428,9 +527,9 @@ class SourceSnippet:
 
 | Attribute | Specification |
 |:---|:---|
-| **Input** | `models: list[PGSModelSummary]` — Filtered models from `pgscatalog_search` |
-| **Output** | `PerformanceLandscape` — Statistical distribution summary |
-| **Data Source** | Computed from input models (no external API) |
+| **Input** | `candidate_models: list[PGSModelSummary]` — Candidate models from `prs_model_pgscatalog_search` (passed for workflow ergonomics) |
+| **Output** | `PerformanceLandscape` — **Global** statistical reference frame (restricted fields) |
+| **Data Source** | PGS Catalog REST API: `/rest/score/all` (metadata) + `/rest/performance/all` (AUC/R²) |
 | **Dependency** | None (pure computation) |
 | **Token Budget** | ~200 tokens (compact statistical summary) |
 
@@ -438,12 +537,28 @@ class SourceSnippet:
 # Output Schema
 class PerformanceLandscape:
     total_models: int
-    
-    auc_distribution: MetricDistribution
-    r2_distribution: MetricDistribution
-    
-    top_performer: TopPerformerSummary
-    verdict_context: str  # "Top model is +15% above median AUC"
+
+    # IMPORTANT: Landscape must be restricted to the following 7 categories only:
+    # 1) Ancestry
+    # 2) Sample Size
+    # 3) AUC
+    # 4) R²
+    # 5) Variants (SNPs)
+    # 6) Training/Development Cohorts
+    # 7) PRS Methods
+
+    ancestry: dict[str, int]                     # counts by ancestry code (best-effort parse)
+    sample_size: MetricDistribution              # training sample size distribution
+    auc: MetricDistribution                      # AUC distribution
+    r2: MetricDistribution                       # R² distribution
+    variants: MetricDistribution                 # variants_number distribution
+    training_development_cohorts: dict[str, int] # counts by cohort short name
+    prs_methods: dict[str, int]                  # counts by PRS method
+
+# Aggregation Note (Global Reference):
+# - The global landscape is computed across ALL scores in `/rest/score/all`.
+# - AUC/R² are aggregated per PGS id using `/rest/performance/all`:
+#   take the maximum AUC and maximum R² observed for each score to represent its best available validation.
 
 class MetricDistribution:
     min: float
@@ -452,12 +567,6 @@ class MetricDistribution:
     p25: float
     p75: float
     missing_count: int
-
-class TopPerformerSummary:
-    pgs_id: str
-    auc: float
-    r2: float
-    percentile_rank: float  # e.g., 95 = top 5%
 ```
 
 ##### 2. Genetic Graph Tools
@@ -534,7 +643,7 @@ class CorrelationProvenance:
 
 | Attribute | Specification |
 |:---|:---|
-| **Input** | `source_trait: str`, `target_trait: str` — Trait pair to validate biologically |
+| **Input** | `source_trait: str`, `target_trait: str` — Trait pair to validate biologically (implementation resolves/uses EFO IDs for Open Targets) |
 | **Output** | `MechanismValidation` — Shared genes/loci evidence |
 | **Data Source** | Open Targets Platform API, PheWAS Catalog (ExPheWAS API) |
 | **Dependency** | External API clients (Open Targets GraphQL, ExPheWAS REST) |
@@ -626,15 +735,179 @@ class TrainingConfig:
 
 ### Module 4 - System Prompt
 
+#### Prompt Architecture
+
+The System Prompt is structured into **four functional layers**:
+
+| Layer | Purpose | Example Content |
+|:---|:---|:---|
+| **Identity & Persona** | Establishes the agent's voice and boundaries | "You are a PRS Co-scientist..." |
+| **Workflow Encoding** | Instructs the Sequential Workflow logic | "Step 1: Search for direct models..." |
+| **Tool Orchestration** | Guides tool selection and chaining | "When quality is sub-optimal, use genetic_graph_get_neighbors..." |
+| **Output Schema** | Defines report structure | JSON/Markdown template requirements |
+
+#### Co-Scientist Persona Definition
+
+| Attribute | Specification |
+|:---|:---|
+| **Voice** | Expert, collaborative, evidence-driven |
+| **Tone** | Precise, confident when supported by evidence; appropriately uncertain when data is limited |
+| **Boundaries** | Will not hallucinate performance metrics; will cite sources; will recommend human review for edge cases |
+| **Response Pattern** | Reasoning → Evidence → Recommendation → Caveats |
+
 #### LLM-Driven Quality Thresholds
 
-Instead of hard-coded heuristic tiers, we will leverage the **Large Lange Model** to determine model quality dynamically.
+Instead of hard-coded heuristic tiers, we leverage the **Large Language Model** to determine model quality dynamically.
 
-- **Mechanism**: The Agent will receive the structured metadata (fields listed above) in its context window.
-- **Prompt Logic**: The system prompt will instruct the LLM to evaluate models.
-- **Evolution Note**: Initial metadata-based judgments may be limited. Subsequent **Tool-Driven JIT Context Loading** (e.g., autonomously invoking tools for deep methodology scrutiny, study design validation, or cross-referencing external benchmarks) enables the **Co-scientist Expert Scrutiny** phase. This ensures that the agent resolves high-stakes ambiguity through first-hand evidence to reach a definitive scientific judgment, while efficiently managing the attention budget.
+- **Mechanism**: The Agent receives structured metadata (`[Agent + UI]` fields from Module 1) in its context window.
+- **Evaluation Reference Frame**: The Agent constructs a scientific judgment framework using:
+    1. **Clinical Consensus** via `prs_model_domain_knowledge`: What do guidelines say about acceptable performance thresholds?
+    2. **Market Statistics** via `prs_model_performance_landscape`: How does this model compare to the distribution of all available models?
+- **Evolution Note**: Initial metadata-based judgments may be limited. Subsequent **Tool-Driven JIT Context Loading** (e.g., autonomously invoking `prs_model_domain_knowledge` with refined queries for deeper clinical context) enables the **Co-scientist Expert Scrutiny** phase for Step 1 decisions.
+
+#### Sequential Workflow Encoding
+
+The prompt must encode the following decision logic from the Objective section (L27-35):
+
+```
+STEP 1: DIRECT MATCH ASSESSMENT
+IF direct_models_exist AND quality >= HIGH_THRESHOLD:
+    OUTCOME: DIRECT_HIGH_QUALITY
+ELIF direct_models_exist AND quality < HIGH_THRESHOLD:
+    RECOMMEND best_available_as_baseline
+    PROCEED_TO STEP 2A
+ELSE:  # no direct models
+    PROCEED_TO STEP 2A
+
+STEP 2A: CROSS-DISEASE TRANSFER
+1. Query genetic_graph_get_neighbors(target_trait) → neighbor_traits[]
+2. FOR each neighbor_trait:
+    - Resolve EFO IDs for target_trait and neighbor_trait (e.g., via PGS Catalog `trait_efo` or an Open Targets disease lookup) before mechanism validation.
+    - Call genetic_graph_validate_mechanism(target_trait, neighbor_trait) to provide biological rationale that supports the identified genetic correlation.
+    - IF mechanism evidence is sufficient:
+        - Call prs_model_pgscatalog_search(neighbor_trait)
+        - Evaluate model quality using prs_model_performance_landscape
+3. IF qualified_transfer_models found:
+    OUTCOME: CROSS_DISEASE
+ELSE:
+    OUTCOME: NO_MATCH_FOUND
+
+STEP 2B: HUMAN-IN-THE-LOOP TRAINING (ON-DEMAND)
+- Regardless of OUTCOME (DIRECT, CROSS_DISEASE, or NO_MATCH), the final report MUST include a "Train New Model" option.
+- IF user_triggers_training:
+    - Generate pennprs_train_model configuration based on target_trait context.
+```
+
+**Tool Usage Clarification**: PRS Model Tools are used in BOTH Step 1 (for target trait) AND Step 2a (for related traits). The distinction is the **trait being queried**, not the workflow phase.
+
+#### KV-cache Safety Rules (Prompt Prefix Stability)
+
+The prompt must be designed to maximize KV-cache reuse in agentic loops:
+
+- **Stable prefix requirement**: The prefix containing the system prompt and tool schemas MUST remain identical across turns.
+- **Forbidden at prompt head**: timestamps, request IDs, random seeds, "today's date", run counters, or any dynamic metadata.
+- **If time is required**: fetch it via a tool and record it in the append-only observation stream (never inside the stable prefix).
+- **Tool schema stability**: tool definitions must not be injected/removed mid-run; control availability via masking.
+
+#### Scratchpad / State Management
+
+Following the "Attention Manipulation via Recitation" principle, the agent maintains a structured internal state:
+
+```markdown
+## Current Task Progress
+- [x] Step 1: Query PGS Catalog for "Type 2 Diabetes" (target trait)
+- [x] Step 1: Evaluate 5 models against performance landscape
+- [x] Step 1 Decision: SUB-OPTIMAL match (best AUC=0.65, below clinical threshold)
+- [x] Step 2a: Query Knowledge Graph for genetically correlated traits
+- [x] Step 2a: Found related trait: "Obesity"
+- [x] Step 2a: Validated biological mechanism for "Obesity" (shared FTO pathway)
+- [x] Step 2a: Query PGS Catalog for "Obesity" → 8 models found
+- [ ] Step 2a: Evaluate "Obesity" models against performance landscape
+- [ ] Step 2a Decision: Recommend cross-disease model OR report no match
+- [ ] On-Demand: Offer "Train New Model" option in final report
+...
+```
+
+This format ensures critical objectives remain in the LLM's recent attention span across tool call boundaries.
+
+#### Output Report Template
+
+The report structure varies by `recommendation_type`. Note that the "Train New Model" option is a UI action provided at the end of ALL report types.
+
+```json
+{
+  "recommendation_type": "DIRECT_HIGH_QUALITY | DIRECT_SUB_OPTIMAL | CROSS_DISEASE | NO_MATCH_FOUND",
+  "primary_recommendation": {
+    "pgs_id": "PGS000025",           // For DIRECT_* and CROSS_DISEASE
+    "source_trait": "...",            // For CROSS_DISEASE only
+    "confidence": "High | Moderate | Low",
+    "rationale": "..."
+  },
+  "alternative_recommendations": [...],
+  
+  // Step 1 Evidence (DIRECT_HIGH_QUALITY, DIRECT_SUB_OPTIMAL)
+  "direct_match_evidence": {
+    "models_evaluated": 5,
+    "performance_metrics": {...},       // From prs_model_performance_landscape
+    "clinical_benchmarks": [...]        // From prs_model_domain_knowledge
+  },
+  
+  // Step 2 Evidence - Cross-Disease (CROSS_DISEASE only)
+  "cross_disease_evidence": {
+    "source_trait": "Obesity",
+    "rg_meta": 0.85,
+    "transfer_score": 0.72,
+    
+    // From genetic_graph_get_neighbors
+    "related_traits_evaluated": ["Obesity", "Metabolic Syndrome"],
+    
+    // From genetic_graph_validate_mechanism (supports genetic correlation interpretation and transfer rationale)
+    "shared_genes": ["FTO", "MC4R"],
+    "biological_rationale": "Both traits share obesity-related genetic architecture.",
+    
+    // From prs_model_pgscatalog_search(related_trait)
+    "source_trait_models": {
+      "models_found": 8,
+      "best_model_id": "PGS000XXX",
+      "best_model_auc": 0.78
+    }
+  },
+  
+  "caveats_and_limitations": [...],
+  "follow_up_options": [
+    {
+      "label": "Train New Model on PennPRS",
+      "action": "TRIGGER_PENNPRS_CONFIG",
+      "context": "Provides best-in-class configuration recommendation"
+    }
+  ]
+}
+```
+
+**Field Scoping by Recommendation Type**:
+
+| Field | DIRECT_HIGH_QUALITY | DIRECT_SUB_OPTIMAL | CROSS_DISEASE | NO_MATCH_FOUND |
+|:---|:---:|:---:|:---:|:---:|
+| `direct_match_evidence` | Required | Required | Optional | - |
+| `cross_disease_evidence` | - | - | Required | - |
+| `follow_up_options` | Required | Required | Required | Required |
+
+#### Engineering Constraints Compliance
+
+| Constraint | Implementation |
+|:---|:---|
+| **Prompt Altitude** | Encode high-level decision logic; avoid hardcoding specific thresholds (let LLM reason) |
+| **Attention via Recitation** | Scratchpad format pushes objectives into recent context |
+| **Persona Consistency** | Identity layer loaded at start of every conversation |
+| **Error Trace Retention** | Prompt instructs agent to acknowledge and reason about failed tool calls |
+| **JIT Context Loading** | Prompt guides agent to call deep-dive tools only when needed |
 
 #### Implementation Status
+
 - **Not Implemented**:
-    - **LLM Prompt Logic**: The dynamic reasoning prompt ("Plan-and-Solve") to consume these grades is part of Phase 2 (Module 4).
-    - **Co-Scientist Expert Selection**: Logic to construct the **"Evaluation Reference Frame"** using the three knowledge tools (Theoretical $h^2$, Market Stats, Clinical Consensus) to strictly filter qualified models.
+    - **Persona Definition**: Co-scientist voice/tone guidelines and boundary specifications.
+    - **Plan-and-Solve Prompt Structure**: The layered prompt architecture with workflow encoding.
+    - **Evaluation Reference Frame Logic**: Instructions for constructing scientific judgment criteria from three knowledge tools.
+    - **Scratchpad Format**: The `todo.md` style internal state tracking specification.
+    - **Output Report Schema**: JSON/Markdown templates for final recommendations.
+    - **Error Recovery Protocol**: Instructions for handling tool failures gracefully.

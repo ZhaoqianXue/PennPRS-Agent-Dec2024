@@ -59,6 +59,6 @@
 **说明**: 原计划采用推理模型 (Reasoning Models) 处理复杂提取任务，但出于成本和速度平衡考虑，暂时转向能力更强但性价比更高的 **GPT-5-Mini**。
 **优化任务**:
 - [x] 在 `llm_config.py` 中支持推理模型配置。
-- [x] 将核心 `LITERATURE_EXTRACTOR` 模型配置从 `gpt-5-nano` 升级为 **`gpt-5-mini`**。
+- [x] 将核心 `LITERATURE_EXTRACTOR` 模型配置从 `gpt-5-nano` 升级为 **`gpt-5.2`**。
 - [x] **预期收益**: 相比 Nano 显著提升复杂语境理解能力，减少幻觉，同时保持较低推理成本。
 

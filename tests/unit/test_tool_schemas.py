@@ -6,7 +6,7 @@ Tests sop.md L352-622 output schema specifications.
 import pytest
 from src.server.core.tool_schemas import (
     PGSSearchResult, PGSModelSummary,
-    PerformanceLandscape, MetricDistribution, TopPerformerSummary,
+    PerformanceLandscape, MetricDistribution,
     NeighborResult, RankedNeighbor,
     StudyPowerResult, CorrelationProvenance,
     MechanismValidation, SharedGene,
@@ -33,7 +33,8 @@ class TestPRSModelSchemas:
             performance_metrics={"auc": 0.75, "r2": 0.15},
             phenotyping_reported="Type 2 Diabetes",
             covariates="age, sex, PC1-10",
-            sampleset="UKB"
+            sampleset="UKB",
+            training_development_cohorts=["UKB"]
         )
         assert summary.id == "PGS000025"
         assert summary.performance_metrics["auc"] == 0.75
@@ -54,7 +55,8 @@ class TestPRSModelSchemas:
             performance_metrics={"auc": 0.7, "r2": 0.1},
             phenotyping_reported="T2D",
             covariates="age",
-            sampleset=None
+            sampleset=None,
+            training_development_cohorts=[]
         )
         result = PGSSearchResult(
             query_trait="Type 2 Diabetes",
@@ -71,17 +73,18 @@ class TestPRSModelSchemas:
         dist = MetricDistribution(
             min=0.5, max=0.85, median=0.7, p25=0.65, p75=0.78, missing_count=2
         )
-        top = TopPerformerSummary(pgs_id="PGS000001", auc=0.85, r2=0.2, percentile_rank=98.0)
         landscape = PerformanceLandscape(
             total_models=10,
-            auc_distribution=dist,
-            r2_distribution=dist,
-            top_performer=top,
-            verdict_context="Top model is +15% above median"
+            ancestry={"EUR": 10},
+            sample_size=dist,
+            auc=dist,
+            r2=dist,
+            variants=dist,
+            training_development_cohorts={"UKB": 3},
+            prs_methods={"LDpred2": 10}
         )
         assert landscape.total_models == 10
-        assert landscape.top_performer.percentile_rank == 98.0
-        assert landscape.auc_distribution.median == 0.7
+        assert landscape.auc.median == 0.7
 
 
 class TestGeneticGraphSchemas:

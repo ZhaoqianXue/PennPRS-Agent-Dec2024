@@ -34,6 +34,10 @@ class PGSModelSummary(BaseModel):
     phenotyping_reported: str = Field(..., description="Phenotype description in validation")
     covariates: str = Field(..., description="Covariates used in validation")
     sampleset: Optional[str] = Field(None, description="Sample set used for validation")
+    training_development_cohorts: List[str] = Field(
+        default_factory=list,
+        description="Union of cohort short names from training/development-related samples"
+    )
 
 
 class PGSSearchResult(BaseModel):
@@ -68,21 +72,13 @@ class DomainKnowledgeResult(BaseModel):
 
 
 class MetricDistribution(BaseModel):
-    """Statistical distribution for a performance metric."""
+    """Statistical distribution for a numeric metric."""
     min: float
     max: float
     median: float
     p25: float
     p75: float
     missing_count: int
-
-
-class TopPerformerSummary(BaseModel):
-    """Summary of the top performing model."""
-    pgs_id: str
-    auc: Optional[float] = None
-    r2: Optional[float] = None
-    percentile_rank: float
 
 
 class PerformanceLandscape(BaseModel):
@@ -92,10 +88,13 @@ class PerformanceLandscape(BaseModel):
     Token Budget: ~200 tokens.
     """
     total_models: int
-    auc_distribution: MetricDistribution
-    r2_distribution: MetricDistribution
-    top_performer: TopPerformerSummary
-    verdict_context: str
+    ancestry: Dict[str, int] = Field(default_factory=dict, description="Counts by ancestry code (best-effort parse)")
+    sample_size: MetricDistribution
+    auc: MetricDistribution
+    r2: MetricDistribution
+    variants: MetricDistribution
+    training_development_cohorts: Dict[str, int] = Field(default_factory=dict, description="Counts by cohort short name")
+    prs_methods: Dict[str, int] = Field(default_factory=dict, description="Counts by PRS method name")
 
 
 # --- Genetic Graph Tools Schemas ---

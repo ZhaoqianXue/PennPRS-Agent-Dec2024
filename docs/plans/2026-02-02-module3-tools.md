@@ -42,7 +42,7 @@
 import pytest
 from src.server.core.tool_schemas import (
     PGSSearchResult, PGSModelSummary,
-    PerformanceLandscape, MetricDistribution, TopPerformerSummary,
+    PerformanceLandscape, MetricDistribution,
     NeighborResult, RankedNeighbor,
     StudyPowerResult, CorrelationProvenance,
     MechanismValidation, SharedGene,
@@ -74,16 +74,17 @@ def test_performance_landscape_schema():
     dist = MetricDistribution(
         min=0.5, max=0.85, median=0.7, p25=0.65, p75=0.78, missing_count=2
     )
-    top = TopPerformerSummary(pgs_id="PGS000001", auc=0.85, r2=0.2, percentile_rank=98.0)
     landscape = PerformanceLandscape(
         total_models=10,
-        auc_distribution=dist,
-        r2_distribution=dist,
-        top_performer=top,
-        verdict_context="Top model is +15% above median"
+        ancestry={"EUR": 10},
+        sample_size=dist,
+        auc=dist,
+        r2=dist,
+        variants=dist,
+        training_development_cohorts={"UKB": 3},
+        prs_methods={"LDpred2": 10}
     )
     assert landscape.total_models == 10
-    assert landscape.top_performer.percentile_rank == 98.0
 
 def test_neighbor_result_schema():
     """Test NeighborResult for genetic graph."""

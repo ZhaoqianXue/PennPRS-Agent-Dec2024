@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ModelConfig:
     """Configuration for a single LLM model."""
-    model: str = "gpt-5-mini"
+    model: str = "gpt-5.2"
     temperature: float = 0.0
     max_tokens: Optional[int] = None
     timeout: Optional[int] = 30
@@ -73,7 +73,7 @@ class LLMConfig:
     # Used when no specific configuration is requested
     # =========================================================================
     DEFAULT = ModelConfig(
-        model="gpt-5-mini",
+        model="gpt-5.2",
         temperature=0.0,
         timeout=30
     )
@@ -84,7 +84,7 @@ class LLMConfig:
     # Purpose: Protein search and result interpretation
     # =========================================================================
     PROTEIN_WORKFLOW = ModelConfig(
-        model="gpt-5-mini",
+        model="gpt-5.2",
         temperature=0.0,
         timeout=30
     )
@@ -95,7 +95,7 @@ class LLMConfig:
     # Purpose: Disease/trait analysis, model recommendations
     # =========================================================================
     DISEASE_WORKFLOW = ModelConfig(
-        model="gpt-5-mini",
+        model="gpt-5.2",
         temperature=0.0,
         timeout=30
     )
@@ -106,7 +106,7 @@ class LLMConfig:
     # Purpose: Quick trait classification (Binary vs Continuous)
     # =========================================================================
     TRAIT_CLASSIFIER = ModelConfig(
-        model="gpt-5-mini",
+        model="gpt-5.2",
         temperature=0.0,
         timeout=30
     )
@@ -118,7 +118,7 @@ class LLMConfig:
     # Note: Uses JSON mode for structured output
     # =========================================================================
     AGENTIC_CLASSIFIER = ModelConfig(
-        model="gpt-5-mini",
+        model="gpt-5.2",
 
         temperature=0.0,
         timeout=60,
