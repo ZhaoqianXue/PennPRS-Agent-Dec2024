@@ -192,25 +192,56 @@ class MechanismValidation(BaseModel):
 
 class TrainingConfig(BaseModel):
     """
-    Result from pennprs_train_model tool.
+    Configuration for PennPRS training job.
     Implements sop.md L572-594 output specification.
     Human-in-the-Loop: UI displays form, user submits.
     Token Budget: ~300 tokens.
+    
+    Based on PennPRSClient.add_single_job parameters.
     """
     # Pre-filled by Agent
-    target_trait: str
-    recommended_method: str  # e.g., "LDpred2", "PRS-CS"
-    method_rationale: str  # Agent's reasoning for method choice
+    target_trait: str = Field(..., description="Disease/trait name")
+    recommended_method: str = Field(..., description="e.g., 'LDpred2', 'PRS-CS'")
+    method_rationale: str = Field(..., description="Agent's reasoning for method choice")
     
-    # Form fields (editable by user)
-    gwas_summary_stats: str  # URL or file path
-    ld_reference: str  # e.g., "1000G EUR"
-    ancestry: str  # Target population
-    validation_cohort: Optional[str] = None  # Optional
+    # PennPRS API fields
+    job_name: str = Field(..., description="Unique job identifier")
+    job_type: str = Field("single", description="'single' or 'multiple'")
+    job_methods: List[str] = Field(..., description="Methods to use: LDpred2, PRS-CS, Lassosum2, CT-pseudo")
+    job_ensemble: bool = Field(False, description="Whether to ensemble multiple methods")
+    
+    # Trait configuration
+    traits_source: str = Field("public", description="'public' (GCST ID) or 'user' (uploaded file)")
+    traits_detail: str = Field(..., description="GCST ID or 'FILE:filename'")
+    traits_type: str = Field(..., description="'binary' or 'continuous'")
+    traits_population: str = Field(..., description="Target population: EUR, EAS, AFR, etc.")
+    
+    # GWAS data
+    gwas_summary_stats: str = Field(..., description="GCST ID or file path")
+    ld_reference: str = Field("1000G EUR", description="LD reference panel")
+    ancestry: str = Field(..., description="Target ancestry for validation")
+    
+    # Parameters
+    para_dict: Dict[str, Any] = Field(default_factory=dict, description="Method-specific parameters")
     
     # Metadata
-    agent_confidence: str  # "High", "Moderate", "Low"
-    estimated_runtime: str  # e.g., "~2 hours"
+    agent_confidence: str = Field(..., description="'High', 'Moderate', 'Low'")
+    estimated_runtime: str = Field("~2 hours", description="Estimated job duration")
+    
+    # Optional
+    validation_cohort: Optional[str] = Field(None, description="Validation cohort name")
+
+
+class JobSubmissionResult(BaseModel):
+    """
+    Result from pennprs_train_model tool after successful submission.
+    """
+    success: bool
+    job_id: Optional[str] = None
+    job_name: str
+    status: str  # "submitted", "pending", "error"
+    message: str
+    config: TrainingConfig  # The configuration that was submitted
 
 
 # --- Error Schema ---

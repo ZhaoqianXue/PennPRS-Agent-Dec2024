@@ -157,7 +157,15 @@ class TestPennPRSSchemas:
             target_trait="Type 2 Diabetes",
             recommended_method="LDpred2",
             method_rationale="Best for polygenic traits with large GWAS",
-            gwas_summary_stats="https://example.com/gwas.txt",
+            job_name="T2D_20260202_001",
+            job_type="single",
+            job_methods=["LDpred2", "PRS-CS"],
+            job_ensemble=True,
+            traits_source="public",
+            traits_detail="GCST90014023",
+            traits_type="binary",
+            traits_population="EUR",
+            gwas_summary_stats="GCST90014023",
             ld_reference="1000G EUR",
             ancestry="EUR",
             validation_cohort="UKB",
@@ -166,6 +174,8 @@ class TestPennPRSSchemas:
         )
         assert config.recommended_method == "LDpred2"
         assert config.agent_confidence == "High"
+        assert config.job_ensemble is True
+        assert "LDpred2" in config.job_methods
 
     def test_training_config_optional_cohort(self):
         """Test TrainingConfig with optional validation_cohort."""
@@ -173,6 +183,14 @@ class TestPennPRSSchemas:
             target_trait="CAD",
             recommended_method="PRS-CS",
             method_rationale="Good for sparse effects",
+            job_name="CAD_001",
+            job_type="single",
+            job_methods=["PRS-CS"],
+            job_ensemble=False,
+            traits_source="public",
+            traits_detail="GCST12345",
+            traits_type="binary",
+            traits_population="EUR",
             gwas_summary_stats="file.txt",
             ld_reference="1000G EUR",
             ancestry="EUR",
