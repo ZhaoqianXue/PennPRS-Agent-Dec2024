@@ -47,6 +47,26 @@ class PGSSearchResult(BaseModel):
     models: List[PGSModelSummary]
 
 
+class KnowledgeSnippet(BaseModel):
+    """A snippet from domain knowledge search."""
+    source: str = Field(..., description="Source file or URL")
+    section: str = Field(..., description="Section heading")
+    content: str = Field(..., description="Relevant content snippet")
+    relevance_score: float = Field(0.0, description="Relevance to query (0-1)")
+
+
+class DomainKnowledgeResult(BaseModel):
+    """
+    Result from prs_model_domain_knowledge tool.
+    Implements sop.md L394-428 output specification.
+    Token Budget: ~300 tokens.
+    """
+    query: str
+    snippets: List[KnowledgeSnippet]
+    source_type: str = Field("local", description="'local' or 'web'")
+
+
+
 class MetricDistribution(BaseModel):
     """Statistical distribution for a performance metric."""
     min: float

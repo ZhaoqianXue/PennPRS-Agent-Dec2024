@@ -162,3 +162,141 @@ def _generate_verdict(
             return "Top model matches median AUC"
     else:
         return "Median AUC is zero - check data quality"
+
+
+# --- Domain Knowledge Tool ---
+
+# Default path to knowledge base
+import os
+KNOWLEDGE_BASE_PATH = os.path.join(
+    os.path.dirname(__file__), "..", "knowledge", "prs_model_domain_knowledge.md"
+)
+
+
+def prs_model_domain_knowledge(
+    query: str,
+    knowledge_file: Optional[str] = None,
+    max_snippets: int = 5
+):
+    """
+    Search domain knowledge for PRS model selection guidance.
+    
+    Implements sop.md L394-428 specification.
+    Currently uses local file retrieval; will upgrade to web search.
+    Token Budget: ~300 tokens.
+    
+    Args:
+        query: Search query (e.g., "LDpred2 best for", "ancestry considerations")
+        knowledge_file: Optional path to knowledge base file
+        max_snippets: Maximum snippets to return (default 5)
+        
+    Returns:
+        DomainKnowledgeResult with relevant snippets
+    """
+    from src.server.core.tool_schemas import DomainKnowledgeResult, KnowledgeSnippet
+    
+    kb_path = knowledge_file or KNOWLEDGE_BASE_PATH
+    
+    # Load knowledge base
+    try:
+        with open(kb_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except FileNotFoundError:
+        return DomainKnowledgeResult(
+            query=query,
+            snippets=[],
+            source_type="local"
+        )
+    
+    # Parse into sections
+    sections = _parse_markdown_sections(content)
+    
+    # Score and rank sections by relevance
+    query_terms = query.lower().split()
+    scored_sections = []
+    
+    for section_title, section_content in sections:
+        score = _calculate_relevance(query_terms, section_title, section_content)
+        if score > 0:
+            scored_sections.append((section_title, section_content, score))
+    
+    # Sort by score descending
+    scored_sections.sort(key=lambda x: x[2], reverse=True)
+    
+    # Build snippets
+    snippets = []
+    for title, content_text, score in scored_sections[:max_snippets]:
+        # Truncate content to reasonable length
+        truncated = content_text[:500] + "..." if len(content_text) > 500 else content_text
+        
+        snippet = KnowledgeSnippet(
+            source="prs_model_domain_knowledge.md",
+            section=title,
+            content=truncated,
+            relevance_score=min(score / 10.0, 1.0)  # Normalize to 0-1
+        )
+        snippets.append(snippet)
+    
+    return DomainKnowledgeResult(
+        query=query,
+        snippets=snippets,
+        source_type="local"
+    )
+
+
+def _parse_markdown_sections(content: str) -> List[tuple]:
+    """
+    Parse markdown content into sections.
+    
+    Returns:
+        List of (section_title, section_content) tuples
+    """
+    import re
+    
+    sections = []
+    current_title = "Introduction"
+    current_content = []
+    
+    for line in content.split('\n'):
+        # Check for headers (##, ###)
+        header_match = re.match(r'^(#{2,3})\s+(.+)$', line)
+        if header_match:
+            # Save previous section
+            if current_content:
+                sections.append((current_title, '\n'.join(current_content).strip()))
+            current_title = header_match.group(2)
+            current_content = []
+        else:
+            current_content.append(line)
+    
+    # Save last section
+    if current_content:
+        sections.append((current_title, '\n'.join(current_content).strip()))
+    
+    return sections
+
+
+def _calculate_relevance(query_terms: List[str], title: str, content: str) -> float:
+    """
+    Calculate relevance score between query and section.
+    
+    Simple keyword matching - can be upgraded to embeddings later.
+    """
+    combined = (title + " " + content).lower()
+    
+    score = 0.0
+    for term in query_terms:
+        if term in combined:
+            # Higher weight for title matches
+            if term in title.lower():
+                score += 3.0
+            else:
+                score += 1.0
+            
+            # Bonus for multiple occurrences
+            count = combined.count(term)
+            if count > 1:
+                score += min(count * 0.2, 2.0)
+    
+    return score
+

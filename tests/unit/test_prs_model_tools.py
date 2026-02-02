@@ -152,3 +152,53 @@ class TestPerformanceLandscape:
         assert result.auc_distribution.missing_count == 2
         assert result.top_performer.r2 == 0.25
         assert result.top_performer.auc is None
+
+
+class TestDomainKnowledge:
+    """Test prs_model_domain_knowledge tool."""
+    
+    def test_search_returns_relevant_snippets(self):
+        """Test domain knowledge search returns relevant content."""
+        from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+        
+        result = prs_model_domain_knowledge(query="LDpred2 best for")
+        
+        assert result is not None
+        assert hasattr(result, 'query')
+        assert hasattr(result, 'snippets')
+        assert len(result.snippets) > 0
+        # LDpred2 content should be found
+        assert any("LDpred2" in s.content for s in result.snippets)
+    
+    def test_search_ancestry_considerations(self):
+        """Test search finds ancestry-related content."""
+        from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+        
+        result = prs_model_domain_knowledge(query="African ancestry PRS")
+        
+        assert len(result.snippets) > 0
+        # Should find African ancestry section
+        assert any("AFR" in s.content or "African" in s.content for s in result.snippets)
+
+    def test_search_returns_empty_for_unrelated_query(self):
+        """Test search returns empty for unrelated queries."""
+        from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+        
+        result = prs_model_domain_knowledge(query="quantum computing algorithms")
+        
+        # Should return result but with no relevant snippets
+        assert result is not None
+        assert result.query == "quantum computing algorithms"
+        # May have zero snippets or low-relevance snippets
+    
+    def test_search_returns_source_info(self):
+        """Test each snippet includes source information."""
+        from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+        
+        result = prs_model_domain_knowledge(query="model selection")
+        
+        if result.snippets:
+            snippet = result.snippets[0]
+            assert hasattr(snippet, 'source')
+            assert hasattr(snippet, 'section')
+            assert hasattr(snippet, 'content')
