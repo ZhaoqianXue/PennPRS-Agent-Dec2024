@@ -169,6 +169,7 @@ class SharedGene(BaseModel):
     gene_id: str = Field(..., description="ENSG ID")
     source_association: float = Field(..., description="Disease A association score")
     target_association: float = Field(..., description="Disease B association score")
+    phewas_p_value: Optional[float] = Field(None, description="Significance of gene-phenotype association from PheWAS")
     druggability: str = Field(..., description="High, Medium, Low")
     pathways: List[str] = Field(default_factory=list)
 
@@ -184,6 +185,7 @@ class MechanismValidation(BaseModel):
     target_trait: str
     shared_genes: List[SharedGene]
     shared_pathways: List[str]
+    phewas_evidence_count: int = Field(0, description="Number of shared genes validated by PheWAS")
     mechanism_summary: str
     confidence_level: str  # High, Moderate, Low
 

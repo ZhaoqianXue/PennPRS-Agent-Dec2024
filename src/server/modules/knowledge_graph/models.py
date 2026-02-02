@@ -118,3 +118,5 @@ class PrioritizedNeighbor(BaseModel):
     h2: float = Field(..., description="Heritability of the correlated trait")
     score: float = Field(..., description="Weighted score: rg^2 * h2")
     p_value: float = Field(..., description="Significance P-value of genetic correlation")
+    rg_z: Optional[float] = Field(None, description="Z-score of genetic correlation")
+    n_correlations: int = Field(1, description="Number of correlations aggregated")

@@ -290,7 +290,9 @@ class KnowledgeGraphService:
                 rg=edge.rg_meta,
                 h2=neighbor_node.h2_meta,
                 score=score,
-                p_value=edge.rg_p_meta or 0.0
+                p_value=edge.rg_p_meta or 0.0,
+                rg_z=edge.rg_z_meta,
+                n_correlations=edge.n_correlations
             )
             prioritized.append(neighbor)
         

@@ -76,9 +76,9 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
         - *Purpose*: To identify and prioritize traits that share a significant genetic basis with the target trait, providing **ranked** candidates for cross-disease model recommendation. The deterministic ranking (genetic overlap weighted by signal strength) is applied automatically to avoid unnecessary tool call overhead.
     - **`genetic_graph_verify_study_power`**: Fetches detailed study-pair metadata (sample sizes, cohorts, populations) for a specific genetic correlation edge.
         - *Purpose*: To provide JIT context on the underlying statistical evidence of a correlation when the Agent needs to perform deep quality control on a specific cross-disease link. Loaded on-demand, not during initial neighbor discovery.
-    - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via Open Targets/PheWAS) to provide biological rationale for the correlation. **This tool is the Agent's "Biological Translator".**
+    - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org)) to provide biological rationale for the correlation. **This tool is the Agent's "Biological Translator".**
         - *Purpose*: The essence of this tool is to transform "statistical correlation" into "biological causal logic". When the system discovers that two diseases (e.g., Crohn's disease and Ulcerative colitis) have high genetic correlation ($r_g$), this tool digs into the underlying biological evidence:
-            1. **Find shared loci/genes**: By interfacing with Open Targets (drug target database) or PheWAS (phenome-wide association studies), identify which specific genes or genetic loci jointly control both diseases.
+            1. **Find shared loci/genes**: By interfacing with both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org), identify which specific genes or genetic loci jointly control both diseases.
             2. **Construct explanatory context**: It provides not just a number, but an "evidence list". For example: "Both diseases share the pathogenic pathway of the IL23R gene."
             3. **Justify model transfer**: If the Agent wants to apply Disease A's PRS model to Disease B, the "biological mechanism evidence" from this tool is the strongest justification. It transforms the Agent's decision from "blind attempt" to "evidence-based scientific inference".
         - *Summary*: It is the Agent's "biological translator", responsible for proving that cross-disease model recommendations are scientifically grounded in life science principles.
@@ -536,8 +536,8 @@ class CorrelationProvenance:
 |:---|:---|
 | **Input** | `source_trait: str`, `target_trait: str` — Trait pair to validate biologically |
 | **Output** | `MechanismValidation` — Shared genes/loci evidence |
-| **Data Source** | Open Targets Platform API, PheWAS Catalog |
-| **Dependency** | External API clients (to be implemented) |
+| **Data Source** | Open Targets Platform API, PheWAS Catalog (ExPheWAS API) |
+| **Dependency** | External API clients (Open Targets GraphQL, ExPheWAS REST) |
 | **JIT Loading** | Only called to justify cross-disease model transfer |
 | **Token Budget** | ~500 tokens (biological evidence summary) |
 
@@ -612,16 +612,16 @@ class TrainingConfig:
 #### Implementation Status
 
 - **Implemented**:
-    - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). Needs output filtering to `[Agent + UI]` fields.
-    - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool.
-    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Local file retrieval from `src/server/core/knowledge/prs_model_domain_knowledge.md`. Upgradable to web search.
+    - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). Implements hard-coded filtering to remove models without AUC/R2 and returns `[Agent + UI]` fields.
+    - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool for statistical distributions.
+    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Currently implements a local RAG (Retrieval-Augmented Generation) system using a curated Markdown knowledge base.
     - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.
     - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
-    - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Open Targets GraphQL API integration.
+    - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Integrated support for both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org).
     - `pennprs_train_model`: `src/server/core/tools/pennprs_tools.py` - Intelligent method recommendation + PennPRS API submission.
 
 - **Not Implemented**:
-    - None. All Module 3 tools are complete.
+    - **Web-Search for Domain Knowledge**: Integration with a web search API for live data retrieval from authoritative domains (transition from local RAG to real-time search).
 
 
 ### Module 4 - System Prompt

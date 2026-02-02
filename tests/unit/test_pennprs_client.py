@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from src.core.pennprs_client import PennPRSClient
+from src.server.core.pennprs_client import PennPRSClient
 
 class TestPennPRSClient(unittest.TestCase):
     def setUp(self):
         self.client = PennPRSClient(email="test@example.com")
 
-    @patch('src.core.pennprs_client.requests.post')
+    @patch('src.server.core.pennprs_client.requests.post')
     def test_add_single_job_success(self, mock_post):
         # Mock response
         mock_response = MagicMock()
@@ -33,7 +33,7 @@ class TestPennPRSClient(unittest.TestCase):
         self.assertEqual(result["job_id"], "12345")
         mock_post.assert_called_once()
         
-    @patch('src.core.pennprs_client.requests.get')
+    @patch('src.server.core.pennprs_client.requests.get')
     def test_get_job_status_success(self, mock_get):
         # Mock response
         mock_response = MagicMock()
@@ -50,7 +50,7 @@ class TestPennPRSClient(unittest.TestCase):
         # Assert
         self.assertEqual(status, "completed")
         
-    @patch('src.core.pennprs_client.requests.get')
+    @patch('src.server.core.pennprs_client.requests.get')
     def test_download_results_success(self, mock_get):
         # Mock response
         mock_response = MagicMock()

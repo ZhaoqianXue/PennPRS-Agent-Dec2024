@@ -4,6 +4,7 @@ Genetic Graph Tools for Module 3.
 Implements sop.md L464-562 tool specifications.
 """
 from typing import Union, Optional, List
+import logging
 from src.server.core.tool_schemas import (
     StudyPowerResult, NeighborResult, RankedNeighbor, ToolError,
     MechanismValidation, SharedGene
@@ -104,24 +105,16 @@ def genetic_graph_get_neighbors(
         for n in prioritized_neighbors[:limit]:
             # Get domain from trait node if available
             neighbor_node = kg_service.get_trait_node(n.trait_id)
-            domain = getattr(neighbor_node, 'domain', 'Unknown') if neighbor_node else 'Unknown'
-            
-            # Calculate rg_z_meta estimate (if not directly available)
-            # For PrioritizedNeighbor from v2, we don't have z directly stored
-            # We'll estimate or pass 0 for now - proper implementation would track this
-            rg_z_meta = 0.0  # Placeholder - full implementation would track this
-            
-            # n_correlations would come from the edge aggregator
-            n_correlations = 1  # Placeholder
+            domain = neighbor_node.domain if neighbor_node else "Unknown"
             
             neighbor = RankedNeighbor(
                 trait_id=n.trait_id,
                 domain=domain or "Unknown",
                 rg_meta=n.rg,
-                rg_z_meta=rg_z_meta,
+                rg_z_meta=n.rg_z or 0.0,
                 h2_meta=n.h2,
                 transfer_score=n.score,
-                n_correlations=n_correlations
+                n_correlations=n.n_correlations
             )
             neighbors.append(neighbor)
         
@@ -146,10 +139,11 @@ def genetic_graph_validate_mechanism(
     target_trait_efo: str,
     source_trait_name: str,
     target_trait_name: str,
-    top_n_genes: int = 50
+    top_n_genes: int = 50,
+    phewas_client = None
 ) -> Union[MechanismValidation, ToolError]:
     """
-    Validate biological mechanism between two traits via Open Targets.
+    Validate biological mechanism between two traits via Open Targets and PheWAS.
     
     Implements sop.md L532-560 specification.
     JIT Loading: Only called when Agent needs to justify cross-disease transfer.
@@ -165,6 +159,7 @@ def genetic_graph_validate_mechanism(
         source_trait_name: Human-readable source trait name
         target_trait_name: Human-readable target trait name
         top_n_genes: Number of top genes to compare (default 50)
+        phewas_client: Optional ExPheWAS client for cross-validation
         
     Returns:
         MechanismValidation with shared genes and pathways, or ToolError
@@ -184,6 +179,7 @@ def genetic_graph_validate_mechanism(
         # Build SharedGene list
         shared_genes = []
         all_pathways = set()
+        phewas_evidence_count = 0
         
         for gene_id in shared_gene_ids:
             source_info = source_map[gene_id]
@@ -210,6 +206,40 @@ def genetic_graph_validate_mechanism(
                 druggability=druggability,
                 pathways=pathways
             )
+            
+            # Cross-validate with PheWAS if client provided
+            if phewas_client:
+                try:
+                    phewas_results = phewas_client.get_gene_results(gene_id)
+                    significant_p = None
+                    
+                    # Match traits by keyword
+                    src_kw = source_trait_name.lower().split()
+                    tgt_kw = target_trait_name.lower().split()
+                    
+                    for res in phewas_results:
+                        # ExPheWAS API often uses 'p_value' and 'outcome_label' or similar
+                        p_val = res.get("p_value") or res.get("p-value") or res.get("pval")
+                        label = (res.get("outcome_label") or res.get("label") or 
+                                res.get("trait") or res.get("phenotype") or "")
+                        label_lower = str(label).lower()
+                        
+                        if p_val is not None and p_val < 0.05:
+                            # Check if label matches source or target trait keywords
+                            matches_src = any(kw in label_lower for kw in src_kw if len(kw) > 3)
+                            matches_tgt = any(kw in label_lower for kw in tgt_kw if len(kw) > 3)
+                            
+                            if matches_src or matches_tgt:
+                                significant_p = min(significant_p, p_val) if significant_p else p_val
+                    
+                    if significant_p is not None:
+                        shared_gene.phewas_p_value = significant_p
+                        phewas_evidence_count += 1
+                        
+                except Exception as e:
+                    # Log error but continue validation
+                    logging.getLogger(__name__).warning(f"PheWAS validation failed for {gene_id}: {e}")
+            
             shared_genes.append(shared_gene)
         
         # Sort by combined association score
@@ -232,6 +262,8 @@ def genetic_graph_validate_mechanism(
             summary = f"Both traits share {len(shared_genes)} gene(s). Top: {top_gene}."
             if all_pathways:
                 summary += f" Pathways: {', '.join(list(all_pathways)[:3])}"
+            if phewas_evidence_count > 0:
+                summary += f" Further validated by PheWAS evidence for {phewas_evidence_count} gene(s)."
         else:
             summary = "No shared genetic targets found in top-ranked associations."
         
@@ -240,6 +272,7 @@ def genetic_graph_validate_mechanism(
             target_trait=target_trait_name,
             shared_genes=shared_genes,
             shared_pathways=list(all_pathways),
+            phewas_evidence_count=phewas_evidence_count,
             mechanism_summary=summary,
             confidence_level=confidence
         )

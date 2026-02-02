@@ -202,3 +202,77 @@ class TestDomainKnowledge:
             assert hasattr(snippet, 'source')
             assert hasattr(snippet, 'section')
             assert hasattr(snippet, 'content')
+
+
+class TestPGSCatalogSearch:
+    """Test prs_model_pgscatalog_search tool."""
+    
+    def test_search_filters_models_without_metrics(self):
+        """Test that models with no performance metrics are filtered out."""
+        from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
+        from unittest.mock import Mock
+        
+        # Mock PGSCatalogClient
+        mock_client = Mock()
+        mock_client.search_scores.return_value = [
+            {"id": "PGS001"},
+            {"id": "PGS002"},
+            {"id": "PGS003"},
+        ]
+        
+        # Mock get_score_details
+        def mock_details(pgs_id):
+            return {
+                "id": pgs_id,
+                "trait_reported": "T2D",
+                "trait_efo": [{"label": "T2D"}],
+                "method_name": "LDpred2",
+                "variants_number": 100,
+                "ancestry_distribution": {"gwas": {"EUR": 1.0}},
+                "publication": {"title": "Test Pub"},
+                "date_release": "2020-01-01",
+                "samples_training": [{"sample_number": 1000}],
+            }
+        
+        # Mock get_score_performance
+        def mock_performance(pgs_id):
+            if pgs_id == "PGS001":
+                return [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.75}]}]
+            elif pgs_id == "PGS002":
+                return [{"effect_sizes": [{"name_short": "R2", "estimate": 0.15}]}]
+            else:  # PGS003 has no metrics
+                return []
+        
+        mock_client.get_score_details.side_effect = mock_details
+        mock_client.get_score_performance.side_effect = mock_performance
+        
+        result = prs_model_pgscatalog_search(mock_client, "Type 2 Diabetes")
+        
+        assert result.total_found == 3
+        assert result.after_filter == 2
+        assert len(result.models) == 2
+        assert result.models[0].id == "PGS001"
+        assert result.models[1].id == "PGS002"
+        assert result.models[0].performance_metrics["auc"] == 0.75
+        assert result.models[1].performance_metrics["r2"] == 0.15
+
+    def test_search_respects_limit(self):
+        """Test that the limit parameter is respected."""
+        from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
+        from unittest.mock import Mock
+        
+        mock_client = Mock()
+        mock_client.search_scores.return_value = [{"id": f"PGS{i:03d}"} for i in range(1, 11)]
+        
+        # All models have metrics
+        mock_client.get_score_performance.return_value = [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.75}]}]
+        mock_client.get_score_details.return_value = {
+            "id": "PGS001", "trait_reported": "T2D", "trait_efo": [], "method_name": "M",
+            "variants_number": 10, "ancestry_distribution": {}, "publication": {}, 
+            "date_release": "2020", "samples_training": []
+        }
+        
+        result = prs_model_pgscatalog_search(mock_client, "T2D", limit=5)
+        
+        assert len(result.models) == 5
+        assert result.total_found == 10

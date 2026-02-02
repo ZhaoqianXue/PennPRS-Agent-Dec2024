@@ -5,7 +5,7 @@ Tests verify the client correctly interfaces with the Open Targets GraphQL API.
 """
 
 import pytest
-from src.core.opentargets_client import OpenTargetsClient, SearchResult
+from src.server.core.opentargets_client import OpenTargetsClient, SearchResult
 
 
 class TestOpenTargetsClient:
@@ -104,6 +104,33 @@ class TestOpenTargetsClient:
         
         assert details is not None
         assert details.get("approvedSymbol") is not None or details.get("id") is not None
+
+    def test_get_disease_targets(self, client):
+        """Test fetching associated targets for a disease."""
+        # Crohn's disease
+        targets = client.get_disease_targets("EFO_0000384")
+        
+        assert isinstance(targets, list)
+        assert len(targets) > 0
+        assert "id" in targets[0]
+        assert "symbol" in targets[0]
+        assert "score" in targets[0]
+
+    def test_get_target_druggability(self, client):
+        """Test fetching druggability for a target."""
+        # IL23R
+        druggability = client.get_target_druggability("ENSG00000162594")
+        
+        assert druggability in ["High", "Medium", "Low", "Unknown"]
+
+    def test_get_target_pathways(self, client):
+        """Test fetching pathways for a target."""
+        # JAK2
+        pathways = client.get_target_pathways("ENSG00000096968")
+        
+        assert isinstance(pathways, list)
+        assert len(pathways) > 0
+        assert isinstance(pathways[0], str)
 
 
 if __name__ == "__main__":

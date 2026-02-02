@@ -79,6 +79,48 @@ query StudyQuery($studyId: String!) {
 }
 """
 
+# GraphQL query for disease associated targets
+ASSOCIATED_TARGETS_QUERY = """
+query DiseaseAssociatedTargets($efoId: String!) {
+  disease(efoId: $efoId) {
+    associatedTargets {
+      rows {
+        target {
+          id
+          approvedSymbol
+        }
+        score
+      }
+    }
+  }
+}
+"""
+
+# GraphQL query for target tractability (druggability)
+TARGET_TRACTABILITY_QUERY = """
+query TargetTractability($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    tractability {
+      label
+      modality
+      value
+    }
+  }
+}
+"""
+
+# GraphQL query for target pathways
+TARGET_PATHWAYS_QUERY = """
+query TargetPathways($ensemblId: String!) {
+  target(ensemblId: $ensemblId) {
+    pathways {
+      pathway
+      pathwayId
+    }
+  }
+}
+"""
+
 
 @dataclass
 class SearchResult:
@@ -379,6 +421,88 @@ class OpenTargetsClient:
         data = self._execute_query(TARGET_QUERY, variables)
         return data.get("target", {})
     
+    def get_disease_targets(self, efo_id: str) -> List[Dict[str, Any]]:
+        """
+        Get targets associated with a disease.
+        
+        Args:
+            efo_id: Disease ID (e.g., 'EFO_0000384')
+            
+        Returns:
+            List of associated targets with symbols and scores
+        """
+        variables = {"efoId": efo_id}
+        data = self._execute_query(ASSOCIATED_TARGETS_QUERY, variables)
+        disease_data = data.get("disease", {})
+        if not disease_data:
+            return []
+        
+        rows = disease_data.get("associatedTargets", {}).get("rows", [])
+        results = []
+        for row in rows:
+            target = row.get("target", {})
+            results.append({
+                "id": target.get("id"),
+                "symbol": target.get("approvedSymbol"),
+                "score": row.get("score")
+            })
+        return results
+
+    def get_target_druggability(self, ensembl_id: str) -> str:
+        """
+        Get tractability (druggability) assessment for a target.
+        
+        Args:
+            ensembl_id: Ensembl gene ID
+            
+        Returns:
+            String description of druggability (e.g., 'High', 'Medium', 'Low')
+        """
+        variables = {"ensemblId": ensembl_id}
+        data = self._execute_query(TARGET_TRACTABILITY_QUERY, variables)
+        target_data = data.get("target", {})
+        if not target_data:
+            return "Unknown"
+        
+        tractability = target_data.get("tractability", [])
+        # Simple heuristic: if any modality has 'value' true for high-level categories
+        # This can be refined based on specific needs
+        high_confidence = False
+        medium_confidence = False
+        
+        for item in tractability:
+            if item.get("value") is True:
+                label = item.get("label", "").lower()
+                if "clinical" in label or "approved" in label:
+                    high_confidence = True
+                elif "discovery" in label or "pre-clinical" in label:
+                    medium_confidence = True
+        
+        if high_confidence:
+            return "High"
+        if medium_confidence:
+            return "Medium"
+        return "Low"
+
+    def get_target_pathways(self, ensembl_id: str) -> List[str]:
+        """
+        Get pathways associated with a target.
+        
+        Args:
+            ensembl_id: Ensembl gene ID
+            
+        Returns:
+            List of pathway names
+        """
+        variables = {"ensemblId": ensembl_id}
+        data = self._execute_query(TARGET_PATHWAYS_QUERY, variables)
+        target_data = data.get("target", {})
+        if not target_data:
+            return []
+        
+        pathways = target_data.get("pathways", [])
+        return [p.get("pathway") for p in pathways if p.get("pathway")]
+
     def format_search_result_for_ui(self, result: SearchResult) -> Dict[str, Any]:
         """
         Format a search result for frontend display - FULL VERSION.

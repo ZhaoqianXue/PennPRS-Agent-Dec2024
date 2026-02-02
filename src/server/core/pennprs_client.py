@@ -45,7 +45,7 @@ class PennPRSClient:
             "traitsDetail": traits_detail,
             "traitsType": traits_type,
             "traitsName": traits_name,
-            "traitsPopoulation": traits_population,
+            "traitsPopulation": traits_population,
             "traitsCol": traits_col,
             "paraDict": para_dict or {}
         }

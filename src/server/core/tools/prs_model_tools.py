@@ -3,13 +3,122 @@
 PRS Model Tools for Module 3.
 Implements sop.md L356-462 tool specifications.
 """
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from statistics import median, quantiles
 from src.server.core.tool_schemas import (
     PGSModelSummary, PGSSearchResult,
     PerformanceLandscape, MetricDistribution, TopPerformerSummary,
     ToolError
 )
+
+
+def prs_model_pgscatalog_search(
+    client,  # PGSCatalogClient
+    trait_query: str,
+    limit: int = 10
+) -> PGSSearchResult:
+    """
+    Search for trait-specific PRS models and retrieve [Agent + UI] metadata.
+    
+    Implements sop.md L359-392 specification.
+    Hard-coded Filter: Remove models where AUC and R2 are both null.
+    Token Budget: ~500 tokens per model; max 10 models.
+    
+    Args:
+        client: PGSCatalogClient instance
+        trait_query: User's target trait (e.g., "Type 2 Diabetes")
+        limit: Max models to return (default 10)
+        
+    Returns:
+        PGSSearchResult with filtered models
+    """
+    # 1. Search for scores
+    search_results = client.search_scores(trait_query)
+    total_found = len(search_results)
+    
+    models = []
+    
+    # 2. Fetch details and performance for each score
+    for res in search_results:
+        if len(models) >= limit:
+            break
+            
+        pgs_id = res['id']
+        
+        # Get metadata and performance
+        details = client.get_score_details(pgs_id)
+        performance = client.get_score_performance(pgs_id)
+        
+        if not details:
+            continue
+            
+        # Extract performance metrics
+        auc = None
+        r2 = None
+        
+        # PGS Catalog performance search returns a list of results, each with effect_sizes
+        for p in performance:
+            for es in p.get("effect_sizes", []):
+                name = es.get("name_short", "").upper()
+                estimate = es.get("estimate")
+                if name == "AUC" and estimate is not None:
+                    auc = float(estimate)
+                elif (name == "R²" or name == "R2") and estimate is not None:
+                    r2 = float(estimate)
+        
+        # Hard-coded Filter: Remove models where both are null
+        if auc is None and r2 is None:
+            continue
+            
+        # Map to [Agent + UI] fields
+        summary = PGSModelSummary(
+            id=pgs_id,
+            trait_reported=details.get("trait_reported", "Unknown"),
+            trait_efo=", ".join([t.get("label", "") for t in details.get("trait_efo", [])]),
+            method_name=details.get("method_name", "Unknown"),
+            variants_number=details.get("variants_number", 0),
+            ancestry_distribution=_format_ancestry(details.get("ancestry_distribution", {})),
+            publication=details.get("publication", {}).get("title", "Unknown"),
+            date_release=details.get("date_release", "Unknown"),
+            samples_training=_format_samples(details.get("samples_training", [])),
+            performance_metrics={"auc": auc, "r2": r2},
+            phenotyping_reported=performance[0].get("phenotyping_reported", "Unknown") if performance else "Unknown",
+            covariates=performance[0].get("covariates", "Unknown") if performance else "Unknown",
+            sampleset=performance[0].get("sampleset", {}).get("name", "Unknown") if performance else "Unknown"
+        )
+        models.append(summary)
+        
+    return PGSSearchResult(
+        query_trait=trait_query,
+        total_found=total_found,
+        after_filter=len(models),
+        models=models
+    )
+
+
+def _format_ancestry(dist: Dict[str, Any]) -> str:
+    """Format ancestry distribution for LLM context."""
+    if not dist:
+        return "Unknown"
+    
+    parts = []
+    for stage in ["gwas", "dev", "eval"]:
+        if stage in dist:
+            stage_parts = []
+            for anc, weight in dist[stage].items():
+                stage_parts.append(f"{anc} ({weight*100:.0f}%)")
+            parts.append(f"{stage.upper()}: {', '.join(stage_parts)}")
+            
+    return " | ".join(parts) if parts else "Unknown"
+
+
+def _format_samples(samples: List[Dict[str, Any]]) -> str:
+    """Format training samples for LLM context."""
+    if not samples:
+        return "N/A"
+    
+    total_n = sum(s.get("sample_number", 0) for s in samples)
+    return f"n={total_n:,}"
 
 
 def prs_model_performance_landscape(models: List[PGSModelSummary]) -> PerformanceLandscape:

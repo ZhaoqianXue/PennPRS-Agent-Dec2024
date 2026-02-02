@@ -108,6 +108,8 @@ class TestGetNeighbors:
         neighbor1.h2 = 0.6
         neighbor1.score = 0.1215  # 0.45^2 * 0.6
         neighbor1.p_value = 1e-10
+        neighbor1.rg_z = 5.2
+        neighbor1.n_correlations = 3
         
         neighbor2 = Mock()
         neighbor2.trait_id = "Obesity"
@@ -116,6 +118,8 @@ class TestGetNeighbors:
         neighbor2.h2 = 0.5
         neighbor2.score = 0.0613  # 0.35^2 * 0.5
         neighbor2.p_value = 1e-8
+        neighbor2.rg_z = 4.1
+        neighbor2.n_correlations = 2
         
         service.get_prioritized_neighbors_v2.return_value = [neighbor1, neighbor2]
         
