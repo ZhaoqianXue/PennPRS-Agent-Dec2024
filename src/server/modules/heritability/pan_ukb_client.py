@@ -104,14 +104,17 @@ class PanUKBClient:
         if self.df.empty:
             return []
         
-        # Pan-UKB uses phenocode as the trait identifier
-        trait_col = self._find_column(['phenocode', 'description', 'phenotype', 'trait', 'pheno_name'])
-        if trait_col is None:
+        # Pan-UKB has both a machine-friendly identifier (phenocode) and a human-readable description.
+        # For text search we should prefer the description; phenocode is better for exact ID lookups.
+        name_col = self._find_column(['description', 'phenotype', 'trait', 'pheno_name'])
+        id_col = self._find_column(['phenocode', 'trait_id', 'pheno'])
+        match_col = name_col or id_col
+        if match_col is None:
             logger.error(f"No trait column found. Columns: {self.df.columns.tolist()}")
             return []
         
         # Fuzzy match
-        all_traits = self.df[trait_col].dropna().unique().tolist()
+        all_traits = self.df[match_col].dropna().unique().tolist()
         # Convert to strings for fuzzy matching
         all_traits = [str(t) for t in all_traits]
         matches = process.extract(trait, all_traits, scorer=fuzz.token_set_ratio, limit=limit)
@@ -121,7 +124,7 @@ class PanUKBClient:
             if score < min_score:
                 continue
                 
-            trait_rows = self.df[self.df[trait_col].astype(str) == match_trait]
+            trait_rows = self.df[self.df[match_col].astype(str) == match_trait]
             
             # Filter by ancestry if specified (Pan-UKB uses 'pop' column)
             pop_col = self._find_column(['pop', 'ancestry', 'population'])
@@ -144,8 +147,8 @@ class PanUKBClient:
                         population = str(row[pop_col])
                     
                     estimate = HeritabilityEstimate(
-                        trait_name=str(match_trait),
-                        trait_id=self._get_str(row, ['phenocode', 'trait_id', 'pheno']),
+                        trait_name=str(row[name_col]) if name_col and pd.notna(row.get(name_col)) else str(match_trait),
+                        trait_id=self._get_str(row, [c for c in [id_col, 'phenocode', 'trait_id', 'pheno'] if c]),
                         h2_obs=h2_obs,
                         h2_obs_se=self._get_float(row, [
                             'estimates.final.h2_observed_se',

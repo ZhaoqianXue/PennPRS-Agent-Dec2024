@@ -70,6 +70,12 @@ All LLM-powered agents in this project MUST use `gpt-5.2` as the default model u
 | Default Model | `gpt-5.2` |
 | Environment Variable | `OPENAI_MODEL` |
 
+### LLM Testing Strategy
+
+- During development and testing, the system SHOULD use a real OpenAI API key stored in the root `.env` file (for example `OPENAI_API_KEY=...`) so that LLM-related behavior is validated against the live API.
+- Automated or manual tests that exercise LLM calls are expected to run as **online tests** using this `.env` configuration, rather than offline mocks or stubs, unless a test explicitly documents an alternative strategy.
+- Application code and agents MUST read credentials exclusively from environment variables (never hard-code keys in the repository), and `.env` MUST NOT be committed to version control.
+
 ## AI File and Code Generation Standards
 
 ### Objective

@@ -782,7 +782,11 @@ ELSE:  # no direct models
 STEP 2A: CROSS-DISEASE TRANSFER
 1. Query genetic_graph_get_neighbors(target_trait) → neighbor_traits[]
 2. FOR each neighbor_trait:
-    - Resolve EFO IDs for target_trait and neighbor_trait (e.g., via PGS Catalog `trait_efo` or an Open Targets disease lookup) before mechanism validation.
+    - Resolve disease ontology IDs for target_trait and neighbor_trait before mechanism validation, using a multi-source strategy:
+        - Prefer PGS Catalog trait mapping first (PGS `/trait/search` results and/or score `trait_efo`).
+        - Only query Open Targets when PGS sources are missing or ambiguous (small score gap between top candidates).
+        - If still ambiguous, run `genetic_graph_validate_mechanism` on the top-N candidate IDs and choose the ID with the strongest mechanism evidence.
+        - Do not cache trait→ID mappings to avoid stale external ontology updates; rely on deterministic scoring and explicit ambiguity handling.
     - Call genetic_graph_validate_mechanism(target_trait, neighbor_trait) to provide biological rationale that supports the identified genetic correlation.
     - IF mechanism evidence is sufficient:
         - Call prs_model_pgscatalog_search(neighbor_trait)
@@ -897,17 +901,21 @@ The report structure varies by `recommendation_type`. Note that the "Train New M
 | Constraint | Implementation |
 |:---|:---|
 | **Prompt Altitude** | Encode high-level decision logic; avoid hardcoding specific thresholds (let LLM reason) |
-| **Attention via Recitation** | Scratchpad format pushes objectives into recent context |
+| **Attention via Recitation** | File-backed `todo.md` is updated and re-injected near the end of context (`output/agent_artifacts/todo_<id>.md`) |
 | **Persona Consistency** | Identity layer loaded at start of every conversation |
 | **Error Trace Retention** | Prompt instructs agent to acknowledge and reason about failed tool calls |
 | **JIT Context Loading** | Prompt guides agent to call deep-dive tools only when needed |
+| **File System as Context** | Large context payloads are externalized to `output/agent_artifacts/` and referenced by stable artifact metadata |
 
 #### Implementation Status
 
-- **Not Implemented**:
+- **Implemented**:
+    - **Centralized Prompts**: System prompts consolidated in `src/server/core/system_prompts.py`.
     - **Persona Definition**: Co-scientist voice/tone guidelines and boundary specifications.
-    - **Plan-and-Solve Prompt Structure**: The layered prompt architecture with workflow encoding.
-    - **Evaluation Reference Frame Logic**: Instructions for constructing scientific judgment criteria from three knowledge tools.
-    - **Scratchpad Format**: The `todo.md` style internal state tracking specification.
-    - **Output Report Schema**: JSON/Markdown templates for final recommendations.
-    - **Error Recovery Protocol**: Instructions for handling tool failures gracefully.
+    - **Plan-and-Solve Prompt Structure**: Layered prompt architecture with workflow encoding (Step 1 + Report prompts).
+    - **Evaluation Reference Frame Logic**: Explicit instructions to combine clinical consensus and performance landscape.
+    - **Scratchpad Format**: File-backed `todo.md` recitation via `src/server/core/recitation_todo.py` + `src/server/modules/disease/recommendation_agent.py`.
+    - **File System as Context**: Deterministic artifact externalization via `src/server/core/agent_artifacts.py` + `output/agent_artifacts/`.
+    - **Output Report Schema**: JSON template for final recommendations.
+    - **Error Recovery Protocol**: Tool failure handling and graceful fallback instructions.
+    - **Low-Mechanism Handling**: Weak mechanism evidence routed to alternatives with caveats.

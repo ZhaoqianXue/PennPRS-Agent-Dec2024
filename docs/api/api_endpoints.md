@@ -53,6 +53,61 @@ curl -X POST http://localhost:8000/agent/invoke \
 
 ---
 
+### Recommend PRS Models (Co-Scientist)
+
+**Endpoint**: `POST /agent/recommend`
+
+Generate a structured PRS model recommendation report using the co-scientist prompt.
+
+**Request Body**:
+```json
+{
+  "trait": "string"
+}
+```
+
+**Response**:
+```json
+{
+  "recommendation_type": "DIRECT_HIGH_QUALITY | DIRECT_SUB_OPTIMAL | CROSS_DISEASE | NO_MATCH_FOUND",
+  "primary_recommendation": {
+    "pgs_id": "PGS000025",
+    "source_trait": "string",
+    "confidence": "High | Moderate | Low",
+    "rationale": "string"
+  },
+  "alternative_recommendations": [],
+  "direct_match_evidence": {
+    "models_evaluated": 5,
+    "performance_metrics": {},
+    "clinical_benchmarks": []
+  },
+  "cross_disease_evidence": {
+    "source_trait": "string",
+    "rg_meta": 0.85,
+    "transfer_score": 0.72,
+    "related_traits_evaluated": [],
+    "shared_genes": [],
+    "biological_rationale": "string",
+    "source_trait_models": {
+      "models_found": 8,
+      "best_model_id": "PGS000XXX",
+      "best_model_auc": 0.78
+    }
+  },
+  "caveats_and_limitations": [],
+  "follow_up_options": [
+    {
+      "label": "Train New Model on PennPRS",
+      "action": "TRIGGER_PENNPRS_CONFIG",
+      "context": "string"
+    }
+  ]
+}
+```
+
+---
+
 ### Get Search Progress
 
 **Endpoint**: `GET /agent/progress/{request_id}`

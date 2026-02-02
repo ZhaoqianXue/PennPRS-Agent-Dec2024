@@ -22,6 +22,7 @@ from functools import lru_cache
 import time
 
 from src.server.core.llm_config import get_llm, get_config  # Centralized LLM config
+from src.server.core.system_prompts import STUDY_CLASSIFIER_SYSTEM_PROMPT
 
 
 
@@ -331,45 +332,7 @@ def try_heuristic_classification(
 # LLM-based Classifier
 # ============================================================================
 
-SYSTEM_PROMPT = """You are an expert geneticist and biostatistician specializing in GWAS (Genome-Wide Association Studies).
-Your task is to analyze GWAS study metadata and determine:
-1. Whether the trait is Binary (disease/case-control) or Continuous (quantitative measurement)
-2. The accurate sample size components
-
-CRITICAL RULES FOR CLASSIFICATION:
-
-## PRIMARY SIGNAL: Association Effect Type (MOST IMPORTANT!)
-Look at the "association_effects" field in the API context:
-- **If Beta values are reported (e.g., "Beta: 0.077")** → Study was analyzed as **CONTINUOUS** (linear regression)
-- **If OR values are reported (e.g., "OR: 1.25")** → Study was analyzed as **BINARY** (logistic regression)
-This is the most reliable indicator! Effect type overrides trait name.
-
-## Binary Traits (Report N_cases, N_controls, and calculate Neff)
-- Association effect is OR (Odds Ratio)
-- Sample description contains "cases" AND "controls"
-- True case/control diseases without family history proxy design
-
-## Continuous Traits (Report total N only)
-- Association effect is Beta coefficient
-- Quantitative measurements (e.g., "Height", "BMI", "Blood pressure")
-- Levels, concentrations, counts, ratios
-- **CRITICAL EXCEPTION**: "Family history" studies, "proxy-cases", "GWAX" analyses use Beta effects and should be classified as CONTINUOUS, even if the underlying phenotype is a disease
-- Any study where sample description shows only total N without case/control split
-
-## Ancestry Mapping
-- European, British, Finnish, German, French → EUR
-- African, African American, Afro-Caribbean → AFR
-- East Asian, Japanese, Chinese, Korean → EAS
-- South Asian, Indian, Pakistani → SAS
-- Hispanic, Latino, Latin American, Admixed American → AMR
-- Multiple ancestries → Use the dominant one
-
-## Sample Size Extraction
-- Parse the initialSampleSize field carefully
-- For Binary: Extract N_cases and N_controls, calculate Neff = 4 / (1/N_cases + 1/N_controls)
-- For Continuous: Use total N (look for "individuals" count)
-
-Respond with a valid JSON object matching the required schema."""
+SYSTEM_PROMPT = STUDY_CLASSIFIER_SYSTEM_PROMPT
 
 
 def create_classifier_chain():

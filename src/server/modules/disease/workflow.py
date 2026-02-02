@@ -88,69 +88,21 @@ def input_analysis(state: AgentState):
         
     return {"selected_trait": trait, "user_intent": "search", "next_node": "pgs_search"}
 
+from src.server.modules.disease.pgs_search_service import fetch_pgs_and_pennprs_metadata
+
 # Helper: Fetch and Format Models
 def _fetch_formatted_models(trait: str, request_id: str = None):
-    import concurrent.futures
-    import time
-    from src.server.core.state import search_progress # Import shared state
-    
-    # 1. Search PGS Catalog
-    if request_id and request_id in search_progress:
-        search_progress[request_id]["current_action"] = "Searching PGS Catalog..."
-    
-    t_start = time.time()
-    pgs_results = pgs_client.search_scores(trait)
-    print(f"[Timing] PGS Search (IDs): {time.time() - t_start:.4f}s")
-    
-    # 2. Search PennPRS Public Results
-    t_penn = time.time()
-    penn_results = client.search_public_results(trait)
-    print(f"[Timing] PennPRS Search: {time.time() - t_penn:.4f}s")
+    # Metadata fetch (capped + safer concurrency) moved to a testable service.
+    pgs_results, pgs_details_map, pgs_performance_map, penn_results, _pgs_total_found = fetch_pgs_and_pennprs_metadata(
+        trait,
+        pgs_client=pgs_client,
+        pennprs_client=client,
+        request_id=request_id
+    )
 
-    # Update total count (PGS + PennPRS)
-    if request_id and request_id in search_progress:
-        search_progress[request_id]["total"] = len(pgs_results) + len(penn_results)
-        search_progress[request_id]["status"] = "running"
-        search_progress[request_id]["current_action"] = "Fetching metadata..."
-    
     model_cards = []
-    
-    # Parallel Fetch details and performance for PGS Catalog (Unlimited)
-    t_details = time.time()
-    pgs_details_map = {}
-    pgs_performance_map = {}
-    
-    fetched_count = 0 
-    
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-        # Create a dictionary to map future to ID and type (details or performance)
-        future_to_req = {}
-        for res in pgs_results:
-             pid = res.get('id')
-             future_to_req[executor.submit(pgs_client.get_score_details, pid)] = (pid, 'details')
-             future_to_req[executor.submit(pgs_client.get_score_performance, pid)] = (pid, 'performance')
-        
-        for future in concurrent.futures.as_completed(future_to_req):
-            pid, req_type = future_to_req[future]
-            try:
-                data = future.result()
-                if req_type == 'details':
-                    pgs_details_map[pid] = data
-                    # Only increment count on details completion to avoid double counting
-                    fetched_count += 1
-                    if request_id and request_id in search_progress:
-                        search_progress[request_id]["fetched"] = fetched_count
-                        search_progress[request_id]["current_action"] = f"Fetching {pid}..."
 
-                else:
-                    pgs_performance_map[pid] = data
-            except Exception as exc:
-                print(f'{pid} {req_type} generated an exception: {exc}')
-
-    print(f"[Timing] Parallel Fetch Details & Perf ({len(pgs_results)} models): {time.time() - t_details:.4f}s")
-
-    # Add PGS Catalog Models (Unlimited)
-
+    # Add PGS Catalog Models (Possibly Capped)
     for res in pgs_results:
         pid = res.get('id')
         details = pgs_details_map.get(pid, {})

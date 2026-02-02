@@ -64,3 +64,56 @@ export interface KnowledgeGraphResult {
     nodes: KnowledgeGraphNode[];
     edges: GeneticCorrelationEdge[];
 }
+
+// --- Module 4: Recommendation Report ---
+
+export type RecommendationType =
+    | "DIRECT_HIGH_QUALITY"
+    | "DIRECT_SUB_OPTIMAL"
+    | "CROSS_DISEASE"
+    | "NO_MATCH_FOUND";
+
+export interface PrimaryRecommendation {
+    pgs_id?: string;
+    source_trait?: string;
+    confidence: "High" | "Moderate" | "Low";
+    rationale: string;
+}
+
+export interface DirectMatchEvidence {
+    models_evaluated: number;
+    performance_metrics: Record<string, unknown>;
+    clinical_benchmarks: string[];
+}
+
+export interface CrossDiseaseModelSummary {
+    models_found: number;
+    best_model_id?: string;
+    best_model_auc?: number;
+}
+
+export interface CrossDiseaseEvidence {
+    source_trait: string;
+    rg_meta?: number;
+    transfer_score?: number;
+    related_traits_evaluated: string[];
+    shared_genes: string[];
+    biological_rationale?: string;
+    source_trait_models?: CrossDiseaseModelSummary;
+}
+
+export interface FollowUpOption {
+    label: string;
+    action: string;
+    context: string;
+}
+
+export interface RecommendationReport {
+    recommendation_type: RecommendationType;
+    primary_recommendation?: PrimaryRecommendation | null;
+    alternative_recommendations: PrimaryRecommendation[];
+    direct_match_evidence?: DirectMatchEvidence | null;
+    cross_disease_evidence?: CrossDiseaseEvidence | null;
+    caveats_and_limitations: string[];
+    follow_up_options: FollowUpOption[];
+}

@@ -1,5 +1,6 @@
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
+from typing import Literal
 
 class TraitColumn(BaseModel):
     id: str = Field(..., description="ID of the trait/dataset")
@@ -39,6 +40,56 @@ class Report(BaseModel):
     performance_metrics: Dict[str, float]
     download_path: str
     created_at: str
+
+
+class PrimaryRecommendation(BaseModel):
+    pgs_id: Optional[str] = Field(default=None, description="PGS model identifier")
+    source_trait: Optional[str] = Field(default=None, description="Source trait for cross-disease transfer")
+    confidence: Literal["High", "Moderate", "Low"] = Field(..., description="Confidence level")
+    rationale: str = Field(..., description="Evidence-backed rationale")
+
+
+class DirectMatchEvidence(BaseModel):
+    models_evaluated: int = Field(..., description="Number of models assessed")
+    performance_metrics: Dict[str, Any] = Field(default_factory=dict, description="Global performance landscape")
+    clinical_benchmarks: List[str] = Field(default_factory=list, description="Clinical benchmarks or guidelines")
+
+
+class CrossDiseaseModelSummary(BaseModel):
+    models_found: int = Field(..., description="Number of models found for source trait")
+    best_model_id: Optional[str] = Field(default=None, description="Best model ID among source trait models")
+    best_model_auc: Optional[float] = Field(default=None, description="Best model AUC")
+
+
+class CrossDiseaseEvidence(BaseModel):
+    source_trait: str = Field(..., description="Neighbor trait used for transfer")
+    rg_meta: Optional[float] = Field(default=None, description="Meta-analyzed genetic correlation")
+    transfer_score: Optional[float] = Field(default=None, description="Transfer viability score")
+    related_traits_evaluated: List[str] = Field(default_factory=list, description="Traits evaluated for transfer")
+    shared_genes: List[str] = Field(default_factory=list, description="Shared genes supporting mechanism")
+    biological_rationale: Optional[str] = Field(default=None, description="Mechanism summary")
+    source_trait_models: Optional[CrossDiseaseModelSummary] = Field(default=None, description="Source trait model summary")
+
+
+class FollowUpOption(BaseModel):
+    label: str = Field(..., description="UI action label")
+    action: str = Field(..., description="UI action identifier")
+    context: str = Field(..., description="Additional context for the action")
+
+
+class RecommendationReport(BaseModel):
+    recommendation_type: Literal[
+        "DIRECT_HIGH_QUALITY",
+        "DIRECT_SUB_OPTIMAL",
+        "CROSS_DISEASE",
+        "NO_MATCH_FOUND"
+    ]
+    primary_recommendation: Optional[PrimaryRecommendation] = None
+    alternative_recommendations: List[PrimaryRecommendation] = Field(default_factory=list)
+    direct_match_evidence: Optional[DirectMatchEvidence] = None
+    cross_disease_evidence: Optional[CrossDiseaseEvidence] = None
+    caveats_and_limitations: List[str] = Field(default_factory=list)
+    follow_up_options: List[FollowUpOption] = Field(default_factory=list)
 
 class DiseaseState(BaseModel):
     messages: List[Dict[str, str]] = Field(default_factory=list, description="Conversation history")

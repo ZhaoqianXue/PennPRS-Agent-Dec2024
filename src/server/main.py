@@ -40,6 +40,10 @@ class AgentRequest(BaseModel):
     message: str
     request_id: str = None # Optional for backward compatibility
 
+
+class RecommendationRequest(BaseModel):
+    trait: str
+
 @app.get("/")
 async def root():
     return {"message": "PennPRS Agent is running"}
@@ -91,6 +95,17 @@ def invoke_agent(req: AgentRequest):
     response_text = last_msg.content if hasattr(last_msg, 'content') else str(last_msg)
     
     return {"response": response_text, "full_state": result}
+
+
+@app.post("/agent/recommend")
+def recommend_models_endpoint(req: RecommendationRequest):
+    """
+    Generate a PRS model recommendation report using the co-scientist agent.
+    """
+    from src.server.modules.disease.recommendation_agent import recommend_models
+
+    report = recommend_models(req.trait)
+    return report.model_dump()
 
 
 class TraitClassifyRequest(BaseModel):

@@ -146,12 +146,14 @@ _CONFIG_MAP = {
     "agentic_classifier": LLMConfig.AGENTIC_CLASSIFIER,
     "agentic_study_classifier": LLMConfig.AGENTIC_CLASSIFIER,
     # Literature Mining Module - Archived
-    # "literature_classifier": LLMConfig.LITERATURE_CLASSIFIER,
-    # "paper_classifier": LLMConfig.LITERATURE_CLASSIFIER,
-    # "literature_extractor": LLMConfig.LITERATURE_EXTRACTOR,
-    # "prs_extractor": LLMConfig.LITERATURE_EXTRACTOR,
-    # "heritability_extractor": LLMConfig.LITERATURE_EXTRACTOR,
-    # "genetic_correlation_extractor": LLMConfig.LITERATURE_EXTRACTOR,
+    # Compatibility aliases (some tests and scripts still expect these keys).
+    # They fall back to DEFAULT to avoid breaking import-time behavior.
+    "literature_classifier": LLMConfig.DEFAULT,
+    "paper_classifier": LLMConfig.DEFAULT,
+    "literature_extractor": LLMConfig.DEFAULT,
+    "prs_extractor": LLMConfig.DEFAULT,
+    "heritability_extractor": LLMConfig.DEFAULT,
+    "genetic_correlation_extractor": LLMConfig.DEFAULT,
     # Backward compatibility aliases
     "function3": LLMConfig.PROTEIN_WORKFLOW,
     "function3_workflow": LLMConfig.PROTEIN_WORKFLOW,

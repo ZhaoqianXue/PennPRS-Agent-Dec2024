@@ -3,6 +3,10 @@
 PRS Model Tools for Module 3.
 Implements sop.md L356-462 tool specifications.
 """
+import os
+import time
+import json
+from pathlib import Path
 from typing import List, Optional, Dict, Any, Iterable, Tuple
 from statistics import median, quantiles
 from src.server.core.tool_schemas import (
@@ -10,6 +14,7 @@ from src.server.core.tool_schemas import (
     PerformanceLandscape, MetricDistribution,
     ToolError
 )
+from src.server.core.agent_artifacts import get_artifacts_dir, stable_json_dumps
 
 
 def prs_model_pgscatalog_search(
@@ -35,6 +40,12 @@ def prs_model_pgscatalog_search(
     # 1. Search for scores
     search_results = client.search_scores(trait_query)
     total_found = len(search_results)
+
+    # Safety cap: avoid hydrating an unbounded number of PGS IDs (429 risk).
+    # This cap is independent of the final `limit` returned to the caller.
+    max_candidates = int(os.getenv("PGS_SEARCH_MAX_CANDIDATES", "60"))
+    if max_candidates >= 0:
+        search_results = search_results[:max_candidates]
     
     models = []
     
@@ -239,9 +250,39 @@ def prs_model_performance_landscape(
     Returns:
         PerformanceLandscape with global distributions (7 required categories)
     """
+    # Default safety caps: computing a true "global" landscape can be very expensive
+    # and can trigger API limits. Set env vars to 0 to disable the caps.
+    if max_scores is None:
+        default_max_scores = int(os.getenv("PGS_LANDSCAPE_MAX_SCORES", "2000"))
+        max_scores = None if default_max_scores <= 0 else default_max_scores
+    if max_performance_records is None:
+        default_max_perf = int(os.getenv("PGS_LANDSCAPE_MAX_PERFORMANCE_RECORDS", "5000"))
+        max_performance_records = None if default_max_perf <= 0 else default_max_perf
+
+    # Optional file cache for real PGS Catalog client usage only.
+    # Tests typically use a fake client (no BASE_URL attribute), so caching stays off.
+    cache_ttl_s = int(os.getenv("PGS_LANDSCAPE_CACHE_TTL_S", "86400"))
+    enable_cache = bool(os.getenv("PGS_LANDSCAPE_ENABLE_CACHE", "1") == "1")
+    is_real_client = bool(getattr(client, "BASE_URL", "").startswith("https://www.pgscatalog.org/"))
+    cache_path: Optional[Path] = None
+    if enable_cache and cache_ttl_s > 0 and is_real_client:
+        cache_path = get_artifacts_dir() / "pgs_performance_landscape_cache.json"
+        try:
+            if cache_path.exists():
+                raw = json.loads(cache_path.read_text(encoding="utf-8"))
+                ts = float(raw.get("created_at_epoch_s") or 0.0)
+                age = time.time() - ts
+                if age >= 0 and age <= cache_ttl_s:
+                    payload = raw.get("landscape")
+                    if isinstance(payload, dict):
+                        return PerformanceLandscape(**payload)
+        except Exception:
+            # Cache is best-effort only.
+            pass
+
     # Build performance index: PGS id -> best (auc, r2) across ALL performance records
     perf_best: Dict[str, Tuple[Optional[float], Optional[float]]] = {}
-    for rec in client.iter_all_performances(batch_size=500, max_records=max_performance_records):
+    for rec in client.iter_all_performances(batch_size=100, max_records=max_performance_records):
         pgs_id = rec.get("associated_pgs_id")
         if not pgs_id:
             continue
@@ -267,7 +308,7 @@ def prs_model_performance_landscape(
     method_counts: Dict[str, int] = {}
 
     total_scores = 0
-    for score in client.iter_all_scores(batch_size=200, max_scores=max_scores):
+    for score in client.iter_all_scores(batch_size=100, max_scores=max_scores):
         total_scores += 1
 
         pgs_id = score.get("id")
@@ -333,7 +374,7 @@ def prs_model_performance_landscape(
             prs_methods={}
         )
 
-    return PerformanceLandscape(
+    landscape = PerformanceLandscape(
         total_models=total_scores,
         ancestry=dict(sorted(ancestry_counts.items(), key=lambda x: x[1], reverse=True)),
         sample_size=_calculate_distribution(sample_size_vals, sample_size_missing),
@@ -343,6 +384,24 @@ def prs_model_performance_landscape(
         training_development_cohorts=dict(sorted(cohort_counts.items(), key=lambda x: x[1], reverse=True)),
         prs_methods=dict(sorted(method_counts.items(), key=lambda x: x[1], reverse=True))
     )
+
+    # Persist cache (best-effort) for real client usage.
+    if cache_path:
+        try:
+            cache_path.parent.mkdir(parents=True, exist_ok=True)
+            blob = {
+                "created_at_epoch_s": time.time(),
+                "caps": {
+                    "max_scores": max_scores,
+                    "max_performance_records": max_performance_records,
+                },
+                "landscape": landscape.model_dump(),
+            }
+            cache_path.write_text(stable_json_dumps(blob), encoding="utf-8")
+        except Exception:
+            pass
+
+    return landscape
     
     auc_vals: List[float] = []
     r2_vals: List[float] = []
