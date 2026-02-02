@@ -180,3 +180,98 @@ class TestGetNeighbors:
         
         # Should return at most 1 neighbor
         assert len(result.neighbors) <= 1
+
+
+class TestValidateMechanism:
+    """Test genetic_graph_validate_mechanism tool."""
+    
+    def test_returns_mechanism_validation(self):
+        """Test tool returns MechanismValidation with shared genes."""
+        from src.server.core.tools.genetic_graph_tools import genetic_graph_validate_mechanism
+        from src.server.core.tool_schemas import MechanismValidation
+        from unittest.mock import Mock, patch
+        
+        # Mock the Open Targets client
+        mock_ot_client = Mock()
+        
+        # Mock responses for two diseases
+        mock_ot_client.get_disease_targets.side_effect = [
+            # Crohn's disease targets
+            [
+                {"id": "ENSG00000162594", "symbol": "IL23R", "score": 0.92},
+                {"id": "ENSG00000096968", "symbol": "JAK2", "score": 0.85},
+                {"id": "ENSG00000117020", "symbol": "AKT3", "score": 0.75},
+            ],
+            # UC targets
+            [
+                {"id": "ENSG00000162594", "symbol": "IL23R", "score": 0.87},
+                {"id": "ENSG00000096968", "symbol": "JAK2", "score": 0.80},
+                {"id": "ENSG00000140105", "symbol": "WARS", "score": 0.70},
+            ]
+        ]
+        
+        # Mock druggability
+        mock_ot_client.get_target_druggability.return_value = "High"
+        mock_ot_client.get_target_pathways.return_value = ["IL-17 signaling"]
+        
+        result = genetic_graph_validate_mechanism(
+            ot_client=mock_ot_client,
+            source_trait_efo="EFO_0000384",  # Crohn's
+            target_trait_efo="EFO_0000729",  # UC
+            source_trait_name="Crohn's disease",
+            target_trait_name="Ulcerative colitis"
+        )
+        
+        assert isinstance(result, MechanismValidation)
+        assert result.source_trait == "Crohn's disease"
+        assert result.target_trait == "Ulcerative colitis"
+        assert len(result.shared_genes) >= 1  # At least IL23R and JAK2
+        
+        # Check shared genes include expected
+        gene_symbols = [g.gene_symbol for g in result.shared_genes]
+        assert "IL23R" in gene_symbols
+        assert "JAK2" in gene_symbols
+
+    def test_returns_tool_error_on_api_failure(self):
+        """Test tool returns ToolError when API fails."""
+        from src.server.core.tools.genetic_graph_tools import genetic_graph_validate_mechanism
+        from src.server.core.tool_schemas import ToolError
+        from unittest.mock import Mock
+        
+        mock_ot_client = Mock()
+        mock_ot_client.get_disease_targets.side_effect = ConnectionError("API unavailable")
+        
+        result = genetic_graph_validate_mechanism(
+            ot_client=mock_ot_client,
+            source_trait_efo="EFO_0000384",
+            target_trait_efo="EFO_0000729",
+            source_trait_name="Crohn's disease",
+            target_trait_name="Ulcerative colitis"
+        )
+        
+        assert isinstance(result, ToolError)
+        assert result.tool_name == "genetic_graph_validate_mechanism"
+
+    def test_handles_no_shared_genes(self):
+        """Test tool handles case when no genes are shared."""
+        from src.server.core.tools.genetic_graph_tools import genetic_graph_validate_mechanism
+        from src.server.core.tool_schemas import MechanismValidation
+        from unittest.mock import Mock
+        
+        mock_ot_client = Mock()
+        mock_ot_client.get_disease_targets.side_effect = [
+            [{"id": "ENSG00000001", "symbol": "GENE_A", "score": 0.9}],
+            [{"id": "ENSG00000002", "symbol": "GENE_B", "score": 0.9}],
+        ]
+        
+        result = genetic_graph_validate_mechanism(
+            ot_client=mock_ot_client,
+            source_trait_efo="EFO_0001",
+            target_trait_efo="EFO_0002",
+            source_trait_name="Disease A",
+            target_trait_name="Disease B"
+        )
+        
+        assert isinstance(result, MechanismValidation)
+        assert len(result.shared_genes) == 0
+        assert result.confidence_level == "Low"
