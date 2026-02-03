@@ -5,6 +5,7 @@ langchain
 langchain-openai
 pydantic
 requests
+aiohttp
 python-dotenv
 pytest
 httpx

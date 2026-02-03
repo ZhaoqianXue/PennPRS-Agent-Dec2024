@@ -71,6 +71,24 @@ class CrossDiseaseEvidence(BaseModel):
     source_trait_models: Optional[CrossDiseaseModelSummary] = Field(default=None, description="Source trait model summary")
 
 
+class StudyPowerSummary(BaseModel):
+    n_correlations: int = Field(..., description="Number of study-pair correlations aggregated")
+    rg_meta: Optional[float] = Field(default=None, description="Meta-analyzed genetic correlation")
+
+
+class GeneticGraphEvidence(BaseModel):
+    neighbor_trait: str = Field(..., description="Genetically correlated trait")
+    rg_meta: Optional[float] = Field(default=None, description="Meta-analyzed genetic correlation")
+    transfer_score: Optional[float] = Field(default=None, description="Transfer viability score")
+    neighbor_models_found: int = Field(default=0, description="Number of PRS models found for neighbor trait")
+    neighbor_best_model_id: Optional[str] = Field(default=None, description="Best neighbor model ID")
+    neighbor_best_model_auc: Optional[float] = Field(default=None, description="Best neighbor model AUC")
+    mechanism_confidence: Optional[str] = Field(default=None, description="Mechanism confidence")
+    mechanism_summary: Optional[str] = Field(default=None, description="Mechanism summary")
+    shared_genes: List[str] = Field(default_factory=list, description="Top shared genes (if available)")
+    study_power: Optional[StudyPowerSummary] = Field(default=None, description="Study power summary")
+
+
 class FollowUpOption(BaseModel):
     label: str = Field(..., description="UI action label")
     action: str = Field(..., description="UI action identifier")
@@ -88,6 +106,10 @@ class RecommendationReport(BaseModel):
     alternative_recommendations: List[PrimaryRecommendation] = Field(default_factory=list)
     direct_match_evidence: Optional[DirectMatchEvidence] = None
     cross_disease_evidence: Optional[CrossDiseaseEvidence] = None
+    genetic_graph_evidence: List[GeneticGraphEvidence] = Field(default_factory=list)
+    genetic_graph_ran: bool = Field(default=False, description="Whether genetic graph tools were executed")
+    genetic_graph_neighbors: List[str] = Field(default_factory=list, description="Neighbor traits returned by genetic_graph_get_neighbors")
+    genetic_graph_errors: List[str] = Field(default_factory=list, description="Errors from genetic graph tools, if any")
     caveats_and_limitations: List[str] = Field(default_factory=list)
     follow_up_options: List[FollowUpOption] = Field(default_factory=list)
 

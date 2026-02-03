@@ -8,7 +8,9 @@ Features:
 - Weighted Scoring (rg^2 * h2)
 - NEW: Trait-Centric Graph with Meta-Analysis aggregation
 """
-from typing import List, Optional, Union, Dict
+from typing import List, Optional, Union, Dict, Any, Tuple
+import os
+import re
 import pandas as pd
 from src.server.modules.genetic_correlation.gwas_atlas_client import GWASAtlasGCClient
 from src.server.modules.heritability.gwas_atlas_client import GWASAtlasClient as HeritabilityClient
@@ -57,6 +59,225 @@ class KnowledgeGraphService:
         # Support both new and legacy parameter names
         self.gc_client = gc_client or client or GWASAtlasGCClient()
         self.h2_client = h2_client or HeritabilityClient()
+
+        # Cache heavy aggregators (EdgeAggregator preprocess is O(N) over GC pairs).
+        # Without caching, every neighbor query re-processes ~1.4M rows, making the tool unusably slow.
+        self._trait_aggregator: Optional[TraitAggregator] = None
+        self._edge_aggregator: Optional[EdgeAggregator] = None
+        self._id_to_trait: Optional[Dict[int, str]] = None
+
+        # Trait resolution caches (user query -> canonical uniqTrait).
+        # This is used to make the Genetic Graph tools robust to free-form user trait strings.
+        self._trait_alias_strings: Optional[List[str]] = None
+        self._trait_alias_to_canonical: Optional[Dict[str, List[str]]] = None
+        self._canonical_meta: Optional[Dict[str, Dict[str, Any]]] = None
+        self._trait_resolution_cache: Dict[str, Dict[str, Any]] = {}
+
+    @staticmethod
+    def _normalize_trait_text(text: str) -> str:
+        """
+        Normalize a free-form trait string for lookup.
+
+        This is intentionally conservative (no aggressive stopword stripping) to keep behavior
+        high-transferable across many trait types (disease, biomarker, behavior, etc.).
+        """
+        cleaned = re.sub(r"[^a-z0-9]+", " ", (text or "").lower())
+        cleaned = re.sub(r"\s+", " ", cleaned).strip()
+        return cleaned
+
+    @classmethod
+    def _informative_tokens(cls, text: str) -> List[str]:
+        """
+        Extract "informative" tokens for semantic matching.
+
+        This helps avoid brittle mappings where a generic subset string (e.g., "Cancer")
+        outranks a specific query (e.g., "Esophageal cancer") under token_set_ratio.
+        """
+        stop = {
+            # Generic biomedical words
+            "disease", "syndrome", "disorder", "trait", "condition",
+            # Neoplasm generic terms
+            "cancer", "carcinoma", "tumor", "tumour", "neoplasm", "malignant", "benign",
+            # Common boilerplate tokens in GWAS Atlas labels
+            "diagnoses", "diagnosis", "main", "icd", "icd10", "history", "illnesses", "illness",
+            # English stopwords
+            "of", "and", "the", "a", "an", "in", "on", "at", "for", "to", "with", "without",
+        }
+        tokens = [t for t in cls._normalize_trait_text(text).split() if len(t) > 2 and t not in stop]
+        return tokens
+
+    def _ensure_trait_alias_index(self) -> bool:
+        """
+        Build a lightweight alias index from the heritability table:
+        - aliases include both `uniqTrait` (canonical) and `Trait` (display label)
+        - each alias maps to one or more canonical `uniqTrait` IDs
+        - meta provides domain/chapter for LLM disambiguation
+        """
+        if self._trait_alias_strings is not None and self._trait_alias_to_canonical is not None and self._canonical_meta is not None:
+            return True
+
+        h2_df = self.h2_client.df
+        if h2_df.empty:
+            self._trait_alias_strings = []
+            self._trait_alias_to_canonical = {}
+            self._canonical_meta = {}
+            return False
+
+        if "uniqTrait" not in h2_df.columns:
+            logger.warning("Heritability table missing 'uniqTrait' column; trait resolution disabled.")
+            self._trait_alias_strings = []
+            self._trait_alias_to_canonical = {}
+            self._canonical_meta = {}
+            return False
+
+        alias_to_canon: Dict[str, set] = {}
+        alias_strings: set = set()
+        canonical_meta: Dict[str, Dict[str, Any]] = {}
+
+        # Prefer itertuples for speed.
+        cols = ["uniqTrait"]
+        if "Trait" in h2_df.columns:
+            cols.append("Trait")
+        if "Domain" in h2_df.columns:
+            cols.append("Domain")
+        if "ChapterLevel" in h2_df.columns:
+            cols.append("ChapterLevel")
+
+        for row in h2_df[cols].itertuples(index=False):
+            canonical = getattr(row, "uniqTrait", None)
+            if canonical is None:
+                continue
+            canonical = str(canonical).strip()
+            if not canonical:
+                continue
+
+            label = getattr(row, "Trait", None) if hasattr(row, "Trait") else None
+            label = str(label).strip() if label is not None else ""
+
+            domain = getattr(row, "Domain", None) if hasattr(row, "Domain") else None
+            chapter = getattr(row, "ChapterLevel", None) if hasattr(row, "ChapterLevel") else None
+
+            if canonical not in canonical_meta:
+                canonical_meta[canonical] = {
+                    "label": label or canonical,
+                    "domain": str(domain).strip() if domain is not None else None,
+                    "chapter_level": str(chapter).strip() if chapter is not None else None,
+                }
+
+            # Add canonical and label as aliases.
+            for alias in {canonical, label}:
+                if not alias:
+                    continue
+                alias = str(alias).strip()
+                if not alias:
+                    continue
+                alias_strings.add(alias)
+                norm = self._normalize_trait_text(alias)
+                if not norm:
+                    continue
+                alias_to_canon.setdefault(norm, set()).add(canonical)
+
+        self._trait_alias_strings = sorted(alias_strings)
+        self._trait_alias_to_canonical = {k: sorted(list(v)) for k, v in alias_to_canon.items()}
+        self._canonical_meta = canonical_meta
+        return True
+
+    def resolve_trait_id(
+        self,
+        query_trait: str,
+        *,
+        max_candidates: int = 8
+    ) -> Dict[str, Any]:
+        """
+        Resolve a free-form trait string to the Knowledge Graph canonical `uniqTrait`.
+
+        Only performs exact/alias matching (no fuzzy matching).
+        For semantic expansion, use trait_synonym_expand instead.
+
+        Returns:
+            Dict with keys:
+              - resolved_trait_id: Optional[str]
+              - method: str (exact|alias|none)
+              - confidence: str (High|Moderate|Low)
+              - candidates: List[Dict[str, Any]] (top candidates with scores/meta)
+              - rationale: str (English)
+        """
+        self._ensure_trait_alias_index()
+        norm_q = self._normalize_trait_text(query_trait)
+        if not norm_q or not self._trait_alias_to_canonical or not self._canonical_meta:
+            return {
+                "resolved_trait_id": None,
+                "method": "none",
+                "confidence": "Low",
+                "candidates": [],
+                "rationale": "Heritability trait index is unavailable or query is empty.",
+            }
+
+        # Cache by normalized query to avoid repeated LLM calls.
+        cached = self._trait_resolution_cache.get(norm_q)
+        if cached:
+            return cached
+
+        canon_hits = self._trait_alias_to_canonical.get(norm_q, [])
+        if len(canon_hits) == 1:
+            resolved = canon_hits[0]
+            out = {
+                "resolved_trait_id": resolved,
+                "method": "alias",
+                "confidence": "High",
+                "candidates": [{"trait_id": resolved, "score": 100, **(self._canonical_meta.get(resolved) or {})}],
+                "rationale": "Exact alias match after normalization.",
+            }
+            self._trait_resolution_cache[norm_q] = out
+            return out
+
+        if len(canon_hits) > 1:
+            # Multiple canonicals share the same normalized alias; treat as ambiguous.
+            candidates = [
+                {"trait_id": t, "score": 100, **(self._canonical_meta.get(t) or {})}
+                for t in canon_hits[:max_candidates]
+            ]
+            out = {
+                "resolved_trait_id": canon_hits[0],
+                "method": "alias",
+                "confidence": "Low",
+                "candidates": candidates,
+                "rationale": "Multiple canonical traits match the same normalized alias; defaulting to first candidate.",
+            }
+            self._trait_resolution_cache[norm_q] = out
+            return out
+
+        # No exact/alias match found - return None
+        # Fuzzy matching removed: trait_synonym_expand already handles semantic expansion
+        out = {
+            "resolved_trait_id": None,
+            "method": "none",
+            "confidence": "Low",
+            "candidates": [],
+            "rationale": "No exact or alias match found. Use trait_synonym_expand for semantic expansion.",
+        }
+        self._trait_resolution_cache[norm_q] = out
+        return out
+
+    def _ensure_aggregators(self) -> bool:
+        """
+        Lazily build and cache aggregators used by trait-centric APIs.
+
+        Returns:
+            True if aggregators are ready, False if required datasets are empty.
+        """
+        if self._trait_aggregator is not None and self._edge_aggregator is not None and self._id_to_trait is not None:
+            return True
+
+        h2_df = self.h2_client.df
+        gc_df = self.gc_client._data if hasattr(self.gc_client, "_data") else pd.DataFrame()
+        if h2_df.empty or gc_df.empty:
+            return False
+
+        self._trait_aggregator = TraitAggregator(h2_df=h2_df)
+        self._id_to_trait = self._trait_aggregator.get_id_to_trait_map()
+        self._edge_aggregator = EdgeAggregator(gc_df=gc_df, id_to_trait_map=self._id_to_trait)
+        return True
 
     def _get_heritability(self, trait_name: str) -> Optional[HeritabilityEstimate]:
         """
@@ -216,9 +437,9 @@ class KnowledgeGraphService:
         h2_df = self.h2_client.df
         if h2_df.empty:
             return None
-        
-        aggregator = TraitAggregator(h2_df=h2_df)
-        return aggregator.get_trait_node(trait_id)
+        if self._trait_aggregator is None:
+            self._trait_aggregator = TraitAggregator(h2_df=h2_df)
+        return self._trait_aggregator.get_trait_node(trait_id)
     
     def get_prioritized_neighbors_v2(
         self,
@@ -243,18 +464,15 @@ class KnowledgeGraphService:
             List of PrioritizedNeighbor sorted by score descending.
             Only neighbors passing both Z-score filters are included.
         """
-        h2_df = self.h2_client.df
-        gc_df = self.gc_client._data if hasattr(self.gc_client, '_data') else pd.DataFrame()
-        
-        if h2_df.empty or gc_df.empty:
+        if not self._ensure_aggregators():
             return []
-        
-        # Build aggregators
-        trait_aggregator = TraitAggregator(h2_df=h2_df)
-        id_to_trait = trait_aggregator.get_id_to_trait_map()
-        edge_aggregator = EdgeAggregator(gc_df=gc_df, id_to_trait_map=id_to_trait)
-        
-        # Get neighbor traits
+
+        trait_aggregator = self._trait_aggregator
+        edge_aggregator = self._edge_aggregator
+        if trait_aggregator is None or edge_aggregator is None:
+            return []
+
+        # Get neighbor traits (O(1) lookup after EdgeAggregator preprocess).
         neighbor_traits = edge_aggregator.get_neighbor_traits(trait_id)
         
         prioritized = []

@@ -6,15 +6,19 @@ Implements sop.md L356-462 tool specifications.
 import os
 import time
 import json
+import logging
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Iterable, Tuple
 from statistics import median, quantiles
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.server.core.tool_schemas import (
     PGSModelSummary, PGSSearchResult,
     PerformanceLandscape, MetricDistribution,
     ToolError
 )
 from src.server.core.agent_artifacts import get_artifacts_dir, stable_json_dumps
+
+logger = logging.getLogger(__name__)
 
 
 def prs_model_pgscatalog_search(
@@ -32,7 +36,7 @@ def prs_model_pgscatalog_search(
     Args:
         client: PGSCatalogClient instance
         trait_query: User's target trait (e.g., "Type 2 Diabetes")
-        limit: Max models to return (default 10)
+        limit: Max models to return (default 25)
         
     Returns:
         PGSSearchResult with filtered models
@@ -49,17 +53,43 @@ def prs_model_pgscatalog_search(
     
     models = []
     
-    # 2. Fetch details/performance for ALL candidate IDs (up to client-side cap),
+    # 2. Fetch details/performance for ALL candidate IDs (up to client-side cap) CONCURRENTLY,
     #    then rank and slice. This makes "topN" deterministic and meaningful.
+    #    Optimized for speed: use concurrent fetching like pgs_search_service.py
     candidates: List[PGSModelSummary] = []
-    for res in search_results:
-        pgs_id = res["id"]
-
-        details = client.get_score_details(pgs_id)
-        performance = client.get_score_performance(pgs_id)
+    pgs_ids = [res["id"] for res in search_results]
+    
+    # Fetch details and performance concurrently (like pgs_search_service.py)
+    max_workers = int(os.getenv("PGS_FETCH_MAX_WORKERS", "4"))
+    details_map: Dict[str, Dict[str, Any]] = {}
+    performance_map: Dict[str, List[Dict[str, Any]]] = {}
+    
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_pid: Dict[Any, Tuple[str, str]] = {}
+        for pgs_id in pgs_ids:
+            future_to_pid[executor.submit(client.get_score_details, pgs_id)] = (pgs_id, "details")
+            future_to_pid[executor.submit(client.get_score_performance, pgs_id)] = (pgs_id, "performance")
+        
+        for future in as_completed(future_to_pid):
+            pgs_id, req_type = future_to_pid[future]
+            try:
+                data = future.result()
+                if req_type == "details":
+                    if data:  # Only store non-empty details
+                        details_map[pgs_id] = data
+                else:  # performance
+                    performance_map[pgs_id] = data or []
+            except Exception as e:
+                logger.debug(f"Failed to fetch {req_type} for {pgs_id}: {e}")
+                continue
+    
+    # Process fetched data
+    for pgs_id in pgs_ids:
+        details = details_map.get(pgs_id)
         if not details:
             continue
-
+        
+        performance = performance_map.get(pgs_id, [])
         auc, r2 = _extract_auc_r2_from_performance_records(performance)
 
         # Hard-coded Filter: Remove models where both are null
@@ -67,6 +97,18 @@ def prs_model_pgscatalog_search(
             continue
 
         cohorts = _extract_cohorts(details)
+
+        phenotyping_reported = "Unknown"
+        covariates = "Unknown"
+        sampleset = "Unknown"
+        if performance:
+            first = performance[0] if isinstance(performance[0], dict) else {}
+            phenotyping_reported = first.get("phenotyping_reported") or "Unknown"
+            covariates = first.get("covariates") or "Unknown"
+            ss = first.get("sampleset") or {}
+            if isinstance(ss, dict):
+                sampleset = ss.get("name") or ss.get("id") or "Unknown"
+
         summary = PGSModelSummary(
             id=pgs_id,
             trait_reported=details.get("trait_reported", "Unknown"),
@@ -78,33 +120,92 @@ def prs_model_pgscatalog_search(
             date_release=details.get("date_release", "Unknown"),
             samples_training=_format_samples(details.get("samples_training", [])),
             performance_metrics={"auc": auc, "r2": r2},
-            phenotyping_reported=performance[0].get("phenotyping_reported", "Unknown") if performance else "Unknown",
-            covariates=performance[0].get("covariates", "Unknown") if performance else "Unknown",
-            sampleset=performance[0].get("sampleset", {}).get("name", "Unknown") if performance else "Unknown",
+            phenotyping_reported=phenotyping_reported,
+            covariates=covariates,
+            sampleset=sampleset,
             training_development_cohorts=cohorts
         )
         candidates.append(summary)
 
-    # Ranking rule (deterministic):
-    # 1) AUC desc (None -> -inf)
-    # 2) R2 desc (None -> -inf)
-    # 3) training sample size desc (parsed from "n=...")
-    # 4) variants_number desc
-    # 5) stable tie-break by PGS id asc
-    def _rank_key(m: PGSModelSummary) -> Tuple[float, float, float, float, str]:
-        auc = m.performance_metrics.get("auc")
-        r2 = m.performance_metrics.get("r2")
-        n = _parse_sample_size(m.samples_training)
-        return (
-            float(auc) if auc is not None else float("-inf"),
-            float(r2) if r2 is not None else float("-inf"),
-            float(n) if n is not None else float("-inf"),
-            float(m.variants_number),
-            m.id
-        )
-
-    candidates.sort(key=_rank_key, reverse=True)
-    models = candidates[:limit]
+    # Ranking rule (deterministic) using Z-score normalization:
+    # All four metrics (AUC, R², training sample size, variants_number) have equal weight.
+    # Each metric is standardized using Z-score: z = (x - mean) / std
+    # Final score = z_auc + z_r2 + z_samples + z_variants (higher is better)
+    # Tie-break by PGS id asc for stability
+    
+    if not candidates:
+        models = []
+    else:
+        # Collect all values for Z-score calculation
+        auc_values = []
+        r2_values = []
+        sample_values = []
+        variant_values = []
+        
+        for m in candidates:
+            auc = m.performance_metrics.get("auc")
+            r2 = m.performance_metrics.get("r2")
+            n = _parse_sample_size(m.samples_training)
+            
+            if auc is not None:
+                auc_values.append(float(auc))
+            if r2 is not None:
+                r2_values.append(float(r2))
+            if n is not None:
+                sample_values.append(float(n))
+            variant_values.append(float(m.variants_number))
+        
+        # Calculate means and standard deviations
+        def _mean_std(values: List[float]) -> Tuple[float, float]:
+            if not values:
+                return 0.0, 1.0
+            mean_val = sum(values) / len(values)
+            if len(values) == 1:
+                return mean_val, 1.0
+            variance = sum((x - mean_val) ** 2 for x in values) / len(values)
+            std_val = variance ** 0.5
+            return mean_val, std_val if std_val > 0 else 1.0
+        
+        auc_mean, auc_std = _mean_std(auc_values)
+        r2_mean, r2_std = _mean_std(r2_values)
+        sample_mean, sample_std = _mean_std(sample_values)
+        variant_mean, variant_std = _mean_std(variant_values)
+        
+        # Calculate Z-score for each candidate and compute composite score
+        def _rank_key(m: PGSModelSummary) -> Tuple[float, str]:
+            auc = m.performance_metrics.get("auc")
+            r2 = m.performance_metrics.get("r2")
+            n = _parse_sample_size(m.samples_training)
+            
+            # Z-score normalization
+            # If value is None, assign it the minimum z-score (penalize missing values)
+            # This ensures missing values rank lower than any actual value
+            if auc is not None:
+                z_auc = (float(auc) - auc_mean) / auc_std if auc_std > 0 else 0.0
+            else:
+                # Use minimum z-score: if all values exist, use -3 (3 std devs below mean)
+                # If no values exist, use 0
+                z_auc = -3.0 if auc_values else 0.0
+            
+            if r2 is not None:
+                z_r2 = (float(r2) - r2_mean) / r2_std if r2_std > 0 else 0.0
+            else:
+                z_r2 = -3.0 if r2_values else 0.0
+            
+            if n is not None:
+                z_samples = (float(n) - sample_mean) / sample_std if sample_std > 0 else 0.0
+            else:
+                z_samples = -3.0 if sample_values else 0.0
+            
+            z_variants = (float(m.variants_number) - variant_mean) / variant_std if variant_std > 0 else 0.0
+            
+            # Composite score (higher is better)
+            composite_score = z_auc + z_r2 + z_samples + z_variants
+            
+            return (composite_score, m.id)
+        
+        candidates.sort(key=_rank_key, reverse=True)
+        models = candidates[:limit]
         
     return PGSSearchResult(
         query_trait=trait_query,
@@ -123,8 +224,22 @@ def _format_ancestry(dist: Dict[str, Any]) -> str:
     for stage in ["gwas", "dev", "eval"]:
         if stage in dist:
             stage_parts = []
-            for anc, weight in dist[stage].items():
-                stage_parts.append(f"{anc} ({weight*100:.0f}%)")
+            stage_obj = dist.get(stage)
+            if isinstance(stage_obj, dict) and "dist" in stage_obj and isinstance(stage_obj.get("dist"), dict):
+                stage_dist = stage_obj.get("dist") or {}
+            elif isinstance(stage_obj, dict):
+                stage_dist = stage_obj
+            else:
+                stage_dist = {}
+
+            for anc, weight in stage_dist.items():
+                try:
+                    w = float(weight)
+                except Exception:
+                    continue
+                # Some APIs return percentages (0-100) while others return fractions (0-1).
+                pct = w if w > 1.0 else (w * 100.0)
+                stage_parts.append(f"{anc} ({pct:.0f}%)")
             parts.append(f"{stage.upper()}: {', '.join(stage_parts)}")
             
     return " | ".join(parts) if parts else "Unknown"
@@ -171,20 +286,83 @@ def _extract_auc_r2_from_performance_records(performance_records: List[Dict[str,
     """
     best_auc: Optional[float] = None
     best_r2: Optional[float] = None
+
+    # Some endpoints return "performance records" shaped like:
+    # - /performance/search: [{..., "performance_metrics": {"effect_sizes": [...], "class_acc": [...], ...}}, ...]
+    # - /performance/all:    [{..., "performance_metrics": {"effect_sizes": [...], ...}}, ...]
+    # While other call sites may pass the inner dict directly: {"effect_sizes": [...], ...}
+    #
+    # Normalize both shapes by treating `pm` as either p["performance_metrics"] (dict) or `p` itself.
+    best_c_index: Optional[float] = None
+
+    def _as_unit_interval(x: float) -> Optional[float]:
+        """
+        Normalize common metric encodings:
+        - Some sources encode AUC/R²/C-index as percentages (e.g., 28.5 meaning 28.5%).
+        - Convert 0-100 values to 0-1 when applicable.
+        """
+        if x is None:
+            return None
+        try:
+            v = float(x)
+        except Exception:
+            return None
+        if v > 1.0 and v <= 100.0:
+            v = v / 100.0
+        if 0.0 <= v <= 1.0:
+            return v
+        return None
+
+    def _iter_metric_entries(pm: Dict[str, Any]) -> Iterable[Dict[str, Any]]:
+        for key in ("effect_sizes", "class_acc", "othermetrics"):
+            for entry in (pm.get(key) or []):
+                if isinstance(entry, dict):
+                    yield entry
+
     for p in performance_records or []:
-        for es in p.get("effect_sizes", []) or []:
-            name = str(es.get("name_short", "")).upper()
-            estimate = es.get("estimate")
+        if not isinstance(p, dict):
+            continue
+        pm = p.get("performance_metrics")
+        if isinstance(pm, dict):
+            metrics_dict = pm
+        else:
+            metrics_dict = p
+
+        for m in _iter_metric_entries(metrics_dict):
+            name = str(m.get("name_short", "")).strip().upper()
+            estimate = m.get("estimate")
             if estimate is None:
                 continue
             try:
                 val = float(estimate)
             except Exception:
                 continue
-            if name == "AUC":
-                best_auc = val if best_auc is None else max(best_auc, val)
-            elif name in {"R²", "R2"}:
-                best_r2 = val if best_r2 is None else max(best_r2, val)
+
+            # AUC-like metrics (accept common aliases used by PGS Catalog).
+            if name in {"AUC", "AUROC", "ROC AUC", "AUCROC"}:
+                v = _as_unit_interval(val)
+                if v is not None:
+                    best_auc = v if best_auc is None else max(best_auc, v)
+                continue
+
+            # Concordance statistic (often used in cancer risk models); keep as AUC fallback.
+            if name in {"C-INDEX", "C INDEX", "CINDEX"}:
+                v = _as_unit_interval(val)
+                if v is not None:
+                    best_c_index = v if best_c_index is None else max(best_c_index, v)
+                continue
+
+            # R²-like metrics.
+            if name in {"R²", "R2", "R^2"}:
+                v = _as_unit_interval(val)
+                if v is not None:
+                    best_r2 = v if best_r2 is None else max(best_r2, v)
+
+    # If AUC is not available but C-index exists, treat C-index as the best available AUC-like score.
+    # This preserves ranking behavior and avoids dropping cancer scores that report concordance.
+    if best_auc is None and best_c_index is not None:
+        best_auc = best_c_index
+
     return best_auc, best_r2
 
 

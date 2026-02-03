@@ -26,9 +26,13 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 - **Recommendation Logic (Sequential Workflow)**:
     - **Step 1: Direct Match Assessment**: Search for existing models for the target disease.
-        - *High-Quality Match*: If models exist and pass the quality threshold, recommend the best-performing one. **Always offer Direct Training as a follow-up option.**
-        - *Sub-optimal Match*: If models exist but fail the quality threshold, recommend the best available as a baseline and **proceed to Step 2**.
-        - *No Match*: If no direct models exist, **proceed to Step 2**.
+        - *High-Quality Match*: If models exist and pass the quality threshold, recommend the best-performing one and **stop after Step 1**. **Always offer Direct Training as a follow-up option.**
+        - *Sub-optimal Match*: If models exist but fail the quality threshold:
+            - Recommend the best available **direct** model as a baseline.
+            - **Proceed to Step 2** and also return the best **cross-disease** candidate models (neighbor traits) with genetic evidence.
+        - *No Match*: If no direct models exist:
+            - **Proceed to Step 2** and return the best **cross-disease** candidate models (neighbor traits) if available.
+            - If Step 2 yields no viable transfer candidates, return `NO_MATCH_FOUND`.
     - **Step 2: Augmented Recommendation**: Triggered when direct models are insufficient or missing.
         - *Cross-Disease Transfer*: Discover **genetically related diseases** using the Knowledge Graph and provide biological validation for the correlation to support model transfer decisions.
         - *On-Demand Training*: Regardless of the recommendation outcome, the system always provides a "Direct Training" option at the end of the report. The **PennPRS** training pipeline is only initiated after explicit user interaction.
@@ -75,7 +79,7 @@ flowchart TB
         
         subgraph Step1["Step 1: Direct Match Assessment"]
             direction LR
-            S1_Search["prs_model_pgscatalog_search<br/>(TARGET)"]
+            S1_Search["prs_model_pgscatalog_search<br/>(target_trait)"]
             S1_Knowledge["prs_model_domain_knowledge"]
             S1_Landscape["prs_model_performance_landscape"]
         end
@@ -84,10 +88,17 @@ flowchart TB
         
         subgraph Step2a["Step 2a: Cross-Disease Transfer"]
             direction TB
-            S2a_Neighbors["genetic_graph_get_neighbors<br/>(TARGET → neighbor_traits[])"]
+            S2a_Synonym["trait_synonym_expand<br/>(TARGET, exclude codes)"]
+            S2a_Neighbors["genetic_graph_get_neighbors<br/>(expanded queries → neighbor_traits[])"]
             S2a_Loop["FOR each neighbor_trait"]
-            S2a_Validate["genetic_graph_validate_mechanism<br/>(TARGET ↔ neighbor_trait)"]
-            S2a_Search["prs_model_pgscatalog_search<br/>(NEIGHBOR)"]
+            S2a_Resolve["resolve_efo_and_mondo_ids<br/>(TARGET + NEIGHBOR)"]
+            S2a_Validate["genetic_graph_validate_mechanism<br/>(EFO + MONDO IDs)"]
+            S2a_Search["prs_model_pgscatalog_search<br/>(neighbor_trait)"]
+            S2a_Synonym --> S2a_Neighbors
+            S2a_Neighbors --> S2a_Loop
+            S2a_Loop --> S2a_Resolve
+            S2a_Resolve --> S2a_Validate
+            S2a_Loop --> S2a_Search
         end
         
         subgraph Step2b["Step 2b: Training Configuration"]
@@ -120,10 +131,10 @@ flowchart TB
     Decision1 -->|"SUB_OPTIMAL / NO_MATCH"| Step2a
     
     S2a_Neighbors --> GWAS
+    S2a_Resolve --> PGS
+    S2a_Resolve --> OpenTargets
     S2a_Validate --> OpenTargets
     S2a_Validate -->|"Support Evidence"| S2a_Neighbors
-    S2a_Loop --> S2a_Validate
-    S2a_Validate --> S2a_Search
     S2a_Search --> PGS
     
     Step2a --> CrossDisease
@@ -137,7 +148,7 @@ flowchart TB
 
 ### Tool Sets Overview
 
-The agent's capabilities are organized into **three external Tool Sets** (Action Space) and one internal **Reasoning & Persona** (Cognitive Space):
+The agent's capabilities are organized into **three external Tool Sets** (Action Space), **one Trait Resolution Tool Set** (Helper Tools), and one internal **Reasoning & Persona** (Cognitive Space):
 
 - **PRS Model Tools**:
     <!-- For direct model searching, metadata retrieval, and model filtering/selection. -->
@@ -159,7 +170,17 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
             1. **Find shared loci/genes**: By interfacing with both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org), identify which specific genes or genetic loci jointly control both diseases.
             2. **Construct explanatory context**: It provides not just a number, but an "evidence list". For example: "Both diseases share the pathogenic pathway of the IL23R gene."
             3. **Justify model transfer**: If the Agent wants to apply Disease A's PRS model to Disease B, the "biological mechanism evidence" from this tool is the strongest justification. It transforms the Agent's decision from "blind attempt" to "evidence-based scientific inference".
+        - *Input Requirements*: Requires EFO/MONDO IDs (not ICD-10 codes or trait names). The tool accepts both EFO and MONDO IDs (if available) and automatically tries both, merging results to maximize coverage. This is critical because some diseases may have data only in MONDO (e.g., Type 2 Diabetes) while others may have better coverage in EFO.
         - *Summary*: It is the Agent's "biological translator", responsible for proving that cross-disease model recommendations are scientifically grounded in life science principles.
+
+- **Trait Resolution Tools** (Helper Tools):
+    <!-- For optimizing trait queries and resolving disease ontology IDs. -->
+    - **`trait_synonym_expand`**: Expands a trait query with synonyms and semantically equivalent terms using LLM.
+        - *Purpose*: Discover alternative trait names that might be used in different data sources, ensuring comprehensive coverage across naming conventions. Used specifically for Knowledge Graph queries where exact trait name matching is required.
+        - *Usage*: Called before `genetic_graph_get_neighbors` (excluding codes) and before `resolve_efo_and_mondo_ids` for `genetic_graph_validate_mechanism`. NOT used for `prs_model_pgscatalog_search` as PGS Catalog handles trait name matching internally.
+    - **`resolve_efo_and_mondo_ids`**: Resolves both EFO and MONDO IDs for a trait by searching PGS Catalog and Open Targets.
+        - *Purpose*: Get disease ontology IDs required by Open Targets API. Returns both EFO and MONDO IDs (if available) to maximize coverage, as some diseases may have data only in one ontology.
+        - *Usage*: Called before `genetic_graph_validate_mechanism` to convert trait names to EFO/MONDO IDs.
 
 - **PennPRS Tools**:
     <!-- For interfacing with the PennPRS backend for model training configuration. -->
@@ -462,8 +483,9 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 | **Data Source** | PGS Catalog REST API (`/rest/score/search`) |
 | **Dependency** | `PGSCatalogClient` (Module 1) |
 | **Hard-coded Filter** | Remove models where `performance_metrics.auc` AND `performance_metrics.r2` are both null |
-| **Ranking (Deterministic)** | Sort candidates by **AUC (desc)** → **R² (desc)** → **Training Sample Size (desc)** → **Variants (SNPs) (desc)** → **PGS ID (asc)**, then return top-N |
+| **Ranking (Deterministic)** | Sort candidates using **Z-score normalization** with equal weights for all four metrics: **AUC**, **R²**, **Training Sample Size**, and **Variants (SNPs)**. Each metric is standardized: $z = \frac{x - \mu}{\sigma}$, then composite score = $z_{AUC} + z_{R²} + z_{samples} + z_{variants}$ (higher is better). Tie-break by **PGS ID (asc)** for stability. |
 | **Token Budget** | ~500 tokens per model summary; max 25 models in initial response |
+| **Query Strategy** | **Call `prs_model_pgscatalog_search` directly with trait name** (no synonym expansion needed). PGS Catalog handles trait name matching internally and returns comprehensive results. Synonym expansion is unnecessary and adds overhead without significant benefit. |
 
 ```python
 # Output Schema
@@ -582,13 +604,18 @@ class MetricDistribution:
 | **Ranking** | Auto-sorted by $r_g^2 \times h^2$ (descending) |
 | **Filters** | `\|rg_z_meta\| > 2`, `h2_z_meta > 2` |
 | **Token Budget** | ~100 tokens per neighbor; max 10 neighbors |
+| **Trait Resolution** | Internally uses `resolve_trait_id()` which **only supports exact and alias matching** (no fuzzy matching). If no exact/alias match is found, the tool gracefully returns an empty neighbor list (`neighbors=[]`) rather than attempting broad token-overlap matching. This ensures that only reliable, semantically relevant traits are returned. |
+| **Query Strategy** | **Use trait synonym expansion** (excluding codes) via `trait_synonym_expand(target_trait, include_icd10=False, include_efo=False)`. Call for each expanded query and merge neighbors (deduplicate by trait_id). **Do NOT use ICD-10/EFO codes** - GWAS Atlas data schema does not include trait codes (see L310-391: GWAS Atlas Data Schema - fields only include `Trait`, `uniqTrait`, `ChapterLevel`, etc., but no ICD-10/EFO/MONDO code fields). The synonym expansion provides semantic breadth, while internal trait resolution ensures accuracy by only accepting exact/alias matches. |
 
 ```python
 # Output Schema
 class NeighborResult:
+    query_trait: Optional[str]  # Original user query (if resolved/mapped)
+    resolved_by: Optional[str]  # Resolution method: exact | alias | none
+    resolution_confidence: Optional[str]  # High | Moderate | Low
     target_trait: str
     target_h2_meta: float
-    neighbors: list[RankedNeighbor]
+    neighbors: list[RankedNeighbor]  # Empty list if no neighbors found (graceful handling)
 
 class RankedNeighbor:
     trait_id: str
@@ -643,12 +670,13 @@ class CorrelationProvenance:
 
 | Attribute | Specification |
 |:---|:---|
-| **Input** | `source_trait: str`, `target_trait: str` — Trait pair to validate biologically (implementation resolves/uses EFO IDs for Open Targets) |
+| **Input** | `source_trait_efo: str`, `target_trait_efo: str` — EFO IDs for both traits (required by Open Targets API). Optional: `source_trait_mondo: str`, `target_trait_mondo: str` — MONDO IDs for both traits. |
 | **Output** | `MechanismValidation` — Shared genes/loci evidence |
 | **Data Source** | Open Targets Platform API, PheWAS Catalog (ExPheWAS API) |
 | **Dependency** | External API clients (Open Targets GraphQL, ExPheWAS REST) |
 | **JIT Loading** | Only called to justify cross-disease model transfer |
 | **Token Budget** | ~500 tokens (biological evidence summary) |
+| **Query Strategy** | **Requires EFO/MONDO IDs** (not ICD-10 codes or trait names). Use `resolve_efo_and_mondo_ids()` to get BOTH EFO and MONDO IDs for both traits. The tool automatically tries both IDs (if provided) and merges results by deduplicating gene targets and keeping the highest association score. This maximizes coverage since some diseases may have data only in MONDO (e.g., Type 2 Diabetes) while others may have better coverage in EFO. Open Targets Platform uses EFO/MONDO IDs, not ICD-10 codes. |
 
 ```python
 # Output Schema
@@ -710,10 +738,10 @@ class TrainingConfig:
 
 | Constraint | Implementation |
 |:---|:---|
-| **Static Tool Binding with Masking** | All 7 tools defined at session start; availability controlled via logit masking based on workflow state |
+| **Static Tool Binding with Masking** | All 7 core tools + 3 helper tools defined at session start; availability controlled via logit masking based on workflow state |
 | **Consistent Tool Naming** | `prs_model_*`, `genetic_graph_*`, `pennprs_*` prefixes for efficient logit mask grouping |
 | **Self-Contained & Robust** | Each tool has explicit Input/Output schema; error handling returns structured error objects |
-| **Minimal Viable Tool Set** | 7 tools covering full workflow; no ambiguous decision points |
+| **Minimal Viable Tool Set** | 7 core tools + 2 helper tools (trait_synonym_expand, resolve_efo_and_mondo_ids) covering full workflow; no ambiguous decision points |
 | **JIT Context Loading** | `verify_study_power` and `validate_mechanism` loaded on-demand, not during initial discovery |
 | **Append-Only Context** | Tool results serialized deterministically; no mid-loop modification |
 | **Error Trace Retention** | Failed tool calls remain in history with error details for Agent learning |
@@ -726,8 +754,11 @@ class TrainingConfig:
     - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Currently implements a local RAG (Retrieval-Augmented Generation) system using a curated Markdown knowledge base.
     - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.
     - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
-    - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Integrated support for both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org).
+    - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Integrated support for both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org). Supports both EFO and MONDO IDs, automatically tries both and merges results to maximize coverage.
     - `pennprs_train_model`: `src/server/core/tools/pennprs_tools.py` - Intelligent method recommendation + PennPRS API submission.
+    - **Helper Tools**:
+        - `trait_synonym_expand`: `src/server/core/tools/trait_tools.py` - LLM-based trait synonym expansion for comprehensive coverage. Called at the start of the workflow to expand trait queries for ALL subsequent tool calls.
+        - `resolve_efo_and_mondo_ids`: `src/server/modules/disease/recommendation_agent.py` - Multi-source EFO/MONDO ID resolution via PGS Catalog and Open Targets.
 
 - **Not Implemented**:
     - **Web-Search for Domain Knowledge**: Integration with a web search API for live data retrieval from authoritative domains (transition from local RAG to real-time search).
@@ -771,6 +802,8 @@ The prompt must encode the following decision logic from the Objective section (
 
 ```
 STEP 1: DIRECT MATCH ASSESSMENT
+1. Call prs_model_pgscatalog_search directly with target_trait (no synonym expansion needed)
+2. Evaluate models using prs_model_domain_knowledge and prs_model_performance_landscape
 IF direct_models_exist AND quality >= HIGH_THRESHOLD:
     OUTCOME: DIRECT_HIGH_QUALITY
 ELIF direct_models_exist AND quality < HIGH_THRESHOLD:
@@ -780,18 +813,26 @@ ELSE:  # no direct models
     PROCEED_TO STEP 2A
 
 STEP 2A: CROSS-DISEASE TRANSFER
-1. Query genetic_graph_get_neighbors(target_trait) → neighbor_traits[]
-2. FOR each neighbor_trait:
-    - Resolve disease ontology IDs for target_trait and neighbor_trait before mechanism validation, using a multi-source strategy:
-        - Prefer PGS Catalog trait mapping first (PGS `/trait/search` results and/or score `trait_efo`).
-        - Only query Open Targets when PGS sources are missing or ambiguous (small score gap between top candidates).
-        - If still ambiguous, run `genetic_graph_validate_mechanism` on the top-N candidate IDs and choose the ID with the strongest mechanism evidence.
-        - Do not cache trait→ID mappings to avoid stale external ontology updates; rely on deterministic scoring and explicit ambiguity handling.
-    - Call genetic_graph_validate_mechanism(target_trait, neighbor_trait) to provide biological rationale that supports the identified genetic correlation.
+1. Call trait_synonym_expand(target_trait, include_icd10=False, include_efo=False) to get expanded synonyms (excluding codes)
+2. Query genetic_graph_get_neighbors for EACH expanded query and merge results (deduplicate by trait_id) → neighbor_traits[]
+   - **Note**: If `genetic_graph_get_neighbors` returns an empty neighbor list (`neighbors=[]`), this indicates that no exact/alias matches were found in the Knowledge Graph. The tool gracefully handles this case without errors. If ALL expanded queries yield empty results, proceed directly to OUTCOME: NO_MATCH_FOUND.
+3. IF neighbor_traits[] is empty:
+   OUTCOME: NO_MATCH_FOUND
+ELSE:
+   FOR each neighbor_trait:
+    - **For genetic_graph_validate_mechanism**: Resolve disease ontology IDs for target_trait and neighbor_trait before mechanism validation:
+        - For target_trait: Expand synonyms (excluding codes) using trait_synonym_expand
+        - For neighbor_trait: Expand synonyms (excluding codes) using trait_synonym_expand
+        - Then use `resolve_efo_and_mondo_ids()` to get BOTH EFO and MONDO IDs for both traits, using a multi-source strategy:
+            - Prefer PGS Catalog trait mapping first (PGS `/trait/search` results and/or score `trait_efo`).
+            - Only query Open Targets when PGS sources are missing or ambiguous (small score gap between top candidates).
+            - If still ambiguous, run `genetic_graph_validate_mechanism` on the top-N candidate IDs and choose the ID with the strongest mechanism evidence.
+            - Do not cache trait→ID mappings to avoid stale external ontology updates; rely on deterministic scoring and explicit ambiguity handling.
+    - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage, providing biological rationale that supports the identified genetic correlation.
     - IF mechanism evidence is sufficient:
-        - Call prs_model_pgscatalog_search(neighbor_trait)
+        - Call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed)
         - Evaluate model quality using prs_model_performance_landscape
-3. IF qualified_transfer_models found:
+4. IF qualified_transfer_models found:
     OUTCOME: CROSS_DISEASE
 ELSE:
     OUTCOME: NO_MATCH_FOUND
@@ -876,6 +917,29 @@ The report structure varies by `recommendation_type`. Note that the "Train New M
       "best_model_auc": 0.78
     }
   },
+
+  // Step 2 Trace (DIRECT_SUB_OPTIMAL, NO_MATCH_FOUND, CROSS_DISEASE)
+  // Required to make cross-disease reasoning auditable and demo-friendly.
+  "genetic_graph_ran": true,
+  "genetic_graph_neighbors": ["Obesity", "Metabolic Syndrome"],
+  "genetic_graph_evidence": [
+    {
+      "neighbor_trait": "Obesity",
+      "rg_meta": 0.85,
+      "transfer_score": 0.72,
+      "neighbor_models_found": 8,
+      "neighbor_best_model_id": "PGS000XXX",
+      "neighbor_best_model_auc": 0.78,
+      "mechanism_confidence": "High",
+      "mechanism_summary": "Both traits share 6 gene(s). Top: FTO. Pathways: ...",
+      "shared_genes": ["FTO", "MC4R"],
+      "study_power": {
+        "n_correlations": 12,
+        "rg_meta": 0.84
+      }
+    }
+  ],
+  "genetic_graph_errors": [],
   
   "caveats_and_limitations": [...],
   "follow_up_options": [
@@ -894,6 +958,7 @@ The report structure varies by `recommendation_type`. Note that the "Train New M
 |:---|:---:|:---:|:---:|:---:|
 | `direct_match_evidence` | Required | Required | Optional | - |
 | `cross_disease_evidence` | - | - | Required | - |
+| `genetic_graph_evidence` | - | Required | Required | Required |
 | `follow_up_options` | Required | Required | Required | Required |
 
 #### Engineering Constraints Compliance

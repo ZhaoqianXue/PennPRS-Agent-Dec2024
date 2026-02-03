@@ -1,8 +1,11 @@
 import re
+import logging
 from typing import Any, Dict, List, Optional, Literal, Callable, Tuple
 
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 from src.server.core.llm_config import get_llm
 from src.server.core.system_prompts import (
@@ -27,11 +30,18 @@ from src.server.core.tools.prs_model_tools import (
 )
 from src.server.core.tools.genetic_graph_tools import (
     genetic_graph_get_neighbors,
-    genetic_graph_validate_mechanism
+    genetic_graph_validate_mechanism,
+    genetic_graph_verify_study_power
 )
+# NOTE: According to Single Agent Principle, tool calls should ideally be decided by the LLM Agent
+# via system prompts. The Agent is guided via system prompts to use trait_synonym_expand at the start
+# to expand trait queries for comprehensive coverage across all tools.
+from src.server.core.tools.trait_tools import trait_synonym_expand
 from src.server.modules.disease.models import (
     RecommendationReport,
-    FollowUpOption
+    FollowUpOption,
+    GeneticGraphEvidence,
+    StudyPowerSummary
 )
 
 
@@ -61,6 +71,7 @@ NON_EFO_ID_PENALTY = 0.05
 # Context engineering thresholds (Manus: Use the File System as Context)
 MAX_INLINE_CONTEXT_BYTES = 50_000
 TOP_MODELS_INLINE = 10
+MAX_STUDY_POWER_CHECKS = 2
 
 
 TRAIN_NEW_MODEL_OPTION = FollowUpOption(
@@ -314,20 +325,72 @@ def resolve_efo_id(
     return candidates[0].id if candidates else None
 
 
+def resolve_efo_and_mondo_ids(
+    trait_name: str,
+    ot_client: OpenTargetsClient,
+    pgs_client: Optional[PGSCatalogClient] = None,
+    pgs_models: Optional[List[Any]] = None
+) -> Tuple[Optional[str], Optional[str]]:
+    """
+    Resolve both EFO and MONDO IDs for a trait.
+    
+    Returns:
+        Tuple of (efo_id, mondo_id). Either or both may be None.
+    """
+    candidates = resolve_efo_candidates(
+        trait_name=trait_name,
+        ot_client=ot_client,
+        pgs_client=pgs_client,
+        pgs_models=pgs_models
+    )
+    
+    efo_id = None
+    mondo_id = None
+    
+    for candidate in candidates:
+        if candidate.id.startswith("EFO_") and efo_id is None:
+            efo_id = candidate.id
+        elif candidate.id.startswith("MONDO_") and mondo_id is None:
+            mondo_id = candidate.id
+        
+        # Stop if we have both
+        if efo_id and mondo_id:
+            break
+    
+    return (efo_id, mondo_id)
+
+
 def select_best_efo_candidate(
     target_trait_name: str,
     target_efo_id: Optional[str],
+    target_mondo_id: Optional[str],
     neighbor_trait_name: str,
     candidates: List[EfoCandidate],
-    validate_fn: Optional[Callable[[str, str, str, str], Any]] = None,
+    validate_fn: Optional[Callable[[str, str], Any]] = None,
     gap_threshold: float = EFO_GAP_THRESHOLD,
     max_validate: int = MAX_EFO_VALIDATION
 ) -> Tuple[Optional[EfoCandidate], Optional[MechanismValidation]]:
+    """
+    Select best EFO candidate for neighbor trait using mechanism validation.
+    
+    Args:
+        target_trait_name: Target trait name
+        target_efo_id: Target trait EFO ID
+        target_mondo_id: Target trait MONDO ID
+        neighbor_trait_name: Neighbor trait name
+        candidates: List of EFO candidates for neighbor trait
+        validate_fn: Function that takes (source_trait, target_trait) and returns MechanismValidation
+        gap_threshold: Score gap threshold for skipping validation
+        max_validate: Maximum number of candidates to validate
+        
+    Returns:
+        Tuple of (best_candidate, best_mechanism)
+    """
     if not candidates:
         return None, None
 
     ordered = sorted(candidates, key=lambda c: c.score, reverse=True)
-    if len(ordered) == 1 or not validate_fn or not target_efo_id:
+    if len(ordered) == 1 or not validate_fn or (not target_efo_id and not target_mondo_id):
         return ordered[0], None
 
     score_gap = ordered[0].score - ordered[1].score
@@ -339,7 +402,7 @@ def select_best_efo_candidate(
     best_rank = (-1, -1, -1)
 
     for candidate in ordered[:max_validate]:
-        result = validate_fn(target_efo_id, candidate.id, target_trait_name, neighbor_trait_name)
+        result = validate_fn(neighbor_trait_name, target_trait_name)
         if isinstance(result, ToolError):
             continue
         rank = _mechanism_rank(result)
@@ -396,13 +459,17 @@ def _build_report_chain():
     ])
     structured_llm = llm.with_structured_output(
         RecommendationReport,
-        method="json_schema",
-        strict=True
+        # RecommendationReport is a complex nested schema; `json_schema` strict mode
+        # can be rejected by some OpenAI models. Use function calling for robustness.
+        method="function_calling"
     )
     return prompt | structured_llm
 
 
-def recommend_models(target_trait: str) -> RecommendationReport:
+def recommend_models(
+    target_trait: str,
+    force_step1_outcome: Optional[Literal["DIRECT_HIGH_QUALITY", "DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"]] = None
+) -> RecommendationReport:
     pgs_client = PGSCatalogClient()
     ot_client = OpenTargetsClient()
     phewas_client = PheWASClient()
@@ -429,7 +496,12 @@ def recommend_models(target_trait: str) -> RecommendationReport:
     todo.write()
 
     # Step 1: Direct match assessment
+    # NOTE: According to Single Agent Principle, tool calls should be decided by the LLM Agent via system prompts.
+    # However, this orchestrator provides a deterministic workflow for performance.
+    # The Agent is guided via system prompts to call prs_model_pgscatalog_search directly with target_trait.
+    # No synonym expansion needed for PGS Catalog search - it handles trait name matching internally.
     pgs_result = prs_model_pgscatalog_search(pgs_client, target_trait, limit=25)
+    
     todo.set_done("Step 1: Query PGS Catalog for target trait")
     todo.write()
 
@@ -460,72 +532,170 @@ def recommend_models(target_trait: str) -> RecommendationReport:
     }
 
     step1_decision = None
-    try:
-        chain = _build_step1_chain()
-        step1_decision = chain.invoke(
-            {"context_json": stable_json_dumps(step1_context)}
-        )
-    except Exception as exc:
+    
+    # Test mode: Force Step 1 outcome (for testing Genetic Graph Tools)
+    if force_step1_outcome:
         step1_decision = Step1Decision(
-            outcome="NO_MATCH_FOUND" if pgs_result.after_filter == 0 else "DIRECT_SUB_OPTIMAL",
+            outcome=force_step1_outcome,
             best_model_id=pgs_result.models[0].id if pgs_result.models else None,
             confidence="Low",
-            rationale=f"Fallback decision due to Step 1 failure: {exc}"
+            rationale=f"FORCED for testing: {force_step1_outcome}"
         )
-        tool_errors.append({
-            "tool_name": "step1_decision",
-            "error_type": type(exc).__name__,
-            "error_message": str(exc)
-        })
-
-    # Step 2a: Cross-disease transfer
-    neighbors_result = genetic_graph_get_neighbors(
-        kg_service,
-        trait_id=target_trait,
-        limit=5
-    )
-    todo.set_done("Step 2a: Query Knowledge Graph for related traits")
-    todo.write()
+        logger.info(f"TEST MODE: Forcing Step 1 outcome to {force_step1_outcome}")
+    else:
+        try:
+            chain = _build_step1_chain()
+            step1_decision = chain.invoke(
+                {"context_json": stable_json_dumps(step1_context)}
+            )
+        except Exception as exc:
+            step1_decision = Step1Decision(
+                outcome="NO_MATCH_FOUND" if pgs_result.after_filter == 0 else "DIRECT_SUB_OPTIMAL",
+                best_model_id=pgs_result.models[0].id if pgs_result.models else None,
+                confidence="Low",
+                rationale=f"Fallback decision due to Step 1 failure: {exc}"
+            )
+            tool_errors.append({
+                "tool_name": "step1_decision",
+                "error_type": type(exc).__name__,
+                "error_message": str(exc)
+            })
 
     cross_disease_candidates: List[Dict[str, Any]] = []
     weak_mechanism_traits: List[str] = []
+    genetic_graph_evidence: List[GeneticGraphEvidence] = []
+    genetic_graph_neighbors: List[str] = []
+    genetic_graph_errors: List[str] = []
+
+    run_cross_disease = step1_decision.outcome in {"DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"}
+
+    if run_cross_disease:
+        # Step 2a: Cross-disease transfer
+        # NOTE: According to Single Agent Principle, the Agent should decide to call
+        # trait_synonym_expand and genetic_graph_get_neighbors via system prompts.
+        # This orchestrator maintains backward compatibility by calling tools directly.
+        # Expand trait synonyms (excluding codes) for Knowledge Graph search
+        synonym_result = trait_synonym_expand(target_trait, include_icd10=False, include_efo=False)
+        expanded_queries = [target_trait]  # Fallback to original trait if expansion fails
+        if hasattr(synonym_result, 'expanded_queries') and synonym_result.expanded_queries:
+            # Filter out codes from expanded queries (GWAS Atlas doesn't support codes)
+            def _is_code(query: str) -> bool:
+                if query.startswith(('EFO_', 'MONDO_')):
+                    return True
+                if len(query) >= 2 and query[0] in ('C', 'E', 'I') and query[1:].replace('.', '').isdigit():
+                    return True
+                return False
+            expanded_queries = [q for q in synonym_result.expanded_queries if not _is_code(q)]
+            logger.info(f"Expanded '{target_trait}' to {len(expanded_queries)} queries for Knowledge Graph search (excluding codes)")
+        elif isinstance(synonym_result, ToolError):
+            logger.warning(f"Synonym expansion failed for '{target_trait}', using original trait name: {synonym_result.error_message}")
+            tool_errors.append(synonym_result.model_dump())
+        
+        # Search Knowledge Graph for each expanded query and merge neighbors
+        # Only accept results where the resolved trait is semantically related to the original query
+        # Reject fuzzy matches that resolve to generic/unrelated traits (e.g., "Prostatic cancer" -> "Cancer")
+        all_neighbors = []
+        seen_trait_ids = set()
+        for query in expanded_queries:
+            query_result = genetic_graph_get_neighbors(
+                kg_service,
+                trait_id=query,
+                limit=10  # Get more neighbors per query, then merge
+            )
+            if isinstance(query_result, ToolError):
+                continue
+            if hasattr(query_result, 'neighbors') and query_result.neighbors:
+                for neighbor in query_result.neighbors:
+                    if neighbor.trait_id not in seen_trait_ids:
+                        all_neighbors.append(neighbor)
+                        seen_trait_ids.add(neighbor.trait_id)
+        
+        # Create merged neighbors result
+        if all_neighbors:
+            # Get target node for h2_meta
+            target_node = kg_service.get_trait_node(target_trait)
+            target_h2_val = target_node.h2_meta if target_node else None
+            target_h2 = float(target_h2_val) if isinstance(target_h2_val, (int, float)) else 0.0
+            
+            neighbors_result = NeighborResult(
+                query_trait=target_trait,
+                resolved_by="synonym_expansion",
+                resolution_confidence="High",
+                target_trait=target_trait,
+                target_h2_meta=target_h2,
+                neighbors=sorted(all_neighbors, key=lambda n: n.transfer_score, reverse=True)[:5]  # Top 5 after merging
+            )
+        else:
+            neighbors_result = None
+        if isinstance(neighbors_result, ToolError):
+            tool_errors.append(neighbors_result.model_dump())
+            neighbors_result = None
+        
+        todo.set_done("Step 2a: Query Knowledge Graph for related traits")
+        todo.write()
+    else:
+        neighbors_result = None
 
     if isinstance(neighbors_result, ToolError):
         tool_errors.append(neighbors_result.model_dump())
+        genetic_graph_errors.append(neighbors_result.error_message)
     elif isinstance(neighbors_result, NeighborResult):
-        target_efo = resolve_efo_id(
+        genetic_graph_neighbors = [n.trait_id for n in neighbors_result.neighbors]
+        target_efo, target_mondo = resolve_efo_and_mondo_ids(
             trait_name=target_trait,
             ot_client=ot_client,
             pgs_client=pgs_client,
             pgs_models=pgs_result.models
         )
-        if not target_efo:
+        if not target_efo and not target_mondo:
             tool_errors.append({
-                "tool_name": "resolve_efo_id",
-                "error_type": "EfoNotFound",
-                "error_message": f"No EFO ID resolved for target trait '{target_trait}'",
+                "tool_name": "resolve_efo_and_mondo_ids",
+                "error_type": "DiseaseIdNotFound",
+                "error_message": f"No EFO or MONDO ID resolved for target trait '{target_trait}'",
                 "context": {"trait": target_trait}
             })
 
-        def validate_fn(source_efo: str, target_efo: str, source_trait: str, target_trait: str):
+        def validate_fn(source_trait: str, target_trait: str):
+            # Resolve IDs for both traits
+            source_efo, source_mondo = resolve_efo_and_mondo_ids(
+                trait_name=source_trait,
+                ot_client=ot_client,
+                pgs_client=pgs_client,
+                pgs_models=None  # Don't use pgs_models for neighbor traits
+            )
             return genetic_graph_validate_mechanism(
                 ot_client,
-                source_trait_efo=source_efo,
-                target_trait_efo=target_efo,
+                source_trait_efo=source_efo or "",
+                target_trait_efo=target_efo or "",
                 source_trait_name=source_trait,
                 target_trait_name=target_trait,
-                phewas_client=phewas_client
+                phewas_client=phewas_client,
+                source_trait_mondo=source_mondo,
+                target_trait_mondo=target_mondo
             )
+
+        study_power_checks = 0
 
         for neighbor in neighbors_result.neighbors:
             neighbor_trait = neighbor.trait_id
+            # NOTE: According to Single Agent Principle, the Agent should decide to call
+            # prs_model_pgscatalog_search via system prompts.
+            # This orchestrator maintains backward compatibility by calling tools directly.
+            # No synonym expansion needed for PGS Catalog search - it handles trait name matching internally.
             neighbor_models = prs_model_pgscatalog_search(
                 pgs_client,
                 neighbor_trait,
                 limit=25
             )
-            if neighbor_models.after_filter == 0:
-                continue
+            if isinstance(neighbor_models, ToolError):
+                tool_errors.append(neighbor_models.model_dump())
+                neighbor_models = PGSSearchResult(
+                    query_trait=neighbor_trait,
+                    total_found=0,
+                    after_filter=0,
+                    models=[]
+                )
+            neighbor_models_found = neighbor_models.after_filter
 
             neighbor_models_dump = neighbor_models.model_dump()
             neighbor_models_inline, neighbor_models_artifact = maybe_externalize_json(
@@ -552,6 +722,7 @@ def recommend_models(target_trait: str) -> RecommendationReport:
             selected_candidate, mechanism = select_best_efo_candidate(
                 target_trait_name=target_trait,
                 target_efo_id=target_efo,
+                target_mondo_id=target_mondo,
                 neighbor_trait_name=neighbor_trait,
                 candidates=neighbor_candidates,
                 validate_fn=validate_fn
@@ -560,13 +731,8 @@ def recommend_models(target_trait: str) -> RecommendationReport:
             if not selected_candidate and neighbor_candidates:
                 selected_candidate = neighbor_candidates[0]
 
-            if selected_candidate and not mechanism and target_efo:
-                mechanism = validate_fn(
-                    target_efo,
-                    selected_candidate.id,
-                    target_trait,
-                    neighbor_trait
-                )
+            if selected_candidate and not mechanism:
+                mechanism = validate_fn(neighbor_trait, target_trait)
 
             mechanism_summary = None
             mechanism_confidence = "Low"
@@ -580,6 +746,22 @@ def recommend_models(target_trait: str) -> RecommendationReport:
                 weak_mechanism_traits.append(neighbor_trait)
 
             best_stats = _best_model_stats(neighbor_models.models)
+            study_power_summary = None
+            if run_cross_disease and study_power_checks < MAX_STUDY_POWER_CHECKS:
+                study_power_checks += 1
+                study_power = genetic_graph_verify_study_power(
+                    kg_service,
+                    source_trait=target_trait,
+                    target_trait=neighbor_trait
+                )
+                if isinstance(study_power, ToolError):
+                    tool_errors.append(study_power.model_dump())
+                else:
+                    study_power_summary = StudyPowerSummary(
+                        n_correlations=study_power.n_correlations,
+                        rg_meta=study_power.rg_meta
+                    )
+
             candidate = {
                 "neighbor_trait": neighbor_trait,
                 "neighbor_domain": neighbor.domain,
@@ -593,9 +775,33 @@ def recommend_models(target_trait: str) -> RecommendationReport:
                 "mechanism_missing": mechanism_summary is None,
                 "neighbor_models": neighbor_models_inline,
                 "neighbor_models_artifact": neighbor_models_artifact.model_dump() if neighbor_models_artifact else None,
-                "neighbor_models_best": best_stats
+                "neighbor_models_best": best_stats,
+                "neighbor_models_found": neighbor_models_found,
+                "study_power_summary": study_power_summary.model_dump() if study_power_summary else None
             }
             cross_disease_candidates.append(candidate)
+
+            # Ensure shared_genes is always a list, never None
+            shared_genes_list = []
+            if isinstance(mechanism_summary, dict):
+                shared_genes_raw = mechanism_summary.get("shared_genes")
+                if shared_genes_raw is not None:
+                    shared_genes_list = shared_genes_raw if isinstance(shared_genes_raw, list) else []
+            
+            genetic_graph_evidence.append(
+                GeneticGraphEvidence(
+                    neighbor_trait=neighbor_trait,
+                    rg_meta=neighbor.rg_meta,
+                    transfer_score=neighbor.transfer_score,
+                    neighbor_models_found=neighbor_models_found,
+                    neighbor_best_model_id=best_stats.get("best_model_id"),
+                    neighbor_best_model_auc=best_stats.get("best_model_auc"),
+                    mechanism_confidence=mechanism_confidence,
+                    mechanism_summary=mechanism_summary.get("mechanism_summary") if isinstance(mechanism_summary, dict) else None,
+                    shared_genes=shared_genes_list,
+                    study_power=study_power_summary
+                )
+            )
 
         todo.set_done("Step 2a: Validate biological mechanism")
         todo.set_done("Step 2a: Evaluate related-trait models")
@@ -665,14 +871,23 @@ def recommend_models(target_trait: str) -> RecommendationReport:
             follow_up_options=[]
         )
 
-    return ensure_follow_up_options(report)
+    report = ensure_follow_up_options(report)
+    report.genetic_graph_evidence = genetic_graph_evidence if run_cross_disease else []
+    report.genetic_graph_ran = run_cross_disease
+    report.genetic_graph_neighbors = genetic_graph_neighbors if run_cross_disease else []
+    report.genetic_graph_errors = genetic_graph_errors if run_cross_disease else []
+    return report
 
 
 def _summarize_mechanism(mechanism: MechanismValidation) -> Dict[str, Any]:
-    shared_genes = [g.gene_symbol for g in mechanism.shared_genes[:10]]
+    # Ensure shared_genes is always a list, handle None or empty cases
+    shared_genes_list = []
+    if mechanism.shared_genes is not None:
+        shared_genes_list = [g.gene_symbol for g in mechanism.shared_genes[:10]]
+    
     return {
-        "shared_genes": shared_genes,
-        "shared_pathways": mechanism.shared_pathways[:10],
+        "shared_genes": shared_genes_list,
+        "shared_pathways": mechanism.shared_pathways[:10] if mechanism.shared_pathways else [],
         "phewas_evidence_count": mechanism.phewas_evidence_count,
         "mechanism_summary": mechanism.mechanism_summary,
         "confidence_level": mechanism.confidence_level

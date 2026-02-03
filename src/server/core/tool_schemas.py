@@ -122,6 +122,21 @@ class NeighborResult(BaseModel):
     Implements sop.md L476-495 output specification.
     Token Budget: ~100 tokens per neighbor; max 10 neighbors.
     """
+    # Optional resolution metadata for robust trait matching.
+    # These fields allow the agent/UI to understand when a user query was mapped
+    # onto a canonical Knowledge Graph trait ID.
+    query_trait: Optional[str] = Field(
+        default=None,
+        description="Original user query trait string (if resolved/mapped)"
+    )
+    resolved_by: Optional[str] = Field(
+        default=None,
+        description="Resolution method used: exact | alias | none"
+    )
+    resolution_confidence: Optional[str] = Field(
+        default=None,
+        description="Resolution confidence: High | Moderate | Low"
+    )
     target_trait: str
     target_h2_meta: float
     neighbors: List[RankedNeighbor]
@@ -243,6 +258,29 @@ class JobSubmissionResult(BaseModel):
     status: str  # "submitted", "pending", "error"
     message: str
     config: TrainingConfig  # The configuration that was submitted
+
+
+# --- Trait Synonym Tools Schemas ---
+
+class TraitSynonym(BaseModel):
+    """A synonym or alternative name for a trait."""
+    synonym: str = Field(..., description="Alternative name or synonym for the trait")
+    relationship: str = Field(..., description="Relationship type: exact_synonym, broader_term, narrower_term, related_term, icd10_code, efo_id, or other")
+    confidence: str = Field(..., description="Confidence level: High, Moderate, or Low")
+    rationale: Optional[str] = Field(None, description="Brief explanation of why this is a synonym")
+
+
+class TraitSynonymResult(BaseModel):
+    """
+    Result from trait_synonym_expand tool.
+    Provides synonyms and alternative names for a trait query.
+    Token Budget: ~200 tokens.
+    """
+    original_query: str
+    expanded_queries: List[str] = Field(..., description="List of expanded query terms including original")
+    synonyms: List[TraitSynonym] = Field(..., description="List of identified synonyms with metadata")
+    method: str = Field(..., description="Expansion method: llm, cache, or none")
+    confidence: str = Field(..., description="Overall confidence: High, Moderate, or Low")
 
 
 # --- Error Schema ---
