@@ -7,7 +7,7 @@ Download: gwasATLAS_v20191115.txt.gz
 import pandas as pd
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List, Dict
 from thefuzz import fuzz, process
 
 from src.server.core.config import get_data_path
@@ -81,7 +81,7 @@ class GWASAtlasClient:
         trait: str,
         min_score: int = 60,
         limit: int = 50
-    ) -> list[HeritabilityEstimate]:
+    ) -> List[HeritabilityEstimate]:
         """
         Search for heritability estimates by trait name.
         
@@ -159,7 +159,7 @@ class GWASAtlasClient:
         
         return results
     
-    def _get_float(self, row: pd.Series, columns: list[str]) -> Optional[float]:
+    def _get_float(self, row: pd.Series, columns: List[str]) -> Optional[float]:
         """Try to get a float value from multiple possible column names."""
         for col in columns:
             if col in row.index:
@@ -171,7 +171,7 @@ class GWASAtlasClient:
                         continue
         return None
     
-    def _get_int(self, row: pd.Series, columns: list[str]) -> Optional[int]:
+    def _get_int(self, row: pd.Series, columns: List[str]) -> Optional[int]:
         """Try to get an int value from multiple possible column names."""
         for col in columns:
             if col in row.index:
@@ -183,7 +183,7 @@ class GWASAtlasClient:
                         continue
         return None
     
-    def _get_str(self, row: pd.Series, columns: list[str]) -> Optional[str]:
+    def _get_str(self, row: pd.Series, columns: List[str]) -> Optional[str]:
         """Try to get a string value from multiple possible column names."""
         for col in columns:
             if col in row.index:
@@ -192,7 +192,7 @@ class GWASAtlasClient:
                     return str(val)
         return None
     
-    def get_all_traits(self) -> list[str]:
+    def get_all_traits(self) -> List[str]:
         """Get all available trait names."""
         if self.df.empty:
             return []

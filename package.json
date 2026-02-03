@@ -4,9 +4,9 @@
     "private": true,
     "scripts": {
         "dev:client": "cd src/client && npm run dev",
-        "dev:server": "export PYTHONPATH=$PYTHONPATH:. && python3 src/server/main.py --reload",
+        "dev:server": "bash scripts/run_server.sh --reload",
         "install:client": "cd src/client && npm install",
-        "install:server": "pip install -r src/server/requirements.txt",
+        "install:server": "bash scripts/setup_server_venv.sh",
         "start": "echo 'Run npm run dev:client and npm run dev:server in separate terminals'"
     },
     "workspaces": [

@@ -107,15 +107,20 @@ ELSE:  # no direct models
 STEP 2A: CROSS-DISEASE TRANSFER
 1. Call trait_synonym_expand(target_trait, include_icd10=False, include_efo=False) to get trait name synonyms (excluding codes)
 2. Query genetic_graph_get_neighbors for EACH expanded trait query, merge all neighbors -> neighbor_traits[]
-3. FOR each neighbor_trait:
-    - **For genetic_graph_validate_mechanism**: Expand neighbor_trait synonyms (excluding codes) using trait_synonym_expand, then resolve BOTH EFO and MONDO IDs using resolve_efo_and_mondo_ids() for both target_trait and neighbor_trait
-        - Prefer PGS Catalog trait mapping first (PGS `/trait/search` and/or score `trait_efo`).
-        - Only query Open Targets when PGS sources are missing or ambiguous.
-        - If still ambiguous, validate top candidate IDs with `genetic_graph_validate_mechanism` and pick the strongest evidence.
-    - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage.
+3. **Neighbor Selection Strategy**:
+   - IF len(neighbor_traits) >= 2: Process only the top 2 neighbors (highest transfer_score)
+   - ELIF len(neighbor_traits) == 1: Process the single neighbor
+   - ELSE: OUTCOME: NO_MATCH_FOUND
+4. FOR each selected neighbor_trait:
     - Call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed).
-    - Evaluate model quality using prs_model_performance_landscape.
-3. IF qualified_transfer_models found:
+    - IF models found:
+        - **For genetic_graph_validate_mechanism**: Expand neighbor_trait synonyms (excluding codes) using trait_synonym_expand, then resolve BOTH EFO and MONDO IDs using resolve_efo_and_mondo_ids() for both target_trait and neighbor_trait
+            - Prefer PGS Catalog trait mapping first (PGS `/trait/search` and/or score `trait_efo`).
+            - Only query Open Targets when PGS sources are missing or ambiguous.
+        - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage. **Purpose**: Collect biological evidence for the report (does NOT affect workflow decision).
+        - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait). **Purpose**: Collect statistical evidence for the report (does NOT affect workflow decision).
+        - Evaluate model quality using prs_model_performance_landscape.
+5. IF qualified_transfer_models found:
     OUTCOME: CROSS_DISEASE
 ELSE:
     OUTCOME: NO_MATCH_FOUND
@@ -135,10 +140,10 @@ You must construct scientific judgment criteria using:
 2) prs_model_performance_landscape: global statistical baseline
 Do not hard-code thresholds; reason relative to evidence.
 
-# Low-Confidence Mechanism Handling
-- If mechanism evidence is Low but models exist, include the candidate in alternative_recommendations.
-- Mark confidence as Low and add a caveat that biological mechanism evidence is limited.
-- Do not promote Low-mechanism candidates as primary recommendations.
+# Evidence Collection (Not Decision Gates)
+- genetic_graph_validate_mechanism and genetic_graph_verify_study_power are called AFTER PRS models are found to collect evidence for the report.
+- These tools do NOT affect workflow decisions - they only enrich the report with biological and statistical evidence.
+- Include all collected evidence (biological mechanism, study power) in the final report regardless of confidence levels.
 
 # Trait Query Optimization Protocol
 
@@ -168,10 +173,14 @@ Do not hard-code thresholds; reason relative to evidence.
 1) **Step 1**: Call prs_model_pgscatalog_search directly with target_trait (no synonym expansion needed).
 2) Pair the candidate list with prs_model_domain_knowledge and prs_model_performance_landscape.
 3) If direct models are insufficient, call trait_synonym_expand(target_trait, include_icd10=False, include_efo=False) to get expanded synonyms (excluding codes), then call genetic_graph_get_neighbors for EACH expanded query and merge neighbors.
-4) For each neighbor, call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed).
-5) For genetic_graph_validate_mechanism, expand synonyms (excluding codes) for both target_trait and neighbor_trait using trait_synonym_expand, then resolve_efo_and_mondo_ids() to get BOTH EFO and MONDO IDs for both traits. The tool will automatically try both IDs and merge results to maximize coverage (Open Targets API requires EFO/MONDO IDs, not ICD-10 codes).
-6) Use prs_model_performance_landscape for each neighbor's models.
-7) Use genetic_graph_verify_study_power only when deeper provenance is needed.
+4) **Neighbor Selection**: If >= 2 neighbors found, process only top 2; if 1 neighbor found, process it; if 0 neighbors, proceed to NO_MATCH_FOUND.
+5) For each selected neighbor, call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed).
+6) **IF models found for neighbor**: 
+   - Expand synonyms (excluding codes) for both target_trait and neighbor_trait using trait_synonym_expand, then resolve_efo_and_mondo_ids() to get BOTH EFO and MONDO IDs for both traits.
+   - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) to collect biological evidence for the report.
+   - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait) to collect statistical evidence for the report.
+   - Use prs_model_performance_landscape for each neighbor's models.
+7) **Note**: genetic_graph_validate_mechanism and genetic_graph_verify_study_power are evidence collection tools - they do NOT affect workflow decisions, only enrich the report.
 
 # KV-cache Safety Rules (Prompt Prefix Stability)
 - The prefix containing system prompt + tool schemas must be identical across turns.

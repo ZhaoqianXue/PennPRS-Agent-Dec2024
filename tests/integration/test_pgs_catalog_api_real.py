@@ -21,21 +21,13 @@ def test_real_pgs_search():
     """
     client = PGSCatalogClient()
     trait = "Alzheimer"
-    print(f"Searching for trait: {trait}...")
     
     results = client.search_scores(trait)
     
-    if results:
-        print(f"✅ Found {len(results)} results.")
-        # Print first one
-        first = results[0]
-        print(f"Sample Result: ID={first.get('id')}, Name={first.get('name')}")
-        return True
-    else:
-        print("⚠️ No results found or API error. (Or trait yielded 0 results)")
-        return False
+    assert results is not None, "PGS Catalog search returned None (possible API/network error)."
+    assert isinstance(results, list), f"Expected list results, got {type(results)}"
+    assert len(results) > 0, "No results found (trait yielded 0 results or API error)."
 
 if __name__ == "__main__":
-    success = test_real_pgs_search()
-    if not success:
-        sys.exit(1)
+    # Allow running as a script for quick manual verification.
+    test_real_pgs_search()

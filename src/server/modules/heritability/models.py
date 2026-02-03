@@ -2,7 +2,7 @@
 Heritability data models for PennGene Agent.
 """
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List, Dict
 from enum import Enum
 
 
@@ -58,13 +58,13 @@ class HeritabilitySearchResponse(BaseModel):
     """Response for heritability search endpoint."""
     query: str
     total_results: int
-    estimates: list[HeritabilityEstimate]
+    estimates: List[HeritabilityEstimate]
 
 
 class HeritabilityByAncestry(BaseModel):
     """Heritability grouped by ancestry."""
     trait_name: str
-    ancestry_breakdown: dict[str, list[HeritabilityEstimate]]
+    ancestry_breakdown: Dict[str, List[HeritabilityEstimate]]
 
 
 class GapAnalysisResult(BaseModel):

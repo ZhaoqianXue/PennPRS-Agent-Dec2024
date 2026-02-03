@@ -12,7 +12,6 @@ Where theta represents either h^2 (for nodes) or r_g (for edges).
 """
 import math
 from typing import List, Dict, Any, Optional
-from scipy import stats
 
 
 def inverse_variance_meta_analysis(
@@ -83,7 +82,12 @@ def inverse_variance_meta_analysis(
     z_meta = theta_meta / se_meta
     
     # P-value: P_meta = 2 * Phi(-|Z_meta|) (two-tailed)
-    p_meta = 2 * stats.norm.sf(abs(z_meta))
+    #
+    # Implementation note:
+    # Avoid scipy dependency by using the complementary error function:
+    #   sf(z) = 0.5 * erfc(z / sqrt(2))
+    #   two-tailed p = 2 * sf(|z|) = erfc(|z| / sqrt(2))
+    p_meta = math.erfc(abs(z_meta) / math.sqrt(2.0))
     
     return {
         "theta_meta": theta_meta,

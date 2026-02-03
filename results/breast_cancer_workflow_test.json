@@ -1,0 +1,52 @@
+{
+  "pgs_models_count": 25,
+  "recommendation_report": {
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "primary_recommendation": {
+      "pgs_id": "PGS000007",
+      "source_trait": "Breast cancer",
+      "confidence": "Moderate",
+      "rationale": "Reasoning: Direct breast-cancer PRS models are abundant and trait-matched, so substitution is unnecessary. Evidence: In the provided direct-match shortlist, PGS000007 (invasive breast cancer; LASSO penalized regression) reports AUC=0.78 (R2=0.153) with multi-cohort training (n=10,444) and outperforms other highlighted direct models (e.g., PGS000332 AUC=0.75; PGS000015 AUC=0.69). Recommendation: Use PGS000007 as the primary direct-match PRS for breast cancer. Caveats: Confidence remains Moderate because calibration and deployment-relevant external validation details (especially across ancestries) are not provided in the context; most evidence appears EUR-centric, so portability may be reduced in non-EUR populations."
+    },
+    "alternative_recommendations": [
+      {
+        "pgs_id": "PGS000332",
+        "source_trait": "Breast cancer",
+        "confidence": "Low",
+        "rationale": "Reasoning: Provides a high-variant-count genome-wide model and reasonable discrimination among the listed options. Evidence: Reported AUC=0.75 in EUR evaluation with LDpred and large variant set (~6.39M). Recommendation: Consider as a baseline comparator or if method/implementation constraints favor LDpred-style genome-wide scores. Caveats: Lower reported AUC than PGS000007 in the context and limited details on calibration and multi-ancestry performance."
+      },
+      {
+        "pgs_id": "PGS000015",
+        "source_trait": "Breast cancer",
+        "confidence": "Low",
+        "rationale": "Reasoning: Widely cited P+T score trained in UKB with simpler implementation, sometimes useful for operational simplicity. Evidence: Reported AUC=0.69 with n=63,347 training. Recommendation: Consider if you require a simpler, smaller-variant score and accept lower discrimination. Caveats: Lower discrimination than top candidate; performance may vary materially by ancestry and phenotyping definition."
+      }
+    ],
+    "direct_match_evidence": {
+      "models_evaluated": 25,
+      "performance_metrics": {},
+      "clinical_benchmarks": [
+        "Breast cancer PRS performance is typically evaluated using discrimination (AUC/C-index), calibration (intercept/slope), and risk stratification (e.g., top percentiles vs average) with attention to ancestry portability and subtype definitions (e.g., invasive vs overall; ER+/-). Clinical deployment generally requires independent external validation, calibration in the target health system, and alignment with screening/prevention guidelines when used for risk stratification."
+      ]
+    },
+    "cross_disease_evidence": null,
+    "genetic_graph_evidence": [],
+    "genetic_graph_ran": false,
+    "genetic_graph_neighbors": [],
+    "genetic_graph_errors": [],
+    "caveats_and_limitations": [
+      "The context indicates Step 2a (genetic graph cross-disease transfer) was not executed; therefore no genetically correlated trait transfer candidates are assessed here.",
+      "Key deployment metrics (calibration, net benefit/decision-curve analyses, absolute risk conversion, subgroup performance by ancestry/age, and prospective validation) are not available in the provided context; these are important for clinical use.",
+      "Most highlighted training/evaluation cohorts are EUR-heavy; expected attenuation and potential miscalibration may occur in non-EUR ancestries without local recalibration/validation.",
+      "Phenotype definitions differ across scores (e.g., invasive breast cancer vs broader breast cancer; incident vs prevalent; female-only); choose a model matching your outcome definition and use-case.",
+      "PRS should be integrated with established clinical risk factors (family history, age, reproductive history, mammographic density, pathogenic variants where available) rather than used in isolation. Human review recommended before any clinical deployment."
+    ],
+    "follow_up_options": [
+      {
+        "label": "Train New Model on PennPRS",
+        "action": "TRIGGER_PENNPRS_CONFIG",
+        "context": "If local cohort data and phenotype definitions differ from published scores or if multi-ancestry performance/calibration is a priority, train and calibrate a PennPRS model using your target population, with explicit external validation, ancestry-stratified evaluation, and clinical-factor integration."
+      }
+    ]
+  }
+}

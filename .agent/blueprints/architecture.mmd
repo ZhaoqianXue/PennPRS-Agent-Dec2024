@@ -19,9 +19,11 @@ flowchart TB
         subgraph Step2a["Step 2a: Cross-Disease Transfer"]
             direction TB
             S2a_Neighbors["genetic_graph_get_neighbors<br/>(TARGET → related_traits[])"]
-            S2a_Loop["FOR each related_trait"]
+            S2a_Select["Select neighbors:<br/>>=2 → top 2, <2 → all"]
+            S2a_Loop["FOR each selected neighbor"]
             S2a_Search["prs_model_pgscatalog_search<br/>(RELATED)"]
-            S2a_Validate["genetic_graph_validate_mechanism<br/>(TARGET ↔ RELATED)"]
+            S2a_Validate["genetic_graph_validate_mechanism<br/>(IF models found)"]
+            S2a_Verify["genetic_graph_verify_study_power<br/>(IF models found)"]
         end
         
         subgraph Step2b["Step 2b: Direct Training"]
@@ -53,9 +55,14 @@ flowchart TB
     Decision1 -->|"SUB_OPTIMAL<br/>NO_MATCH"| Step2a
     
     S2a_Neighbors --> GWAS
+    S2a_Neighbors --> S2a_Select
+    S2a_Select --> S2a_Loop
     S2a_Loop --> S2a_Search
     S2a_Search --> PGS
+    S2a_Search -->|"IF models found"| S2a_Validate
+    S2a_Search -->|"IF models found"| S2a_Verify
     S2a_Validate --> OpenTargets
+    S2a_Verify --> GWAS
     
     Step2a -->|"Found<br/>Transfer Model"| CrossDisease
     Step2a -->|"No Viable<br/>Transfer"| Step2b

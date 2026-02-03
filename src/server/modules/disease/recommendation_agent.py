@@ -617,13 +617,17 @@ def recommend_models(
             target_h2_val = target_node.h2_meta if target_node else None
             target_h2 = float(target_h2_val) if isinstance(target_h2_val, (int, float)) else 0.0
             
+            # Apply neighbor selection strategy: >= 2 neighbors -> top 2, < 2 -> all, 0 -> none
+            sorted_neighbors = sorted(all_neighbors, key=lambda n: n.transfer_score, reverse=True)
+            selected_neighbors = sorted_neighbors[:2] if len(sorted_neighbors) >= 2 else sorted_neighbors
+            
             neighbors_result = NeighborResult(
                 query_trait=target_trait,
                 resolved_by="synonym_expansion",
                 resolution_confidence="High",
                 target_trait=target_trait,
                 target_h2_meta=target_h2,
-                neighbors=sorted(all_neighbors, key=lambda n: n.transfer_score, reverse=True)[:5]  # Top 5 after merging
+                neighbors=selected_neighbors
             )
         else:
             neighbors_result = None
@@ -655,28 +659,10 @@ def recommend_models(
                 "context": {"trait": target_trait}
             })
 
-        def validate_fn(source_trait: str, target_trait: str):
-            # Resolve IDs for both traits
-            source_efo, source_mondo = resolve_efo_and_mondo_ids(
-                trait_name=source_trait,
-                ot_client=ot_client,
-                pgs_client=pgs_client,
-                pgs_models=None  # Don't use pgs_models for neighbor traits
-            )
-            return genetic_graph_validate_mechanism(
-                ot_client,
-                source_trait_efo=source_efo or "",
-                target_trait_efo=target_efo or "",
-                source_trait_name=source_trait,
-                target_trait_name=target_trait,
-                phewas_client=phewas_client,
-                source_trait_mondo=source_mondo,
-                target_trait_mondo=target_mondo
-            )
+        # Process neighbors according to selection strategy: >= 2 -> top 2, < 2 -> all, 0 -> skip
+        neighbors_to_process = neighbors_result.neighbors[:2] if len(neighbors_result.neighbors) >= 2 else neighbors_result.neighbors
 
-        study_power_checks = 0
-
-        for neighbor in neighbors_result.neighbors:
+        for neighbor in neighbors_to_process:
             neighbor_trait = neighbor.trait_id
             # NOTE: According to Single Agent Principle, the Agent should decide to call
             # prs_model_pgscatalog_search via system prompts.
@@ -706,49 +692,59 @@ def recommend_models(
                 summary_builder=lambda _: _summarize_search_result_for_llm(neighbor_models, top_n=TOP_MODELS_INLINE)
             )
 
-            neighbor_candidates = resolve_efo_candidates(
-                trait_name=neighbor_trait,
-                ot_client=ot_client,
-                pgs_client=pgs_client,
-                pgs_models=neighbor_models.models
-            )
-            if not neighbor_candidates:
-                tool_errors.append({
-                    "tool_name": "resolve_efo_candidates",
-                    "error_type": "EfoNotFound",
-                    "error_message": f"No EFO candidates resolved for neighbor trait '{neighbor_trait}'",
-                    "context": {"trait": neighbor_trait}
-                })
-            selected_candidate, mechanism = select_best_efo_candidate(
-                target_trait_name=target_trait,
-                target_efo_id=target_efo,
-                target_mondo_id=target_mondo,
-                neighbor_trait_name=neighbor_trait,
-                candidates=neighbor_candidates,
-                validate_fn=validate_fn
-            )
-
-            if not selected_candidate and neighbor_candidates:
-                selected_candidate = neighbor_candidates[0]
-
-            if selected_candidate and not mechanism:
-                mechanism = validate_fn(neighbor_trait, target_trait)
-
+            best_stats = _best_model_stats(neighbor_models.models)
+            
+            # Collect evidence tools: called AFTER models are found (if any models found)
             mechanism_summary = None
             mechanism_confidence = "Low"
-            if isinstance(mechanism, ToolError):
-                tool_errors.append(mechanism.model_dump())
-            elif isinstance(mechanism, MechanismValidation):
-                mechanism_summary = _summarize_mechanism(mechanism)
-                mechanism_confidence = mechanism.confidence_level
-
-            if mechanism_confidence == "Low":
-                weak_mechanism_traits.append(neighbor_trait)
-
-            best_stats = _best_model_stats(neighbor_models.models)
             study_power_summary = None
-            if run_cross_disease and study_power_checks < MAX_STUDY_POWER_CHECKS:
-                study_power_checks += 1
+            selected_candidate = None
+            
+            if neighbor_models_found > 0:
+                # Resolve EFO/MONDO IDs for evidence collection
+                neighbor_candidates = resolve_efo_candidates(
+                    trait_name=neighbor_trait,
+                    ot_client=ot_client,
+                    pgs_client=pgs_client,
+                    pgs_models=neighbor_models.models
+                )
+                
+                neighbor_efo, neighbor_mondo = resolve_efo_and_mondo_ids(
+                    trait_name=neighbor_trait,
+                    ot_client=ot_client,
+                    pgs_client=pgs_client,
+                    pgs_models=neighbor_models.models
+                )
+                
+                selected_candidate = neighbor_candidates[0] if neighbor_candidates else None
+                if not selected_candidate and (neighbor_efo or neighbor_mondo):
+                    # Fallback: create candidate from resolved IDs
+                    selected_candidate = EfoCandidate(
+                        id=neighbor_efo or neighbor_mondo or "",
+                        label=neighbor_trait,
+                        score=1.0,
+                        source="ot"  # Default to "ot" as fallback
+                    )
+                
+                # Call genetic_graph_validate_mechanism to collect biological evidence (does NOT affect workflow decision)
+                mechanism = genetic_graph_validate_mechanism(
+                    ot_client,
+                    source_trait_efo=neighbor_efo or "",
+                    target_trait_efo=target_efo or "",
+                    source_trait_name=neighbor_trait,
+                    target_trait_name=target_trait,
+                    phewas_client=phewas_client,
+                    source_trait_mondo=neighbor_mondo,
+                    target_trait_mondo=target_mondo
+                )
+                
+                if isinstance(mechanism, ToolError):
+                    tool_errors.append(mechanism.model_dump())
+                elif isinstance(mechanism, MechanismValidation):
+                    mechanism_summary = _summarize_mechanism(mechanism)
+                    mechanism_confidence = mechanism.confidence_level
+                
+                # Call genetic_graph_verify_study_power to collect statistical evidence (does NOT affect workflow decision)
                 study_power = genetic_graph_verify_study_power(
                     kg_service,
                     source_trait=target_trait,
@@ -780,6 +776,8 @@ def recommend_models(
                 "study_power_summary": study_power_summary.model_dump() if study_power_summary else None
             }
             cross_disease_candidates.append(candidate)
+            
+            # Note: mechanism_confidence is collected for report evidence only, not used as decision gate
 
             # Ensure shared_genes is always a list, never None
             shared_genes_list = []

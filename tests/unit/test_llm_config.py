@@ -52,6 +52,12 @@ class TestLLMConfig:
         else:
             assert llm.temperature == LLMConfig.DEFAULT.temperature
 
+    def test_openai_model_env_override(self):
+        """Test OPENAI_MODEL environment variable override."""
+        with patch.dict(os.environ, {"OPENAI_MODEL": "gpt-test-override"}):
+            llm = get_llm("default")
+            assert llm.model_name == "gpt-test-override"
+
     def test_model_config_to_dict(self):
         """Test ModelConfig to dict conversion."""
         config = ModelConfig(

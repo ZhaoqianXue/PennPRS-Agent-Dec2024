@@ -17,7 +17,9 @@ Usage:
     config = LLMConfig.AGENTIC_CLASSIFIER
 """
 
+import os
 from dataclasses import dataclass
+from dataclasses import replace
 from typing import Optional, Dict, Any
 from langchain_openai import ChatOpenAI
 import logging
@@ -186,6 +188,12 @@ def get_llm(module: str = "default") -> ChatOpenAI:
         response = llm.invoke("Classify this trait...")
     """
     config = _CONFIG_MAP.get(module.lower(), LLMConfig.DEFAULT)
+
+    # Optional environment override (project rule: OPENAI_MODEL).
+    # This enables quick runtime switching without code changes.
+    model_override = os.getenv("OPENAI_MODEL")
+    if model_override:
+        config = replace(config, model=model_override)
     
     logger.debug(f"Creating LLM for module '{module}': {config.model}, temp={config.temperature}")
     

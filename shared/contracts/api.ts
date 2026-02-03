@@ -102,6 +102,24 @@ export interface CrossDiseaseEvidence {
     source_trait_models?: CrossDiseaseModelSummary;
 }
 
+export interface StudyPowerSummary {
+    n_correlations: number;
+    rg_meta?: number;
+}
+
+export interface GeneticGraphEvidence {
+    neighbor_trait: string;
+    rg_meta?: number;
+    transfer_score?: number;
+    neighbor_models_found: number;
+    neighbor_best_model_id?: string;
+    neighbor_best_model_auc?: number;
+    mechanism_confidence?: string;
+    mechanism_summary?: string;
+    shared_genes: string[];
+    study_power?: StudyPowerSummary;
+}
+
 export interface FollowUpOption {
     label: string;
     action: string;
@@ -114,6 +132,10 @@ export interface RecommendationReport {
     alternative_recommendations: PrimaryRecommendation[];
     direct_match_evidence?: DirectMatchEvidence | null;
     cross_disease_evidence?: CrossDiseaseEvidence | null;
+    genetic_graph_evidence?: GeneticGraphEvidence[];
+    genetic_graph_ran?: boolean;
+    genetic_graph_neighbors?: string[];
+    genetic_graph_errors?: string[];
     caveats_and_limitations: string[];
     follow_up_options: FollowUpOption[];
 }

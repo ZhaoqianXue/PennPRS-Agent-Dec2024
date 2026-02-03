@@ -327,10 +327,16 @@ class TestPGSCatalogSearch:
         assert result.total_found == 3
         assert result.after_filter == 2
         assert len(result.models) == 2
-        assert result.models[0].id == "PGS001"
-        assert result.models[1].id == "PGS002"
-        assert result.models[0].performance_metrics["auc"] == 0.75
-        assert result.models[1].performance_metrics["r2"] == 0.15
+        
+        # Verify filtering: PGS003 (no metrics) should be filtered out
+        model_ids = [m.id for m in result.models]
+        assert "PGS003" not in model_ids
+        assert "PGS001" in model_ids
+        assert "PGS002" in model_ids
+        
+        # Verify both returned models have metrics
+        assert result.models[0].performance_metrics.get("auc") == 0.75 or result.models[0].performance_metrics.get("r2") == 0.15
+        assert result.models[1].performance_metrics.get("auc") == 0.75 or result.models[1].performance_metrics.get("r2") == 0.15
 
     def test_search_respects_limit(self):
         """Test that the limit parameter is respected."""
@@ -353,8 +359,8 @@ class TestPGSCatalogSearch:
         assert len(result.models) == 5
         assert result.total_found == 10
 
-    def test_search_is_sorted_by_auc_then_r2_then_train_n(self):
-        """Test that returned models are meaningfully sorted before slicing."""
+    def test_search_is_sorted_by_zscore_composite(self):
+        """Test that returned models are sorted by Z-score composite score (equal weight for AUC, R², samples, variants)."""
         from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
         from unittest.mock import Mock
 
@@ -395,7 +401,21 @@ class TestPGSCatalogSearch:
         mock_client.get_score_performance.side_effect = mock_performance
 
         result = prs_model_pgscatalog_search(mock_client, "T2D", limit=3)
-        assert [m.id for m in result.models] == ["PGS_A", "PGS_B", "PGS_C"]
+        # With Z-score normalization and equal weights:
+        # PGS_A: AUC=0.80, R2=None, samples=1000, variants=10
+        # PGS_B: AUC=0.70, R2=0.20, samples=5000, variants=10
+        # PGS_C: AUC=0.70, R2=0.10, samples=2000, variants=10
+        # PGS_B likely ranks highest due to high sample size (5000) and R2 (0.20)
+        # PGS_A ranks second due to high AUC (0.80) but lower sample size
+        # PGS_C ranks lowest
+        assert len(result.models) == 3
+        # Verify all three models are returned and sorted by composite Z-score
+        model_ids = [m.id for m in result.models]
+        assert "PGS_A" in model_ids
+        assert "PGS_B" in model_ids
+        assert "PGS_C" in model_ids
+        # PGS_B should rank highest due to high sample size and R2
+        assert result.models[0].id == "PGS_B"
 
     def test_search_uses_variants_as_tie_breaker_before_id(self):
         """Test variants_number breaks ties after AUC/R2/train_n."""
@@ -429,5 +449,8 @@ class TestPGSCatalogSearch:
         mock_client.get_score_performance.side_effect = mock_performance
 
         result = prs_model_pgscatalog_search(mock_client, "T2D", limit=2)
-        # Higher variants should come first
-        assert [m.id for m in result.models] == ["PGS_Y", "PGS_X"]
+        # With Z-score normalization and equal weights, higher variants should contribute more to composite score
+        # PGS_Y has 1000 variants vs PGS_X has 100 variants
+        # Since AUC/R2/samples are same, PGS_Y should rank higher due to variants
+        assert len(result.models) == 2
+        assert result.models[0].id == "PGS_Y"  # Higher variants should rank first

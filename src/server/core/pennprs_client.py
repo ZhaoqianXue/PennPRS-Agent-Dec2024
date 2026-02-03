@@ -3,6 +3,7 @@ import requests
 import time
 from typing import Optional, Dict, List, Any
 import logging
+from requests import HTTPError
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -15,7 +16,9 @@ class PennPRSClient:
     BASE_URL = "https://pennprs.org/api"
 
     def __init__(self, email: Optional[str] = None):
-        self.email = email or os.getenv("PENNPRS_EMAIL") or "zhaoqian.xue@pennmedicine.upenn.edu" # Updated default
+        # Email is required only for user-scoped operations (job submission/status/history).
+        # Do not hard-code a personal email in the repository.
+        self.email = email or os.getenv("PENNPRS_EMAIL")
         
     def add_single_job(
         self, 
@@ -34,6 +37,10 @@ class PennPRSClient:
         """
         Submit a single job to PennPRS.
         """
+        if not self.email:
+            logger.error("PennPRS job submission requires an email. Set PENNPRS_EMAIL or pass email=...")
+            return None
+
         job_data = {
             "userEmail": self.email,
             "jobEmailOpt": True,
@@ -45,6 +52,9 @@ class PennPRSClient:
             "traitsDetail": traits_detail,
             "traitsType": traits_type,
             "traitsName": traits_name,
+            # PennPRS API expects a misspelled field name: `traitsPopoulation`.
+            # Keep both keys for backward/forward compatibility.
+            "traitsPopoulation": traits_population,
             "traitsPopulation": traits_population,
             "traitsCol": traits_col,
             "paraDict": para_dict or {}
@@ -55,8 +65,23 @@ class PennPRSClient:
             logger.info(f"Submitting job to {url}")
             # Note: verify=False is used in reference implementation, likely due to self-signed certs or similar.
             # We will keep it but it's a security risk in production.
-            response = requests.post(url, json=job_data, verify=False)
-            response.raise_for_status()
+            response = requests.post(url, json=job_data, verify=False, timeout=30)
+            try:
+                response.raise_for_status()
+            except HTTPError:
+                # Preserve server-side validation errors (e.g., 422) for debugging.
+                content_type = response.headers.get("content-type", "")
+                body_preview = (response.text or "").strip()
+                if len(body_preview) > 2000:
+                    body_preview = body_preview[:2000] + "...(truncated)"
+
+                logger.error(
+                    "PennPRS add_job failed: status=%s content_type=%s body=%s",
+                    response.status_code,
+                    content_type,
+                    body_preview,
+                )
+                return None
             return response.json()
         except Exception as e:
             logger.error(f"Error submitting job: {e}")
@@ -66,6 +91,10 @@ class PennPRSClient:
         """
         Get the status of a specific job.
         """
+        if not self.email:
+            logger.error("PennPRS job status lookup requires an email. Set PENNPRS_EMAIL or pass email=...")
+            return None
+
         url = f"{self.BASE_URL}/get_jobs"
         try:
             response = requests.get(url, params={"email": self.email}, verify=False, timeout=30)
@@ -84,6 +113,10 @@ class PennPRSClient:
         """
         Download job results.
         """
+        if not self.email:
+            logger.error("PennPRS result download requires an email context. Set PENNPRS_EMAIL or pass email=...")
+            return None
+
         download_url = f"{self.BASE_URL}/download"
         filename_param = f"{self.email}={job_id}"
         

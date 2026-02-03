@@ -56,17 +56,18 @@ PennPRS_Agent/
 From the root directory:
 
 ```bash
-# Install Python dependencies
-pip install -r src/server/requirements.txt
+# Create a Python >=3.9 virtualenv and install backend deps
+bash scripts/setup_server_venv.sh
 
 # Set environment variables
 cp .env.example .env
 # Edit .env to add your OPENAI_API_KEY
 
 # Start the backend server
-export PYTHONPATH=$PYTHONPATH:. && python3 src/server/main.py
+# Option A (recommended): use the helper script (prefers .venv)
+bash scripts/run_server.sh
 # For development with auto-reload:
-export PYTHONPATH=$PYTHONPATH:. && python3 src/server/main.py --reload
+bash scripts/run_server.sh --reload
 ```
 
 ### 2. Frontend Setup

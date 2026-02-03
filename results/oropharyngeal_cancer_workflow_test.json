@@ -1,0 +1,57 @@
+{
+  "pgs_models_count": 0,
+  "recommendation_report": {
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "primary_recommendation": {
+      "pgs_id": "PGS001291",
+      "source_trait": "Prostate cancer",
+      "confidence": "Low",
+      "rationale": "Reasoning: Direct prostate cancer PRS are available, so transfer is unnecessary. However, the Step 1 decision outcome was forced to DIRECT_SUB_OPTIMAL in the provided context and the confidence was set to Low. Evidence: PGS Catalog search for 'Prostate cancer' returned 96 total scores; after filtering, 25 remained. Among top candidates, PGS001291 (snpnet; UKB training n=269,704; 948 variants) reports AUC 0.97011 and R² 0.40156 with multi-ancestry evaluation (AFR/EAS/EUR/SAS). Recommendation: Use PGS001291 as the baseline direct model for prostate cancer risk prediction in this context, while independently confirming phenotyping definition and avoiding overinterpretation of the unusually high AUC without protocol review. Caveats: High reported AUC may reflect study design/ascertainment or non-comparable evaluation; clinical utility and calibration in the intended deployment cohort are not established from the provided summary."
+    },
+    "alternative_recommendations": [
+      {
+        "pgs_id": "PGS000662",
+        "source_trait": "Prostate cancer",
+        "confidence": "Moderate",
+        "rationale": "Reasoning: Provides a trans-ancestry GWAS-derived PRS with explicit multi-ancestry GWAS inputs and diverse evaluation, which may generalize better across ancestries than EUR-only training. Evidence: PGS000662 (fine-mapped JAM; 269 variants) reports AUC 0.961; GWAS includes AFR/AMR/EAS/EUR with evaluation across AFR/EAS/EUR/MAE. Recommendation: Consider as an alternative when interpretability (fewer variants) or trans-ancestry derivation is prioritized. Caveats: AUC is reported without calibration and may not be directly comparable; covariate set differs (Age, 10 PCs)."
+      },
+      {
+        "pgs_id": "PGS000333",
+        "source_trait": "Prostate cancer",
+        "confidence": "Moderate",
+        "rationale": "Reasoning: Well-known LDpred construction with a clear cohort (FINRISK) and large variant count; AUC is in a more typical range for cancer PRS. Evidence: PGS000333 reports AUC 0.788; DEV EUR; EVAL includes EUR/MAE. Recommendation: Use as a conservative baseline comparator and for sensitivity analyses against sparsity-based models. Caveats: Primarily EUR-developed; transfer to non-EUR populations may be limited without recalibration."
+      },
+      {
+        "pgs_id": "PGS000795",
+        "source_trait": "Prostate cancer",
+        "confidence": "Low",
+        "rationale": "Reasoning: Compact variant set (161) may be easier to implement and QC; includes integration context (pan-cancer PRS + modifiable risk factors). Evidence: PGS000795 reports AUC 0.769 and R² 0.51; evaluation EUR; incorporates family history covariate per summary. Recommendation: Consider when a small-panel PRS is required operationally, or as a benchmark alongside genome-wide methods. Caveats: Method description indicates reweighting from prior score; inclusion of family history in modeling may complicate isolation of PRS effect; unclear portability."
+      }
+    ],
+    "direct_match_evidence": {
+      "models_evaluated": 25,
+      "performance_metrics": {},
+      "clinical_benchmarks": [
+        "No specific prostate-cancer PRS clinical guideline benchmark was provided in the context JSON; interpret results relative to intended use (screening vs. risk stratification) and validate calibration and net benefit locally."
+      ]
+    },
+    "cross_disease_evidence": null,
+    "genetic_graph_evidence": [],
+    "genetic_graph_ran": true,
+    "genetic_graph_neighbors": [],
+    "genetic_graph_errors": [],
+    "caveats_and_limitations": [
+      "Step 2a (genetic graph neighbor discovery, mechanism validation, and related-trait PRS evaluation) is not completed per the provided progress state; cross-disease transfer evidence is therefore unavailable.",
+      "The Step 1 decision was explicitly marked as 'FORCED for testing: DIRECT_SUB_OPTIMAL'; confidence labeling should be re-assessed in a real run using performance landscape comparisons and intended deployment constraints.",
+      "Reported AUC/R² values across PGS entries may not be comparable due to differences in phenotype definition (incident/prevalent), case-control sampling, covariates, and evaluation design; require harmonized external validation and calibration in the target cohort.",
+      "Ancestry generalizability is uncertain without stratified performance, calibration, and potential reweighting; multi-ancestry evaluation summaries in PGS Catalog are not a substitute for local validation."
+    ],
+    "follow_up_options": [
+      {
+        "label": "Train New Model on PennPRS",
+        "action": "TRIGGER_PENNPRS_CONFIG",
+        "context": "If deploying in a specific health system or ancestry-mixed cohort, train/recalibrate a prostate cancer PRS using local phenotype definitions, appropriate covariates (age, ancestry PCs, genotyping batch), and evaluate discrimination + calibration + clinical net benefit."
+      }
+    ]
+  }
+}

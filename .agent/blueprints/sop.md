@@ -90,15 +90,19 @@ flowchart TB
             direction TB
             S2a_Synonym["trait_synonym_expand<br/>(TARGET, exclude codes)"]
             S2a_Neighbors["genetic_graph_get_neighbors<br/>(expanded queries → neighbor_traits[])"]
-            S2a_Loop["FOR each neighbor_trait"]
-            S2a_Resolve["resolve_efo_and_mondo_ids<br/>(TARGET + NEIGHBOR)"]
-            S2a_Validate["genetic_graph_validate_mechanism<br/>(EFO + MONDO IDs)"]
+            S2a_Select["Select neighbors:<br/>>=2 → top 2, <2 → all"]
+            S2a_Loop["FOR each selected neighbor"]
             S2a_Search["prs_model_pgscatalog_search<br/>(neighbor_trait)"]
+            S2a_Resolve["resolve_efo_and_mondo_ids<br/>(IF models found)"]
+            S2a_Validate["genetic_graph_validate_mechanism<br/>(IF models found)"]
+            S2a_Verify["genetic_graph_verify_study_power<br/>(IF models found)"]
             S2a_Synonym --> S2a_Neighbors
-            S2a_Neighbors --> S2a_Loop
-            S2a_Loop --> S2a_Resolve
-            S2a_Resolve --> S2a_Validate
+            S2a_Neighbors --> S2a_Select
+            S2a_Select --> S2a_Loop
             S2a_Loop --> S2a_Search
+            S2a_Search -->|"IF models found"| S2a_Resolve
+            S2a_Resolve --> S2a_Validate
+            S2a_Search -->|"IF models found"| S2a_Verify
         end
         
         subgraph Step2b["Step 2b: Training Configuration"]
@@ -131,11 +135,11 @@ flowchart TB
     Decision1 -->|"SUB_OPTIMAL / NO_MATCH"| Step2a
     
     S2a_Neighbors --> GWAS
+    S2a_Search --> PGS
     S2a_Resolve --> PGS
     S2a_Resolve --> OpenTargets
     S2a_Validate --> OpenTargets
-    S2a_Validate -->|"Support Evidence"| S2a_Neighbors
-    S2a_Search --> PGS
+    S2a_Verify --> GWAS
     
     Step2a --> CrossDisease
     
@@ -163,15 +167,15 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
     <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) and providing scientific validation. -->
     - **`genetic_graph_get_neighbors`**: Traverses the Knowledge Graph to find **genetically correlated traits**, pre-ranked by transfer viability score ($r_g^2 \times h^2$).
         - *Purpose*: To identify and prioritize traits that share a significant genetic basis with the target trait, providing **ranked** candidates for cross-disease model recommendation. The deterministic ranking (genetic overlap weighted by signal strength) is applied automatically to avoid unnecessary tool call overhead.
-    - **`genetic_graph_verify_study_power`**: Fetches detailed study-pair metadata (sample sizes, cohorts, populations) for a specific genetic correlation edge.
-        - *Purpose*: To provide JIT context on the underlying statistical evidence of a correlation when the Agent needs to perform deep quality control on a specific cross-disease link. Loaded on-demand, not during initial neighbor discovery.
-    - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org)) to provide biological rationale for the correlation. **This tool is the Agent's "Biological Translator".**
-        - *Purpose*: The essence of this tool is to transform "statistical correlation" into "biological causal logic". When the system discovers that two diseases (e.g., Crohn's disease and Ulcerative colitis) have high genetic correlation ($r_g$), this tool digs into the underlying biological evidence:
+  - **`genetic_graph_verify_study_power`**: Fetches detailed study-pair metadata (sample sizes, cohorts, populations) for a specific genetic correlation edge.
+        - *Purpose*: To provide statistical evidence for the recommendation report. **This tool does NOT affect workflow decisions** - it is called after PRS models are found for genetically correlated traits to collect detailed study-pair provenance (sample sizes, cohorts, populations) for inclusion in the final report. Called on-demand after model discovery, not during initial neighbor discovery.
+  - **`genetic_graph_validate_mechanism`**: Cross-references shared genetic loci/genes (via [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org)) to provide biological rationale for the correlation. **This tool is the Agent's "Biological Translator".**
+        - *Purpose*: To provide biological evidence for the recommendation report. **This tool does NOT affect workflow decisions** - it is called after PRS models are found for genetically correlated traits to collect biological mechanism evidence (shared genes, pathways) for inclusion in the final report. The tool transforms "statistical correlation" into "biological causal logic":
             1. **Find shared loci/genes**: By interfacing with both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org), identify which specific genes or genetic loci jointly control both diseases.
             2. **Construct explanatory context**: It provides not just a number, but an "evidence list". For example: "Both diseases share the pathogenic pathway of the IL23R gene."
-            3. **Justify model transfer**: If the Agent wants to apply Disease A's PRS model to Disease B, the "biological mechanism evidence" from this tool is the strongest justification. It transforms the Agent's decision from "blind attempt" to "evidence-based scientific inference".
+            3. **Enrich report evidence**: The biological mechanism evidence from this tool provides scientific justification for cross-disease model recommendations in the final report, making the recommendation transparent and evidence-based.
         - *Input Requirements*: Requires EFO/MONDO IDs (not ICD-10 codes or trait names). The tool accepts both EFO and MONDO IDs (if available) and automatically tries both, merging results to maximize coverage. This is critical because some diseases may have data only in MONDO (e.g., Type 2 Diabetes) while others may have better coverage in EFO.
-        - *Summary*: It is the Agent's "biological translator", responsible for proving that cross-disease model recommendations are scientifically grounded in life science principles.
+        - *Summary*: It is the Agent's "biological translator", responsible for providing biological evidence that supports cross-disease model recommendations in the final report. **Note**: This tool is called AFTER models are found, not as a decision gate.
 
 - **Trait Resolution Tools** (Helper Tools):
     <!-- For optimizing trait queries and resolving disease ontology IDs. -->
@@ -637,7 +641,7 @@ class RankedNeighbor:
 | **Output** | `StudyPowerResult` — Detailed study-pair provenance for the edge |
 | **Data Source** | GWAS Atlas GC dataset (Module 2) |
 | **Dependency** | `KnowledgeGraphService.get_edge_provenance()` |
-| **JIT Loading** | Only called when Agent needs deep quality control on a specific link |
+| **JIT Loading** | Called after PRS models are found for genetically correlated traits to collect statistical evidence for the report. **Does NOT affect workflow decisions.** |
 | **Token Budget** | ~300 tokens (provenance details) |
 
 ```python
@@ -674,7 +678,7 @@ class CorrelationProvenance:
 | **Output** | `MechanismValidation` — Shared genes/loci evidence |
 | **Data Source** | Open Targets Platform API, PheWAS Catalog (ExPheWAS API) |
 | **Dependency** | External API clients (Open Targets GraphQL, ExPheWAS REST) |
-| **JIT Loading** | Only called to justify cross-disease model transfer |
+| **JIT Loading** | Called after PRS models are found for genetically correlated traits to collect biological evidence for the report. **Does NOT affect workflow decisions.** |
 | **Token Budget** | ~500 tokens (biological evidence summary) |
 | **Query Strategy** | **Requires EFO/MONDO IDs** (not ICD-10 codes or trait names). Use `resolve_efo_and_mondo_ids()` to get BOTH EFO and MONDO IDs for both traits. The tool automatically tries both IDs (if provided) and merges results by deduplicating gene targets and keeping the highest association score. This maximizes coverage since some diseases may have data only in MONDO (e.g., Type 2 Diabetes) while others may have better coverage in EFO. Open Targets Platform uses EFO/MONDO IDs, not ICD-10 codes. |
 
@@ -819,19 +823,23 @@ STEP 2A: CROSS-DISEASE TRANSFER
 3. IF neighbor_traits[] is empty:
    OUTCOME: NO_MATCH_FOUND
 ELSE:
-   FOR each neighbor_trait:
-    - **For genetic_graph_validate_mechanism**: Resolve disease ontology IDs for target_trait and neighbor_trait before mechanism validation:
-        - For target_trait: Expand synonyms (excluding codes) using trait_synonym_expand
-        - For neighbor_trait: Expand synonyms (excluding codes) using trait_synonym_expand
-        - Then use `resolve_efo_and_mondo_ids()` to get BOTH EFO and MONDO IDs for both traits, using a multi-source strategy:
-            - Prefer PGS Catalog trait mapping first (PGS `/trait/search` results and/or score `trait_efo`).
-            - Only query Open Targets when PGS sources are missing or ambiguous (small score gap between top candidates).
-            - If still ambiguous, run `genetic_graph_validate_mechanism` on the top-N candidate IDs and choose the ID with the strongest mechanism evidence.
-            - Do not cache trait→ID mappings to avoid stale external ontology updates; rely on deterministic scoring and explicit ambiguity handling.
-    - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage, providing biological rationale that supports the identified genetic correlation.
-    - IF mechanism evidence is sufficient:
-        - Call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed)
-        - Evaluate model quality using prs_model_performance_landscape
+   - **Neighbor Selection Strategy**: 
+     - IF len(neighbor_traits) >= 2: Process only the top 2 neighbors (highest transfer_score)
+     - ELIF len(neighbor_traits) == 1: Process the single neighbor
+     - ELSE: OUTCOME: NO_MATCH_FOUND
+   - FOR each selected neighbor_trait:
+     - Call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed)
+     - IF models found:
+       - **For genetic_graph_validate_mechanism**: Resolve disease ontology IDs for target_trait and neighbor_trait:
+           - For target_trait: Expand synonyms (excluding codes) using trait_synonym_expand
+           - For neighbor_trait: Expand synonyms (excluding codes) using trait_synonym_expand
+           - Then use `resolve_efo_and_mondo_ids()` to get BOTH EFO and MONDO IDs for both traits, using a multi-source strategy:
+               - Prefer PGS Catalog trait mapping first (PGS `/trait/search` results and/or score `trait_efo`).
+               - Only query Open Targets when PGS sources are missing or ambiguous (small score gap between top candidates).
+               - Do not cache trait→ID mappings to avoid stale external ontology updates; rely on deterministic scoring and explicit ambiguity handling.
+       - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage. **Purpose**: Collect biological evidence for the report (does NOT affect workflow decision).
+       - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait). **Purpose**: Collect statistical evidence for the report (does NOT affect workflow decision).
+       - Evaluate model quality using prs_model_performance_landscape
 4. IF qualified_transfer_models found:
     OUTCOME: CROSS_DISEASE
 ELSE:

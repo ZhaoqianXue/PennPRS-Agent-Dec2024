@@ -91,4 +91,5 @@ python scripts/validation/test_heritability_classifier.py
 
 - All scripts should be run from the **project root directory**
 - Ensure `.env` file is configured with required API keys
-- Install dependencies: `pip install -r requirements.txt`
+- Install backend dependencies: `bash scripts/setup_server_venv.sh`
+- Run scripts with the venv interpreter when available: `.venv/bin/python <script.py>`
