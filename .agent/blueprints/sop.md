@@ -294,6 +294,11 @@ The structured metadata fields above provide the foundational evidence for evalu
 
 **Open Question**: For different Traits, should we implement different filtering standards, or trust that the LLM has this capability? (To be determined during implementation.)
 
+**Pain Point (Trait/Disease-Conditioned Thresholding)**:
+- Empirically, **the AUC gain curve is highly disease-specific**: different diseases exhibit dramatically different AUC improvements as GWAS sample size increases (and similarly for other variables such as `variants_number`, PRS method, and ancestry composition).
+- Example evidence: see Fig. 3 in [Wang et al., 2020, *Nature Communications*](https://www.nature.com/articles/s41467-020-16483-3), where the projected AUC-vs-sample-size trajectories differ substantially across cancer types (different slopes, saturation points, and apparent ceilings).
+- Implication for the Agent: **a single global heuristic threshold (e.g., fixed AUC cutoff or fixed N cutoff) is brittle** and may over-filter valid models for some diseases while under-filtering for others. The evaluation reference frame must allow **disease-conditioned interpretation** using `prs_model_domain_knowledge` (clinical consensus / review context) + `prs_model_performance_landscape` (global statistics), rather than hard-coded universal cutoffs.
+
 #### Implementation Status
 
 - **Implemented**: 

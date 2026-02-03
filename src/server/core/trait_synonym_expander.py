@@ -18,6 +18,7 @@ from typing import List, Dict, Optional, Set
 from pydantic import BaseModel, Field
 from langchain_core.prompts import ChatPromptTemplate
 from src.server.core.llm_config import get_llm
+from src.server.core.system_prompts import TRAIT_SYNONYM_EXPANDER_SYSTEM_PROMPT
 
 logger = logging.getLogger(__name__)
 
@@ -178,37 +179,7 @@ class TraitSynonymExpander:
         Returns:
             List of TraitSynonym objects
         """
-        system_prompt = """You are a biomedical ontology expert specializing in trait and disease terminology.
-
-Your task is to generate comprehensive synonyms and alternative names for a given trait query.
-
-Guidelines:
-1. **Exact Synonyms**: Include medical terms that refer to the exact same condition
-   - Example: "Breast cancer" <-> "Malignant neoplasm of breast" <-> "Carcinoma of breast"
-   - Example: "Type 2 Diabetes" <-> "T2D" <-> "Non-insulin dependent diabetes mellitus"
-
-2. **Broader Terms**: Include more general categories (if relevant)
-   - Example: "Breast cancer" -> "Cancer" (but only if it helps find more data)
-
-3. **Narrower Terms**: Include more specific subtypes (if relevant)
-   - Example: "Diabetes" -> "Type 2 Diabetes", "Type 1 Diabetes"
-
-4. **ICD-10 Codes**: Include ICD-10 codes if you know them
-   - Example: "Breast cancer" -> "C50" (Malignant neoplasm of breast)
-
-5. **EFO Terms**: Include EFO ontology terms if you know them
-   - Example: "Breast cancer" -> "EFO_0000305" or "breast carcinoma"
-
-6. **Related Terms**: Include semantically related terms that might be used interchangeably
-   - Example: "Schizophrenia" -> "Schizophrenic disorder"
-
-7. **Avoid**: 
-   - Family history proxies (unless query explicitly asks for them)
-   - Screening procedures (unless query explicitly asks for them)
-   - Unrelated conditions
-   - Overly generic terms that would match too many things
-
-Return a JSON list of synonyms with their relationship types and confidence levels."""
+        system_prompt = TRAIT_SYNONYM_EXPANDER_SYSTEM_PROMPT
 
         # Build human prompt with conditional includes
         include_parts = ["- Exact synonyms (same condition, different name)"]

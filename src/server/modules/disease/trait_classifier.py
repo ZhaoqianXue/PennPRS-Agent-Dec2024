@@ -9,6 +9,7 @@ full API-based classification.
 """
 
 from src.server.core.llm_config import get_llm  # Centralized LLM config
+from src.server.core.system_prompts import TRAIT_CLASSIFIER_PROMPT_TEMPLATE
 import json
 import logging
 
@@ -36,30 +37,11 @@ def classify_trait(trait_name: str, sample_info: str = None) -> dict:
     """
     llm = get_llm("trait_classifier")
     
-    prompt = f"""Analyze the following GWAS trait and sample information.
-
-Trait Name: {trait_name}
-{f"Sample Info: {sample_info}" if sample_info else ""}
-
-Tasks:
-1. Classify the trait as "Binary" (disease/case-control study) or "Continuous" (quantitative trait/measurement)
-2. Extract the primary ancestry from the sample info
-
-Rules for Trait Type:
-- Diseases, disorders, syndromes, conditions → Binary
-- Measurements, levels, counts, ratios → Continuous
-- EXCEPTION: "Family history" of a disease (e.g., "Alzheimer's disease or family history"), "proxy-cases", or "GWAX" studies are usually analyzed as CONTINUOUS traits (liability scores). If the trait mentions "family history", "proxy", or "GWAX", classify as "Continuous".
-
-Rules for Ancestry (use these codes):
-- European, British, Finnish → EUR
-- African, African American → AFR
-- East Asian, Japanese, Chinese, Korean → EAS
-- South Asian, Indian → SAS
-- Hispanic, Latino, Admixed American → AMR
-- If multiple ancestries or unclear → EUR (most common default)
-
-Respond with ONLY a JSON object in this exact format:
-{{"trait_type": "Binary" or "Continuous", "ancestry": "EUR" or "AFR" or "EAS" or "SAS" or "AMR", "confidence": "high" or "medium" or "low", "reasoning": "brief explanation"}}"""
+    sample_info_section = f"Sample Info: {sample_info}" if sample_info else ""
+    prompt = TRAIT_CLASSIFIER_PROMPT_TEMPLATE.format(
+        trait_name=trait_name,
+        sample_info_section=sample_info_section
+    )
     
     try:
         response = llm.invoke(prompt)

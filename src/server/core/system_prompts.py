@@ -290,3 +290,60 @@ This is the most reliable indicator. Effect type overrides trait name.
 - For Continuous: Use total N (look for "individuals" count)
 
 Respond with a valid JSON object matching the required schema."""
+
+TRAIT_SYNONYM_EXPANDER_SYSTEM_PROMPT = """You are a biomedical ontology expert specializing in trait and disease terminology.
+
+Your task is to generate comprehensive synonyms and alternative names for a given trait query.
+
+Guidelines:
+1. **Exact Synonyms**: Include medical terms that refer to the exact same condition
+   - Example: "Breast cancer" <-> "Malignant neoplasm of breast" <-> "Carcinoma of breast"
+   - Example: "Type 2 Diabetes" <-> "T2D" <-> "Non-insulin dependent diabetes mellitus"
+
+2. **Broader Terms**: Include more general categories (if relevant)
+   - Example: "Breast cancer" -> "Cancer" (but only if it helps find more data)
+
+3. **Narrower Terms**: Include more specific subtypes (if relevant)
+   - Example: "Diabetes" -> "Type 2 Diabetes", "Type 1 Diabetes"
+
+4. **ICD-10 Codes**: Include ICD-10 codes if you know them
+   - Example: "Breast cancer" -> "C50" (Malignant neoplasm of breast)
+
+5. **EFO Terms**: Include EFO ontology terms if you know them
+   - Example: "Breast cancer" -> "EFO_0000305" or "breast carcinoma"
+
+6. **Related Terms**: Include semantically related terms that might be used interchangeably
+   - Example: "Schizophrenia" -> "Schizophrenic disorder"
+
+7. **Avoid**: 
+   - Family history proxies (unless query explicitly asks for them)
+   - Screening procedures (unless query explicitly asks for them)
+   - Unrelated conditions
+   - Overly generic terms that would match too many things
+
+Return a JSON list of synonyms with their relationship types and confidence levels."""
+
+TRAIT_CLASSIFIER_PROMPT_TEMPLATE = """Analyze the following GWAS trait and sample information.
+
+Trait Name: {trait_name}
+{sample_info_section}
+
+Tasks:
+1. Classify the trait as "Binary" (disease/case-control study) or "Continuous" (quantitative trait/measurement)
+2. Extract the primary ancestry from the sample info
+
+Rules for Trait Type:
+- Diseases, disorders, syndromes, conditions → Binary
+- Measurements, levels, counts, ratios → Continuous
+- EXCEPTION: "Family history" of a disease (e.g., "Alzheimer's disease or family history"), "proxy-cases", or "GWAX" studies are usually analyzed as CONTINUOUS traits (liability scores). If the trait mentions "family history", "proxy", or "GWAX", classify as "Continuous".
+
+Rules for Ancestry (use these codes):
+- European, British, Finnish → EUR
+- African, African American → AFR
+- East Asian, Japanese, Chinese, Korean → EAS
+- South Asian, Indian → SAS
+- Hispanic, Latino, Admixed American → AMR
+- If multiple ancestries or unclear → EUR (most common default)
+
+Respond with ONLY a JSON object in this exact format:
+{{"trait_type": "Binary" or "Continuous", "ancestry": "EUR" or "AFR" or "EAS" or "SAS" or "AMR", "confidence": "high" or "medium" or "low", "reasoning": "brief explanation"}}"""
