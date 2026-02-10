@@ -90,7 +90,7 @@ flowchart TB
             direction TB
             S2a_Synonym["trait_synonym_expand<br/>(TARGET, exclude codes)"]
             S2a_Neighbors["genetic_graph_get_neighbors<br/>(expanded queries → neighbor_traits[])"]
-            S2a_Select["Select neighbors:<br/>>=2 → top 2, <2 → all"]
+            S2a_Select["Select neighbor (Top-1):<br/>scan by transfer_score until first PGS hit"]
             S2a_Loop["FOR each selected neighbor"]
             S2a_Search["prs_model_pgscatalog_search<br/>(neighbor_trait)"]
             S2a_Resolve["resolve_efo_and_mondo_ids<br/>(IF models found)"]
@@ -158,7 +158,7 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
     <!-- For direct model searching, metadata retrieval, and model filtering/selection. -->
     - **`prs_model_pgscatalog_search`**: Searches for trait-specific PRS models and retrieves full metadata.
         - *Purpose*: To retrieve all available PRS models associated with a specific trait and return comprehensive metadata fields, providing the full raw data required for downstream filtering and evaluation.
-    - **`prs_model_domain_knowledge`**: Queries a **constrained set of authoritative websites** (not local RAG) to fetch *Clinical Guidelines and Review Papers*.
+    - **`prs_model_domain_knowledge`**: Queries a **constrained set of authoritative websites** (not local RAG) to fetch *Clinical Guidelines and Review Papers*. **(pgscatalog prs model selection guidelines, pgscatalog prs model evaluation guidelines)**
         - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks. The search scope is restricted to a curated whitelist of web pages to avoid unbounded context pollution.
     - **`prs_model_performance_landscape`**: Calculates statistical distributions across all retrieved candidate models.
         - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
@@ -828,12 +828,14 @@ STEP 2A: CROSS-DISEASE TRANSFER
 3. IF neighbor_traits[] is empty:
    OUTCOME: NO_MATCH_FOUND
 ELSE:
-   - **Neighbor Selection Strategy**: 
-     - IF len(neighbor_traits) >= 2: Process only the top 2 neighbors (highest transfer_score)
-     - ELIF len(neighbor_traits) == 1: Process the single neighbor
-     - ELSE: OUTCOME: NO_MATCH_FOUND
-   - FOR each selected neighbor_trait:
-     - Call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed)
+   - **Neighbor Selection Strategy (Top-1, early stop)**:
+     - Sort `neighbor_traits[]` by `transfer_score` (desc).
+     - For each `neighbor_trait` in this order, run a **fast pre-check** against PGS Catalog:
+       - Call PGS trait search to collect associated PGS IDs (IDs only; no heavy hydration).
+       - If the pre-check yields **any** PGS IDs, **stop** and select this `neighbor_trait` as the transfer candidate.
+     - If **no** neighbor yields any PGS IDs, treat cross-disease transfer as unavailable and proceed to OUTCOME: NO_MATCH_FOUND.
+   - For the **single selected** `neighbor_trait` (top-1):
+     - Call `prs_model_pgscatalog_search` directly with `neighbor_trait` (no synonym expansion needed).
      - IF models found:
        - **For genetic_graph_validate_mechanism**: Resolve disease ontology IDs for target_trait and neighbor_trait:
            - For target_trait: Expand synonyms (excluding codes) using trait_synonym_expand

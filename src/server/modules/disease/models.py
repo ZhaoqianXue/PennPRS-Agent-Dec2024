@@ -1,5 +1,5 @@
 from typing import List, Optional, Dict, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from typing import Literal
 
 class TraitColumn(BaseModel):
@@ -85,8 +85,25 @@ class GeneticGraphEvidence(BaseModel):
     neighbor_best_model_auc: Optional[float] = Field(default=None, description="Best neighbor model AUC")
     mechanism_confidence: Optional[str] = Field(default=None, description="Mechanism confidence")
     mechanism_summary: Optional[str] = Field(default=None, description="Mechanism summary")
-    shared_genes: List[str] = Field(default_factory=list, description="Top shared genes (if available)")
+    # NOTE: Some LLM structured outputs may emit `null` for list fields. Keep this Optional
+    # to avoid validation failures, and coerce to `[]` via validator.
+    shared_genes: Optional[List[str]] = Field(default_factory=list, description="Top shared genes (if available)")
     study_power: Optional[StudyPowerSummary] = Field(default=None, description="Study power summary")
+
+    @field_validator("shared_genes", mode="before")
+    @classmethod
+    def _coerce_shared_genes(cls, v):
+        """
+        LLM function-calling responses may emit `null` for list fields.
+        Coerce `None` to an empty list so report validation does not fail.
+        """
+        if v is None:
+            return []
+        if isinstance(v, list):
+            return v
+        # Best-effort: if the model returns a scalar, wrap it.
+        return [v]
+        return v
 
 
 class FollowUpOption(BaseModel):

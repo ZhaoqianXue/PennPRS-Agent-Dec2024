@@ -3,10 +3,11 @@
 import { useState } from "react";
 import DiseasePage from "../components/DiseasePage";
 import ProteinPage from "../components/ProteinPage";
-import { BriefcaseMedical, Dna, Brain, ArrowRight } from "lucide-react";
+import CoScientistPage from "../components/CoScientistPage";
+import { BriefcaseMedical, Dna, Brain, ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
-type ModuleType = 'disease' | 'protein' | 'image' | null;
+type ModuleType = 'disease' | 'protein' | 'image' | 'coscientist' | null;
 
 export default function Home() {
   const [selectedModule, setSelectedModule] = useState<ModuleType>(null);
@@ -18,6 +19,10 @@ export default function Home() {
 
   if (selectedModule === 'protein') {
     return <ProteinPage onBack={() => setSelectedModule(null)} />;
+  }
+
+  if (selectedModule === 'coscientist') {
+    return <CoScientistPage onBack={() => setSelectedModule(null)} />;
   }
 
   // Otherwise, render the Main Selection Landing Page
@@ -32,7 +37,7 @@ export default function Home() {
           transition={{ delay: 0.1 }}
           className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 mb-4 tracking-tight text-center"
         >
-          PennGene Agent
+          PennPRSLab
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
@@ -53,7 +58,35 @@ export default function Home() {
           transition={{ delay: 0.4 }}
           className="w-full max-w-5xl"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex flex-col items-center gap-6">
+            {/* PennPRS co scientist Button - Wide and flat style */}
+            <button
+              onClick={() => setSelectedModule('coscientist')}
+              className="group relative flex flex-row items-center gap-6 px-8 py-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden w-full max-w-5xl"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/5 to-blue-800/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+
+              <div className="z-10 flex flex-row items-center gap-6 w-full">
+                <div className="w-16 h-16 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-900 group-hover:text-white transition-colors duration-300 shadow-sm flex-shrink-0">
+                  <Sparkles size={32} />
+                </div>
+
+                <div className="flex-1 flex flex-col items-start text-left">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">PennPRS co scientist</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm">
+                    Your intelligent co-scientist for PRS research and analysis
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-medium opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0 flex-shrink-0">
+                  <span>Open Module</span>
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </button>
+
+            {/* Three Original Modules */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
 
             {/* Module 1: Disease */}
             <button
@@ -127,6 +160,7 @@ export default function Home() {
               </div>
             </div>
 
+            </div>
           </div>
         </motion.div>
       </main>

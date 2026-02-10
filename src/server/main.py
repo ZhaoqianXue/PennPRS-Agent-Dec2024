@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 import uvicorn
 from fastapi import FastAPI
 from dotenv import load_dotenv
@@ -38,11 +39,47 @@ from src.server.core.state import search_progress
 
 class AgentRequest(BaseModel):
     message: str
-    request_id: str = None # Optional for backward compatibility
+    request_id: Optional[str] = None # Optional for backward compatibility
 
 
 class RecommendationRequest(BaseModel):
     trait: str
+    request_id: Optional[str] = None  # Optional for progress tracking
+
+
+# ========== Co-Scientist UI Helpers (PRS model previews) ==========
+
+class PgsModelCardRequest(BaseModel):
+    pgs_id: str
+
+
+class PgsModelCardSearchRequest(BaseModel):
+    trait: str
+    limit: int = 25
+
+
+@app.post("/pgs/model_card")
+async def get_pgs_model_card(req: PgsModelCardRequest):
+    """
+    Return a frontend-ready PRS model preview card for a PGS ID.
+
+    This endpoint lets the Co-Scientist report UI reuse the same card presentation
+    used in the PRS-Disease module (ModelCard), without duplicating formatting logic
+    in the browser.
+    """
+    from src.server.modules.disease.pgs_ui_service import get_single_pgs_model_card
+
+    return get_single_pgs_model_card(req.pgs_id)
+
+
+@app.post("/pgs/model_cards/search")
+async def search_pgs_model_cards(req: PgsModelCardSearchRequest):
+    """
+    Search PGS Catalog by trait and return frontend-ready PRS model preview cards.
+    """
+    from src.server.modules.disease.pgs_ui_service import search_pgs_model_cards
+
+    return {"models": search_pgs_model_cards(req.trait, limit=req.limit)}
 
 @app.get("/")
 async def root():
@@ -104,8 +141,62 @@ def recommend_models_endpoint(req: RecommendationRequest):
     """
     from src.server.modules.disease.recommendation_agent import recommend_models
 
-    report = recommend_models(req.trait)
-    return report.model_dump()
+    # Initialize progress tracking if request_id provided
+    if req.request_id:
+        search_progress[req.request_id] = {
+            "status": "running",
+            # Step-level progress (stable contract for the workflow).
+            "total": 6,  # Total steps
+            "fetched": 0,
+            # Model-level progress (populated by prs_model_tools during step-1).
+            "models_total": 0,
+            "models_fetched": 0,
+            "models_successful": 0,
+            "current_action": "Initializing recommendation workflow...",
+            # Ensure frontend can render the STEP 1 panel immediately.
+            # If this is None, the CoScientist page can appear stuck at "Initializing..."
+            # until deeper workflow code updates `current_step`.
+            "current_step": "step-1"
+        }
+
+    report = recommend_models(req.trait, request_id=req.request_id)
+    
+    # Mark complete
+    if req.request_id:
+        search_progress[req.request_id]["status"] = "completed"
+        search_progress[req.request_id]["fetched"] = search_progress[req.request_id]["total"]
+        search_progress[req.request_id]["current_action"] = "Recommendation complete"
+    
+    payload = report.model_dump()
+
+    # Attach UI-friendly model preview cards so the frontend can reuse
+    # the PRS-Disease summary + ModelCard UI without extra client-side formatting.
+    try:
+        from src.server.modules.disease.pgs_ui_service import get_single_pgs_model_card, search_pgs_model_cards
+
+        primary_id = (payload.get("primary_recommendation") or {}).get("pgs_id")
+        payload["primary_model_preview"] = get_single_pgs_model_card(primary_id) if primary_id else None
+
+        # Direct models (for evidence canvas): return a small, sorted preview list.
+        payload["direct_models_preview"] = search_pgs_model_cards(req.trait, limit=25)
+
+        # Related traits: attach best model preview for each neighbor (if any).
+        related: List[Dict[str, Any]] = []
+        for e in payload.get("genetic_graph_evidence") or []:
+            best_id = e.get("neighbor_best_model_id")
+            related.append({
+                "neighbor_trait": e.get("neighbor_trait"),
+                "best_model_id": best_id,
+                "best_model_preview": get_single_pgs_model_card(best_id) if best_id else None,
+            })
+        payload["related_models_preview"] = related
+    except Exception:
+        # Best-effort: never fail the endpoint due to preview generation.
+        payload["primary_model_preview"] = payload.get("primary_model_preview") or None
+        payload["direct_models_preview"] = payload.get("direct_models_preview") or []
+        payload["related_models_preview"] = payload.get("related_models_preview") or []
+
+    return payload
 
 
 class TraitClassifyRequest(BaseModel):

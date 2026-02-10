@@ -19,8 +19,10 @@ class PGSCatalogClient:
     DEFAULT_TIMEOUT_S = 30
     # Safety defaults to avoid PGS Catalog rate limits / pagination errors.
     MAX_PAGE_SIZE = int(os.getenv("PGS_CATALOG_MAX_PAGE_SIZE", "100"))
-    MAX_RETRIES = int(os.getenv("PGS_CATALOG_MAX_RETRIES", "4"))
-    MIN_REQUEST_INTERVAL_S = float(os.getenv("PGS_CATALOG_MIN_REQUEST_INTERVAL_S", "0.2"))
+    # Increased retries for better reliability (was 4, now 10)
+    MAX_RETRIES = int(os.getenv("PGS_CATALOG_MAX_RETRIES", "10"))
+    # Further reduced throttle interval for faster fetching (was 0.1s, now 0.05s)
+    MIN_REQUEST_INTERVAL_S = float(os.getenv("PGS_CATALOG_MIN_REQUEST_INTERVAL_S", "0.05"))
     BACKOFF_BASE_S = float(os.getenv("PGS_CATALOG_BACKOFF_BASE_S", "0.6"))
     BACKOFF_MAX_S = float(os.getenv("PGS_CATALOG_BACKOFF_MAX_S", "8.0"))
     JITTER_S = float(os.getenv("PGS_CATALOG_JITTER_S", "0.2"))

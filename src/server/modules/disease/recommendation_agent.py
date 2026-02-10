@@ -23,6 +23,7 @@ from uuid import uuid4
 from src.server.core.agent_artifacts import maybe_externalize_json, stable_json_dumps
 from src.server.core.recitation_todo import RecitationTodo
 from src.server.core.agent_artifacts import get_artifacts_dir
+from src.server.core.state import search_progress
 from src.server.core.tools.prs_model_tools import (
     prs_model_pgscatalog_search,
     prs_model_performance_landscape,
@@ -41,7 +42,9 @@ from src.server.modules.disease.models import (
     RecommendationReport,
     FollowUpOption,
     GeneticGraphEvidence,
-    StudyPowerSummary
+    StudyPowerSummary,
+    PrimaryRecommendation,
+    DirectMatchEvidence
 )
 
 
@@ -212,7 +215,16 @@ def _extract_ot_efo_candidates(
     trait_name: str,
     ot_client: OpenTargetsClient
 ) -> List[EfoCandidate]:
-    results = ot_client.search_diseases(trait_name, page=0, size=MAX_OT_HITS)
+    try:
+        results = ot_client.search_diseases(trait_name, page=0, size=MAX_OT_HITS)
+    except Exception as exc:
+        # Open Targets is an external dependency and can intermittently fail.
+        # This workflow should degrade gracefully and continue using PGS-derived candidates.
+        logger.warning(
+            "Open Targets disease search failed; skipping OT candidates. "
+            f"trait='{trait_name}', error_type={type(exc).__name__}, error='{exc}'"
+        )
+        return []
     hits = results.get("hits", []) if isinstance(results, dict) else []
     candidates: List[EfoCandidate] = []
     if not hits:
@@ -429,6 +441,30 @@ def ensure_follow_up_options(report: RecommendationReport) -> RecommendationRepo
     return report
 
 
+def _ensure_list_fields_not_none(report: RecommendationReport) -> RecommendationReport:
+    """
+    Ensure all list fields in the report are not None.
+    LLM may return None for optional list fields, which causes Pydantic validation errors.
+    """
+    updates = {}
+    if report.genetic_graph_evidence is None:
+        updates["genetic_graph_evidence"] = []
+    if report.genetic_graph_neighbors is None:
+        updates["genetic_graph_neighbors"] = []
+    if report.genetic_graph_errors is None:
+        updates["genetic_graph_errors"] = []
+    if report.alternative_recommendations is None:
+        updates["alternative_recommendations"] = []
+    if report.caveats_and_limitations is None:
+        updates["caveats_and_limitations"] = []
+    if report.follow_up_options is None:
+        updates["follow_up_options"] = []
+    
+    if updates:
+        return report.model_copy(update=updates)
+    return report
+
+
 def _build_step1_chain():
     llm = get_llm("disease_workflow")
     prompt = ChatPromptTemplate.from_messages([
@@ -468,12 +504,16 @@ def _build_report_chain():
 
 def recommend_models(
     target_trait: str,
-    force_step1_outcome: Optional[Literal["DIRECT_HIGH_QUALITY", "DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"]] = None
+    force_step1_outcome: Optional[Literal["DIRECT_HIGH_QUALITY", "DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"]] = None,
+    request_id: Optional[str] = None
 ) -> RecommendationReport:
     pgs_client = PGSCatalogClient()
-    ot_client = OpenTargetsClient()
-    phewas_client = PheWASClient()
-    kg_service = KnowledgeGraphService()
+    # Important: defer heavy initializations until needed.
+    # KnowledgeGraphService loads large correlation tables and can take minutes on first load.
+    # If we initialize it before STEP 1, the frontend can look "stuck" at "Initializing...".
+    ot_client: Optional[OpenTargetsClient] = None
+    phewas_client: Optional[PheWASClient] = None
+    kg_service: Optional[KnowledgeGraphService] = None
 
     tool_errors: List[Dict[str, Any]] = []
 
@@ -495,15 +535,31 @@ def recommend_models(
     )
     todo.write()
 
+    # Update progress: Step 1 started
+    # Note: Don't override total/fetched here - prs_model_tools.py will set them correctly
+    if request_id and request_id in search_progress:
+            search_progress[request_id].update({
+                "current_action": f"Searching PRS models for '{target_trait}'",
+                "current_step": "step-1"
+            })
+
     # Step 1: Direct match assessment
     # NOTE: According to Single Agent Principle, tool calls should be decided by the LLM Agent via system prompts.
     # However, this orchestrator provides a deterministic workflow for performance.
     # The Agent is guided via system prompts to call prs_model_pgscatalog_search directly with target_trait.
     # No synonym expansion needed for PGS Catalog search - it handles trait name matching internally.
-    pgs_result = prs_model_pgscatalog_search(pgs_client, target_trait, limit=25)
+    pgs_result = prs_model_pgscatalog_search(pgs_client, target_trait, limit=25, request_id=request_id)
     
     todo.set_done("Step 1: Query PGS Catalog for target trait")
     todo.write()
+
+    # Update progress: Step 2 started
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "fetched": 2,
+            "current_action": "Analyzing performance metrics",
+            "current_step": "step-2"
+        })
 
     knowledge = prs_model_domain_knowledge(
         f"{target_trait} PRS clinical thresholds AUC R2"
@@ -511,6 +567,14 @@ def recommend_models(
     landscape = prs_model_performance_landscape(pgs_client, pgs_result.models)
     todo.set_done("Step 1: Evaluate models against performance landscape")
     todo.write()
+
+    # Update progress: Step 3 started
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "fetched": 3,
+            "current_action": "Reviewing clinical standards",
+            "current_step": "step-3"
+        })
 
     direct_models_dump = pgs_result.model_dump()
     direct_models_inline, direct_models_artifact = maybe_externalize_json(
@@ -548,6 +612,14 @@ def recommend_models(
             step1_decision = chain.invoke(
                 {"context_json": stable_json_dumps(step1_context)}
             )
+            logger.info(
+                f"Step 1 decision: outcome={step1_decision.outcome}, "
+                f"confidence={step1_decision.confidence}, "
+                f"best_model_id={step1_decision.best_model_id}, "
+                f"pgs_total_found={pgs_result.total_found}, "
+                f"pgs_after_filter={pgs_result.after_filter}, "
+                f"models_returned={len(pgs_result.models)}"
+            )
         except Exception as exc:
             step1_decision = Step1Decision(
                 outcome="NO_MATCH_FOUND" if pgs_result.after_filter == 0 else "DIRECT_SUB_OPTIMAL",
@@ -561,6 +633,14 @@ def recommend_models(
                 "error_message": str(exc)
             })
 
+    # Update progress: Step 3 completed, decision made
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "fetched": 3,
+            "current_action": "Step 1 assessment complete",
+            "current_step": "step-3"
+        })
+
     cross_disease_candidates: List[Dict[str, Any]] = []
     weak_mechanism_traits: List[str] = []
     genetic_graph_evidence: List[GeneticGraphEvidence] = []
@@ -568,8 +648,29 @@ def recommend_models(
     genetic_graph_errors: List[str] = []
 
     run_cross_disease = step1_decision.outcome in {"DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"}
+    
+    # If not running cross-disease, mark steps 4-5 as skipped and move to final
+    if not run_cross_disease and request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "fetched": 5,  # Skip to step 5 (which will be skipped)
+            "current_action": "Direct match found, skipping cross-disease analysis",
+            "current_step": "step-final"
+        })
 
     if run_cross_disease:
+        # Heavy services are only required for cross-disease analysis.
+        # Lazily instantiate them here so STEP 1 progress starts immediately.
+        ot_client = OpenTargetsClient()
+        phewas_client = PheWASClient()
+        kg_service = KnowledgeGraphService()
+
+        # Update progress: Step 4 started (cross-disease)
+        if request_id and request_id in search_progress:
+                search_progress[request_id].update({
+                    "fetched": 4,
+                    "current_action": "Exploring genetic relationships",
+                    "current_step": "step-4"
+                })
         # Step 2a: Cross-disease transfer
         # NOTE: According to Single Agent Principle, the Agent should decide to call
         # trait_synonym_expand and genetic_graph_get_neighbors via system prompts.
@@ -617,9 +718,10 @@ def recommend_models(
             target_h2_val = target_node.h2_meta if target_node else None
             target_h2 = float(target_h2_val) if isinstance(target_h2_val, (int, float)) else 0.0
             
-            # Apply neighbor selection strategy: >= 2 neighbors -> top 2, < 2 -> all, 0 -> none
+            # Keep neighbors ordered by transfer_score.
+            # Selection strategy is applied later (scan until first neighbor with PGS hits).
             sorted_neighbors = sorted(all_neighbors, key=lambda n: n.transfer_score, reverse=True)
-            selected_neighbors = sorted_neighbors[:2] if len(sorted_neighbors) >= 2 else sorted_neighbors
+            selected_neighbors = sorted_neighbors
             
             neighbors_result = NeighborResult(
                 query_trait=target_trait,
@@ -637,6 +739,14 @@ def recommend_models(
         
         todo.set_done("Step 2a: Query Knowledge Graph for related traits")
         todo.write()
+
+        # Update progress: Step 5 started (biological validation)
+        if request_id and request_id in search_progress:
+                search_progress[request_id].update({
+                    "fetched": 5,
+                    "current_action": "Validating biological mechanisms",
+                    "current_step": "step-5"
+                })
     else:
         neighbors_result = None
 
@@ -659,8 +769,22 @@ def recommend_models(
                 "context": {"trait": target_trait}
             })
 
-        # Process neighbors according to selection strategy: >= 2 -> top 2, < 2 -> all, 0 -> skip
-        neighbors_to_process = neighbors_result.neighbors[:2] if len(neighbors_result.neighbors) >= 2 else neighbors_result.neighbors
+        # Neighbor Selection Strategy (Top-1):
+        # Scan neighbors in descending transfer_score and pre-check PGS Catalog for hits.
+        # Stop at the first neighbor that yields any PGS IDs, then run full PRS model hydration
+        # ONLY for that single neighbor.
+        ordered_candidates = list(neighbors_result.neighbors or [])
+        selected_neighbor: Optional[Any] = None
+        for n in ordered_candidates:
+            try:
+                hits = pgs_client.search_scores(getattr(n, "trait_id", "") or "")
+                if hits:
+                    selected_neighbor = n
+                    break
+            except Exception:
+                continue
+
+        neighbors_to_process = [selected_neighbor] if selected_neighbor else []
 
         for neighbor in neighbors_to_process:
             neighbor_trait = neighbor.trait_id
@@ -856,24 +980,91 @@ def recommend_models(
         report = report_chain.invoke(
             {"context_json": stable_json_dumps(report_input_context)}
         )
+        # Ensure all list fields are not None (LLM may return None for optional fields)
+        report = _ensure_list_fields_not_none(report)
+        logger.info(
+            f"Report generated: recommendation_type={report.recommendation_type}, "
+            f"step1_outcome={step1_decision.outcome if step1_decision else 'None'}"
+        )
     except Exception as exc:
+        # Update progress: Final step (report generation) - before LLM call
+        if request_id and request_id in search_progress:
+            search_progress[request_id].update({
+                "fetched": 6,
+                "current_action": "Generating report",
+                "current_step": "step-final"
+            })
+
+        # Fallback: Use Step 1 decision to determine recommendation_type
+        # This ensures we don't lose the Step 1 assessment even if report generation fails
+        fallback_recommendation_type = "NO_MATCH_FOUND"
+        fallback_primary_recommendation = None
+        fallback_direct_match_evidence = None
+        
+        if step1_decision:
+            if step1_decision.outcome == "DIRECT_HIGH_QUALITY":
+                fallback_recommendation_type = "DIRECT_HIGH_QUALITY"
+                if step1_decision.best_model_id:
+                    fallback_primary_recommendation = PrimaryRecommendation(
+                        pgs_id=step1_decision.best_model_id,
+                        source_trait=None,
+                        confidence=step1_decision.confidence,
+                        rationale=step1_decision.rationale
+                    )
+                    fallback_direct_match_evidence = DirectMatchEvidence(
+                        models_evaluated=len(pgs_result.models),
+                        performance_metrics=landscape.model_dump() if landscape else {},
+                        clinical_benchmarks=[]
+                    )
+            elif step1_decision.outcome == "DIRECT_SUB_OPTIMAL":
+                fallback_recommendation_type = "DIRECT_SUB_OPTIMAL"
+                if step1_decision.best_model_id:
+                    fallback_primary_recommendation = PrimaryRecommendation(
+                        pgs_id=step1_decision.best_model_id,
+                        source_trait=None,
+                        confidence=step1_decision.confidence,
+                        rationale=step1_decision.rationale
+                    )
+                    fallback_direct_match_evidence = DirectMatchEvidence(
+                        models_evaluated=len(pgs_result.models),
+                        performance_metrics=landscape.model_dump() if landscape else {},
+                        clinical_benchmarks=[]
+                    )
+            # If step1_decision.outcome is "NO_MATCH_FOUND", keep fallback_recommendation_type as "NO_MATCH_FOUND"
+        
+        logger.warning(
+            f"Report generation failed, using fallback based on Step 1 decision: "
+            f"step1_outcome={step1_decision.outcome if step1_decision else 'None'}, "
+            f"fallback_recommendation_type={fallback_recommendation_type}, "
+            f"error={exc}"
+        )
+
         report = RecommendationReport(
-            recommendation_type="NO_MATCH_FOUND",
-            primary_recommendation=None,
+            recommendation_type=fallback_recommendation_type,
+            primary_recommendation=fallback_primary_recommendation,
             alternative_recommendations=[],
-            direct_match_evidence=None,
+            direct_match_evidence=fallback_direct_match_evidence,
             cross_disease_evidence=None,
+            genetic_graph_evidence=[],
+            genetic_graph_ran=run_cross_disease,
+            genetic_graph_neighbors=genetic_graph_neighbors if (run_cross_disease and genetic_graph_neighbors) else [],
+            genetic_graph_errors=genetic_graph_errors if (run_cross_disease and genetic_graph_errors) else [],
             caveats_and_limitations=[
-                f"Failed to generate structured report: {exc}"
+                f"Failed to generate structured report: {exc}",
+                "Report generated using fallback logic based on Step 1 assessment."
             ],
             follow_up_options=[]
         )
 
     report = ensure_follow_up_options(report)
-    report.genetic_graph_evidence = genetic_graph_evidence if run_cross_disease else []
-    report.genetic_graph_ran = run_cross_disease
-    report.genetic_graph_neighbors = genetic_graph_neighbors if run_cross_disease else []
-    report.genetic_graph_errors = genetic_graph_errors if run_cross_disease else []
+    # Update genetic graph fields with actual values
+    # Ensure all list fields are never None (Pydantic validation requirement)
+    report = report.model_copy(update={
+        "genetic_graph_evidence": genetic_graph_evidence if run_cross_disease else [],
+        "genetic_graph_ran": run_cross_disease,
+        "genetic_graph_neighbors": genetic_graph_neighbors if (run_cross_disease and genetic_graph_neighbors) else [],
+        "genetic_graph_errors": genetic_graph_errors if (run_cross_disease and genetic_graph_errors) else []
+    })
     return report
 
 

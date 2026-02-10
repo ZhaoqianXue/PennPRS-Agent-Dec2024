@@ -7,6 +7,9 @@ implementing search functionality identical to https://platform.opentargets.org
 API Endpoint: https://api.platform.opentargets.org/api/v4/graphql
 """
 
+import json
+import logging
+import time
 import requests
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
@@ -14,6 +17,32 @@ from dataclasses import dataclass
 
 # Open Targets Platform GraphQL API endpoint
 OPENTARGETS_API_URL = "https://api.platform.opentargets.org/api/v4/graphql"
+
+logger = logging.getLogger(__name__)
+
+
+class OpenTargetsRequestError(RuntimeError):
+    """
+    Error raised when Open Targets GraphQL request fails.
+
+    This is intentionally lightweight (no external deps) and provides enough context
+    to debug transient upstream failures without crashing the whole workflow.
+    """
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        status_code: Optional[int] = None,
+        response_text: Optional[str] = None,
+        errors: Optional[List[Dict[str, Any]]] = None,
+        variables: Optional[Dict[str, Any]] = None,
+    ):
+        super().__init__(message)
+        self.status_code = status_code
+        self.response_text = response_text
+        self.errors = errors
+        self.variables = variables
 
 
 # GraphQL query for search - FULL VERSION matching Open Targets Platform
@@ -153,7 +182,6 @@ class OpenTargetsClient:
     def _execute_query(self, query: str, variables: Dict[str, Any], timeout: int = 8) -> Dict[str, Any]:
         """Execute a GraphQL query and return the response data with caching."""
         # Create a cache key from query and variables
-        import json
         cache_key = f"{query}:{json.dumps(variables, sort_keys=True)}"
         
         if cache_key in self._cache:
@@ -163,19 +191,84 @@ class OpenTargetsClient:
             "query": query,
             "variables": variables
         }
-        
-        response = self.session.post(self.api_url, json=payload, timeout=timeout)
-        response.raise_for_status()
-        
-        result = response.json()
-        
-        if "errors" in result:
-            error_messages = [e.get("message", str(e)) for e in result["errors"]]
-            raise Exception(f"GraphQL errors: {'; '.join(error_messages)}")
-        
-        data = result.get("data", {})
-        self._cache[cache_key] = data
-        return data
+
+        # Small retry for transient upstream issues (e.g., "Internal server error").
+        # Keep it conservative to avoid slowing down the workflow.
+        max_attempts = 2
+        last_exc: Optional[Exception] = None
+
+        for attempt in range(1, max_attempts + 1):
+            try:
+                response = self.session.post(self.api_url, json=payload, timeout=timeout)
+            except requests.RequestException as exc:
+                last_exc = exc
+                if attempt < max_attempts:
+                    time.sleep(0.25 * attempt)
+                    continue
+                raise OpenTargetsRequestError(
+                    f"Open Targets request failed after {attempt} attempts: {exc}",
+                    variables=variables,
+                ) from exc
+
+            status_code = response.status_code
+            response_text = (response.text or "")[:2000]
+
+            # HTTP-level failures.
+            if status_code >= 400:
+                err = OpenTargetsRequestError(
+                    f"Open Targets HTTP error: status_code={status_code}",
+                    status_code=status_code,
+                    response_text=response_text,
+                    variables=variables,
+                )
+                if attempt < max_attempts and status_code in (429, 500, 502, 503, 504):
+                    last_exc = err
+                    time.sleep(0.25 * attempt)
+                    continue
+                raise err
+
+            # GraphQL-level failures.
+            try:
+                result = response.json()
+            except ValueError as exc:
+                err = OpenTargetsRequestError(
+                    "Open Targets returned non-JSON response",
+                    status_code=status_code,
+                    response_text=response_text,
+                    variables=variables,
+                )
+                if attempt < max_attempts:
+                    last_exc = err
+                    time.sleep(0.25 * attempt)
+                    continue
+                raise err from exc
+
+            gql_errors = result.get("errors") if isinstance(result, dict) else None
+            if gql_errors:
+                error_messages = [e.get("message", str(e)) for e in gql_errors if isinstance(e, dict)]
+                message = "; ".join(error_messages) if error_messages else str(gql_errors)
+                err = OpenTargetsRequestError(
+                    f"Open Targets GraphQL errors: {message}",
+                    status_code=status_code,
+                    response_text=response_text,
+                    errors=gql_errors if isinstance(gql_errors, list) else None,
+                    variables=variables,
+                )
+                # Retry only for common transient upstream failures.
+                if attempt < max_attempts and any("internal server error" in (m or "").lower() for m in error_messages):
+                    last_exc = err
+                    time.sleep(0.25 * attempt)
+                    continue
+                raise err
+
+            data = result.get("data", {}) if isinstance(result, dict) else {}
+            self._cache[cache_key] = data
+            return data
+
+        # Should never happen, but keep mypy/runtime safe.
+        if last_exc:
+            raise last_exc
+        raise OpenTargetsRequestError("Open Targets query failed with unknown error", variables=variables)
     
     def search(
         self,

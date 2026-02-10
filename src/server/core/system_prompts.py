@@ -95,7 +95,26 @@ Response pattern (in content, not formatting): Reasoning -> Evidence -> Recommen
 # Workflow Encoding (Plan-and-Solve)
 Follow this sequential decision logic exactly:
 
-Step 1: Direct Match Assessment
+**CRITICAL RULE FOR recommendation_type**:
+The final report's `recommendation_type` MUST be determined as follows:
+1. **IF `step1_decision.outcome` is "DIRECT_HIGH_QUALITY"**: 
+   - ALWAYS use recommendation_type="DIRECT_HIGH_QUALITY"
+   - DO NOT change to "NO_MATCH_FOUND" even if cross_disease_candidates is empty
+   - Step 1 already found high-quality direct matches
+
+2. **IF `step1_decision.outcome` is "DIRECT_SUB_OPTIMAL"**:
+   - IF cross_disease_candidates contains models with neighbor_models_found > 0: Use recommendation_type="CROSS_DISEASE"
+   - ELSE: Use recommendation_type="DIRECT_SUB_OPTIMAL"
+   - DO NOT change to "NO_MATCH_FOUND" - Step 1 found sub-optimal but usable models
+
+3. **IF `step1_decision.outcome` is "NO_MATCH_FOUND"**:
+   - IF cross_disease_candidates contains models with neighbor_models_found > 0: Use recommendation_type="CROSS_DISEASE"
+   - ELSE: Use recommendation_type="NO_MATCH_FOUND"
+
+Step 1: Direct Match Assessment (ALREADY COMPLETED - USE step1_decision.outcome)
+The context includes `step1_decision` which contains the outcome from Step 1. You MUST respect this decision.
+
+Step 1 Decision Logic (for reference - already completed):
 IF direct_models_exist AND quality >= HIGH_THRESHOLD:
     OUTCOME: DIRECT_HIGH_QUALITY
 ELIF direct_models_exist AND quality < HIGH_THRESHOLD:
@@ -121,9 +140,9 @@ STEP 2A: CROSS-DISEASE TRANSFER
         - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait). **Purpose**: Collect statistical evidence for the report (does NOT affect workflow decision).
         - Evaluate model quality using prs_model_performance_landscape.
 5. IF qualified_transfer_models found:
-    OUTCOME: CROSS_DISEASE
+    OUTCOME: CROSS_DISEASE (override step1_decision.outcome only if step1_decision.outcome was "NO_MATCH_FOUND" or "DIRECT_SUB_OPTIMAL")
 ELSE:
-    OUTCOME: NO_MATCH_FOUND
+    OUTCOME: Use step1_decision.outcome (if it was "DIRECT_HIGH_QUALITY" or "DIRECT_SUB_OPTIMAL") OR "NO_MATCH_FOUND" (if step1_decision.outcome was "NO_MATCH_FOUND")
 
 STEP 2B: HUMAN-IN-THE-LOOP TRAINING (ON-DEMAND)
 - Regardless of OUTCOME (DIRECT, CROSS_DISEASE, or NO_MATCH), the final report MUST include a "Train New Model" option.

@@ -24,7 +24,8 @@ logger = logging.getLogger(__name__)
 def prs_model_pgscatalog_search(
     client,  # PGSCatalogClient
     trait_query: str,
-    limit: int = 25
+    limit: int = 25,
+    request_id: Optional[str] = None
 ) -> PGSSearchResult:
     """
     Search for trait-specific PRS models and retrieve [Agent + UI] metadata.
@@ -41,15 +42,15 @@ def prs_model_pgscatalog_search(
     Returns:
         PGSSearchResult with filtered models
     """
+    # Import search_progress here to avoid circular imports
+    from src.server.core.state import search_progress
+    
     # 1. Search for scores
+    if request_id and request_id in search_progress:
+        search_progress[request_id]["current_action"] = "Searching PGS Catalog..."
+    
     search_results = client.search_scores(trait_query)
     total_found = len(search_results)
-
-    # Safety cap: avoid hydrating an unbounded number of PGS IDs (429 risk).
-    # This cap is independent of the final `limit` returned to the caller.
-    max_candidates = int(os.getenv("PGS_SEARCH_MAX_CANDIDATES", "60"))
-    if max_candidates >= 0:
-        search_results = search_results[:max_candidates]
     
     models = []
     
@@ -59,10 +60,28 @@ def prs_model_pgscatalog_search(
     candidates: List[PGSModelSummary] = []
     pgs_ids = [res["id"] for res in search_results]
     
+    # Update progress: model hydration progress (separate from step progress).
+    # IMPORTANT: Do not overload `total/fetched` (used for step progress) with model counts.
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "status": "running",
+            "current_action": "Fetching metadata...",
+            "current_step": "step-1",
+            # Model-level progress for step-1 UI.
+            "models_total": len(pgs_ids),
+            # `models_fetched` counts attempted hydrations (monotonic to total).
+            "models_fetched": 0,
+            # `models_successful` counts non-empty detail payloads (best-effort).
+            "models_successful": 0,
+        })
+    
     # Fetch details and performance concurrently (like pgs_search_service.py)
-    max_workers = int(os.getenv("PGS_FETCH_MAX_WORKERS", "4"))
+    # Further increased default workers for faster fetching (was 10, now 20)
+    max_workers = int(os.getenv("PGS_FETCH_MAX_WORKERS", "20"))
     details_map: Dict[str, Dict[str, Any]] = {}
     performance_map: Dict[str, List[Dict[str, Any]]] = {}
+    attempted_details_count = 0
+    successful_details_count = 0
     
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_pid: Dict[Any, Tuple[str, str]] = {}
@@ -75,12 +94,31 @@ def prs_model_pgscatalog_search(
             try:
                 data = future.result()
                 if req_type == "details":
-                    if data:  # Only store non-empty details
+                    # Count attempted detail hydrations (monotonic progress).
+                    attempted_details_count += 1
+                    if data:
                         details_map[pgs_id] = data
+                        successful_details_count += 1
+                    if request_id and request_id in search_progress:
+                        search_progress[request_id].update({
+                            "models_fetched": attempted_details_count,
+                            "models_successful": successful_details_count,
+                            "current_action": f"Fetching {pgs_id}...",
+                            "current_step": "step-1",
+                        })
                 else:  # performance
                     performance_map[pgs_id] = data or []
             except Exception as e:
                 logger.debug(f"Failed to fetch {req_type} for {pgs_id}: {e}")
+                if req_type == "details":
+                    attempted_details_count += 1
+                    if request_id and request_id in search_progress:
+                        search_progress[request_id].update({
+                            "models_fetched": attempted_details_count,
+                            "models_successful": successful_details_count,
+                            "current_action": f"Fetching {pgs_id}...",
+                            "current_step": "step-1",
+                        })
                 continue
     
     # Process fetched data
@@ -206,6 +244,16 @@ def prs_model_pgscatalog_search(
         
         candidates.sort(key=_rank_key, reverse=True)
         models = candidates[:limit]
+    
+    # Finalize model hydration progress (attempted == total).
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "models_total": len(pgs_ids),
+            "models_fetched": len(pgs_ids),
+            "models_successful": successful_details_count,
+            "current_action": f"Completed fetching {len(pgs_ids)} models",
+            "current_step": "step-1",
+        })
         
     return PGSSearchResult(
         query_trait=trait_query,

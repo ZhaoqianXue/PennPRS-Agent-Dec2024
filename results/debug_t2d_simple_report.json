@@ -1,0 +1,56 @@
+{
+  "recommendation_type": "DIRECT_HIGH_QUALITY",
+  "primary_recommendation": {
+    "pgs_id": "PGS000014",
+    "source_trait": "Type 2 diabetes (T2D)",
+    "confidence": "High",
+    "rationale": "Reasoning: A direct, disease-specific PRS is preferred when multiple well-powered, externally evaluated models exist for the target phenotype. Evidence: For T2D, the PGS Catalog search returned 184 models (25 after filtering), indicating abundant direct coverage. PGS000014 (LDpred; ~6.9M variants) was trained on large multi-cohort GWAS resources (DIAGRAM/EPIC/GERA/UKB; training n=120,280) with standard covariate adjustment, and reports strong discrimination (AUC\u22480.869) with multi-ancestry evaluation reported. This performance is consistent with the upper end of what is typically achievable for common, well-powered cardiometabolic traits. Recommendation: Use PGS000014 as the primary baseline T2D PRS due to scale, method maturity, and breadth of evaluation/uptake. Caveats: Final suitability depends on your deployment cohort\u2019s ancestry mix, phenotype definition (incident vs prevalent T2D), genotyping/imputation pipeline, and calibration needs; local validation and recalibration are advised."
+  },
+  "alternative_recommendations": [
+    {
+      "pgs_id": "PGS001295",
+      "source_trait": "Type 2 diabetes (T2D)",
+      "confidence": "Moderate",
+      "rationale": "Reasoning: Consider as an alternative when prioritizing penalized regression models trained in very large biobanks. Evidence: PGS001295 (snpnet; 385 variants) trained in UKB (n=269,704) reports AUC\u22480.835 and R\u00b2\u22480.206 with multi-ancestry evaluation. Recommendation: Use as a secondary comparator during local benchmarking, especially if computational simplicity (fewer variants) is advantageous. Caveats: Variant count/method and potential UKB-specific ascertainment may impact portability; requires local calibration."
+    },
+    {
+      "pgs_id": "PGS002243",
+      "source_trait": "Type 2 diabetes (T2D)",
+      "confidence": "Moderate",
+      "rationale": "Reasoning: Consider when seeking cross-ancestry evaluation emphasis in a large-scale resource. Evidence: PGS002243 (LDpred; ~6.4M variants; FinnGen training n=175,364) reports AUC\u22480.76 with broad multi-ancestry evaluation. Recommendation: Use as an additional benchmark for portability testing. Caveats: Performance may be lower than top T2D PRS depending on cohort characteristics; validate locally."
+    },
+    {
+      "pgs_id": "PGS002026",
+      "source_trait": "Type 2 diabetes (T2D)",
+      "confidence": "Moderate",
+      "rationale": "Reasoning: Large UKB-derived LDpred2 score may be useful for within-UKB-like cohorts and as a portability reference. Evidence: PGS002026 (LDpred2; training n=391,124) reports AUC\u22480.764 with evaluation across multiple ancestry groups. Recommendation: Use as a robustness/portability comparator during evaluation. Caveats: UKB-derived phenotyping and cohort structure can limit generalizability; requires harmonized phenotype and calibration."
+    }
+  ],
+  "direct_match_evidence": {
+    "models_evaluated": 25,
+    "performance_metrics": {},
+    "clinical_benchmarks": [
+      "Clinical risk stratification for T2D typically requires local calibration and evaluation of discrimination (e.g., AUC/C-statistic) and calibration-in-the-large; PRS are generally considered adjuncts to conventional risk factors (age, BMI, family history, glycemic measures) rather than stand-alone diagnostic tools.",
+      "Best practice includes external validation in the intended ancestry/setting, assessment of net benefit (decision-curve analysis) for the intended action threshold, and evaluation of incremental value over clinical predictors."
+    ]
+  },
+  "cross_disease_evidence": null,
+  "genetic_graph_evidence": [],
+  "genetic_graph_ran": false,
+  "genetic_graph_neighbors": [],
+  "genetic_graph_errors": [],
+  "caveats_and_limitations": [
+    "Cross-disease transfer was not pursued because Step 1 found high-quality direct matches (DIRECT_HIGH_QUALITY).",
+    "Reported AUC/R\u00b2 values depend on case definition, prevalence, evaluation cohort, and covariates; they are not directly comparable across studies without harmonization.",
+    "Portability can be reduced in non-European ancestries if training data are predominantly European; prefer models with matched-ancestry training/evaluation or consider ancestry-specific calibration.",
+    "Implementation requires allele alignment, genome build harmonization, and imputation/variant QC consistent with the score file; errors here can materially degrade performance.",
+    "Clinical use should include governance/ethics review, consideration of equity impacts, and clear communication of what the PRS does and does not predict."
+  ],
+  "follow_up_options": [
+    {
+      "label": "Train New Model on PennPRS",
+      "action": "TRIGGER_PENNPRS_CONFIG",
+      "context": "If you need a cohort-specific T2D PRS (e.g., specific ancestry mix, phenotype definition, genotyping array/imputation reference), trigger training to generate a best-practice PennPRS configuration (QC, ancestry handling, training method, and validation plan)."
+    }
+  ]
+}
