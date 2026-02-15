@@ -1,16 +1,53 @@
 # Standard Operating Procedure
 
-## Target Journal: Nature Genetics
+## Title
+PennPRS Agent
+
+## Target Journal
+Nature Genetics
 
 ## Brainstorming
-
-- Focus on PRS model recommendation applications.
+- Focus on PRS model recommendation applications. (Take Alzheimer's disease (AD) as the example)
+- Take features from AD PRS models available on PGS Catalog.
 - If there is matched diseases, select the best one.
 - If there is no matched disease, we can (i) selected genetically related diseases (one or more); (2) train the model on PennPRS. 
 - We may use h2, genetic correlation, and base model embedding information to first build a knowledge graph among diseases. How to weight these resources? 
 - Need validation, All of US? 
 - Write initial version of prompts (i) same disease (ii) cross diseases, talking with GPT for design, and we can further refine. 
 - Start with some selected diseases (cancer, mental diseases, neurodegenetive diseses, heart diseases) to build up the pipeline.
+- **Contribution1: The first Benchmarking for PGS Catalog models, and how AI tools can select the model**
+    - Overlap with All of US phenotypes for the phenotype space.
+    - Benchmarking all PGS Catalog models on All of US, get a performance matrix.
+    - `data/all_of_us/num_cases_1000.csv` is a list of traits with number of cases > 1000 in All of US. There are 1511 traits in total, which is a bit large. We have to select around 100 traits based on sample size and disease category. Some traits are parent level and some are children level. A parent level disease may have several subcategories. We can research and select about 100 traits.
+- **Contribution2: Understand how the GPT-5 use these captured PRS model features (sample size, ancestry, method, training cohort, etc.)** (Mapping Step 1)
+    - If there are issues, we can correct and add domain principles [how human PRS researcher select PRS models for AD]
+    - Check the initial performance from GPT. 
+- **Contribution3: LLM-based local graph around AD https://kumo.ai/research/recommendation-systems-llms-graph-transformers/ (Improving recommendation systems with LLMs and Graph Transformers)** (Mapping Step 2a)
+    - We may use "genetic similarity information" learned by GPT  (from non-AD available models in PGS Catalog) and other data resources. 
+    - With this local graph, we can build a graph around AD, such as including BD, CD, DD, ED, FD, etc.
+    - Then we can recommend non-AD models for AD. 
+    - We aim to show that add local graph can improve over not-using graph. Especially when there is no matched disease, the performance is better. 
+    - Output: 
+        (1) AD models, evaluation/score. 
+        (2) AD-related models. 
+    - Check the initial performance from GPT. 
+
+## Contributions
+
+This paper makes the following contributions:
+
+- **C1: The First Comprehensive Benchmark of PGS Catalog Models** (Infrastructure)
+    - **Claim**: We present the first systematic benchmarking of PGS Catalog models evaluated on a unified, large-scale cohort (All of Us), enabling direct cross-model performance comparison.
+    - **Approach**: Select approximately 100 representative diseases/traits from All of Us (from `data/all_of_us/num_cases_1000.csv`, filtered by sample size and disease category), apply all corresponding PGS Catalog models to All of Us individual-level data, and produce a standardized **Performance Matrix** (traits x models x metrics).
+    - **Nature**: Data engineering and computational evaluation. This contribution is independent of the AI Agent and serves as the **gold-standard ground truth** for validating C2 and C3.
+- **C2: LLM-Based PRS Model Selection** (Core Project Value = Step 1)
+    - **Claim**: PennPRS Agent, powered by GPT-5.2 with domain-specific tool calling, can select the best-performing PRS model from the full pool of PGS Catalog candidates, matching or exceeding naive selection baselines.
+    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame (Clinical Consensus + Performance Landscape), and outputs a ranked recommendation. Its selections are compared against the actual best-performing model identified by C1's benchmark.
+    - **Validation**: C1's Performance Matrix serves as ground truth. The Agent's recommended model is evaluated against the benchmark-optimal model for each disease.
+- **C3: LLM-Based Local Graph for Cross-Disease Model Transfer** (Methodological Innovation = Step 2a)
+    - **Claim**: For diseases without existing PRS models, PennPRS Agent leverages an LLM-based local knowledge graph to discover genetically related diseases and recommend their PRS models as effective substitutes.
+    - **Approach**: Construct a local graph around the target disease (e.g., Alzheimer's disease) by combining genetic similarity information learned by the LLM (from non-target models in PGS Catalog and other data resources) with structured genetic evidence (h2, rg). The graph enables transfer recommendations from related diseases. Inspired by [Kumo AI: Improving Recommendation Systems with LLMs and Graph Transformers](../knowledge/recommendation_system/kumo_recommendation_llm_graph_transformers.md).
+    - **Validation**: C1's Performance Matrix serves as ground truth. Hold-out evaluation: for diseases with known PGS models, remove direct models from the candidate pool, apply the local graph to discover cross-disease candidates, and compare the transferred model's performance against the direct model's benchmark performance.
 
 ## LLM Agentic Engineering Knowledge Base
 
@@ -21,7 +58,6 @@
 - [Manus: Context Engineering](../knowledge/context_engineering/manus_context_engineering.md)
 
 ## Objective
-
 The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommendation System** beyond simple direct matching by leveraging genetic architecture to enable intelligent cross-disease recommendations.
 
 - **Recommendation Logic (Sequential Workflow)**:
@@ -59,95 +95,176 @@ The core objective is to evolve the **PRS (Polygenic Risk Score) Model Recommend
 
 ## Architecture
 
-### Immutable Architectural Constraint: Single Agent Loop
+### Immutable Architectural Constraint: Single Agent + Tool Calling
 
 To achieve the "Co-scientist" level of autonomy and reasoning, the system **MUST** be built as a **Single Agent Architecture** (powered by **gpt-5.2**). The agent acts as a unified central brain, utilizing **Dynamic Planning** and **Tool-Augmented Generation** to navigate the complex recommendation workflow within a **single persistent conversation state**. Multi-agent delegation or sub-agent hierarchies are strictly prohibited to maintain persona integrity and state coherence.
 
-### Architecture Diagram
+PennPRS Agent employs a Single Agent architecture with Tool Calling (powered by **gpt-5.2**). The agent operates within a single persistent conversation state and invokes specialized tools for PRS model search, genetic graph traversal, biological validation, and training configuration. The workflow is encoded as a **Sequential Recommendation Pipeline** with autonomous decision-making.
 
-> **Rendered SVG**: See [architecture.svg](architecture.svg) (generated via [pretty-mermaid](../../.agent/skills/pretty-mermaid-skills/SKILL.md) with `tokyo-night` theme)
+### High-Level Architecture
 
-```mermaid
-flowchart TB
-    subgraph UserInterface["User Interface"]
-        Query["User Query<br/>(Target Trait)"]
-    end
+```
+                          PennPRS Agent (Single Agent)
+    ┌──────────────────────────────────────────────────────────────────────┐
+    │                                                                      │
+    │                    PennPRS Agent (gpt-5.2)                           │
+    │                    ──────────────────────────                        │
+    │                    Single persistent conversation state               │
+    │                    Tool Calling enabled                               │
+    │                    Co-Scientist Expert Persona                        │
+    │                                                                      │
+    ├──────────────────────────────────────────────────────────────────────┤
+    │                                                                      │
+    │   ┌──────────────────────────────────────────────────────────────┐   │
+    │   │                    TOOL REGISTRY (9 Tools)                    │   │
+    │   ├──────────────────────────────────────────────────────────────┤   │
+    │   │                                                              │   │
+    │   │  ┌───────────────────────────┐  ┌────────────────────────┐  │   │
+    │   │  │  PRS MODEL TOOLS (3)      │  │ GENETIC GRAPH TOOLS (3)│  │   │
+    │   │  │  ─────────────────        │  │ ───────────────────    │  │   │
+    │   │  │  prs_model_pgscatalog     │  │ genetic_graph_get      │  │   │
+    │   │  │  _search                  │  │ _neighbors             │  │   │
+    │   │  │  prs_model_domain         │  │ genetic_graph_verify   │  │   │
+    │   │  │  _knowledge               │  │ _study_power           │  │   │
+    │   │  │  prs_model_performance    │  │ genetic_graph_validate │  │   │
+    │   │  │  _landscape               │  │ _mechanism             │  │   │
+    │   │  └───────────────────────────┘  └────────────────────────┘  │   │
+    │   │                                                              │   │
+    │   │  ┌───────────────────────────┐  ┌────────────────────────┐  │   │
+    │   │  │ TRAIT RESOLUTION (2)      │  │ PENNPRS TOOLS (1)      │  │   │
+    │   │  │ ────────────────────      │  │ ─────────────────      │  │   │
+    │   │  │ trait_synonym_expand      │  │ pennprs_train_model    │  │   │
+    │   │  │ resolve_efo_and           │  │                        │  │   │
+    │   │  │ _mondo_ids               │  │                        │  │   │
+    │   │  └───────────────────────────┘  └────────────────────────┘  │   │
+    │   │                                                              │   │
+    │   └──────────────────────────────────────────────────────────────┘   │
+    │                                                                      │
+    │   ┌──────────────────────────────────────────────────────────────┐   │
+    │   │               EXTERNAL DATA SOURCES                          │   │
+    │   │  ┌──────────┐ ┌──────────┐ ┌──────────────┐ ┌───────────┐  │   │
+    │   │  │PGS Catalog│ │GWAS Atlas│ │ Open Targets │ │ PennPRS   │  │   │
+    │   │  │  REST API │ │ (h², rg) │ │ + ExPheWAS   │ │Train. API │  │   │
+    │   │  └──────────┘ └──────────┘ └──────────────┘ └───────────┘  │   │
+    │   └──────────────────────────────────────────────────────────────┘   │
+    │                                                                      │
+    └──────────────────────────────────────────────────────────────────────┘
+```
 
-    subgraph AgentCore["Single Agent Loop (gpt-5.2)"]
-        direction TB
-        Reasoning["Reasoning & Persona<br/>(System Prompt)"]
-        
-        subgraph Step1["Step 1: Direct Match Assessment"]
-            direction LR
-            S1_Search["prs_model_pgscatalog_search<br/>(target_trait)"]
-            S1_Knowledge["prs_model_domain_knowledge"]
-            S1_Landscape["prs_model_performance_landscape"]
-        end
-        
-        Decision1{{"Quality<br/>Threshold?"}}
-        
-        subgraph Step2a["Step 2a: Cross-Disease Transfer"]
-            direction TB
-            S2a_Synonym["trait_synonym_expand<br/>(TARGET, exclude codes)"]
-            S2a_Neighbors["genetic_graph_get_neighbors<br/>(expanded queries → neighbor_traits[])"]
-            S2a_Select["Select neighbor (Top-1):<br/>scan by transfer_score until first PGS hit"]
-            S2a_Loop["FOR each selected neighbor"]
-            S2a_Search["prs_model_pgscatalog_search<br/>(neighbor_trait)"]
-            S2a_Resolve["resolve_efo_and_mondo_ids<br/>(IF models found)"]
-            S2a_Validate["genetic_graph_validate_mechanism<br/>(IF models found)"]
-            S2a_Verify["genetic_graph_verify_study_power<br/>(IF models found)"]
-            S2a_Synonym --> S2a_Neighbors
-            S2a_Neighbors --> S2a_Select
-            S2a_Select --> S2a_Loop
-            S2a_Loop --> S2a_Search
-            S2a_Search -->|"IF models found"| S2a_Resolve
-            S2a_Resolve --> S2a_Validate
-            S2a_Search -->|"IF models found"| S2a_Verify
-        end
-        
-        subgraph Step2b["Step 2b: Training Configuration"]
-            S2b_Trigger["User Click: 'Train New Model'"]
-            S2b_Train["pennprs_train_model<br/>(TARGET)"]
-        end
-    end
+### Tool Calling Workflow
 
-    subgraph ExternalData["External Data Sources"]
-        PGS["PGS Catalog API"]
-        GWAS["GWAS Atlas<br/>(h², rg)"]
-        OpenTargets["Open Targets<br/>ExPheWAS"]
-        PennPRS["PennPRS<br/>Training API"]
-    end
+The Agent enforces the PennPRS Sequential Recommendation Pipeline through tool calling.
+```
+Step 1: Direct Match Assessment
+───────────────────────────────
+    prs_model_pgscatalog_search(target_trait)
+           │
+           ├──[No models found]──► Proceed to Step 2a
+           ▼
+    prs_model_domain_knowledge(query)          ──┐
+    prs_model_performance_landscape(candidates) ──┤
+           │                                       │
+           ▼                                       │
+    ┌─────────────────────────────────────────────────────────────────┐
+    │              LLM QUALITY EVALUATION (Evaluation Reference Frame)│
+    │                                                                  │
+    │  Agent combines:                                                 │
+    │    - Clinical Consensus (from domain_knowledge)                  │
+    │    - Market Statistics (from performance_landscape)               │
+    │                                                                  │
+    │         ├──[HIGH_QUALITY]──► Generate Report (Direct)            │
+    │         │                    + Offer "Train New Model" option     │
+    │         │                    ──► DONE                            │
+    │         │                                                        │
+    │         ├──[SUB_OPTIMAL]──► Recommend best available as baseline │
+    │         │                   ──► Proceed to Step 2a               │
+    │         │                                                        │
+    │         └──[NO_MATCH]──► Proceed to Step 2a                      │
+    │                                                                  │
+    └──────────────────────────────────────────────────────────────────┘
 
-    subgraph Output["Recommendation Output"]
-        Direct["Direct Model<br/>Recommendation"]
-        CrossDisease["Cross-Disease<br/>Model Transfer"]
-        TrainNew["Training<br/>Configuration"]
-    end
+Step 2a: Cross-Disease Transfer
+───────────────────────────────
+    trait_synonym_expand(target_trait, include_icd10=False, include_efo=False)
+           │
+           ▼
+    ┌─────────────────────────────────────────────────────────────────┐
+    │                    NEIGHBOR DISCOVERY LOOP                        │
+    │                                                                  │
+    │  FOR each expanded_query:                                        │
+    │    genetic_graph_get_neighbors(expanded_query)                    │
+    │  Merge & deduplicate results by trait_id                         │
+    │         │                                                        │
+    │         ├──[ALL empty]──► OUTCOME: NO_MATCH_FOUND                │
+    │         │                 ──► Generate Report + "Train" option    │
+    │         ▼                                                        │
+    │  neighbor_traits[] (sorted by transfer_score desc)               │
+    │                                                                  │
+    └──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+    ┌─────────────────────────────────────────────────────────────────┐
+    │               NEIGHBOR SELECTION (Top-1, early stop)             │
+    │                                                                  │
+    │  FOR each neighbor_trait (by transfer_score desc):               │
+    │    PGS pre-check (IDs only, no heavy hydration)                  │
+    │         │                                                        │
+    │         ├──[PGS IDs found]──► SELECT this neighbor ─► EXIT LOOP │
+    │         │                                                        │
+    │         └──[No PGS IDs]──► Continue to next neighbor             │
+    │                                                                  │
+    │  IF no neighbor yields PGS IDs:                                  │
+    │    OUTCOME: NO_MATCH_FOUND                                       │
+    │                                                                  │
+    └──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+    prs_model_pgscatalog_search(selected_neighbor_trait)
+           │
+           ├──[No models]──► OUTCOME: NO_MATCH_FOUND
+           ▼
+    ┌─────────────────────────────────────────────────────────────────┐
+    │               EVIDENCE COLLECTION (for Report)                   │
+    │               ─────────────────────────────────                  │
+    │  (These tools do NOT affect workflow decisions)                   │
+    │                                                                  │
+    │  trait_synonym_expand(target_trait + neighbor_trait)              │
+    │         │                                                        │
+    │         ▼                                                        │
+    │  resolve_efo_and_mondo_ids(both traits)                          │
+    │         │                                                        │
+    │         ▼                                                        │
+    │  genetic_graph_validate_mechanism(EFO/MONDO IDs)                 │
+    │    ──► Biological evidence (shared genes, pathways)              │
+    │                                                                  │
+    │  genetic_graph_verify_study_power(target, neighbor)              │
+    │    ──► Statistical evidence (sample sizes, cohorts)              │
+    │                                                                  │
+    │  prs_model_performance_landscape(neighbor_models)                │
+    │    ──► Quality evaluation of neighbor models                     │
+    │                                                                  │
+    └──────────────────────────────────────────────────────────────────┘
+           │
+           ▼
+    IF qualified_transfer_models found:
+        OUTCOME: CROSS_DISEASE
+    ELSE:
+        OUTCOME: NO_MATCH_FOUND
 
-    Query --> Reasoning
-    Reasoning --> Step1
-    S1_Search --> PGS
-    S1_Knowledge --> PGS
-    S1_Landscape --> S1_Search
-    
-    Step1 --> Decision1
-    Decision1 -->|"HIGH_QUALITY"| Direct
-    Decision1 -->|"SUB_OPTIMAL / NO_MATCH"| Step2a
-    
-    S2a_Neighbors --> GWAS
-    S2a_Search --> PGS
-    S2a_Resolve --> PGS
-    S2a_Resolve --> OpenTargets
-    S2a_Validate --> OpenTargets
-    S2a_Verify --> GWAS
-    
-    Step2a --> CrossDisease
-    
-    Direct --> S2b_Trigger
-    CrossDisease --> S2b_Trigger
-    S2b_Trigger --> S2b_Train
-    S2b_Train --> PennPRS
-    S2b_Train --> TrainNew
+Step 2b: On-Demand Training (Human-in-the-Loop)
+────────────────────────────────────────────────
+    [Appended to ALL report types as a follow-up option]
+
+    User clicks "Train New Model" in the report UI
+           │
+           ▼
+    pennprs_train_model(target_trait, agent_context)
+           │
+           ▼
+    UI displays pre-filled training configuration form
+           │
+           ▼
+    User reviews/modifies ──► submits ──► PennPRS Training API
 ```
 
 ### Tool Sets Overview
