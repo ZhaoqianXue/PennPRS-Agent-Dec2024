@@ -5,6 +5,59 @@
 
 ---
 
+## Structured Selection Rules (Step 1 / Contribution2)
+
+Use this section as the default decision scaffold when selecting direct-match PRS models.
+
+### Must-Pass Gates
+
+1. **Phenotype alignment gate**
+   - Reject models when `trait_reported` or `phenotyping_reported` clearly indicates a proxy phenotype (for example, family-history-only endpoints) while the target is a clinical disease endpoint.
+   - Prefer the model whose endpoint definition is most consistent with deployment phenotype coding.
+
+2. **Ancestry compatibility gate**
+   - Require evidence that training/development/evaluation ancestry is compatible with the target cohort ancestry.
+   - Penalize or reject models with severe ancestry mismatch when a matched-ancestry alternative exists.
+
+3. **Minimum evidence gate**
+   - Require at least one usable discriminative performance metric (AUC/AUROC/C-index for binary traits, R2 for quantitative traits) and interpretable sample-size context.
+
+### Ranking Features (after gates pass)
+
+Rank candidates by combining:
+
+1. **Discriminative performance**: AUC/AUROC/C-index and/or R2
+2. **Sample size and study power**: larger and better powered studies are preferred
+3. **External validation quality**: independent validation and transparent covariate reporting
+4. **Method robustness**: method suitability for trait architecture and ancestry setup
+
+### Penalties and Red Flags
+
+Apply explicit penalties for:
+
+1. **Proxy phenotype substitution risk** (family history used as disease surrogate)
+2. **Implausibly high performance with weak provenance** (possible leakage/ascertainment bias)
+3. **Potential cohort overlap between discovery and evaluation**
+4. **Unclear phenotype definition or missing covariate context**
+
+### Method Priors (for tie-breaking and interpretation)
+
+1. **LDpred2 / LDpred2-auto**
+   - Strong default for many polygenic traits when LD reference is ancestry-matched.
+2. **PRS-CS / PRS-CS-auto**
+   - Strong for highly polygenic traits with large GWAS and proper LD resources.
+3. **Lassosum2**
+   - Useful when partial sparsity is expected and fast iteration is needed.
+4. **C+T**
+   - Baseline method; use for sanity checks or low-resource settings, not as default winner for highly polygenic traits.
+
+### Endpoint Integrity Notes (Disease-Agnostic)
+
+1. Distinguish clinical disease endpoints from family-history or broad proxy endpoints before comparing AUC/R2 across models.
+2. Treat very high reported performance with caution unless phenotype definition and validation protocol are clearly aligned with intended deployment.
+
+---
+
 ## Model Selection Guidelines
 
 ### LDpred2

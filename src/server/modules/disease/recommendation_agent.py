@@ -1,3 +1,4 @@
+import os
 import re
 import logging
 from typing import Any, Dict, List, Optional, Literal, Callable, Tuple
@@ -16,7 +17,13 @@ from src.server.core.pgs_catalog_client import PGSCatalogClient
 from src.server.core.opentargets_client import OpenTargetsClient
 from src.server.core.phewas_client import PheWASClient
 from src.server.modules.knowledge_graph.service import KnowledgeGraphService
-from src.server.core.tool_schemas import ToolError, NeighborResult, MechanismValidation
+from src.server.core.tool_schemas import (
+    ToolError,
+    NeighborResult,
+    MechanismValidation,
+    DomainKnowledgeResult,
+    PGSSearchResult,
+)
 from thefuzz import fuzz
 from uuid import uuid4
 
@@ -45,6 +52,10 @@ from src.server.modules.disease.models import (
     StudyPowerSummary,
     PrimaryRecommendation,
     DirectMatchEvidence
+)
+from src.server.modules.disease.local_graph_reranker import (
+    rerank_neighbors_with_local_graph,
+    select_neighbors_from_local_graph,
 )
 
 
@@ -76,12 +87,64 @@ MAX_INLINE_CONTEXT_BYTES = 50_000
 TOP_MODELS_INLINE = 10
 MAX_STUDY_POWER_CHECKS = 2
 
+STEP1_DISABLE_DOMAIN_ENV = "PENNPRS_STEP1_DISABLE_DOMAIN_KNOWLEDGE"
+STEP1_RUN_ABLATION_ENV = "PENNPRS_STEP1_RUN_NO_DOMAIN_ABLATION"
+LOCAL_GRAPH_NEIGHBOR_LIMIT_ENV = "PENNPRS_LOCAL_GRAPH_KG_NEIGHBOR_LIMIT"
+LOCAL_GRAPH_PREFILTER_ENV = "PENNPRS_LOCAL_GRAPH_PREFILTER_TOP_K"
+LOCAL_GRAPH_PROCESS_TOP_N_ENV = "PENNPRS_LOCAL_GRAPH_PROCESS_TOP_N"
+LOCAL_GRAPH_MIN_PGS_HITS_ENV = "PENNPRS_LOCAL_GRAPH_MIN_PGS_HITS"
+LOCAL_GRAPH_WEIGHT_TRANSFER_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_TRANSFER"
+LOCAL_GRAPH_WEIGHT_RG_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_RG"
+LOCAL_GRAPH_WEIGHT_POWER_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_POWER"
+LOCAL_GRAPH_WEIGHT_PGS_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_PGS_HITS"
+LOCAL_GRAPH_WEIGHT_SEMANTIC_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_SEMANTIC"
+
+STEP1_RATIONALE_FEATURE_KEYWORDS = {
+    "trait_match": ["trait", "phenotype", "proxy", "family history"],
+    "auc": ["auc", "auroc", "roc"],
+    "r2": ["r2", "r²", "variance explained"],
+    "sample_size": ["sample", "n=", "cohort", "powered"],
+    "ancestry": ["ancestry", "eur", "afr", "eas", "sas", "multi-ancestry"],
+    "method": ["method", "ldpred", "prs-cs", "lassosum", "genoboost", "snpnet"],
+    "variants": ["variant", "snp"],
+    "covariates": ["covariate", "age", "sex", "pc"],
+}
+
 
 TRAIN_NEW_MODEL_OPTION = FollowUpOption(
     label="Train New Model on PennPRS",
     action="TRIGGER_PENNPRS_CONFIG",
     context="Provides best-in-class configuration recommendation"
 )
+
+
+def _env_flag(name: str, default: bool = False) -> bool:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_int(name: str, default: int, min_value: int, max_value: int) -> int:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        return default
+    return max(min_value, min(max_value, value))
+
+
+def _env_float(name: str, default: float, min_value: float, max_value: float) -> float:
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    try:
+        value = float(raw)
+    except ValueError:
+        return default
+    return max(min_value, min(max_value, value))
 
 
 def _normalize_text(text: str) -> str:
@@ -133,6 +196,81 @@ def _summarize_search_result_for_llm(search_result: Any, top_n: int = TOP_MODELS
         "after_filter": getattr(search_result, "after_filter", None),
         "top_models": [_summarize_model_for_llm(m) for m in models[:top_n]],
     }
+
+
+def _build_step1_feature_table(models: List[Any], top_n: int = TOP_MODELS_INLINE) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    for m in (models or [])[:top_n]:
+        pm = getattr(m, "performance_metrics", {}) or {}
+        rows.append({
+            "id": getattr(m, "id", None),
+            "trait_reported": getattr(m, "trait_reported", None),
+            "method_name": getattr(m, "method_name", None),
+            "auc": pm.get("auc"),
+            "r2": pm.get("r2"),
+            "samples_training": getattr(m, "samples_training", None),
+            "ancestry_distribution": getattr(m, "ancestry_distribution", None),
+            "variants_number": getattr(m, "variants_number", None),
+            "phenotyping_reported": getattr(m, "phenotyping_reported", None),
+            "covariates": getattr(m, "covariates", None),
+            "training_development_cohorts": getattr(m, "training_development_cohorts", None),
+        })
+    return rows
+
+
+def _empty_domain_knowledge(query: str, source_type: str = "disabled") -> DomainKnowledgeResult:
+    return DomainKnowledgeResult(query=query, snippets=[], source_type=source_type)
+
+
+def _extract_step1_rationale_features(rationale: str) -> List[str]:
+    text = (rationale or "").lower()
+    features: List[str] = []
+    for feature, keywords in STEP1_RATIONALE_FEATURE_KEYWORDS.items():
+        if any(k in text for k in keywords):
+            features.append(feature)
+    return features
+
+
+def _write_json_artifact(prefix: str, payload: Dict[str, Any]) -> Optional[str]:
+    try:
+        path = get_artifacts_dir() / f"{prefix}_{uuid4().hex[:12]}.json"
+        path.write_text(stable_json_dumps(payload), encoding="utf-8")
+        return str(path)
+    except Exception as exc:
+        logger.warning(
+            f"Failed to persist artifact '{prefix}': {type(exc).__name__}: {exc}"
+        )
+        return None
+
+
+def _fallback_step1_decision(
+    pgs_result: PGSSearchResult,
+    error_message: str
+) -> Step1Decision:
+    return Step1Decision(
+        outcome="NO_MATCH_FOUND" if pgs_result.after_filter == 0 else "DIRECT_SUB_OPTIMAL",
+        best_model_id=pgs_result.models[0].id if pgs_result.models else None,
+        confidence="Low",
+        rationale=f"Fallback decision due to Step 1 failure: {error_message}"
+    )
+
+
+def _invoke_step1_chain(
+    chain: Any,
+    context_payload: Dict[str, Any],
+    pgs_result: PGSSearchResult
+) -> Tuple[Step1Decision, Optional[Dict[str, Any]]]:
+    try:
+        decision = chain.invoke({"context_json": stable_json_dumps(context_payload)})
+        return decision, None
+    except Exception as exc:
+        decision = _fallback_step1_decision(pgs_result, str(exc))
+        err = {
+            "tool_name": "step1_decision",
+            "error_type": type(exc).__name__,
+            "error_message": str(exc)
+        }
+        return decision, err
 
 
 def _best_model_stats(models: List[Any]) -> Dict[str, Any]:
@@ -375,9 +513,9 @@ def resolve_efo_and_mondo_ids(
 def select_best_efo_candidate(
     target_trait_name: str,
     target_efo_id: Optional[str],
-    target_mondo_id: Optional[str],
     neighbor_trait_name: str,
     candidates: List[EfoCandidate],
+    target_mondo_id: Optional[str] = None,
     validate_fn: Optional[Callable[[str, str], Any]] = None,
     gap_threshold: float = EFO_GAP_THRESHOLD,
     max_validate: int = MAX_EFO_VALIDATION
@@ -414,7 +552,16 @@ def select_best_efo_candidate(
     best_rank = (-1, -1, -1)
 
     for candidate in ordered[:max_validate]:
-        result = validate_fn(neighbor_trait_name, target_trait_name)
+        try:
+            result = validate_fn(
+                candidate.id,
+                candidate.id,
+                neighbor_trait_name,
+                target_trait_name
+            )
+        except TypeError:
+            # Backward compatibility for older validate_fn signature.
+            result = validate_fn(neighbor_trait_name, target_trait_name)
         if isinstance(result, ToolError):
             continue
         rank = _mechanism_rank(result)
@@ -516,6 +663,28 @@ def recommend_models(
     kg_service: Optional[KnowledgeGraphService] = None
 
     tool_errors: List[Dict[str, Any]] = []
+    step1_disable_domain_knowledge = _env_flag(STEP1_DISABLE_DOMAIN_ENV, default=False)
+    step1_run_ablation = _env_flag(STEP1_RUN_ABLATION_ENV, default=False)
+
+    local_graph_neighbor_limit = _env_int(
+        LOCAL_GRAPH_NEIGHBOR_LIMIT_ENV, default=50, min_value=10, max_value=200
+    )
+    local_graph_prefilter_top_k = _env_int(
+        LOCAL_GRAPH_PREFILTER_ENV, default=50, min_value=1, max_value=200
+    )
+    local_graph_process_top_n = _env_int(
+        LOCAL_GRAPH_PROCESS_TOP_N_ENV, default=3, min_value=1, max_value=20
+    )
+    local_graph_min_pgs_hits = _env_int(
+        LOCAL_GRAPH_MIN_PGS_HITS_ENV, default=1, min_value=0, max_value=1000
+    )
+    local_graph_weights = {
+        "graph_transfer": _env_float(LOCAL_GRAPH_WEIGHT_TRANSFER_ENV, 0.45, 0.0, 1.0),
+        "graph_rg": _env_float(LOCAL_GRAPH_WEIGHT_RG_ENV, 0.15, 0.0, 1.0),
+        "graph_power": _env_float(LOCAL_GRAPH_WEIGHT_POWER_ENV, 0.10, 0.0, 1.0),
+        "pgs_hits": _env_float(LOCAL_GRAPH_WEIGHT_PGS_ENV, 0.20, 0.0, 1.0),
+        "semantic_similarity": _env_float(LOCAL_GRAPH_WEIGHT_SEMANTIC_ENV, 0.10, 0.0, 1.0),
+    }
 
     # ---------------------------------------------------------------------
     # Recitation todo (Manus: Manipulate Attention Through Recitation)
@@ -561,9 +730,23 @@ def recommend_models(
             "current_step": "step-2"
         })
 
-    knowledge = prs_model_domain_knowledge(
-        f"{target_trait} PRS clinical thresholds AUC R2"
+    domain_query = (
+        f"{target_trait} PRS clinical thresholds AUC R2 "
+        "must-pass gates phenotype alignment ancestry compatibility "
+        "ranking features penalties method priors"
     )
+    knowledge_with_domain: Optional[DomainKnowledgeResult] = None
+    if (not step1_disable_domain_knowledge) or step1_run_ablation:
+        knowledge_with_domain = prs_model_domain_knowledge(domain_query)
+
+    if step1_disable_domain_knowledge:
+        knowledge = _empty_domain_knowledge(domain_query, source_type="disabled_by_ablation")
+    else:
+        knowledge = knowledge_with_domain or _empty_domain_knowledge(
+            domain_query,
+            source_type="missing"
+        )
+
     landscape = prs_model_performance_landscape(pgs_client, pgs_result.models)
     todo.set_done("Step 1: Evaluate models against performance landscape")
     todo.write()
@@ -596,7 +779,10 @@ def recommend_models(
     }
 
     step1_decision = None
-    
+    step1_shadow_decision: Optional[Step1Decision] = None
+    step1_ablation_summary: Optional[Dict[str, Any]] = None
+    step1_ablation_artifact_path: Optional[str] = None
+
     # Test mode: Force Step 1 outcome (for testing Genetic Graph Tools)
     if force_step1_outcome:
         step1_decision = Step1Decision(
@@ -607,31 +793,87 @@ def recommend_models(
         )
         logger.info(f"TEST MODE: Forcing Step 1 outcome to {force_step1_outcome}")
     else:
-        try:
-            chain = _build_step1_chain()
-            step1_decision = chain.invoke(
-                {"context_json": stable_json_dumps(step1_context)}
+        chain = _build_step1_chain()
+        step1_decision, main_step1_error = _invoke_step1_chain(
+            chain=chain,
+            context_payload=step1_context,
+            pgs_result=pgs_result
+        )
+        if main_step1_error:
+            tool_errors.append(main_step1_error)
+
+        if step1_run_ablation:
+            if step1_disable_domain_knowledge:
+                if knowledge_with_domain is None:
+                    knowledge_with_domain = prs_model_domain_knowledge(domain_query)
+                shadow_domain = knowledge_with_domain or _empty_domain_knowledge(
+                    domain_query, source_type="missing"
+                )
+                shadow_label = "with_domain_shadow"
+            else:
+                shadow_domain = _empty_domain_knowledge(
+                    domain_query, source_type="disabled_by_ablation"
+                )
+                shadow_label = "without_domain_shadow"
+
+            shadow_context = dict(step1_context)
+            shadow_context["domain_knowledge"] = shadow_domain.model_dump()
+            step1_shadow_decision, shadow_step1_error = _invoke_step1_chain(
+                chain=chain,
+                context_payload=shadow_context,
+                pgs_result=pgs_result
             )
-            logger.info(
-                f"Step 1 decision: outcome={step1_decision.outcome}, "
-                f"confidence={step1_decision.confidence}, "
-                f"best_model_id={step1_decision.best_model_id}, "
-                f"pgs_total_found={pgs_result.total_found}, "
-                f"pgs_after_filter={pgs_result.after_filter}, "
-                f"models_returned={len(pgs_result.models)}"
-            )
-        except Exception as exc:
-            step1_decision = Step1Decision(
-                outcome="NO_MATCH_FOUND" if pgs_result.after_filter == 0 else "DIRECT_SUB_OPTIMAL",
-                best_model_id=pgs_result.models[0].id if pgs_result.models else None,
-                confidence="Low",
-                rationale=f"Fallback decision due to Step 1 failure: {exc}"
-            )
-            tool_errors.append({
-                "tool_name": "step1_decision",
-                "error_type": type(exc).__name__,
-                "error_message": str(exc)
-            })
+            if shadow_step1_error:
+                shadow_step1_error["tool_name"] = f"{shadow_label}_step1_decision"
+                tool_errors.append(shadow_step1_error)
+
+    logger.info(
+        f"Step 1 decision: outcome={step1_decision.outcome}, "
+        f"confidence={step1_decision.confidence}, "
+        f"best_model_id={step1_decision.best_model_id}, "
+        f"pgs_total_found={pgs_result.total_found}, "
+        f"pgs_after_filter={pgs_result.after_filter}, "
+        f"models_returned={len(pgs_result.models)}, "
+        f"domain_knowledge_enabled={not step1_disable_domain_knowledge}"
+    )
+
+    step1_ablation_summary = {
+        "domain_knowledge_main_enabled": not step1_disable_domain_knowledge,
+        "shadow_enabled": step1_run_ablation,
+        "main_decision": step1_decision.model_dump(),
+        "main_rationale_features": _extract_step1_rationale_features(step1_decision.rationale),
+        "shadow_decision": step1_shadow_decision.model_dump() if step1_shadow_decision else None,
+        "shadow_rationale_features": (
+            _extract_step1_rationale_features(step1_shadow_decision.rationale)
+            if step1_shadow_decision else None
+        ),
+    }
+
+    if step1_disable_domain_knowledge or step1_run_ablation:
+        step1_ablation_payload = {
+            "target_trait": target_trait,
+            "settings": {
+                "disable_domain_knowledge": step1_disable_domain_knowledge,
+                "run_no_domain_ablation": step1_run_ablation,
+            },
+            "domain_query": domain_query,
+            "main_domain_knowledge_source": knowledge.source_type,
+            "shadow_domain_knowledge_source": (
+                "enabled" if (step1_shadow_decision and step1_disable_domain_knowledge) else "disabled"
+            ) if step1_shadow_decision else None,
+            "model_feature_table": _build_step1_feature_table(pgs_result.models),
+            "main_decision": step1_decision.model_dump(),
+            "main_rationale_features": _extract_step1_rationale_features(step1_decision.rationale),
+            "shadow_decision": step1_shadow_decision.model_dump() if step1_shadow_decision else None,
+            "shadow_rationale_features": (
+                _extract_step1_rationale_features(step1_shadow_decision.rationale)
+                if step1_shadow_decision else None
+            ),
+        }
+        step1_ablation_artifact_path = _write_json_artifact(
+            prefix=f"step1_ablation_{_slugify(target_trait)}",
+            payload=step1_ablation_payload
+        )
 
     # Update progress: Step 3 completed, decision made
     if request_id and request_id in search_progress:
@@ -646,6 +888,8 @@ def recommend_models(
     genetic_graph_evidence: List[GeneticGraphEvidence] = []
     genetic_graph_neighbors: List[str] = []
     genetic_graph_errors: List[str] = []
+    local_graph_rerank_summary: Optional[Dict[str, Any]] = None
+    local_graph_rerank_artifact_path: Optional[str] = None
 
     run_cross_disease = step1_decision.outcome in {"DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"}
     
@@ -701,7 +945,7 @@ def recommend_models(
             query_result = genetic_graph_get_neighbors(
                 kg_service,
                 trait_id=query,
-                limit=10  # Get more neighbors per query, then merge
+                limit=local_graph_neighbor_limit
             )
             if isinstance(query_result, ToolError):
                 continue
@@ -769,22 +1013,64 @@ def recommend_models(
                 "context": {"trait": target_trait}
             })
 
-        # Neighbor Selection Strategy (Top-1):
-        # Scan neighbors in descending transfer_score and pre-check PGS Catalog for hits.
-        # Stop at the first neighbor that yields any PGS IDs, then run full PRS model hydration
-        # ONLY for that single neighbor.
+        # Local graph reranking: combine graph structure with PRS availability and
+        # semantic closeness. This extends pure transfer_score ranking and avoids
+        # over-reliance on top-1 early stop.
         ordered_candidates = list(neighbors_result.neighbors or [])
-        selected_neighbor: Optional[Any] = None
-        for n in ordered_candidates:
-            try:
-                hits = pgs_client.search_scores(getattr(n, "trait_id", "") or "")
-                if hits:
-                    selected_neighbor = n
-                    break
-            except Exception:
+        precheck_candidates = ordered_candidates[:local_graph_prefilter_top_k]
+        pgs_hit_counts: Dict[str, int] = {}
+        for n in precheck_candidates:
+            neighbor_trait = getattr(n, "trait_id", "") or ""
+            if not neighbor_trait:
                 continue
+            try:
+                pgs_hit_counts[neighbor_trait] = len(pgs_client.search_scores(neighbor_trait))
+            except Exception as exc:
+                pgs_hit_counts[neighbor_trait] = 0
+                tool_errors.append({
+                    "tool_name": "pgs_catalog_search_precheck",
+                    "error_type": type(exc).__name__,
+                    "error_message": str(exc),
+                    "context": {"neighbor_trait": neighbor_trait}
+                })
 
-        neighbors_to_process = [selected_neighbor] if selected_neighbor else []
+        local_graph_ranked = rerank_neighbors_with_local_graph(
+            target_trait=target_trait,
+            neighbors=precheck_candidates,
+            pgs_hit_counts=pgs_hit_counts,
+            similarity_fn=_similarity_score,
+            weights=local_graph_weights,
+            min_pgs_hits=local_graph_min_pgs_hits,
+        )
+        selected_neighbor_traits = select_neighbors_from_local_graph(
+            ranked_candidates=local_graph_ranked,
+            top_n=local_graph_process_top_n,
+        )
+        local_graph_ranked_by_trait = {c["trait_id"]: c for c in local_graph_ranked}
+        neighbors_by_trait = {getattr(n, "trait_id", ""): n for n in precheck_candidates}
+        neighbors_to_process = [
+            neighbors_by_trait[trait]
+            for trait in selected_neighbor_traits
+            if trait in neighbors_by_trait
+        ]
+
+        local_graph_rerank_summary = {
+            "prefilter_top_k": local_graph_prefilter_top_k,
+            "process_top_n": local_graph_process_top_n,
+            "min_pgs_hits": local_graph_min_pgs_hits,
+            "weights": local_graph_weights,
+            "candidate_count": len(precheck_candidates),
+            "selected_neighbors": selected_neighbor_traits,
+            "top_ranked": local_graph_ranked[:max(10, local_graph_process_top_n)],
+        }
+        local_graph_rerank_artifact_path = _write_json_artifact(
+            prefix=f"local_graph_rerank_{_slugify(target_trait)}",
+            payload={
+                "target_trait": target_trait,
+                "summary": local_graph_rerank_summary,
+                "all_ranked_candidates": local_graph_ranked,
+            }
+        )
 
         for neighbor in neighbors_to_process:
             neighbor_trait = neighbor.trait_id
@@ -817,6 +1103,7 @@ def recommend_models(
             )
 
             best_stats = _best_model_stats(neighbor_models.models)
+            rerank_meta = local_graph_ranked_by_trait.get(neighbor_trait, {})
             
             # Collect evidence tools: called AFTER models are found (if any models found)
             mechanism_summary = None
@@ -887,6 +1174,11 @@ def recommend_models(
                 "neighbor_domain": neighbor.domain,
                 "rg_meta": neighbor.rg_meta,
                 "transfer_score": neighbor.transfer_score,
+                "local_graph_score": rerank_meta.get("local_graph_score"),
+                "local_graph_rank": rerank_meta.get("local_graph_rank"),
+                "local_graph_pgs_hit_count": rerank_meta.get("pgs_hit_count"),
+                "local_graph_rule_passed": rerank_meta.get("passes_rules"),
+                "local_graph_rule_failures": rerank_meta.get("rule_failures"),
                 "neighbor_efo_id": selected_candidate.id if selected_candidate else None,
                 "neighbor_efo_source": selected_candidate.source if selected_candidate else None,
                 "mechanism_validation": mechanism_summary,
@@ -934,7 +1226,11 @@ def recommend_models(
         "target_trait": target_trait,
         "step1_decision": step1_decision.model_dump(),
         "step1_context": step1_context,
+        "step1_ablation_summary": step1_ablation_summary,
+        "step1_ablation_artifact": step1_ablation_artifact_path,
         "cross_disease_candidates": cross_disease_candidates,
+        "local_graph_rerank_summary": local_graph_rerank_summary,
+        "local_graph_rerank_artifact": local_graph_rerank_artifact_path,
         "weak_mechanism_traits": weak_mechanism_traits,
         "tool_errors": tool_errors,
         "scratchpad": _build_scratchpad(step1_decision, cross_disease_candidates),
@@ -952,11 +1248,18 @@ def recommend_models(
         summary_builder=lambda p: {
             "target_trait": p.get("target_trait"),
             "step1_decision": p.get("step1_decision"),
+            "step1_ablation_summary": p.get("step1_ablation_summary"),
+            "step1_ablation_artifact": p.get("step1_ablation_artifact"),
             "direct_models_summary": _summarize_search_result_for_llm(pgs_result, top_n=TOP_MODELS_INLINE),
+            "local_graph_rerank_summary": p.get("local_graph_rerank_summary"),
+            "local_graph_rerank_artifact": p.get("local_graph_rerank_artifact"),
             "cross_disease_candidates_summary": [
                 {
                     "neighbor_trait": c.get("neighbor_trait"),
                     "transfer_score": c.get("transfer_score"),
+                    "local_graph_score": c.get("local_graph_score"),
+                    "local_graph_rank": c.get("local_graph_rank"),
+                    "local_graph_pgs_hit_count": c.get("local_graph_pgs_hit_count"),
                     "mechanism_confidence": c.get("mechanism_confidence"),
                     "neighbor_models_best": c.get("neighbor_models_best"),
                     "neighbor_models_artifact": c.get("neighbor_models_artifact"),

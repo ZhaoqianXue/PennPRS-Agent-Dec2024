@@ -20,6 +20,27 @@ from src.server.core.agent_artifacts import get_artifacts_dir, stable_json_dumps
 
 logger = logging.getLogger(__name__)
 
+DOMAIN_QUERY_EXPANSION: Dict[str, List[str]] = {
+    "clinical": ["clinical", "guideline", "consensus", "threshold", "benchmark"],
+    "auc": ["auc", "auroc", "roc", "c-index"],
+    "r2": ["r2", "r²", "variance"],
+    "gates": ["gate", "must-pass", "must_pass", "eligibility"],
+    "ranking": ["ranking", "prioritize", "priority", "rank"],
+    "penalties": ["penalty", "penalties", "red flag", "risk"],
+    "method": ["method", "ldpred2", "prs-cs", "lassosum", "c+t"],
+    "ancestry": ["ancestry", "eur", "afr", "eas", "sas", "multi-ancestry"],
+    "phenotype": ["phenotype", "trait", "endpoint", "proxy", "family history"],
+}
+
+STRUCTURED_SECTION_KEYWORDS: Dict[str, List[str]] = {
+    "structured selection rules": ["clinical", "threshold", "ranking", "penalties", "method", "selection"],
+    "must-pass gates": ["gate", "phenotype", "ancestry", "proxy", "endpoint"],
+    "ranking features": ["ranking", "auc", "r2", "sample", "validation", "method"],
+    "penalties and red flags": ["penalties", "red", "flag", "proxy", "overlap", "bias"],
+    "method priors": ["method", "ldpred2", "prs-cs", "lassosum", "c+t"],
+    "endpoint integrity notes (disease-agnostic)": ["proxy", "endpoint", "family history", "disease"],
+}
+
 
 def prs_model_pgscatalog_search(
     client,  # PGSCatalogClient
@@ -770,7 +791,7 @@ def prs_model_domain_knowledge(
     sections = _parse_markdown_sections(content)
     
     # Score and rank sections by relevance
-    query_terms = query.lower().split()
+    query_terms = _expand_domain_query_terms(query)
     scored_sections = []
     
     for section_title, section_content in sections:
@@ -841,12 +862,14 @@ def _calculate_relevance(query_terms: List[str], title: str, content: str) -> fl
     Simple keyword matching - can be upgraded to embeddings later.
     """
     combined = (title + " " + content).lower()
-    
+    title_l = title.lower()
+    query_set = set(query_terms)
+
     score = 0.0
     for term in query_terms:
         if term in combined:
             # Higher weight for title matches
-            if term in title.lower():
+            if term in title_l:
                 score += 3.0
             else:
                 score += 1.0
@@ -855,6 +878,27 @@ def _calculate_relevance(query_terms: List[str], title: str, content: str) -> fl
             count = combined.count(term)
             if count > 1:
                 score += min(count * 0.2, 2.0)
-    
+
+    for section_key, trigger_terms in STRUCTURED_SECTION_KEYWORDS.items():
+        if section_key in title_l and any(t in query_set for t in trigger_terms):
+            score += 4.0
+            break
+
     return score
 
+
+def _expand_domain_query_terms(query: str) -> List[str]:
+    raw_terms = [t.strip().lower() for t in (query or "").split() if t.strip()]
+    expanded: List[str] = []
+    seen = set()
+
+    for term in raw_terms:
+        if term not in seen:
+            expanded.append(term)
+            seen.add(term)
+        for alias in DOMAIN_QUERY_EXPANSION.get(term, []):
+            if alias not in seen:
+                expanded.append(alias)
+                seen.add(alias)
+
+    return expanded

@@ -1,348 +1,140 @@
-"""
-Test neighbor selection strategy and evidence collection workflow.
+import os
+from unittest.mock import Mock, patch
 
-Tests the new workflow where:
-1. >= 2 neighbors -> process top 2 only
-2. < 2 neighbors -> process all
-3. Evidence collection tools called AFTER models are found (not as decision gates)
-"""
-import pytest
-from unittest.mock import Mock, MagicMock, patch
-from src.server.modules.disease.recommendation_agent import recommend_models
-from src.server.core.tool_schemas import (
-    NeighborResult, RankedNeighbor, PGSSearchResult, PGSModelSummary,
-    ToolError
-)
+from src.server.core.tool_schemas import NeighborResult, RankedNeighbor, PGSSearchResult
 from src.server.modules.disease.models import RecommendationReport
+from src.server.modules.disease.recommendation_agent import Step1Decision, recommend_models
 
 
-class TestNeighborSelectionStrategy:
-    """Test neighbor selection strategy implementation."""
-    
-    @pytest.fixture
-    def mock_clients(self):
-        """Create mock clients."""
-        pgs_client = Mock()
-        ot_client = Mock()
-        phewas_client = Mock()
-        kg_service = Mock()
-        return pgs_client, ot_client, phewas_client, kg_service
-    
-    def test_processes_top_2_when_3_or_more_neighbors(self, mock_clients):
-        """Test that only top 2 neighbors are processed when >= 2 neighbors found."""
-        pgs_client, ot_client, phewas_client, kg_service = mock_clients
-        
-        # Mock Step 1 to return NO_MATCH_FOUND
-        with patch('src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search') as mock_search, \
-             patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge') as mock_knowledge, \
-             patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape') as mock_landscape, \
-             patch('src.server.modules.disease.recommendation_agent.trait_synonym_expand') as mock_synonym, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_get_neighbors') as mock_get_neighbors, \
-             patch('src.server.modules.disease.recommendation_agent.resolve_efo_and_mondo_ids') as mock_resolve_ids, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_validate_mechanism') as mock_validate, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_verify_study_power') as mock_verify, \
-             patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_step1_chain, \
-             patch('src.server.modules.disease.recommendation_agent._build_report_chain') as mock_report_chain:
-            
-            # Setup mocks
-            mock_search.return_value = PGSSearchResult(
-                query_trait="Test Trait",
-                total_found=0,
-                after_filter=0,
-                models=[]
-            )
-            mock_knowledge.return_value = Mock()
-            mock_landscape.return_value = Mock()
-            mock_synonym.return_value = Mock(expanded_queries=["Test Trait"])
-            
-            # Create 3 neighbors
-            neighbors = [
-                RankedNeighbor(
-                    trait_id="Neighbor1",
-                    domain="Test",
-                    rg_meta=0.8,
-                    rg_z_meta=3.0,
-                    h2_meta=0.5,
-                    transfer_score=0.32,
-                    n_correlations=5
-                ),
-                RankedNeighbor(
-                    trait_id="Neighbor2",
-                    domain="Test",
-                    rg_meta=0.7,
-                    rg_z_meta=2.5,
-                    h2_meta=0.4,
-                    transfer_score=0.196,
-                    n_correlations=4
-                ),
-                RankedNeighbor(
-                    trait_id="Neighbor3",
-                    domain="Test",
-                    rg_meta=0.6,
-                    rg_z_meta=2.2,
-                    h2_meta=0.3,
-                    transfer_score=0.108,
-                    n_correlations=3
-                )
-            ]
-            
-            mock_get_neighbors.return_value = NeighborResult(
-                query_trait="Test Trait",
-                resolved_by="exact",
-                resolution_confidence="High",
-                target_trait="Test Trait",
-                target_h2_meta=0.4,
-                neighbors=neighbors
-            )
-            
-            mock_resolve_ids.return_value = ("EFO_123", "MONDO_456")
-            mock_validate.return_value = Mock(
-                shared_genes=[],
-                shared_pathways=[],
-                mechanism_summary="Test mechanism",
-                confidence_level="High"
-            )
-            mock_verify.return_value = Mock(
+def _make_neighbors() -> NeighborResult:
+    return NeighborResult(
+        query_trait="Test Trait",
+        resolved_by="exact",
+        resolution_confidence="High",
+        target_trait="Test Trait",
+        target_h2_meta=0.4,
+        neighbors=[
+            RankedNeighbor(
+                trait_id="Neighbor1",
+                domain="Neuro",
+                rg_meta=0.8,
+                rg_z_meta=3.0,
+                h2_meta=0.5,
+                transfer_score=0.30,
                 n_correlations=5,
-                rg_meta=0.8
-            )
-            
-            # Mock Step 1 decision
-            from src.server.modules.disease.recommendation_agent import Step1Decision
-            mock_step1_chain.return_value.invoke.return_value = Step1Decision(
-                outcome="NO_MATCH_FOUND",
-                best_model_id=None,
-                confidence="Low",
-                rationale="No direct models"
-            )
-            
-            # Mock report generation
-            from src.server.modules.disease.models import RecommendationReport
-            mock_report_chain.return_value.invoke.return_value = RecommendationReport(
-                recommendation_type="NO_MATCH_FOUND",
-                primary_recommendation=None,
-                alternative_recommendations=[],
-                direct_match_evidence=None,
-                cross_disease_evidence=None,
-                caveats_and_limitations=[],
-                follow_up_options=[]
-            )
-            
-            # Call function
-            result = recommend_models("Test Trait")
-            
-            # Verify that prs_model_pgscatalog_search was called exactly 2 times (for top 2 neighbors)
-            # Note: First call is for target trait in Step 1, then 2 calls for neighbors
-            assert mock_search.call_count == 3  # 1 for target + 2 for neighbors
-            
-            # Verify neighbors were processed in order (highest transfer_score first)
-            neighbor_calls = [call[0][1] for call in mock_search.call_args_list[1:]]  # Skip first call (target trait)
-            assert len(neighbor_calls) == 2
-            assert neighbor_calls[0] == "Neighbor1"  # Highest transfer_score
-            assert neighbor_calls[1] == "Neighbor2"  # Second highest
-    
-    def test_processes_all_when_1_neighbor(self, mock_clients):
-        """Test that all neighbors are processed when < 2 neighbors found."""
-        pgs_client, ot_client, phewas_client, kg_service = mock_clients
-        
-        with patch('src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search') as mock_search, \
-             patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge') as mock_knowledge, \
-             patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape') as mock_landscape, \
-             patch('src.server.modules.disease.recommendation_agent.trait_synonym_expand') as mock_synonym, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_get_neighbors') as mock_get_neighbors, \
-             patch('src.server.modules.disease.recommendation_agent.resolve_efo_and_mondo_ids') as mock_resolve_ids, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_validate_mechanism') as mock_validate, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_verify_study_power') as mock_verify, \
-             patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_step1_chain, \
-             patch('src.server.modules.disease.recommendation_agent._build_report_chain') as mock_report_chain:
-            
-            # Setup mocks
-            mock_search.return_value = PGSSearchResult(
-                query_trait="Test Trait",
-                total_found=0,
-                after_filter=0,
-                models=[]
-            )
-            mock_knowledge.return_value = Mock()
-            mock_landscape.return_value = Mock()
-            mock_synonym.return_value = Mock(expanded_queries=["Test Trait"])
-            
-            # Create 1 neighbor
-            neighbors = [
-                RankedNeighbor(
-                    trait_id="Neighbor1",
-                    domain="Test",
-                    rg_meta=0.8,
-                    rg_z_meta=3.0,
-                    h2_meta=0.5,
-                    transfer_score=0.32,
-                    n_correlations=5
-                )
-            ]
-            
-            mock_get_neighbors.return_value = NeighborResult(
-                query_trait="Test Trait",
-                resolved_by="exact",
-                resolution_confidence="High",
-                target_trait="Test Trait",
-                target_h2_meta=0.4,
-                neighbors=neighbors
-            )
-            
-            mock_resolve_ids.return_value = ("EFO_123", "MONDO_456")
-            mock_validate.return_value = Mock(
-                shared_genes=[],
-                shared_pathways=[],
-                mechanism_summary="Test mechanism",
-                confidence_level="High"
-            )
-            mock_verify.return_value = Mock(
-                n_correlations=5,
-                rg_meta=0.8
-            )
-            
-            # Mock Step 1 decision
-            from src.server.modules.disease.recommendation_agent import Step1Decision
-            mock_step1_chain.return_value.invoke.return_value = Step1Decision(
-                outcome="NO_MATCH_FOUND",
-                best_model_id=None,
-                confidence="Low",
-                rationale="No direct models"
-            )
-            
-            # Mock report generation
-            from src.server.modules.disease.models import RecommendationReport
-            mock_report_chain.return_value.invoke.return_value = RecommendationReport(
-                recommendation_type="NO_MATCH_FOUND",
-                primary_recommendation=None,
-                alternative_recommendations=[],
-                direct_match_evidence=None,
-                cross_disease_evidence=None,
-                caveats_and_limitations=[],
-                follow_up_options=[]
-            )
-            
-            # Call function
-            result = recommend_models("Test Trait")
-            
-            # Verify that prs_model_pgscatalog_search was called 2 times (1 for target + 1 for neighbor)
-            assert mock_search.call_count == 2
-            
-            # Verify the single neighbor was processed
-            neighbor_calls = [call[0][1] for call in mock_search.call_args_list[1:]]
-            assert len(neighbor_calls) == 1
-            assert neighbor_calls[0] == "Neighbor1"
-    
-    def test_evidence_collection_called_after_models_found(self, mock_clients):
-        """Test that evidence collection tools are called AFTER models are found."""
-        pgs_client, ot_client, phewas_client, kg_service = mock_clients
-        
-        with patch('src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search') as mock_search, \
-             patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge') as mock_knowledge, \
-             patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape') as mock_landscape, \
-             patch('src.server.modules.disease.recommendation_agent.trait_synonym_expand') as mock_synonym, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_get_neighbors') as mock_get_neighbors, \
-             patch('src.server.modules.disease.recommendation_agent.resolve_efo_and_mondo_ids') as mock_resolve_ids, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_validate_mechanism') as mock_validate, \
-             patch('src.server.modules.disease.recommendation_agent.genetic_graph_verify_study_power') as mock_verify, \
-             patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_step1_chain, \
-             patch('src.server.modules.disease.recommendation_agent._build_report_chain') as mock_report_chain:
-            
-            # Setup mocks
-            # First call (target trait) returns no models
-            # Second call (neighbor) returns models
-            def search_side_effect(trait_query, limit=25):
-                if trait_query == "Test Trait":
-                    return PGSSearchResult(
-                        query_trait="Test Trait",
-                        total_found=0,
-                        after_filter=0,
-                        models=[]
-                    )
-                else:  # neighbor trait
-                    return PGSSearchResult(
-                        query_trait="Neighbor1",
-                        total_found=5,
-                        after_filter=3,
-                        models=[
-                            Mock(id="PGS000001", performance_metrics={"auc": 0.75}),
-                            Mock(id="PGS000002", performance_metrics={"auc": 0.70})
-                        ]
-                    )
-            
-            mock_search.side_effect = search_side_effect
-            mock_knowledge.return_value = Mock()
-            mock_landscape.return_value = Mock()
-            mock_synonym.return_value = Mock(expanded_queries=["Test Trait"])
-            
-            neighbors = [
-                RankedNeighbor(
-                    trait_id="Neighbor1",
-                    domain="Test",
-                    rg_meta=0.8,
-                    rg_z_meta=3.0,
-                    h2_meta=0.5,
-                    transfer_score=0.32,
-                    n_correlations=5
-                )
-            ]
-            
-            mock_get_neighbors.return_value = NeighborResult(
-                query_trait="Test Trait",
-                resolved_by="exact",
-                resolution_confidence="High",
-                target_trait="Test Trait",
-                target_h2_meta=0.4,
-                neighbors=neighbors
-            )
-            
-            mock_resolve_ids.return_value = ("EFO_123", "MONDO_456")
-            mock_validate.return_value = Mock(
-                shared_genes=[],
-                shared_pathways=[],
-                mechanism_summary="Test mechanism",
-                confidence_level="High"
-            )
-            mock_verify.return_value = Mock(
-                n_correlations=5,
-                rg_meta=0.8
-            )
-            
-            # Mock Step 1 decision
-            from src.server.modules.disease.recommendation_agent import Step1Decision
-            mock_step1_chain.return_value.invoke.return_value = Step1Decision(
-                outcome="NO_MATCH_FOUND",
-                best_model_id=None,
-                confidence="Low",
-                rationale="No direct models"
-            )
-            
-            # Mock report generation
-            from src.server.modules.disease.models import RecommendationReport
-            mock_report_chain.return_value.invoke.return_value = RecommendationReport(
-                recommendation_type="NO_MATCH_FOUND",
-                primary_recommendation=None,
-                alternative_recommendations=[],
-                direct_match_evidence=None,
-                cross_disease_evidence=None,
-                caveats_and_limitations=[],
-                follow_up_options=[]
-            )
-            
-            # Call function
-            result = recommend_models("Test Trait")
-            
-            # Verify call order: search first, then evidence collection
-            call_order = [call[0][0].__name__ if hasattr(call[0][0], '__name__') else str(call[0][0]) 
-                         for call in mock_search.call_args_list]
-            
-            # Verify that validate_mechanism and verify_study_power were called
-            # (they should be called after models are found)
-            assert mock_validate.called, "genetic_graph_validate_mechanism should be called after models found"
-            assert mock_verify.called, "genetic_graph_verify_study_power should be called after models found"
-            
-            # Verify that evidence tools were called with correct parameters
-            validate_call = mock_validate.call_args
-            assert validate_call is not None
-            assert validate_call[1]['source_trait_name'] == "Neighbor1"
-            assert validate_call[1]['target_trait_name'] == "Test Trait"
+            ),
+            RankedNeighbor(
+                trait_id="Neighbor2",
+                domain="Neuro",
+                rg_meta=0.6,
+                rg_z_meta=2.6,
+                h2_meta=0.4,
+                transfer_score=0.20,
+                n_correlations=4,
+            ),
+        ],
+    )
+
+
+def _empty_report() -> RecommendationReport:
+    return RecommendationReport(
+        recommendation_type="NO_MATCH_FOUND",
+        primary_recommendation=None,
+        alternative_recommendations=[],
+        direct_match_evidence=None,
+        cross_disease_evidence=None,
+        caveats_and_limitations=[],
+        follow_up_options=[],
+    )
+
+
+def test_recommendation_agent_uses_local_graph_selected_neighbors():
+    mock_pgs_client = Mock()
+    mock_pgs_client.search_scores.side_effect = lambda trait: [{"id": "PGS"}] if trait == "Neighbor2" else []
+    mock_pgs_client.search_traits.return_value = []
+    mock_pgs_client.get_score_details.return_value = {}
+
+    with patch("src.server.modules.disease.recommendation_agent.PGSCatalogClient", return_value=mock_pgs_client), \
+         patch("src.server.modules.disease.recommendation_agent.OpenTargetsClient", return_value=Mock()), \
+         patch("src.server.modules.disease.recommendation_agent.PheWASClient", return_value=Mock()), \
+         patch("src.server.modules.disease.recommendation_agent.KnowledgeGraphService", return_value=Mock()), \
+         patch("src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge", return_value=Mock(model_dump=lambda: {})), \
+         patch("src.server.modules.disease.recommendation_agent.prs_model_performance_landscape", return_value=Mock(model_dump=lambda: {})), \
+         patch("src.server.modules.disease.recommendation_agent.trait_synonym_expand", return_value=Mock(expanded_queries=["Test Trait"])), \
+         patch("src.server.modules.disease.recommendation_agent.genetic_graph_get_neighbors", return_value=_make_neighbors()), \
+         patch("src.server.modules.disease.recommendation_agent.resolve_efo_and_mondo_ids", return_value=("EFO_1", "MONDO_1")), \
+         patch("src.server.modules.disease.recommendation_agent.genetic_graph_validate_mechanism", return_value=Mock(
+             shared_genes=[],
+             shared_pathways=[],
+             mechanism_summary="ok",
+             confidence_level="High",
+             phewas_evidence_count=0,
+         )), \
+         patch("src.server.modules.disease.recommendation_agent.genetic_graph_verify_study_power", return_value=Mock(
+             n_correlations=5,
+             rg_meta=0.6,
+         )), \
+         patch("src.server.modules.disease.recommendation_agent.rerank_neighbors_with_local_graph", return_value=[
+             {"trait_id": "Neighbor2", "passes_rules": True, "local_graph_score": 0.9, "local_graph_rank": 1, "pgs_hit_count": 1},
+             {"trait_id": "Neighbor1", "passes_rules": False, "local_graph_score": 0.4, "local_graph_rank": 2, "pgs_hit_count": 0},
+         ]), \
+         patch("src.server.modules.disease.recommendation_agent.select_neighbors_from_local_graph", return_value=["Neighbor2"]), \
+         patch("src.server.modules.disease.recommendation_agent._build_step1_chain") as mock_step1_chain, \
+         patch("src.server.modules.disease.recommendation_agent._build_report_chain") as mock_report_chain, \
+         patch("src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search") as mock_search:
+
+        def _search_side_effect(_client, trait_query, limit=25, request_id=None):
+            if trait_query == "Test Trait":
+                return PGSSearchResult(query_trait=trait_query, total_found=0, after_filter=0, models=[])
+            return PGSSearchResult(query_trait=trait_query, total_found=3, after_filter=1, models=[])
+
+        mock_search.side_effect = _search_side_effect
+        mock_step1_chain.return_value.invoke.return_value = Step1Decision(
+            outcome="NO_MATCH_FOUND",
+            best_model_id=None,
+            confidence="Low",
+            rationale="No direct models.",
+        )
+        mock_report_chain.return_value.invoke.return_value = _empty_report()
+
+        recommend_models("Test Trait")
+
+        trait_calls = [c.args[1] for c in mock_search.call_args_list]
+        assert trait_calls == ["Test Trait", "Neighbor2"]
+
+
+def test_step1_disable_domain_knowledge_skips_tool_call():
+    env = {
+        "PENNPRS_STEP1_DISABLE_DOMAIN_KNOWLEDGE": "1",
+        "PENNPRS_STEP1_RUN_NO_DOMAIN_ABLATION": "0",
+    }
+    with patch.dict(os.environ, env, clear=False), \
+         patch("src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge") as mock_domain_tool, \
+         patch("src.server.modules.disease.recommendation_agent.prs_model_performance_landscape", return_value=Mock(model_dump=lambda: {})), \
+         patch("src.server.modules.disease.recommendation_agent._build_step1_chain") as mock_step1_chain, \
+         patch("src.server.modules.disease.recommendation_agent._build_report_chain") as mock_report_chain, \
+         patch("src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search", return_value=PGSSearchResult(
+             query_trait="Test Trait",
+             total_found=1,
+             after_filter=0,
+             models=[],
+         )):
+
+        mock_step1_chain.return_value.invoke.return_value = Step1Decision(
+            outcome="DIRECT_HIGH_QUALITY",
+            best_model_id=None,
+            confidence="Low",
+            rationale="Forced test path.",
+        )
+        mock_report_chain.return_value.invoke.return_value = RecommendationReport(
+            recommendation_type="DIRECT_HIGH_QUALITY",
+            primary_recommendation=None,
+            alternative_recommendations=[],
+            direct_match_evidence=None,
+            cross_disease_evidence=None,
+            caveats_and_limitations=[],
+            follow_up_options=[],
+        )
+
+        recommend_models("Test Trait")
+        assert mock_domain_tool.call_count == 0

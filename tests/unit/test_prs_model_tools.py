@@ -279,6 +279,26 @@ class TestDomainKnowledge:
             assert hasattr(snippet, 'section')
             assert hasattr(snippet, 'content')
 
+    def test_search_returns_structured_selection_rules(self):
+        """Structured rule sections should be retrievable for Step 1 selection queries."""
+        from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+
+        result = prs_model_domain_knowledge(
+            query="clinical thresholds must-pass gates penalties method priors"
+        )
+
+        assert len(result.snippets) > 0
+        assert any(
+            (
+                "Must-Pass Gates" in s.section
+                or "Ranking Features" in s.section
+                or "Penalties and Red Flags" in s.section
+                or "Method Priors" in s.section
+                or "Structured Selection Rules" in s.section
+            )
+            for s in result.snippets
+        )
+
 
 class TestPGSCatalogSearch:
     """Test prs_model_pgscatalog_search tool."""

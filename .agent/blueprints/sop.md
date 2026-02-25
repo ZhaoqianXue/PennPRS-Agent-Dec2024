@@ -42,12 +42,12 @@ This paper makes the following contributions:
     - **Nature**: Data engineering and computational evaluation. This contribution is independent of the AI Agent and serves as the **gold-standard ground truth** for validating C2 and C3.
 - **C2: LLM-Based PRS Model Selection** (Core Project Value = Step 1)
     - **Claim**: PennPRS Agent, powered by GPT-5.2 with domain-specific tool calling, can select the best-performing PRS model from the full pool of PGS Catalog candidates, matching or exceeding naive selection baselines.
-    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame (Clinical Consensus + Performance Landscape), and outputs a ranked recommendation. Its selections are compared against the actual best-performing model identified by C1's benchmark.
-    - **Validation**: C1's Performance Matrix serves as ground truth. The Agent's recommended model is evaluated against the benchmark-optimal model for each disease.
+    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame (Clinical Consensus + Performance Landscape), and outputs a ranked recommendation. We add a controlled Step 1 ablation switch to disable `prs_model_domain_knowledge` and produce structured artifacts for feature attribution analysis.
+    - **Validation**: C1's Performance Matrix serves as ground truth. We evaluate both default and ablation settings against the benchmark-optimal model for each disease, and quantify agreement/feature shifts.
 - **C3: LLM-Based Local Graph for Cross-Disease Model Transfer** (Methodological Innovation = Step 2a)
     - **Claim**: For diseases without existing PRS models, PennPRS Agent leverages an LLM-based local knowledge graph to discover genetically related diseases and recommend their PRS models as effective substitutes.
-    - **Approach**: Construct a local graph around the target disease (e.g., Alzheimer's disease) by combining genetic similarity information learned by the LLM (from non-target models in PGS Catalog and other data resources) with structured genetic evidence (h2, rg). The graph enables transfer recommendations from related diseases. Inspired by [Kumo AI: Improving Recommendation Systems with LLMs and Graph Transformers](../knowledge/recommendation_system/kumo_recommendation_llm_graph_transformers.md).
-    - **Validation**: C1's Performance Matrix serves as ground truth. Hold-out evaluation: for diseases with known PGS models, remove direct models from the candidate pool, apply the local graph to discover cross-disease candidates, and compare the transferred model's performance against the direct model's benchmark performance.
+    - **Approach**: Construct a local graph around the target disease (e.g., Alzheimer's disease) and apply a reranker that combines genetic graph structure (`transfer_score`, `rg_meta`, `n_correlations`), PGS availability pre-checks, and semantic similarity between target and neighbor traits. Inspired by [Kumo AI: Improving Recommendation Systems with LLMs and Graph Transformers](../knowledge/recommendation_system/kumo_recommendation_llm_graph_transformers.md).
+    - **Validation**: C1's Performance Matrix serves as ground truth. Hold-out evaluation: for diseases with known PGS models, remove direct models from the candidate pool, compare transfer-score-only ranking vs local-graph reranking, and measure transferred-model performance against direct-model benchmark performance.
 
 ## LLM Agentic Engineering Knowledge Base
 
@@ -204,24 +204,28 @@ Step 2a: Cross-Disease Transfer
            │
            ▼
     ┌─────────────────────────────────────────────────────────────────┐
-    │               NEIGHBOR SELECTION (Top-1, early stop)             │
+    │           LOCAL GRAPH RERANKING (Rule + Linear Score)            │
     │                                                                  │
-    │  FOR each neighbor_trait (by transfer_score desc):               │
-    │    PGS pre-check (IDs only, no heavy hydration)                  │
-    │         │                                                        │
-    │         ├──[PGS IDs found]──► SELECT this neighbor ─► EXIT LOOP │
-    │         │                                                        │
-    │         └──[No PGS IDs]──► Continue to next neighbor             │
+    │  1) Pre-check PGS IDs for top-K neighbors (IDs only)             │
+    │  2) Compute local_graph_score for each neighbor using:            │
+    │       - graph_transfer (transfer_score)                           │
+    │       - graph_rg (|rg_meta|)                                      │
+    │       - graph_power (n_correlations)                              │
+    │       - pgs_hits (pre-check count)                                │
+    │       - semantic_similarity (target vs neighbor trait text)       │
+    │  3) Apply rule gates (e.g., min PGS hits)                         │
+    │  4) Select top-N reranked neighbors for model hydration           │
     │                                                                  │
-    │  IF no neighbor yields PGS IDs:                                  │
-    │    OUTCOME: NO_MATCH_FOUND                                       │
+    │  IF no neighbor selected:                                         │
+    │    OUTCOME: NO_MATCH_FOUND                                        │
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
            │
            ▼
-    prs_model_pgscatalog_search(selected_neighbor_trait)
+    FOR each selected_neighbor_trait:
+        prs_model_pgscatalog_search(selected_neighbor_trait)
            │
-           ├──[No models]──► OUTCOME: NO_MATCH_FOUND
+           ├──[No models]──► continue
            ▼
     ┌─────────────────────────────────────────────────────────────────┐
     │               EVIDENCE COLLECTION (for Report)                   │
@@ -930,6 +934,7 @@ The prompt must encode the following decision logic from the Objective section (
 STEP 1: DIRECT MATCH ASSESSMENT
 1. Call prs_model_pgscatalog_search directly with target_trait (no synonym expansion needed)
 2. Evaluate models using prs_model_domain_knowledge and prs_model_performance_landscape
+3. For Contribution2 analysis, support a controlled ablation mode where `prs_model_domain_knowledge` is disabled and Step 1 decisions are logged as structured artifacts.
 IF direct_models_exist AND quality >= HIGH_THRESHOLD:
     OUTCOME: DIRECT_HIGH_QUALITY
 ELIF direct_models_exist AND quality < HIGH_THRESHOLD:
@@ -945,13 +950,18 @@ STEP 2A: CROSS-DISEASE TRANSFER
 3. IF neighbor_traits[] is empty:
    OUTCOME: NO_MATCH_FOUND
 ELSE:
-   - **Neighbor Selection Strategy (Top-1, early stop)**:
-     - Sort `neighbor_traits[]` by `transfer_score` (desc).
-     - For each `neighbor_trait` in this order, run a **fast pre-check** against PGS Catalog:
-       - Call PGS trait search to collect associated PGS IDs (IDs only; no heavy hydration).
-       - If the pre-check yields **any** PGS IDs, **stop** and select this `neighbor_trait` as the transfer candidate.
-     - If **no** neighbor yields any PGS IDs, treat cross-disease transfer as unavailable and proceed to OUTCOME: NO_MATCH_FOUND.
-   - For the **single selected** `neighbor_trait` (top-1):
+   - **Local Graph Reranking (Rule + Linear Score)**:
+     - Build a candidate pool from merged `neighbor_traits[]`.
+     - Run a **fast PGS pre-check** (IDs only; no heavy hydration) for top-K neighbors.
+     - Compute `local_graph_score` for each candidate:
+       - `graph_transfer` (transfer_score)
+       - `graph_rg` (|rg_meta|)
+       - `graph_power` (n_correlations)
+       - `pgs_hits` (pre-check count)
+       - `semantic_similarity` (target vs neighbor trait text similarity)
+     - Apply rule gates (e.g., minimum PGS hit count) and select top-N neighbors after reranking.
+     - If no neighbor is selected, proceed to OUTCOME: NO_MATCH_FOUND.
+   - For each selected `neighbor_trait`:
      - Call `prs_model_pgscatalog_search` directly with `neighbor_trait` (no synonym expansion needed).
      - IF models found:
        - **For genetic_graph_validate_mechanism**: Resolve disease ontology IDs for target_trait and neighbor_trait:
