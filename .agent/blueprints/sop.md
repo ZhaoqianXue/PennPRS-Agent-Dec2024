@@ -390,7 +390,7 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 | **`date_release`** | 2021-07-29 | 2019-10-14 | Date the score was released | Score | [Agent + UI] |
 | **`license`** | CC BY-NC-ND 4.0 | PGS obtained from the... | Usage license | Score | [UI Only] |
 | **`ftp_scoring_file`** | https://ftp.ebi.ac.uk/... | https://ftp.ebi.ac.uk/... | URL to original scoring file | Score | [UI Only] |
-| **`ftp_hm_scoring_files`** | GRCh37, GRCh38 URLs | GRCh37, GRCh38 URLs | URL to harmonized scoring files | Score | [UI Only] |
+| **`ftp_harmonized_scoring_files`** | GRCh37, GRCh38 URLs | GRCh37, GRCh38 URLs | URL to harmonized scoring files | Score | [UI Only] |
 | **`matches_publication`** | True | True | Flag if score matches publication | Score | [UI Only] |
 | **`samples_variants`** | n=283,785 | n=382,026 | Samples used for variant selection | Score | [UI Only] |
 | **`samples_training`** | n=0 | n=3,000 | Samples used for training | Score | [Agent + UI] |

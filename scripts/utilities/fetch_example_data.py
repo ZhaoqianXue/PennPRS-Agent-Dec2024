@@ -30,9 +30,9 @@ def main():
             "ancestry_distribution": f"GWAS: {next(iter(details.get('ancestry_distribution', {}).get('gwas', {}).get('dist', {})), 'N/A')} (100%)",
             "publication": details.get("publication", {}).get("title"),
             "date_release": details.get("date_release"),
-            "license": details.get("license")[:20] + "...",
-            "ftp_scoring_file": details.get("ftp_scoring_file")[:30] + "...",
-            "ftp_hm_scoring_files": "GRCh37, GRCh38 URLs",
+            "license": (details.get("license") or "")[:20] + "...",
+            "ftp_scoring_file": details.get("ftp_scoring_file")[:30] + "..." if details.get("ftp_scoring_file") else None,
+            "ftp_harmonized_scoring_files": ", ".join(details.get("ftp_harmonized_scoring_files", {}).keys()) or None,
             "matches_publication": str(details.get("matches_publication")),
             "samples_variants": f"n={sum(s.get('sample_number', 0) for s in details.get('samples_variants', []))}",
             "samples_training": f"n={sum(s.get('sample_number', 0) for s in details.get('samples_training', []))}",
@@ -40,7 +40,7 @@ def main():
             "phenotyping_reported": perf_example.get("phenotyping_reported"),
             "covariates": perf_example.get("covariates")[:30] + "..." if perf_example.get("covariates") else "null",
             "sampleset": perf_example.get("sampleset", {}).get("name") if perf_example.get("sampleset") else "null",
-            "performance_comments": perf_example.get("comments"),
+            "performance_comments": perf_example.get("performance_comments"),
             "associated_pgs_id": perf_example.get("associated_pgs_id")
         }
 
