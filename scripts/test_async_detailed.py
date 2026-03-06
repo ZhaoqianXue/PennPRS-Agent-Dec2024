@@ -46,7 +46,6 @@ def test_async_fetch():
         result = prs_model_pgscatalog_search(
             client,
             test_trait,
-            limit=len(pgs_ids),
             request_id="test-async-detailed"
         )
         fetch_time = time.time() - fetch_start

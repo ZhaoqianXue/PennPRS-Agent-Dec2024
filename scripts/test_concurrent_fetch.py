@@ -54,9 +54,8 @@ def test_concurrent_fetch():
     
     try:
         result = prs_model_pgscatalog_search(
-            client, 
-            test_trait, 
-            limit=len(test_models),
+            client,
+            test_trait,
             request_id="test-concurrent-fetch"
         )
         fetch_time = time.time() - start_time

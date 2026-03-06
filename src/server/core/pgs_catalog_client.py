@@ -138,20 +138,17 @@ class PGSCatalogClient:
             # 1. Search for traits matching the term
             traits = self.search_traits(trait)
 
-            # 2. Collect all associated PGS IDs
+            # 2. Collect associated_pgs_ids only (no child_associated_pgs_ids)
+            # Aligned with Contribution1 download_pgs: get_associdated_pgs_ids uses
+            # associated_pgs_ids only. This ensures retrieval consistency for C2 benchmarking.
             t1 = time.time()
             pgs_ids = set()
             for t in traits:
-                ids = t.get("associated_pgs_ids", [])
+                ids = t.get("associated_pgs_ids", []) or []
                 pgs_ids.update(ids)
-                # Also check child associated IDs if beneficial
-                child_ids = t.get("child_associated_pgs_ids", [])
-                pgs_ids.update(child_ids)
             print(f"[Timing] PGS ID Collection: {time.time() - t1:.4f}s (Count: {len(pgs_ids)})")
 
             # 3. Format as list of dicts with 'id'
-            # We assume details will be fetched later to get the name
-            # Limiting to top 50 to avoid performance issues
             unique_ids = sorted(list(pgs_ids))
             
             return [{"id": pid} for pid in unique_ids]
@@ -162,21 +159,70 @@ class PGSCatalogClient:
             logger.error(f"Error searching PGS Catalog: {e}")
             return []
 
+    def _request_url(self, url: str) -> Any:
+        """
+        Issue a GET request to a full URL (used for pagination via 'next' links).
+        Reuses throttling and retry logic from _request_json.
+        """
+        last_exc: Optional[Exception] = None
+        for attempt in range(self.MAX_RETRIES + 1):
+            self._throttle()
+            try:
+                resp = requests.get(url, timeout=self.DEFAULT_TIMEOUT_S)
+                if resp.status_code == 429:
+                    retry_after = self._parse_retry_after_seconds(resp.headers.get("Retry-After"))
+                    wait_s = retry_after if retry_after else min(
+                        self.BACKOFF_MAX_S, self.BACKOFF_BASE_S * (2 ** attempt)
+                    )
+                    wait_s += random.uniform(0.0, self.JITTER_S)
+                    logger.warning("PGS Catalog rate limited (429) for %s; sleeping %.2fs", url, wait_s)
+                    time.sleep(wait_s)
+                    continue
+                if 500 <= resp.status_code < 600:
+                    wait_s = min(self.BACKOFF_MAX_S, self.BACKOFF_BASE_S * (2 ** attempt))
+                    wait_s += random.uniform(0.0, self.JITTER_S)
+                    time.sleep(wait_s)
+                    continue
+                resp.raise_for_status()
+                return resp.json()
+            except (requests.exceptions.RequestException, Exception) as exc:
+                last_exc = exc
+                wait_s = min(self.BACKOFF_MAX_S, self.BACKOFF_BASE_S * (2 ** attempt))
+                wait_s += random.uniform(0.0, self.JITTER_S)
+                time.sleep(wait_s)
+                continue
+        if last_exc:
+            raise last_exc
+        raise RuntimeError(f"PGS Catalog request failed for {url}")
+
     def search_traits(self, term: str) -> List[Dict[str, Any]]:
         """
         Search for traits in the PGS Catalog via `/rest/trait/search`.
+        Paginates through ALL pages to align with Contribution1 retrieval logic.
 
         Returns the raw `results[]` items so callers can extract:
         - `id` (typically EFO_* identifiers)
         - `label` / `trait` (if present)
-        - `associated_pgs_ids` / `child_associated_pgs_ids`
+        - `associated_pgs_ids`
         """
         try:
             t0 = time.time()
             data = self._request_json("/trait/search", params={"term": term})
-            traits = data.get("results", []) or []
-            print(f"[Timing] PGS Trait Search: {time.time() - t0:.4f}s")
-            return traits
+            all_traits: List[Dict[str, Any]] = list(data.get("results", []) or [])
+            next_url = data.get("next")
+
+            while next_url:
+                self._throttle()
+                # next_url may be relative or absolute
+                if next_url.startswith("/"):
+                    next_url = f"{self.BASE_URL}{next_url}"
+                data = self._request_url(next_url)
+                page_results = data.get("results", []) or []
+                all_traits.extend(page_results)
+                next_url = data.get("next")
+
+            print(f"[Timing] PGS Trait Search: {time.time() - t0:.4f}s (Total traits: {len(all_traits)})")
+            return all_traits
         except Exception as e:
             logger.error(f"Error searching PGS Catalog traits: {e}")
             return []

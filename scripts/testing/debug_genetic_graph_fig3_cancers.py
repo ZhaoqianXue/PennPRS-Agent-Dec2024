@@ -258,7 +258,7 @@ def main() -> int:
         # Pre-resolve target EFO only if mechanism validation is enabled.
         target_efo = None
         if ot_client and pgs_client and prs_model_pgscatalog_search and resolve_efo_id:
-            target_models = prs_model_pgscatalog_search(pgs_client, user_trait, limit=10)
+            target_models = prs_model_pgscatalog_search(pgs_client, user_trait)
             target_efo = resolve_efo_id(
                 trait_name=user_trait,
                 ot_client=ot_client,
@@ -311,7 +311,7 @@ def main() -> int:
                 else:
                     # Real Step2a uses multi-source candidate generation + optional mechanism calls
                     # to disambiguate ontology mapping.
-                    neighbor_models = prs_model_pgscatalog_search(pgs_client, neighbor_trait, limit=10)
+                    neighbor_models = prs_model_pgscatalog_search(pgs_client, neighbor_trait)
                     neighbor_candidates = resolve_efo_candidates(
                         trait_name=neighbor_trait,
                         ot_client=ot_client,

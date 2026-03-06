@@ -36,7 +36,7 @@ def debug_t2d_search():
     # Step 1: Search PGS Catalog
     print("Step 1: Searching PGS Catalog...")
     pgs_client = PGSCatalogClient()
-    pgs_result = prs_model_pgscatalog_search(pgs_client, target_trait, limit=25)
+    pgs_result = prs_model_pgscatalog_search(pgs_client, target_trait)
     
     print(f"\nPGS Search Results:")
     print(f"  - Query trait: {pgs_result.query_trait}")

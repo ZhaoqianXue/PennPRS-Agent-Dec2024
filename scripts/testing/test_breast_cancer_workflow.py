@@ -45,7 +45,7 @@ def test_prs_search_direct():
     
     logger.info(f"Searching with trait: '{target_trait}'")
     
-    result = prs_model_pgscatalog_search(pgs_client, target_trait, limit=25)
+    result = prs_model_pgscatalog_search(pgs_client, target_trait)
     
     if hasattr(result, 'models'):
         logger.info(f"✓ PGS Catalog search successful:")

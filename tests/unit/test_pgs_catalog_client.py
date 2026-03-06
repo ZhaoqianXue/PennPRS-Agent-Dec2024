@@ -36,10 +36,9 @@ class TestPGSCatalogClient(unittest.TestCase):
         # Call method
         results = self.client.search_scores("Alzheimer")
 
-        # Assert
-        self.assertEqual(len(results), 2)
+        # Assert: only associated_pgs_ids are collected (child_associated_pgs_ids excluded for C1 alignment)
+        self.assertEqual(len(results), 1)
         self.assertEqual(results[0]["id"], "PGS000001")
-        self.assertEqual(results[1]["id"], "PGS000002")
         mock_get.assert_called_once()
 
     @patch('src.server.core.pgs_catalog_client.requests.get')

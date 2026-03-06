@@ -2,64 +2,117 @@
 
 This module advances Contribution2 of the PennPRS Agent paper: understanding how GPT uses captured PRS model features (sample size, ancestry, method, training cohort, etc.) to select optimal models.
 
-## Folder Structure (per `.agent/rules/rules.md`)
+## Structure
 
 ```
 contribution2/
-├── configs/          # Experiment configurations (select_diseases_contribution2.py)
-├── runs/             # Results and logs (selected diseases, reports)
-├── metrics/          # Performance metric records (full metrics)
-├── analysis/         # Result analysis scripts
+├── disease_selection/     # 筛选疾病 (disease selection from All of Us benchmark)
+│   ├── configs/           # select_diseases_contribution2.py
+│   ├── runs/              # Selected CSVs, reports
+│   └── metrics/           # Full metrics
+│
+├── recommendation/       # 推荐模型 (Agent model recommendation evaluation)
+│   ├── configs/           # generate_evaluated_pgs_list.py
+│   ├── scripts/           # run_experiment_native_gpt.py, test_agent_n_models_input.py
+│   ├── docs/              # EXPERIMENT_DESIGN.md
+│   └── runs/              # evaluated_pgs, top_k_pgs, experiment results
+│
 └── README.md
 ```
 
-## Disease Selection (Step 1)
+---
 
-Before evaluating the Agent, we select a set of diseases from the All of Us benchmark (Contribution1) based on three criteria.
+## Disease Selection (筛选疾病)
 
-### Data Source
+Select diseases from the All of Us benchmark (Contribution1) based on QC1–QC3 criteria.
 
-- **AUC Matrix**: `../contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_rootcode.csv`
-- **Metadata**: `../contribution1/result/aou_icd_260217/prs_adjauc_metadata_260217_rootcode.csv`
-
-### Selection Criteria
-
-| Criterion | Definition | Threshold |
-|-----------|------------|-----------|
-| **1. Top vs Rest Distinguishability** | Any cliff in top tier | Any of (T1, T2, T3 vs Rest) >= 0.02 |
-| **1b. Top-1 AUC Floor** | Best model must perform reasonably | Top-1 AUC >= 0.55 |
-| **2. Overall AUC Level** | Candidate models should perform reasonably | Mean AUC across all models >= 0.52 |
-| **3. Genetic Significance** | Disease has genetic epidemiology relevance, not niche | Whitelist + exclusion list |
-
-### Top vs Rest Gaps (Three Metrics)
-
-- **Top-1 vs Rest**: Top-1 AUC - max(Rest AUC) = Top-1 - Top-2.
-- **Top-2 vs Rest**: Top-2 AUC - max(Rest AUC) = Top-2 - Top-3.
-- **Top-3 vs Rest**: Top-3 AUC - max(Rest AUC) = Top-3 - Top-4.
-
-C1: pass if any of (T1 vs Rest, T2 vs Rest, T3 vs Rest) >= 0.02. Top-1 floor >= 0.55.
-
-### Outputs (per `rules.md` experiments structure)
-
-| Path | Description |
-|------|--------------|
-| `runs/selected_diseases_contribution2.csv` | Final selected diseases (rootcode, one per ICD root) |
-| `runs/selected_diseases_contribution2_childrencode.csv` | Final selected diseases (childrencode) |
-| `runs/disease_selection_report.md` | Rootcode report |
-| `runs/disease_selection_report_childrencode.md` | Childrencode report |
-| `metrics/disease_selection_full_metrics.csv` | Full metrics for all ontologies (rootcode) |
-| `metrics/disease_selection_full_metrics_childrencode.csv` | Full metrics (childrencode) |
-
-### Running the Selection
+### Run
 
 ```bash
 # Rootcode (default)
-python configs/select_diseases_contribution2.py
+python experiments/contribution2/disease_selection/configs/select_diseases_contribution2.py
 
 # Childrencode
-python configs/select_diseases_contribution2.py --childrencode
+python experiments/contribution2/disease_selection/configs/select_diseases_contribution2.py --childrencode
 ```
 
-### Selected Diseases (25)
+### Outputs
 
-Per SOP categories: **cancer** (breast, prostate, lung, ovarian, thyroid, renal, melanoma, skin, her2-negative breast), **mental** (bipolar disorder, MDD, dementia), **neurodegenerative** (Alzheimer's, Parkinson's), **heart** (heart failure, myocardial infarction, atrial fibrillation), plus metabolic (obesity), autoimmune (lupus, ankylosing spondylitis), thyroid (Hashimoto's, Graves, hypothyroidism), gout, glaucoma.
+| Path | Description |
+|------|-------------|
+| `disease_selection/runs/selected_diseases_contribution2.csv` | Rootcode selection |
+| `disease_selection/runs/selected_diseases_contribution2_childrencode.csv` | Childrencode selection |
+| `disease_selection/runs/selected_diseases_contribution2_union.csv` | Union (manual merge) |
+| `disease_selection/runs/disease_selection_report*.md` | Reports |
+| `disease_selection/metrics/disease_selection_full_metrics*.csv` | Full metrics |
+
+---
+
+## Recommendation (推荐模型)
+
+Evaluate whether the Agent can select a model from `Target_TopK` using direct-match Step 1 tools only.
+
+### 1. Generate Ground Truth
+
+```bash
+python experiments/contribution2/recommendation/configs/generate_evaluated_pgs_list.py
+```
+
+Outputs: `recommendation/runs/evaluated_pgs_per_ontology.json`, `top_k_pgs_per_ontology.json`
+
+### 2. Run Experiment (Native GPT Batch)
+
+Configure `.env` with `OPENAI_API_KEY` (see `.env.example`). The script loads `.env` automatically and enforces the formal native-GPT protocol:
+
+- 30 diseases from the union CSV
+- 10 trials per disease by default
+- `prs_model_domain_knowledge` disabled
+- Step 2 disabled
+- evaluated PGS whitelist enabled
+- strict no-fallback mode enabled
+- naive baseline: highest reported AUC in PGS Catalog metadata
+- OpenAI Batch API execution for LLM Step 1 decisions
+
+Formal headline metrics:
+
+- `Mean disease hit rate`
+- `Majority-vote accuracy`
+- `Baseline accuracy`
+
+Per-trial chosen PGS IDs are still recorded in the JSON outputs for every disease and every run.
+
+```bash
+# Prepare requests and submit one OpenAI Batch job
+python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py
+
+# Quick debug: prepare a smaller batch only
+python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode prepare --limit 3 --trials 2
+
+# Check batch status later
+python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode status
+
+# Download completed batch outputs and build final metrics/report
+python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode collect
+```
+
+### 3. Test N Models Input
+
+```bash
+python experiments/contribution2/recommendation/scripts/test_agent_n_models_input.py --limit 5
+```
+
+### 4. Native GPT Outputs
+
+| Path | Description |
+|------|-------------|
+| `recommendation/runs/experiment_native_gpt_batch_requests.jsonl` | OpenAI Batch input JSONL |
+| `recommendation/runs/experiment_native_gpt_batch_manifest.json` | Local manifest with disease metadata and trial mapping |
+| `recommendation/runs/experiment_native_gpt_batch_job.json` | Latest batch job metadata |
+| `recommendation/runs/experiment_native_gpt_batch_output.jsonl` | Downloaded OpenAI Batch output |
+| `recommendation/runs/experiment_native_gpt_results.json` | Per-trial results across all diseases |
+| `recommendation/runs/experiment_native_gpt_summary.json` | Aggregate summary plus per-disease summaries |
+| `recommendation/runs/experiment_native_gpt_report.md` | Human-readable report |
+
+### Design
+
+See [recommendation/docs/EXPERIMENT_DESIGN.md](recommendation/docs/EXPERIMENT_DESIGN.md).

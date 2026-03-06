@@ -8,7 +8,7 @@ import time
 import json
 import logging
 from pathlib import Path
-from typing import List, Optional, Dict, Any, Iterable, Tuple
+from typing import List, Optional, Dict, Any, Iterable, Tuple, Set
 from statistics import median, quantiles
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.server.core.tool_schemas import (
@@ -45,23 +45,32 @@ STRUCTURED_SECTION_KEYWORDS: Dict[str, List[str]] = {
 def prs_model_pgscatalog_search(
     client,  # PGSCatalogClient
     trait_query: str,
-    limit: int = 25,
-    request_id: Optional[str] = None
+    request_id: Optional[str] = None,
+    evaluated_pgs_whitelist: Optional[Set[str]] = None,
 ) -> PGSSearchResult:
     """
     Search for trait-specific PRS models and retrieve [Agent + UI] metadata.
-    
+
     Implements sop.md L359-392 specification.
-    Hard-coded Filter: Remove models where AUC and R2 are both null.
-    Token Budget: ~500 tokens per model; max 10 models.
-    
+    No AUC/R² filter: includes all models from retrieval (aligned with Contribution1 pgs_id_list).
+
+    **Ranking and Top-N strategy DISABLED** (as of Contribution2 alignment):
+    - Returns ALL filtered models in API raw order (no Z-score sorting).
+    - No truncation; LLM context accommodates full candidate sets (typically 3-96 per trait).
+
+    **Evaluated models filter** (optional, for Contribution2 evaluation):
+    - When evaluated_pgs_whitelist is provided, only models whose PGS ID is in the set are kept.
+    - Aligns Agent candidate pool with N Models (All of Us evaluated set) for fair benchmarking.
+
     Args:
         client: PGSCatalogClient instance
         trait_query: User's target trait (e.g., "Type 2 Diabetes")
-        limit: Max models to return (default 25)
-        
+        request_id: Optional request ID for progress tracking
+        evaluated_pgs_whitelist: Optional set of PGS IDs to keep (only models in this set returned).
+            Used for Contribution2 evaluation to restrict to All of Us evaluated models.
+
     Returns:
-        PGSSearchResult with filtered models
+        PGSSearchResult with all filtered, ranked models
     """
     # Import search_progress here to avoid circular imports
     from src.server.core.state import search_progress
@@ -142,24 +151,40 @@ def prs_model_pgscatalog_search(
                         })
                 continue
     
-    # Process fetched data
+    # Process fetched data - include ALL models; never skip due to missing details.
+    # (Details are assumed fetchable; if empty, use minimal/fallback metadata.)
     for pgs_id in pgs_ids:
         details = details_map.get(pgs_id)
-        if not details:
-            continue
-        
         performance = performance_map.get(pgs_id, [])
+
+        # Extract fields from details when available; otherwise use fallbacks.
+        if details:
+            cohorts = _extract_cohorts(details)
+            trait_reported = details.get("trait_reported", "Unknown")
+            trait_efo = ", ".join([t.get("label", "") for t in details.get("trait_efo", [])])
+            method_name = details.get("method_name", "Unknown")
+            variants_number = details.get("variants_number", 0)
+            ancestry_distribution = _format_ancestry(details.get("ancestry_distribution", {}))
+            publication = details.get("publication", {}).get("title", "Unknown")
+            date_release = details.get("date_release", "Unknown")
+            samples_training = _format_samples(details.get("samples_training", []))
+        else:
+            cohorts = []
+            trait_reported = "Unknown"
+            trait_efo = ""
+            method_name = "Unknown"
+            variants_number = 0
+            ancestry_distribution = "Unknown"
+            publication = "Unknown"
+            date_release = "Unknown"
+            samples_training = "N/A"
+
         auc, r2 = _extract_auc_r2_from_performance_records(performance)
-
-        # Hard-coded Filter: Remove models where both are null
-        if auc is None and r2 is None:
-            continue
-
-        cohorts = _extract_cohorts(details)
 
         phenotyping_reported = "Unknown"
         covariates = "Unknown"
         sampleset = "Unknown"
+        validation_sample_size: Optional[str] = None
         if performance:
             first = performance[0] if isinstance(performance[0], dict) else {}
             phenotyping_reported = first.get("phenotyping_reported") or "Unknown"
@@ -167,105 +192,43 @@ def prs_model_pgscatalog_search(
             ss = first.get("sampleset") or {}
             if isinstance(ss, dict):
                 sampleset = ss.get("name") or ss.get("id") or "Unknown"
+            validation_sample_size = _extract_validation_sample_size(performance)
+
+        variants_genomebuild = details.get("variants_genomebuild") if details else None
+        samples_variants = _format_samples(details.get("samples_variants", [])) if details else None
+        if samples_variants == "N/A":
+            samples_variants = None
 
         summary = PGSModelSummary(
             id=pgs_id,
-            trait_reported=details.get("trait_reported", "Unknown"),
-            trait_efo=", ".join([t.get("label", "") for t in details.get("trait_efo", [])]),
-            method_name=details.get("method_name", "Unknown"),
-            variants_number=details.get("variants_number", 0),
-            ancestry_distribution=_format_ancestry(details.get("ancestry_distribution", {})),
-            publication=details.get("publication", {}).get("title", "Unknown"),
-            date_release=details.get("date_release", "Unknown"),
-            samples_training=_format_samples(details.get("samples_training", [])),
+            trait_reported=trait_reported,
+            trait_efo=trait_efo,
+            method_name=method_name,
+            variants_number=variants_number,
+            ancestry_distribution=ancestry_distribution,
+            publication=publication,
+            date_release=date_release,
+            samples_training=samples_training,
             performance_metrics={"auc": auc, "r2": r2},
             phenotyping_reported=phenotyping_reported,
             covariates=covariates,
             sampleset=sampleset,
-            training_development_cohorts=cohorts
+            training_development_cohorts=cohorts,
+            variants_genomebuild=variants_genomebuild,
+            samples_variants=samples_variants,
+            validation_sample_size=validation_sample_size,
         )
         candidates.append(summary)
 
-    # Ranking rule (deterministic) using Z-score normalization:
-    # All four metrics (AUC, R², training sample size, variants_number) have equal weight.
-    # Each metric is standardized using Z-score: z = (x - mean) / std
-    # Final score = z_auc + z_r2 + z_samples + z_variants (higher is better)
-    # Tie-break by PGS id asc for stability
-    
-    if not candidates:
-        models = []
-    else:
-        # Collect all values for Z-score calculation
-        auc_values = []
-        r2_values = []
-        sample_values = []
-        variant_values = []
-        
-        for m in candidates:
-            auc = m.performance_metrics.get("auc")
-            r2 = m.performance_metrics.get("r2")
-            n = _parse_sample_size(m.samples_training)
-            
-            if auc is not None:
-                auc_values.append(float(auc))
-            if r2 is not None:
-                r2_values.append(float(r2))
-            if n is not None:
-                sample_values.append(float(n))
-            variant_values.append(float(m.variants_number))
-        
-        # Calculate means and standard deviations
-        def _mean_std(values: List[float]) -> Tuple[float, float]:
-            if not values:
-                return 0.0, 1.0
-            mean_val = sum(values) / len(values)
-            if len(values) == 1:
-                return mean_val, 1.0
-            variance = sum((x - mean_val) ** 2 for x in values) / len(values)
-            std_val = variance ** 0.5
-            return mean_val, std_val if std_val > 0 else 1.0
-        
-        auc_mean, auc_std = _mean_std(auc_values)
-        r2_mean, r2_std = _mean_std(r2_values)
-        sample_mean, sample_std = _mean_std(sample_values)
-        variant_mean, variant_std = _mean_std(variant_values)
-        
-        # Calculate Z-score for each candidate and compute composite score
-        def _rank_key(m: PGSModelSummary) -> Tuple[float, str]:
-            auc = m.performance_metrics.get("auc")
-            r2 = m.performance_metrics.get("r2")
-            n = _parse_sample_size(m.samples_training)
-            
-            # Z-score normalization
-            # If value is None, assign it the minimum z-score (penalize missing values)
-            # This ensures missing values rank lower than any actual value
-            if auc is not None:
-                z_auc = (float(auc) - auc_mean) / auc_std if auc_std > 0 else 0.0
-            else:
-                # Use minimum z-score: if all values exist, use -3 (3 std devs below mean)
-                # If no values exist, use 0
-                z_auc = -3.0 if auc_values else 0.0
-            
-            if r2 is not None:
-                z_r2 = (float(r2) - r2_mean) / r2_std if r2_std > 0 else 0.0
-            else:
-                z_r2 = -3.0 if r2_values else 0.0
-            
-            if n is not None:
-                z_samples = (float(n) - sample_mean) / sample_std if sample_std > 0 else 0.0
-            else:
-                z_samples = -3.0 if sample_values else 0.0
-            
-            z_variants = (float(m.variants_number) - variant_mean) / variant_std if variant_std > 0 else 0.0
-            
-            # Composite score (higher is better)
-            composite_score = z_auc + z_r2 + z_samples + z_variants
-            
-            return (composite_score, m.id)
-        
-        candidates.sort(key=_rank_key, reverse=True)
-        models = candidates[:limit]
-    
+    # Ranking logic DISABLED: return models in API raw order (pgs_ids from search_scores).
+    # No Z-score sorting; preserves PGS Catalog / trait-search response order.
+    models = candidates
+
+    # Optional: restrict to evaluated models only (Contribution2 alignment with N Models).
+    if evaluated_pgs_whitelist:
+        whitelist_set = set(evaluated_pgs_whitelist)
+        models = [m for m in models if m.id in whitelist_set]
+
     # Finalize model hydration progress (attempted == total).
     if request_id and request_id in search_progress:
         search_progress[request_id].update({
@@ -318,9 +281,32 @@ def _format_samples(samples: List[Dict[str, Any]]) -> str:
     """Format training samples for LLM context."""
     if not samples:
         return "N/A"
-    
-    total_n = sum(s.get("sample_number", 0) for s in samples)
+    # Use (x or 0) to handle None (API may return null for sample_number)
+    total_n = sum((s.get("sample_number") or 0) for s in samples)
     return f"n={total_n:,}"
+
+
+def _extract_validation_sample_size(performance_records: List[Dict[str, Any]]) -> Optional[str]:
+    """
+    Extract validation cohort sample size from performance records.
+    Returns the largest sampleset sample count across all performance entries (n=...).
+    """
+    if not performance_records:
+        return None
+    best_n = 0
+    for p in performance_records:
+        if not isinstance(p, dict):
+            continue
+        ss = p.get("sampleset") or {}
+        if not isinstance(ss, dict):
+            continue
+        samples = ss.get("samples") or []
+        total = sum((s.get("sample_number") or 0) for s in samples if isinstance(s, dict))
+        if total > best_n:
+            best_n = total
+    if best_n <= 0:
+        return None
+    return f"n={best_n:,}"
 
 
 def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
@@ -574,7 +560,7 @@ def prs_model_performance_landscape(
 
         # Sample size (training)
         train_samples = score.get("samples_training", []) or []
-        train_n = sum(int(s.get("sample_number") or 0) for s in train_samples)
+        train_n = sum(int((s.get("sample_number") or 0)) for s in train_samples)
         if train_n > 0:
             sample_size_vals.append(float(train_n))
         else:

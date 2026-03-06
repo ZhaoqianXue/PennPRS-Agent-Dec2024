@@ -415,7 +415,7 @@ def main() -> int:
         if pgs_path.exists() and not refresh_pgs:
             pgs_dump = json.loads(pgs_path.read_text(encoding="utf-8"))
         else:
-            pgs_result = prs_model_pgscatalog_search(pgs_client, item.trait_query, limit=25)
+            pgs_result = prs_model_pgscatalog_search(pgs_client, item.trait_query)
             pgs_dump = pgs_result.model_dump()
 
             if _contains_openai_secret(pgs_dump):

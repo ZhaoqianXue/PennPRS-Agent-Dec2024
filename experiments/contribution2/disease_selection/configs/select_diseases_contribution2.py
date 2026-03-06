@@ -22,12 +22,13 @@ from pathlib import Path
 import pandas as pd
 
 # ---------------------------------------------------------------------------
-# Paths (relative to contribution1 result folder)
+# Paths
 # ---------------------------------------------------------------------------
-CONTRIB1_RESULT_DIR = Path(__file__).parent.parent.parent / "contribution1" / "result" / "aou_icd_260217"
-EXPERIMENT_DIR = Path(__file__).parent.parent
-OUTPUT_RUNS_DIR = EXPERIMENT_DIR / "runs"
-OUTPUT_METRICS_DIR = EXPERIMENT_DIR / "metrics"
+CONTRIB2_DIR = Path(__file__).parent.parent.parent
+CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
+DISEASE_SELECTION_DIR = Path(__file__).parent.parent
+OUTPUT_RUNS_DIR = DISEASE_SELECTION_DIR / "runs"
+OUTPUT_METRICS_DIR = DISEASE_SELECTION_DIR / "metrics"
 
 # ---------------------------------------------------------------------------
 # Selection criteria parameters
@@ -350,7 +351,7 @@ def main(use_childrencode: bool = False) -> None:
     report_path = OUTPUT_RUNS_DIR / f"disease_selection_report{out_suffix}.md"
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
 
-    print(f"Selected {len(selected_output)} diseases (QC1=Yes only, {code_label}). Outputs written to {EXPERIMENT_DIR}")
+    print(f"Selected {len(selected_output)} diseases (QC1=Yes only, {code_label}). Outputs written to {DISEASE_SELECTION_DIR}")
     print(f"  - runs/selected_diseases_contribution2{out_suffix}.csv")
     print(f"  - runs/disease_selection_report{out_suffix}.md")
     print(f"  - metrics/disease_selection_full_metrics{out_suffix}.csv")

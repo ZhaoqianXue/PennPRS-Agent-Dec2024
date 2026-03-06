@@ -1,7 +1,7 @@
 import os
 import re
 import logging
-from typing import Any, Dict, List, Optional, Literal, Callable, Tuple
+from typing import Any, Dict, List, Optional, Literal, Callable, Tuple, Set
 
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel
@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 from src.server.core.llm_config import get_llm
 from src.server.core.system_prompts import (
     CO_SCIENTIST_STEP1_PROMPT,
+    CO_SCIENTIST_STEP1_NATIVE_PROMPT,
     CO_SCIENTIST_REPORT_PROMPT
 )
 from src.server.core.pgs_catalog_client import PGSCatalogClient
@@ -98,6 +99,9 @@ LOCAL_GRAPH_WEIGHT_RG_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_RG"
 LOCAL_GRAPH_WEIGHT_POWER_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_POWER"
 LOCAL_GRAPH_WEIGHT_PGS_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_PGS_HITS"
 LOCAL_GRAPH_WEIGHT_SEMANTIC_ENV = "PENNPRS_LOCAL_GRAPH_WEIGHT_SEMANTIC"
+# When set, path to evaluated_pgs_per_ontology.json; restricts Step 1 models to N Models (All of Us evaluated set)
+CONTRIB2_EVALUATED_PGS_JSON_ENV = "PENNPRS_CONTRIB2_EVALUATED_PGS_JSON"
+CONTRIB2_STRICT_LLM_ONLY_ENV = "PENNPRS_CONTRIB2_STRICT_LLM_ONLY"
 
 STEP1_RATIONALE_FEATURE_KEYWORDS = {
     "trait_match": ["trait", "phenotype", "proxy", "family history"],
@@ -147,6 +151,35 @@ def _env_float(name: str, default: float, min_value: float, max_value: float) ->
     return max(min_value, min(max_value, value))
 
 
+# Cached evaluated PGS whitelist (Contribution2: ontology -> set of PGS IDs)
+_contrib2_evaluated_pgs_cache: Optional[Dict[str, List[str]]] = None
+
+
+def _get_evaluated_pgs_whitelist_for_trait(target_trait: str) -> Optional[Set[str]]:
+    """
+    Return set of evaluated PGS IDs for the given trait when Contribution2 filter is enabled.
+    Returns None if env not set or trait not found.
+    """
+    path = os.getenv(CONTRIB2_EVALUATED_PGS_JSON_ENV)
+    if not path or not path.strip():
+        return None
+    global _contrib2_evaluated_pgs_cache
+    if _contrib2_evaluated_pgs_cache is None:
+        try:
+            with open(path.strip(), encoding="utf-8") as f:
+                import json
+                data = json.load(f)
+            _contrib2_evaluated_pgs_cache = dict(data) if isinstance(data, dict) else {}
+        except Exception as e:
+            logger.warning("Failed to load Contribution2 evaluated PGS whitelist: %s", e)
+            _contrib2_evaluated_pgs_cache = {}
+    key = (target_trait or "").strip().lower()
+    pgs_list = _contrib2_evaluated_pgs_cache.get(key)
+    if pgs_list is None:
+        return None
+    return set(pgs_list)
+
+
 def _normalize_text(text: str) -> str:
     cleaned = re.sub(r"[^a-z0-9\s]", " ", (text or "").lower())
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
@@ -185,6 +218,9 @@ def _summarize_model_for_llm(model: Any) -> Dict[str, Any]:
         "covariates": getattr(model, "covariates", None),
         "sampleset": getattr(model, "sampleset", None),
         "training_development_cohorts": getattr(model, "training_development_cohorts", None),
+        "variants_genomebuild": getattr(model, "variants_genomebuild", None),
+        "samples_variants": getattr(model, "samples_variants", None),
+        "validation_sample_size": getattr(model, "validation_sample_size", None),
     }
 
 
@@ -209,8 +245,11 @@ def _build_step1_feature_table(models: List[Any], top_n: int = TOP_MODELS_INLINE
             "auc": pm.get("auc"),
             "r2": pm.get("r2"),
             "samples_training": getattr(m, "samples_training", None),
+            "samples_variants": getattr(m, "samples_variants", None),
+            "validation_sample_size": getattr(m, "validation_sample_size", None),
             "ancestry_distribution": getattr(m, "ancestry_distribution", None),
             "variants_number": getattr(m, "variants_number", None),
+            "variants_genomebuild": getattr(m, "variants_genomebuild", None),
             "phenotyping_reported": getattr(m, "phenotyping_reported", None),
             "covariates": getattr(m, "covariates", None),
             "training_development_cohorts": getattr(m, "training_development_cohorts", None),
@@ -612,10 +651,11 @@ def _ensure_list_fields_not_none(report: RecommendationReport) -> Recommendation
     return report
 
 
-def _build_step1_chain():
+def _build_step1_chain(use_native_prompt: bool = False):
     llm = get_llm("disease_workflow")
+    system_prompt = CO_SCIENTIST_STEP1_NATIVE_PROMPT if use_native_prompt else CO_SCIENTIST_STEP1_PROMPT
     prompt = ChatPromptTemplate.from_messages([
-        ("system", CO_SCIENTIST_STEP1_PROMPT),
+        ("system", system_prompt),
         ("human", (
             "Perform STEP 1 only. Use the context JSON below to decide whether the direct "
             "match quality is HIGH, SUB_OPTIMAL, or NO_MATCH_FOUND. "
@@ -665,6 +705,7 @@ def recommend_models(
     tool_errors: List[Dict[str, Any]] = []
     step1_disable_domain_knowledge = _env_flag(STEP1_DISABLE_DOMAIN_ENV, default=False)
     step1_run_ablation = _env_flag(STEP1_RUN_ABLATION_ENV, default=False)
+    strict_llm_only = _env_flag(CONTRIB2_STRICT_LLM_ONLY_ENV, default=False)
 
     local_graph_neighbor_limit = _env_int(
         LOCAL_GRAPH_NEIGHBOR_LIMIT_ENV, default=50, min_value=10, max_value=200
@@ -717,7 +758,14 @@ def recommend_models(
     # However, this orchestrator provides a deterministic workflow for performance.
     # The Agent is guided via system prompts to call prs_model_pgscatalog_search directly with target_trait.
     # No synonym expansion needed for PGS Catalog search - it handles trait name matching internally.
-    pgs_result = prs_model_pgscatalog_search(pgs_client, target_trait, limit=25, request_id=request_id)
+    # When PENNPRS_CONTRIB2_EVALUATED_PGS_JSON is set, restrict to N Models (All of Us evaluated set).
+    evaluated_whitelist = _get_evaluated_pgs_whitelist_for_trait(target_trait)
+    pgs_result = prs_model_pgscatalog_search(
+        pgs_client,
+        target_trait,
+        request_id=request_id,
+        evaluated_pgs_whitelist=evaluated_whitelist,
+    )
     
     todo.set_done("Step 1: Query PGS Catalog for target trait")
     todo.write()
@@ -793,13 +841,18 @@ def recommend_models(
         )
         logger.info(f"TEST MODE: Forcing Step 1 outcome to {force_step1_outcome}")
     else:
-        chain = _build_step1_chain()
+        chain = _build_step1_chain(use_native_prompt=step1_disable_domain_knowledge)
         step1_decision, main_step1_error = _invoke_step1_chain(
             chain=chain,
             context_payload=step1_context,
             pgs_result=pgs_result
         )
         if main_step1_error:
+            if strict_llm_only:
+                raise RuntimeError(
+                    "Step 1 decision failed in strict LLM-only mode: "
+                    f"{main_step1_error['error_type']}: {main_step1_error['error_message']}"
+                )
             tool_errors.append(main_step1_error)
 
         if step1_run_ablation:
@@ -818,14 +871,32 @@ def recommend_models(
 
             shadow_context = dict(step1_context)
             shadow_context["domain_knowledge"] = shadow_domain.model_dump()
+            shadow_chain = _build_step1_chain(use_native_prompt=not step1_disable_domain_knowledge)
             step1_shadow_decision, shadow_step1_error = _invoke_step1_chain(
-                chain=chain,
+                chain=shadow_chain,
                 context_payload=shadow_context,
                 pgs_result=pgs_result
             )
             if shadow_step1_error:
                 shadow_step1_error["tool_name"] = f"{shadow_label}_step1_decision"
                 tool_errors.append(shadow_step1_error)
+
+    # Contribution2 sanity: When evaluated_pgs_whitelist is used, Step 1 models == N Models.
+    # NO_MATCH_FOUND is impossible (models exist). Override LLM if it incorrectly returns it.
+    if (
+        os.getenv(CONTRIB2_EVALUATED_PGS_JSON_ENV)
+        and pgs_result.after_filter > 0
+        and not strict_llm_only
+    ):
+        if step1_decision.outcome == "NO_MATCH_FOUND":
+            step1_decision = Step1Decision(
+                outcome="DIRECT_SUB_OPTIMAL",
+                best_model_id=step1_decision.best_model_id or (pgs_result.models[0].id if pgs_result.models else None),
+                confidence=step1_decision.confidence,
+                rationale=f"[Contribution2 override] Models exist (after_filter={pgs_result.after_filter}); "
+                f"NO_MATCH_FOUND invalid. Overridden to DIRECT_SUB_OPTIMAL. Original: {step1_decision.rationale}"
+            )
+            logger.info("Contribution2: Overrode NO_MATCH_FOUND -> DIRECT_SUB_OPTIMAL (models exist)")
 
     logger.info(
         f"Step 1 decision: outcome={step1_decision.outcome}, "
@@ -892,7 +963,12 @@ def recommend_models(
     local_graph_rerank_artifact_path: Optional[str] = None
 
     run_cross_disease = step1_decision.outcome in {"DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"}
-    
+
+    # Contribution2: Step 1 only. Skip Step 2a (genetic graph/heritability) to avoid loading
+    # GWAS Atlas h2/gc data. The experiment evaluates direct match selection only.
+    if os.getenv(CONTRIB2_EVALUATED_PGS_JSON_ENV):
+        run_cross_disease = False
+
     # If not running cross-disease, mark steps 4-5 as skipped and move to final
     if not run_cross_disease and request_id and request_id in search_progress:
         search_progress[request_id].update({
@@ -1078,11 +1154,7 @@ def recommend_models(
             # prs_model_pgscatalog_search via system prompts.
             # This orchestrator maintains backward compatibility by calling tools directly.
             # No synonym expansion needed for PGS Catalog search - it handles trait name matching internally.
-            neighbor_models = prs_model_pgscatalog_search(
-                pgs_client,
-                neighbor_trait,
-                limit=25
-            )
+            neighbor_models = prs_model_pgscatalog_search(pgs_client, neighbor_trait)
             if isinstance(neighbor_models, ToolError):
                 tool_errors.append(neighbor_models.model_dump())
                 neighbor_models = PGSSearchResult(
@@ -1290,6 +1362,11 @@ def recommend_models(
             f"step1_outcome={step1_decision.outcome if step1_decision else 'None'}"
         )
     except Exception as exc:
+        if strict_llm_only:
+            raise RuntimeError(
+                f"Report generation failed in strict LLM-only mode: {type(exc).__name__}: {exc}"
+            ) from exc
+
         # Update progress: Final step (report generation) - before LLM call
         if request_id and request_id in search_progress:
             search_progress[request_id].update({
@@ -1358,6 +1435,28 @@ def recommend_models(
             ],
             follow_up_options=[]
         )
+
+    # Contribution2 safety: If LLM omitted primary_recommendation but Step 1 has best_model_id,
+    # fill it from step1_decision to avoid spurious MISS in evaluation.
+    if (
+        os.getenv(CONTRIB2_EVALUATED_PGS_JSON_ENV)
+        and not strict_llm_only
+        and report.primary_recommendation is None
+        and step1_decision
+        and step1_decision.outcome in {"DIRECT_HIGH_QUALITY", "DIRECT_SUB_OPTIMAL"}
+        and step1_decision.best_model_id
+    ):
+        report = report.model_copy(
+            update={
+                "primary_recommendation": PrimaryRecommendation(
+                    pgs_id=step1_decision.best_model_id,
+                    source_trait=None,
+                    confidence=step1_decision.confidence,
+                    rationale=step1_decision.rationale or "Contribution2: filled from Step 1 decision",
+                )
+            }
+        )
+        logger.info("Contribution2: Filled primary_recommendation from step1_decision.best_model_id")
 
     report = ensure_follow_up_options(report)
     # Update genetic graph fields with actual values

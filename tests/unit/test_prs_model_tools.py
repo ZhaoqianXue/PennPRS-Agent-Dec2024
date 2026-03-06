@@ -303,20 +303,18 @@ class TestDomainKnowledge:
 class TestPGSCatalogSearch:
     """Test prs_model_pgscatalog_search tool."""
     
-    def test_search_filters_models_without_metrics(self):
-        """Test that models with no performance metrics are filtered out."""
+    def test_search_includes_all_models_including_no_metrics(self):
+        """Test that all models are returned including those with no AUC/R² (no filter)."""
         from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
         from unittest.mock import Mock
-        
-        # Mock PGSCatalogClient
+
         mock_client = Mock()
         mock_client.search_scores.return_value = [
             {"id": "PGS001"},
             {"id": "PGS002"},
             {"id": "PGS003"},
         ]
-        
-        # Mock get_score_details
+
         def mock_details(pgs_id):
             return {
                 "id": pgs_id,
@@ -329,8 +327,7 @@ class TestPGSCatalogSearch:
                 "date_release": "2020-01-01",
                 "samples_training": [{"sample_number": 1000}],
             }
-        
-        # Mock get_score_performance
+
         def mock_performance(pgs_id):
             if pgs_id == "PGS001":
                 return [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.75}]}]
@@ -338,49 +335,50 @@ class TestPGSCatalogSearch:
                 return [{"effect_sizes": [{"name_short": "R2", "estimate": 0.15}]}]
             else:  # PGS003 has no metrics
                 return []
-        
+
         mock_client.get_score_details.side_effect = mock_details
         mock_client.get_score_performance.side_effect = mock_performance
-        
+
         result = prs_model_pgscatalog_search(mock_client, "Type 2 Diabetes")
-        
+
         assert result.total_found == 3
-        assert result.after_filter == 2
-        assert len(result.models) == 2
-        
-        # Verify filtering: PGS003 (no metrics) should be filtered out
+        assert result.after_filter == 3
+        assert len(result.models) == 3
+
+        # All models included (no AUC/R² filter)
         model_ids = [m.id for m in result.models]
-        assert "PGS003" not in model_ids
         assert "PGS001" in model_ids
         assert "PGS002" in model_ids
-        
-        # Verify both returned models have metrics
-        assert result.models[0].performance_metrics.get("auc") == 0.75 or result.models[0].performance_metrics.get("r2") == 0.15
-        assert result.models[1].performance_metrics.get("auc") == 0.75 or result.models[1].performance_metrics.get("r2") == 0.15
+        assert "PGS003" in model_ids
 
-    def test_search_respects_limit(self):
-        """Test that the limit parameter is respected."""
+        # PGS003 has null auc and r2
+        pgs003 = next(m for m in result.models if m.id == "PGS003")
+        assert pgs003.performance_metrics.get("auc") is None
+        assert pgs003.performance_metrics.get("r2") is None
+
+    def test_search_returns_all_filtered_models(self):
+        """Test that all filtered models are returned (Top-N limit strategy disabled)."""
         from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
         from unittest.mock import Mock
-        
+
         mock_client = Mock()
         mock_client.search_scores.return_value = [{"id": f"PGS{i:03d}"} for i in range(1, 11)]
-        
+
         # All models have metrics
         mock_client.get_score_performance.return_value = [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.75}]}]
         mock_client.get_score_details.return_value = {
             "id": "PGS001", "trait_reported": "T2D", "trait_efo": [], "method_name": "M",
-            "variants_number": 10, "ancestry_distribution": {}, "publication": {}, 
+            "variants_number": 10, "ancestry_distribution": {}, "publication": {},
             "date_release": "2020", "samples_training": []
         }
-        
-        result = prs_model_pgscatalog_search(mock_client, "T2D", limit=5)
-        
-        assert len(result.models) == 5
+
+        result = prs_model_pgscatalog_search(mock_client, "T2D")
+
+        assert len(result.models) == 10
         assert result.total_found == 10
 
-    def test_search_is_sorted_by_zscore_composite(self):
-        """Test that returned models are sorted by Z-score composite score (equal weight for AUC, R², samples, variants)."""
+    def test_search_returns_models_in_api_order(self):
+        """Test that returned models follow API raw order (no Z-score ranking)."""
         from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
         from unittest.mock import Mock
 
@@ -392,7 +390,6 @@ class TestPGSCatalogSearch:
         ]
 
         def mock_details(pgs_id):
-            # Different training sizes
             n = {"PGS_A": 1000, "PGS_B": 5000, "PGS_C": 2000}[pgs_id]
             return {
                 "id": pgs_id,
@@ -408,69 +405,87 @@ class TestPGSCatalogSearch:
             }
 
         def mock_performance(pgs_id):
-            # PGS_A: higher AUC than B/C
             if pgs_id == "PGS_A":
                 return [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.80}]}]
-            # PGS_B: same AUC as C, higher R2
             if pgs_id == "PGS_B":
                 return [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.70}, {"name_short": "R2", "estimate": 0.20}]}]
-            # PGS_C: same AUC as B, lower R2, but higher train_n than A
             return [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.70}, {"name_short": "R2", "estimate": 0.10}]}]
 
         mock_client.get_score_details.side_effect = mock_details
         mock_client.get_score_performance.side_effect = mock_performance
 
-        result = prs_model_pgscatalog_search(mock_client, "T2D", limit=3)
-        # With Z-score normalization and equal weights:
-        # PGS_A: AUC=0.80, R2=None, samples=1000, variants=10
-        # PGS_B: AUC=0.70, R2=0.20, samples=5000, variants=10
-        # PGS_C: AUC=0.70, R2=0.10, samples=2000, variants=10
-        # PGS_B likely ranks highest due to high sample size (5000) and R2 (0.20)
-        # PGS_A ranks second due to high AUC (0.80) but lower sample size
-        # PGS_C ranks lowest
+        result = prs_model_pgscatalog_search(mock_client, "T2D")
         assert len(result.models) == 3
-        # Verify all three models are returned and sorted by composite Z-score
         model_ids = [m.id for m in result.models]
-        assert "PGS_A" in model_ids
-        assert "PGS_B" in model_ids
-        assert "PGS_C" in model_ids
-        # PGS_B should rank highest due to high sample size and R2
-        assert result.models[0].id == "PGS_B"
+        assert model_ids == ["PGS_A", "PGS_B", "PGS_C"]  # API order preserved (no ranking)
 
-    def test_search_uses_variants_as_tie_breaker_before_id(self):
-        """Test variants_number breaks ties after AUC/R2/train_n."""
+    def test_search_filters_by_evaluated_pgs_whitelist(self):
+        """Test that evaluated_pgs_whitelist restricts models to the set (Contribution2 alignment)."""
         from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
         from unittest.mock import Mock
 
         mock_client = Mock()
-        mock_client.search_scores.return_value = [{"id": "PGS_X"}, {"id": "PGS_Y"}]
+        mock_client.search_scores.return_value = [
+            {"id": "PGS001"},
+            {"id": "PGS002"},
+            {"id": "PGS003"},
+        ]
 
         def mock_details(pgs_id):
-            # Same training size; only variants differ
-            variants = {"PGS_X": 100, "PGS_Y": 1000}[pgs_id]
             return {
                 "id": pgs_id,
                 "trait_reported": "T2D",
-                "trait_efo": [{"label": "T2D"}],
+                "trait_efo": [],
                 "method_name": "M",
-                "variants_number": variants,
-                "ancestry_distribution": {"gwas": {"EUR": 1.0}},
+                "variants_number": 10,
+                "ancestry_distribution": {},
                 "publication": {},
                 "date_release": "2020",
-                "samples_training": [{"sample_number": 5000}],
-                "samples_variants": [],
+                "samples_training": [],
             }
 
-        def mock_performance(_pgs_id):
-            # Same AUC/R2 for both
-            return [{"effect_sizes": [{"name_short": "AUC", "estimate": 0.70}, {"name_short": "R2", "estimate": 0.10}]}]
-
         mock_client.get_score_details.side_effect = mock_details
-        mock_client.get_score_performance.side_effect = mock_performance
+        mock_client.get_score_performance.side_effect = lambda _: []
 
-        result = prs_model_pgscatalog_search(mock_client, "T2D", limit=2)
-        # With Z-score normalization and equal weights, higher variants should contribute more to composite score
-        # PGS_Y has 1000 variants vs PGS_X has 100 variants
-        # Since AUC/R2/samples are same, PGS_Y should rank higher due to variants
+        whitelist = {"PGS001", "PGS003"}
+        result = prs_model_pgscatalog_search(
+            mock_client, "Type 2 Diabetes", evaluated_pgs_whitelist=whitelist
+        )
+
+        assert result.total_found == 3
+        assert result.after_filter == 2
+        model_ids = [m.id for m in result.models]
+        assert model_ids == ["PGS001", "PGS003"]  # PGS002 filtered out
+
+    def test_search_includes_models_without_details(self):
+        """Test that models with missing details are NOT skipped; use fallback metadata."""
+        from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
+        from unittest.mock import Mock
+
+        mock_client = Mock()
+        mock_client.search_scores.return_value = [
+            {"id": "PGS001"},
+            {"id": "PGS002"},
+        ]
+
+        # PGS001 has details; PGS002 returns None (simulate fetch failure)
+        mock_client.get_score_details.side_effect = lambda pid: (
+            {"id": pid, "trait_reported": "T2D", "trait_efo": [], "method_name": "M",
+             "variants_number": 10, "ancestry_distribution": {}, "publication": {},
+             "date_release": "2020", "samples_training": []}
+            if pid == "PGS001" else None
+        )
+        mock_client.get_score_performance.side_effect = lambda _: []
+
+        result = prs_model_pgscatalog_search(mock_client, "Type 2 Diabetes")
+
+        assert result.total_found == 2
+        assert result.after_filter == 2
         assert len(result.models) == 2
-        assert result.models[0].id == "PGS_Y"  # Higher variants should rank first
+        # PGS001 has full details
+        m1 = next(m for m in result.models if m.id == "PGS001")
+        assert m1.trait_reported == "T2D"
+        # PGS002 has no details but is included with fallback
+        m2 = next(m for m in result.models if m.id == "PGS002")
+        assert m2.trait_reported == "Unknown"
+        assert m2.method_name == "Unknown"

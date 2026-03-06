@@ -83,7 +83,7 @@ def test_recommendation_agent_uses_local_graph_selected_neighbors():
          patch("src.server.modules.disease.recommendation_agent._build_report_chain") as mock_report_chain, \
          patch("src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search") as mock_search:
 
-        def _search_side_effect(_client, trait_query, limit=25, request_id=None):
+        def _search_side_effect(_client, trait_query, request_id=None, **kwargs):
             if trait_query == "Test Trait":
                 return PGSSearchResult(query_trait=trait_query, total_found=0, after_filter=0, models=[])
             return PGSSearchResult(query_trait=trait_query, total_found=3, after_filter=1, models=[])

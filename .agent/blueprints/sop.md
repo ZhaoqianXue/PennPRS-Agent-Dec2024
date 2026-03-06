@@ -383,7 +383,7 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 | **`method_params`** | FDR < 5%, r^2 < 0.2 | metaGRS log(HR) mixing... | Parameters used in the method | Score | [UI Only] |
 | **`variants_number`** | 1,032 | 1,745,179 | Count of variants in model | Score | [Agent + UI] |
 | **`variants_interactions`** | 0 | 0 | Variant interactions info | Score | [UI Only] |
-| **`variants_genomebuild`** | hg19 | hg19 | Genome build (e.g. GRCh37) | Score | [UI Only] |
+| **`variants_genomebuild`** | hg19 | hg19 | Genome build (e.g. GRCh37) | Score | [Agent + UI] |
 | **`weight_type`** | beta | NR | Type of weights used | Score | [UI Only] |
 | **`ancestry_distribution`** | GWAS: EUR (100%) | GWAS: AFR (100%) | Detailed ancestry breakdown | Score | [Agent + UI] |
 | **`publication`** | Genetic Predisposition Impacts... | Genomic Risk Prediction of... | Publication metadata | Score/Performance | [Agent + UI] |
@@ -392,12 +392,13 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 | **`ftp_scoring_file`** | https://ftp.ebi.ac.uk/... | https://ftp.ebi.ac.uk/... | URL to original scoring file | Score | [UI Only] |
 | **`ftp_harmonized_scoring_files`** | GRCh37, GRCh38 URLs | GRCh37, GRCh38 URLs | URL to harmonized scoring files | Score | [UI Only] |
 | **`matches_publication`** | True | True | Flag if score matches publication | Score | [UI Only] |
-| **`samples_variants`** | n=283,785 | n=382,026 | Samples used for variant selection | Score | [UI Only] |
+| **`samples_variants`** | n=283,785 | n=382,026 | GWAS discovery sample size (samples used for variant selection) | Score | [Agent + UI] |
 | **`samples_training`** | n=0 | n=3,000 | Samples used for training | Score | [Agent + UI] |
 | **`performance_metrics`** | R²: 0.087, AUC: 0.78 | HR: 1.71, AUC: 0.81 | Metrics (AUC, R2, etc.) | Performance | [Agent + UI] |
 | **`phenotyping_reported`** | Total cholesterol | Incident coronary artery disease | Phenotype description in validation | Performance | [Agent + UI] |
 | **`covariates`** | Age, sex, PCs(1-7), season | sex, genetic PCs (1-10)... | Covariates used in validation | Performance | [Agent + UI] |
 | **`sampleset`** | null | null | Sample set used for validation | Performance | [Agent + UI] |
+| **`validation_sample_size`** | n=482,629 | n=5,762 | Validation cohort sample size (from sampleset.samples) | Performance | [Agent + UI] |
 | **`performance_comments`** | null | null | Additional performance notes | Performance | [UI Only] |
 | **`associated_pgs_id`** | PGS000831 | PGS000018 | The PGS ID associated with performance | Performance | [UI Only] |
 
@@ -409,7 +410,7 @@ The structured metadata fields above provide the foundational evidence for evalu
 
 **Combined Results Workflow**:
 1. `prs_model_pgscatalog_search` returns fields with Target `[Agent + UI]`.
-2. **Hard-coded pre-filtering**: Remove models where AUC & R² are all empty (no performance data).
+2. **No AUC/R² pre-filtering**: All models from retrieval are included (aligned with C1 for consistency).
 3. **Combined context injection**: The filtered search results, `prs_model_domain_knowledge` results, and `prs_model_performance_landscape` results are returned to the LLM **simultaneously**.
 4. **LLM Decision**: The Agent makes a determination of **High-Quality Match / Sub-optimal Match / No Match**.
 
@@ -612,9 +613,10 @@ The Knowledge Graph is implemented as a **Virtual/Dynamic Graph**, constructed o
 | **Output** | `PGSSearchResult` — Filtered list of models with `[Agent + UI]` fields only |
 | **Data Source** | PGS Catalog REST API (`/rest/score/search`) |
 | **Dependency** | `PGSCatalogClient` (Module 1) |
-| **Hard-coded Filter** | Remove models where `performance_metrics.auc` AND `performance_metrics.r2` are both null |
-| **Ranking (Deterministic)** | Sort candidates using **Z-score normalization** with equal weights for all four metrics: **AUC**, **R²**, **Training Sample Size**, and **Variants (SNPs)**. Each metric is standardized: $z = \frac{x - \mu}{\sigma}$, then composite score = $z_{AUC} + z_{R²} + z_{samples} + z_{variants}$ (higher is better). Tie-break by **PGS ID (asc)** for stability. |
-| **Token Budget** | ~500 tokens per model summary; max 25 models in initial response |
+| **AUC/R² Filter** | **DISABLED**. Includes all models from retrieval (no filter). Aligned with Contribution1 pgs_id_list for C2 consistency. |
+| **Ranking** | **DISABLED**. Returns models in API raw order (PGS Catalog trait-search response order). No Z-score sorting. |
+| **Top-N Limit** | **DISABLED**. Returns ALL filtered models (no truncation). Aligned with Contribution1 benchmarking; typical traits have 3-96 models, within LLM context capacity. |
+| **Retrieval Alignment (C2)** | PGS Catalog `/trait/search`: full pagination (follow `next` until empty); collect **`associated_pgs_ids` only** (no `child_associated_pgs_ids`) to match Contribution1 `download_pgs` logic. |
 | **Query Strategy** | **Call `prs_model_pgscatalog_search` directly with trait name** (no synonym expansion needed). PGS Catalog handles trait name matching internally and returns comprehensive results. Synonym expansion is unnecessary and adds overhead without significant benefit. |
 
 ```python
@@ -623,7 +625,7 @@ class PGSSearchResult:
     query_trait: str
     total_found: int
     after_filter: int
-    models: list[PGSModelSummary]  # [Agent + UI] fields only (default top-25)
+    models: list[PGSModelSummary]  # [Agent + UI] fields only; all filtered models (Top-N strategy disabled)
 
 class PGSModelSummary:
     id: str                    # PGS000025
@@ -879,7 +881,7 @@ class TrainingConfig:
 #### Implementation Status
 
 - **Implemented**:
-    - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). Implements hard-coded filtering to remove models without AUC/R2 and returns `[Agent + UI]` fields.
+    - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). No AUC/R² filter; returns all models from retrieval. `[Agent + UI]` fields. Optional `evaluated_pgs_whitelist` for Contribution2: when set (via `PENNPRS_CONTRIB2_EVALUATED_PGS_JSON`), only models in the All of Us evaluated set (N Models) are returned.
     - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool for statistical distributions.
     - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Currently implements a local RAG (Retrieval-Augmented Generation) system using a curated Markdown knowledge base.
     - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.

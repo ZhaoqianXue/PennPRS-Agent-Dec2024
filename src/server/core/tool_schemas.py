@@ -17,7 +17,7 @@ from typing import Optional, List, Dict, Any
 class PGSModelSummary(BaseModel):
     """
     Summary of a PGS model with [Agent + UI] fields only.
-    Implements sop.md L371-387 schema.
+    Implements sop.md L371-402 schema.
     """
     id: str = Field(..., description="Unique Model ID (e.g., PGS000025)")
     trait_reported: str = Field(..., description="Original reported trait")
@@ -38,6 +38,10 @@ class PGSModelSummary(BaseModel):
         default_factory=list,
         description="Union of cohort short names from training/development-related samples"
     )
+    # Supplementary [Agent + UI] fields for scientific reasoning (sop.md L386, L394)
+    variants_genomebuild: Optional[str] = Field(None, description="Genome build (e.g., hg19, GRCh37)")
+    samples_variants: Optional[str] = Field(None, description="GWAS discovery sample size (n=...)")
+    validation_sample_size: Optional[str] = Field(None, description="Validation cohort sample size (n=...)")
 
 
 class PGSSearchResult(BaseModel):

@@ -84,7 +84,7 @@ def test_breast_cancer_synonym_expansion_and_search():
     
     for i, query in enumerate(expansion_result.expanded_queries, 1):
         print(f"  [{i}/{len(expansion_result.expanded_queries)}] Searching: '{query}'...", end=" ", flush=True)
-        result = prs_model_pgscatalog_search(pgs_client, query, limit=25)
+        result = prs_model_pgscatalog_search(pgs_client, query)
         
         if isinstance(result, ToolError):
             print(f"✗ Error: {result.error_message}")
@@ -161,7 +161,7 @@ def test_type_2_diabetes_synonym_expansion_and_search():
     
     for i, query in enumerate(expansion_result.expanded_queries, 1):
         print(f"  [{i}/{len(expansion_result.expanded_queries)}] Searching: '{query}'...", end=" ", flush=True)
-        result = prs_model_pgscatalog_search(pgs_client, query, limit=25)
+        result = prs_model_pgscatalog_search(pgs_client, query)
         
         if isinstance(result, ToolError):
             print(f"✗ Error: {result.error_message}")
