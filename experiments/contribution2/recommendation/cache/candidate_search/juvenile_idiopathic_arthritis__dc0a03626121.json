@@ -1,0 +1,126 @@
+{
+  "cache_version": "v1",
+  "ontology": "juvenile idiopathic arthritis",
+  "candidate_model_ids": [
+    "PGS000326",
+    "PGS000324",
+    "PGS000114",
+    "PGS000325"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS000114",
+      "trait_reported": "Juvenile Idiopathic Arthritis",
+      "trait_efo": "juvenile idiopathic arthritis",
+      "method_name": "SparSNP",
+      "variants_number": 26,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "date_release": "2020-02-27",
+      "samples_training": "n=7,505",
+      "performance_metrics": {
+        "auc": 0.738,
+        "r2": null
+      },
+      "phenotyping_reported": "Juvenile Idiopathic Arthritis",
+      "covariates": "Unknown",
+      "sampleset": "PSS000179",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS",
+        "WTCCC"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=3,513"
+    },
+    {
+      "id": "PGS000324",
+      "trait_reported": "Enthesitis-related Juvenile Idiophatic Arthritis",
+      "trait_efo": "enthesitis-related juvenile idiopathic arthritis",
+      "method_name": "SparSNP",
+      "variants_number": 138,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "date_release": "2020-09-18",
+      "samples_training": "n=5,354",
+      "performance_metrics": {
+        "auc": 0.93,
+        "r2": null
+      },
+      "phenotyping_reported": "Enthesitis-related Arthritis",
+      "covariates": "Unknown",
+      "sampleset": "PSS000429",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS",
+        "WTCCC"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=3,020"
+    },
+    {
+      "id": "PGS000325",
+      "trait_reported": "Oligoarthritis Juvenile Idiophatic Arthritis",
+      "trait_efo": "oligoarticular juvenile idiopathic arthritis",
+      "method_name": "SparSNP",
+      "variants_number": 21,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "date_release": "2020-09-18",
+      "samples_training": "n=6,137",
+      "performance_metrics": {
+        "auc": 0.8,
+        "r2": null
+      },
+      "phenotyping_reported": "Oligoarthritis Juvenile Idiophatic Arthritis",
+      "covariates": "Unknown",
+      "sampleset": "PSS000430",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS",
+        "WTCCC"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=3,157"
+    },
+    {
+      "id": "PGS000326",
+      "trait_reported": "Rheumatoid-factor-negative Polyarthritis (Juvenile Idiophatic Arthritis)",
+      "trait_efo": "polyarticular juvenile idiopathic arthritis, rheumatoid factor negative",
+      "method_name": "SparSNP",
+      "variants_number": 12,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "date_release": "2020-09-18",
+      "samples_training": "n=5,733",
+      "performance_metrics": {
+        "auc": 0.76,
+        "r2": null
+      },
+      "phenotyping_reported": "Rheumatoid-factor-negative Polyarthritis",
+      "covariates": "Unknown",
+      "sampleset": "PSS000431",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS",
+        "WTCCC"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=3,089"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000324",
+    "reported_auc": 0.93,
+    "trait_reported": "Enthesitis-related Juvenile Idiophatic Arthritis",
+    "method_name": "SparSNP",
+    "validation_sample_size": "n=3,020",
+    "rank": 4,
+    "rank_label": "4/4"
+  }
+}

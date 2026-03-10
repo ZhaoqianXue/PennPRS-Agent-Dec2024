@@ -1,0 +1,89 @@
+{
+  "cache_version": "v1",
+  "ontology": "vitiligo",
+  "candidate_model_ids": [
+    "PGS000738",
+    "PGS000760",
+    "PGS001536"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS000738",
+      "trait_reported": "Vitiligo",
+      "trait_efo": "Vitiligo",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 48,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Family Clustering of Autoimmune Vitiligo Results Principally from Polygenic Inheritance of Common Risk Alleles.",
+      "date_release": "2021-02-23",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.032522586
+      },
+      "phenotyping_reported": "Vitiligo",
+      "covariates": "Unknown",
+      "sampleset": "PSS000907",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "hg19",
+      "samples_variants": "n=40,258",
+      "validation_sample_size": "n=4,987"
+    },
+    {
+      "id": "PGS000760",
+      "trait_reported": "Vitiligo",
+      "trait_efo": "Vitiligo",
+      "method_name": "GCTA-COJO forward selection highest PPA variants",
+      "variants_number": 42,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genetic variation associated with thyroid autoimmunity shapes the systemic immune response to PD-1 checkpoint blockade.",
+      "date_release": "2021-06-11",
+      "samples_training": "n=408,959",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "anti-PD-L1 induced hypothyroidism in cancer patients",
+      "covariates": "5 genotype PCs",
+      "sampleset": "PSS000970",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": "n=40,258",
+      "validation_sample_size": "n=1,584"
+    },
+    {
+      "id": "PGS001536",
+      "trait_reported": "Vitiligo (time-to-event)",
+      "trait_efo": "Vitiligo",
+      "method_name": "snpnet",
+      "variants_number": 77,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-11-25",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.82774,
+        "r2": 0.08055
+      },
+      "phenotyping_reported": "TTE vitiligo",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS004173",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001536",
+    "reported_auc": 0.8277,
+    "trait_reported": "Vitiligo (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

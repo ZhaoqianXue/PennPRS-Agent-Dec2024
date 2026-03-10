@@ -1,0 +1,266 @@
+{
+  "cache_version": "v1",
+  "ontology": "obesity",
+  "candidate_model_ids": [
+    "PGS001825",
+    "PGS005235",
+    "PGS005145",
+    "PGS004517",
+    "PGS002033",
+    "PGS001298",
+    "PGS003400",
+    "PGS003959",
+    "PGS004447",
+    "PGS005154"
+  ],
+  "total_found": 10,
+  "candidate_models": [
+    {
+      "id": "PGS001298",
+      "trait_reported": "Obesity (time-to-event)",
+      "trait_efo": "obesity",
+      "method_name": "snpnet",
+      "variants_number": 9227,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.65328,
+        "r2": 0.04232
+      },
+      "phenotyping_reported": "TTE obesity",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS004590",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001825",
+      "trait_reported": "Overweight, obesity and other hyperalimentation",
+      "trait_efo": "obesity, overweight body mass index status, overnutrition",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 13009,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Overweight, obesity and other hyperalimentation",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009295",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=20,000"
+    },
+    {
+      "id": "PGS002033",
+      "trait_reported": "Overweight, obesity and other hyperalimentation",
+      "trait_efo": "obesity, overweight body mass index status, overnutrition",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 846292,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Overweight, obesity and other hyperalimentation",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009295",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=20,000"
+    },
+    {
+      "id": "PGS003400",
+      "trait_reported": "Obesity",
+      "trait_efo": "obesity",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 97,
+      "ancestry_distribution": "GWAS: AFR (40%), AMR (50%), EUR (99%) | EVAL: MAE (100%)",
+      "publication": "Quantifying the phenome-wide disease burden of obesity using electronic health records and genomics.",
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.0192
+      },
+      "phenotyping_reported": "BMI",
+      "covariates": "Unknown",
+      "sampleset": "PSS010097",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=238,944",
+      "validation_sample_size": "n=405,432"
+    },
+    {
+      "id": "PGS003959",
+      "trait_reported": "Obesity",
+      "trait_efo": "obesity",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 940,
+      "ancestry_distribution": "GWAS: NR (33%), EUR (67%) | EVAL: MAE (100%)",
+      "publication": "The sulfur microbial diet and increased risk of obesity: Findings from a population-based prospective cohort study.",
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Obesity",
+      "covariates": "Age, sex, race, centres, education, Townsend deprivation index, household income, smoking, alcohol consumption, physical activity, sleep pattern, energy intake, and BMI, WC or BF% at baseline",
+      "sampleset": "PSS011184",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=681,275",
+      "validation_sample_size": "n=27,429"
+    },
+    {
+      "id": "PGS004447",
+      "trait_reported": "E66 (Obesity)",
+      "trait_efo": "obesity",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "E66 (Obesity)",
+      "covariates": "Unknown",
+      "sampleset": "PSS011364",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004517",
+      "trait_reported": "E66 (Obesity)",
+      "trait_efo": "obesity",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "E66 (Obesity)",
+      "covariates": "Unknown",
+      "sampleset": "PSS011364",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS005145",
+      "trait_reported": "Obesity",
+      "trait_efo": "obesity",
+      "method_name": "PRS-CS",
+      "variants_number": 908466,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Obesity",
+      "covariates": "age, sex",
+      "sampleset": "PSS011928",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": "n=163,835",
+      "validation_sample_size": "n=58,688"
+    },
+    {
+      "id": "PGS005154",
+      "trait_reported": "Obesity",
+      "trait_efo": "obesity",
+      "method_name": "CT-SLEB",
+      "variants_number": 443124,
+      "ancestry_distribution": "GWAS: EAS (19%), EUR (81%) | EVAL: EAS (100%)",
+      "publication": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Obesity",
+      "covariates": "age, sex",
+      "sampleset": "PSS011928",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": "n=845,110",
+      "validation_sample_size": "n=58,688"
+    },
+    {
+      "id": "PGS005235",
+      "trait_reported": "Adiposity",
+      "trait_efo": "obesity",
+      "method_name": "LDpred2-auto",
+      "variants_number": 709828,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Modeling the genomic architecture of adiposity and anthropometrics across the lifespan.",
+      "date_release": "2025-10-06",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Obesity (phecode: 278.1)",
+      "covariates": "age, sex, batch, and the first 10 genetic principal components",
+      "sampleset": "PSS012051",
+      "training_development_cohorts": [
+        "EGG",
+        "GIANT",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=393,268",
+      "validation_sample_size": "n=100,960"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001298",
+    "reported_auc": 0.6533,
+    "trait_reported": "Obesity (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425",
+    "rank": 8,
+    "rank_label": "8/10"
+  }
+}

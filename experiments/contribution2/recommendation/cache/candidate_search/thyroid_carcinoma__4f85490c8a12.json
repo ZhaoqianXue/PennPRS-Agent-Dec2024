@@ -1,0 +1,910 @@
+{
+  "cache_version": "v1",
+  "ontology": "thyroid carcinoma",
+  "candidate_model_ids": [
+    "PGS000208",
+    "PGS004954",
+    "PGS001794",
+    "PGS000633",
+    "PGS002018",
+    "PGS003746",
+    "PGS001799",
+    "PGS000628",
+    "PGS000207",
+    "PGS000630",
+    "PGS000797",
+    "PGS000087",
+    "PGS000636",
+    "PGS000162",
+    "PGS005260",
+    "PGS001809",
+    "PGS001289",
+    "PGS000634",
+    "PGS001354",
+    "PGS000629",
+    "PGS000631",
+    "PGS000209",
+    "PGS000626",
+    "PGS005273",
+    "PGS005274",
+    "PGS000632",
+    "PGS000627",
+    "PGS003437",
+    "PGS005259",
+    "PGS005210",
+    "PGS005258",
+    "PGS000635"
+  ],
+  "total_found": 32,
+  "candidate_models": [
+    {
+      "id": "PGS000087",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.679,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, sex, 10 PCs.",
+      "sampleset": "PSS000126",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=291,738",
+      "validation_sample_size": "n=411,118"
+    },
+    {
+      "id": "PGS000162",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "Unknown",
+      "sampleset": "PSS000282",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=355,697",
+      "validation_sample_size": "n=13,814"
+    },
+    {
+      "id": "PGS000207",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Assessing thyroid cancer risk using polygenic risk scores.",
+      "date_release": "2020-07-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.692,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "gender, birth year, family history of disease (1st or 2nd degree relative)",
+      "sampleset": "PSS000342",
+      "training_development_cohorts": [
+        "NBS",
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=695,822",
+      "validation_sample_size": "n=264,956"
+    },
+    {
+      "id": "PGS000208",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Assessing thyroid cancer risk using polygenic risk scores.",
+      "date_release": "2020-07-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.751,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "gender, birth year, family history of disease (1st or 2nd degree relative)",
+      "sampleset": "PSS000341",
+      "training_development_cohorts": [
+        "NBS",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=419,036",
+      "validation_sample_size": "n=130,279"
+    },
+    {
+      "id": "PGS000209",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Assessing thyroid cancer risk using polygenic risk scores.",
+      "date_release": "2020-07-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.694,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "gender, birth year",
+      "sampleset": "PSS000343",
+      "training_development_cohorts": [
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=290,551",
+      "validation_sample_size": "n=408,479"
+    },
+    {
+      "id": "PGS000626",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.529,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=361,141",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000627",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.56,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=361,194",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000628",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 656,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.565,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=361,194",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000629",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.52,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=361,194",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000630",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (50%), MAE (50%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.626,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=357,784",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000631",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,034",
+      "performance_metrics": {
+        "auc": 0.636,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000579",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=357,784",
+      "validation_sample_size": "n=1,778"
+    },
+    {
+      "id": "PGS000632",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.618,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=357,784",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000633",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 5,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,034",
+      "performance_metrics": {
+        "auc": 0.628,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000579",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=357,784",
+      "validation_sample_size": "n=1,778"
+    },
+    {
+      "id": "PGS000634",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1119238,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.535,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=407,757",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000635",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 5,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.569,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=407,757",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000636",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 954,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,481",
+      "performance_metrics": {
+        "auc": 0.578,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000558",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=407,757",
+      "validation_sample_size": "n=4,270"
+    },
+    {
+      "id": "PGS000797",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "12 variants from Graff et al (PGS000087) with inverse variant weights",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.701,
+        "r2": 0.31
+      },
+      "phenotyping_reported": "Incident thyroid cancer",
+      "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
+      "sampleset": "PSS001025",
+      "training_development_cohorts": [
+        "ICR",
+        "NBS",
+        "ODZH",
+        "RUNMC",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=291,738",
+      "validation_sample_size": "n=391,189"
+    },
+    {
+      "id": "PGS001289",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "snpnet",
+      "variants_number": 11,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.83233,
+        "r2": 0.16699
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS007656",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001354",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Variants significantly associated with thyroid cancer",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Polygenic Risk Score Improves Risk Stratification and Prediction of Subsequent Thyroid Cancer after Childhood Cancer.",
+      "date_release": "2021-11-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.83,
+        "r2": null
+      },
+      "phenotyping_reported": "Subsequent thyroid cancer in childhood cancer survivors",
+      "covariates": "Attained age modeled by restricted cubic splines",
+      "sampleset": "PSS003603",
+      "training_development_cohorts": [
+        "ICR",
+        "NBS",
+        "ODZH",
+        "RUNMC",
+        "deCODE"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=290,551",
+      "validation_sample_size": "n=6,416"
+    },
+    {
+      "id": "PGS001794",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 911462,
+      "ancestry_distribution": "GWAS: AFR (1%), EAS (21%), EUR (77%), OTH (90%) | EVAL: EUR (100%)",
+      "publication": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.676,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "sampleset": "PSS007717",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "UCLA",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=1,201,302",
+      "validation_sample_size": "n=358,476"
+    },
+    {
+      "id": "PGS001799",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 885482,
+      "ancestry_distribution": "GWAS: AFR (90%), EAS (16%), EUR (83%), OTH (70%) | EVAL: EUR (100%)",
+      "publication": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.685,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "sex,age, 20PCs",
+      "sampleset": "PSS007697",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "UCLA",
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=1,620,354",
+      "validation_sample_size": "n=7,128"
+    },
+    {
+      "id": "PGS001809",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 111,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009279",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,923"
+    },
+    {
+      "id": "PGS002018",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 311520,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009279",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,923"
+    },
+    {
+      "id": "PGS003437",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: NR (60%), EUR (99%) | EVAL: EUR (100%)",
+      "publication": "Association Between Genetic Risk, Adherence to Healthy Lifestyle Behavior, and Thyroid Cancer Risk.",
+      "date_release": "2023-03-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.64,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "age, sex, and genetic composition, townsend deprivation index at recruitment, qualifications and average total household income before tax",
+      "sampleset": "PSS010136",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=776,901",
+      "validation_sample_size": "n=264,956"
+    },
+    {
+      "id": "PGS003746",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+      "date_release": "2023-06-01",
+      "samples_training": "n=179",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "Unknown",
+      "sampleset": "PSS010996",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=290,551",
+      "validation_sample_size": "n=360"
+    },
+    {
+      "id": "PGS004954",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 26,
+      "ancestry_distribution": "GWAS: AFR (90%), AMR (70%), EAS (16%), EUR (83%) | EVAL: MAE (100%)",
+      "publication": "Thyroid Cancer Polygenic Risk Score Improves Classification of Thyroid Nodules as Benign or Malignant.",
+      "date_release": "2024-09-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.7,
+        "r2": null
+      },
+      "phenotyping_reported": "Thyroid cancer",
+      "covariates": "Age, sex, genotyping batch, 10 PCs",
+      "sampleset": "PSS011791",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=1,620,354",
+      "validation_sample_size": "n=73,346"
+    },
+    {
+      "id": "PGS005210",
+      "trait_reported": "Thyroid cancer",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Polygenic risk scores, radiation treatment exposures and subsequent cancer risk in childhood cancer survivors.",
+      "date_release": "2025-05-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Risk of thyroid cancer in childhood cancer survivors",
+      "covariates": "childhood cancer diagnosis, ancestry, age at childhood cancer diagnosis, radiation dose to the body region of the second cancer and chemotherapy exposure",
+      "sampleset": "PSS012024",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=290,551",
+      "validation_sample_size": "n=11,220"
+    },
+    {
+      "id": "PGS005258",
+      "trait_reported": "Thyroid carcenoma",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 84,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.686161285410893,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "KCPS",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "QSKIN",
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005259",
+      "trait_reported": "Thyroid carcenoma",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "PRSCS",
+      "variants_number": 1085173,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.695254013741303,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "KCPS",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "QSKIN",
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005260",
+      "trait_reported": "Thyroid carcenoma",
+      "trait_efo": "thyroid carcinoma",
+      "method_name": "PRSCS",
+      "variants_number": 1085170,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.684522760200784,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "QSKIN",
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005273",
+      "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
+      "trait_efo": "benign, thyroid carcinoma, nodular goiter",
+      "method_name": "PRSCS",
+      "variants_number": 1085164,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.617388005401901,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005274",
+      "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
+      "trait_efo": "benign, thyroid carcinoma, nodular goiter",
+      "method_name": "PRSCS",
+      "variants_number": 1084965,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.613489463745261,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001289",
+    "reported_auc": 0.8323,
+    "trait_reported": "Thyroid cancer",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425",
+    "rank": 24,
+    "rank_label": "24/32"
+  }
+}

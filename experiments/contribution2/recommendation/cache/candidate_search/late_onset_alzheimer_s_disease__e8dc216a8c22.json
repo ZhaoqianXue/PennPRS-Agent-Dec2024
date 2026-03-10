@@ -1,0 +1,202 @@
+{
+  "cache_version": "v1",
+  "ontology": "late-onset alzheimer's disease",
+  "candidate_model_ids": [
+    "PGS004918",
+    "PGS000054",
+    "PGS000334",
+    "PGS002289",
+    "PGS000053"
+  ],
+  "total_found": 5,
+  "candidate_models": [
+    {
+      "id": "PGS000053",
+      "trait_reported": "Alzheimer's disease (late onset)",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Polygenic risk scores in familial Alzheimer disease.",
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Familial late-onset Alzheimer's disease (LOAD)",
+      "covariates": "Age, sex",
+      "sampleset": "PSS000085",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=55,134",
+      "validation_sample_size": "n=4,792"
+    },
+    {
+      "id": "PGS000054",
+      "trait_reported": "Alzheimer's disease (late onset)",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AMR (100%)",
+      "publication": "Polygenic risk scores in familial Alzheimer disease.",
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Familial late-onset Alzheimer's disease (LOAD)",
+      "covariates": "Age, sex",
+      "sampleset": "PSS000084",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=55,134",
+      "validation_sample_size": "n=3,324"
+    },
+    {
+      "id": "PGS000334",
+      "trait_reported": "Late-onset Alzheimer\u2019s disease ",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: NR (19%), EUR (81%) | EVAL: EUR (100%)",
+      "publication": "Risk prediction of late-onset Alzheimer's disease implies an oligogenic architecture.",
+      "date_release": "2020-10-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.191
+      },
+      "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
+      "covariates": "Unknown",
+      "sampleset": "PSS000449",
+      "training_development_cohorts": [
+        "IGAP",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=388,324",
+      "validation_sample_size": "n=5,347"
+    },
+    {
+      "id": "PGS002289",
+      "trait_reported": "Late-onset Alzheimer's disease",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "GWAS-significant variants (including APOE)",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Association of Genetic Variants Linked to Late-Onset Alzheimer Disease With Cognitive Test Performance by Midlife.",
+      "date_release": "2022-05-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Pairs matching (short-term memory and attention) no. of correct online round 1 x age interaction",
+      "covariates": "Unknown",
+      "sampleset": "PSS009642",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=55,134",
+      "validation_sample_size": "n=497,087"
+    },
+    {
+      "id": "PGS004918",
+      "trait_reported": "Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function)",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genetic variants in glutamate-, A\u03b2-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
+      "date_release": "2024-06-12",
+      "samples_training": "n=439",
+      "performance_metrics": {
+        "auc": 0.731,
+        "r2": null
+      },
+      "phenotyping_reported": "Late-onset Alzheimer's disease",
+      "covariates": "Unknown",
+      "sampleset": "PSS011719",
+      "training_development_cohorts": [
+        "ADGC",
+        "BfDR",
+        "CHARGE",
+        "EADI",
+        "GERAD"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=55,134",
+      "validation_sample_size": "n=136"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS004918",
+    "reported_auc": 0.731,
+    "trait_reported": "Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function)",
+    "method_name": "Clumping and Thresholding (C+T)",
+    "validation_sample_size": "n=136",
+    "rank": 4,
+    "rank_label": "4/5"
+  }
+}

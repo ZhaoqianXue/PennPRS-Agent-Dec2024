@@ -38,16 +38,14 @@ The experiment-level feature attribution must only use fields that are actually 
 - `trait_efo`
 - `method_name`
 - `variants_number`
-- `variants_genomebuild`
 - `ancestry_distribution`
-- `publication`
+- `publication.title`
+- `publication.journal`
 - `date_release`
-- `samples_variants`
 - `samples_training`
 - `performance_metrics`
 - `phenotyping_reported`
 - `covariates`
-- `sampleset`
 - `training_development_cohorts`
 - `validation_sample_size`
 
@@ -122,8 +120,7 @@ This is the primary Contribution2 experiment and should be executed now.
 
 ### Primary metrics
 
-- `Mean disease hit rate`: average of the 30 disease-specific hit rates
-- `Majority-vote accuracy`: for each disease, take the modal recommendation across 10 runs and test whether it is in `Target_TopK`
+- `Overall Recommended Model Accuracy`: for each disease, take the final recommended model across 10 runs and test whether it is in `Target_TopK`
 - `Baseline accuracy`: deterministic baseline using the model with highest reported AUC in PGS Catalog metadata
 
 ### Internal diagnostics
@@ -132,7 +129,6 @@ The runner still records engineering diagnostics in JSON for debugging, but they
 
 - aggregate trial-level hit count
 - valid-output count/rate
-- optional bootstrap interval for `Mean disease hit rate`
 
 ### Naive baseline
 
@@ -141,6 +137,13 @@ Use one deterministic baseline only:
 - `Highest reported AUC in PGS Catalog metadata`
 
 For each disease, select the candidate model with the largest reported `performance_metrics["auc"]` among the evaluated candidate pool, then test whether that baseline recommendation belongs to `Target_TopK`.
+
+### Cost accounting
+
+The Markdown report includes an experiment cost summary.
+
+- Preferred method: exact completed-batch token usage from the OpenAI Batch object multiplied by the official OpenAI Batch-tier token prices for the model that was used.
+- If the project later runs with a dedicated OpenAI project plus an org admin key, the team can additionally reconcile against the OpenAI Costs API for billing-window validation.
 
 ### Notes
 
@@ -178,31 +181,83 @@ python experiments/contribution2/recommendation/scripts/run_experiment_native_gp
 
 ---
 
-## Experiment 2: GPT + Domain Knowledge
+## Experiment 2: GPT + `prs_model_domain_knowledge`
 
 ### Status
 
-On hold. Do not execute yet.
+Implementation ready. Formal execution still requires an explicit run decision.
 
-### Protocol lock
+### Scope
 
-When this experiment starts later, everything must remain identical to Experiment 1 except one factor:
+Experiment 2 is a strict paired ablation against the archived native GPT-5.2 result.
 
-- Enable `prs_model_domain_knowledge`
+The only intentional change relative to the native arm is:
 
-All other settings must stay fixed:
+- Enable local `prs_model_domain_knowledge`
+
+Everything else remains fixed:
 
 - same 30 diseases
-- same evaluated candidate pool
+- same evaluated candidate pool (`N Models`)
 - same `Target_TopK` labels
 - same 10-trial design
 - same no-fallback policy
-- same evaluation and output schema
+- same Step 1-only direct-match evaluation
+- same success definition
+
+### Domain knowledge implementation
+
+For Contribution2, `prs_model_domain_knowledge` is intentionally implemented as retrieval from the curated local knowledge base:
+
+- source: `src/server/core/knowledge/prs_model_domain_knowledge.md`
+- source type: `local`
+- purpose: inject stable model-selection rules about endpoint fidelity, transferability, ancestry compatibility, penalties, and method priors
+
+This experiment therefore evaluates:
+
+- `GPT + local prs_model_domain_knowledge`
+
+not live web-search-based guideline retrieval.
+
+### Model
+
+- fixed model for this arm: `gpt-5.2`
+
+This is locked so Experiment 2 can be compared directly with the archived native GPT-5.2 run.
+
+### Outputs
+
+The arm produces a disease-level report with the same format as the native report, plus one additional comparison report.
+
+Main outputs:
+
+- `runs/experiment_domain_knowledge_gpt_results.json`
+- `runs/experiment_domain_knowledge_gpt_summary.json`
+- `runs/experiment_domain_knowledge_gpt_report.md`
+
+Comparison output:
+
+- `runs/experiment_domain_knowledge_vs_native_gpt_report.md`
 
 ### Comparison targets
 
-- mean disease hit rate
-- majority-vote accuracy
-- valid output rate
-- per-disease delta
-- rationale feature shifts
+- `Overall Recommended Model Accuracy`
+- `Baseline accuracy`
+- disease-level comparison against native GPT-5.2
+- `Win / Loss / Tie-Hit / Tie-Miss`
+
+### Batch workflow
+
+```bash
+# Prepare requests and submit the domain-knowledge batch job
+python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py
+
+# Debug only: prepare a smaller local batch
+python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode prepare --limit 3 --trials 2
+
+# Check batch status
+python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode status
+
+# Download completed batch output and compute final metrics/report
+python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode collect
+```

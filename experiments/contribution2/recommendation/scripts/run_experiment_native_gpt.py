@@ -20,20 +20,21 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
-import random
 import re
 import sys
 from collections import Counter
 from pathlib import Path
-from statistics import mean
+from types import SimpleNamespace
 from typing import Any, Optional
 
 import pandas as pd
 from openai import OpenAI
 from openai.lib._pydantic import to_strict_json_schema
 from pydantic import BaseModel
+import tiktoken
 
 # Ensure project root in path (contribution2/recommendation/scripts -> repo root)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent.parent
@@ -60,6 +61,7 @@ eval_pgs_path = (
     / "contribution2"
     / "recommendation"
     / "runs"
+    / "ground-truth__contribution1"
     / "evaluated_pgs_per_ontology.json"
 )
 if eval_pgs_path.exists():
@@ -76,23 +78,73 @@ from src.server.core.pgs_catalog_client import PGSCatalogClient
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
 UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
-TOP_K_JSON = RECOMMENDATION_RUNS / "top_k_pgs_per_ontology.json"
-EVALUATED_JSON = RECOMMENDATION_RUNS / "evaluated_pgs_per_ontology.json"
+LOCAL_CACHE_DIR = Path(__file__).parent.parent / "cache"
+GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
+TOP_K_JSON = GROUND_TRUTH_DIR / "top_k_pgs_per_ontology.json"
+EVALUATED_JSON = GROUND_TRUTH_DIR / "evaluated_pgs_per_ontology.json"
+PREPARE_CACHE_VERSION = "v2"
 
-RESULTS_JSON = RECOMMENDATION_RUNS / "experiment_native_gpt_results.json"
-SUMMARY_JSON = RECOMMENDATION_RUNS / "experiment_native_gpt_summary.json"
-REPORT_MD = RECOMMENDATION_RUNS / "experiment_native_gpt_report.md"
+ACTIVE_RUN_DIR: Optional[Path] = None
+ACTIVE_RUN_TAG: Optional[str] = None
+RESULTS_JSON = Path()
+SUMMARY_JSON = Path()
+REPORT_MD = Path()
 
-BATCH_REQUESTS_JSONL = RECOMMENDATION_RUNS / "experiment_native_gpt_batch_requests.jsonl"
-BATCH_MANIFEST_JSON = RECOMMENDATION_RUNS / "experiment_native_gpt_batch_manifest.json"
-BATCH_JOB_JSON = RECOMMENDATION_RUNS / "experiment_native_gpt_batch_job.json"
-BATCH_OUTPUT_JSONL = RECOMMENDATION_RUNS / "experiment_native_gpt_batch_output.jsonl"
-BATCH_ERROR_JSONL = RECOMMENDATION_RUNS / "experiment_native_gpt_batch_errors.jsonl"
+BATCH_REQUESTS_JSONL = Path()
+BATCH_MANIFEST_JSON = Path()
+BATCH_JOB_JSON = Path()
+BATCH_OUTPUT_JSONL = Path()
+BATCH_ERROR_JSONL = Path()
+ARCHIVE_ARTIFACTS: list[Path] = []
 
-BOOTSTRAP_RESAMPLES = 2000
-BOOTSTRAP_SEED = 42
 VALID_PGS_ID_RE = re.compile(r"^PGS\d+$")
 MAX_CHAT_COMPLETIONS_N = 8
+BATCH_PRICING_PER_MILLION_USD = {
+    # Official OpenAI Batch-tier prices as of 2026-03-06.
+    "gpt-5.2": {
+        "input": 0.875,
+        "cached_input": 0.0875,
+        "output": 7.0,
+    },
+    "gpt-5.4": {
+        "input": 1.25,
+        "cached_input": 0.125,
+        "output": 7.5,
+    },
+    "gpt-5-mini": {
+        "input": 0.125,
+        "cached_input": 0.0125,
+        "output": 1.0,
+    }
+}
+STANDARD_PRICING_PER_MILLION_USD = {
+    # Official OpenAI Standard-tier prices as of 2026-03-06.
+    "gpt-5.2": {
+        "input": 1.75,
+        "cached_input": 0.175,
+        "output": 14.0,
+    },
+    "gpt-5.1": {
+        "input": 1.25,
+        "cached_input": 0.125,
+        "output": 10.0,
+    },
+    "gpt-5": {
+        "input": 1.25,
+        "cached_input": 0.125,
+        "output": 10.0,
+    },
+    "gpt-5-mini": {
+        "input": 0.25,
+        "cached_input": 0.025,
+        "output": 2.0,
+    },
+    "gpt-5-nano": {
+        "input": 0.05,
+        "cached_input": 0.005,
+        "output": 0.4,
+    },
+}
 
 STEP1_RATIONALE_FEATURE_KEYWORDS = {
     "trait_match": ["trait", "phenotype", "proxy", "family history"],
@@ -140,6 +192,11 @@ def _safe_float(value: Any) -> Optional[float]:
         return None
 
 
+def _whitelist_digest(candidate_model_ids: list[str]) -> str:
+    joined = "\n".join(sorted(candidate_model_ids))
+    return hashlib.sha1(joined.encode("utf-8")).hexdigest()[:12]
+
+
 def _model_name() -> str:
     config = get_config("disease_workflow")
     return os.getenv("OPENAI_MODEL") or config.model
@@ -155,6 +212,9 @@ def _extract_step1_rationale_features(rationale: str) -> list[str]:
 
 
 def _summarize_model_for_llm(model: Any) -> dict[str, Any]:
+    publication = getattr(model, "publication", None)
+    if hasattr(publication, "model_dump"):
+        publication = publication.model_dump()
     return {
         "id": getattr(model, "id", None),
         "trait_reported": getattr(model, "trait_reported", None),
@@ -162,42 +222,88 @@ def _summarize_model_for_llm(model: Any) -> dict[str, Any]:
         "method_name": getattr(model, "method_name", None),
         "variants_number": getattr(model, "variants_number", None),
         "ancestry_distribution": getattr(model, "ancestry_distribution", None),
-        "publication": getattr(model, "publication", None),
+        "publication": publication,
         "date_release": getattr(model, "date_release", None),
         "samples_training": getattr(model, "samples_training", None),
         "performance_metrics": getattr(model, "performance_metrics", None),
         "phenotyping_reported": getattr(model, "phenotyping_reported", None),
         "covariates": getattr(model, "covariates", None),
-        "sampleset": getattr(model, "sampleset", None),
         "training_development_cohorts": getattr(model, "training_development_cohorts", None),
-        "variants_genomebuild": getattr(model, "variants_genomebuild", None),
-        "samples_variants": getattr(model, "samples_variants", None),
         "validation_sample_size": getattr(model, "validation_sample_size", None),
     }
 
 
-def _bootstrap_mean_ci(values: list[float]) -> Optional[dict[str, float]]:
-    if not values:
+def _model_from_summary(summary: dict[str, Any]) -> Any:
+    return SimpleNamespace(**summary)
+
+
+def _candidate_cache_path(ontology: str, candidate_model_ids: list[str]) -> Path:
+    return (
+        LOCAL_CACHE_DIR
+        / "candidate_search"
+        / f"{_slugify(ontology)}__{_whitelist_digest(candidate_model_ids)}.json"
+    )
+
+
+def _load_cached_candidate_bundle(
+    ontology: str,
+    candidate_model_ids: list[str],
+    refresh_cache: bool,
+) -> Optional[dict[str, Any]]:
+    if refresh_cache:
         return None
-    rng = random.Random(BOOTSTRAP_SEED)
-    n = len(values)
-    means: list[float] = []
-    for _ in range(BOOTSTRAP_RESAMPLES):
-        sample = [values[rng.randrange(n)] for _ in range(n)]
-        means.append(sum(sample) / n)
-    means.sort()
-    lower_idx = int(0.025 * (BOOTSTRAP_RESAMPLES - 1))
-    upper_idx = int(0.975 * (BOOTSTRAP_RESAMPLES - 1))
-    return {
-        "lower": round(means[lower_idx], 4),
-        "upper": round(means[upper_idx], 4),
-    }
+    path = _candidate_cache_path(ontology, candidate_model_ids)
+    if not path.exists():
+        return None
+    payload = _load_json(path)
+    if payload.get("cache_version") != PREPARE_CACHE_VERSION:
+        return None
+    if payload.get("ontology") != ontology:
+        return None
+    if list(payload.get("candidate_model_ids") or []) != list(candidate_model_ids):
+        return None
+    return payload
+
+
+def _write_cached_candidate_bundle(
+    ontology: str,
+    candidate_model_ids: list[str],
+    total_found: int,
+    candidate_model_summaries: list[dict[str, Any]],
+    baseline: Optional[dict[str, Any]],
+) -> None:
+    path = _candidate_cache_path(ontology, candidate_model_ids)
+    _write_json(
+        path,
+        {
+            "cache_version": PREPARE_CACHE_VERSION,
+            "ontology": ontology,
+            "candidate_model_ids": candidate_model_ids,
+            "total_found": total_found,
+            "candidate_models": candidate_model_summaries,
+            "baseline": baseline,
+        },
+    )
 
 
 def _is_valid_output(recommended_id: Optional[str], candidate_id_set: set[str]) -> bool:
     if not recommended_id or not VALID_PGS_ID_RE.match(recommended_id):
         return False
     return recommended_id in candidate_id_set
+
+
+def _benchmark_rank_map(rank_order: list[str]) -> dict[str, int]:
+    return {pgs_id: idx + 1 for idx, pgs_id in enumerate(rank_order or []) if pgs_id}
+
+
+def _rank_label(rank: Optional[int], n_models: int) -> str:
+    if rank is None or n_models <= 0:
+        return "-"
+    return f"{rank}/{n_models}"
+
+
+def _sort_disease_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    return sorted(rows, key=lambda row: (-row["n_models"], row["ontology"]))
 
 
 def _best_reported_auc_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
@@ -237,6 +343,74 @@ def _modal_recommendation(trial_rows: list[dict[str, Any]]) -> tuple[Optional[st
 
 def _format_percent(value: float) -> str:
     return f"{value:.2%}"
+
+
+def _format_currency(value: float) -> str:
+    return f"${value:.4f}"
+
+
+def _archive_dir_name(model: str, trials: int, run_tag: Optional[str] = None) -> str:
+    safe_model = re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
+    base = f"native-gpt__{safe_model}__t{trials}"
+    safe_tag = re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
+    return f"{base}__{safe_tag}" if safe_tag else base
+
+
+def _set_run_paths(trials: int, model: Optional[str] = None, run_tag: Optional[str] = None) -> Path:
+    global ACTIVE_RUN_DIR, ACTIVE_RUN_TAG
+    global RESULTS_JSON, SUMMARY_JSON, REPORT_MD
+    global BATCH_REQUESTS_JSONL, BATCH_MANIFEST_JSON, BATCH_JOB_JSON
+    global BATCH_OUTPUT_JSONL, BATCH_ERROR_JSONL, ARCHIVE_ARTIFACTS
+
+    if trials <= 0:
+        raise ValueError("--trials must be a positive integer.")
+
+    run_model = model or _model_name()
+    ACTIVE_RUN_TAG = run_tag
+    ACTIVE_RUN_DIR = RECOMMENDATION_RUNS / _archive_dir_name(run_model, trials, run_tag=run_tag)
+    ACTIVE_RUN_DIR.mkdir(parents=True, exist_ok=True)
+
+    RESULTS_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_results.json"
+    SUMMARY_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_summary.json"
+    REPORT_MD = ACTIVE_RUN_DIR / "experiment_native_gpt_report.md"
+    BATCH_REQUESTS_JSONL = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_requests.jsonl"
+    BATCH_MANIFEST_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_manifest.json"
+    BATCH_JOB_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_job.json"
+    BATCH_OUTPUT_JSONL = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_output.jsonl"
+    BATCH_ERROR_JSONL = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_errors.jsonl"
+    ARCHIVE_ARTIFACTS = [
+        TOP_K_JSON,
+        EVALUATED_JSON,
+        BATCH_JOB_JSON,
+        BATCH_MANIFEST_JSON,
+        BATCH_OUTPUT_JSONL,
+        BATCH_ERROR_JSONL,
+        BATCH_REQUESTS_JSONL,
+        REPORT_MD,
+        RESULTS_JSON,
+        SUMMARY_JSON,
+    ]
+    return ACTIVE_RUN_DIR
+
+
+def _load_ontology_filter(
+    ontologies: Optional[list[str]],
+    ontologies_file: Optional[str],
+) -> Optional[set[str]]:
+    values: list[str] = []
+    for item in ontologies or []:
+        if item and item.strip():
+            values.append(item.strip())
+    if ontologies_file:
+        file_path = Path(ontologies_file)
+        if not file_path.exists():
+            raise FileNotFoundError(f"Ontology filter file not found: {file_path}")
+        for line in file_path.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line and not line.startswith("#"):
+                values.append(line)
+    normalized = {_normalize_ontology(item) for item in values if item}
+    return normalized or None
 
 
 def _choice_chunks(total_trials: int, max_n: int = MAX_CHAT_COMPLETIONS_N) -> list[int]:
@@ -326,11 +500,12 @@ def _build_batch_request(custom_id: str, context_json: str, n_choices: int) -> d
     config = get_config("disease_workflow")
     body: dict[str, Any] = {
         "model": _model_name(),
-        "temperature": config.temperature,
         "n": n_choices,
         "messages": _step1_messages(context_json),
         "response_format": _step1_response_format(),
     }
+    if config.temperature is not None:
+        body["temperature"] = config.temperature
     if config.max_tokens:
         body["max_tokens"] = config.max_tokens
     return {
@@ -365,7 +540,212 @@ def _client() -> OpenAI:
     return OpenAI(api_key=api_key)
 
 
-def _prepare_manifest(limit: Optional[int], trials: int) -> dict[str, Any]:
+def _pricing_for_model(
+    model_name: str,
+    pricing_table: dict[str, dict[str, float]],
+) -> tuple[Optional[str], Optional[dict[str, float]]]:
+    lower = str(model_name or "").lower()
+    for prefix, pricing in pricing_table.items():
+        if lower.startswith(prefix):
+            return prefix, pricing
+    return None, None
+
+
+def _estimate_batch_cost(batch_payload: dict[str, Any]) -> Optional[dict[str, Any]]:
+    usage = (batch_payload or {}).get("usage") or {}
+    model_name = str((batch_payload or {}).get("model") or "")
+    pricing_key, pricing = _pricing_for_model(model_name, BATCH_PRICING_PER_MILLION_USD)
+    if pricing is None:
+        return None
+
+    input_tokens = _safe_int(usage.get("input_tokens"))
+    input_details = usage.get("input_tokens_details") or {}
+    cached_tokens = _safe_int(input_details.get("cached_tokens"))
+    uncached_input_tokens = max(input_tokens - cached_tokens, 0)
+    output_tokens = _safe_int(usage.get("output_tokens"))
+
+    uncached_input_cost = uncached_input_tokens / 1_000_000 * pricing["input"]
+    cached_input_cost = cached_tokens / 1_000_000 * pricing["cached_input"]
+    output_cost = output_tokens / 1_000_000 * pricing["output"]
+    total_cost = uncached_input_cost + cached_input_cost + output_cost
+
+    return {
+        "model_pricing_key": pricing_key or model_name,
+        "token_usage": {
+            "input_tokens": input_tokens,
+            "cached_input_tokens": cached_tokens,
+            "uncached_input_tokens": uncached_input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": _safe_int(usage.get("total_tokens")),
+        },
+        "pricing_per_million_tokens_usd": {
+            "input": pricing["input"],
+            "cached_input": pricing["cached_input"],
+            "output": pricing["output"],
+        },
+        "method": "exact_batch_usage_times_official_batch_tier_prices",
+        "estimated_cost_breakdown_usd": {
+            "uncached_input": round(uncached_input_cost, 4),
+            "cached_input": round(cached_input_cost, 4),
+            "output": round(output_cost, 4),
+        },
+        "estimated_total_cost_usd": round(total_cost, 4),
+    }
+
+
+def _estimate_request_body_tokens(request_body: dict[str, Any], encoding: tiktoken.Encoding) -> int:
+    payload = json.dumps(
+        request_body,
+        sort_keys=True,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return len(encoding.encode(payload))
+
+
+def _estimate_trial_result_output_tokens(row: dict[str, Any], encoding: tiktoken.Encoding) -> int:
+    decision = {
+        "outcome": row.get("recommendation_type"),
+        "best_model_id": row.get("recommended_pgs_id"),
+        "confidence": row.get("recommendation_confidence"),
+        "rationale": row.get("rationale"),
+    }
+    payload = json.dumps(
+        decision,
+        sort_keys=True,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return len(encoding.encode(payload))
+
+
+def _estimate_quick_eval_cost_from_artifacts(
+    *,
+    manifest: dict[str, Any],
+    trial_results: list[dict[str, Any]],
+    model_name: str,
+    calibration_run_dir: Optional[Path] = None,
+) -> Optional[dict[str, Any]]:
+    pricing_key, pricing = _pricing_for_model(model_name, STANDARD_PRICING_PER_MILLION_USD)
+    if pricing is None:
+        return None
+
+    encoding = tiktoken.get_encoding("o200k_base")
+    raw_input_tokens = sum(
+        _estimate_request_body_tokens(request["request"]["body"], encoding)
+        for request in manifest.get("requests", [])
+    )
+    raw_output_tokens = sum(
+        _estimate_trial_result_output_tokens(row, encoding)
+        for row in trial_results
+    )
+
+    input_ratio = 1.0
+    output_ratio = 1.0
+    cached_input_share = 0.0
+    calibration_source = None
+
+    if calibration_run_dir:
+        job_path = calibration_run_dir / "experiment_native_gpt_batch_job.json"
+        manifest_path = calibration_run_dir / "experiment_native_gpt_batch_manifest.json"
+        results_path = calibration_run_dir / "experiment_native_gpt_results.json"
+        if job_path.exists() and manifest_path.exists() and results_path.exists():
+            batch_payload = (_load_json(job_path) or {}).get("batch") or {}
+            usage = batch_payload.get("usage") or {}
+            exact_input_tokens = _safe_int(usage.get("input_tokens"))
+            exact_output_tokens = _safe_int(usage.get("output_tokens"))
+            cached_tokens = _safe_int((usage.get("input_tokens_details") or {}).get("cached_tokens"))
+
+            reference_manifest = _load_json(manifest_path)
+            reference_results = _load_json(results_path)
+            reference_raw_input_tokens = sum(
+                _estimate_request_body_tokens(request["request"]["body"], encoding)
+                for request in reference_manifest.get("requests", [])
+            )
+            reference_raw_output_tokens = sum(
+                _estimate_trial_result_output_tokens(row, encoding)
+                for row in reference_results
+            )
+
+            if reference_raw_input_tokens > 0 and exact_input_tokens > 0:
+                input_ratio = exact_input_tokens / reference_raw_input_tokens
+            if reference_raw_output_tokens > 0 and exact_output_tokens > 0:
+                output_ratio = exact_output_tokens / reference_raw_output_tokens
+            if exact_input_tokens > 0:
+                cached_input_share = cached_tokens / exact_input_tokens
+            calibration_source = str(calibration_run_dir)
+
+    input_tokens = round(raw_input_tokens * input_ratio)
+    cached_input_tokens = round(input_tokens * cached_input_share)
+    uncached_input_tokens = max(input_tokens - cached_input_tokens, 0)
+    output_tokens = round(raw_output_tokens * output_ratio)
+
+    uncached_input_cost = uncached_input_tokens / 1_000_000 * pricing["input"]
+    cached_input_cost = cached_input_tokens / 1_000_000 * pricing["cached_input"]
+    output_cost = output_tokens / 1_000_000 * pricing["output"]
+    total_cost = uncached_input_cost + cached_input_cost + output_cost
+
+    method = "estimated_quick_eval_tokens_from_request_response_content"
+    if calibration_source:
+        method += "_with_native_batch_calibration"
+
+    return {
+        "model_pricing_key": pricing_key or model_name,
+        "token_usage": {
+            "input_tokens": input_tokens,
+            "cached_input_tokens": cached_input_tokens,
+            "uncached_input_tokens": uncached_input_tokens,
+            "output_tokens": output_tokens,
+            "total_tokens": input_tokens + output_tokens,
+        },
+        "pricing_per_million_tokens_usd": {
+            "input": pricing["input"],
+            "cached_input": pricing["cached_input"],
+            "output": pricing["output"],
+        },
+        "method": method,
+        "calibration_source_run_dir": calibration_source,
+        "estimated_cost_breakdown_usd": {
+            "uncached_input": round(uncached_input_cost, 4),
+            "cached_input": round(cached_input_cost, 4),
+            "output": round(output_cost, 4),
+        },
+        "estimated_total_cost_usd": round(total_cost, 4),
+        "estimation_notes": {
+            "raw_input_tokens_from_tokenized_requests": raw_input_tokens,
+            "raw_output_tokens_from_reconstructed_decisions": raw_output_tokens,
+            "input_calibration_ratio": round(input_ratio, 6),
+            "output_calibration_ratio": round(output_ratio, 6),
+            "cached_input_share": round(cached_input_share, 6),
+        },
+    }
+
+
+def _archive_current_outputs(summary: Optional[dict[str, Any]] = None) -> Path:
+    if summary is not None:
+        model = str(summary.get("model") or _model_name() or "unknown")
+        trials = _safe_int(summary.get("trials_per_ontology"), default=10) or 10
+        archive_dir = _set_run_paths(
+            trials=trials,
+            model=model,
+            run_tag=str(summary.get("run_tag") or ACTIVE_RUN_TAG or "").strip() or None,
+        )
+    elif ACTIVE_RUN_DIR is not None:
+        archive_dir = ACTIVE_RUN_DIR
+    else:
+        raise RuntimeError("Active run directory is not configured.")
+
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Run directory: {archive_dir}")
+    return archive_dir
+
+
+def _prepare_manifest(
+    limit: Optional[int],
+    trials: int,
+    refresh_cache: bool = False,
+    ontology_filter: Optional[set[str]] = None,
+) -> dict[str, Any]:
     if trials <= 0:
         raise ValueError("--trials must be a positive integer.")
     if not UNION_CSV.exists():
@@ -383,6 +763,11 @@ def _prepare_manifest(limit: Optional[int], trials: int) -> dict[str, Any]:
         raise RuntimeError(f"Contribution2 ground truth is incomplete:\n{missing_ground_truth}")
 
     rows = list(union_df.iterrows())
+    if ontology_filter:
+        rows = [
+            row for row in rows
+            if _normalize_ontology(str(row[1].get("Ontology", "")).strip()) in ontology_filter
+        ]
     if limit:
         rows = rows[:limit]
 
@@ -405,17 +790,38 @@ def _prepare_manifest(limit: Optional[int], trials: int) -> dict[str, Any]:
         candidate_id_set = set(candidate_model_ids)
 
         print(f"[{index}/{len(rows)}] preparing {ontology} (Target_TopK={target_topk}, trials={trials})")
-        candidate_result = prs_model_pgscatalog_search(
-            pgs_client,
-            ontology,
-            evaluated_pgs_whitelist=candidate_id_set,
+        cached_bundle = _load_cached_candidate_bundle(
+            ontology=ontology,
+            candidate_model_ids=candidate_model_ids,
+            refresh_cache=refresh_cache,
         )
-        candidate_models = list(candidate_result.models)
-        baseline = _best_reported_auc_baseline(candidate_models)
+        if cached_bundle:
+            total_found = _safe_int(cached_bundle.get("total_found"))
+            candidate_model_summaries = list(cached_bundle.get("candidate_models") or [])
+            candidate_models = [_model_from_summary(summary) for summary in candidate_model_summaries]
+            baseline = cached_bundle.get("baseline")
+            print(f"  using local cache ({len(candidate_models)} models)")
+        else:
+            candidate_result = prs_model_pgscatalog_search(
+                pgs_client,
+                ontology,
+                evaluated_pgs_whitelist=candidate_id_set,
+            )
+            candidate_models = list(candidate_result.models)
+            total_found = candidate_result.total_found
+            candidate_model_summaries = [_summarize_model_for_llm(model) for model in candidate_models]
+            baseline = _best_reported_auc_baseline(candidate_models)
+            _write_cached_candidate_bundle(
+                ontology=ontology,
+                candidate_model_ids=candidate_model_ids,
+                total_found=total_found,
+                candidate_model_summaries=candidate_model_summaries,
+                baseline=baseline,
+            )
         context = _step1_context(
             ontology=ontology,
             candidate_models=candidate_models,
-            total_found=candidate_result.total_found,
+            total_found=total_found,
             landscape=landscape,
         )
         context_json = json.dumps(context, separators=(",", ":"), ensure_ascii=False)
@@ -427,11 +833,12 @@ def _prepare_manifest(limit: Optional[int], trials: int) -> dict[str, Any]:
             "ontology_slug": slug,
             "n_models": n_models,
             "target_topk": target_topk,
+            "benchmark_ranked_ids": target_ranked_ids,
             "target_topk_ids": target_topk_ids,
             "candidate_model_ids": candidate_model_ids,
-            "candidate_models_visible_to_llm": [_summarize_model_for_llm(model) for model in candidate_models],
+            "candidate_models_visible_to_llm": candidate_model_summaries,
             "baseline": baseline,
-            "total_found": candidate_result.total_found,
+            "total_found": total_found,
         })
 
         trial_start = 1
@@ -459,14 +866,26 @@ def _prepare_manifest(limit: Optional[int], trials: int) -> dict[str, Any]:
         "trials_per_ontology": trials,
         "total_ontologies": len(disease_metadata),
         "total_requests": len(requests),
+        "run_tag": ACTIVE_RUN_TAG,
+        "ontology_filter": sorted(ontology_filter) if ontology_filter else None,
         "disease_metadata": disease_metadata,
         "requests": requests,
     }
     return manifest
 
 
-def _prepare(limit: Optional[int], trials: int) -> dict[str, Any]:
-    manifest = _prepare_manifest(limit=limit, trials=trials)
+def _prepare(
+    limit: Optional[int],
+    trials: int,
+    refresh_cache: bool = False,
+    ontology_filter: Optional[set[str]] = None,
+) -> dict[str, Any]:
+    manifest = _prepare_manifest(
+        limit=limit,
+        trials=trials,
+        refresh_cache=refresh_cache,
+        ontology_filter=ontology_filter,
+    )
     batch_requests = [row["request"] for row in manifest["requests"]]
     _write_jsonl(BATCH_REQUESTS_JSONL, batch_requests)
     _write_json(BATCH_MANIFEST_JSON, manifest)
@@ -509,6 +928,57 @@ def _submit_batch() -> dict[str, Any]:
     print(f"Status: {batch.status}")
     print(f"Saved job metadata: {BATCH_JOB_JSON}")
     return job
+
+
+def _quick_eval() -> dict[str, Any]:
+    if not BATCH_MANIFEST_JSON.exists():
+        raise FileNotFoundError(
+            f"Batch manifest not found: {BATCH_MANIFEST_JSON}. Run with --mode prepare first."
+        )
+
+    manifest = _load_json(BATCH_MANIFEST_JSON)
+    client = _client()
+    parsed_outputs: dict[str, dict[str, Any]] = {}
+    error_map: dict[str, str] = {}
+
+    for index, request in enumerate(manifest["requests"], start=1):
+        custom_id = request["custom_id"]
+        body = request["request"]["body"]
+        ontology = request["ontology"]
+        print(f"[quick-eval {index}/{len(manifest['requests'])}] {ontology}")
+        try:
+            response = client.chat.completions.create(**body)
+            decisions: list[dict[str, Any]] = []
+            for choice in response.choices:
+                message = choice.message or {}
+                content = _extract_message_content(getattr(message, "content", None))
+                decision = Step1Decision.model_validate_json(content)
+                decisions.append(decision.model_dump())
+            parsed_outputs[custom_id] = {
+                "custom_id": custom_id,
+                "decisions": decisions,
+                "error": None,
+            }
+        except Exception as exc:
+            error_map[custom_id] = f"Quick eval failed: {type(exc).__name__}: {exc}"
+
+    trial_results, summary = _build_summary_and_results(
+        manifest=manifest,
+        parsed_outputs=parsed_outputs,
+        error_map=error_map,
+    )
+    summary["execution_mode"] = "quick_eval_chat_completions"
+
+    _write_json(RESULTS_JSON, trial_results)
+    _write_json(SUMMARY_JSON, summary)
+    _write_report(summary)
+    archive_dir = _archive_current_outputs(summary=summary)
+
+    print(f"Results: {RESULTS_JSON}")
+    print(f"Summary: {SUMMARY_JSON}")
+    print(f"Report:  {REPORT_MD}")
+    print(f"Archive: {archive_dir}")
+    return summary
 
 
 def _load_job(batch_id: Optional[str] = None) -> dict[str, Any]:
@@ -614,6 +1084,7 @@ def _build_summary_and_results(
     error_map: dict[str, str],
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     disease_index = {row["ontology"]: row for row in manifest["disease_metadata"]}
+    top_k_data = _load_json(TOP_K_JSON)
     trial_results: list[dict[str, Any]] = []
 
     for request in manifest["requests"]:
@@ -717,6 +1188,10 @@ def _build_summary_and_results(
     for disease in manifest["disease_metadata"]:
         ontology = disease["ontology"]
         disease_trials = [row for row in trial_results if row["ontology"] == ontology]
+        disease_trials.sort(key=lambda row: row["trial"])
+        ontology_key = disease.get("ontology_key") or _normalize_ontology(ontology)
+        benchmark_ranked_ids = list(disease.get("benchmark_ranked_ids") or top_k_data.get(ontology_key) or [])
+        rank_map = _benchmark_rank_map(benchmark_ranked_ids)
         hit_count = sum(1 for row in disease_trials if row["in_target_topk"])
         valid_count = sum(1 for row in disease_trials if row["valid_output"])
         error_count = sum(1 for row in disease_trials if row["error"])
@@ -725,6 +1200,7 @@ def _build_summary_and_results(
         valid_rate = valid_count / trial_count
         modal_id, modal_count = _modal_recommendation(disease_trials)
         modal_in_target = bool(modal_id and modal_id in set(disease["target_topk_ids"]))
+        modal_rank = rank_map.get(modal_id)
         feature_counter = Counter(
             feature
             for trial in disease_trials
@@ -732,11 +1208,49 @@ def _build_summary_and_results(
         )
         baseline = disease.get("baseline")
         baseline_hit = bool(baseline and baseline.get("pgs_id") in set(disease["target_topk_ids"]))
+        baseline_with_rank = None
+        if baseline:
+            baseline_with_rank = dict(baseline)
+            baseline_rank = rank_map.get(baseline.get("pgs_id"))
+            baseline_with_rank["rank"] = baseline_rank
+            baseline_with_rank["rank_label"] = _rank_label(baseline_rank, disease["n_models"])
+
+        trial_recommendations_detailed: list[dict[str, Any]] = []
+        recommendation_counter: Counter[str] = Counter()
+        for trial_row in disease_trials:
+            recommended_id = trial_row.get("recommended_pgs_id")
+            recommended_rank = rank_map.get(recommended_id)
+            recommended_rank_label = _rank_label(recommended_rank, disease["n_models"])
+            trial_row["recommended_rank"] = recommended_rank
+            trial_row["recommended_rank_label"] = recommended_rank_label
+            trial_recommendations_detailed.append({
+                "trial": trial_row["trial"],
+                "pgs_id": recommended_id,
+                "rank": recommended_rank,
+                "rank_label": recommended_rank_label,
+                "in_target_topk": trial_row["in_target_topk"],
+            })
+            if recommended_id:
+                recommendation_counter[recommended_id] += 1
+
+        recommended_model_counts = [
+            {
+                "pgs_id": pgs_id,
+                "count": count,
+                "rank": rank_map.get(pgs_id),
+                "rank_label": _rank_label(rank_map.get(pgs_id), disease["n_models"]),
+            }
+            for pgs_id, count in sorted(
+                recommendation_counter.items(),
+                key=lambda item: (-item[1], rank_map.get(item[0], 10**9), item[0]),
+            )
+        ]
 
         per_disease.append({
             "ontology": ontology,
             "n_models": disease["n_models"],
             "target_topk": disease["target_topk"],
+            "benchmark_ranked_ids": benchmark_ranked_ids,
             "target_topk_ids": disease["target_topk_ids"],
             "candidate_model_ids": disease["candidate_model_ids"],
             "candidate_models_visible_to_llm": disease["candidate_models_visible_to_llm"],
@@ -747,10 +1261,14 @@ def _build_summary_and_results(
             "errors": error_count,
             "modal_recommendation": modal_id,
             "modal_recommendation_count": modal_count,
+            "modal_recommendation_rank": modal_rank,
+            "modal_recommendation_rank_label": _rank_label(modal_rank, disease["n_models"]),
             "modal_recommendation_in_target_topk": modal_in_target,
             "trial_recommendations": [row["recommended_pgs_id"] for row in disease_trials],
+            "trial_recommendations_detailed": trial_recommendations_detailed,
+            "recommended_model_counts": recommended_model_counts,
             "feature_mentions": dict(sorted(feature_counter.items())),
-            "baseline": baseline,
+            "baseline": baseline_with_rank,
             "baseline_in_target_topk": baseline_hit,
         })
 
@@ -760,9 +1278,6 @@ def _build_summary_and_results(
     valid_outputs = sum(1 for row in trial_results if row["valid_output"])
     trial_hit_rate = trial_hits / total_trials if total_trials else 0.0
     valid_output_rate = valid_outputs / total_trials if total_trials else 0.0
-    disease_hit_rates = [row["trial_hit_rate"] for row in per_disease]
-    mean_disease_hit_rate = mean(disease_hit_rates) if disease_hit_rates else 0.0
-    bootstrap_ci = _bootstrap_mean_ci(disease_hit_rates)
     majority_vote_hits = sum(1 for row in per_disease if row["modal_recommendation_in_target_topk"])
     majority_vote_accuracy = majority_vote_hits / total_ontologies if total_ontologies else 0.0
     baseline_hits = sum(1 for row in per_disease if row["baseline_in_target_topk"])
@@ -774,10 +1289,10 @@ def _build_summary_and_results(
         "strict_llm_only": True,
         "cross_disease_enabled": False,
         "batch_mode": True,
+        "run_tag": ACTIVE_RUN_TAG,
         "model": manifest["model"],
         "total_ontologies": total_ontologies,
         "trials_per_ontology": manifest["trials_per_ontology"],
-        "mean_disease_hit_rate": round(mean_disease_hit_rate, 4),
         "majority_vote_hits": majority_vote_hits,
         "majority_vote_accuracy": round(majority_vote_accuracy, 4),
         "baseline": {
@@ -791,7 +1306,6 @@ def _build_summary_and_results(
             "trial_hit_rate": round(trial_hit_rate, 4),
             "valid_outputs": valid_outputs,
             "valid_output_rate": round(valid_output_rate, 4),
-            "mean_disease_hit_rate_bootstrap_95ci": bootstrap_ci,
         },
         "per_disease": per_disease,
     }
@@ -801,14 +1315,17 @@ def _build_summary_and_results(
 def _write_report(summary: dict[str, Any]) -> None:
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
-    mean_disease_hit_rate = summary["mean_disease_hit_rate"]
     majority_vote_hits = summary["majority_vote_hits"]
     majority_vote_accuracy = summary["majority_vote_accuracy"]
     baseline_hits = summary["baseline"]["hits"]
     baseline_accuracy = summary["baseline"]["accuracy"]
+    cost = summary.get("cost") or {}
+    token_usage = cost.get("token_usage") or {}
+    cost_breakdown = cost.get("estimated_cost_breakdown_usd") or {}
+    per_disease_rows = _sort_disease_rows(summary["per_disease"])
 
     lines = [
-        "# Contribution2 Experiment 1: Native GPT (Batch Formal Protocol)",
+        "# Contribution2 Experiment 1: Native GPT",
         "",
         "## Summary",
         "",
@@ -816,32 +1333,57 @@ def _write_report(summary: dict[str, Any]) -> None:
         f"- **Trials per disease**: {summary['trials_per_ontology']}",
         f"- **Total trials**: {total_trials}",
         f"- **Model**: {summary['model']}",
-        "- **Execution mode**: OpenAI Batch API",
-        "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_performance_landscape",
-        "- **Domain Knowledge**: Disabled",
-        "- **Strict LLM-only mode**: Enabled (no fallback, no auto-filled recommendation)",
-        f"- **Mean disease hit rate**: {_format_percent(mean_disease_hit_rate)}",
-        f"- **Majority-vote accuracy**: {majority_vote_hits}/{total_ontologies} = {_format_percent(majority_vote_accuracy)}",
+        (
+            f"- **Estimated API cost**: {_format_currency(cost.get('estimated_total_cost_usd', 0.0))} "
+            f"(uncached input {token_usage.get('uncached_input_tokens', 0):,} tokens = "
+            f"{_format_currency(cost_breakdown.get('uncached_input', 0.0))}; "
+            f"cached input {token_usage.get('cached_input_tokens', 0):,} tokens = "
+            f"{_format_currency(cost_breakdown.get('cached_input', 0.0))}; "
+            f"output {token_usage.get('output_tokens', 0):,} tokens = "
+            f"{_format_currency(cost_breakdown.get('output', 0.0))})"
+        ),
+        f"- **Overall Recommended Model Accuracy**: {majority_vote_hits}/{total_ontologies} = {_format_percent(majority_vote_accuracy)}",
         (
             f"- **Baseline (highest reported AUC in PGS Catalog metadata)**: "
             f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}"
         ),
         "",
-        "## Per-Disease Results",
+        "## Experiment Setup",
         "",
-        "| Ontology | N Models | Target_TopK | Trial Hits | Modal Recommendation | Modal In Target | Baseline | Baseline In Target |",
-        "|----------|----------|-------------|------------|----------------------|-----------------|----------|--------------------|",
+        "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_performance_landscape",
+        "- **Domain Knowledge**: Disabled",
+        "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
+        "- **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set",
+        "- **Baseline rule**: choose the candidate model with the highest reported AUC in PGS Catalog metadata",
+        "",
+        "## Results by Disease",
+        "",
+        "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
+        "They are **not** PGS Catalog reported-AUC ranks.",
+        "",
+        "| Ontology | N Models | Target_TopK | Trial Hits | Native GPT Hits Target | Native GPT | Baseline Hits Target | Baseline Models |",
+        "|----------|----------|-------------|------------|------------------------|------------|----------------------|-----------------|",
     ]
 
-    for row in summary["per_disease"]:
-        modal_id = row["modal_recommendation"] or "-"
+    for row in per_disease_rows:
         modal_hit = "Yes" if row["modal_recommendation_in_target_topk"] else "No"
-        baseline_id = (row["baseline"] or {}).get("pgs_id") or "-"
+        recommendation_models = "<br>".join(
+            f"{item['pgs_id']} (AUC rank {item['rank_label']}): x{item['count']}"
+            for item in (row.get("recommended_model_counts") or [])
+        ) or "-"
+        baseline = row.get("baseline") or {}
+        baseline_id = baseline.get("pgs_id")
+        baseline_rank_label = baseline.get("rank_label") or "-"
+        baseline_text = (
+            f"{baseline_id} (AUC rank {baseline_rank_label})"
+            if baseline_id
+            else "-"
+        )
         baseline_hit = "Yes" if row["baseline_in_target_topk"] else "No"
         lines.append(
             f"| {row['ontology']} | {row['n_models']} | {row['target_topk']} | "
             f"{row['trial_hits']}/{summary['trials_per_ontology']} | "
-            f"{modal_id} | {modal_hit} | {baseline_id} | {baseline_hit} |"
+            f"{modal_hit} | {recommendation_models} | {baseline_hit} | {baseline_text} |"
         )
 
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
@@ -886,10 +1428,12 @@ def _collect(batch_id: Optional[str]) -> dict[str, Any]:
         parsed_outputs=parsed_outputs,
         error_map=error_map,
     )
+    summary["cost"] = _estimate_batch_cost(batch.model_dump())
 
     _write_json(RESULTS_JSON, trial_results)
     _write_json(SUMMARY_JSON, summary)
     _write_report(summary)
+    archive_dir = _archive_current_outputs(summary=summary)
 
     job_payload = {
         "batch_id": batch.id,
@@ -911,6 +1455,7 @@ def _collect(batch_id: Optional[str]) -> dict[str, Any]:
     print(f"Results: {RESULTS_JSON}")
     print(f"Summary: {SUMMARY_JSON}")
     print(f"Report:  {REPORT_MD}")
+    print(f"Archive: {archive_dir}")
     return summary
 
 
@@ -918,29 +1463,58 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Contribution2 Experiment 1: Native GPT batch evaluation")
     parser.add_argument(
         "--mode",
-        choices=["prepare", "prepare-submit", "status", "collect"],
+        choices=["prepare", "prepare-submit", "status", "collect", "archive-current", "quick-eval"],
         default="prepare-submit",
         help="Batch workflow step (default: prepare-submit)",
     )
     parser.add_argument("--limit", type=int, default=None, help="Prepare only the first N ontologies for debugging")
     parser.add_argument("--trials", type=int, default=10, help="Number of repeated trials per ontology (default: 10)")
     parser.add_argument("--batch-id", type=str, default=None, help="Optional batch ID override for status/collect")
+    parser.add_argument("--model", type=str, default=None, help="Optional OpenAI model override for this run directory")
+    parser.add_argument("--ontology", action="append", default=None, help="Run only the specified ontology (repeatable)")
+    parser.add_argument("--ontologies-file", type=str, default=None, help="Path to a newline-delimited ontology filter file")
+    parser.add_argument("--run-tag", type=str, default=None, help="Optional tag appended to the run directory name")
+    parser.add_argument(
+        "--refresh-cache",
+        action="store_true",
+        help="Ignore experiment-local prepare cache and refetch candidate metadata",
+    )
     args = parser.parse_args()
 
     if not os.getenv("OPENAI_API_KEY"):
         print("ERROR: OPENAI_API_KEY is not set. Configure .env before running.")
         return 1
 
+    if args.model:
+        os.environ["OPENAI_MODEL"] = args.model
+
+    ontology_filter = _load_ontology_filter(args.ontology, args.ontologies_file)
+    _set_run_paths(trials=args.trials, model=args.model, run_tag=args.run_tag)
+
     try:
         if args.mode == "prepare":
-            _prepare(limit=args.limit, trials=args.trials)
+            _prepare(
+                limit=args.limit,
+                trials=args.trials,
+                refresh_cache=args.refresh_cache,
+                ontology_filter=ontology_filter,
+            )
         elif args.mode == "prepare-submit":
-            _prepare(limit=args.limit, trials=args.trials)
+            _prepare(
+                limit=args.limit,
+                trials=args.trials,
+                refresh_cache=args.refresh_cache,
+                ontology_filter=ontology_filter,
+            )
             _submit_batch()
         elif args.mode == "status":
             _status(batch_id=args.batch_id)
         elif args.mode == "collect":
             _collect(batch_id=args.batch_id)
+        elif args.mode == "archive-current":
+            _archive_current_outputs()
+        elif args.mode == "quick-eval":
+            _quick_eval()
         else:
             raise ValueError(f"Unsupported mode: {args.mode}")
     except Exception as exc:

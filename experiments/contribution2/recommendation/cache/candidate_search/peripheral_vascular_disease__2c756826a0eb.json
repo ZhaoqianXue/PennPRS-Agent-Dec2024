@@ -1,0 +1,156 @@
+{
+  "cache_version": "v1",
+  "ontology": "peripheral vascular disease",
+  "candidate_model_ids": [
+    "PGS005217",
+    "PGS001843",
+    "PGS002055",
+    "PGS005158"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS001843",
+      "trait_reported": "Peripheral vascular disease, unspecified",
+      "trait_efo": "peripheral vascular disease",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 242,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Peripheral vascular disease, unspecified",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009318",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,668"
+    },
+    {
+      "id": "PGS002055",
+      "trait_reported": "Peripheral vascular disease, unspecified",
+      "trait_efo": "peripheral vascular disease",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 599514,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Peripheral vascular disease, unspecified",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009318",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,668"
+    },
+    {
+      "id": "PGS005158",
+      "trait_reported": "Peripheral artery disease",
+      "trait_efo": "peripheral arterial disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: AFR (20%), AMR (8%), EUR (72%) | EVAL: EUR (100%)",
+      "publication": "Modifiable Lifestyle Factors, Genetic Risk, and Incident Peripheral Artery Disease Among Individuals With Type 2 Diabetes: A Prospective Study.",
+      "date_release": "2025-02-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Peripheral artery disease in type 2 diabetes",
+      "covariates": "age (continuous, years), sex (male, female), Townsend Deprivation Index (continuous), race/ethnicity (White, others), education\nattainment (college or university degree, A/AS levels or equivalent or O levels/GCSEs or equivalent or other professional qualifications, or none\nof the above), family history of CVD (yes, no), prevalence of hypertension (yes, no), use of antihypertensive medication (yes, no), use of lipidlowing medication (yes, no), use of aspirin (yes, no), diabetes duration (continuous, years), HbA1c (continuous, %), use of diabetes medication (none, only oral medication pills, or only insulin or combination of oral medications and insulin), genotype measurement batch, the first 10 principal components of ancestry, weighted healthy lifestyle scores (continuous)",
+      "sampleset": "PSS011930",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=243,060",
+      "validation_sample_size": "n=10,836"
+    },
+    {
+      "id": "PGS005217",
+      "trait_reported": "Peripheral artery disease",
+      "trait_efo": "peripheral arterial disease",
+      "method_name": "LDpred2",
+      "variants_number": 1296292,
+      "ancestry_distribution": "GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%)",
+      "publication": "Polygenic Prediction of Peripheral Artery Disease and Major Adverse Limb Events.",
+      "date_release": "2025-06-16",
+      "samples_training": "n=96,239",
+      "performance_metrics": {
+        "auc": 0.731,
+        "r2": 0.316618944460322
+      },
+      "phenotyping_reported": "Incident and prevelant peripheral artery disease",
+      "covariates": "age, sex and the first ten principal components of genetic ancestry",
+      "sampleset": "PSS012027",
+      "training_development_cohorts": [
+        "ARIC",
+        "AWI-Gen",
+        "BBJ",
+        "BioMe",
+        "CARDIA",
+        "CARDIoGRAMplusC4D",
+        "CFS",
+        "CHOP",
+        "CHS",
+        "CKB",
+        "COMPASS",
+        "EPIC_CAD",
+        "GERA",
+        "GerMIFS",
+        "HANDLS",
+        "HISAYAMA",
+        "HRS",
+        "HUNT",
+        "HYPERGEN",
+        "HealthABC",
+        "INTERSTROKE",
+        "JHS",
+        "JOCO",
+        "JUPITER",
+        "KCPS",
+        "LOLIPOP",
+        "MESA",
+        "MGBB",
+        "MVP",
+        "Multiple",
+        "Other",
+        "PMB",
+        "PROMIS",
+        "REGARDS",
+        "RHS",
+        "SIGNET",
+        "SiGN",
+        "UKB",
+        "WHI",
+        "deCODE",
+        "eMERGE"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": "n=8,357,401",
+      "validation_sample_size": "n=304,294"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS005217",
+    "reported_auc": 0.731,
+    "trait_reported": "Peripheral artery disease",
+    "method_name": "LDpred2",
+    "validation_sample_size": "n=304,294",
+    "rank": 1,
+    "rank_label": "1/4"
+  }
+}

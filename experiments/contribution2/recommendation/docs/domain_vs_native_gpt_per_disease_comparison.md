@@ -1,0 +1,856 @@
+# Domain Knowledge vs Native GPT: Per-Disease Comparison
+
+## Scope
+
+This report is a disease-by-disease comparison built from the domain/native experiment summaries and the underlying AoU benchmark matrices.
+
+Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).
+
+Each disease section contains only the candidate-pool summary and the comparison table so the document can be proofread directly against the underlying metadata.
+
+## High-Level Outcome
+
+- Domain GPT: `25/30 = 83.33%`
+- Native GPT: `20/30 = 66.67%`
+- Baseline: `11/30 = 36.67%`
+
+## Per-Disease Tables
+
+### abdominal aortic aneurysm
+
+Candidate pool: `6` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS003973 | PGS003973 | PGS003973 | PGS003973 | Agent Input |
+| AoU benchmark rank | 1/6 | 1/6 | 1/6 | 1/6 | Benchmark Only |
+| AoU benchmark AUC | 0.6374 | 0.6374 | 0.6374 | 0.6374 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 8/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Agent Input |
+| trait_efo | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Agent Input |
+| phenotyping_reported | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Agent Input |
+| method_name | PRS-CS | PRS-CS | PRS-CS | PRS-CS | Agent Input |
+| performance_metrics.auc | 0.8820 | 0.8820 | 0.8820 | 0.8820 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=7,517 | n=7,517 | n=7,517 | n=7,517 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: AFR (8%), EUR (92%)  /  EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%)  /  EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%)  /  EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | Agent Input |
+| publication.title | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Agent Input |
+| publication.journal | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Agent Input |
+| date_release | 2023-11-01 | 2023-11-01 | 2023-11-01 | 2023-11-01 | Agent Input |
+| variants_number | 1118997 | 1118997 | 1118997 | 1118997 | Agent Input |
+| covariates | Age, Age^2, Sex | Age, Age^2, Sex | Age, Age^2, Sex | Age, Age^2, Sex | Agent Input |
+
+
+### age-related macular degeneration
+
+Candidate pool: `6` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS004606 | PGS004606 | PGS004606 | PGS004952 | Agent Input |
+| AoU benchmark rank | 1/6 | 1/6 | 1/6 | 3/6 | Benchmark Only |
+| AoU benchmark AUC | 0.6547 | 0.6547 | 0.6547 | 0.6512 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Age-related macular degeneration | Age-related macular degeneration | Age-related macular degeneration | Age-related macular degeneration | Agent Input |
+| trait_efo | age-related macular degeneration | age-related macular degeneration | age-related macular degeneration | age-related macular degeneration | Agent Input |
+| phenotyping_reported | Age-related macular degeneration | Age-related macular degeneration | Age-related macular degeneration | Early age-related macular degeneration (Clinical Classification) | Agent Input |
+| method_name | PRS-CS | PRS-CS | PRS-CS | Genome-wide significant SNPs | Agent Input |
+| performance_metrics.auc | 0.7100 | 0.7100 | 0.7100 | 0.8420 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=163,011 | n=163,011 | n=163,011 | n=1,780 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | IAMDGC | IAMDGC | IAMDGC | IAMDGC | Agent Input |
+| publication.title | Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries. | Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries. | Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries. | Genetic Risk Score Analysis Supports a Joint View of Two Classification Systems for Age-Related Macular Degeneration. | Agent Input |
+| publication.journal | Nat Genet | Nat Genet | Nat Genet | Invest Ophthalmol Vis Sci | Agent Input |
+| date_release | 2024-02-20 | 2024-02-20 | 2024-02-20 | 2024-09-19 | Agent Input |
+| variants_number | 1000946 | 1000946 | 1000946 | 52 | Agent Input |
+| covariates | age, sex, principal components 1-10 | age, sex, principal components 1-10 | age, sex, principal components 1-10 | Age, sex, survey membership, 10 PCs | Agent Input |
+
+
+### alcohol dependence
+
+Candidate pool: `4` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS002738 | PGS002738 | PGS002738 | N/A | Agent Input |
+| AoU benchmark rank | 1/4 | 1/4 | 1/4 | N/A | Benchmark Only |
+| AoU benchmark AUC | 0.6051 | 0.6051 | 0.6051 | N/A | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | N/A | Benchmark Only |
+| Selection frequency | Benchmark top1 | 8/10 trials | 10/10 trials | N/A | Benchmark Only |
+| trait_reported | Alcohol use disorder | Alcohol use disorder | Alcohol use disorder | N/A | Agent Input |
+| trait_efo | alcohol dependence | alcohol dependence | alcohol dependence | N/A | Agent Input |
+| phenotyping_reported | Alcohol use disorder (AUD) in individuals with family history of AUD | Alcohol use disorder (AUD) in individuals with family history of AUD | Alcohol use disorder (AUD) in individuals with family history of AUD | N/A | Agent Input |
+| method_name | PRS-CS | PRS-CS | PRS-CS | N/A | Agent Input |
+| performance_metrics.auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=7,900 | n=7,900 | n=7,900 | N/A | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%)  /  EVAL: EUR (100%) | GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%)  /  EVAL: EUR (100%) | GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%)  /  EVAL: EUR (100%) | N/A | Agent Input |
+| training_development_cohorts | MVP UKB | MVP UKB | MVP UKB | N/A | Agent Input |
+| publication.title | Evaluating risk for alcohol use disorder: Polygenic risk scores and family history. | Evaluating risk for alcohol use disorder: Polygenic risk scores and family history. | Evaluating risk for alcohol use disorder: Polygenic risk scores and family history. | N/A | Agent Input |
+| publication.journal | Alcohol Clin Exp Res | Alcohol Clin Exp Res | Alcohol Clin Exp Res | N/A | Agent Input |
+| date_release | 2022-08-03 | 2022-08-03 | 2022-08-03 | N/A | Agent Input |
+| variants_number | 326000 | 326000 | 326000 | N/A | Agent Input |
+| covariates | Unknown | Unknown | Unknown | N/A | Agent Input |
+
+
+### ankylosing spondylitis
+
+Candidate pool: `9` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS001876 | PGS001267 | PGS001268 | PGS001268 | Agent Input |
+| AoU benchmark rank | 1/9 | 2/9 | 3/9 | 3/9 | Benchmark Only |
+| AoU benchmark AUC | 0.7415 | 0.7397 | 0.7362 | 0.7362 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Ankylosing spondylitis | Ankylosing spondylitis | Ankylosing spondylitis (time-to-event) | Ankylosing spondylitis (time-to-event) | Agent Input |
+| trait_efo | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | Agent Input |
+| phenotyping_reported | Ankylosing spondylitis | Ankylosing spondylitis | TTE ankylosing spondylitis | TTE ankylosing spondylitis | Agent Input |
+| method_name | Penalized regression (bigstatsr) | snpnet | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | N/A | 0.9891 | 0.9915 | 0.9915 | Agent Input |
+| performance_metrics.r2 | N/A | 0.4432 | 0.4486 | 0.4486 | Agent Input |
+| validation_sample_size | n=18,262 | n=67,425 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | n=391,124 | n=269,704 | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | DEV: EUR (100%)  /  EVAL: EUR (60%), GME (20%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | UKB | UKB | UKB | UKB | Agent Input |
+| publication.title | Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Am J Hum Genet | PLoS Genet | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2022-01-10 | 2021-10-21 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 85 | 10 | 10 | 10 | Agent Input |
+| covariates | sex, age, birth date, deprivation index, 16 PCs | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### aortic stenosis
+
+Candidate pool: `8` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005254 | PGS005254 | PGS005252 | PGS005252 | Agent Input |
+| AoU benchmark rank | 1/8 | 1/8 | 8/8 | 8/8 | Benchmark Only |
+| AoU benchmark AUC | 0.6375 | 0.6375 | 0.3445 | 0.3445 | Benchmark Only |
+| In Target_TopK | Yes | Yes | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Aortic stenosis | Aortic stenosis | Aortic stenosis | Aortic stenosis | Agent Input |
+| trait_efo | aortic stenosis | aortic stenosis | aortic stenosis | aortic stenosis | Agent Input |
+| phenotyping_reported | incident aortic stenosis | incident aortic stenosis | Incident aortic stenosis cases | Incident aortic stenosis cases | Agent Input |
+| method_name | PRS-CS | PRS-CS | LDPred2 | LDPred2 | Agent Input |
+| performance_metrics.auc | N/A | N/A | 0.8700 | 0.8700 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=244,450 | n=244,450 | n=446,895 | n=446,895 | Agent Input |
+| samples_training | n=205,483 | n=205,483 | n=47,691 | n=47,691 | Agent Input |
+| ancestry_distribution | DEV: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | N/A | N/A | MGBB | MGBB | Agent Input |
+| publication.title | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction. | Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction. | Agent Input |
+| publication.journal | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Agent Input |
+| date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | Agent Input |
+| variants_number | 1110912 | 1110912 | 1119377 | 1119377 | Agent Input |
+| covariates | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | age, sex, genetic ancestry principal components 1-5, type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, body mass index, current smoking, renal failure. | age, sex, genetic ancestry principal components 1-5, type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, body mass index, current smoking, renal failure. | Agent Input |
+
+
+### cervical carcinoma
+
+Candidate pool: `6` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000073 | PGS000073 | PGS001299 | PGS001299 | Agent Input |
+| AoU benchmark rank | 1/6 | 1/6 | 6/6 | 6/6 | Benchmark Only |
+| AoU benchmark AUC | 0.6925 | 0.6925 | 0.3401 | 0.3401 | Benchmark Only |
+| In Target_TopK | Yes | Yes | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Cervical cancer | Cervical cancer | Cervical cancer | Cervical cancer | Agent Input |
+| trait_efo | cervical carcinoma | cervical carcinoma | cervical carcinoma | cervical carcinoma | Agent Input |
+| phenotyping_reported | Cervical cancer | Cervical cancer | Cervical cancer | Cervical cancer | Agent Input |
+| method_name | Genome-wide significant variants | Genome-wide significant variants | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | 0.7450 | 0.7450 | 0.9143 | 0.9143 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | 0.2202 | 0.2202 | Agent Input |
+| validation_sample_size | n=226,216 | n=226,216 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | TwinGene | TwinGene | UKB | UKB | Agent Input |
+| publication.title | Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts. | Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Nat Commun | Nat Commun | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2020-02-12 | 2020-02-12 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 10 | 10 | 24 | 24 | Agent Input |
+| covariates | Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs. | Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs. | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### cutaneous melanoma
+
+Candidate pool: `5` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS003382 | PGS003382 | PGS003382 | PGS003382 | Agent Input |
+| AoU benchmark rank | 1/5 | 1/5 | 1/5 | 1/5 | Benchmark Only |
+| AoU benchmark AUC | 0.6239 | 0.6239 | 0.6239 | 0.6239 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 9/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Skin cutaneous melanoma | Skin cutaneous melanoma | Skin cutaneous melanoma | Skin cutaneous melanoma | Agent Input |
+| trait_efo | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | Agent Input |
+| phenotyping_reported | skin cutaneous melanoma | skin cutaneous melanoma | skin cutaneous melanoma | skin cutaneous melanoma | Agent Input |
+| method_name | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Agent Input |
+| performance_metrics.auc | 0.6820 | 0.6820 | 0.6820 | 0.6820 | Agent Input |
+| performance_metrics.r2 | 0.0261 | 0.0261 | 0.0261 | 0.0261 | Agent Input |
+| validation_sample_size | n=273,786 | n=273,786 | n=273,786 | n=273,786 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | N/A | N/A | N/A | N/A | Agent Input |
+| publication.title | Common germline risk variants impact somatic alterations and clinical features across cancers. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Agent Input |
+| publication.journal | Cancer Res | Cancer Res | Cancer Res | Cancer Res | Agent Input |
+| date_release | 2023-01-19 | 2023-01-19 | 2023-01-19 | 2023-01-19 | Agent Input |
+| variants_number | 672 | 672 | 672 | 672 | Agent Input |
+| covariates | age, sex, top 20 genetic principal components | age, sex, top 20 genetic principal components | age, sex, top 20 genetic principal components | age, sex, top 20 genetic principal components | Agent Input |
+
+
+### graves disease
+
+Candidate pool: `7` models. Benchmark `Target_TopK`: `2`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005266 | PGS005265 | PGS005265 | PGS001042 | Agent Input |
+| AoU benchmark rank | 1/7 | 2/7 | 2/7 | 5/7 | Benchmark Only |
+| AoU benchmark AUC | 0.7677 | 0.7535 | 0.7535 | 0.6290 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Graves' disease | Graves' disease | Graves' disease | Thyrotoxicosis [hyperthyroidism] (time-to-event) | Agent Input |
+| trait_efo | Graves disease | Graves disease | Graves disease | Thyrotoxicosis | Agent Input |
+| phenotyping_reported | graves' disease | graves' disease | graves' disease | TTE thyrotoxicosis [hyperthyroidism] | Agent Input |
+| method_name | PRSCS | PRSCS | PRSCS | snpnet | Agent Input |
+| performance_metrics.auc | 0.6637 | 0.6652 | 0.6652 | 0.7429 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | 0.0808 | Agent Input |
+| validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | N/A | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | AllofUs BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | AllofUs BBJ BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | AllofUs BBJ BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | UKB | Agent Input |
+| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | medRxiv | medRxiv | medRxiv | PLoS Genet | Agent Input |
+| date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2021-10-21 | Agent Input |
+| variants_number | 1085170 | 1085173 | 1085173 | 226 | Agent Input |
+| covariates | Unknown | Unknown | Unknown | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### hashimoto's thyroiditis
+
+Candidate pool: `3` models. Benchmark `Target_TopK`: `2`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005272 | PGS005271 | PGS005270 | PGS005270 | Agent Input |
+| AoU benchmark rank | 1/3 | 2/3 | 3/3 | 3/3 | Benchmark Only |
+| AoU benchmark AUC | 0.7941 | 0.7940 | 0.6412 | 0.6412 | Benchmark Only |
+| In Target_TopK | Yes | Yes | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Lymphocytic thyroiditis | Lymphocytic thyroiditis | Lymphocytic thyroiditis | Lymphocytic thyroiditis | Agent Input |
+| trait_efo | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Agent Input |
+| phenotyping_reported | lymphocytic thyroiditis | lymphocytic thyroiditis | lymphocytic thyroiditis | lymphocytic thyroiditis | Agent Input |
+| method_name | PRSCS | PRSCS | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Agent Input |
+| performance_metrics.auc | 0.6054 | 0.6297 | 0.6387 | 0.6387 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=94,651 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | Agent Input |
+| training_development_cohorts | AllofUs BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI NSGHI PMB UKB | AllofUs BBJ BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | AllofUs BBJ BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI NSGHI PMB UKB | AllofUs BBJ BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI NSGHI PMB UKB | Agent Input |
+| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Agent Input |
+| publication.journal | medRxiv | medRxiv | medRxiv | medRxiv | Agent Input |
+| date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | Agent Input |
+| variants_number | 1085142 | 1085156 | 55 | 55 | Agent Input |
+| covariates | Unknown | Unknown | Unknown | Unknown | Agent Input |
+
+
+### hodgkins lymphoma
+
+Candidate pool: `27` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000639 | PGS000639 | PGS000639 | PGS000874 | Agent Input |
+| AoU benchmark rank | 1/27 | 1/27 | 1/27 | 10/27 | Benchmark Only |
+| AoU benchmark AUC | 0.6180 | 0.6180 | 0.6180 | 0.5379 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Hodgkin's disease | Hodgkin's disease | Hodgkin's disease | Chronic lymphocytic leukemia | Agent Input |
+| trait_efo | Hodgkins lymphoma | Hodgkins lymphoma | Hodgkins lymphoma | chronic lymphocytic leukemia | Agent Input |
+| phenotyping_reported | Hodgkin's disease | Hodgkin's disease | Hodgkin's disease | Chronic lymphocytic leukemia | Agent Input |
+| method_name | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Representative SNPs from chronic lymphocytic leukemia susceptibility loci | Agent Input |
+| performance_metrics.auc | 0.6200 | 0.6200 | 0.6200 | 0.8610 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=775 | n=775 | n=775 | n=3,958 | Agent Input |
+| samples_training | n=736 | n=736 | n=736 | N/A | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: NR (50%), AFR (12%), EUR (25%), MAE (12%) | Agent Input |
+| training_development_cohorts | MGI | MGI | MGI | ATBC BCCA CPSII ENGELA EPIC EpiLymph HPFS Italian_GxE MAYO MCCS MSKCC NCI-SEER NHS NSW NYU-WHS PLCO SCALE UCSF UCSF2 UK-CLL UTAH Yale | Agent Input |
+| publication.title | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Association of polygenic risk score with the risk of chronic lymphocytic leukemia and monoclonal B-cell lymphocytosis. | Agent Input |
+| publication.journal | Am J Hum Genet | Am J Hum Genet | Am J Hum Genet | Blood | Agent Input |
+| date_release | 2020-12-15 | 2020-12-15 | 2020-12-15 | 2021-08-26 | Agent Input |
+| variants_number | 20 | 20 | 20 | 41 | Agent Input |
+| covariates | age, sex, batch PCs 1-4 | age, sex, batch PCs 1-4 | age, sex, batch PCs 1-4 | Age, sex, study, socioeconomic status (when available) | Agent Input |
+
+
+### hypertrophic cardiomyopathy
+
+Candidate pool: `4` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS004911 | PGS004911 | PGS004911 | PGS000739 | Agent Input |
+| AoU benchmark rank | 1/4 | 1/4 | 1/4 | 2/4 | Benchmark Only |
+| AoU benchmark AUC | 0.6036 | 0.6036 | 0.6036 | 0.5891 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Hypertrophic cardiomyopathy (MTAG) | Hypertrophic cardiomyopathy (MTAG) | Hypertrophic cardiomyopathy (MTAG) | Hypertrophic cardiomyopathy | Agent Input |
+| trait_efo | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | Agent Input |
+| phenotyping_reported | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Agent Input |
+| method_name | PRS-CS | PRS-CS | PRS-CS | Genome-wide significant variants | Agent Input |
+| performance_metrics.auc | 0.8000 | 0.8000 | 0.8000 | 0.8210 | Agent Input |
+| performance_metrics.r2 | 0.0480 | 0.0480 | 0.0480 | N/A | Agent Input |
+| validation_sample_size | n=343,182 | n=343,182 | n=343,182 | n=184,511 | Agent Input |
+| samples_training | N/A | N/A | N/A | n=47,737 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: NR (2%), AFR (3%), EAS (80%), EUR (90%), OTH (60%), SAS (4%)  /  DEV: MAE (100%)  /  EVAL: EUR (40%), MAE (60%) | Agent Input |
+| training_development_cohorts | BRRD GEL HCMR RBH-CRB | BRRD GEL HCMR RBH-CRB | BRRD GEL HCMR RBH-CRB | BRRD HCMR UKB | Agent Input |
+| publication.title | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Common genetic variants and modifiable risk factors underpin hypertrophic cardiomyopathy susceptibility and expressivity. | Agent Input |
+| publication.journal | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Agent Input |
+| date_release | 2025-02-26 | 2025-02-26 | 2025-02-26 | 2021-02-23 | Agent Input |
+| variants_number | 374114 | 374114 | 374114 | 27 | Agent Input |
+| covariates | age, age^2, sex, PC1-10 | age, age^2, sex, PC1-10 | age, age^2, sex, PC1-10 | Age, gender, PCs(1-10) | Agent Input |
+
+
+### hypothyroidism
+
+Candidate pool: `28` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005268 | PGS005218 | PGS005218 | PGS005218 | Agent Input |
+| AoU benchmark rank | 1/28 | 3/28 | 3/28 | 3/28 | Benchmark Only |
+| AoU benchmark AUC | 0.6575 | 0.6289 | 0.6289 | 0.6289 | Benchmark Only |
+| In Target_TopK | Yes | No | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Agent Input |
+| trait_efo | hypothyroidism | hypothyroidism | hypothyroidism | hypothyroidism | Agent Input |
+| phenotyping_reported | hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Agent Input |
+| method_name | PRSCS | PRS-CS | PRS-CS | PRS-CS | Agent Input |
+| performance_metrics.auc | 0.6389 | 0.8590 | 0.8590 | 0.8590 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=94,651 | n=441,692 | n=441,692 | n=441,692 | Agent Input |
+| samples_training | N/A | n=1,146,562 | n=1,146,562 | n=1,146,562 | Agent Input |
+| ancestry_distribution | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | 23andMe CHB DBDS EB FinnGen UKB deCODE | 23andMe CHB DBDS EB FinnGen UKB deCODE | 23andMe CHB DBDS EB FinnGen UKB deCODE | Agent Input |
+| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Genome-wide association study and polygenic risk prediction of hypothyroidism. | Genome-wide association study and polygenic risk prediction of hypothyroidism. | Genome-wide association study and polygenic risk prediction of hypothyroidism. | Agent Input |
+| publication.journal | medRxiv | Nat Genet | Nat Genet | Nat Genet | Agent Input |
+| date_release | 2026-01-19 | 2025-11-10 | 2025-11-10 | 2025-11-10 | Agent Input |
+| variants_number | 1085173 | 1110091 | 1110091 | 1110091 | Agent Input |
+| covariates | Unknown | age, sex, PC1, PC2, PC3, PC4 | age, sex, PC1, PC2, PC3, PC4 | age, sex, PC1, PC2, PC3, PC4 | Agent Input |
+
+
+### juvenile idiopathic arthritis
+
+Candidate pool: `4` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000114 | PGS000114 | PGS000114 | PGS000324 | Agent Input |
+| AoU benchmark rank | 1/4 | 1/4 | 1/4 | 4/4 | Benchmark Only |
+| AoU benchmark AUC | 0.5768 | 0.5768 | 0.5768 | 0.5230 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Juvenile Idiopathic Arthritis | Juvenile Idiopathic Arthritis | Juvenile Idiopathic Arthritis | Enthesitis-related Juvenile Idiophatic Arthritis | Agent Input |
+| trait_efo | juvenile idiopathic arthritis | juvenile idiopathic arthritis | juvenile idiopathic arthritis | enthesitis-related juvenile idiopathic arthritis | Agent Input |
+| phenotyping_reported | Juvenile Idiopathic Arthritis | Juvenile Idiopathic Arthritis | Juvenile Idiopathic Arthritis | Enthesitis-related Arthritis | Agent Input |
+| method_name | SparSNP | SparSNP | SparSNP | SparSNP | Agent Input |
+| performance_metrics.auc | 0.7380 | 0.7380 | 0.7380 | 0.9300 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=3,513 | n=3,513 | n=3,513 | n=3,020 | Agent Input |
+| samples_training | n=7,505 | n=7,505 | n=7,505 | n=5,354 | Agent Input |
+| ancestry_distribution | DEV: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | B58C UKBS WTCCC | B58C UKBS WTCCC | B58C UKBS WTCCC | B58C UKBS WTCCC | Agent Input |
+| publication.title | Genomic risk scores for juvenile idiopathic arthritis and its subtypes. | Genomic risk scores for juvenile idiopathic arthritis and its subtypes. | Genomic risk scores for juvenile idiopathic arthritis and its subtypes. | Genomic risk scores for juvenile idiopathic arthritis and its subtypes. | Agent Input |
+| publication.journal | Ann Rheum Dis | Ann Rheum Dis | Ann Rheum Dis | Ann Rheum Dis | Agent Input |
+| date_release | 2020-02-27 | 2020-02-27 | 2020-02-27 | 2020-09-18 | Agent Input |
+| variants_number | 26 | 26 | 26 | 138 | Agent Input |
+| covariates | Unknown | Unknown | Unknown | Unknown | Agent Input |
+
+
+### kidney cancer
+
+Candidate pool: `10` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS004908 | PGS004908 | PGS004908 | PGS004908 | Agent Input |
+| AoU benchmark rank | 1/10 | 1/10 | 1/10 | 1/10 | Benchmark Only |
+| AoU benchmark AUC | 0.5824 | 0.5824 | 0.5824 | 0.5824 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Kidney cancer | Kidney cancer | Kidney cancer | Kidney cancer | Agent Input |
+| trait_efo | renal carcinoma | renal carcinoma | renal carcinoma | renal carcinoma | Agent Input |
+| phenotyping_reported | Kidney cancer | Kidney cancer | Kidney cancer | Kidney cancer | Agent Input |
+| method_name | Genome-wide significant SNPs | Genome-wide significant SNPs | Genome-wide significant SNPs | Genome-wide significant SNPs | Agent Input |
+| performance_metrics.auc | 0.7400 | 0.7400 | 0.7400 | 0.7400 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=324,805 | n=324,805 | n=324,805 | n=324,805 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | BBJ FinnGen NCI | BBJ FinnGen NCI | BBJ FinnGen NCI | BBJ FinnGen NCI | Agent Input |
+| publication.title | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Agent Input |
+| publication.journal | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Agent Input |
+| date_release | 2024-05-22 | 2024-05-22 | 2024-05-22 | 2024-05-22 | Agent Input |
+| variants_number | 107 | 107 | 107 | 107 | Agent Input |
+| covariates | Age, sex, PCs, BMI, smoking, hypertension | Age, sex, PCs, BMI, smoking, hypertension | Age, sex, PCs, BMI, smoking, hypertension | Age, sex, PCs, BMI, smoking, hypertension | Agent Input |
+
+
+### late-onset alzheimer's disease
+
+Candidate pool: `5` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000054 | PGS000334 | PGS000334 | PGS004918 | Agent Input |
+| AoU benchmark rank | 1/5 | 3/5 | 3/5 | 4/5 | Benchmark Only |
+| AoU benchmark AUC | 0.5690 | 0.5144 | 0.5144 | 0.5114 | Benchmark Only |
+| In Target_TopK | Yes | No | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 8/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Alzheimer's disease (late onset) | Late-onset Alzheimer’s disease | Late-onset Alzheimer’s disease | Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function) | Agent Input |
+| trait_efo | late-onset Alzheimer's disease | late-onset Alzheimer's disease | late-onset Alzheimer's disease | late-onset Alzheimer's disease | Agent Input |
+| phenotyping_reported | Familial late-onset Alzheimer's disease (LOAD) | Late-onset Alzheimer’s disease | Late-onset Alzheimer’s disease | Late-onset Alzheimer's disease | Agent Input |
+| method_name | Genome-wide significant variants | Clumping and Thresholding (C+T) | Clumping and Thresholding (C+T) | Clumping and Thresholding (C+T) | Agent Input |
+| performance_metrics.auc | N/A | N/A | N/A | 0.7310 | Agent Input |
+| performance_metrics.r2 | N/A | 0.1910 | 0.1910 | N/A | Agent Input |
+| validation_sample_size | n=3,324 | n=5,347 | n=5,347 | n=136 | Agent Input |
+| samples_training | N/A | N/A | N/A | n=439 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: AMR (100%) | GWAS: NR (19%), EUR (81%)  /  EVAL: EUR (100%) | GWAS: NR (19%), EUR (81%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | ACT ADC ADNI AGES CHS EADI FHS GERAD GSK LOAD MAYO MIRAGE OHSU ROSMAP RS TGEN UMVUMSS UPITT WASHU | IGAP UKB | IGAP UKB | ADGC BfDR CHARGE EADI GERAD | Agent Input |
+| publication.title | Polygenic risk scores in familial Alzheimer disease. | Risk prediction of late-onset Alzheimer's disease implies an oligogenic architecture. | Risk prediction of late-onset Alzheimer's disease implies an oligogenic architecture. | Genetic variants in glutamate-, Aβ-, and tau-related pathways determine polygenic risk for Alzheimer's disease. | Agent Input |
+| publication.journal | Neurology | Nat Commun | Nat Commun | Neurobiol Aging | Agent Input |
+| date_release | 2019-12-18 | 2020-10-16 | 2020-10-16 | 2024-06-12 | Agent Input |
+| variants_number | 21 | 22 | 22 | 8 | Agent Input |
+| covariates | Age, sex | Unknown | Unknown | Unknown | Agent Input |
+
+
+### nodular goiter
+
+Candidate pool: `7` models. Benchmark `Target_TopK`: `2`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005263 | PGS005262 | PGS005262 | PGS005273 | Agent Input |
+| AoU benchmark rank | 1/7 | 2/7 | 2/7 | 6/7 | Benchmark Only |
+| AoU benchmark AUC | 0.7033 | 0.6911 | 0.6911 | 0.4540 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Benign nodular goiter | Benign nodular goiter | Benign nodular goiter | Thyroid carcenoma vs benign nodular goiter | Agent Input |
+| trait_efo | benign, nodular goiter | benign, nodular goiter | benign, nodular goiter | benign, thyroid carcinoma, nodular goiter | Agent Input |
+| phenotyping_reported | benign nodular gioter | benign nodular gioter | benign nodular gioter | thyroid carcenoma vs benign nodular goiter | Agent Input |
+| method_name | PRSCS | PRSCS | PRSCS | PRSCS | Agent Input |
+| performance_metrics.auc | 0.5876 | 0.5933 | 0.5933 | 0.6174 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=94,651 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: NR (100%)  /  EVAL: MAE (100%) | Agent Input |
+| training_development_cohorts | AllofUs BioMe BioVU EXCEED FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB HUNT MGBB MGI NSGHI PMB UKB | Agent Input |
+| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Agent Input |
+| publication.journal | medRxiv | medRxiv | medRxiv | medRxiv | Agent Input |
+| date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | Agent Input |
+| variants_number | 1085170 | 1085173 | 1085173 | 1085164 | Agent Input |
+| covariates | Unknown | Unknown | Unknown | Unknown | Agent Input |
+
+
+### obesity
+
+Candidate pool: `10` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005235 | PGS005235 | PGS001298 | PGS001298 | Agent Input |
+| AoU benchmark rank | 1/10 | 1/10 | 8/10 | 8/10 | Benchmark Only |
+| AoU benchmark AUC | 0.6311 | 0.6311 | 0.5549 | 0.5549 | Benchmark Only |
+| In Target_TopK | Yes | Yes | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 6/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Adiposity | Adiposity | Obesity (time-to-event) | Obesity (time-to-event) | Agent Input |
+| trait_efo | obesity | obesity | obesity | obesity | Agent Input |
+| phenotyping_reported | Obesity (phecode: 278.1) | Obesity (phecode: 278.1) | TTE obesity | TTE obesity | Agent Input |
+| method_name | LDpred2-auto | LDpred2-auto | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | N/A | N/A | 0.6533 | 0.6533 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | 0.0423 | 0.0423 | Agent Input |
+| validation_sample_size | n=100,960 | n=100,960 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | EGG GIANT UKB | EGG GIANT UKB | UKB | UKB | Agent Input |
+| publication.title | Modeling the genomic architecture of adiposity and anthropometrics across the lifespan. | Modeling the genomic architecture of adiposity and anthropometrics across the lifespan. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Nat Commun | Nat Commun | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2025-10-06 | 2025-10-06 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 709828 | 709828 | 9227 | 9227 | Agent Input |
+| covariates | age, sex, batch, and the first 10 genetic principal components | age, sex, batch, and the first 10 genetic principal components | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### obstructive sleep apnea
+
+Candidate pool: `20` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005220 | PGS005220 | PGS005220 | PGS005219 | Agent Input |
+| AoU benchmark rank | 1/20 | 1/20 | 1/20 | 2/20 | Benchmark Only |
+| AoU benchmark AUC | 0.5784 | 0.5784 | 0.5784 | 0.5454 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (AdjustedBMI) | Agent Input |
+| trait_efo | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | Agent Input |
+| phenotyping_reported | Obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Agent Input |
+| method_name | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | Agent Input |
+| performance_metrics.auc | 0.7900 | 0.7900 | 0.7900 | 0.7900 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=21,975 | n=21,975 | n=21,975 | n=21,975 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | Agent Input |
+| training_development_cohorts | FinnGen MGBB MVP | FinnGen MGBB MVP | FinnGen MGBB MVP | FinnGen MGBB MVP | Agent Input |
+| publication.title | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Agent Input |
+| publication.journal | EBioMedicine | EBioMedicine | EBioMedicine | EBioMedicine | Agent Input |
+| date_release | 2025-06-16 | 2025-06-16 | 2025-06-16 | 2025-06-16 | Agent Input |
+| variants_number | 984184 | 984184 | 984184 | 982740 | Agent Input |
+| covariates | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | Agent Input |
+
+
+### open-angle glaucoma
+
+Candidate pool: `5` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS004944 | PGS004944 | PGS004944 | PGS001797 | Agent Input |
+| AoU benchmark rank | 1/5 | 1/5 | 1/5 | 2/5 | Benchmark Only |
+| AoU benchmark AUC | 0.6405 | 0.6405 | 0.6405 | 0.6264 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma | Agent Input |
+| trait_efo | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | Agent Input |
+| phenotyping_reported | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma | Agent Input |
+| method_name | Lassosum | Lassosum | Lassosum | PRS-CS-auto | Agent Input |
+| performance_metrics.auc | 0.7480 | 0.7480 | 0.7480 | 0.7490 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=407,667 | n=407,667 | n=407,667 | n=7,128 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: AFR (2%), EAS (12%), EUR (86%)  /  EVAL: MAE (100%) | GWAS: AFR (2%), EAS (12%), EUR (86%)  /  EVAL: MAE (100%) | GWAS: AFR (2%), EAS (12%), EUR (86%)  /  EVAL: MAE (100%) | GWAS: AFR (2%), ASN (60%), EAS (18%), EUR (79%), OTH (60%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | N/A | N/A | N/A | BBJ BioMe BioVU CCPM EB FinnGen HUNT MGBB MGI TWB UCLA UKB | Agent Input |
+| publication.title | Deep Ocular Phenotyping Across Primary Open-Angle Glaucoma Genetic Burden. | Deep Ocular Phenotyping Across Primary Open-Angle Glaucoma Genetic Burden. | Deep Ocular Phenotyping Across Primary Open-Angle Glaucoma Genetic Burden. | Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts. | Agent Input |
+| publication.journal | JAMA Ophthalmol | JAMA Ophthalmol | JAMA Ophthalmol | Cell Genom | Agent Input |
+| date_release | 2024-08-29 | 2024-08-29 | 2024-08-29 | 2022-09-08 | Agent Input |
+| variants_number | 144019 | 144019 | 144019 | 885417 | Agent Input |
+| covariates | Age, age2, sex, ancestry | Age, age2, sex, ancestry | Age, age2, sex, ancestry | sex,age, 20PCs | Agent Input |
+
+
+### peripheral vascular disease
+
+Candidate pool: `4` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005217 | PGS005217 | PGS005217 | PGS005217 | Agent Input |
+| AoU benchmark rank | 1/4 | 1/4 | 1/4 | 1/4 | Benchmark Only |
+| AoU benchmark AUC | 0.5862 | 0.5862 | 0.5862 | 0.5862 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Peripheral artery disease | Peripheral artery disease | Peripheral artery disease | Peripheral artery disease | Agent Input |
+| trait_efo | peripheral arterial disease | peripheral arterial disease | peripheral arterial disease | peripheral arterial disease | Agent Input |
+| phenotyping_reported | Incident and prevelant peripheral artery disease | Incident and prevelant peripheral artery disease | Incident and prevelant peripheral artery disease | Incident and prevelant peripheral artery disease | Agent Input |
+| method_name | LDpred2 | LDpred2 | LDpred2 | LDpred2 | Agent Input |
+| performance_metrics.auc | 0.7310 | 0.7310 | 0.7310 | 0.7310 | Agent Input |
+| performance_metrics.r2 | 0.3166 | 0.3166 | 0.3166 | 0.3166 | Agent Input |
+| validation_sample_size | n=304,294 | n=304,294 | n=304,294 | n=304,294 | Agent Input |
+| samples_training | n=96,239 | n=96,239 | n=96,239 | n=96,239 | Agent Input |
+| ancestry_distribution | GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%)  /  DEV: EUR (100%)  /  EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%) | GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%)  /  DEV: EUR (100%)  /  EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%) | GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%)  /  DEV: EUR (100%)  /  EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%) | GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%)  /  DEV: EUR (100%)  /  EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%) | Agent Input |
+| training_development_cohorts | ARIC AWI-Gen BBJ BioMe CARDIA CARDIoGRAMplusC4D CFS CHOP CHS CKB COMPASS EPIC_CAD GERA GerMIFS HANDLS HISAYAMA HRS HUNT HYPERGEN HealthABC INTERSTROKE JHS JOCO JUPITER KCPS LOLIPOP MESA MGBB MVP Multiple Other PMB PROMIS REGARDS RHS SIGNET SiGN UKB WHI deCODE eMERGE | ARIC AWI-Gen BBJ BioMe CARDIA CARDIoGRAMplusC4D CFS CHOP CHS CKB COMPASS EPIC_CAD GERA GerMIFS HANDLS HISAYAMA HRS HUNT HYPERGEN HealthABC INTERSTROKE JHS JOCO JUPITER KCPS LOLIPOP MESA MGBB MVP Multiple Other PMB PROMIS REGARDS RHS SIGNET SiGN UKB WHI deCODE eMERGE | ARIC AWI-Gen BBJ BioMe CARDIA CARDIoGRAMplusC4D CFS CHOP CHS CKB COMPASS EPIC_CAD GERA GerMIFS HANDLS HISAYAMA HRS HUNT HYPERGEN HealthABC INTERSTROKE JHS JOCO JUPITER KCPS LOLIPOP MESA MGBB MVP Multiple Other PMB PROMIS REGARDS RHS SIGNET SiGN UKB WHI deCODE eMERGE | ARIC AWI-Gen BBJ BioMe CARDIA CARDIoGRAMplusC4D CFS CHOP CHS CKB COMPASS EPIC_CAD GERA GerMIFS HANDLS HISAYAMA HRS HUNT HYPERGEN HealthABC INTERSTROKE JHS JOCO JUPITER KCPS LOLIPOP MESA MGBB MVP Multiple Other PMB PROMIS REGARDS RHS SIGNET SiGN UKB WHI deCODE eMERGE | Agent Input |
+| publication.title | Polygenic Prediction of Peripheral Artery Disease and Major Adverse Limb Events. | Polygenic Prediction of Peripheral Artery Disease and Major Adverse Limb Events. | Polygenic Prediction of Peripheral Artery Disease and Major Adverse Limb Events. | Polygenic Prediction of Peripheral Artery Disease and Major Adverse Limb Events. | Agent Input |
+| publication.journal | JAMA Cardiol | JAMA Cardiol | JAMA Cardiol | JAMA Cardiol | Agent Input |
+| date_release | 2025-06-16 | 2025-06-16 | 2025-06-16 | 2025-06-16 | Agent Input |
+| variants_number | 1296292 | 1296292 | 1296292 | 1296292 | Agent Input |
+| covariates | age, sex and the first ten principal components of genetic ancestry | age, sex and the first ten principal components of genetic ancestry | age, sex and the first ten principal components of genetic ancestry | age, sex and the first ten principal components of genetic ancestry | Agent Input |
+
+
+### preeclampsia
+
+Candidate pool: `3` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS003586 | PGS003586 | PGS003586 | N/A | Agent Input |
+| AoU benchmark rank | 1/3 | 1/3 | 1/3 | N/A | Benchmark Only |
+| AoU benchmark AUC | 0.8077 | 0.8077 | 0.8077 | N/A | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | N/A | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | N/A | Benchmark Only |
+| trait_reported | Pre-eclampsia | Pre-eclampsia | Pre-eclampsia | N/A | Agent Input |
+| trait_efo | preeclampsia | preeclampsia | preeclampsia | N/A | Agent Input |
+| phenotyping_reported | Pre-eclampsia/eclampsia | Pre-eclampsia/eclampsia | Pre-eclampsia/eclampsia | N/A | Agent Input |
+| method_name | PRS-CS | PRS-CS | PRS-CS | N/A | Agent Input |
+| performance_metrics.auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=25,582 | n=25,582 | n=25,582 | N/A | Agent Input |
+| samples_training | n=212,034 | n=212,034 | n=212,034 | N/A | Agent Input |
+| ancestry_distribution | GWAS: AFR (30%), AMR (50%), ASN (21%), EUR (78%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: AFR (30%), AMR (50%), ASN (21%), EUR (78%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: AFR (30%), AMR (50%), ASN (21%), EUR (78%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | N/A | Agent Input |
+| training_development_cohorts | BBJ BioMe EB FinnGen G&H InterPregGen MGBB MGI UKB | BBJ BioMe EB FinnGen G&H InterPregGen MGBB MGI UKB | BBJ BioMe EB FinnGen G&H InterPregGen MGBB MGI UKB | N/A | Agent Input |
+| publication.title | Polygenic prediction of preeclampsia and gestational hypertension. | Polygenic prediction of preeclampsia and gestational hypertension. | Polygenic prediction of preeclampsia and gestational hypertension. | N/A | Agent Input |
+| publication.journal | Nat Med | Nat Med | Nat Med | N/A | Agent Input |
+| date_release | 2023-06-22 | 2023-06-22 | 2023-06-22 | N/A | Agent Input |
+| variants_number | 1087033 | 1087033 | 1087033 | N/A | Agent Input |
+| covariates | maternal age at delivery, age2, and the first ten principal components of genetic ancestry | maternal age at delivery, age2, and the first ten principal components of genetic ancestry | maternal age at delivery, age2, and the first ten principal components of genetic ancestry | N/A | Agent Input |
+
+
+### prostate cancer
+
+Candidate pool: `96` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000566 | PGS000719 | PGS005237 | PGS001291 | Agent Input |
+| AoU benchmark rank | 1/96 | 11/96 | 72/96 | 18/96 | Benchmark Only |
+| AoU benchmark AUC | 0.6550 | 0.5589 | 0.5205 | 0.5551 | Benchmark Only |
+| In Target_TopK | Yes | No | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 4/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Prostate cancer | Prostate cancer | Prostate carcinoma | Prostate cancer | Agent Input |
+| trait_efo | prostate carcinoma | prostate carcinoma | prostate carcinoma | prostate carcinoma | Agent Input |
+| phenotyping_reported | Cancer of prostate | Incident prostate cancer | 5-year incident prostate cancer | Prostate cancer | Agent Input |
+| method_name | PRS-CS | Genome-wide significant variants | SCT (Stacked Clumping and Thresholding) | snpnet | Agent Input |
+| performance_metrics.auc | 0.5910 | 0.6690 | 0.8450 | 0.9701 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | 0.4016 | Agent Input |
+| validation_sample_size | n=5,607 | n=400,812 | n=184,010 | n=67,425 | Agent Input |
+| samples_training | n=5,650 | N/A | n=10,000 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%)  /  DEV: EUR (100%)  /  EVAL: AFR (20%), EUR (60%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | MGI | N/A | UKB | UKB | Agent Input |
+| publication.title | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers. | Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Am J Hum Genet | JNCI Cancer Spectr | HGG Adv | PLoS Genet | Agent Input |
+| date_release | 2020-12-15 | 2021-02-03 | 2025-10-06 | 2021-10-21 | Agent Input |
+| variants_number | 1111494 | 134 | 517551 | 948 | Agent Input |
+| covariates | age, sex, batch PCs 1-4 | Genotyping array | - | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### pulmonary embolism
+
+Candidate pool: `7` models. Benchmark `Target_TopK`: `4`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS001278 | PGS001279 | PGS001279 | PGS001279 | Agent Input |
+| AoU benchmark rank | 1/7 | 4/7 | 4/7 | 4/7 | Benchmark Only |
+| AoU benchmark AUC | 0.5943 | 0.5885 | 0.5885 | 0.5885 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 9/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | previously: Blood clot in the leg (DVT) or lung | previously: Blood clot in the lung | previously: Blood clot in the lung | previously: Blood clot in the lung | Agent Input |
+| trait_efo | pulmonary embolism, deep vein thrombosis | pulmonary embolism, deep vein thrombosis | pulmonary embolism, deep vein thrombosis | pulmonary embolism, deep vein thrombosis | Agent Input |
+| phenotyping_reported | Blood clot in the leg (DVT) or lung | Blood clot in the lung | Blood clot in the lung | Blood clot in the lung | Agent Input |
+| method_name | snpnet | snpnet | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | 0.6674 | 0.8256 | 0.8256 | 0.8256 | Agent Input |
+| performance_metrics.r2 | 0.0364 | 0.1674 | 0.1674 | 0.1674 | Agent Input |
+| validation_sample_size | n=67,349 | n=67,349 | n=67,349 | n=67,349 | Agent Input |
+| samples_training | n=269,382 | n=269,382 | n=269,382 | n=269,382 | Agent Input |
+| ancestry_distribution | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | UKB | UKB | UKB | UKB | Agent Input |
+| publication.title | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | PLoS Genet | PLoS Genet | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2021-10-21 | 2021-10-21 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 551 | 94 | 94 | 94 | Agent Input |
+| covariates | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### renal carcinoma
+
+Candidate pool: `8` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS004908 | PGS004908 | PGS004908 | PGS004908 | Agent Input |
+| AoU benchmark rank | 1/8 | 1/8 | 1/8 | 1/8 | Benchmark Only |
+| AoU benchmark AUC | 0.5824 | 0.5824 | 0.5824 | 0.5824 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Kidney cancer | Kidney cancer | Kidney cancer | Kidney cancer | Agent Input |
+| trait_efo | renal carcinoma | renal carcinoma | renal carcinoma | renal carcinoma | Agent Input |
+| phenotyping_reported | Kidney cancer | Kidney cancer | Kidney cancer | Kidney cancer | Agent Input |
+| method_name | Genome-wide significant SNPs | Genome-wide significant SNPs | Genome-wide significant SNPs | Genome-wide significant SNPs | Agent Input |
+| performance_metrics.auc | 0.7400 | 0.7400 | 0.7400 | 0.7400 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=324,805 | n=324,805 | n=324,805 | n=324,805 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | BBJ FinnGen NCI | BBJ FinnGen NCI | BBJ FinnGen NCI | BBJ FinnGen NCI | Agent Input |
+| publication.title | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions. | Agent Input |
+| publication.journal | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Agent Input |
+| date_release | 2024-05-22 | 2024-05-22 | 2024-05-22 | 2024-05-22 | Agent Input |
+| variants_number | 107 | 107 | 107 | 107 | Agent Input |
+| covariates | Age, sex, PCs, BMI, smoking, hypertension | Age, sex, PCs, BMI, smoking, hypertension | Age, sex, PCs, BMI, smoking, hypertension | Age, sex, PCs, BMI, smoking, hypertension | Agent Input |
+
+
+### skin carcinoma in situ
+
+Candidate pool: `3` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000471 | PGS000471 | PGS000471 | PGS000471 | Agent Input |
+| AoU benchmark rank | 1/3 | 1/3 | 1/3 | 1/3 | Benchmark Only |
+| AoU benchmark AUC | 0.6010 | 0.6010 | 0.6010 | 0.6010 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Carcinoma in situ of skin | Carcinoma in situ of skin | Carcinoma in situ of skin | Carcinoma in situ of skin | Agent Input |
+| trait_efo | skin carcinoma in situ | skin carcinoma in situ | skin carcinoma in situ | skin carcinoma in situ | Agent Input |
+| phenotyping_reported | Carcinoma in situ of skin | Carcinoma in situ of skin | Carcinoma in situ of skin | Carcinoma in situ of skin | Agent Input |
+| method_name | lassosum | lassosum | lassosum | lassosum | Agent Input |
+| performance_metrics.auc | 0.5690 | 0.5690 | 0.5690 | 0.5690 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=5,500 | n=5,500 | n=5,500 | n=5,500 | Agent Input |
+| samples_training | n=6,005 | n=6,005 | n=6,005 | n=6,005 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | MGI | MGI | MGI | MGI | Agent Input |
+| publication.title | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Agent Input |
+| publication.journal | Am J Hum Genet | Am J Hum Genet | Am J Hum Genet | Am J Hum Genet | Agent Input |
+| date_release | 2020-12-15 | 2020-12-15 | 2020-12-15 | 2020-12-15 | Agent Input |
+| variants_number | 7 | 7 | 7 | 7 | Agent Input |
+| covariates | age, sex, batch PCs 1-4 | age, sex, batch PCs 1-4 | age, sex, batch PCs 1-4 | age, sex, batch PCs 1-4 | Agent Input |
+
+
+### sleep apnea
+
+Candidate pool: `20` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005220 | PGS005220 | PGS005220 | PGS005219 | Agent Input |
+| AoU benchmark rank | 1/20 | 1/20 | 1/20 | 2/20 | Benchmark Only |
+| AoU benchmark AUC | 0.5784 | 0.5784 | 0.5784 | 0.5454 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 9/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (AdjustedBMI) | Agent Input |
+| trait_efo | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | Agent Input |
+| phenotyping_reported | Obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Agent Input |
+| method_name | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | Agent Input |
+| performance_metrics.auc | 0.7900 | 0.7900 | 0.7900 | 0.7900 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=21,975 | n=21,975 | n=21,975 | n=21,975 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%)  /  EVAL: MAE (100%) | Agent Input |
+| training_development_cohorts | FinnGen MGBB MVP | FinnGen MGBB MVP | FinnGen MGBB MVP | FinnGen MGBB MVP | Agent Input |
+| publication.title | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Agent Input |
+| publication.journal | EBioMedicine | EBioMedicine | EBioMedicine | EBioMedicine | Agent Input |
+| date_release | 2025-06-16 | 2025-06-16 | 2025-06-16 | 2025-06-16 | Agent Input |
+| variants_number | 984184 | 984184 | 984184 | 982740 | Agent Input |
+| covariates | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | Agent Input |
+
+
+### testicular neoplasm
+
+Candidate pool: `14` models. Benchmark `Target_TopK`: `5`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000796 | PGS000796 | PGS001164 | PGS001164 | Agent Input |
+| AoU benchmark rank | 1/14 | 1/14 | 3/14 | 3/14 | Benchmark Only |
+| AoU benchmark AUC | 0.9212 | 0.9212 | 0.9044 | 0.9044 | Benchmark Only |
+| In Target_TopK | Yes | Yes | Yes | Yes | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Testicular cancer | Testicular cancer | Testicular cancer | Testicular cancer | Agent Input |
+| trait_efo | testicular carcinoma, Testicular Germ Cell Tumor | testicular carcinoma, Testicular Germ Cell Tumor | testicular carcinoma | testicular carcinoma | Agent Input |
+| phenotyping_reported | Incident testicular cancer | Incident testicular cancer | Testicular cancer | Testicular cancer | Agent Input |
+| method_name | 52 variants from Graff et al (PGS000086) with inverse variant weights | 52 variants from Graff et al (PGS000086) with inverse variant weights | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | 0.7870 | 0.7870 | 0.9816 | 0.9816 | Agent Input |
+| performance_metrics.r2 | 0.6050 | 0.6050 | 0.2970 | 0.2970 | Agent Input |
+| validation_sample_size | n=179,537 | n=179,537 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: EUR (67%), SAS (33%) | DEV: EUR (100%)  /  EVAL: EUR (67%), SAS (33%) | Agent Input |
+| training_development_cohorts | B58C BCAC FCCC NCI Penn PennCATH SEARCH Sweden UKBS UKGPCS UKTCC UPENN | B58C BCAC FCCC NCI Penn PennCATH SEARCH Sweden UKBS UKGPCS UKTCC UPENN | UKB | UKB | Agent Input |
+| publication.title | Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction. | Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Nat Commun | Nat Commun | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2021-05-28 | 2021-05-28 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 52 | 52 | 280 | 280 | Agent Input |
+| covariates | Age at assessment, genotyping array, PCs(1-15) | Age at assessment, genotyping array, PCs(1-15) | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### thyroid carcinoma
+
+Candidate pool: `32` models. Benchmark `Target_TopK`: `3`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS005260 | PGS004954 | PGS001289 | PGS001289 | Agent Input |
+| AoU benchmark rank | 1/32 | 8/32 | 24/32 | 24/32 | Benchmark Only |
+| AoU benchmark AUC | 0.8113 | 0.6099 | 0.5636 | 0.5636 | Benchmark Only |
+| In Target_TopK | Yes | No | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 9/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Thyroid carcenoma | Thyroid cancer | Thyroid cancer | Thyroid cancer | Agent Input |
+| trait_efo | thyroid carcinoma | thyroid carcinoma | thyroid carcinoma | thyroid carcinoma | Agent Input |
+| phenotyping_reported | thyroid carcenoma | Thyroid cancer | Thyroid cancer | Thyroid cancer | Agent Input |
+| method_name | PRSCS | Genome-wide significant SNPs | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | 0.6845 | 0.7000 | 0.8323 | 0.8323 | Agent Input |
+| performance_metrics.r2 | N/A | N/A | 0.1670 | 0.1670 | Agent Input |
+| validation_sample_size | n=94,651 | n=73,346 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: NR (100%)  /  EVAL: MAE (100%) | GWAS: AFR (90%), AMR (70%), EAS (16%), EUR (83%)  /  EVAL: MAE (100%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | AllofUs BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | N/A | UKB | UKB | Agent Input |
+| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Thyroid Cancer Polygenic Risk Score Improves Classification of Thyroid Nodules as Benign or Malignant. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | medRxiv | J Clin Endocrinol Metab | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2026-01-19 | 2024-09-19 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 1085170 | 26 | 11 | 11 | Agent Input |
+| covariates | Unknown | Age, sex, genotyping batch, 10 PCs | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### uterine carcinoma
+
+Candidate pool: `14` models. Benchmark `Target_TopK`: `4`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000075 | PGS003381 | PGS001795 | PGS001299 | Agent Input |
+| AoU benchmark rank | 1/14 | 3/14 | 9/14 | 10/14 | Benchmark Only |
+| AoU benchmark AUC | 0.6120 | 0.5970 | 0.5044 | 0.4564 | Benchmark Only |
+| In Target_TopK | Yes | Yes | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Endometrial cancer | Uterine endometrial carcinoma | Uterine cancer | Cervical cancer | Agent Input |
+| trait_efo | endometrial carcinoma | endometrial carcinoma | uterine carcinoma | cervical carcinoma | Agent Input |
+| phenotyping_reported | Endometrial cancer | uterine endometrial carcinoma | Uterine cancer | Cervical cancer | Agent Input |
+| method_name | Genome-wide significant variants | lassosum | PRS-CS-auto | snpnet | Agent Input |
+| performance_metrics.auc | 0.7550 | 0.7610 | 0.6600 | 0.9143 | Agent Input |
+| performance_metrics.r2 | N/A | 0.1100 | N/A | 0.2202 | Agent Input |
+| validation_sample_size | n=221,699 | n=144,479 | n=170,276 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | N/A | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: NR (34%), EUR (66%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EAS (15%), EUR (84%), OTH (80%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | N/A | N/A | BBJ BioMe BioVU CCPM CKB EB FinnGen HUNT MGBB MGI deCODE | UKB | Agent Input |
+| publication.title | Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Nat Commun | Cancer Res | Cell Genom | PLoS Genet | Agent Input |
+| date_release | 2020-02-12 | 2023-01-19 | 2022-09-08 | 2021-10-21 | Agent Input |
+| variants_number | 9 | 529365 | 911692 | 24 | Agent Input |
+| covariates | Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs. | age, top 20 genetic principal components | sex,age,age2,age*sex,age^2*sex, 20PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+
+
+### vitiligo
+
+Candidate pool: `3` models. Benchmark `Target_TopK`: `1`.
+
+| Field | Top1 | Domain GPT | Native GPT | Baseline | Field Type |
+| --- | --- | --- | --- | --- | --- |
+| Selected PGS ID | PGS000760 | PGS000738 | PGS001536 | PGS001536 | Agent Input |
+| AoU benchmark rank | 1/3 | 2/3 | 3/3 | 3/3 | Benchmark Only |
+| AoU benchmark AUC | 0.6417 | 0.6276 | 0.5669 | 0.5669 | Benchmark Only |
+| In Target_TopK | Yes | No | No | No | Benchmark Only |
+| Selection frequency | Benchmark top1 | 10/10 trials | 10/10 trials | Rule-based baseline | Benchmark Only |
+| trait_reported | Vitiligo | Vitiligo | Vitiligo (time-to-event) | Vitiligo (time-to-event) | Agent Input |
+| trait_efo | Vitiligo | Vitiligo | Vitiligo | Vitiligo | Agent Input |
+| phenotyping_reported | anti-PD-L1 induced hypothyroidism in cancer patients | Vitiligo | TTE vitiligo | TTE vitiligo | Agent Input |
+| method_name | GCTA-COJO forward selection highest PPA variants | Genome-wide significant variants | snpnet | snpnet | Agent Input |
+| performance_metrics.auc | N/A | N/A | 0.8277 | 0.8277 | Agent Input |
+| performance_metrics.r2 | N/A | 0.0325 | 0.0805 | 0.0805 | Agent Input |
+| validation_sample_size | n=1,584 | n=4,987 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | n=408,959 | N/A | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%)  /  DEV: EUR (100%)  /  EVAL: EUR (100%) | GWAS: EUR (100%)  /  EVAL: EUR (100%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%)  /  EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | UKB | N/A | UKB | UKB | Agent Input |
+| publication.title | Genetic variation associated with thyroid autoimmunity shapes the systemic immune response to PD-1 checkpoint blockade. | Family Clustering of Autoimmune Vitiligo Results Principally from Polygenic Inheritance of Common Risk Alleles. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Nat Commun | Am J Hum Genet | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2021-06-11 | 2021-02-23 | 2021-11-25 | 2021-11-25 | Agent Input |
+| variants_number | 42 | 48 | 77 | 77 | Agent Input |
+| covariates | 5 genotype PCs | Unknown | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |

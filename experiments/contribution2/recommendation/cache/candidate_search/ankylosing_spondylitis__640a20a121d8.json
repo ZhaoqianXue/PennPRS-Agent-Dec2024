@@ -1,0 +1,233 @@
+{
+  "cache_version": "v1",
+  "ontology": "ankylosing spondylitis",
+  "candidate_model_ids": [
+    "PGS001268",
+    "PGS003423",
+    "PGS001267",
+    "PGS002089",
+    "PGS003420",
+    "PGS001876",
+    "PGS003424",
+    "PGS003422",
+    "PGS003421"
+  ],
+  "total_found": 9,
+  "candidate_models": [
+    {
+      "id": "PGS001267",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "snpnet",
+      "variants_number": 10,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.98913,
+        "r2": 0.44316
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS004486",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001268",
+      "trait_reported": "Ankylosing spondylitis (time-to-event)",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "snpnet",
+      "variants_number": 10,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.99148,
+        "r2": 0.44858
+      },
+      "phenotyping_reported": "TTE ankylosing spondylitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS004228",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001876",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 85,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (60%), GME (20%), SAS (20%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009353",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=18,262"
+    },
+    {
+      "id": "PGS002089",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 22026,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (60%), GME (20%), SAS (20%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009353",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=18,262"
+    },
+    {
+      "id": "PGS003420",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "PRS-CS",
+      "variants_number": 100,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.7886,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "sampleset": "PSS010115",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=144",
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003421",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.7876,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "sampleset": "PSS010115",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=144",
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003422",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "PRSice-2",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.7876,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "sampleset": "PSS010115",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=144",
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003423",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "lassosum",
+      "variants_number": 100,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.7754,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "sampleset": "PSS010115",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=144",
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003424",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "LDpred2",
+      "variants_number": 100,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.7605,
+        "r2": null
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "sampleset": "PSS010115",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=144",
+      "validation_sample_size": "n=1,298"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001268",
+    "reported_auc": 0.9915,
+    "trait_reported": "Ankylosing spondylitis (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425",
+    "rank": 3,
+    "rank_label": "3/9"
+  }
+}

@@ -15,16 +15,13 @@ def _one_model_result() -> PGSSearchResult:
         method_name="LDpred2",
         variants_number=1000,
         ancestry_distribution="GWAS: EUR (100%) | EVAL: EUR (100%)",
-        publication="Test publication",
+        publication={"title": "Test publication", "journal": "Test Journal"},
         date_release="2024-01-01",
         samples_training="n=100000",
         performance_metrics={"auc": 0.7, "r2": 0.05},
         phenotyping_reported="Test Trait",
         covariates="age, sex",
-        sampleset=None,
         training_development_cohorts=["UKB"],
-        variants_genomebuild="GRCh37",
-        samples_variants="n=120000",
         validation_sample_size="n=5000",
     )
     return PGSSearchResult(

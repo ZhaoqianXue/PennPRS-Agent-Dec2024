@@ -1,0 +1,113 @@
+{
+  "cache_version": "v1",
+  "ontology": "alcohol dependence",
+  "candidate_model_ids": [
+    "PGS002739",
+    "PGS002738",
+    "PGS000202",
+    "PGS000201"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS000201",
+      "trait_reported": "Problematic alcohol use",
+      "trait_efo": "alcohol dependence measurement",
+      "method_name": "PRS-CS",
+      "variants_number": 1094954,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Using polygenic scores for identifying individuals at increased risk of substance use disorders in clinical and population samples.",
+      "date_release": "2020-07-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Alcohol use disorder (DSM-5 criteria count, log-transformed)",
+      "covariates": "sex, age of last observation, 10 Genetic PCs, genotyping array, data collection site",
+      "sampleset": "PSS000339",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=166,604",
+      "validation_sample_size": "n=7,599"
+    },
+    {
+      "id": "PGS000202",
+      "trait_reported": "Problematic alcohol use",
+      "trait_efo": "alcohol dependence measurement",
+      "method_name": "PRS-CS",
+      "variants_number": 1083002,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Using polygenic scores for identifying individuals at increased risk of substance use disorders in clinical and population samples.",
+      "date_release": "2020-07-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Alcohol use disorder (DSM-5 criteria count, log-transformed)",
+      "covariates": "sex, age of last observation, 10 Genetic PCs",
+      "sampleset": "PSS000340",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=166,604",
+      "validation_sample_size": "n=1,251"
+    },
+    {
+      "id": "PGS002738",
+      "trait_reported": "Alcohol use disorder",
+      "trait_efo": "alcohol dependence",
+      "method_name": "PRS-CS",
+      "variants_number": 326000,
+      "ancestry_distribution": "GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%) | EVAL: EUR (100%)",
+      "publication": "Evaluating risk for alcohol use disorder: Polygenic risk scores and family history.",
+      "date_release": "2022-08-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Alcohol use disorder (AUD) in individuals with family history of AUD",
+      "covariates": "Unknown",
+      "sampleset": "PSS009909",
+      "training_development_cohorts": [
+        "MVP",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=395,995",
+      "validation_sample_size": "n=7,900"
+    },
+    {
+      "id": "PGS002739",
+      "trait_reported": "Alcohol use disorder",
+      "trait_efo": "alcohol dependence",
+      "method_name": "PRS-CSx (gene-based)",
+      "variants_number": 858,
+      "ancestry_distribution": "GWAS: AFR (12%), EUR (88%) | EVAL: AFR (100%)",
+      "publication": "Gene-based polygenic risk scores analysis of alcohol use disorder in African Americans.",
+      "date_release": "2022-08-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Alcohol use disorder",
+      "covariates": "Unknown",
+      "sampleset": "PSS009912",
+      "training_development_cohorts": [
+        "MVP",
+        "PGC",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=492,211",
+      "validation_sample_size": "n=6,315"
+    }
+  ],
+  "baseline": null
+}

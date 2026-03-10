@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69aa6e2c81948190940230a759b14b57",
+  "status": "completed",
+  "input_file_id": "file-1dqAd9KJhuiedh7MLoxuNG",
+  "output_file_id": "file-3hZ1Hs859BU3vsaQRhaHvJ",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 60,
+    "failed": 0,
+    "total": 60
+  },
+  "batch": {
+    "id": "batch_69aa6e2c81948190940230a759b14b57",
+    "completion_window": "24h",
+    "created_at": 1772777004,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-1dqAd9KJhuiedh7MLoxuNG",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1772791494,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1772863404,
+    "failed_at": null,
+    "finalizing_at": 1772791487,
+    "in_progress_at": 1772777005,
+    "metadata": {
+      "experiment": "contribution2_native_gpt",
+      "manifest_file": "experiment_native_gpt_batch_manifest.json"
+    },
+    "model": "gpt-5.4-2026-03-05",
+    "output_file_id": "file-3hZ1Hs859BU3vsaQRhaHvJ",
+    "request_counts": {
+      "completed": 60,
+      "failed": 0,
+      "total": 60
+    },
+    "usage": {
+      "input_tokens": 670252,
+      "input_tokens_details": {
+        "cached_tokens": 231424
+      },
+      "output_tokens": 87555,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 757807
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/native-gpt__gpt-5.4__t10/experiment_native_gpt_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/native-gpt__gpt-5.4__t10/experiment_native_gpt_batch_output.jsonl",
+  "error_jsonl_file": null
+}

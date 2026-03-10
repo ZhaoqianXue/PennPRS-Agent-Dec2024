@@ -231,13 +231,12 @@ class TestRecommendationAgentSynonymIntegration:
             method_name="LDpred2",
             variants_number=1000,
             ancestry_distribution="EUR",
-            publication="Test",
+            publication={"title": "Test", "journal": "Journal"},
             date_release="2020-01-01",
             samples_training="n=1000",
             performance_metrics={"auc": 0.75},
             phenotyping_reported="Breast cancer",
             covariates="age",
-            sampleset=None,
             training_development_cohorts=[]
         )
         model2 = PGSModelSummary(
@@ -247,13 +246,12 @@ class TestRecommendationAgentSynonymIntegration:
             method_name="PRS-CS",
             variants_number=2000,
             ancestry_distribution="EUR",
-            publication="Test",
+            publication={"title": "Test", "journal": "Journal"},
             date_release="2020-01-01",
             samples_training="n=2000",
             performance_metrics={"auc": 0.80},
             phenotyping_reported="Malignant neoplasm of breast",
             covariates="age",
-            sampleset=None,
             training_development_cohorts=[]
         )
         # Duplicate model (same ID)
@@ -264,13 +262,12 @@ class TestRecommendationAgentSynonymIntegration:
             method_name="LDpred2",
             variants_number=1000,
             ancestry_distribution="EUR",
-            publication="Test",
+            publication={"title": "Test", "journal": "Journal"},
             date_release="2020-01-01",
             samples_training="n=1000",
             performance_metrics={"auc": 0.75},
             phenotyping_reported="Breast cancer",
             covariates="age",
-            sampleset=None,
             training_development_cohorts=[]
         )
         

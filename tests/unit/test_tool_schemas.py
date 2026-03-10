@@ -27,18 +27,19 @@ class TestPRSModelSchemas:
             method_name="LDpred2",
             variants_number=100000,
             ancestry_distribution="EUR (100%)",
-            publication="Smith et al. 2020",
+            publication={"title": "Smith et al. 2020", "journal": "Test Journal"},
             date_release="2020-01-01",
             samples_training="n=50000",
             performance_metrics={"auc": 0.75, "r2": 0.15},
             phenotyping_reported="Type 2 Diabetes",
             covariates="age, sex, PC1-10",
-            sampleset="UKB",
             training_development_cohorts=["UKB"]
         )
         assert summary.id == "PGS000025"
         assert summary.performance_metrics["auc"] == 0.75
         assert summary.trait_reported == "Type 2 Diabetes"
+        assert summary.publication.journal == "Test Journal"
+        assert "sampleset" not in summary.model_dump()
 
     def test_pgs_search_result_schema(self):
         """Test PGSSearchResult aggregates models correctly."""
@@ -49,13 +50,12 @@ class TestPRSModelSchemas:
             method_name="LDpred2",
             variants_number=100,
             ancestry_distribution="EUR",
-            publication="Pub",
+            publication={"title": "Pub", "journal": "Journal"},
             date_release="2020-01-01",
             samples_training="n=1000",
             performance_metrics={"auc": 0.7, "r2": 0.1},
             phenotyping_reported="T2D",
             covariates="age",
-            sampleset=None,
             training_development_cohorts=[]
         )
         result = PGSSearchResult(

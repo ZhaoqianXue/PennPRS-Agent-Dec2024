@@ -279,8 +279,8 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
     <!-- For direct model searching, metadata retrieval, and model filtering/selection. -->
     - **`prs_model_pgscatalog_search`**: Searches for trait-specific PRS models and retrieves full metadata.
         - *Purpose*: To retrieve all available PRS models associated with a specific trait and return comprehensive metadata fields, providing the full raw data required for downstream filtering and evaluation.
-    - **`prs_model_domain_knowledge`**: Queries a **constrained set of authoritative websites** (not local RAG) to fetch *Clinical Guidelines and Review Papers*. **(pgscatalog prs model selection guidelines, pgscatalog prs model evaluation guidelines)**
-        - *Purpose*: To enable the LLM to acquire extensive PRS knowledge and become a PRS expert, ensuring it can excellently perform PRS model selection tasks. The search scope is restricted to a curated whitelist of web pages to avoid unbounded context pollution.
+    - **`prs_model_domain_knowledge`**: Retrieves snippets from a **curated local PRS knowledge base** focused on Step 1 model selection rules, endpoint integrity, transportability heuristics, and method priors.
+        - *Purpose*: To inject stable, high-signal PRS selection guidance into the LLM context without relying on live web search. The curated local knowledge base is intentionally compact so the Agent receives consistent selection rules and avoids unbounded context pollution.
     - **`prs_model_performance_landscape`**: Calculates statistical distributions across all retrieved candidate models.
         - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
 
@@ -383,21 +383,23 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 | **`method_params`** | FDR < 5%, r^2 < 0.2 | metaGRS log(HR) mixing... | Parameters used in the method | Score | [UI Only] |
 | **`variants_number`** | 1,032 | 1,745,179 | Count of variants in model | Score | [Agent + UI] |
 | **`variants_interactions`** | 0 | 0 | Variant interactions info | Score | [UI Only] |
-| **`variants_genomebuild`** | hg19 | hg19 | Genome build (e.g. GRCh37) | Score | [Agent + UI] |
+| **`variants_genomebuild`** | hg19 | hg19 | Genome build (e.g. GRCh37) | Score | [UI Only] |
 | **`weight_type`** | beta | NR | Type of weights used | Score | [UI Only] |
 | **`ancestry_distribution`** | GWAS: EUR (100%) | GWAS: AFR (100%) | Detailed ancestry breakdown | Score | [Agent + UI] |
-| **`publication`** | Genetic Predisposition Impacts... | Genomic Risk Prediction of... | Publication metadata | Score/Performance | [Agent + UI] |
+| **`publication.title`** | Genetic Predisposition Impacts... | Genomic Risk Prediction of... | Full publication title | Score/Performance | [Agent + UI] |
+| **`publication.journal`** | Nat Commun | medRxiv Preprint | Journal or venue name | Score/Performance | [Agent + UI] |
+| **`publication.doi`** | 10.1038/s41467-020-16483-3 | 10.1101/2025.05.15.25327513 | DOI | Score/Performance | [UI Only] |
 | **`date_release`** | 2021-07-29 | 2019-10-14 | Date the score was released | Score | [Agent + UI] |
 | **`license`** | CC BY-NC-ND 4.0 | PGS obtained from the... | Usage license | Score | [UI Only] |
 | **`ftp_scoring_file`** | https://ftp.ebi.ac.uk/... | https://ftp.ebi.ac.uk/... | URL to original scoring file | Score | [UI Only] |
 | **`ftp_harmonized_scoring_files`** | GRCh37, GRCh38 URLs | GRCh37, GRCh38 URLs | URL to harmonized scoring files | Score | [UI Only] |
 | **`matches_publication`** | True | True | Flag if score matches publication | Score | [UI Only] |
-| **`samples_variants`** | n=283,785 | n=382,026 | GWAS discovery sample size (samples used for variant selection) | Score | [Agent + UI] |
+| **`samples_variants`** | n=283,785 | n=382,026 | GWAS discovery sample size (samples used for variant selection) | Score | [UI Only] |
 | **`samples_training`** | n=0 | n=3,000 | Samples used for training | Score | [Agent + UI] |
 | **`performance_metrics`** | R²: 0.087, AUC: 0.78 | HR: 1.71, AUC: 0.81 | Metrics (AUC, R2, etc.) | Performance | [Agent + UI] |
 | **`phenotyping_reported`** | Total cholesterol | Incident coronary artery disease | Phenotype description in validation | Performance | [Agent + UI] |
 | **`covariates`** | Age, sex, PCs(1-7), season | sex, genetic PCs (1-10)... | Covariates used in validation | Performance | [Agent + UI] |
-| **`sampleset`** | null | null | Sample set used for validation | Performance | [Agent + UI] |
+| **`sampleset`** | null | null | Sample set used for validation | Performance | [UI Only] |
 | **`validation_sample_size`** | n=482,629 | n=5,762 | Validation cohort sample size (from sampleset.samples) | Performance | [Agent + UI] |
 | **`performance_comments`** | null | null | Additional performance notes | Performance | [UI Only] |
 | **`associated_pgs_id`** | PGS000831 | PGS000018 | The PGS ID associated with performance | Performance | [UI Only] |
@@ -409,7 +411,7 @@ The structured metadata fields above provide the foundational evidence for evalu
 **Target Classification**: The `[Agent + UI]` fields in the table above are serialized into the LLM context for scientific reasoning, whereas `[UI Only]` fields are passed exclusively to the frontend for comprehensive model detail presentation to minimize agent context noise.
 
 **Combined Results Workflow**:
-1. `prs_model_pgscatalog_search` returns fields with Target `[Agent + UI]`.
+1. `prs_model_pgscatalog_search` returns only fields with Target `[Agent + UI]`; `[UI Only]` metadata such as `variants_genomebuild`, `samples_variants`, `publication.doi`, and `sampleset` is excluded from agent/LLM context.
 2. **No AUC/R² pre-filtering**: All models from retrieval are included (aligned with C1 for consistency).
 3. **Combined context injection**: The filtered search results, `prs_model_domain_knowledge` results, and `prs_model_performance_landscape` results are returned to the LLM **simultaneously**.
 4. **LLM Decision**: The Agent makes a determination of **High-Quality Match / Sub-optimal Match / No Match**.
@@ -634,14 +636,17 @@ class PGSModelSummary:
     method_name: str
     variants_number: int
     ancestry_distribution: str
-    publication: str
+    publication: PublicationMetadata
     date_release: str
     samples_training: str
     performance_metrics: dict  # {auc: float, r2: float, ...}
     phenotyping_reported: str
     covariates: str
-    sampleset: str
     training_development_cohorts: list[str]  # union of cohort short names from training/development samples
+
+class PublicationMetadata:
+    title: str
+    journal: str
 ```
 
 ###### `prs_model_domain_knowledge`
@@ -649,31 +654,25 @@ class PGSModelSummary:
 | Attribute | Specification |
 |:---|:---|
 | **Input** | `query: str` — Domain knowledge query (e.g., "PRS clinical utility for CAD", "AUC thresholds for clinical PRS") |
-| **Output** | `DomainKnowledgeResult` — Structured snippets from authoritative sources |
-| **Data Source** | **Constrained Web Search** — Whitelist of authoritative URLs |
-| **Dependency** | External search API (Google Custom Search / SerpAPI) with domain restriction |
-| **Token Budget** | Max 800 tokens per query response |
+| **Output** | `DomainKnowledgeResult` — Structured snippets from the curated local knowledge base |
+| **Data Source** | **Local curated Markdown knowledge base** — `src/server/core/knowledge/prs_model_domain_knowledge.md` |
+| **Dependency** | None (local retrieval only) |
+| **Token Budget** | Max 5 snippets per query; compact local snippets only |
 
 ```python
-# Whitelist Categories
-DOMAIN_KNOWLEDGE_WHITELIST = {
-    "pgscatalog.org": ["/docs", "/about"],
-    "ebi.ac.uk/gwas": ["/docs"],
-    "nature.com": ["10.1038/s41588-021-00783-5"],  # PRS Reporting Standards
-    "heart.org": ["/prs"],  # AHA Guidelines
-    "pubmed.ncbi.nlm.nih.gov": [CURATED_PMID_LIST]
-}
+# Knowledge Base Source
+KNOWLEDGE_BASE_PATH = "src/server/core/knowledge/prs_model_domain_knowledge.md"
 
 # Output Schema
 class DomainKnowledgeResult:
     query: str
-    sources: list[SourceSnippet]
-    summary: str  # LLM-digestible summary
+    snippets: list[KnowledgeSnippet]
+    source_type: str  # "local"
 
-class SourceSnippet:
-    url: str
-    title: str
-    snippet: str  # Max 200 tokens per snippet
+class KnowledgeSnippet:
+    source: str
+    section: str
+    content: str
     relevance_score: float
 ```
 
@@ -883,7 +882,7 @@ class TrainingConfig:
 - **Implemented**:
     - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). No AUC/R² filter; returns all models from retrieval. `[Agent + UI]` fields. Optional `evaluated_pgs_whitelist` for Contribution2: when set (via `PENNPRS_CONTRIB2_EVALUATED_PGS_JSON`), only models in the All of Us evaluated set (N Models) are returned.
     - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool for statistical distributions.
-    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Currently implements a local RAG (Retrieval-Augmented Generation) system using a curated Markdown knowledge base.
+    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Intended implementation for Contribution2 Step 1. Retrieves from the curated local Markdown knowledge base `src/server/core/knowledge/prs_model_domain_knowledge.md`.
     - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.
     - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
     - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Integrated support for both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org). Supports both EFO and MONDO IDs, automatically tries both and merges results to maximize coverage.

@@ -7,7 +7,6 @@
   "model": "gpt-5.2",
   "total_ontologies": 30,
   "trials_per_ontology": 10,
-  "mean_disease_hit_rate": 0.6567,
   "majority_vote_hits": 20,
   "majority_vote_accuracy": 0.6667,
   "baseline": {
@@ -20,17 +19,21 @@
     "trial_hits": 197,
     "trial_hit_rate": 0.6567,
     "valid_outputs": 300,
-    "valid_output_rate": 1.0,
-    "mean_disease_hit_rate_bootstrap_95ci": {
-      "lower": 0.4867,
-      "upper": 0.8233
-    }
+    "valid_output_rate": 1.0
   },
   "per_disease": [
     {
       "ontology": "abdominal aortic aneurysm",
       "n_models": 6,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753",
+        "PGS002054"
+      ],
       "target_topk_ids": [
         "PGS003973",
         "PGS003429",
@@ -234,6 +237,8 @@
       "errors": 0,
       "modal_recommendation": "PGS003973",
       "modal_recommendation_count": 8,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/6",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS003973",
@@ -246,6 +251,92 @@
         "PGS003973",
         "PGS001784",
         "PGS001784"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001784",
+          "rank": 4,
+          "rank_label": "4/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001784",
+          "rank": 4,
+          "rank_label": "4/6",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS003973",
+          "count": 8,
+          "rank": 1,
+          "rank_label": "1/6"
+        },
+        {
+          "pgs_id": "PGS001784",
+          "count": 2,
+          "rank": 4,
+          "rank_label": "4/6"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -262,7 +353,9 @@
         "reported_auc": 0.882,
         "trait_reported": "Abdominal aortic aneurysm",
         "method_name": "PRS-CS",
-        "validation_sample_size": "n=7,517"
+        "validation_sample_size": "n=7,517",
+        "rank": 1,
+        "rank_label": "1/6"
       },
       "baseline_in_target_topk": true
     },
@@ -270,6 +363,14 @@
       "ontology": "age-related macular degeneration",
       "n_models": 6,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS004606",
+        "PGS002269",
+        "PGS004952",
+        "PGS001834",
+        "PGS002041",
+        "PGS004607"
+      ],
       "target_topk_ids": [
         "PGS004606",
         "PGS002269",
@@ -449,6 +550,8 @@
       "errors": 0,
       "modal_recommendation": "PGS004606",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/6",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS004606",
@@ -461,6 +564,86 @@
         "PGS004606",
         "PGS004606",
         "PGS004606"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS004606",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS004606",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/6"
+        }
       ],
       "feature_mentions": {
         "ancestry": 1,
@@ -477,7 +660,9 @@
         "reported_auc": 0.842,
         "trait_reported": "Age-related macular degeneration",
         "method_name": "Genome-wide significant SNPs",
-        "validation_sample_size": "n=1,780"
+        "validation_sample_size": "n=1,780",
+        "rank": 3,
+        "rank_label": "3/6"
       },
       "baseline_in_target_topk": true
     },
@@ -485,6 +670,12 @@
       "ontology": "alcohol dependence",
       "n_models": 4,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
       "target_topk_ids": [
         "PGS002738"
       ],
@@ -602,6 +793,8 @@
       "errors": 0,
       "modal_recommendation": "PGS002738",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/4",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS002738",
@@ -614,6 +807,86 @@
         "PGS002738",
         "PGS002738",
         "PGS002738"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS002738",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/4"
+        }
       ],
       "feature_mentions": {
         "ancestry": 9,
@@ -631,6 +904,17 @@
       "ontology": "ankylosing spondylitis",
       "n_models": 9,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS001876",
+        "PGS001267",
+        "PGS001268",
+        "PGS002089",
+        "PGS003424",
+        "PGS003423",
+        "PGS003420",
+        "PGS003422",
+        "PGS003421"
+      ],
       "target_topk_ids": [
         "PGS001876",
         "PGS001267",
@@ -862,6 +1146,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001268",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/9",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS001268",
@@ -874,6 +1160,86 @@
         "PGS001268",
         "PGS001268",
         "PGS001268"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001268",
+          "rank": 3,
+          "rank_label": "3/9",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001268",
+          "count": 10,
+          "rank": 3,
+          "rank_label": "3/9"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -890,7 +1256,9 @@
         "reported_auc": 0.9915,
         "trait_reported": "Ankylosing spondylitis (time-to-event)",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 3,
+        "rank_label": "3/9"
       },
       "baseline_in_target_topk": true
     },
@@ -898,6 +1266,16 @@
       "ontology": "aortic stenosis",
       "n_models": 8,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS005254",
+        "PGS005255",
+        "PGS005256",
+        "PGS004911",
+        "PGS004910",
+        "PGS000778",
+        "PGS000739",
+        "PGS005252"
+      ],
       "target_topk_ids": [
         "PGS005254",
         "PGS005255",
@@ -1122,6 +1500,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005252",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 8,
+      "modal_recommendation_rank_label": "8/8",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005252",
@@ -1134,6 +1514,86 @@
         "PGS005252",
         "PGS005252",
         "PGS005252"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005252",
+          "rank": 8,
+          "rank_label": "8/8",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005252",
+          "count": 10,
+          "rank": 8,
+          "rank_label": "8/8"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -1150,7 +1610,9 @@
         "reported_auc": 0.87,
         "trait_reported": "Aortic stenosis",
         "method_name": "LDPred2",
-        "validation_sample_size": "n=446,895"
+        "validation_sample_size": "n=446,895",
+        "rank": 8,
+        "rank_label": "8/8"
       },
       "baseline_in_target_topk": false
     },
@@ -1158,6 +1620,14 @@
       "ontology": "cervical carcinoma",
       "n_models": 6,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS000073",
+        "PGS000784",
+        "PGS003389",
+        "PGS005165",
+        "PGS003428",
+        "PGS001299"
+      ],
       "target_topk_ids": [
         "PGS000073"
       ],
@@ -1327,6 +1797,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001299",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 6,
+      "modal_recommendation_rank_label": "6/6",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001299",
@@ -1339,6 +1811,86 @@
         "PGS001299",
         "PGS001299",
         "PGS001299"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001299",
+          "rank": 6,
+          "rank_label": "6/6",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001299",
+          "count": 10,
+          "rank": 6,
+          "rank_label": "6/6"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -1354,7 +1906,9 @@
         "reported_auc": 0.9143,
         "trait_reported": "Cervical cancer",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 6,
+        "rank_label": "6/6"
       },
       "baseline_in_target_topk": false
     },
@@ -1362,6 +1916,13 @@
       "ontology": "cutaneous melanoma",
       "n_models": 5,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS003382",
+        "PGS004247",
+        "PGS000766",
+        "PGS003745",
+        "PGS000339"
+      ],
       "target_topk_ids": [
         "PGS003382"
       ],
@@ -1516,6 +2077,8 @@
       "errors": 0,
       "modal_recommendation": "PGS003382",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/5",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS003382",
@@ -1528,6 +2091,86 @@
         "PGS003382",
         "PGS003382",
         "PGS003382"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS003382",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/5"
+        }
       ],
       "feature_mentions": {
         "ancestry": 2,
@@ -1542,7 +2185,9 @@
         "reported_auc": 0.682,
         "trait_reported": "Skin cutaneous melanoma",
         "method_name": "Pruning and Thresholding (P+T)",
-        "validation_sample_size": "n=273,786"
+        "validation_sample_size": "n=273,786",
+        "rank": 1,
+        "rank_label": "1/5"
       },
       "baseline_in_target_topk": true
     },
@@ -1550,6 +2195,15 @@
       "ontology": "graves disease",
       "n_models": 7,
       "target_topk": 2,
+      "benchmark_ranked_ids": [
+        "PGS005266",
+        "PGS005265",
+        "PGS005264",
+        "PGS002023",
+        "PGS001042",
+        "PGS001815",
+        "PGS001043"
+      ],
       "target_topk_ids": [
         "PGS005266",
         "PGS005265"
@@ -1775,6 +2429,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005265",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 2,
+      "modal_recommendation_rank_label": "2/7",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS005265",
@@ -1787,6 +2443,86 @@
         "PGS005265",
         "PGS005265",
         "PGS005265"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005265",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005265",
+          "count": 10,
+          "rank": 2,
+          "rank_label": "2/7"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -1803,7 +2539,9 @@
         "reported_auc": 0.7429,
         "trait_reported": "Thyrotoxicosis [hyperthyroidism] (time-to-event)",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 5,
+        "rank_label": "5/7"
       },
       "baseline_in_target_topk": false
     },
@@ -1811,6 +2549,11 @@
       "ontology": "hashimoto's thyroiditis",
       "n_models": 3,
       "target_topk": 2,
+      "benchmark_ranked_ids": [
+        "PGS005272",
+        "PGS005271",
+        "PGS005270"
+      ],
       "target_topk_ids": [
         "PGS005272",
         "PGS005271"
@@ -1934,6 +2677,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005270",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/3",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005270",
@@ -1946,6 +2691,86 @@
         "PGS005270",
         "PGS005270",
         "PGS005270"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005270",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005270",
+          "count": 10,
+          "rank": 3,
+          "rank_label": "3/3"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -1960,7 +2785,9 @@
         "reported_auc": 0.6387,
         "trait_reported": "Lymphocytic thyroiditis",
         "method_name": "Pruning and Thresholding (P+T)",
-        "validation_sample_size": "n=94,651"
+        "validation_sample_size": "n=94,651",
+        "rank": 3,
+        "rank_label": "3/3"
       },
       "baseline_in_target_topk": false
     },
@@ -1968,6 +2795,35 @@
       "ontology": "hodgkins lymphoma",
       "n_models": 27,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS000639",
+        "PGS003449",
+        "PGS000638",
+        "PGS003454",
+        "PGS000648",
+        "PGS000649",
+        "PGS002303",
+        "PGS000647",
+        "PGS000646",
+        "PGS000874",
+        "PGS000637",
+        "PGS004248",
+        "PGS003455",
+        "PGS000651",
+        "PGS000640",
+        "PGS003453",
+        "PGS000080",
+        "PGS000791",
+        "PGS003452",
+        "PGS000641",
+        "PGS000642",
+        "PGS000644",
+        "PGS000643",
+        "PGS003451",
+        "PGS003448",
+        "PGS000650",
+        "PGS002304"
+      ],
       "target_topk_ids": [
         "PGS000639",
         "PGS003449",
@@ -2726,6 +3582,8 @@
       "errors": 0,
       "modal_recommendation": "PGS000639",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/27",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS000639",
@@ -2738,6 +3596,86 @@
         "PGS000639",
         "PGS000639",
         "PGS000639"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS000639",
+          "rank": 1,
+          "rank_label": "1/27",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS000639",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/27"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -2752,7 +3690,9 @@
         "reported_auc": 0.861,
         "trait_reported": "Chronic lymphocytic leukemia",
         "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
-        "validation_sample_size": "n=3,958"
+        "validation_sample_size": "n=3,958",
+        "rank": 10,
+        "rank_label": "10/27"
       },
       "baseline_in_target_topk": false
     },
@@ -2760,6 +3700,12 @@
       "ontology": "hypertrophic cardiomyopathy",
       "n_models": 4,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS004911",
+        "PGS000739",
+        "PGS004910",
+        "PGS000778"
+      ],
       "target_topk_ids": [
         "PGS004911",
         "PGS000739",
@@ -2890,6 +3836,8 @@
       "errors": 0,
       "modal_recommendation": "PGS004911",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/4",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS004911",
@@ -2902,6 +3850,86 @@
         "PGS004911",
         "PGS004911",
         "PGS004911"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS004911",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS004911",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/4"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -2917,7 +3945,9 @@
         "reported_auc": 0.821,
         "trait_reported": "Hypertrophic cardiomyopathy",
         "method_name": "Genome-wide significant variants",
-        "validation_sample_size": "n=184,511"
+        "validation_sample_size": "n=184,511",
+        "rank": 2,
+        "rank_label": "2/4"
       },
       "baseline_in_target_topk": true
     },
@@ -2925,6 +3955,36 @@
       "ontology": "hypothyroidism",
       "n_models": 28,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS005268",
+        "PGS005269",
+        "PGS005218",
+        "PGS005267",
+        "PGS004789",
+        "PGS004790",
+        "PGS002336",
+        "PGS000761",
+        "PGS002024",
+        "PGS001816",
+        "PGS002702",
+        "PGS002653",
+        "PGS000965",
+        "PGS001181",
+        "PGS004935",
+        "PGS000820",
+        "PGS005271",
+        "PGS002766",
+        "PGS000759",
+        "PGS005272",
+        "PGS005270",
+        "PGS004516",
+        "PGS002408",
+        "PGS004446",
+        "PGS002604",
+        "PGS002555",
+        "PGS002457",
+        "PGS002506"
+      ],
       "target_topk_ids": [
         "PGS005268"
       ],
@@ -3718,6 +4778,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005218",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/28",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005218",
@@ -3731,6 +4793,86 @@
         "PGS005218",
         "PGS005218"
       ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005218",
+          "count": 10,
+          "rank": 3,
+          "rank_label": "3/28"
+        }
+      ],
       "feature_mentions": {
         "ancestry": 8,
         "auc": 10,
@@ -3743,7 +4885,9 @@
         "reported_auc": 0.859,
         "trait_reported": "Hypothyroidism",
         "method_name": "PRS-CS",
-        "validation_sample_size": "n=441,692"
+        "validation_sample_size": "n=441,692",
+        "rank": 3,
+        "rank_label": "3/28"
       },
       "baseline_in_target_topk": false
     },
@@ -3751,6 +4895,12 @@
       "ontology": "juvenile idiopathic arthritis",
       "n_models": 4,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS000114",
+        "PGS000325",
+        "PGS000326",
+        "PGS000324"
+      ],
       "target_topk_ids": [
         "PGS000114"
       ],
@@ -3873,6 +5023,8 @@
       "errors": 0,
       "modal_recommendation": "PGS000114",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/4",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS000114",
@@ -3885,6 +5037,86 @@
         "PGS000114",
         "PGS000114",
         "PGS000114"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS000114",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS000114",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/4"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -3899,7 +5131,9 @@
         "reported_auc": 0.93,
         "trait_reported": "Enthesitis-related Juvenile Idiophatic Arthritis",
         "method_name": "SparSNP",
-        "validation_sample_size": "n=3,020"
+        "validation_sample_size": "n=3,020",
+        "rank": 4,
+        "rank_label": "4/4"
       },
       "baseline_in_target_topk": false
     },
@@ -3907,6 +5141,18 @@
       "ontology": "kidney cancer",
       "n_models": 10,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS004908",
+        "PGS000787",
+        "PGS000722",
+        "PGS004245",
+        "PGS000076",
+        "PGS003744",
+        "PGS000161",
+        "PGS004690",
+        "PGS000606",
+        "PGS000605"
+      ],
       "target_topk_ids": [
         "PGS004908"
       ],
@@ -4297,6 +5543,8 @@
       "errors": 0,
       "modal_recommendation": "PGS004908",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/10",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS004908",
@@ -4309,6 +5557,86 @@
         "PGS004908",
         "PGS004908",
         "PGS004908"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS004908",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/10"
+        }
       ],
       "feature_mentions": {
         "ancestry": 3,
@@ -4323,7 +5651,9 @@
         "reported_auc": 0.74,
         "trait_reported": "Kidney cancer",
         "method_name": "Genome-wide significant SNPs",
-        "validation_sample_size": "n=324,805"
+        "validation_sample_size": "n=324,805",
+        "rank": 1,
+        "rank_label": "1/10"
       },
       "baseline_in_target_topk": true
     },
@@ -4331,6 +5661,13 @@
       "ontology": "late-onset alzheimer's disease",
       "n_models": 5,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS000054",
+        "PGS002289",
+        "PGS000334",
+        "PGS004918",
+        "PGS000053"
+      ],
       "target_topk_ids": [
         "PGS000054"
       ],
@@ -4529,6 +5866,8 @@
       "errors": 0,
       "modal_recommendation": "PGS000334",
       "modal_recommendation_count": 8,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/5",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS000334",
@@ -4541,6 +5880,92 @@
         "PGS000334",
         "PGS004918",
         "PGS004918"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS004918",
+          "rank": 4,
+          "rank_label": "4/5",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS004918",
+          "rank": 4,
+          "rank_label": "4/5",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS000334",
+          "count": 8,
+          "rank": 3,
+          "rank_label": "3/5"
+        },
+        {
+          "pgs_id": "PGS004918",
+          "count": 2,
+          "rank": 4,
+          "rank_label": "4/5"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -4555,7 +5980,9 @@
         "reported_auc": 0.731,
         "trait_reported": "Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function)",
         "method_name": "Clumping and Thresholding (C+T)",
-        "validation_sample_size": "n=136"
+        "validation_sample_size": "n=136",
+        "rank": 4,
+        "rank_label": "4/5"
       },
       "baseline_in_target_topk": false
     },
@@ -4563,6 +5990,15 @@
       "ontology": "nodular goiter",
       "n_models": 7,
       "target_topk": 2,
+      "benchmark_ranked_ids": [
+        "PGS005263",
+        "PGS005262",
+        "PGS005261",
+        "PGS002022",
+        "PGS001814",
+        "PGS005273",
+        "PGS005274"
+      ],
       "target_topk_ids": [
         "PGS005263",
         "PGS005262"
@@ -4811,6 +6247,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005262",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 2,
+      "modal_recommendation_rank_label": "2/7",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS005262",
@@ -4823,6 +6261,86 @@
         "PGS005262",
         "PGS005262",
         "PGS005262"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005262",
+          "rank": 2,
+          "rank_label": "2/7",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005262",
+          "count": 10,
+          "rank": 2,
+          "rank_label": "2/7"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -4839,7 +6357,9 @@
         "reported_auc": 0.6174,
         "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
         "method_name": "PRSCS",
-        "validation_sample_size": "n=94,651"
+        "validation_sample_size": "n=94,651",
+        "rank": 6,
+        "rank_label": "6/7"
       },
       "baseline_in_target_topk": false
     },
@@ -4847,6 +6367,18 @@
       "ontology": "obesity",
       "n_models": 10,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS005235",
+        "PGS005154",
+        "PGS003959",
+        "PGS002033",
+        "PGS005145",
+        "PGS004447",
+        "PGS001825",
+        "PGS001298",
+        "PGS003400",
+        "PGS004517"
+      ],
       "target_topk_ids": [
         "PGS005235"
       ],
@@ -5109,6 +6641,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001298",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 8,
+      "modal_recommendation_rank_label": "8/10",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001298",
@@ -5121,6 +6655,86 @@
         "PGS001298",
         "PGS001298",
         "PGS001298"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001298",
+          "rank": 8,
+          "rank_label": "8/10",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001298",
+          "count": 10,
+          "rank": 8,
+          "rank_label": "8/10"
+        }
       ],
       "feature_mentions": {
         "ancestry": 8,
@@ -5135,7 +6749,9 @@
         "reported_auc": 0.6533,
         "trait_reported": "Obesity (time-to-event)",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 8,
+        "rank_label": "8/10"
       },
       "baseline_in_target_topk": false
     },
@@ -5143,6 +6759,28 @@
       "ontology": "obstructive sleep apnea",
       "n_models": 20,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS005220",
+        "PGS005219",
+        "PGS003479",
+        "PGS003213",
+        "PGS003857",
+        "PGS003209",
+        "PGS003211",
+        "PGS003210",
+        "PGS003212",
+        "PGS003858",
+        "PGS003208",
+        "PGS003217",
+        "PGS003218",
+        "PGS003207",
+        "PGS003205",
+        "PGS003214",
+        "PGS003204",
+        "PGS003206",
+        "PGS003216",
+        "PGS003215"
+      ],
       "target_topk_ids": [
         "PGS005220"
       ],
@@ -5660,6 +7298,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005220",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/20",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS005220",
@@ -5672,6 +7312,86 @@
         "PGS005220",
         "PGS005220",
         "PGS005220"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005220",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/20"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -5687,7 +7407,9 @@
         "reported_auc": 0.79,
         "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
         "method_name": "weighted PRSsummation PRS-CSs",
-        "validation_sample_size": "n=21,975"
+        "validation_sample_size": "n=21,975",
+        "rank": 2,
+        "rank_label": "2/20"
       },
       "baseline_in_target_topk": false
     },
@@ -5695,6 +7417,13 @@
       "ontology": "open-angle glaucoma",
       "n_models": 5,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS004944",
+        "PGS001797",
+        "PGS002741",
+        "PGS000764",
+        "PGS000350"
+      ],
       "target_topk_ids": [
         "PGS004944"
       ],
@@ -5867,6 +7596,8 @@
       "errors": 0,
       "modal_recommendation": "PGS004944",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/5",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS004944",
@@ -5879,6 +7610,86 @@
         "PGS004944",
         "PGS004944",
         "PGS004944"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS004944",
+          "rank": 1,
+          "rank_label": "1/5",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS004944",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/5"
+        }
       ],
       "feature_mentions": {
         "ancestry": 9,
@@ -5894,7 +7705,9 @@
         "reported_auc": 0.749,
         "trait_reported": "Primary open-angle glaucoma",
         "method_name": "PRS-CS-auto",
-        "validation_sample_size": "n=7,128"
+        "validation_sample_size": "n=7,128",
+        "rank": 2,
+        "rank_label": "2/5"
       },
       "baseline_in_target_topk": false
     },
@@ -5902,6 +7715,12 @@
       "ontology": "peripheral vascular disease",
       "n_models": 4,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS005217",
+        "PGS002055",
+        "PGS005158",
+        "PGS001843"
+      ],
       "target_topk_ids": [
         "PGS005217"
       ],
@@ -6054,6 +7873,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005217",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/4",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS005217",
@@ -6067,6 +7888,86 @@
         "PGS005217",
         "PGS005217"
       ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005217",
+          "rank": 1,
+          "rank_label": "1/4",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005217",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/4"
+        }
+      ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
@@ -6079,7 +7980,9 @@
         "reported_auc": 0.731,
         "trait_reported": "Peripheral artery disease",
         "method_name": "LDpred2",
-        "validation_sample_size": "n=304,294"
+        "validation_sample_size": "n=304,294",
+        "rank": 1,
+        "rank_label": "1/4"
       },
       "baseline_in_target_topk": true
     },
@@ -6087,6 +7990,11 @@
       "ontology": "preeclampsia",
       "n_models": 3,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS003586",
+        "PGS004593",
+        "PGS003587"
+      ],
       "target_topk_ids": [
         "PGS003586"
       ],
@@ -6188,6 +8096,8 @@
       "errors": 0,
       "modal_recommendation": "PGS003586",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/3",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS003586",
@@ -6200,6 +8110,86 @@
         "PGS003586",
         "PGS003586",
         "PGS003586"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS003586",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS003586",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/3"
+        }
       ],
       "feature_mentions": {
         "ancestry": 8,
@@ -6218,6 +8208,103 @@
       "ontology": "prostate cancer",
       "n_models": 96,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS000566",
+        "PGS000044",
+        "PGS001292",
+        "PGS000592",
+        "PGS002793",
+        "PGS000576",
+        "PGS004872",
+        "PGS001805",
+        "PGS004001",
+        "PGS002016",
+        "PGS000719",
+        "PGS004581",
+        "PGS005239",
+        "PGS003383",
+        "PGS004816",
+        "PGS004815",
+        "PGS005205",
+        "PGS001291",
+        "PGS000574",
+        "PGS000575",
+        "PGS002797",
+        "PGS004601",
+        "PGS000583",
+        "PGS000587",
+        "PGS004099",
+        "PGS002791",
+        "PGS004694",
+        "PGS000570",
+        "PGS000030",
+        "PGS004155",
+        "PGS002799",
+        "PGS000588",
+        "PGS000742",
+        "PGS000584",
+        "PGS002240",
+        "PGS000160",
+        "PGS000333",
+        "PGS004027",
+        "PGS004125",
+        "PGS003331",
+        "PGS004071",
+        "PGS000565",
+        "PGS004042",
+        "PGS004055",
+        "PGS000590",
+        "PGS002268",
+        "PGS004599",
+        "PGS002241",
+        "PGS000572",
+        "PGS000741",
+        "PGS005238",
+        "PGS004251",
+        "PGS004085",
+        "PGS000795",
+        "PGS000568",
+        "PGS003985",
+        "PGS000751",
+        "PGS000589",
+        "PGS002792",
+        "PGS000567",
+        "PGS003765",
+        "PGS004139",
+        "PGS000580",
+        "PGS005167",
+        "PGS005240",
+        "PGS000881",
+        "PGS000733",
+        "PGS000577",
+        "PGS000578",
+        "PGS003766",
+        "PGS000569",
+        "PGS005237",
+        "PGS000579",
+        "PGS000878",
+        "PGS000084",
+        "PGS000585",
+        "PGS000662",
+        "PGS004109",
+        "PGS003415",
+        "PGS003460",
+        "PGS000049",
+        "PGS002796",
+        "PGS000586",
+        "PGS003743",
+        "PGS000067",
+        "PGS000573",
+        "PGS000591",
+        "PGS005241",
+        "PGS000571",
+        "PGS003418",
+        "PGS002798",
+        "PGS000582",
+        "PGS000581",
+        "PGS003419",
+        "PGS000714"
+      ],
       "target_topk_ids": [
         "PGS000566"
       ],
@@ -9135,6 +11222,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005237",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 72,
+      "modal_recommendation_rank_label": "72/96",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005237",
@@ -9148,6 +11237,86 @@
         "PGS005237",
         "PGS005237"
       ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005237",
+          "rank": 72,
+          "rank_label": "72/96",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005237",
+          "count": 10,
+          "rank": 72,
+          "rank_label": "72/96"
+        }
+      ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
@@ -9159,7 +11328,9 @@
         "reported_auc": 0.9701,
         "trait_reported": "Prostate cancer",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 18,
+        "rank_label": "18/96"
       },
       "baseline_in_target_topk": false
     },
@@ -9167,6 +11338,15 @@
       "ontology": "pulmonary embolism",
       "n_models": 7,
       "target_topk": 4,
+      "benchmark_ranked_ids": [
+        "PGS001278",
+        "PGS001280",
+        "PGS001277",
+        "PGS001279",
+        "PGS004530",
+        "PGS004460",
+        "PGS003861"
+      ],
       "target_topk_ids": [
         "PGS001278",
         "PGS001280",
@@ -9359,6 +11539,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001279",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 4,
+      "modal_recommendation_rank_label": "4/7",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS001279",
@@ -9371,6 +11553,86 @@
         "PGS001279",
         "PGS001279",
         "PGS001279"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001279",
+          "rank": 4,
+          "rank_label": "4/7",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001279",
+          "count": 10,
+          "rank": 4,
+          "rank_label": "4/7"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -9386,7 +11648,9 @@
         "reported_auc": 0.8256,
         "trait_reported": "previously: Blood clot in the lung",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,349"
+        "validation_sample_size": "n=67,349",
+        "rank": 4,
+        "rank_label": "4/7"
       },
       "baseline_in_target_topk": true
     },
@@ -9394,6 +11658,16 @@
       "ontology": "renal carcinoma",
       "n_models": 8,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS004908",
+        "PGS000787",
+        "PGS000722",
+        "PGS004245",
+        "PGS000076",
+        "PGS003744",
+        "PGS000161",
+        "PGS004690"
+      ],
       "target_topk_ids": [
         "PGS004908"
       ],
@@ -9734,6 +12008,8 @@
       "errors": 0,
       "modal_recommendation": "PGS004908",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/8",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS004908",
@@ -9746,6 +12022,86 @@
         "PGS004908",
         "PGS004908",
         "PGS004908"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS004908",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS004908",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/8"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -9760,7 +12116,9 @@
         "reported_auc": 0.74,
         "trait_reported": "Kidney cancer",
         "method_name": "Genome-wide significant SNPs",
-        "validation_sample_size": "n=324,805"
+        "validation_sample_size": "n=324,805",
+        "rank": 1,
+        "rank_label": "1/8"
       },
       "baseline_in_target_topk": true
     },
@@ -9768,6 +12126,11 @@
       "ontology": "skin carcinoma in situ",
       "n_models": 3,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS000471",
+        "PGS000470",
+        "PGS000469"
+      ],
       "target_topk_ids": [
         "PGS000471"
       ],
@@ -9857,6 +12220,8 @@
       "errors": 0,
       "modal_recommendation": "PGS000471",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/3",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS000471",
@@ -9870,6 +12235,86 @@
         "PGS000471",
         "PGS000471"
       ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS000471",
+          "rank": 1,
+          "rank_label": "1/3",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS000471",
+          "count": 10,
+          "rank": 1,
+          "rank_label": "1/3"
+        }
+      ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
@@ -9881,7 +12326,9 @@
         "reported_auc": 0.569,
         "trait_reported": "Carcinoma in situ of skin",
         "method_name": "lassosum",
-        "validation_sample_size": "n=5,500"
+        "validation_sample_size": "n=5,500",
+        "rank": 1,
+        "rank_label": "1/3"
       },
       "baseline_in_target_topk": true
     },
@@ -9889,6 +12336,28 @@
       "ontology": "sleep apnea",
       "n_models": 20,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS005220",
+        "PGS005219",
+        "PGS003479",
+        "PGS003213",
+        "PGS003857",
+        "PGS003209",
+        "PGS003211",
+        "PGS003210",
+        "PGS003212",
+        "PGS003858",
+        "PGS003208",
+        "PGS003217",
+        "PGS003218",
+        "PGS003207",
+        "PGS003205",
+        "PGS003214",
+        "PGS003204",
+        "PGS003206",
+        "PGS003216",
+        "PGS003215"
+      ],
       "target_topk_ids": [
         "PGS005220"
       ],
@@ -10406,6 +12875,8 @@
       "errors": 0,
       "modal_recommendation": "PGS005220",
       "modal_recommendation_count": 9,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/20",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS005220",
@@ -10418,6 +12889,92 @@
         "PGS005220",
         "PGS005219",
         "PGS005220"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS005219",
+          "rank": 2,
+          "rank_label": "2/20",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS005220",
+          "count": 9,
+          "rank": 1,
+          "rank_label": "1/20"
+        },
+        {
+          "pgs_id": "PGS005219",
+          "count": 1,
+          "rank": 2,
+          "rank_label": "2/20"
+        }
       ],
       "feature_mentions": {
         "ancestry": 2,
@@ -10433,7 +12990,9 @@
         "reported_auc": 0.79,
         "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
         "method_name": "weighted PRSsummation PRS-CSs",
-        "validation_sample_size": "n=21,975"
+        "validation_sample_size": "n=21,975",
+        "rank": 2,
+        "rank_label": "2/20"
       },
       "baseline_in_target_topk": false
     },
@@ -10441,6 +13000,21 @@
       "ontology": "testicular neoplasm",
       "n_models": 14,
       "target_topk": 5,
+      "benchmark_ranked_ids": [
+        "PGS000796",
+        "PGS000600",
+        "PGS001164",
+        "PGS000599",
+        "PGS000597",
+        "PGS001806",
+        "PGS000602",
+        "PGS000601",
+        "PGS000603",
+        "PGS000604",
+        "PGS000598",
+        "PGS000596",
+        "PGS000595"
+      ],
       "target_topk_ids": [
         "PGS000796",
         "PGS000600",
@@ -10795,6 +13369,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001164",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/14",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
         "PGS001164",
@@ -10807,6 +13383,86 @@
         "PGS001164",
         "PGS001164",
         "PGS001164"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001164",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001164",
+          "count": 10,
+          "rank": 3,
+          "rank_label": "3/14"
+        }
       ],
       "feature_mentions": {
         "ancestry": 3,
@@ -10821,7 +13477,9 @@
         "reported_auc": 0.9816,
         "trait_reported": "Testicular cancer",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 3,
+        "rank_label": "3/14"
       },
       "baseline_in_target_topk": true
     },
@@ -10829,6 +13487,40 @@
       "ontology": "thyroid carcinoma",
       "n_models": 32,
       "target_topk": 3,
+      "benchmark_ranked_ids": [
+        "PGS005260",
+        "PGS005274",
+        "PGS005273",
+        "PGS005259",
+        "PGS005258",
+        "PGS001799",
+        "PGS001794",
+        "PGS004954",
+        "PGS003746",
+        "PGS000797",
+        "PGS001354",
+        "PGS005210",
+        "PGS000631",
+        "PGS000630",
+        "PGS000207",
+        "PGS000208",
+        "PGS000209",
+        "PGS000632",
+        "PGS000087",
+        "PGS000633",
+        "PGS003437",
+        "PGS002018",
+        "PGS001809",
+        "PGS001289",
+        "PGS000635",
+        "PGS000162",
+        "PGS000636",
+        "PGS000628",
+        "PGS000629",
+        "PGS000627",
+        "PGS000634",
+        "PGS000626"
+      ],
       "target_topk_ids": [
         "PGS005260",
         "PGS005274",
@@ -11737,6 +14429,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001289",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 24,
+      "modal_recommendation_rank_label": "24/32",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001289",
@@ -11749,6 +14443,86 @@
         "PGS001289",
         "PGS001289",
         "PGS001289"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001289",
+          "rank": 24,
+          "rank_label": "24/32",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001289",
+          "count": 10,
+          "rank": 24,
+          "rank_label": "24/32"
+        }
       ],
       "feature_mentions": {
         "ancestry": 10,
@@ -11764,7 +14538,9 @@
         "reported_auc": 0.8323,
         "trait_reported": "Thyroid cancer",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 24,
+        "rank_label": "24/32"
       },
       "baseline_in_target_topk": false
     },
@@ -11772,6 +14548,22 @@
       "ontology": "uterine carcinoma",
       "n_models": 14,
       "target_topk": 4,
+      "benchmark_ranked_ids": [
+        "PGS000075",
+        "PGS000786",
+        "PGS003381",
+        "PGS002735",
+        "PGS004244",
+        "PGS002737",
+        "PGS003428",
+        "PGS002736",
+        "PGS001795",
+        "PGS001299",
+        "PGS003389",
+        "PGS000784",
+        "PGS005165",
+        "PGS000073"
+      ],
       "target_topk_ids": [
         "PGS000075",
         "PGS000786",
@@ -12151,6 +14943,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001795",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 9,
+      "modal_recommendation_rank_label": "9/14",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001795",
@@ -12164,6 +14958,86 @@
         "PGS001795",
         "PGS001795"
       ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001795",
+          "rank": 9,
+          "rank_label": "9/14",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001795",
+          "count": 10,
+          "rank": 9,
+          "rank_label": "9/14"
+        }
+      ],
       "feature_mentions": {
         "auc": 10,
         "r2": 7,
@@ -12176,7 +15050,9 @@
         "reported_auc": 0.9143,
         "trait_reported": "Cervical cancer",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 10,
+        "rank_label": "10/14"
       },
       "baseline_in_target_topk": false
     },
@@ -12184,6 +15060,11 @@
       "ontology": "vitiligo",
       "n_models": 3,
       "target_topk": 1,
+      "benchmark_ranked_ids": [
+        "PGS000760",
+        "PGS000738",
+        "PGS001536"
+      ],
       "target_topk_ids": [
         "PGS000760"
       ],
@@ -12271,6 +15152,8 @@
       "errors": 0,
       "modal_recommendation": "PGS001536",
       "modal_recommendation_count": 10,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/3",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001536",
@@ -12284,6 +15167,86 @@
         "PGS001536",
         "PGS001536"
       ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 2,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 3,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 4,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 5,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 7,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 8,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        },
+        {
+          "trial": 10,
+          "pgs_id": "PGS001536",
+          "rank": 3,
+          "rank_label": "3/3",
+          "in_target_topk": false
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS001536",
+          "count": 10,
+          "rank": 3,
+          "rank_label": "3/3"
+        }
+      ],
       "feature_mentions": {
         "ancestry": 9,
         "auc": 10,
@@ -12296,9 +15259,33 @@
         "reported_auc": 0.8277,
         "trait_reported": "Vitiligo (time-to-event)",
         "method_name": "snpnet",
-        "validation_sample_size": "n=67,425"
+        "validation_sample_size": "n=67,425",
+        "rank": 3,
+        "rank_label": "3/3"
       },
       "baseline_in_target_topk": false
     }
-  ]
+  ],
+  "cost": {
+    "model_pricing_key": "gpt-5.2",
+    "token_usage": {
+      "input_tokens": 670252,
+      "cached_input_tokens": 51072,
+      "uncached_input_tokens": 619180,
+      "output_tokens": 89600,
+      "total_tokens": 759852
+    },
+    "pricing_per_million_tokens_usd": {
+      "input": 0.875,
+      "cached_input": 0.0875,
+      "output": 7.0
+    },
+    "method": "exact_batch_usage_times_official_batch_tier_prices",
+    "estimated_cost_breakdown_usd": {
+      "uncached_input": 0.5418,
+      "cached_input": 0.0045,
+      "output": 0.6272
+    },
+    "estimated_total_cost_usd": 1.1735
+  }
 }

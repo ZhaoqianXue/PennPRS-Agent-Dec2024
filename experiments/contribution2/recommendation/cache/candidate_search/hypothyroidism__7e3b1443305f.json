@@ -1,0 +1,797 @@
+{
+  "cache_version": "v1",
+  "ontology": "hypothyroidism",
+  "candidate_model_ids": [
+    "PGS000820",
+    "PGS004935",
+    "PGS002024",
+    "PGS005269",
+    "PGS002702",
+    "PGS005268",
+    "PGS002604",
+    "PGS002506",
+    "PGS002457",
+    "PGS002336",
+    "PGS002408",
+    "PGS005218",
+    "PGS002766",
+    "PGS000759",
+    "PGS002555",
+    "PGS004516",
+    "PGS001181",
+    "PGS004446",
+    "PGS005272",
+    "PGS005271",
+    "PGS001816",
+    "PGS000965",
+    "PGS005270",
+    "PGS004789",
+    "PGS004790",
+    "PGS005267",
+    "PGS000761",
+    "PGS002653"
+  ],
+  "total_found": 28,
+  "candidate_models": [
+    {
+      "id": "PGS000759",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "GCTA-COJO forward selection highest PPA variants",
+      "variants_number": 140,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genetic variation associated with thyroid autoimmunity shapes the systemic immune response to PD-1 checkpoint blockade.",
+      "date_release": "2021-06-11",
+      "samples_training": "n=408,959",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "anti-PD-L1 induced hypothyroidism in cancer patients",
+      "covariates": "5 genotype PCs",
+      "sampleset": "PSS000970",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": null,
+      "validation_sample_size": "n=1,584"
+    },
+    {
+      "id": "PGS000761",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "LDpred2-auto",
+      "variants_number": 1099649,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genetic variation associated with thyroid autoimmunity shapes the systemic immune response to PD-1 checkpoint blockade.",
+      "date_release": "2021-06-11",
+      "samples_training": "n=408,959",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "anti-PD-L1 induced hypothyroidism in cancer patients",
+      "covariates": "5 genotype PCs",
+      "sampleset": "PSS000970",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": null,
+      "validation_sample_size": "n=1,584"
+    },
+    {
+      "id": "PGS000820",
+      "trait_reported": "Hypothyroidism (self-reported)",
+      "trait_efo": "hypothyroidism",
+      "method_name": "LDpred",
+      "variants_number": 890908,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (50%), MAE (50%)",
+      "publication": "Immunotherapy-mediated thyroid dysfunction: genetic risk and impact on outcomes with PD-1 blockade in non-small cell lung cancer.",
+      "date_release": "2021-07-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.64,
+        "r2": null
+      },
+      "phenotyping_reported": "Spontaneous hypothyroidism",
+      "covariates": "Age, sex, PCs(1-10)",
+      "sampleset": "PSS001068",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=459,318",
+      "validation_sample_size": "n=51,070"
+    },
+    {
+      "id": "PGS000965",
+      "trait_reported": "Hypothyroidism/myxoedema",
+      "trait_efo": "hypothyroidism, myxedema",
+      "method_name": "snpnet",
+      "variants_number": 4535,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.76828,
+        "r2": 0.14978
+      },
+      "phenotyping_reported": "Hypothyroidism/myxoedema",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS004354",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001181",
+      "trait_reported": "Other hypothyroidism (time-to-event)",
+      "trait_efo": "hypothyroidism",
+      "method_name": "snpnet",
+      "variants_number": 4739,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.76691,
+        "r2": 0.15134
+      },
+      "phenotyping_reported": "TTE other hypothyroidism",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS004555",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001816",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 11130,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009286",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,852"
+    },
+    {
+      "id": "PGS002024",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 632597,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009286",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,852"
+    },
+    {
+      "id": "PGS002336",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "BOLT-LMM",
+      "variants_number": 1109311,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002408",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 4815,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002457",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 17519,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002506",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 97010,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002555",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 986,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002604",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 550,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002653",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PolyFun-pred",
+      "variants_number": 197450,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002702",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "SBayesR",
+      "variants_number": 889041,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "sampleset": "PSS009787",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=337,488",
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002766",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PRS-CS",
+      "variants_number": 1092122,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "sampleset": "PSS009939",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=406,300",
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS004446",
+      "trait_reported": "E03 (Other hypothyroidism)",
+      "trait_efo": "hypothyroidism",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "E03 (Other hypothyroidism)",
+      "covariates": "Unknown",
+      "sampleset": "PSS011364",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004516",
+      "trait_reported": "E03 (Other hypothyroidism)",
+      "trait_efo": "hypothyroidism",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "E03 (Other hypothyroidism)",
+      "covariates": "Unknown",
+      "sampleset": "PSS011364",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004789",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PRSmix",
+      "variants_number": 1109333,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "sampleset": "PSS011465",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "variants_genomebuild": "hg38",
+      "samples_variants": null,
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004790",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PRSmixPlus",
+      "variants_number": 1841655,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "sampleset": "PSS011465",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "variants_genomebuild": "hg38",
+      "samples_variants": null,
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004935",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "SnpNet",
+      "variants_number": 6127,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Polygenic risk score portability for common diseases across genetically diverse populations.",
+      "date_release": "2024-09-19",
+      "samples_training": "n=285,899",
+      "performance_metrics": {
+        "auc": 0.7,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "Unknown",
+      "sampleset": "PSS011762",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "hg19",
+      "samples_variants": null,
+      "validation_sample_size": "n=8,417"
+    },
+    {
+      "id": "PGS005218",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PRS-CS",
+      "variants_number": 1110091,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Genome-wide association study and polygenic risk prediction of hypothyroidism.",
+      "date_release": "2025-11-10",
+      "samples_training": "n=1,146,562",
+      "performance_metrics": {
+        "auc": 0.859,
+        "r2": null
+      },
+      "phenotyping_reported": "Hypothyroidism",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4",
+      "sampleset": "PSS012042",
+      "training_development_cohorts": [
+        "23andMe",
+        "CHB",
+        "DBDS",
+        "EB",
+        "FinnGen",
+        "UKB",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=1,178,661",
+      "validation_sample_size": "n=441,692"
+    },
+    {
+      "id": "PGS005267",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 439,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.64,
+        "r2": null
+      },
+      "phenotyping_reported": "hypothyroidism",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005268",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PRSCS",
+      "variants_number": 1085173,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.638920940728866,
+        "r2": null
+      },
+      "phenotyping_reported": "hypothyroidism",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005269",
+      "trait_reported": "Hypothyroidism",
+      "trait_efo": "hypothyroidism",
+      "method_name": "PRSCS",
+      "variants_number": 1085170,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.638628477117025,
+        "r2": null
+      },
+      "phenotyping_reported": "hypothyroidism",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005270",
+      "trait_reported": "Lymphocytic thyroiditis",
+      "trait_efo": "Hashimoto's thyroiditis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 55,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.638677809581895,
+        "r2": null
+      },
+      "phenotyping_reported": "lymphocytic thyroiditis",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005271",
+      "trait_reported": "Lymphocytic thyroiditis",
+      "trait_efo": "Hashimoto's thyroiditis",
+      "method_name": "PRSCS",
+      "variants_number": 1085156,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.629725726511746,
+        "r2": null
+      },
+      "phenotyping_reported": "lymphocytic thyroiditis",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005272",
+      "trait_reported": "Lymphocytic thyroiditis",
+      "trait_efo": "Hashimoto's thyroiditis",
+      "method_name": "PRSCS",
+      "variants_number": 1085142,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.605418550899187,
+        "r2": null
+      },
+      "phenotyping_reported": "lymphocytic thyroiditis",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS005218",
+    "reported_auc": 0.859,
+    "trait_reported": "Hypothyroidism",
+    "method_name": "PRS-CS",
+    "validation_sample_size": "n=441,692",
+    "rank": 3,
+    "rank_label": "3/28"
+  }
+}

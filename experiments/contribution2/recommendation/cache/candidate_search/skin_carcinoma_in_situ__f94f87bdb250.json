@@ -1,0 +1,93 @@
+{
+  "cache_version": "v1",
+  "ontology": "skin carcinoma in situ",
+  "candidate_model_ids": [
+    "PGS000469",
+    "PGS000470",
+    "PGS000471"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS000469",
+      "trait_reported": "Carcinoma in situ of skin",
+      "trait_efo": "skin carcinoma in situ",
+      "method_name": "PRS-CS",
+      "variants_number": 1119238,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=6,005",
+      "performance_metrics": {
+        "auc": 0.524,
+        "r2": null
+      },
+      "phenotyping_reported": "Carcinoma in situ of skin",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000547",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=395,738",
+      "validation_sample_size": "n=5,500"
+    },
+    {
+      "id": "PGS000470",
+      "trait_reported": "Carcinoma in situ of skin",
+      "trait_efo": "skin carcinoma in situ",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 5,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=6,005",
+      "performance_metrics": {
+        "auc": 0.557,
+        "r2": null
+      },
+      "phenotyping_reported": "Carcinoma in situ of skin",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000547",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=395,738",
+      "validation_sample_size": "n=5,500"
+    },
+    {
+      "id": "PGS000471",
+      "trait_reported": "Carcinoma in situ of skin",
+      "trait_efo": "skin carcinoma in situ",
+      "method_name": "lassosum",
+      "variants_number": 7,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "date_release": "2020-12-15",
+      "samples_training": "n=6,005",
+      "performance_metrics": {
+        "auc": 0.569,
+        "r2": null
+      },
+      "phenotyping_reported": "Carcinoma in situ of skin",
+      "covariates": "age, sex, batch PCs 1-4",
+      "sampleset": "PSS000547",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=395,738",
+      "validation_sample_size": "n=5,500"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000471",
+    "reported_auc": 0.569,
+    "trait_reported": "Carcinoma in situ of skin",
+    "method_name": "lassosum",
+    "validation_sample_size": "n=5,500",
+    "rank": 1,
+    "rank_label": "1/3"
+  }
+}

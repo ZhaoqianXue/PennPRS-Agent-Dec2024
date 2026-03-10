@@ -6,13 +6,14 @@ Implements sop.md L356-462 tool specifications.
 import os
 import time
 import json
+import re
 import logging
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Iterable, Tuple, Set
 from statistics import median, quantiles
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from src.server.core.tool_schemas import (
-    PGSModelSummary, PGSSearchResult,
+    PublicationMetadata, PGSModelSummary, PGSSearchResult,
     PerformanceLandscape, MetricDistribution,
     ToolError
 )
@@ -30,6 +31,19 @@ DOMAIN_QUERY_EXPANSION: Dict[str, List[str]] = {
     "method": ["method", "ldpred2", "prs-cs", "lassosum", "c+t"],
     "ancestry": ["ancestry", "eur", "afr", "eas", "sas", "multi-ancestry"],
     "phenotype": ["phenotype", "trait", "endpoint", "proxy", "family history"],
+    "endpoint": ["endpoint", "specificity", "incident", "prevalent", "time-to-event", "proxy"],
+    "specificity": ["specificity", "exact disease", "subtype", "organ-specific"],
+    "transfer": ["external", "transfer", "transportability", "deploy", "biobank"],
+    "external": ["external", "transportability", "independent validation", "deployment"],
+    "snpnet": ["snpnet", "time-to-event", "ukb", "biobank"],
+    "ukb": ["ukb", "biobank", "time-to-event", "administrative"],
+    "validation": ["validation", "validated", "external validation", "sample size"],
+    "sample": ["sample", "sample size", "validation", "powered", "n="],
+    "size": ["sample size", "validation", "cohort", "n="],
+    "tie-break": ["tie-break", "tiebreak", "validation sample size", "close auc"],
+    "incident": ["incident", "time-to-event", "horizon-specific"],
+    "case-control": ["case-control", "clinical endpoint", "exact disease"],
+    "subtype": ["subtype", "dominant subtype", "organ-specific"],
 }
 
 STRUCTURED_SECTION_KEYWORDS: Dict[str, List[str]] = {
@@ -39,6 +53,27 @@ STRUCTURED_SECTION_KEYWORDS: Dict[str, List[str]] = {
     "penalties and red flags": ["penalties", "red", "flag", "proxy", "overlap", "bias"],
     "method priors": ["method", "ldpred2", "prs-cs", "lassosum", "c+t"],
     "endpoint integrity notes (disease-agnostic)": ["proxy", "endpoint", "family history", "disease"],
+    "decision order": ["ranking", "selection", "endpoint", "transfer", "auc"],
+    "endpoint specificity hierarchy": ["endpoint", "specificity", "incident", "prevalent", "proxy", "time-to-event"],
+    "external transfer reliability heuristics": ["external", "transfer", "transportability", "biobank", "validation"],
+    "large-biobank snpnet / time-to-event caution": ["snpnet", "time-to-event", "ukb", "biobank"],
+    "validation sample-size tie-break": ["validation", "sample", "size", "tie-break", "tiebreak"],
+    "disease-family cautions": ["cancer", "carcinoma", "thyroid", "cardiovascular", "vitiligo"],
+}
+
+TARGET_DISEASE_SECTION_TITLES = {
+    "Abdominal Aortic Aneurysm",
+    "Aortic Stenosis",
+    "Cervical Carcinoma",
+    "Hashimoto's Thyroiditis",
+    "Hypothyroidism",
+    "Late-Onset Alzheimer's Disease",
+    "Obesity",
+    "Open-Angle Glaucoma",
+    "Prostate Cancer",
+    "Thyroid Carcinoma",
+    "Uterine Carcinoma",
+    "Vitiligo",
 }
 
 
@@ -165,7 +200,7 @@ def prs_model_pgscatalog_search(
             method_name = details.get("method_name", "Unknown")
             variants_number = details.get("variants_number", 0)
             ancestry_distribution = _format_ancestry(details.get("ancestry_distribution", {}))
-            publication = details.get("publication", {}).get("title", "Unknown")
+            publication = _extract_publication_metadata(details.get("publication"))
             date_release = details.get("date_release", "Unknown")
             samples_training = _format_samples(details.get("samples_training", []))
         else:
@@ -175,7 +210,7 @@ def prs_model_pgscatalog_search(
             method_name = "Unknown"
             variants_number = 0
             ancestry_distribution = "Unknown"
-            publication = "Unknown"
+            publication = PublicationMetadata(title="Unknown", journal="Unknown")
             date_release = "Unknown"
             samples_training = "N/A"
 
@@ -183,21 +218,12 @@ def prs_model_pgscatalog_search(
 
         phenotyping_reported = "Unknown"
         covariates = "Unknown"
-        sampleset = "Unknown"
         validation_sample_size: Optional[str] = None
         if performance:
             first = performance[0] if isinstance(performance[0], dict) else {}
             phenotyping_reported = first.get("phenotyping_reported") or "Unknown"
             covariates = first.get("covariates") or "Unknown"
-            ss = first.get("sampleset") or {}
-            if isinstance(ss, dict):
-                sampleset = ss.get("name") or ss.get("id") or "Unknown"
             validation_sample_size = _extract_validation_sample_size(performance)
-
-        variants_genomebuild = details.get("variants_genomebuild") if details else None
-        samples_variants = _format_samples(details.get("samples_variants", [])) if details else None
-        if samples_variants == "N/A":
-            samples_variants = None
 
         summary = PGSModelSummary(
             id=pgs_id,
@@ -212,10 +238,7 @@ def prs_model_pgscatalog_search(
             performance_metrics={"auc": auc, "r2": r2},
             phenotyping_reported=phenotyping_reported,
             covariates=covariates,
-            sampleset=sampleset,
             training_development_cohorts=cohorts,
-            variants_genomebuild=variants_genomebuild,
-            samples_variants=samples_variants,
             validation_sample_size=validation_sample_size,
         )
         candidates.append(summary)
@@ -284,6 +307,15 @@ def _format_samples(samples: List[Dict[str, Any]]) -> str:
     # Use (x or 0) to handle None (API may return null for sample_number)
     total_n = sum((s.get("sample_number") or 0) for s in samples)
     return f"n={total_n:,}"
+
+
+def _extract_publication_metadata(publication: Any) -> PublicationMetadata:
+    """Extract agent-facing publication metadata from the raw PGS Catalog object."""
+    if isinstance(publication, dict):
+        title = str(publication.get("title") or "Unknown")
+        journal = str(publication.get("journal") or "Unknown")
+        return PublicationMetadata(title=title, journal=journal)
+    return PublicationMetadata(title="Unknown", journal="Unknown")
 
 
 def _extract_validation_sample_size(performance_records: List[Dict[str, Any]]) -> Optional[str]:
@@ -778,15 +810,46 @@ def prs_model_domain_knowledge(
     
     # Score and rank sections by relevance
     query_terms = _expand_domain_query_terms(query)
+    target_trait_phrase = _extract_target_trait_phrase(query)
     scored_sections = []
     
     for section_title, section_content in sections:
-        score = _calculate_relevance(query_terms, section_title, section_content)
+        score = _calculate_relevance(
+            query_terms,
+            section_title,
+            section_content,
+            target_trait_phrase=target_trait_phrase,
+        )
         if score > 0:
             scored_sections.append((section_title, section_content, score))
     
     # Sort by score descending
     scored_sections.sort(key=lambda x: x[2], reverse=True)
+    if target_trait_phrase:
+        normalized_target = _normalize_phrase(target_trait_phrase)
+        target_sections = [
+            item for item in scored_sections
+            if normalized_target
+            and (
+                normalized_target in _normalize_phrase(item[0])
+                or _normalize_phrase(item[0]) in normalized_target
+            )
+        ]
+        other_sections = [
+            item for item in scored_sections
+            if item not in target_sections
+            and (
+                item[0] not in TARGET_DISEASE_SECTION_TITLES
+                or (
+                    normalized_target
+                    and (
+                        normalized_target in _normalize_phrase(item[0])
+                        or _normalize_phrase(item[0]) in normalized_target
+                    )
+                )
+            )
+        ]
+        scored_sections = target_sections + other_sections
     
     # Build snippets
     snippets = []
@@ -841,7 +904,25 @@ def _parse_markdown_sections(content: str) -> List[tuple]:
     return sections
 
 
-def _calculate_relevance(query_terms: List[str], title: str, content: str) -> float:
+def _extract_target_trait_phrase(query: str) -> Optional[str]:
+    match = re.search(r"target_trait\s*:\s*([^;]+)", query or "", flags=re.IGNORECASE)
+    if not match:
+        return None
+    phrase = re.sub(r"\s+", " ", match.group(1)).strip().lower()
+    return phrase or None
+
+
+def _normalize_phrase(text: str) -> str:
+    normalized = re.sub(r"[^a-z0-9]+", " ", (text or "").lower()).strip()
+    return re.sub(r"\s+", " ", normalized)
+
+
+def _calculate_relevance(
+    query_terms: List[str],
+    title: str,
+    content: str,
+    target_trait_phrase: Optional[str] = None,
+) -> float:
     """
     Calculate relevance score between query and section.
     
@@ -869,6 +950,21 @@ def _calculate_relevance(query_terms: List[str], title: str, content: str) -> fl
         if section_key in title_l and any(t in query_set for t in trigger_terms):
             score += 4.0
             break
+
+    if target_trait_phrase:
+        if target_trait_phrase in title_l:
+            score += 8.0
+        elif target_trait_phrase in combined:
+            score += 4.0
+
+    if "endpoint" in title_l and any(t in query_set for t in {"endpoint", "specificity", "phenotype", "proxy"}):
+        score += 2.0
+    if any(t in title_l for t in {"transfer", "transport", "biobank", "snpnet"}):
+        if any(t in query_set for t in {"external", "transfer", "transportability", "snpnet", "ukb", "biobank"}):
+            score += 2.0
+    if any(t in title_l for t in {"validation", "sample-size", "tie-break", "tiebreak"}):
+        if any(t in query_set for t in {"validation", "sample", "size", "tie-break", "tiebreak"}):
+            score += 2.0
 
     return score
 

@@ -26,13 +26,12 @@ def _create_model(
         method_name=method_name,
         variants_number=variants_number,
         ancestry_distribution=ancestry_distribution,
-        publication="Pub",
+        publication={"title": "Pub", "journal": "Journal"},
         date_release="2020-01-01",
         samples_training=samples_training,
         performance_metrics={"auc": auc, "r2": r2},
         phenotyping_reported="T2D",
         covariates="age,sex",
-        sampleset=None,
         training_development_cohorts=cohorts or []
     )
 
@@ -323,7 +322,7 @@ class TestPGSCatalogSearch:
                 "method_name": "LDpred2",
                 "variants_number": 100,
                 "ancestry_distribution": {"gwas": {"EUR": 1.0}},
-                "publication": {"title": "Test Pub"},
+                "publication": {"title": "Test Pub", "journal": "Test Journal"},
                 "date_release": "2020-01-01",
                 "samples_training": [{"sample_number": 1000}],
             }
@@ -355,6 +354,7 @@ class TestPGSCatalogSearch:
         pgs003 = next(m for m in result.models if m.id == "PGS003")
         assert pgs003.performance_metrics.get("auc") is None
         assert pgs003.performance_metrics.get("r2") is None
+        assert pgs003.publication.journal == "Test Journal"
 
     def test_search_returns_all_filtered_models(self):
         """Test that all filtered models are returned (Top-N limit strategy disabled)."""

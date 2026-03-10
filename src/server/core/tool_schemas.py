@@ -14,6 +14,11 @@ from typing import Optional, List, Dict, Any
 
 # --- PRS Model Tools Schemas ---
 
+class PublicationMetadata(BaseModel):
+    """Structured publication metadata for agent-facing model context."""
+    title: str = Field(..., description="Full publication title")
+    journal: str = Field(..., description="Journal or venue name")
+
 class PGSModelSummary(BaseModel):
     """
     Summary of a PGS model with [Agent + UI] fields only.
@@ -25,7 +30,7 @@ class PGSModelSummary(BaseModel):
     method_name: str = Field(..., description="Algorithm used (e.g., LDpred2)")
     variants_number: int = Field(..., description="Count of variants in model")
     ancestry_distribution: str = Field(..., description="Ancestry breakdown")
-    publication: str = Field(..., description="Publication metadata")
+    publication: PublicationMetadata = Field(..., description="Publication title and journal metadata")
     date_release: str = Field(..., description="Date the score was released")
     samples_training: str = Field(..., description="Samples used for training")
     performance_metrics: Dict[str, Optional[float]] = Field(
@@ -33,14 +38,11 @@ class PGSModelSummary(BaseModel):
     )
     phenotyping_reported: str = Field(..., description="Phenotype description in validation")
     covariates: str = Field(..., description="Covariates used in validation")
-    sampleset: Optional[str] = Field(None, description="Sample set used for validation")
     training_development_cohorts: List[str] = Field(
         default_factory=list,
         description="Union of cohort short names from training/development-related samples"
     )
-    # Supplementary [Agent + UI] fields for scientific reasoning (sop.md L386, L394)
-    variants_genomebuild: Optional[str] = Field(None, description="Genome build (e.g., hg19, GRCh37)")
-    samples_variants: Optional[str] = Field(None, description="GWAS discovery sample size (n=...)")
+    # Supplementary [Agent + UI] fields for scientific reasoning.
     validation_sample_size: Optional[str] = Field(None, description="Validation cohort sample size (n=...)")
 
 

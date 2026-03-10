@@ -1,0 +1,203 @@
+{
+  "cache_version": "v1",
+  "ontology": "abdominal aortic aneurysm",
+  "candidate_model_ids": [
+    "PGS003972",
+    "PGS002054",
+    "PGS003973",
+    "PGS003429",
+    "PGS000753",
+    "PGS001784"
+  ],
+  "total_found": 6,
+  "candidate_models": [
+    {
+      "id": "PGS000753",
+      "trait_reported": "Abdominal aortic aneurysm",
+      "trait_efo": "Abdominal Aortic Aneurysm",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 29,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (25%), EUR (75%)",
+      "publication": "Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program.",
+      "date_release": "2021-04-07",
+      "samples_training": "n=8,772",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Prevalent abdominal aortic aneurysm",
+      "covariates": "Age, sex, PCs (1-5)",
+      "sampleset": "PSS000958",
+      "training_development_cohorts": [
+        "MAYO-VDB",
+        "MVP"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=179,814",
+      "validation_sample_size": "n=47,098"
+    },
+    {
+      "id": "PGS001784",
+      "trait_reported": "Abdominal aortic aneurysm",
+      "trait_efo": "Abdominal Aortic Aneurysm",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 911440,
+      "ancestry_distribution": "GWAS: AFR (60%), EAS (17%), EUR (82%), OTH (90%) | EVAL: EUR (100%)",
+      "publication": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.868,
+        "r2": null
+      },
+      "phenotyping_reported": "Abdominal aortic aneurysm",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "sampleset": "PSS007707",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "deCODE"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=1,046,004",
+      "validation_sample_size": "n=350,767"
+    },
+    {
+      "id": "PGS002054",
+      "trait_reported": "Abdominal aortic aneurysm",
+      "trait_efo": "Abdominal Aortic Aneurysm",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 592187,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Abdominal aortic aneurysm",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009317",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,545"
+    },
+    {
+      "id": "PGS003429",
+      "trait_reported": "Abdominal aortic aneurysm",
+      "trait_efo": "Abdominal Aortic Aneurysm",
+      "method_name": "shaPRS + LDpred2",
+      "variants_number": 831447,
+      "ancestry_distribution": "GWAS: EUR (89%), MAE (11%) | EVAL: EUR (100%)",
+      "publication": "Evaluating the cost-effectiveness of polygenic risk score-stratified screening for abdominal aortic aneurysm.",
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.708,
+        "r2": 0.00547
+      },
+      "phenotyping_reported": "Abdominal aortic aneurysm",
+      "covariates": "Unknown",
+      "sampleset": "PSS010126",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=556,900",
+      "validation_sample_size": "n=91,731"
+    },
+    {
+      "id": "PGS003972",
+      "trait_reported": "Abdominal aortic aneurysm",
+      "trait_efo": "Abdominal Aortic Aneurysm",
+      "method_name": "PRS-CS",
+      "variants_number": 1118997,
+      "ancestry_distribution": "GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)",
+      "publication": "Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.",
+      "date_release": "2023-11-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.69,
+        "r2": null
+      },
+      "phenotyping_reported": "Abdominal aortic aneurysm",
+      "covariates": "Unknown",
+      "sampleset": "PSS011199",
+      "training_development_cohorts": [
+        "ARIC",
+        "CHB",
+        "CHIP",
+        "HUNT",
+        "MAYO-VDB",
+        "MGI",
+        "MVP",
+        "MyCode",
+        "NZ",
+        "PMB",
+        "TABS",
+        "UKAGS",
+        "UKB",
+        "VIVA",
+        "deCODE",
+        "eMERGE"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=1,125,328",
+      "validation_sample_size": "n=7,324"
+    },
+    {
+      "id": "PGS003973",
+      "trait_reported": "Abdominal aortic aneurysm",
+      "trait_efo": "Abdominal Aortic Aneurysm",
+      "method_name": "PRS-CS",
+      "variants_number": 1118997,
+      "ancestry_distribution": "GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)",
+      "publication": "Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.",
+      "date_release": "2023-11-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.882,
+        "r2": null
+      },
+      "phenotyping_reported": "Abdominal aortic aneurysm",
+      "covariates": "Age, Age^2, Sex",
+      "sampleset": "PSS011200",
+      "training_development_cohorts": [
+        "ARIC",
+        "CHB",
+        "CHIP",
+        "HUNT",
+        "MAYO-VDB",
+        "MGI",
+        "MVP",
+        "MyCode",
+        "NZ",
+        "PMB",
+        "TABS",
+        "deCODE",
+        "eMERGE"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=1,117,811",
+      "validation_sample_size": "n=7,517"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS003973",
+    "reported_auc": 0.882,
+    "trait_reported": "Abdominal aortic aneurysm",
+    "method_name": "PRS-CS",
+    "validation_sample_size": "n=7,517"
+  }
+}

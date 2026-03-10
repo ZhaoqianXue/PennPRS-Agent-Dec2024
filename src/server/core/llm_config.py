@@ -34,8 +34,8 @@ logger = logging.getLogger(__name__)
 @dataclass
 class ModelConfig:
     """Configuration for a single LLM model."""
-    model: str = "gpt-5.2"
-    temperature: float = 0.0
+    model: str = "gpt-5.4"
+    temperature: Optional[float] = None
     max_tokens: Optional[int] = None
     timeout: Optional[int] = 30
     json_mode: bool = False
@@ -45,8 +45,9 @@ class ModelConfig:
         """Convert to dict for ChatOpenAI kwargs."""
         config = {
             "model": self.model,
-            "temperature": self.temperature,
         }
+        if self.temperature is not None:
+            config["temperature"] = self.temperature
         if self.max_tokens:
             config["max_tokens"] = self.max_tokens
         if self.timeout:
@@ -75,8 +76,8 @@ class LLMConfig:
     # Used when no specific configuration is requested
     # =========================================================================
     DEFAULT = ModelConfig(
-        model="gpt-5.2",
-        temperature=0.0,
+        model="gpt-5.4",
+        temperature=None,
         timeout=30
     )
     
@@ -86,8 +87,8 @@ class LLMConfig:
     # Purpose: Protein search and result interpretation
     # =========================================================================
     PROTEIN_WORKFLOW = ModelConfig(
-        model="gpt-5.2",
-        temperature=0.0,
+        model="gpt-5.4",
+        temperature=None,
         timeout=30
     )
     
@@ -97,8 +98,8 @@ class LLMConfig:
     # Purpose: Disease/trait analysis, model recommendations
     # =========================================================================
     DISEASE_WORKFLOW = ModelConfig(
-        model="gpt-5.2",
-        temperature=0.0,
+        model="gpt-5.4",
+        temperature=None,
         timeout=30
     )
     
@@ -108,8 +109,8 @@ class LLMConfig:
     # Purpose: Quick trait classification (Binary vs Continuous)
     # =========================================================================
     TRAIT_CLASSIFIER = ModelConfig(
-        model="gpt-5.2",
-        temperature=0.0,
+        model="gpt-5.4",
+        temperature=None,
         timeout=30
     )
     
@@ -120,9 +121,9 @@ class LLMConfig:
     # Note: Uses JSON mode for structured output
     # =========================================================================
     AGENTIC_CLASSIFIER = ModelConfig(
-        model="gpt-5.2",
+        model="gpt-5.4",
 
-        temperature=0.0,
+        temperature=None,
         timeout=60,
         json_mode=False,
         strict=True

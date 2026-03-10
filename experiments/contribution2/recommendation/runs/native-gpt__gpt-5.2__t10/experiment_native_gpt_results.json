@@ -31,7 +31,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -64,7 +66,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -98,7 +102,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -134,7 +140,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -167,7 +175,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -200,7 +210,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -233,7 +245,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -267,7 +281,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -299,7 +315,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/6"
   },
   {
     "ontology": "abdominal aortic aneurysm",
@@ -331,7 +349,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -363,7 +383,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -396,7 +418,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -429,7 +453,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -462,7 +488,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -495,7 +523,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -528,7 +558,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -561,7 +593,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -594,7 +628,9 @@
       "sample_size",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -627,7 +663,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "age-related macular degeneration",
@@ -661,7 +699,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
   },
   {
     "ontology": "alcohol dependence",
@@ -689,7 +729,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -720,7 +762,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -751,7 +795,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -782,7 +828,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -813,7 +861,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -844,7 +894,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -875,7 +927,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -906,7 +960,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -935,7 +991,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "alcohol dependence",
@@ -965,7 +1023,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1003,7 +1063,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1040,7 +1102,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1078,7 +1142,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1114,7 +1180,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1151,7 +1219,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1188,7 +1258,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1224,7 +1296,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1261,7 +1335,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1297,7 +1373,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "ankylosing spondylitis",
@@ -1336,7 +1414,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/9"
   },
   {
     "ontology": "aortic stenosis",
@@ -1374,7 +1454,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1412,7 +1494,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1448,7 +1532,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1485,7 +1571,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1521,7 +1609,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1558,7 +1648,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1596,7 +1688,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1633,7 +1727,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1669,7 +1765,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "aortic stenosis",
@@ -1704,7 +1802,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/8"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1734,7 +1834,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1767,7 +1869,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1800,7 +1904,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1833,7 +1939,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1866,7 +1974,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1899,7 +2009,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1932,7 +2044,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1965,7 +2079,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -1996,7 +2112,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cervical carcinoma",
@@ -2028,7 +2146,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 6,
+    "recommended_rank_label": "6/6"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2059,7 +2179,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2088,7 +2210,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2117,7 +2241,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2146,7 +2272,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2175,7 +2303,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2204,7 +2334,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2233,7 +2365,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2262,7 +2396,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2293,7 +2429,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "cutaneous melanoma",
@@ -2322,7 +2460,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "graves disease",
@@ -2357,7 +2497,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2392,7 +2534,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2427,7 +2571,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2462,7 +2608,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2495,7 +2643,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2530,7 +2680,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2565,7 +2717,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2600,7 +2754,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2633,7 +2789,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "graves disease",
@@ -2665,7 +2823,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2694,7 +2854,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2723,7 +2885,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2752,7 +2916,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2781,7 +2947,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2810,7 +2978,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2839,7 +3009,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2868,7 +3040,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2897,7 +3071,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2926,7 +3102,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hashimoto's thyroiditis",
@@ -2956,7 +3134,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3011,7 +3191,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3066,7 +3248,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3121,7 +3305,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3176,7 +3362,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3231,7 +3419,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3286,7 +3476,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3341,7 +3533,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3396,7 +3590,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3450,7 +3646,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hodgkins lymphoma",
@@ -3505,7 +3703,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3538,7 +3738,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3569,7 +3771,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3600,7 +3804,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3631,7 +3837,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3662,7 +3870,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3693,7 +3903,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3724,7 +3936,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3755,7 +3969,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3786,7 +4002,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypertrophic cardiomyopathy",
@@ -3817,7 +4035,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "hypothyroidism",
@@ -3869,7 +4089,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -3922,7 +4144,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -3975,7 +4199,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4028,7 +4254,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4081,7 +4309,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4134,7 +4364,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4187,7 +4419,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4240,7 +4474,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4292,7 +4528,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "hypothyroidism",
@@ -4345,7 +4583,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/28"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4374,7 +4614,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4403,7 +4645,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4432,7 +4676,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4461,7 +4707,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4490,7 +4738,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4519,7 +4769,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4548,7 +4800,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4577,7 +4831,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4607,7 +4863,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "juvenile idiopathic arthritis",
@@ -4635,7 +4893,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "kidney cancer",
@@ -4670,7 +4930,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4704,7 +4966,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4738,7 +5002,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4772,7 +5038,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4806,7 +5074,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4840,7 +5110,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4874,7 +5146,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4908,7 +5182,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4944,7 +5220,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "kidney cancer",
@@ -4979,7 +5257,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5010,7 +5290,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5041,7 +5323,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5072,7 +5356,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5103,7 +5389,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5134,7 +5422,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5165,7 +5455,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5196,7 +5488,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5227,7 +5521,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5257,7 +5553,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/5"
   },
   {
     "ontology": "late-onset alzheimer's disease",
@@ -5287,7 +5585,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/5"
   },
   {
     "ontology": "nodular goiter",
@@ -5323,7 +5623,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5356,7 +5658,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5389,7 +5693,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5422,7 +5728,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5456,7 +5764,9 @@
       "ancestry",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5492,7 +5802,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5527,7 +5839,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5560,7 +5874,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5595,7 +5911,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "nodular goiter",
@@ -5631,7 +5949,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/7"
   },
   {
     "ontology": "obesity",
@@ -5667,7 +5987,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5702,7 +6024,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5737,7 +6061,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5772,7 +6098,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5807,7 +6135,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5842,7 +6172,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5878,7 +6210,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5913,7 +6247,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5948,7 +6284,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obesity",
@@ -5983,7 +6321,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 8,
+    "recommended_rank_label": "8/10"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6030,7 +6370,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6075,7 +6417,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6120,7 +6464,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6166,7 +6512,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6211,7 +6559,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6257,7 +6607,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6302,7 +6654,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6347,7 +6701,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6393,7 +6749,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "obstructive sleep apnea",
@@ -6438,7 +6796,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6466,7 +6826,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6497,7 +6859,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6528,7 +6892,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6559,7 +6925,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6590,7 +6958,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6621,7 +6991,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6652,7 +7024,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6683,7 +7057,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6715,7 +7091,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "open-angle glaucoma",
@@ -6747,7 +7125,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6776,7 +7156,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6805,7 +7187,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6834,7 +7218,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6863,7 +7249,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6892,7 +7280,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6921,7 +7311,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6950,7 +7342,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -6979,7 +7373,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -7008,7 +7404,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "peripheral vascular disease",
@@ -7037,7 +7435,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
   },
   {
     "ontology": "preeclampsia",
@@ -7067,7 +7467,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7096,7 +7498,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7124,7 +7528,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7153,7 +7559,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7183,7 +7591,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7214,7 +7624,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7243,7 +7655,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7273,7 +7687,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7301,7 +7717,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "preeclampsia",
@@ -7329,7 +7747,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "prostate cancer",
@@ -7448,7 +7868,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -7567,7 +7989,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -7686,7 +8110,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -7805,7 +8231,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -7924,7 +8352,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -8043,7 +8473,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -8162,7 +8594,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -8281,7 +8715,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -8400,7 +8836,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "prostate cancer",
@@ -8519,7 +8957,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 72,
+    "recommended_rank_label": "72/96"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8554,7 +8994,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8589,7 +9031,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8626,7 +9070,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8661,7 +9107,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8696,7 +9144,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8731,7 +9181,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8766,7 +9218,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8801,7 +9255,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8836,7 +9292,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "pulmonary embolism",
@@ -8871,7 +9329,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/7"
   },
   {
     "ontology": "renal carcinoma",
@@ -8904,7 +9364,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -8937,7 +9399,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -8970,7 +9434,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9003,7 +9469,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9036,7 +9504,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9069,7 +9539,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9102,7 +9574,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9135,7 +9609,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9167,7 +9643,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "renal carcinoma",
@@ -9201,7 +9679,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/8"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9228,7 +9708,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9255,7 +9737,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9282,7 +9766,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9309,7 +9795,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9336,7 +9824,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9363,7 +9853,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9390,7 +9882,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9417,7 +9911,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9444,7 +9940,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "skin carcinoma in situ",
@@ -9471,7 +9969,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
   },
   {
     "ontology": "sleep apnea",
@@ -9515,7 +10015,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9560,7 +10062,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9605,7 +10109,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9650,7 +10156,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9695,7 +10203,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9740,7 +10250,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9785,7 +10297,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9830,7 +10344,9 @@
       "variants",
       "covariates"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9874,7 +10390,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/20"
   },
   {
     "ontology": "sleep apnea",
@@ -9919,7 +10437,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/20"
   },
   {
     "ontology": "testicular neoplasm",
@@ -9960,7 +10480,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10000,7 +10522,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10040,7 +10564,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10080,7 +10606,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10120,7 +10648,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10160,7 +10690,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10200,7 +10732,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10240,7 +10774,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10281,7 +10817,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "testicular neoplasm",
@@ -10324,7 +10862,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/14"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10383,7 +10923,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10444,7 +10986,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10505,7 +11049,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10566,7 +11112,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10627,7 +11175,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10688,7 +11238,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10749,7 +11301,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10810,7 +11364,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10869,7 +11425,9 @@
       "ancestry",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "thyroid carcinoma",
@@ -10930,7 +11488,9 @@
       "method",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 24,
+    "recommended_rank_label": "24/32"
   },
   {
     "ontology": "uterine carcinoma",
@@ -10970,7 +11530,9 @@
       "auc",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11010,7 +11572,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11050,7 +11614,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11090,7 +11656,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11130,7 +11698,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11170,7 +11740,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11210,7 +11782,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11250,7 +11824,9 @@
       "auc",
       "r2"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11291,7 +11867,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "uterine carcinoma",
@@ -11332,7 +11910,9 @@
       "sample_size",
       "variants"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 9,
+    "recommended_rank_label": "9/14"
   },
   {
     "ontology": "vitiligo",
@@ -11359,7 +11939,9 @@
       "r2",
       "sample_size"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11387,7 +11969,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11415,7 +11999,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11443,7 +12029,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11471,7 +12059,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11499,7 +12089,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11527,7 +12119,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11555,7 +12149,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11583,7 +12179,9 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   },
   {
     "ontology": "vitiligo",
@@ -11611,6 +12209,8 @@
       "sample_size",
       "ancestry"
     ],
-    "error": null
+    "error": null,
+    "recommended_rank": 3,
+    "recommended_rank_label": "3/3"
   }
 ]

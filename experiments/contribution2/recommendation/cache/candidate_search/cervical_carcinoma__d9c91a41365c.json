@@ -1,0 +1,173 @@
+{
+  "cache_version": "v1",
+  "ontology": "cervical carcinoma",
+  "candidate_model_ids": [
+    "PGS003428",
+    "PGS003389",
+    "PGS000784",
+    "PGS005165",
+    "PGS000073",
+    "PGS001299"
+  ],
+  "total_found": 6,
+  "candidate_models": [
+    {
+      "id": "PGS000073",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.745,
+        "r2": null
+      },
+      "phenotyping_reported": "Cervical cancer",
+      "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs.",
+      "sampleset": "PSS000112",
+      "training_development_cohorts": [
+        "TwinGene"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=20,405",
+      "validation_sample_size": "n=226,216"
+    },
+    {
+      "id": "PGS000784",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "10 variants from Graff et al (PGS000073) with inverse variant weights",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.745,
+        "r2": 0.437
+      },
+      "phenotyping_reported": "Incident cervical cancer",
+      "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+      "sampleset": "PSS001012",
+      "training_development_cohorts": [
+        "NCI",
+        "Seattle",
+        "TwinGene",
+        "Umea",
+        "WTCCC"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=20,405",
+      "validation_sample_size": "n=211,795"
+    },
+    {
+      "id": "PGS001299",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "snpnet",
+      "variants_number": 24,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.91431,
+        "r2": 0.22017
+      },
+      "phenotyping_reported": "Cervical cancer",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "sampleset": "PSS007631",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS003389",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 2814,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.563,
+        "r2": 0.00158
+      },
+      "phenotyping_reported": "cervical cancer",
+      "covariates": "age, top 20 genetic principal components",
+      "sampleset": "PSS010075",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=9,347",
+      "validation_sample_size": "n=144,374"
+    },
+    {
+      "id": "PGS003428",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "LDpred",
+      "variants_number": 2894555,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "GWAS meta-analyses clarify genetics of cervical phenotypes and inform risk stratification for cervical cancer.",
+      "date_release": "2023-04-28",
+      "samples_training": "n=4,295",
+      "performance_metrics": {
+        "auc": 0.613,
+        "r2": null
+      },
+      "phenotyping_reported": "Incident cervical cancer",
+      "covariates": "age, smoking",
+      "sampleset": "PSS010125",
+      "training_development_cohorts": [
+        "EB",
+        "FinnGen",
+        "KP",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=326,610",
+      "validation_sample_size": "n=128,113"
+    },
+    {
+      "id": "PGS005165",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.566,
+        "r2": null
+      },
+      "phenotyping_reported": "Cervical Cancer",
+      "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
+      "sampleset": "PSS011943",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=73,294",
+      "validation_sample_size": "n=57,359"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001299",
+    "reported_auc": 0.9143,
+    "trait_reported": "Cervical cancer",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425",
+    "rank": 6,
+    "rank_label": "6/6"
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "cache_version": "v1",
+  "ontology": "nodular goiter",
+  "candidate_model_ids": [
+    "PGS005274",
+    "PGS005263",
+    "PGS002022",
+    "PGS005273",
+    "PGS005261",
+    "PGS001814",
+    "PGS005262"
+  ],
+  "total_found": 7,
+  "candidate_models": [
+    {
+      "id": "PGS001814",
+      "trait_reported": "Nontoxic multinodular goiter",
+      "trait_efo": "multinodular goiter, nontoxic goiter",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 322,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Nontoxic multinodular goiter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009284",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,043"
+    },
+    {
+      "id": "PGS002022",
+      "trait_reported": "Nontoxic multinodular goiter",
+      "trait_efo": "multinodular goiter, nontoxic goiter",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 375470,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "Nontoxic multinodular goiter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "sampleset": "PSS009284",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": null,
+      "validation_sample_size": "n=19,043"
+    },
+    {
+      "id": "PGS005261",
+      "trait_reported": "Benign nodular goiter",
+      "trait_efo": "benign, nodular goiter",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 110,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.585439091716637,
+        "r2": null
+      },
+      "phenotyping_reported": "benign nodular gioter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005262",
+      "trait_reported": "Benign nodular goiter",
+      "trait_efo": "benign, nodular goiter",
+      "method_name": "PRSCS",
+      "variants_number": 1085173,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.593306633581433,
+        "r2": null
+      },
+      "phenotyping_reported": "benign nodular gioter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005263",
+      "trait_reported": "Benign nodular goiter",
+      "trait_efo": "benign, nodular goiter",
+      "method_name": "PRSCS",
+      "variants_number": 1085170,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.587559211464932,
+        "r2": null
+      },
+      "phenotyping_reported": "benign nodular gioter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "EXCEED",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005273",
+      "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
+      "trait_efo": "benign, thyroid carcinoma, nodular goiter",
+      "method_name": "PRSCS",
+      "variants_number": 1085164,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.617388005401901,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CKB",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005274",
+      "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
+      "trait_efo": "benign, thyroid carcinoma, nodular goiter",
+      "method_name": "PRSCS",
+      "variants_number": 1084965,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.613489463745261,
+        "r2": null
+      },
+      "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
+      "covariates": "Unknown",
+      "sampleset": "PSS012069",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=0",
+      "validation_sample_size": "n=94,651"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS005273",
+    "reported_auc": 0.6174,
+    "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
+    "method_name": "PRSCS",
+    "validation_sample_size": "n=94,651",
+    "rank": 6,
+    "rank_label": "6/7"
+  }
+}

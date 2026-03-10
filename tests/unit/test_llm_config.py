@@ -19,11 +19,7 @@ class TestLLMConfig:
         llm = get_llm("default")
         assert isinstance(llm, ChatOpenAI)
         assert llm.model_name == LLMConfig.DEFAULT.model
-        # LangChain may normalize 0.0 to None/default
-        if LLMConfig.DEFAULT.temperature == 0.0:
-            assert llm.temperature == 0.0 or llm.temperature is None
-        else:
-            assert llm.temperature == LLMConfig.DEFAULT.temperature
+        assert llm.temperature == LLMConfig.DEFAULT.temperature
 
     def test_specific_module_config(self):
         """Test retrieving configuration for a specific module."""
@@ -33,11 +29,7 @@ class TestLLMConfig:
         
         assert isinstance(llm, ChatOpenAI)
         assert llm.model_name == config.model
-        
-        if config.temperature == 0.0:
-             assert llm.temperature == 0.0 or llm.temperature is None
-        elif llm.temperature is not None:
-             assert llm.temperature == config.temperature
+        assert llm.temperature == config.temperature
         
         # Verify JSON mode if applicable
         if config.json_mode:
@@ -47,10 +39,7 @@ class TestLLMConfig:
         """Test that unknown modules fall back to default."""
         llm = get_llm("non_existent_module")
         assert llm.model_name == LLMConfig.DEFAULT.model
-        if LLMConfig.DEFAULT.temperature == 0.0:
-            assert llm.temperature == 0.0 or llm.temperature is None
-        else:
-            assert llm.temperature == LLMConfig.DEFAULT.temperature
+        assert llm.temperature == LLMConfig.DEFAULT.temperature
 
     def test_openai_model_env_override(self):
         """Test OPENAI_MODEL environment variable override."""
@@ -74,6 +63,19 @@ class TestLLMConfig:
         assert config_dict["max_tokens"] == 100
         assert config_dict["timeout"] == 50
         assert config_dict["model_kwargs"] == {"response_format": {"type": "json_object"}}
+
+    def test_model_config_to_dict_omits_temperature_when_none(self):
+        """Temperature should be omitted when the model requires default sampling."""
+        config = ModelConfig(
+            model="gpt-test",
+            temperature=None,
+            timeout=50,
+        )
+
+        config_dict = config.to_dict()
+        assert config_dict["model"] == "gpt-test"
+        assert "temperature" not in config_dict
+        assert config_dict["timeout"] == 50
 
     def test_list_configs(self):
         """Test listing all configurations."""

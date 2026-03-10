@@ -203,6 +203,9 @@ def _slugify(text: str, max_len: int = 40) -> str:
 
 def _summarize_model_for_llm(model: Any) -> Dict[str, Any]:
     # PGSModelSummary is a Pydantic model; keep only high-signal [Agent + UI] fields.
+    publication = getattr(model, "publication", None)
+    if hasattr(publication, "model_dump"):
+        publication = publication.model_dump()
     return {
         "id": getattr(model, "id", None),
         "trait_reported": getattr(model, "trait_reported", None),
@@ -210,16 +213,13 @@ def _summarize_model_for_llm(model: Any) -> Dict[str, Any]:
         "method_name": getattr(model, "method_name", None),
         "variants_number": getattr(model, "variants_number", None),
         "ancestry_distribution": getattr(model, "ancestry_distribution", None),
-        "publication": getattr(model, "publication", None),
+        "publication": publication,
         "date_release": getattr(model, "date_release", None),
         "samples_training": getattr(model, "samples_training", None),
         "performance_metrics": getattr(model, "performance_metrics", None),
         "phenotyping_reported": getattr(model, "phenotyping_reported", None),
         "covariates": getattr(model, "covariates", None),
-        "sampleset": getattr(model, "sampleset", None),
         "training_development_cohorts": getattr(model, "training_development_cohorts", None),
-        "variants_genomebuild": getattr(model, "variants_genomebuild", None),
-        "samples_variants": getattr(model, "samples_variants", None),
         "validation_sample_size": getattr(model, "validation_sample_size", None),
     }
 
@@ -245,11 +245,9 @@ def _build_step1_feature_table(models: List[Any], top_n: int = TOP_MODELS_INLINE
             "auc": pm.get("auc"),
             "r2": pm.get("r2"),
             "samples_training": getattr(m, "samples_training", None),
-            "samples_variants": getattr(m, "samples_variants", None),
             "validation_sample_size": getattr(m, "validation_sample_size", None),
             "ancestry_distribution": getattr(m, "ancestry_distribution", None),
             "variants_number": getattr(m, "variants_number", None),
-            "variants_genomebuild": getattr(m, "variants_genomebuild", None),
             "phenotyping_reported": getattr(m, "phenotyping_reported", None),
             "covariates": getattr(m, "covariates", None),
             "training_development_cohorts": getattr(m, "training_development_cohorts", None),
@@ -779,9 +777,12 @@ def recommend_models(
         })
 
     domain_query = (
-        f"{target_trait} PRS clinical thresholds AUC R2 "
-        "must-pass gates phenotype alignment ancestry compatibility "
-        "ranking features penalties method priors"
+        f"target_trait: {target_trait}; PRS clinical thresholds AUC R2 "
+        "must-pass gates phenotype alignment endpoint specificity "
+        "external transfer reliability ancestry compatibility "
+        "ranking features penalties method priors validation sample size tie-break "
+        "time-to-event horizon-specific incident case-control dominant subtype "
+        "snpnet biobank transportability"
     )
     knowledge_with_domain: Optional[DomainKnowledgeResult] = None
     if (not step1_disable_domain_knowledge) or step1_run_ablation:

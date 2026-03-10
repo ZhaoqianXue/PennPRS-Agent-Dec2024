@@ -1,0 +1,521 @@
+{
+  "cache_version": "v1",
+  "ontology": "sleep apnea",
+  "candidate_model_ids": [
+    "PGS003207",
+    "PGS003215",
+    "PGS003211",
+    "PGS003209",
+    "PGS003857",
+    "PGS003206",
+    "PGS003216",
+    "PGS003858",
+    "PGS003217",
+    "PGS003214",
+    "PGS003204",
+    "PGS003210",
+    "PGS003205",
+    "PGS003218",
+    "PGS003208",
+    "PGS005220",
+    "PGS005219",
+    "PGS003479",
+    "PGS003212",
+    "PGS003213"
+  ],
+  "total_found": 20,
+  "candidate_models": [
+    {
+      "id": "PGS003204",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "lassosum",
+      "variants_number": 4360,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.49,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003205",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 5300,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.5,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003206",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "PLINK",
+      "variants_number": 9873,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.49,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003207",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "DBSLMM",
+      "variants_number": 355,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.492,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003208",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "PRS-CS",
+      "variants_number": 12076,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.505,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003209",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "lassosum",
+      "variants_number": 328671,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.514,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=358,945",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003210",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 40992,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.519,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=358,945",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003211",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "PLINK",
+      "variants_number": 39223,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.515,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=358,945",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003212",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "DBSLMM",
+      "variants_number": 7601206,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.496,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=358,945",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003213",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "PRS-CS",
+      "variants_number": 1111194,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=21,209",
+      "performance_metrics": {
+        "auc": 0.527,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010012",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=358,945",
+      "validation_sample_size": "n=21,354"
+    },
+    {
+      "id": "PGS003214",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "lassosum",
+      "variants_number": 5812,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=203,739",
+      "performance_metrics": {
+        "auc": 0.5,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010032",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=203,685"
+    },
+    {
+      "id": "PGS003215",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 1209,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=203,739",
+      "performance_metrics": {
+        "auc": 0.489,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010032",
+      "training_development_cohorts": [
+        "FinnGen",
+        "UKB"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=203,685"
+    },
+    {
+      "id": "PGS003216",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "PLINK",
+      "variants_number": 688,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=203,739",
+      "performance_metrics": {
+        "auc": 0.497,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010032",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=203,685"
+    },
+    {
+      "id": "PGS003217",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "DBSLMM",
+      "variants_number": 46,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=203,739",
+      "performance_metrics": {
+        "auc": 0.485,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010032",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=203,685"
+    },
+    {
+      "id": "PGS003218",
+      "trait_reported": "Sleep apnea",
+      "trait_efo": "sleep apnea",
+      "method_name": "PRS-CS",
+      "variants_number": 12097,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures.",
+      "date_release": "2022-11-23",
+      "samples_training": "n=203,739",
+      "performance_metrics": {
+        "auc": 0.5,
+        "r2": null
+      },
+      "phenotyping_reported": "Sleep Apnea",
+      "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
+      "sampleset": "PSS010032",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "variants_genomebuild": "GRCh37",
+      "samples_variants": "n=176,232",
+      "validation_sample_size": "n=203,685"
+    },
+    {
+      "id": "PGS003479",
+      "trait_reported": "Obstructive sleep apnea",
+      "trait_efo": "obstructive sleep apnea",
+      "method_name": "LDpred2",
+      "variants_number": 836839,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AMR (100%)",
+      "publication": "Genetic determinants of cardiometabolic and pulmonary phenotypes and obstructive sleep apnoea in HCHS/SOL.",
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null
+      },
+      "phenotyping_reported": "DBP",
+      "covariates": "Age, sex, center, 5 genetic PCs, Hispanic/Latino background, BMI",
+      "sampleset": "PSS010185",
+      "training_development_cohorts": [],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=217,955",
+      "validation_sample_size": "n=1,115"
+    },
+    {
+      "id": "PGS003857",
+      "trait_reported": "Obstructive sleep apnea",
+      "trait_efo": "obstructive sleep apnea",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 18,
+      "ancestry_distribution": "GWAS: AFR (19%), AMR (8%), ASN (1%), EUR (72%) | EVAL: MAE (100%)",
+      "publication": "Genome-wide association study of obstructive sleep apnoea in the Million Veteran Program uncovers genetic heterogeneity by sex.",
+      "date_release": "2023-09-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.77,
+        "r2": null
+      },
+      "phenotyping_reported": "BMI unadjusted obstructive sleep apnea",
+      "covariates": "age, sex, genetic batch, PCs 1-10",
+      "sampleset": "PSS011076",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=568,576",
+      "validation_sample_size": "n=40,193"
+    },
+    {
+      "id": "PGS003858",
+      "trait_reported": "Obstructive sleep apnea (BMI adjusted)",
+      "trait_efo": "obstructive sleep apnea",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: AFR (19%), AMR (8%), ASN (1%), EUR (72%) | EVAL: MAE (100%)",
+      "publication": "Genome-wide association study of obstructive sleep apnoea in the Million Veteran Program uncovers genetic heterogeneity by sex.",
+      "date_release": "2023-09-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.77,
+        "r2": null
+      },
+      "phenotyping_reported": "BMI unadjusted obstructive sleep apnea",
+      "covariates": "age, sex, genetic batch, PCs 1-10",
+      "sampleset": "PSS011076",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "variants_genomebuild": "NR",
+      "samples_variants": "n=568,576",
+      "validation_sample_size": "n=40,193"
+    },
+    {
+      "id": "PGS005219",
+      "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
+      "trait_efo": "obstructive sleep apnea",
+      "method_name": "weighted PRSsummation PRS-CSs",
+      "variants_number": 982740,
+      "ancestry_distribution": "GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) | EVAL: MAE (100%)",
+      "publication": "Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease.",
+      "date_release": "2025-06-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.79,
+        "r2": null
+      },
+      "phenotyping_reported": "Obstructive sleep apnea",
+      "covariates": "age, sex, self-reported race/ethnicity , BMI and 11PCs",
+      "sampleset": "PSS012043",
+      "training_development_cohorts": [
+        "FinnGen",
+        "MGBB",
+        "MVP"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=916,696",
+      "validation_sample_size": "n=21,975"
+    },
+    {
+      "id": "PGS005220",
+      "trait_reported": "Obstructive sleep apnea (UnadjustedBMI)",
+      "trait_efo": "obstructive sleep apnea",
+      "method_name": "weighted PRSsummation PRS-CSs",
+      "variants_number": 984184,
+      "ancestry_distribution": "GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) | EVAL: MAE (100%)",
+      "publication": "Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease.",
+      "date_release": "2025-06-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": 0.79,
+        "r2": null
+      },
+      "phenotyping_reported": "Obstructive sleep apnea",
+      "covariates": "age, sex, self-reported race/ethnicity , BMI and 11PCs",
+      "sampleset": "PSS012043",
+      "training_development_cohorts": [
+        "FinnGen",
+        "MGBB",
+        "MVP"
+      ],
+      "variants_genomebuild": "GRCh38",
+      "samples_variants": "n=916,696",
+      "validation_sample_size": "n=21,975"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS005219",
+    "reported_auc": 0.79,
+    "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
+    "method_name": "weighted PRSsummation PRS-CSs",
+    "validation_sample_size": "n=21,975",
+    "rank": 2,
+    "rank_label": "2/20"
+  }
+}

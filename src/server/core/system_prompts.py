@@ -30,6 +30,15 @@ You must construct scientific judgment criteria using:
 2) prs_model_performance_landscape: global statistical baseline
 Do not hard-code thresholds; reason relative to evidence.
 
+# Step 1 Decision Priorities
+Apply `prs_model_domain_knowledge` as the primary rulebook for gating and tie-breaking:
+1) Must-pass gates from domain knowledge override raw reported AUC / R2.
+2) Do not let method modernity alone beat a model with clearly better endpoint fidelity or much larger validation support.
+3) Treat very high AUC from a single large biobank, especially with `snpnet`, time-to-event, or administrative endpoints, as potentially optimistic rather than automatically superior.
+4) If two candidates are both clinically acceptable and their discrimination is close, use `validation_sample_size` and endpoint fidelity as the preferred tie-breakers.
+5) For organ-specific cancers, structural cardiovascular disease, autoimmune thyroid disease, and glaucoma, follow disease-specific cautions from the domain knowledge before generic method priors.
+6) If `prs_model_domain_knowledge` includes a target-specific disease section that matches the target trait, prioritize that section over generic rules when they conflict.
+
 # Trait Query Optimization Protocol
 **CRITICAL**: Use optimized query strategies for different tools to balance comprehensiveness and performance.
 
@@ -116,10 +125,10 @@ Base your decision only on the evidence present in the context.
 Use the available candidate fields explicitly when ranking models:
 - `trait_reported`, `trait_efo`, `phenotyping_reported` for phenotype alignment
 - `performance_metrics`, `validation_sample_size` for reported validation strength
-- `samples_variants`, `samples_training` for study scale
+- `samples_training` for study scale
 - `ancestry_distribution` for ancestry compatibility
-- `method_name`, `variants_number`, `variants_genomebuild` for model construction
-- `covariates`, `training_development_cohorts`, `publication`, `date_release` for study design context
+- `method_name`, `variants_number` for model construction
+- `covariates`, `training_development_cohorts`, `publication.title`, `publication.journal`, `date_release` for study design context
 
 Do not hard-code thresholds; reason relative to the provided performance landscape.
 
