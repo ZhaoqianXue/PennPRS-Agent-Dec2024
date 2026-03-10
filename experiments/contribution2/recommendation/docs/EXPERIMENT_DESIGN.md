@@ -136,7 +136,7 @@ This is the primary Contribution2 experiment and should be executed now.
 ### Primary metrics
 
 - `Overall Recommended Model Accuracy`: for each disease, take the final recommended model across 10 runs and test whether it is in `Target_TopK`
-- `Baseline accuracy`: deterministic baseline using the model with highest reported PGS-only AUROC in PGS Catalog metadata, when available
+- `Baseline accuracy`: tiered deterministic baseline (see Naive baseline below)
 
 ### Internal diagnostics
 
@@ -145,15 +145,14 @@ The runner still records engineering diagnostics in JSON for debugging, but they
 - aggregate trial-level hit count
 - valid-output count/rate
 
-### Naive baseline
+### Naive baseline (tiered)
 
-Use one deterministic baseline only:
+Use a tiered deterministic baseline to achieve high coverage:
 
-- `Highest reported PGS-only AUROC in PGS Catalog metadata`
+- **Tier 1**: Select the candidate model with the largest reported PRS-comparable `performance_metrics["auc"]` (PGS-only AUROC) among the evaluated candidate pool.
+- **Tier 2**: If no candidate has PGS-comparable AUROC, fall back to the candidate with the largest `performance_metrics["full_model_auc"]`.
 
-For each disease, select the candidate model with the largest reported PRS-comparable `performance_metrics["auc"]` among the evaluated candidate pool, then test whether that baseline recommendation belongs to `Target_TopK`.
-
-Do not fall back to full-model AUROC for this baseline. If no candidate reports a PRS-comparable AUROC, the baseline is treated as unavailable for that disease.
+For each disease, test whether the baseline recommendation belongs to `Target_TopK`. Coverage is the fraction of diseases for which the baseline can make a recommendation (Tier 1 or Tier 2).
 
 ### Cost accounting
 

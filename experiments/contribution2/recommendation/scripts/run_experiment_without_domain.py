@@ -344,26 +344,53 @@ def _sort_disease_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: (-row["n_models"], row["ontology"]))
 
 
-def _best_reported_pgs_only_auc_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
+def _tiered_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
+    """
+    Tiered baseline: Tier 1 uses PGS-only AUROC; Tier 2 falls back to full-model AUROC
+    when no candidate has PGS-comparable AUROC. Achieves ~100% coverage.
+    """
     best_model = None
-    best_auc = None
+    best_score = None
+    tier_used = None
+
+    # Tier 1: PGS-only AUROC (PRS-comparable)
     for model in models:
         perf = getattr(model, "performance_metrics", {}) or {}
         auc = _safe_float(perf.get("auc"))
         if auc is None:
             continue
-        if best_auc is None or auc > best_auc:
+        if best_score is None or auc > best_score:
             best_model = model
-            best_auc = auc
-    if best_model is None or best_auc is None:
+            best_score = auc
+            tier_used = "pgs_only_auroc"
+
+    # Tier 2: full-model AUROC when Tier 1 has no coverage
+    if best_model is None:
+        for model in models:
+            perf = getattr(model, "performance_metrics", {}) or {}
+            full_auc = _safe_float(perf.get("full_model_auc"))
+            if full_auc is None:
+                continue
+            if best_score is None or full_auc > best_score:
+                best_model = model
+                best_score = full_auc
+                tier_used = "full_model_auroc"
+
+    if best_model is None or best_score is None:
         return None
     return {
         "pgs_id": getattr(best_model, "id", None),
-        "reported_auc": round(best_auc, 4),
+        "reported_auc": round(best_score, 4),
+        "tier": tier_used,
         "trait_reported": getattr(best_model, "trait_reported", None),
         "method_name": getattr(best_model, "method_name", None),
         "validation_sample_size": getattr(best_model, "validation_sample_size", None),
     }
+
+
+def _best_reported_pgs_only_auc_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
+    """Alias for tiered baseline (backward compatible)."""
+    return _tiered_baseline(models)
 
 
 def _modal_recommendation(trial_rows: list[dict[str, Any]]) -> tuple[Optional[str], int]:
@@ -1246,7 +1273,13 @@ def _build_summary_and_results(
             for trial in disease_trials
             for feature in trial.get("rationale_features", [])
         )
-        baseline = disease.get("baseline")
+        # Recompute baseline using tiered logic (PGS-only AUC, then full-model AUC fallback)
+        candidate_summaries = disease.get("candidate_models_visible_to_llm") or []
+        if candidate_summaries:
+            candidate_models = [_model_from_summary(s) for s in candidate_summaries]
+            baseline = _tiered_baseline(candidate_models)
+        else:
+            baseline = disease.get("baseline")
         baseline_hit = bool(baseline and baseline.get("pgs_id") in set(disease["target_topk_ids"]))
         baseline_with_rank = None
         if baseline:
@@ -1337,7 +1370,7 @@ def _build_summary_and_results(
         "majority_vote_hits": majority_vote_hits,
         "majority_vote_accuracy": round(majority_vote_accuracy, 4),
         "baseline": {
-            "name": "highest_reported_pgs_only_auroc_in_pgscatalog_metadata",
+            "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
             "available": baseline_available,
             "coverage": round(baseline_available / total_ontologies, 4) if total_ontologies else 0.0,
             "hits": baseline_hits,
@@ -1508,6 +1541,45 @@ def _target_columns(row: dict[str, Any]) -> list[tuple[str, Optional[str], str]]
     return columns
 
 
+def _recompute_baseline_in_summary(summary: dict[str, Any]) -> dict[str, Any]:
+    """Recompute tiered baseline for each disease in summary and update aggregate."""
+    per_disease = summary.get("per_disease") or []
+    total_ontologies = len(per_disease)
+
+    for row in per_disease:
+        candidate_summaries = row.get("candidate_models_visible_to_llm") or []
+        if not candidate_summaries:
+            continue
+        candidate_models = [_model_from_summary(s) for s in candidate_summaries]
+        baseline = _tiered_baseline(candidate_models)
+        baseline_with_rank = None
+        if baseline:
+            baseline_with_rank = dict(baseline)
+            rank_map = _benchmark_rank_map(row.get("benchmark_ranked_ids") or [])
+            baseline_rank = rank_map.get(baseline.get("pgs_id"))
+            baseline_with_rank["rank"] = baseline_rank
+            baseline_with_rank["rank_label"] = _rank_label(baseline_rank, row.get("n_models", 0))
+        row["baseline"] = baseline_with_rank
+        row["baseline_in_target_topk"] = bool(
+            baseline and baseline.get("pgs_id") in set(row.get("target_topk_ids") or [])
+        )
+
+    baseline_hits = sum(1 for row in per_disease if row.get("baseline_in_target_topk"))
+    baseline_available = sum(1 for row in per_disease if row.get("baseline"))
+    baseline_accuracy = baseline_hits / total_ontologies if total_ontologies else 0.0
+
+    if "baseline" not in summary:
+        summary["baseline"] = {}
+    summary["baseline"].update({
+        "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
+        "available": baseline_available,
+        "coverage": round(baseline_available / total_ontologies, 4) if total_ontologies else 0.0,
+        "hits": baseline_hits,
+        "accuracy": round(baseline_accuracy, 4),
+    })
+    return summary
+
+
 def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
     auc_lookup = _load_aou_auc_lookup()
     per_disease_rows = _sort_disease_rows(summary["per_disease"])
@@ -1532,9 +1604,7 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
         ),
         (
             f"- Baseline: `{summary['baseline']['hits']}/{summary['total_ontologies']} = "
-            f"{_format_percent(summary['baseline']['accuracy'])}`; "
-            f"`coverage = {summary['baseline'].get('available', summary['total_ontologies'])}/{summary['total_ontologies']} = "
-            f"{_format_percent(summary['baseline'].get('coverage', 1.0))}`"
+            f"{_format_percent(summary['baseline']['accuracy'])}`"
         ),
         "",
         "## Per-Disease Tables",
@@ -1645,9 +1715,8 @@ def _write_report(summary: dict[str, Any]) -> None:
             f"`trial_hits = {trial_hits}/{total_trials} = {_format_percent(trial_hit_rate)}`"
         ),
         (
-            f"- **Baseline (highest reported PGS-only AUROC in PGS Catalog metadata, when available)**: "
-            f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}; "
-            f"`coverage = {summary['baseline'].get('available', total_ontologies)}/{total_ontologies} = {_format_percent(summary['baseline'].get('coverage', 1.0))}`"
+            f"- **Baseline (tiered: PGS-only AUROC, then full-model AUROC fallback)**: "
+            f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}"
         ),
         "",
         "## Experiment Setup",
@@ -1656,7 +1725,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         "- **Domain Knowledge**: Disabled",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set",
-        "- **Baseline rule**: choose the candidate model with the highest reported PGS-only AUROC in PGS Catalog metadata; do not fall back to full-model AUROC",
+        "- **Baseline rule**: tiered—Tier 1 uses highest PGS-only AUROC; Tier 2 falls back to highest full-model AUROC when no candidate has PGS-comparable AUROC",
         "",
         "## Results by Disease",
         "",

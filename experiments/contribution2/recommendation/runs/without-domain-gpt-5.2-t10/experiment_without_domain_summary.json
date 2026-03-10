@@ -11,9 +11,11 @@
   "majority_vote_hits": 19,
   "majority_vote_accuracy": 0.6333,
   "baseline": {
-    "name": "highest_reported_auc_in_pgscatalog_metadata",
+    "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
     "hits": 11,
-    "accuracy": 0.3667
+    "accuracy": 0.3667,
+    "available": 28,
+    "coverage": 0.9333
   },
   "diagnostics": {
     "total_trials": 300,
@@ -346,6 +348,7 @@
       "baseline": {
         "pgs_id": "PGS003973",
         "reported_auc": 0.882,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Abdominal aortic aneurysm",
         "method_name": "PRS-CS",
         "validation_sample_size": "n=7,517",
@@ -521,7 +524,7 @@
           "variants_number": 52,
           "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
+            "title": "Genetic Risk Score Analysis Supports a Joint View of Two Classification Systems for Age-Related Macular Degeneration.",
             "journal": "Invest Ophthalmol Vis Sci"
           },
           "date_release": "2024-09-19",
@@ -659,6 +662,7 @@
       "baseline": {
         "pgs_id": "PGS004952",
         "reported_auc": 0.842,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Age-related macular degeneration",
         "method_name": "Genome-wide significant SNPs",
         "validation_sample_size": "n=1,780",
@@ -1256,6 +1260,7 @@
       "baseline": {
         "pgs_id": "PGS001268",
         "reported_auc": 0.9915,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Ankylosing spondylitis (time-to-event)",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -1609,6 +1614,7 @@
       "baseline": {
         "pgs_id": "PGS005252",
         "reported_auc": 0.87,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Aortic stenosis",
         "method_name": "LDPred2",
         "validation_sample_size": "n=446,895",
@@ -1683,7 +1689,7 @@
             "r2": 0.437
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -1906,6 +1912,7 @@
       "baseline": {
         "pgs_id": "PGS001299",
         "reported_auc": 0.9143,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Cervical cancer",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -2186,6 +2193,7 @@
       "baseline": {
         "pgs_id": "PGS003382",
         "reported_auc": 0.682,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Skin cutaneous melanoma",
         "method_name": "Pruning and Thresholding (P+T)",
         "validation_sample_size": "n=273,786",
@@ -2540,6 +2548,7 @@
       "baseline": {
         "pgs_id": "PGS001042",
         "reported_auc": 0.7429,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Thyrotoxicosis [hyperthyroidism] (time-to-event)",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -2788,6 +2797,7 @@
       "baseline": {
         "pgs_id": "PGS005270",
         "reported_auc": 0.6387,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Lymphocytic thyroiditis",
         "method_name": "Pruning and Thresholding (P+T)",
         "validation_sample_size": "n=94,651",
@@ -3471,7 +3481,7 @@
         },
         {
           "id": "PGS003452",
-          "trait_reported": "Waldenstr\u00f6m macroglobulinemia",
+          "trait_reported": "Waldenström macroglobulinemia",
           "trait_efo": "Waldenstrom macroglobulinemia",
           "method_name": "Genome-wide significant SNPs",
           "variants_number": 2,
@@ -3694,6 +3704,7 @@
       "baseline": {
         "pgs_id": "PGS000874",
         "reported_auc": 0.861,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Chronic lymphocytic leukemia",
         "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
         "validation_sample_size": "n=3,958",
@@ -3956,6 +3967,7 @@
       "baseline": {
         "pgs_id": "PGS000739",
         "reported_auc": 0.821,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Hypertrophic cardiomyopathy",
         "method_name": "Genome-wide significant variants",
         "validation_sample_size": "n=184,511",
@@ -4896,6 +4908,7 @@
       "baseline": {
         "pgs_id": "PGS005218",
         "reported_auc": 0.859,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Hypothyroidism",
         "method_name": "PRS-CS",
         "validation_sample_size": "n=441,692",
@@ -5141,6 +5154,7 @@
       "baseline": {
         "pgs_id": "PGS000324",
         "reported_auc": 0.93,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Enthesitis-related Juvenile Idiophatic Arthritis",
         "method_name": "SparSNP",
         "validation_sample_size": "n=3,020",
@@ -5662,6 +5676,7 @@
       "baseline": {
         "pgs_id": "PGS004908",
         "reported_auc": 0.74,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Kidney cancer",
         "method_name": "Genome-wide significant SNPs",
         "validation_sample_size": "n=324,805",
@@ -5778,7 +5793,7 @@
         },
         {
           "id": "PGS000334",
-          "trait_reported": "Late-onset Alzheimer\u2019s disease ",
+          "trait_reported": "Late-onset Alzheimer’s disease ",
           "trait_efo": "late-onset Alzheimer's disease",
           "method_name": "Clumping and Thresholding (C+T)",
           "variants_number": 22,
@@ -5793,7 +5808,7 @@
             "auc": null,
             "r2": 0.191
           },
-          "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
+          "phenotyping_reported": "Late-onset Alzheimer’s disease",
           "covariates": "Unknown",
           "training_development_cohorts": [
             "IGAP",
@@ -5851,7 +5866,7 @@
           "variants_number": 8,
           "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic variants in glutamate-, A\u03b2-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
+            "title": "Genetic variants in glutamate-, Aβ-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
             "journal": "Neurobiol Aging"
           },
           "date_release": "2024-06-12",
@@ -5992,6 +6007,7 @@
       "baseline": {
         "pgs_id": "PGS004918",
         "reported_auc": 0.731,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function)",
         "method_name": "Clumping and Thresholding (C+T)",
         "validation_sample_size": "n=136",
@@ -6369,6 +6385,7 @@
       "baseline": {
         "pgs_id": "PGS005273",
         "reported_auc": 0.6174,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
         "method_name": "PRSCS",
         "validation_sample_size": "n=94,651",
@@ -6763,6 +6780,7 @@
       "baseline": {
         "pgs_id": "PGS001298",
         "reported_auc": 0.6533,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Obesity (time-to-event)",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -7422,6 +7440,7 @@
       "baseline": {
         "pgs_id": "PGS005219",
         "reported_auc": 0.79,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
         "method_name": "weighted PRSsummation PRS-CSs",
         "validation_sample_size": "n=21,975",
@@ -7720,6 +7739,7 @@
       "baseline": {
         "pgs_id": "PGS001797",
         "reported_auc": 0.749,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Primary open-angle glaucoma",
         "method_name": "PRS-CS-auto",
         "validation_sample_size": "n=7,128",
@@ -8004,6 +8024,7 @@
       "baseline": {
         "pgs_id": "PGS005217",
         "reported_auc": 0.731,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Peripheral artery disease",
         "method_name": "LDpred2",
         "validation_sample_size": "n=304,294",
@@ -11353,6 +11374,7 @@
       "baseline": {
         "pgs_id": "PGS001291",
         "reported_auc": 0.9701,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Prostate cancer",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -11680,6 +11702,7 @@
       "baseline": {
         "pgs_id": "PGS001279",
         "reported_auc": 0.8256,
+        "tier": "pgs_only_auroc",
         "trait_reported": "previously: Blood clot in the lung",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,349",
@@ -12149,6 +12172,7 @@
       "baseline": {
         "pgs_id": "PGS004908",
         "reported_auc": 0.74,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Kidney cancer",
         "method_name": "Genome-wide significant SNPs",
         "validation_sample_size": "n=324,805",
@@ -12363,6 +12387,7 @@
       "baseline": {
         "pgs_id": "PGS000471",
         "reported_auc": 0.569,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Carcinoma in situ of skin",
         "method_name": "lassosum",
         "validation_sample_size": "n=5,500",
@@ -13020,6 +13045,7 @@
       "baseline": {
         "pgs_id": "PGS005219",
         "reported_auc": 0.79,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
         "method_name": "weighted PRSsummation PRS-CSs",
         "validation_sample_size": "n=21,975",
@@ -13509,6 +13535,7 @@
       "baseline": {
         "pgs_id": "PGS001164",
         "reported_auc": 0.9816,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Testicular cancer",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -13997,7 +14024,7 @@
             "r2": 0.31
           },
           "phenotyping_reported": "Incident thyroid cancer",
-          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
+          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30)",
           "training_development_cohorts": [
             "ICR",
             "NBS",
@@ -14571,6 +14598,7 @@
       "baseline": {
         "pgs_id": "PGS001289",
         "reported_auc": 0.8323,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Thyroid cancer",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -14686,7 +14714,7 @@
             "r2": 0.437
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -14714,7 +14742,7 @@
             "r2": 0.486
           },
           "phenotyping_reported": "Incident endometrial cancer",
-          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
+          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years),",
           "training_development_cohorts": [
             "ANECS",
             "B58C",
@@ -15084,6 +15112,7 @@
       "baseline": {
         "pgs_id": "PGS001299",
         "reported_auc": 0.9143,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Cervical cancer",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",
@@ -15295,6 +15324,7 @@
       "baseline": {
         "pgs_id": "PGS001536",
         "reported_auc": 0.8277,
+        "tier": "pgs_only_auroc",
         "trait_reported": "Vitiligo (time-to-event)",
         "method_name": "snpnet",
         "validation_sample_size": "n=67,425",

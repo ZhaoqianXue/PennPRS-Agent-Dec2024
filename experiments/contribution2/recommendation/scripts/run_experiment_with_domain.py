@@ -382,6 +382,43 @@ def _build_comparison_doc_value(
     return _format_doc_value(_get_nested_field(model, field), field)
 
 
+def _normalized_ranking_score(rank: Optional[int], candidate_count: Optional[int]) -> Optional[float]:
+    if rank is None or candidate_count is None or candidate_count <= 1:
+        return None
+    if rank < 1 or rank > candidate_count:
+        return None
+    return (candidate_count - rank) / (candidate_count - 1)
+
+
+def _format_score(value: Optional[float]) -> str:
+    if value is None:
+        return "N/A"
+    return f"{value:.4f}"
+
+
+def _compute_nrs_metrics(summary: dict[str, Any]) -> dict[str, Any]:
+    modal_scores: list[float] = []
+    trial_scores: list[float] = []
+
+    for row in summary.get("per_disease", []):
+        candidate_count = row.get("n_models")
+        modal_score = _normalized_ranking_score(row.get("modal_recommendation_rank"), candidate_count)
+        if modal_score is not None:
+            modal_scores.append(modal_score)
+
+        for trial_row in row.get("trial_recommendations_detailed", []):
+            trial_score = _normalized_ranking_score(trial_row.get("rank"), candidate_count)
+            if trial_score is not None:
+                trial_scores.append(trial_score)
+
+    return {
+        "modal_mean_nrs": (sum(modal_scores) / len(modal_scores)) if modal_scores else None,
+        "modal_count": len(modal_scores),
+        "trial_mean_nrs": (sum(trial_scores) / len(trial_scores)) if trial_scores else None,
+        "trial_count": len(trial_scores),
+    }
+
+
 def _write_per_disease_comparison_doc(
     domain_summary: dict[str, Any],
     without_domain_summary_path: Path,
@@ -391,6 +428,8 @@ def _write_per_disease_comparison_doc(
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
     auc_lookup = _load_aou_auc_lookup()
+    domain_nrs = _compute_nrs_metrics(domain_summary)
+    without_domain_nrs = _compute_nrs_metrics(without_domain_summary)
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
@@ -420,9 +459,27 @@ def _write_per_disease_comparison_doc(
         ),
         (
             f"- Baseline: `{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}`; "
-            f"`coverage = {domain_summary['baseline']['available']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['coverage'])}`"
+            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}`"
+        ),
+        "",
+        "## Normalized Ranking Score (NRS)",
+        "",
+        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
+        "- Formula: `NRS = (M - r) / (M - 1)`, with `r = 1` as best and `r = M` as worst.",
+        "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+        (
+            f"- With Domain Knowledge: "
+            f"`mean NRS = {_format_score(domain_nrs['modal_mean_nrs'])}` "
+            f"({domain_nrs['modal_count']} modal selections); "
+            f"`trial mean NRS = {_format_score(domain_nrs['trial_mean_nrs'])}` "
+            f"({domain_nrs['trial_count']} trials)"
+        ),
+        (
+            f"- Without Domain Knowledge: "
+            f"`mean NRS = {_format_score(without_domain_nrs['modal_mean_nrs'])}` "
+            f"({without_domain_nrs['modal_count']} modal selections); "
+            f"`trial mean NRS = {_format_score(without_domain_nrs['trial_mean_nrs'])}` "
+            f"({without_domain_nrs['trial_count']} trials)"
         ),
         "",
         "## Per-Disease Tables",
@@ -618,9 +675,7 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         (
             f"- **Baseline**: "
             f"{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}; "
-            f"`coverage = {domain_summary['baseline']['available']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['coverage'])}`"
+            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}"
         ),
         "",
         "## Results by Disease",
@@ -730,6 +785,47 @@ def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict
     return summary
 
 
+def _regenerate_baseline(
+    without_domain_summary_path: Path,
+    with_run_dir: Path,
+) -> None:
+    """Recompute tiered baseline in both summaries and regenerate per-disease docs."""
+    # Load and recompute without-domain summary
+    if not without_domain_summary_path.exists():
+        print(f"ERROR: Without-domain summary not found: {without_domain_summary_path}")
+        return
+    without_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    without_domain._recompute_baseline_in_summary(without_summary)
+    without_domain_summary_path.write_text(
+        json.dumps(without_summary, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    print(f"Updated without-domain summary: {without_domain_summary_path}")
+
+    # Write without-domain per-disease doc
+    without_doc = without_domain._write_without_domain_per_disease_doc(without_summary)
+    print(f"Wrote without-domain doc: {without_doc}")
+
+    # Load and recompute with-domain summary
+    with_summary_path = with_run_dir / "experiment_with_domain_summary.json"
+    if not with_summary_path.exists():
+        print(f"WARNING: With-domain summary not found: {with_summary_path}")
+        print("Skipping with_vs_without_domain_per_disease_comparison.md")
+        return
+    with_summary = json.loads(with_summary_path.read_text(encoding="utf-8"))
+    without_domain._recompute_baseline_in_summary(with_summary)
+    with_summary_path.write_text(
+        json.dumps(with_summary, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    print(f"Updated with-domain summary: {with_summary_path}")
+
+    # Write with_vs_without per-disease doc
+    comparison_doc = _write_per_disease_comparison_doc(with_summary, without_domain_summary_path)
+    if comparison_doc:
+        print(f"Wrote comparison doc: {comparison_doc}")
+
+
 def _quick_eval(without_domain_summary_path: Path) -> dict[str, Any]:
     summary = without_domain._quick_eval()
     summary["experiment"] = "with_domain_formal"
@@ -762,7 +858,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--mode",
-        choices=["prepare", "prepare-submit", "status", "collect", "archive-current", "quick-eval"],
+        choices=["prepare", "prepare-submit", "status", "collect", "archive-current", "quick-eval", "regenerate-baseline"],
         default="prepare-submit",
         help="Batch workflow step (default: prepare-submit)",
     )
@@ -783,6 +879,12 @@ def main() -> int:
         type=str,
         default=str(DEFAULT_WITHOUT_DOMAIN_SUMMARY_JSON),
         help="Path to the without-domain summary JSON used for comparison report generation",
+    )
+    parser.add_argument(
+        "--with-run-dir",
+        type=str,
+        default=None,
+        help="For regenerate-baseline: path to with-domain run dir (default: runs/with-domain-gpt-5.2-t10)",
     )
     args = parser.parse_args()
 
@@ -818,6 +920,11 @@ def main() -> int:
             without_domain._archive_current_outputs()
         elif args.mode == "quick-eval":
             _quick_eval(without_domain_summary_path=without_domain_summary_path)
+        elif args.mode == "regenerate-baseline":
+            _regenerate_baseline(
+                without_domain_summary_path=without_domain_summary_path,
+                with_run_dir=Path(args.with_run_dir) if args.with_run_dir else RECOMMENDATION_RUNS / "with-domain-gpt-5.2-t10",
+            )
         else:
             raise ValueError(f"Unsupported mode: {args.mode}")
     except Exception as exc:

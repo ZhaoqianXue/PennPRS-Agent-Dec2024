@@ -11,7 +11,7 @@ Each disease table includes all models in the benchmark `Target_TopK` set, liste
 ## High-Level Outcome
 
 - Without Domain Knowledge: `19/30 = 63.33%`; `trial_hits = 190/300 = 63.33%`
-- Baseline: `11/30 = 36.67%`; `coverage = 30/30 = 100.00%`
+- Baseline: `11/30 = 36.67%`
 
 ## Per-Disease Tables
 
