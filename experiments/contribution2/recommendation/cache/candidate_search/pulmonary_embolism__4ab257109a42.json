@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "pulmonary embolism",
   "candidate_model_ids": [
     "PGS004530",
@@ -26,15 +26,57 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.8083,
-        "r2": 0.12334
+        "auc": 0.61144,
+        "r2": 0.01508,
+        "pgs_only_auc": 0.61144,
+        "pgs_only_r2": 0.01508,
+        "full_model_auc": 0.67497,
+        "full_model_r2": 0.03998,
+        "incremental_auc": 0.03149,
+        "selected_performance_id": "PPM008885",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67497,
+            "ci_lower": 0.64702,
+            "ci_upper": 0.70293
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03998
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03149
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01508
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61144,
+            "ci_lower": 0.58149,
+            "ci_upper": 0.6414
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "PE +/- DVT",
       "covariates": "age, sex, UKB array type, Genotype PCs",
       "training_development_cohorts": [
         "UKB"
       ],
-      "validation_sample_size": "n=67,425"
+      "validation_sample_size": "n=24,905"
     },
     {
       "id": "PGS001278",
@@ -50,15 +92,57 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,382",
       "performance_metrics": {
-        "auc": 0.66743,
-        "r2": 0.03638
+        "auc": 0.59164,
+        "r2": 0.01331,
+        "pgs_only_auc": 0.59164,
+        "pgs_only_r2": 0.01331,
+        "full_model_auc": 0.65354,
+        "full_model_r2": 0.03366,
+        "incremental_auc": 0.03495,
+        "selected_performance_id": "PPM008890",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65354,
+            "ci_lower": 0.63231,
+            "ci_upper": 0.67477
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03366
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03495
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01331
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.59164,
+            "ci_lower": 0.56886,
+            "ci_upper": 0.61442
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Blood clot in the leg (DVT) or lung",
       "covariates": "age, sex, UKB array type, Genotype PCs",
       "training_development_cohorts": [
         "UKB"
       ],
-      "validation_sample_size": "n=67,349"
+      "validation_sample_size": "n=24,838"
     },
     {
       "id": "PGS001279",
@@ -74,8 +158,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,382",
       "performance_metrics": {
-        "auc": 0.82557,
-        "r2": 0.16736
+        "auc": 0.60034,
+        "r2": 0.01146,
+        "pgs_only_auc": 0.60034,
+        "pgs_only_r2": 0.01146,
+        "full_model_auc": 0.62416,
+        "full_model_r2": 0.01763,
+        "incremental_auc": 0.04457,
+        "selected_performance_id": "PPM008897",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.62416,
+            "ci_lower": 0.60164,
+            "ci_upper": 0.64668
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01763
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04457
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01146
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.60034,
+            "ci_lower": 0.57683,
+            "ci_upper": 0.62385
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Blood clot in the lung",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -98,15 +224,57 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.80741,
-        "r2": 0.12326
+        "auc": 0.60765,
+        "r2": 0.01403,
+        "pgs_only_auc": 0.60765,
+        "pgs_only_r2": 0.01403,
+        "full_model_auc": 0.67617,
+        "full_model_r2": 0.04057,
+        "incremental_auc": 0.02926,
+        "selected_performance_id": "PPM008900",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67617,
+            "ci_lower": 0.64866,
+            "ci_upper": 0.70368
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04057
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02926
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01403
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.60765,
+            "ci_lower": 0.57812,
+            "ci_upper": 0.63719
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "TTE PE",
       "covariates": "age, sex, UKB array type, Genotype PCs",
       "training_development_cohorts": [
         "UKB"
       ],
-      "validation_sample_size": "n=67,425"
+      "validation_sample_size": "n=24,905"
     },
     {
       "id": "PGS003861",
@@ -122,8 +290,33 @@
       "date_release": "2023-09-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.765,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.765,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018751",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.765
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, 30-70th quantile vs <90th quantile)",
+            "name_short": "Odds ratio (OR, 30-70th quantile vs <90th quantile)",
+            "estimate": 5.08,
+            "ci_lower": 4.109,
+            "ci_upper": 6.282
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Pulmonary embolism",
       "covariates": "Unknown",
@@ -147,7 +340,24 @@
       "samples_training": "n=174,489",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020575",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.16683980811122
+          }
+        ]
       },
       "phenotyping_reported": "I26 (Pulmonary embolism)",
       "covariates": "Unknown",
@@ -171,7 +381,24 @@
       "samples_training": "n=174,489",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020645",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.242446
+          }
+        ]
       },
       "phenotyping_reported": "I26 (Pulmonary embolism)",
       "covariates": "Unknown",
@@ -182,10 +409,10 @@
     }
   ],
   "baseline": {
-    "pgs_id": "PGS001279",
-    "reported_auc": 0.8256,
-    "trait_reported": "previously: Blood clot in the lung",
+    "pgs_id": "PGS001277",
+    "reported_auc": 0.6114,
+    "trait_reported": "PE +/- DVT",
     "method_name": "snpnet",
-    "validation_sample_size": "n=67,349"
+    "validation_sample_size": "n=24,905"
   }
 }

@@ -397,11 +397,11 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 | **`matches_publication`** | True | True | Flag if score matches publication | Score | [UI Only] |
 | **`samples_variants`** | n=283,785 | n=382,026 | GWAS discovery sample size (samples used for variant selection) | Score | [UI Only] |
 | **`samples_training`** | n=0 | n=3,000 | Samples used for training | Score | [Agent + UI] |
-| **`performance_metrics`** | R²: 0.087, AUC: 0.78 | HR: 1.71, AUC: 0.81 | Metrics (AUC, R2, etc.) | Performance | [Agent + UI] |
+| **`performance_metrics`** | AUC: 0.63; full_model_auc: 0.91; classification_metrics: [...]; other_metrics: [...] | HR: 1.71, R2: 0.05; full_model_r2: 0.18; classification_metrics: [...]; other_metrics: [...] | Representative-record metrics summary. Top-level AUC/R2 are PRS-comparable metrics when explicitly available; full-model AUROC/R² and full Classification Metrics / Other Metrics from the selected validation record are also retained for sanity checking. | Performance | [Agent + UI] |
 | **`phenotyping_reported`** | Total cholesterol | Incident coronary artery disease | Phenotype description in validation | Performance | [Agent + UI] |
 | **`covariates`** | Age, sex, PCs(1-7), season | sex, genetic PCs (1-10)... | Covariates used in validation | Performance | [Agent + UI] |
 | **`sampleset`** | null | null | Sample set used for validation | Performance | [UI Only] |
-| **`validation_sample_size`** | n=482,629 | n=5,762 | Validation cohort sample size (from sampleset.samples) | Performance | [Agent + UI] |
+| **`validation_sample_size`** | n=482,629 | n=5,762 | Validation cohort sample size from the same representative validation record used for `performance_metrics` | Performance | [Agent + UI] |
 | **`performance_comments`** | null | null | Additional performance notes | Performance | [UI Only] |
 | **`associated_pgs_id`** | PGS000831 | PGS000018 | The PGS ID associated with performance | Performance | [UI Only] |
 
@@ -413,6 +413,9 @@ The structured metadata fields above provide the foundational evidence for evalu
 
 **Combined Results Workflow**:
 1. `prs_model_pgscatalog_search` returns only fields with Target `[Agent + UI]`; `[UI Only]` metadata such as `variants_genomebuild`, `samples_variants`, `publication.doi`, and `sampleset` is excluded from agent/LLM context.
+   - For scores with multiple performance records, the agent-facing `performance_metrics`, `phenotyping_reported`, `covariates`, and `validation_sample_size` are aligned to one representative validation record: highest-result European validation if available, otherwise highest-result validation overall.
+   - Representative-record selection prefers PRS-comparable metrics first (`PGS AUROC (no covariates)`, `PGS R2 (no covariates)`, or covariates-regressed-out PRS R²). If no PRS-comparable metric exists, full-model metrics are used only to choose the representative record, not to redefine the top-level PRS-comparable `performance_metrics.auc`.
+   - The selected record keeps full `classification_metrics` and `other_metrics` instead of compressing them away.
 2. **No AUC/R² pre-filtering**: All models from retrieval are included (aligned with C1 for consistency).
 3. **Combined context injection**: The filtered search results and `prs_model_performance_landscape` results are always returned to the LLM. `prs_model_domain_knowledge` is injected simultaneously only when enabled for that run.
 4. **LLM Decision**: The Agent makes a determination of **High-Quality Match / Sub-optimal Match / No Match**.
@@ -640,7 +643,7 @@ class PGSModelSummary:
     publication: PublicationMetadata
     date_release: str
     samples_training: str
-    performance_metrics: dict  # {auc: float, r2: float, ...}
+    performance_metrics: dict  # {auc: float|None, r2: float|None, pgs_only_auc: float|None, pgs_only_r2: float|None, full_model_auc: float|None, full_model_r2: float|None, incremental_auc: float|None, selected_performance_id: str, selected_validation_ancestry: str, record_count: int, classification_metrics: list[dict], other_metrics: list[dict], effect_sizes: list[dict], ...}
     phenotyping_reported: str
     covariates: str
     training_development_cohorts: list[str]  # union of cohort short names from training/development samples
@@ -655,9 +658,9 @@ class PublicationMetadata:
 | Attribute | Specification |
 |:---|:---|
 | **Input** | `query: str` — Domain knowledge query (e.g., "PRS clinical utility for CAD", "AUC thresholds for clinical PRS") |
-| **Output** | `DomainKnowledgeResult` — Structured snippets from the curated local knowledge base |
-| **Data Source** | **Local curated Markdown knowledge base** — `src/server/core/knowledge/prs_model_domain_knowledge.md` |
-| **Dependency** | None (local retrieval only) |
+| **Output** | `DomainKnowledgeResult` — Structured snippets from the curated local knowledge base with trait-specific local heritability augmentation |
+| **Data Source** | **Local curated Markdown knowledge base** — `src/server/core/knowledge/prs_model_domain_knowledge.md` + local heritability tables under `data/heritability/*` |
+| **Dependency** | Local retrieval plus local heritability lookup |
 | **Token Budget** | Max 5 snippets per query; compact local snippets only |
 
 ```python
@@ -667,6 +670,7 @@ KNOWLEDGE_BASE_PATH = "src/server/core/knowledge/prs_model_domain_knowledge.md"
 # Output Schema
 class DomainKnowledgeResult:
     query: str
+    full_document: str
     snippets: list[KnowledgeSnippet]
     source_type: str  # "local"
 
@@ -703,16 +707,19 @@ class PerformanceLandscape:
 
     ancestry: dict[str, int]                     # counts by ancestry code (best-effort parse)
     sample_size: MetricDistribution              # training sample size distribution
-    auc: MetricDistribution                      # AUC distribution
-    r2: MetricDistribution                       # R² distribution
+    auc: MetricDistribution                      # PRS-comparable AUROC distribution
+    r2: MetricDistribution                       # PRS-comparable R² distribution
     variants: MetricDistribution                 # variants_number distribution
     training_development_cohorts: dict[str, int] # counts by cohort short name
     prs_methods: dict[str, int]                  # counts by PRS method
 
 # Aggregation Note (Global Reference):
 # - The global landscape is computed across ALL scores in `/rest/score/all`.
-# - AUC/R² are aggregated per PGS id using `/rest/performance/all`:
-#   take the maximum AUC and maximum R² observed for each score to represent its best available validation.
+# - AUC/R² are aggregated per PGS id using the same representative-record rule as candidate summaries.
+# - Prefer explicit PRS-comparable metrics (`PGS AUROC (no covariates)`, `PGS R2 (no covariates)`,
+#   or covariates-regressed-out PRS R²) from that selected validation record.
+# - If a score reports only full-model AUROC/R², keep those for sanity checking in candidate metadata,
+#   but count the comparable landscape AUC/R² as missing.
 
 class MetricDistribution:
     min: float
@@ -883,7 +890,7 @@ class TrainingConfig:
 - **Implemented**:
     - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). No AUC/R² filter; returns all models from retrieval. `[Agent + UI]` fields. Optional `evaluated_pgs_whitelist` for Contribution2: when set (via `PENNPRS_CONTRIB2_EVALUATED_PGS_JSON`), only models in the All of Us evaluated set (N Models) are returned.
     - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool for statistical distributions.
-    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Intended implementation for Contribution2 Step 1. Retrieves from the curated local Markdown knowledge base `src/server/core/knowledge/prs_model_domain_knowledge.md`.
+    - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Intended implementation for Contribution2 Step 1. Retrieves from the curated local Markdown knowledge base `src/server/core/knowledge/prs_model_domain_knowledge.md` and augments it with trait-specific local heritability summaries from `data/heritability/*`.
     - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.
     - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
     - `genetic_graph_validate_mechanism`: `src/server/core/tools/genetic_graph_tools.py` - Integrated support for both [Open Targets](https://platform.opentargets.org) and [ExPheWAS](https://exphewas.statgen.org). Supports both EFO and MONDO IDs, automatically tries both and merges results to maximize coverage.

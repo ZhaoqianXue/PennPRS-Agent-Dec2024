@@ -106,6 +106,7 @@ STEP1_RATIONALE_FEATURE_KEYWORDS = {
     "trait_match": ["trait", "phenotype", "proxy", "family history"],
     "auc": ["auc", "auroc", "roc"],
     "r2": ["r2", "r²", "variance explained"],
+    "heritability": ["heritability", "h2", "h²", "ceiling"],
     "sample_size": ["sample", "n=", "cohort", "powered"],
     "ancestry": ["ancestry", "eur", "afr", "eas", "sas", "multi-ancestry"],
     "method": ["method", "ldpred", "prs-cs", "lassosum", "genoboost", "snpnet"],
@@ -243,6 +244,17 @@ def _build_step1_feature_table(models: List[Any], top_n: int = TOP_MODELS_INLINE
             "method_name": getattr(m, "method_name", None),
             "auc": pm.get("auc"),
             "r2": pm.get("r2"),
+            "pgs_only_auc": pm.get("pgs_only_auc"),
+            "pgs_only_r2": pm.get("pgs_only_r2"),
+            "full_model_auc": pm.get("full_model_auc"),
+            "full_model_r2": pm.get("full_model_r2"),
+            "incremental_auc": pm.get("incremental_auc"),
+            "selected_performance_id": pm.get("selected_performance_id"),
+            "selected_validation_ancestry": pm.get("selected_validation_ancestry"),
+            "performance_record_count": pm.get("record_count"),
+            "classification_metrics": pm.get("classification_metrics"),
+            "other_metrics": pm.get("other_metrics"),
+            "effect_sizes": pm.get("effect_sizes"),
             "samples_training": getattr(m, "samples_training", None),
             "validation_sample_size": getattr(m, "validation_sample_size", None),
             "ancestry_distribution": getattr(m, "ancestry_distribution", None),
@@ -777,11 +789,12 @@ def recommend_models(
         })
 
     domain_query = (
-        f"target_trait: {target_trait}; PRS clinical thresholds AUC R2 "
+        f"target_trait: {target_trait}; PRS clinical thresholds AUC R2 heritability ceiling sanity-check "
         "must-pass gates phenotype alignment endpoint specificity "
         "external transfer reliability ancestry compatibility "
         "ranking features penalties method priors validation sample size tie-break "
         "time-to-event horizon-specific incident case-control dominant subtype "
+        "PGS-only no-covariates incremental AUROC "
         "snpnet biobank transportability"
     )
     knowledge_with_domain: Optional[DomainKnowledgeResult] = None

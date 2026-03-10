@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "hypothyroidism",
   "candidate_model_ids": [
     "PGS000820",
@@ -48,7 +48,32 @@
       "samples_training": "n=408,959",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001934",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "meta-analysis p-value",
+            "name_short": "meta-analysis p-value",
+            "estimate": 7.52e-09
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.52,
+            "ci_lower": 1.31,
+            "ci_upper": 1.74
+          }
+        ]
       },
       "phenotyping_reported": "anti-PD-L1 induced hypothyroidism in cancer patients",
       "covariates": "5 genotype PCs",
@@ -72,7 +97,32 @@
       "samples_training": "n=408,959",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001936",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "meta-analysis p-value",
+            "name_short": "meta-analysis p-value",
+            "estimate": 5.49e-09
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.49,
+            "ci_lower": 1.3,
+            "ci_upper": 1.71
+          }
+        ]
       },
       "phenotyping_reported": "anti-PD-L1 induced hypothyroidism in cancer patients",
       "covariates": "5 genotype PCs",
@@ -95,15 +145,40 @@
       "date_release": "2021-07-29",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.64,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002199",
+        "selected_validation_ancestry": "European, African unspecified, Asian unspecified, Hispanic or Latin American, NR",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.39,
+            "ci_lower": 1.07,
+            "ci_upper": 1.82
+          }
+        ]
       },
-      "phenotyping_reported": "Spontaneous hypothyroidism",
+      "phenotyping_reported": "Immune\ncheckpoint inhibitor therapy induced immune-related thyroid dysfunction in individuals with non-small cell lung cancer",
       "covariates": "Age, sex, PCs(1-10)",
       "training_development_cohorts": [
         "UKB"
       ],
-      "validation_sample_size": "n=51,070"
+      "validation_sample_size": "n=561"
     },
     {
       "id": "PGS000965",
@@ -119,8 +194,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.76828,
-        "r2": 0.14978
+        "auc": 0.68907,
+        "r2": 0.07271,
+        "pgs_only_auc": 0.68907,
+        "pgs_only_r2": 0.07271,
+        "full_model_auc": 0.76828,
+        "full_model_r2": 0.14978,
+        "incremental_auc": 0.07249,
+        "selected_performance_id": "PPM007653",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76828,
+            "ci_lower": 0.76142,
+            "ci_upper": 0.77515
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14978
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.07249
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.07271
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.68907,
+            "ci_lower": 0.68098,
+            "ci_upper": 0.69716
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism/myxoedema",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -143,8 +260,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.76691,
-        "r2": 0.15134
+        "auc": 0.68962,
+        "r2": 0.07419,
+        "pgs_only_auc": 0.68962,
+        "pgs_only_r2": 0.07419,
+        "full_model_auc": 0.76691,
+        "full_model_r2": 0.15134,
+        "incremental_auc": 0.0729,
+        "selected_performance_id": "PPM008598",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76691,
+            "ci_lower": 0.7602,
+            "ci_upper": 0.77362
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.15134
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0729
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.07419
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.68962,
+            "ci_lower": 0.68178,
+            "ci_upper": 0.69747
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "TTE other hypothyroidism",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -168,7 +327,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009428",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1192,
+            "ci_lower": 0.1054,
+            "ci_upper": 0.1329
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -192,7 +370,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011066",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.122,
+            "ci_lower": 0.1083,
+            "ci_upper": 0.1357
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -216,7 +413,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0247,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013199",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0247
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -240,7 +454,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0003,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013487",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0003
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -264,7 +495,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0001,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013683",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0001
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -288,7 +536,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0002,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013879",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0002
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -312,7 +577,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0012,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014075",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0012
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -336,7 +618,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0015,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014271",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0015
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -360,7 +659,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0262,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014467",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "name_short": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "estimate": 0.0262
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -384,7 +700,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0206,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014663",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0206
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
@@ -408,7 +741,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014966",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.47,
+            "ci_lower": 1.43,
+            "ci_upper": 1.52
+          }
+        ]
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, 10 PCs, technical covariates",
@@ -432,7 +784,24 @@
       "samples_training": "n=174,489",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020561",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.4785142949258
+          }
+        ]
       },
       "phenotyping_reported": "E03 (Other hypothyroidism)",
       "covariates": "Unknown",
@@ -456,7 +825,24 @@
       "samples_training": "n=174,489",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020631",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.496231
+          }
+        ]
       },
       "phenotyping_reported": "E03 (Other hypothyroidism)",
       "covariates": "Unknown",
@@ -480,7 +866,26 @@
       "samples_training": "n=37,851",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.041,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021014",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.041,
+            "ci_lower": 0.033,
+            "ci_upper": 0.049
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
@@ -504,7 +909,26 @@
       "samples_training": "n=37,851",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.042,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021015",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.042,
+            "ci_lower": 0.034,
+            "ci_upper": 0.05
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
@@ -527,8 +951,33 @@
       "date_release": "2024-09-19",
       "samples_training": "n=285,899",
       "performance_metrics": {
-        "auc": 0.7,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021723",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.5,
+            "ci_lower": 1.41,
+            "ci_upper": 1.6
+          }
+        ]
       },
       "phenotyping_reported": "Hypothyroidism",
       "covariates": "Unknown",
@@ -551,11 +1000,30 @@
       "date_release": "2025-11-10",
       "samples_training": "n=1,146,562",
       "performance_metrics": {
-        "auc": 0.859,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.859,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022617",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.859,
+            "ci_lower": 0.821,
+            "ci_upper": 0.897
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
-      "phenotyping_reported": "Hypothyroidism",
-      "covariates": "age, sex, PC1, PC2, PC3, PC4",
+      "phenotyping_reported": "Incident hypothyroidism",
+      "covariates": "age, sex, TSH, T4, anti-TPO, PC1, PC2, PC3, PC4",
       "training_development_cohorts": [
         "23andMe",
         "CHB",
@@ -581,8 +1049,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.64,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022750",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.142
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.133
+          }
+        ]
       },
       "phenotyping_reported": "hypothyroidism",
       "covariates": "Unknown",
@@ -619,8 +1115,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.638920940728866,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.638920940728866,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022751",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.638920940728866
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.65808867613792
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.505665539081399
+          }
+        ]
       },
       "phenotyping_reported": "hypothyroidism",
       "covariates": "Unknown",
@@ -657,8 +1181,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.638628477117025,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.638628477117025,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022752",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.638628477117025
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.65210243632159
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.502048680634994
+          }
+        ]
       },
       "phenotyping_reported": "hypothyroidism",
       "covariates": "Unknown",
@@ -693,8 +1245,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.638677809581895,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.638677809581895,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022753",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.638677809581895
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.037
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.037
+          }
+        ]
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
@@ -728,8 +1308,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.629725726511746,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.629725726511746,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022754",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.629725726511746
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.54908058789994
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.437661585839951
+          }
+        ]
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
@@ -764,8 +1372,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.605418550899187,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.605418550899187,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022755",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.605418550899187
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.41698139161814
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.348528828383883
+          }
+        ]
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
@@ -786,10 +1422,10 @@
     }
   ],
   "baseline": {
-    "pgs_id": "PGS005218",
-    "reported_auc": 0.859,
-    "trait_reported": "Hypothyroidism",
-    "method_name": "PRS-CS",
-    "validation_sample_size": "n=441,692"
+    "pgs_id": "PGS001181",
+    "reported_auc": 0.6896,
+    "trait_reported": "Other hypothyroidism (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
   }
 }

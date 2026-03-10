@@ -11,90 +11,15 @@ All comments/strings are in English by project convention.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Dict, List
 
 from src.server.core.pgs_catalog_client import PGSCatalogClient
+from src.server.core.tools.prs_model_tools import (
+    _build_selected_performance_summary,
+)
 from src.server.modules.disease.pgs_search_service import (
     _fetch_pgs_details_and_performance_concurrently,
 )
-
-
-def _safe_float(v: Any) -> Optional[float]:
-    try:
-        if v is None:
-            return None
-        return float(v)
-    except Exception:
-        return None
-
-
-def _extract_auc_r2_from_performance_records(
-    performance_records: List[Dict[str, Any]],
-) -> Tuple[Optional[float], Optional[float]]:
-    """
-    Best-effort extraction of AUC and R² from PGS performance records.
-
-    Note: This intentionally mirrors the logic used elsewhere in the codebase,
-    but stays self-contained so UI endpoints don't depend on internal tool code.
-    """
-
-    def _is_delta_metric(name: str) -> bool:
-        n = (name or "").lower()
-        return ("delta" in n) or ("change" in n) or ("Δ" in name)
-
-    best_auc: Optional[float] = None
-    best_r2: Optional[float] = None
-
-    for rec in performance_records or []:
-        if not isinstance(rec, dict):
-            continue
-        perf = rec.get("performance_metrics") or {}
-        if not isinstance(perf, dict):
-            continue
-
-        # AUC candidates (class_acc + othermetrics)
-        auc_candidates: List[float] = []
-        for acc in perf.get("class_acc", []) or []:
-            if not isinstance(acc, dict):
-                continue
-            name = f"{acc.get('name_short', '')}{acc.get('name_long', '')}"
-            if _is_delta_metric(name):
-                continue
-            if "auc" in name.lower() or "auroc" in name.lower() or "c-index" in name.lower():
-                v = _safe_float(acc.get("estimate"))
-                if v is not None:
-                    auc_candidates.append(v)
-        for om in perf.get("othermetrics", []) or []:
-            if not isinstance(om, dict):
-                continue
-            name = f"{om.get('name_short', '')}{om.get('name_long', '')}"
-            if _is_delta_metric(name):
-                continue
-            if "auc" in name.lower() or "auroc" in name.lower() or "c-index" in name.lower() or "area under" in name.lower():
-                v = _safe_float(om.get("estimate"))
-                if v is not None:
-                    auc_candidates.append(v)
-
-        # R² candidates (othermetrics)
-        r2_candidates: List[float] = []
-        for om in perf.get("othermetrics", []) or []:
-            if not isinstance(om, dict):
-                continue
-            name = f"{om.get('name_short', '')}{om.get('name_long', '')}".lower()
-            if "r2" in name or "r^2" in name or "variance" in name:
-                v = _safe_float(om.get("estimate"))
-                if v is not None:
-                    r2_candidates.append(v)
-
-        auc_val = max(auc_candidates) if auc_candidates else None
-        r2_val = max(r2_candidates) if r2_candidates else None
-
-        if auc_val is not None:
-            best_auc = auc_val if best_auc is None else max(best_auc, auc_val)
-        if r2_val is not None:
-            best_r2 = r2_val if best_r2 is None else max(best_r2, r2_val)
-
-    return best_auc, best_r2
 
 
 def _extract_dev_cohorts(details: Dict[str, Any]) -> str:
@@ -168,7 +93,9 @@ def format_pgs_score_for_ui(
     """
     Convert raw PGS score details/performance to the frontend ModelData shape.
     """
-    auc, r2 = _extract_auc_r2_from_performance_records(performance)
+    perf_summary, _ = _build_selected_performance_summary(performance)
+    auc = perf_summary.get("auc")
+    r2 = perf_summary.get("r2")
     sample_size = _extract_sample_size(details)
     dev_cohorts = _extract_dev_cohorts(details)
     ancestry = _extract_ancestry(details)
@@ -249,4 +176,3 @@ def search_pgs_model_cards(trait: str, limit: int = 25) -> List[Dict[str, Any]]:
 
     cards.sort(key=_auc_key, reverse=True)
     return cards
-

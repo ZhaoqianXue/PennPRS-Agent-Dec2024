@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "hypertrophic cardiomyopathy",
   "candidate_model_ids": [
     "PGS000778",
@@ -23,11 +23,30 @@
       "date_release": "2021-02-23",
       "samples_training": "n=47,737",
       "performance_metrics": {
-        "auc": 0.821,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.821,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018531",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.821,
+            "ci_lower": 0.772,
+            "ci_upper": 0.871
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hypertrophic cardiomyopathy",
-      "covariates": "Age, gender, PCs(1-10)",
+      "covariates": "Clinical risk factors (obesity, HTN, AF, CAD), HCM-ACMG rare variant carrier status, age, sex, genotyping array, and PCs 1-5",
       "training_development_cohorts": [
         "BRRD",
         "HCMR",
@@ -50,10 +69,35 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002016",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.28,
+            "ci_lower": 1.06,
+            "ci_upper": 1.54
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.247,
+            "se": 0.095
+          }
+        ]
       },
-      "phenotyping_reported": "Maximal left ventricular wall thickness indexed to body surface area (mm/m^2) in individuals with a pathogenic or likely pathogenic sarcomeric variant",
-      "covariates": "Genetic relatedness matrix",
+      "phenotyping_reported": "Clinical events in individuals with a pathogenic or likely pathogenic sarcomeric variant",
+      "covariates": "Genetic relatedness matrix, sex",
       "training_development_cohorts": [
         "ERSPC",
         "LHSC",
@@ -79,8 +123,47 @@
       "date_release": "2025-02-26",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.73,
-        "r2": 0.031
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.73,
+        "full_model_r2": 0.031,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021366",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.73
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.031
+          },
+          {
+            "name_long": "Odds ratio (OR, high vs median tertile)",
+            "name_short": "Odds ratio (OR, high vs median tertile)",
+            "estimate": 5.5
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.97
+          },
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.26
+          }
+        ]
       },
       "phenotyping_reported": "Hypertrophic cardiomyopathy",
       "covariates": "age, age^2, sex, PC1-10",
@@ -106,8 +189,47 @@
       "date_release": "2025-02-26",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.8,
-        "r2": 0.048
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": 0.048,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021367",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.048
+          },
+          {
+            "name_long": "Odds ratio (OR, high vs median tertile)",
+            "name_short": "Odds ratio (OR, high vs median tertile)",
+            "estimate": 5.9
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 2.34
+          },
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.33
+          }
+        ]
       },
       "phenotyping_reported": "Hypertrophic cardiomyopathy",
       "covariates": "age, age^2, sex, PC1-10",
@@ -120,11 +242,5 @@
       "validation_sample_size": "n=343,182"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS000739",
-    "reported_auc": 0.821,
-    "trait_reported": "Hypertrophic cardiomyopathy",
-    "method_name": "Genome-wide significant variants",
-    "validation_sample_size": "n=184,511"
-  }
+  "baseline": null
 }

@@ -70,7 +70,7 @@ Configure `.env` with `OPENAI_API_KEY` (see `.env.example`). The script loads `.
 - Step 2 disabled
 - evaluated PGS whitelist enabled
 - strict no-fallback mode enabled
-- naive baseline: highest reported AUC in PGS Catalog metadata
+- naive baseline: highest reported PGS-only AUROC in PGS Catalog metadata, when available
 - OpenAI Batch API execution for LLM Step 1 decisions
 
 Formal headline metrics:

@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "skin carcinoma in situ",
   "candidate_model_ids": [
     "PGS000469",
@@ -22,8 +22,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=6,005",
       "performance_metrics": {
-        "auc": 0.524,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.524,
+        "full_model_r2": 0.00141,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001154",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.524,
+            "ci_lower": 0.499,
+            "ci_upper": 0.549
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00141
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0939
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.48,
+            "ci_lower": 0.703,
+            "ci_upper": 3.1
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.09,
+            "ci_lower": 1.001,
+            "ci_upper": 1.188
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0865,
+            "se": 0.0437
+          }
+        ]
       },
       "phenotyping_reported": "Carcinoma in situ of skin",
       "covariates": "age, sex, batch PCs 1-4",
@@ -46,8 +97,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=6,005",
       "performance_metrics": {
-        "auc": 0.557,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.557,
+        "full_model_r2": 0.0154,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001155",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.557,
+            "ci_lower": 0.531,
+            "ci_upper": 0.582
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0154
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.093
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.45,
+            "ci_lower": 1.34,
+            "ci_upper": 4.45
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.308,
+            "ci_lower": 1.208,
+            "ci_upper": 1.417
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.269,
+            "se": 0.0407
+          }
+        ]
       },
       "phenotyping_reported": "Carcinoma in situ of skin",
       "covariates": "age, sex, batch PCs 1-4",
@@ -70,8 +172,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=6,005",
       "performance_metrics": {
-        "auc": 0.569,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.569,
+        "full_model_r2": 0.0255,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001156",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.569,
+            "ci_lower": 0.541,
+            "ci_upper": 0.595
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0255
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0923
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.77,
+            "ci_lower": 2.24,
+            "ci_upper": 6.34
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.401,
+            "ci_lower": 1.297,
+            "ci_upper": 1.513
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.337,
+            "se": 0.0393
+          }
+        ]
       },
       "phenotyping_reported": "Carcinoma in situ of skin",
       "covariates": "age, sex, batch PCs 1-4",
@@ -81,11 +234,5 @@
       "validation_sample_size": "n=5,500"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS000471",
-    "reported_auc": 0.569,
-    "trait_reported": "Carcinoma in situ of skin",
-    "method_name": "lassosum",
-    "validation_sample_size": "n=5,500"
-  }
+  "baseline": null
 }

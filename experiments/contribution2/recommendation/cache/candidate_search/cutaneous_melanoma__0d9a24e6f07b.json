@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "cutaneous melanoma",
   "candidate_model_ids": [
     "PGS003745",
@@ -25,7 +25,25 @@
       "samples_training": "n=3,666",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000921",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)",
+            "name_short": "Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)",
+            "estimate": 0.505,
+            "se": 0.036
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Cutaneous melanoma in multiplex melanoma families",
       "covariates": "PCs (1-10)",
@@ -50,8 +68,35 @@
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.64,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.643,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001962",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.643,
+            "ci_lower": 0.584,
+            "ci_upper": 0.702
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.46,
+            "ci_lower": 1.2,
+            "ci_upper": 1.77
+          }
+        ]
       },
       "phenotyping_reported": "Incident cutaneous melanoma",
       "covariates": "Sex, melanoma family history, treatment (aspirin/placebo), age at enrolment, PRS*treatment",
@@ -91,8 +136,31 @@
       "date_release": "2023-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.682,
-        "r2": 0.0261
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.682,
+        "full_model_r2": 0.0261,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016257",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.682
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0261
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "skin cutaneous melanoma",
       "covariates": "age, sex, top 20 genetic principal components",
@@ -114,7 +182,26 @@
       "samples_training": "n=1,402",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018501",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.49,
+            "ci_lower": 1.34,
+            "ci_upper": 1.66
+          }
+        ]
       },
       "phenotyping_reported": "Skin Melanoma",
       "covariates": "Unknown",
@@ -138,7 +225,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020304",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.78,
+            "ci_lower": 1.62,
+            "ci_upper": 1.96
+          }
+        ]
       },
       "phenotyping_reported": "Melanoma",
       "covariates": "first 10 genetic principal components",
@@ -146,11 +252,5 @@
       "validation_sample_size": "n=133,830"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS003382",
-    "reported_auc": 0.682,
-    "trait_reported": "Skin cutaneous melanoma",
-    "method_name": "Pruning and Thresholding (P+T)",
-    "validation_sample_size": "n=273,786"
-  }
+  "baseline": null
 }

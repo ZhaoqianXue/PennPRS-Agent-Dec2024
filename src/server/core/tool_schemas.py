@@ -33,8 +33,15 @@ class PGSModelSummary(BaseModel):
     publication: PublicationMetadata = Field(..., description="Publication title and journal metadata")
     date_release: str = Field(..., description="Date the score was released")
     samples_training: str = Field(..., description="Samples used for training")
-    performance_metrics: Dict[str, Optional[float]] = Field(
-        ..., description="Metrics (auc, r2, etc.)"
+    performance_metrics: Dict[str, Any] = Field(
+        ...,
+        description=(
+            "Selected validation-record performance summary. Top-level auc/r2 are "
+            "PRS-comparable metrics (for example PGS-only or covariates-regressed-out values) "
+            "when explicitly available; full_model_auc/full_model_r2 and the full "
+            "classification_metrics/other_metrics from the representative record are retained "
+            "for sanity checking and inspection."
+        ),
     )
     phenotyping_reported: str = Field(..., description="Phenotype description in validation")
     covariates: str = Field(..., description="Covariates used in validation")
@@ -100,8 +107,14 @@ class PerformanceLandscape(BaseModel):
     total_models: int
     ancestry: Dict[str, int] = Field(default_factory=dict, description="Counts by ancestry code (best-effort parse)")
     sample_size: MetricDistribution
-    auc: MetricDistribution
-    r2: MetricDistribution
+    auc: MetricDistribution = Field(
+        ...,
+        description="Distribution of PRS-comparable AUROC values when explicitly reported; scores with only full-model AUROC count as missing."
+    )
+    r2: MetricDistribution = Field(
+        ...,
+        description="Distribution of PRS-comparable R² values when explicitly reported; scores with only full-model R² count as missing."
+    )
     variants: MetricDistribution
     training_development_cohorts: Dict[str, int] = Field(default_factory=dict, description="Counts by cohort short name")
     prs_methods: Dict[str, int] = Field(default_factory=dict, description="Counts by PRS method name")

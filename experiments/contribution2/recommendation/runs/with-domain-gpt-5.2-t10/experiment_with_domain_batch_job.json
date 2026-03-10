@@ -1,8 +1,8 @@
 {
-  "batch_id": "batch_69afb3ed020c8190884a05aa2e9ecd75",
+  "batch_id": "batch_69afdadb5bec81908c9f729d1748410e",
   "status": "completed",
-  "input_file_id": "file-PReJbCxm3nDZAAfd9QVmGv",
-  "output_file_id": "file-6DkE2jfujQgQkVceJLa74P",
+  "input_file_id": "file-FJs57mnYAeZTXrnFvV1YVe",
+  "output_file_id": "file-MaqpNjUfanNvmxyM1yaXD7",
   "error_file_id": null,
   "request_counts": {
     "completed": 60,
@@ -10,47 +10,47 @@
     "total": 60
   },
   "batch": {
-    "id": "batch_69afb3ed020c8190884a05aa2e9ecd75",
+    "id": "batch_69afdadb5bec81908c9f729d1748410e",
     "completion_window": "24h",
-    "created_at": 1773122541,
+    "created_at": 1773132507,
     "endpoint": "/v1/chat/completions",
-    "input_file_id": "file-PReJbCxm3nDZAAfd9QVmGv",
+    "input_file_id": "file-FJs57mnYAeZTXrnFvV1YVe",
     "object": "batch",
     "status": "completed",
     "cancelled_at": null,
     "cancelling_at": null,
-    "completed_at": 1773122736,
+    "completed_at": 1773132713,
     "error_file_id": null,
     "errors": null,
     "expired_at": null,
-    "expires_at": 1773208941,
+    "expires_at": 1773218907,
     "failed_at": null,
-    "finalizing_at": 1773122726,
-    "in_progress_at": 1773122602,
+    "finalizing_at": 1773132708,
+    "in_progress_at": 1773132508,
     "metadata": {
       "experiment": "contribution2_without_domain",
       "manifest_file": "experiment_with_domain_batch_manifest.json"
     },
     "model": "gpt-5.2-2025-12-11",
-    "output_file_id": "file-6DkE2jfujQgQkVceJLa74P",
+    "output_file_id": "file-MaqpNjUfanNvmxyM1yaXD7",
     "request_counts": {
       "completed": 60,
       "failed": 0,
       "total": 60
     },
     "usage": {
-      "input_tokens": 956576,
+      "input_tokens": 1344256,
       "input_tokens_details": {
-        "cached_tokens": 134144
+        "cached_tokens": 788992
       },
-      "output_tokens": 82625,
+      "output_tokens": 94942,
       "output_tokens_details": {
         "reasoning_tokens": 0
       },
-      "total_tokens": 1039201
+      "total_tokens": 1439198
     }
   },
-  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/with-domain-gpt-5.2-t10/experiment_with_domain_batch_manifest.json",
-  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/with-domain-gpt-5.2-t10/experiment_with_domain_batch_output.jsonl",
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/with-domain-gpt-5.2-t10__20260310-optimized-dk/experiment_with_domain_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/with-domain-gpt-5.2-t10__20260310-optimized-dk/experiment_with_domain_batch_output.jsonl",
   "error_jsonl_file": null
 }

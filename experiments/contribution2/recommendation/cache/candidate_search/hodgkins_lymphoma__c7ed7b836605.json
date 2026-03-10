@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "hodgkins lymphoma",
   "candidate_model_ids": [
     "PGS000649",
@@ -46,13 +46,44 @@
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.677,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.677,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002046",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.677
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.676,
+            "se": 0.01
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.16,
+            "ci_lower": 1.09,
+            "ci_upper": 1.24
+          }
+        ]
       },
-      "phenotyping_reported": "Non-Hodgkin's lymphoma",
-      "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, sex, 10 PCs.",
+      "phenotyping_reported": "Incident non-hodgkin's lymphoma",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15)",
       "training_development_cohorts": [],
-      "validation_sample_size": "n=412,765"
+      "validation_sample_size": "n=391,968"
     },
     {
       "id": "PGS000637",
@@ -68,8 +99,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
-        "auc": 0.574,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.574,
+        "full_model_r2": 0.013,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001322",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.574,
+            "ci_lower": 0.501,
+            "ci_upper": 0.642
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.013
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.67,
+            "ci_lower": 0.264,
+            "ci_upper": 10.5
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.3,
+            "ci_lower": 1.023,
+            "ci_upper": 1.651
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.262,
+            "se": 0.122
+          }
+        ]
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
@@ -92,8 +174,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
-        "auc": 0.601,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.601,
+        "full_model_r2": 0.0193,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001323",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.601,
+            "ci_lower": 0.535,
+            "ci_upper": 0.671
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0193
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.62,
+            "ci_lower": 0.258,
+            "ci_upper": 10.1
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.377,
+            "ci_lower": 1.08,
+            "ci_upper": 1.755
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.32,
+            "se": 0.124
+          }
+        ]
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
@@ -116,8 +249,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
-        "auc": 0.62,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62,
+        "full_model_r2": 0.0276,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001324",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.62,
+            "ci_lower": 0.559,
+            "ci_upper": 0.688
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0276
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0821
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.64,
+            "ci_lower": 0.572,
+            "ci_upper": 12.2
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.476,
+            "ci_lower": 1.154,
+            "ci_upper": 1.889
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.39,
+            "se": 0.126
+          }
+        ]
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
@@ -140,8 +324,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
-        "auc": 0.569,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.569,
+        "full_model_r2": 0.0109,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001325",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.569,
+            "ci_lower": 0.501,
+            "ci_upper": 0.634
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0109
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0828
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.64,
+            "ci_lower": 0.261,
+            "ci_upper": 10.3
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.292,
+            "ci_lower": 1.011,
+            "ci_upper": 1.651
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.256,
+            "se": 0.125
+          }
+        ]
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
@@ -164,8 +399,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=9,923",
       "performance_metrics": {
-        "auc": 0.541,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.541,
+        "full_model_r2": 0.00682,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001326",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.541,
+            "ci_lower": 0.521,
+            "ci_upper": 0.561
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00682
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0821
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.05,
+            "ci_lower": 1.24,
+            "ci_upper": 3.4
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.211,
+            "ci_lower": 1.133,
+            "ci_upper": 1.294
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.191,
+            "se": 0.034
+          }
+        ]
       },
       "phenotyping_reported": "Non-Hodgkins lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
@@ -188,8 +474,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=9,923",
       "performance_metrics": {
-        "auc": 0.547,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.547,
+        "full_model_r2": 0.0087,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001327",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.547,
+            "ci_lower": 0.527,
+            "ci_upper": 0.566
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0087
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.05,
+            "ci_lower": 1.24,
+            "ci_upper": 3.4
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.239,
+            "ci_lower": 1.16,
+            "ci_upper": 1.324
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.214,
+            "se": 0.0337
+          }
+        ]
       },
       "phenotyping_reported": "Non-Hodgkins lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
@@ -212,8 +549,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=3,696",
       "performance_metrics": {
-        "auc": 0.532,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.532,
+        "full_model_r2": 0.00282,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001328",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.532,
+            "ci_lower": 0.497,
+            "ci_upper": 0.568
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00282
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.49,
+            "ci_lower": 1.1,
+            "ci_upper": 5.65
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.133,
+            "ci_lower": 1.005,
+            "ci_upper": 1.277
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.125,
+            "se": 0.061
+          }
+        ]
       },
       "phenotyping_reported": "Nodular lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
@@ -236,8 +624,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=3,696",
       "performance_metrics": {
-        "auc": 0.538,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.538,
+        "full_model_r2": 0.00349,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001329",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.538,
+            "ci_lower": 0.504,
+            "ci_upper": 0.573
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00349
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.48,
+            "ci_lower": 0.538,
+            "ci_upper": 4.05
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.149,
+            "ci_lower": 1.021,
+            "ci_upper": 1.294
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.139,
+            "se": 0.0606
+          }
+        ]
       },
       "phenotyping_reported": "Nodular lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
@@ -260,8 +699,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
-        "auc": 0.696,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.696,
+        "full_model_r2": 0.0973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001331",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.696,
+            "ci_lower": 0.628,
+            "ci_upper": 0.765
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0973
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0779
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 11.3,
+            "ci_lower": 3.76,
+            "ci_upper": 33.9
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.104,
+            "ci_lower": 1.628,
+            "ci_upper": 2.718
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.744,
+            "se": 0.131
+          }
+        ]
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
@@ -284,8 +774,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=2,833",
       "performance_metrics": {
-        "auc": 0.675,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.675,
+        "full_model_r2": 0.0689,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001332",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.675,
+            "ci_lower": 0.64,
+            "ci_upper": 0.707
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0689
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0795
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.11,
+            "ci_lower": 1.97,
+            "ci_upper": 8.6
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.874,
+            "ci_lower": 1.639,
+            "ci_upper": 2.144
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.628,
+            "se": 0.0685
+          }
+        ]
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
@@ -308,8 +849,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
-        "auc": 0.696,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.696,
+        "full_model_r2": 0.102,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001333",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.696,
+            "ci_lower": 0.621,
+            "ci_upper": 0.764
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.102
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0776
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 12.9,
+            "ci_lower": 4.45,
+            "ci_upper": 37.6
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.124,
+            "ci_lower": 1.648,
+            "ci_upper": 2.738
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.753,
+            "se": 0.13
+          }
+        ]
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
@@ -332,8 +924,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=2,833",
       "performance_metrics": {
-        "auc": 0.672,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.672,
+        "full_model_r2": 0.0665,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001334",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.672,
+            "ci_lower": 0.637,
+            "ci_upper": 0.703
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0665
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0796
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.52,
+            "ci_lower": 1.04,
+            "ci_upper": 6.08
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.85,
+            "ci_lower": 1.619,
+            "ci_upper": 2.114
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.615,
+            "se": 0.0681
+          }
+        ]
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
@@ -356,8 +999,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
-        "auc": 0.577,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.577,
+        "full_model_r2": 0.0205,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001335",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.577,
+            "ci_lower": 0.511,
+            "ci_upper": 0.645
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0205
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0822
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.0,
+            "ci_lower": 0.308,
+            "ci_upper": 13.0
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.368,
+            "ci_lower": 1.097,
+            "ci_upper": 1.705
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.313,
+            "se": 0.113
+          }
+        ]
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
@@ -380,8 +1074,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
-        "auc": 0.573,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.573,
+        "full_model_r2": 0.0145,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001336",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.573,
+            "ci_lower": 0.503,
+            "ci_upper": 0.644
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0145
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0823
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.84,
+            "ci_lower": 1.23,
+            "ci_upper": 19.0
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.32,
+            "ci_lower": 1.041,
+            "ci_upper": 1.675
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.278,
+            "se": 0.121
+          }
+        ]
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
@@ -404,8 +1149,45 @@
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.677,
-        "r2": 0.227
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.677,
+        "full_model_r2": 0.227,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002062",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.677
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.674,
+            "se": 0.01
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.227
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.15,
+            "ci_lower": 1.08,
+            "ci_upper": 1.22
+          }
+        ]
       },
       "phenotyping_reported": "Incident non-hodgkin's lymphoma",
       "covariates": "Age at assessment, sex, genotyping array, PCs(1-15)",
@@ -451,10 +1233,37 @@
       "date_release": "2021-08-26",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.861,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.861,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002495",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 17,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.861,
+            "ci_lower": 0.82,
+            "ci_upper": 0.9
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 3.79,
+            "ci_lower": 2.44,
+            "ci_upper": 5.87
+          }
+        ]
       },
-      "phenotyping_reported": "Chronic lymphocytic leukemia",
+      "phenotyping_reported": "Chronic lymphocytic leukemia in individuals with a family history of hematological cancers",
       "covariates": "Age, sex, study, socioeconomic status (when available)",
       "training_development_cohorts": [
         "ATBC",
@@ -496,8 +1305,27 @@
       "date_release": "2022-06-09",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.56,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.56,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013032",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.56,
+            "ci_lower": 0.53,
+            "ci_upper": 0.6
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Diffuse large B-cell lymphoma",
       "covariates": "Unknown",
@@ -542,8 +1370,27 @@
       "date_release": "2022-06-09",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.61,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.61,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013033",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.61,
+            "ci_lower": 0.59,
+            "ci_upper": 0.63
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Follicular lymphoma",
       "covariates": "Unknown",
@@ -586,7 +1433,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017230",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.95,
+            "ci_lower": 0.9,
+            "ci_upper": 1.0
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -608,7 +1474,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017231",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.02,
+            "ci_lower": 0.97,
+            "ci_upper": 1.08
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -630,7 +1515,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017227",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.26,
+            "ci_lower": 1.09,
+            "ci_upper": 1.46
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -652,7 +1556,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017228",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.07,
+            "ci_lower": 1.01,
+            "ci_upper": 1.14
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -674,7 +1597,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017224",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.17,
+            "ci_lower": 2.07,
+            "ci_upper": 2.28
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -696,7 +1638,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017225",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.33,
+            "ci_lower": 1.14,
+            "ci_upper": 1.54
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -718,7 +1679,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017226",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.07,
+            "ci_lower": 0.98,
+            "ci_upper": 1.17
+          }
+        ]
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
@@ -740,7 +1720,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020305",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.16,
+            "ci_lower": 1.03,
+            "ci_upper": 1.3
+          }
+        ]
       },
       "phenotyping_reported": "Non-Hodgkin's lymphoma",
       "covariates": "first 10 genetic principal components",
@@ -748,11 +1747,5 @@
       "validation_sample_size": "n=133,830"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS000874",
-    "reported_auc": 0.861,
-    "trait_reported": "Chronic lymphocytic leukemia",
-    "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
-    "validation_sample_size": "n=3,958"
-  }
+  "baseline": null
 }

@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "hashimoto's thyroiditis",
   "candidate_model_ids": [
     "PGS005272",
@@ -22,8 +22,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.638677809581895,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.638677809581895,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022753",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.638677809581895
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.037
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.037
+          }
+        ]
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
@@ -57,8 +85,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.629725726511746,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.629725726511746,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022754",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.629725726511746
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.54908058789994
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.437661585839951
+          }
+        ]
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
@@ -93,8 +149,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.605418550899187,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.605418550899187,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022755",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.605418550899187
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.41698139161814
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.348528828383883
+          }
+        ]
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
@@ -114,11 +198,5 @@
       "validation_sample_size": "n=94,651"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS005270",
-    "reported_auc": 0.6387,
-    "trait_reported": "Lymphocytic thyroiditis",
-    "method_name": "Pruning and Thresholding (P+T)",
-    "validation_sample_size": "n=94,651"
-  }
+  "baseline": null
 }

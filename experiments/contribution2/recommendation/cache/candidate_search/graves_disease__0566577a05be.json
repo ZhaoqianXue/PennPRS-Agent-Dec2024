@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "graves disease",
   "candidate_model_ids": [
     "PGS005265",
@@ -26,8 +26,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.74292,
-        "r2": 0.0808
+        "auc": 0.63392,
+        "r2": 0.02359,
+        "pgs_only_auc": 0.63392,
+        "pgs_only_r2": 0.02359,
+        "full_model_auc": 0.71296,
+        "full_model_r2": 0.05914,
+        "incremental_auc": 0.04673,
+        "selected_performance_id": "PPM007972",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71296,
+            "ci_lower": 0.69708,
+            "ci_upper": 0.72884
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05914
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04673
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02359
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.63392,
+            "ci_lower": 0.61562,
+            "ci_upper": 0.65223
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "TTE thyrotoxicosis [hyperthyroidism]",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -50,8 +92,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.73999,
-        "r2": 0.07663
+        "auc": 0.6323,
+        "r2": 0.02158,
+        "pgs_only_auc": 0.6323,
+        "pgs_only_r2": 0.02158,
+        "full_model_auc": 0.71366,
+        "full_model_r2": 0.0566,
+        "incremental_auc": 0.04641,
+        "selected_performance_id": "PPM007977",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71366,
+            "ci_lower": 0.6965,
+            "ci_upper": 0.73082
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0566
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04641
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02158
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.6323,
+            "ci_lower": 0.61251,
+            "ci_upper": 0.6521
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Hyperthyroidism/thyrotoxicosis",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -75,7 +159,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009420",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0191,
+            "ci_lower": 0.0049,
+            "ci_upper": 0.0332
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyrotoxicosis with or without goiter",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -99,7 +202,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011058",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0199,
+            "ci_lower": 0.0057,
+            "ci_upper": 0.034
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyrotoxicosis with or without goiter",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -122,8 +244,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.6587,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6587,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022747",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6587
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.008
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.008
+          }
+        ]
       },
       "phenotyping_reported": "graves' disease",
       "covariates": "Unknown",
@@ -158,8 +308,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.665220447565802,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.665220447565802,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022748",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.665220447565802
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.62508137678846
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.485557892551506
+          }
+        ]
       },
       "phenotyping_reported": "graves' disease",
       "covariates": "Unknown",
@@ -194,8 +372,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.663730746326419,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.663730746326419,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022749",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.663730746326419
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.54332658848452
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.433940209108075
+          }
+        ]
       },
       "phenotyping_reported": "graves' disease",
       "covariates": "Unknown",
@@ -218,7 +424,7 @@
   ],
   "baseline": {
     "pgs_id": "PGS001042",
-    "reported_auc": 0.7429,
+    "reported_auc": 0.6339,
     "trait_reported": "Thyrotoxicosis [hyperthyroidism] (time-to-event)",
     "method_name": "snpnet",
     "validation_sample_size": "n=67,425"

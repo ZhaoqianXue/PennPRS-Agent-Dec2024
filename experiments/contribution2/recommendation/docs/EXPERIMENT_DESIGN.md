@@ -51,6 +51,21 @@ The experiment-level feature attribution must only use fields that are actually 
 
 These fields come from the `[Agent + UI]` specification in [sop.md](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/.agent/blueprints/sop.md#L370) and the actual LLM context summarization logic in [recommendation_agent.py](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/src/server/modules/disease/recommendation_agent.py#L203).
 
+For scores with multiple PGS Catalog validation records, the agent does not mix fields across records. It selects one representative validation record using this rule:
+
+- highest-result `European` validation record, if any
+- otherwise highest-result validation record overall
+
+Here, `highest-result` first prefers explicit PRS-comparable metrics from that validation record:
+
+- `PGS AUROC (no covariates)` over full-model AUROC
+- `PGS R2 (no covariates)` or covariates-regressed-out R² over full-model R²
+- if no PRS-comparable metric exists, then fall back to the best visible full-model metric only for representative-record selection
+
+The selected record's top-level `performance_metrics.auc` / `performance_metrics.r2` are therefore PRS-comparable metrics when explicitly available, while `classification_metrics`, `other_metrics`, `full_model_auc`, `full_model_r2`, and `incremental_auc` remain available for sanity checking and interpretation.
+The agent-facing `performance_metrics` preserves the selected record's full `classification_metrics` and `other_metrics`, while `phenotyping_reported`, `covariates`, and `validation_sample_size` are aligned to that same selected record.
+The global `prs_model_performance_landscape` now uses the same comparable-metric semantics: a score contributes to landscape `auc` / `r2` only when an explicit PRS-comparable metric is available from its selected validation record; full-model AUROC/R² do not fill those comparable distributions.
+
 ---
 
 ## Experiment 1: Without Domain Knowledge
@@ -69,7 +84,7 @@ This is the primary Contribution2 experiment and should be executed now.
 | Candidate pool | Evaluated PGS IDs only (`N Models`) |
 | Fallback | Disabled |
 | Trials | 10 runs per disease |
-| Baseline | Highest reported AUC in PGS Catalog metadata |
+| Baseline | Highest reported PGS-only AUROC in PGS Catalog metadata, when available |
 | LLM execution | OpenAI Batch API |
 
 ### Without Domain Knowledge protocol
@@ -121,7 +136,7 @@ This is the primary Contribution2 experiment and should be executed now.
 ### Primary metrics
 
 - `Overall Recommended Model Accuracy`: for each disease, take the final recommended model across 10 runs and test whether it is in `Target_TopK`
-- `Baseline accuracy`: deterministic baseline using the model with highest reported AUC in PGS Catalog metadata
+- `Baseline accuracy`: deterministic baseline using the model with highest reported PGS-only AUROC in PGS Catalog metadata, when available
 
 ### Internal diagnostics
 
@@ -134,9 +149,11 @@ The runner still records engineering diagnostics in JSON for debugging, but they
 
 Use one deterministic baseline only:
 
-- `Highest reported AUC in PGS Catalog metadata`
+- `Highest reported PGS-only AUROC in PGS Catalog metadata`
 
-For each disease, select the candidate model with the largest reported `performance_metrics["auc"]` among the evaluated candidate pool, then test whether that baseline recommendation belongs to `Target_TopK`.
+For each disease, select the candidate model with the largest reported PRS-comparable `performance_metrics["auc"]` among the evaluated candidate pool, then test whether that baseline recommendation belongs to `Target_TopK`.
+
+Do not fall back to full-model AUROC for this baseline. If no candidate reports a PRS-comparable AUROC, the baseline is treated as unavailable for that disease.
 
 ### Cost accounting
 
@@ -211,7 +228,7 @@ For Contribution2, `prs_model_domain_knowledge` is intentionally implemented as 
 
 - source: `src/server/core/knowledge/prs_model_domain_knowledge.md`
 - source type: `local`
-- purpose: inject stable model-selection rules about endpoint fidelity, transferability, ancestry compatibility, penalties, and method priors
+- purpose: inject stable model-selection rules about endpoint fidelity, PRS-comparable metric interpretation, heritability sanity checks, transferability, ancestry compatibility, penalties, and method priors
 
 This experiment therefore evaluates:
 

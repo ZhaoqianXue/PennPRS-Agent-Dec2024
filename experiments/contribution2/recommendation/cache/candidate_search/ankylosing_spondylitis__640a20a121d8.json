@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "ankylosing spondylitis",
   "candidate_model_ids": [
     "PGS001268",
@@ -28,8 +28,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.98913,
-        "r2": 0.44316
+        "auc": 0.72651,
+        "r2": 0.09877,
+        "pgs_only_auc": 0.72651,
+        "pgs_only_r2": 0.09877,
+        "full_model_auc": 0.74328,
+        "full_model_r2": 0.10925,
+        "incremental_auc": 0.12994,
+        "selected_performance_id": "PPM008844",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74328,
+            "ci_lower": 0.70673,
+            "ci_upper": 0.77983
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10925
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.12994
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.09877
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.72651,
+            "ci_lower": 0.68965,
+            "ci_upper": 0.76337
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -52,8 +94,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.99148,
-        "r2": 0.44858
+        "auc": 0.7346,
+        "r2": 0.10232,
+        "pgs_only_auc": 0.7346,
+        "pgs_only_r2": 0.10232,
+        "full_model_auc": 0.74878,
+        "full_model_r2": 0.115,
+        "incremental_auc": 0.12686,
+        "selected_performance_id": "PPM008849",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74878,
+            "ci_lower": 0.71314,
+            "ci_upper": 0.78442
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.115
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.12686
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.10232
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.7346,
+            "ci_lower": 0.69884,
+            "ci_upper": 0.77037
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "TTE ankylosing spondylitis",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -77,7 +161,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009896",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0797,
+            "ci_lower": 0.0653,
+            "ci_upper": 0.0941
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -101,7 +204,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011572",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0919,
+            "ci_lower": 0.0775,
+            "ci_upper": 0.1063
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -124,8 +246,25 @@
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.7886,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7886,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017073",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7886
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "Unknown",
@@ -146,8 +285,25 @@
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.7876,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7876,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017074",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7876
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "Unknown",
@@ -168,8 +324,25 @@
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.7876,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7876,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017075",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7876
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "Unknown",
@@ -190,8 +363,25 @@
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.7754,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7754,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017076",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7754
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "Unknown",
@@ -212,8 +402,25 @@
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.7605,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7605,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017077",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7605
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Ankylosing spondylitis",
       "covariates": "Unknown",
@@ -223,7 +430,7 @@
   ],
   "baseline": {
     "pgs_id": "PGS001268",
-    "reported_auc": 0.9915,
+    "reported_auc": 0.7346,
     "trait_reported": "Ankylosing spondylitis (time-to-event)",
     "method_name": "snpnet",
     "validation_sample_size": "n=67,425"

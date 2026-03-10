@@ -6,6 +6,11 @@ from langchain_core.prompts import ChatPromptTemplate
 from src.server.core.pennprs_client import PennPRSClient
 from src.server.core.pgs_catalog_client import PGSCatalogClient
 from src.server.core.llm_config import get_llm  # Centralized LLM config
+from src.server.core.tools.prs_model_tools import (
+    _build_selected_performance_summary,
+    _extract_validation_ancestries,
+    _extract_validation_sample_count,
+)
 from src.server.modules.disease.models import DiseaseState, JobConfiguration, TraitColumn, Report
 from src.server.modules.disease.report_generator import extract_features, generate_report_markdown
 import os
@@ -107,82 +112,51 @@ def _fetch_formatted_models(trait: str, request_id: str = None):
         pid = res.get('id')
         details = pgs_details_map.get(pid, {})
         perf_data = pgs_performance_map.get(pid, [])
-        metrics = details.get("metrics", {})
+        selected_perf_summary, _ = _build_selected_performance_summary(perf_data)
+        metrics = details.get("metrics", {}) or {}
+        if not isinstance(metrics, dict):
+            metrics = {}
+        if selected_perf_summary.get("auc") is not None:
+            metrics["AUC"] = selected_perf_summary.get("auc")
+        if selected_perf_summary.get("r2") is not None:
+            metrics["R2"] = selected_perf_summary.get("r2")
         
 
         # Format Performance Detailed
         performance_detailed = []
         for p in perf_data:
-            # Extract Metrics from complex structure
-            p_metrics = p.get("performance_metrics", {})
-            
-            # 1. AUC (from class_acc or othermetrics)
-            auc_val = None
-            auc_lower = None
-            auc_upper = None
-            
-            # Check class_acc first (common for AUC)
-            for acc in p_metrics.get("class_acc", []):
-                name = acc.get("name_short", "") + acc.get("name_long", "")
-                # Exclude Delta/Change metrics
-                if "delta" in name.lower() or "Δ" in name or "change" in name.lower():
-                    continue
-                    
-                if "AUC" in name or "AUROC" in name:
-                    auc_val = acc.get("estimate")
-                    auc_lower = acc.get("ci_lower")
-                    auc_upper = acc.get("ci_upper")
-                    break
-            
-            # Check othermetrics if not found
-            if auc_val is None:
-                for om in p_metrics.get("othermetrics", []):
-                    name = om.get("name_short", "") + om.get("name_long", "")
-                    # Exclude Delta/Change metrics
-                    if "delta" in name.lower() or "Δ" in name or "change" in name.lower():
-                        continue
+            p_metrics = p.get("performance_metrics", {}) or {}
+            per_record_summary, _ = _build_selected_performance_summary([p])
+            auc_val = per_record_summary.get("auc")
+            r2_val = per_record_summary.get("r2")
 
-                    if "AUC" in name or "AUROC" in name or "C-index" in name or "Area under curve" in name:
-                        auc_val = om.get("estimate")
-                        auc_lower = om.get("ci_lower")
-                        auc_upper = om.get("ci_upper")
-                        break
-
-            # 2. R2 (from othermetrics)
-            r2_val = None
-            for om in p_metrics.get("othermetrics", []):
-                name = om.get("name_short", "") + om.get("name_long", "")
-                name_lower = name.lower()
-                if "r2" in name_lower or "r^2" in name_lower or "variance" in name_lower:
-                    r2_val = om.get("estimate")
-                    break
-
-            # 3. Effect Sizes (HR/OR/Beta) - usually one main one
             eff_val = None
             eff_type = None
-            if p_metrics.get("effect_sizes"):
-                eff = p_metrics.get("effect_sizes")[0]
+            effect_sizes = per_record_summary.get("effect_sizes") or []
+            if effect_sizes:
+                eff = effect_sizes[0]
                 eff_val = eff.get("estimate")
                 eff_type = eff.get("name_short")
             
             # Populate if we have at least some data
             if auc_val or r2_val or eff_val:
+                ancestries = _extract_validation_ancestries(p)
                 performance_detailed.append({
                     "ppm_id": p.get("id"),
-                    "ancestry": p.get("sampleset", {}).get("samples", [{}])[0].get("ancestry_broad"),
+                    "ancestry": ", ".join(ancestries) if ancestries else None,
                     "cohorts": ", ".join([c.get("name_short") for c in p.get("sampleset", {}).get("samples", [{}])[0].get("cohorts", []) if c.get("name_short")]),
-                    "sample_size": p.get("sampleset", {}).get("samples", [{}])[0].get("sample_number"),
+                    "sample_size": _extract_validation_sample_count(p) or None,
                     "auc": auc_val,
-                    "auc_ci_lower": auc_lower,
-                    "auc_ci_upper": auc_upper,
+                    "auc_ci_lower": None,
+                    "auc_ci_upper": None,
                     "r2": r2_val,
                     "covariates": p.get("covariates"),
-                    "comments": p.get("performance_comments")
+                    "comments": p.get("performance_comments"),
+                    "classification_metrics": per_record_summary.get("classification_metrics") or [],
+                    "other_metrics": per_record_summary.get("other_metrics") or [],
+                    "effect_sizes": effect_sizes,
                 })
-                
-                # Update top-level metrics if empty (using first available)
-                if not metrics.get("AUC") and auc_val: metrics["AUC"] = auc_val
-                if not metrics.get("R2") and r2_val: metrics["R2"] = r2_val
+
                 if not metrics.get("HR") and eff_type == 'HR': metrics["HR"] = eff_val
                 if not metrics.get("OR") and eff_type == 'OR': metrics["OR"] = eff_val
                 if not metrics.get("Beta") and eff_type == 'Beta': metrics["Beta"] = eff_val

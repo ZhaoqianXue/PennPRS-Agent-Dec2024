@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "juvenile idiopathic arthritis",
   "candidate_model_ids": [
     "PGS000326",
@@ -23,17 +23,44 @@
       "date_release": "2020-02-27",
       "samples_training": "n=7,505",
       "performance_metrics": {
-        "auc": 0.738,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.738,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000263",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.738,
+            "ci_lower": 0.705,
+            "ci_upper": 0.77
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.085,
+            "ci_lower": 1.773,
+            "ci_upper": 2.471
+          }
+        ]
       },
       "phenotyping_reported": "Juvenile Idiopathic Arthritis",
-      "covariates": "Unknown",
+      "covariates": "sex, genetic PCs 1-10",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
         "WTCCC"
       ],
-      "validation_sample_size": "n=3,513"
+      "validation_sample_size": "n=940"
     },
     {
       "id": "PGS000324",
@@ -49,17 +76,44 @@
       "date_release": "2020-09-18",
       "samples_training": "n=5,354",
       "performance_metrics": {
-        "auc": 0.93,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.93,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000874",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.93,
+            "ci_lower": 0.86,
+            "ci_upper": 0.99
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 3.09,
+            "ci_lower": 2.07,
+            "ci_upper": 5.04
+          }
+        ]
       },
       "phenotyping_reported": "Enthesitis-related Arthritis",
-      "covariates": "Unknown",
+      "covariates": "sex, genetic PCs 1-10",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
         "WTCCC"
       ],
-      "validation_sample_size": "n=3,020"
+      "validation_sample_size": "n=594"
     },
     {
       "id": "PGS000325",
@@ -75,11 +129,38 @@
       "date_release": "2020-09-18",
       "samples_training": "n=6,137",
       "performance_metrics": {
-        "auc": 0.8,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000875",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8,
+            "ci_lower": 0.77,
+            "ci_upper": 0.84
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.93,
+            "ci_lower": 1.75,
+            "ci_upper": 2.13
+          }
+        ]
       },
       "phenotyping_reported": "Oligoarthritis Juvenile Idiophatic Arthritis",
-      "covariates": "Unknown",
+      "covariates": "sex, genetic PCs 1-10",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
@@ -101,11 +182,38 @@
       "date_release": "2020-09-18",
       "samples_training": "n=5,733",
       "performance_metrics": {
-        "auc": 0.76,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.76,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000877",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76,
+            "ci_lower": 0.72,
+            "ci_upper": 0.8
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.51,
+            "ci_lower": 1.35,
+            "ci_upper": 1.68
+          }
+        ]
       },
       "phenotyping_reported": "Rheumatoid-factor-negative Polyarthritis",
-      "covariates": "Unknown",
+      "covariates": "sex, genetic PCs 1-10",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
@@ -114,11 +222,5 @@
       "validation_sample_size": "n=3,089"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS000324",
-    "reported_auc": 0.93,
-    "trait_reported": "Enthesitis-related Juvenile Idiophatic Arthritis",
-    "method_name": "SparSNP",
-    "validation_sample_size": "n=3,020"
-  }
+  "baseline": null
 }

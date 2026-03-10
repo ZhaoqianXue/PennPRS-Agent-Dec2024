@@ -42,6 +42,9 @@ export interface ModelData {
         r2?: number;
         covariates?: string;
         comments?: string;
+        classification_metrics?: Array<Record<string, unknown>>;
+        other_metrics?: Array<Record<string, unknown>>;
+        effect_sizes?: Array<Record<string, unknown>>;
     }[];
     // New Technical Fields
     pgs_name?: string;

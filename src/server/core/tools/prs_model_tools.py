@@ -8,6 +8,7 @@ import time
 import json
 import re
 import logging
+from functools import lru_cache
 from pathlib import Path
 from typing import List, Optional, Dict, Any, Iterable, Tuple, Set
 from statistics import median, quantiles
@@ -21,10 +22,14 @@ from src.server.core.agent_artifacts import get_artifacts_dir, stable_json_dumps
 
 logger = logging.getLogger(__name__)
 
+PERFORMANCE_SELECTION_POLICY_VERSION = "eur_best_v2_prs_comparable"
+
 DOMAIN_QUERY_EXPANSION: Dict[str, List[str]] = {
     "clinical": ["clinical", "guideline", "consensus", "threshold", "benchmark"],
     "auc": ["auc", "auroc", "roc", "c-index"],
     "r2": ["r2", "r²", "variance"],
+    "heritability": ["heritability", "h2", "h²", "ceiling", "sanity check", "genetic architecture"],
+    "ceiling": ["ceiling", "upper bound", "sanity check", "heritability"],
     "gates": ["gate", "must-pass", "must_pass", "eligibility"],
     "ranking": ["ranking", "prioritize", "priority", "rank"],
     "penalties": ["penalty", "penalties", "red flag", "risk"],
@@ -50,6 +55,7 @@ STRUCTURED_SECTION_KEYWORDS: Dict[str, List[str]] = {
     "structured selection rules": ["clinical", "threshold", "ranking", "penalties", "method", "selection"],
     "must-pass gates": ["gate", "phenotype", "ancestry", "proxy", "endpoint"],
     "ranking features": ["ranking", "auc", "r2", "sample", "validation", "method"],
+    "heritability sanity check": ["heritability", "h2", "h²", "ceiling", "sanity", "pgs-only", "no covariates"],
     "penalties and red flags": ["penalties", "red", "flag", "proxy", "overlap", "bias"],
     "method priors": ["method", "ldpred2", "prs-cs", "lassosum", "c+t"],
     "endpoint integrity notes (disease-agnostic)": ["proxy", "endpoint", "family history", "disease"],
@@ -214,16 +220,17 @@ def prs_model_pgscatalog_search(
             date_release = "Unknown"
             samples_training = "N/A"
 
-        auc, r2 = _extract_auc_r2_from_performance_records(performance)
+        performance_summary, selected_performance = _build_selected_performance_summary(performance)
 
         phenotyping_reported = "Unknown"
         covariates = "Unknown"
         validation_sample_size: Optional[str] = None
-        if performance:
-            first = performance[0] if isinstance(performance[0], dict) else {}
-            phenotyping_reported = first.get("phenotyping_reported") or "Unknown"
-            covariates = first.get("covariates") or "Unknown"
-            validation_sample_size = _extract_validation_sample_size(performance)
+        if selected_performance:
+            phenotyping_reported = selected_performance.get("phenotyping_reported") or "Unknown"
+            covariates = selected_performance.get("covariates") or "Unknown"
+            validation_sample_size = _format_validation_sample_size(
+                _extract_validation_sample_count(selected_performance)
+            )
 
         summary = PGSModelSummary(
             id=pgs_id,
@@ -235,7 +242,7 @@ def prs_model_pgscatalog_search(
             publication=publication,
             date_release=date_release,
             samples_training=samples_training,
-            performance_metrics={"auc": auc, "r2": r2},
+            performance_metrics=performance_summary,
             phenotyping_reported=phenotyping_reported,
             covariates=covariates,
             training_development_cohorts=cohorts,
@@ -317,28 +324,319 @@ def _extract_publication_metadata(publication: Any) -> PublicationMetadata:
         return PublicationMetadata(title=title, journal=journal)
     return PublicationMetadata(title="Unknown", journal="Unknown")
 
+PRIMARY_AUC_NAMES = {"AUC", "AUROC", "ROC AUC", "AUCROC"}
+C_INDEX_NAMES = {"C-INDEX", "C INDEX", "CINDEX"}
+R2_NAMES = {"R²", "R2", "R^2"}
 
-def _extract_validation_sample_size(performance_records: List[Dict[str, Any]]) -> Optional[str]:
-    """
-    Extract validation cohort sample size from performance records.
-    Returns the largest sampleset sample count across all performance entries (n=...).
-    """
-    if not performance_records:
+
+def _safe_metric_float(value: Any) -> Optional[float]:
+    try:
+        if value is None:
+            return None
+        return float(value)
+    except Exception:
         return None
-    best_n = 0
-    for p in performance_records:
-        if not isinstance(p, dict):
-            continue
-        ss = p.get("sampleset") or {}
-        if not isinstance(ss, dict):
-            continue
-        samples = ss.get("samples") or []
-        total = sum((s.get("sample_number") or 0) for s in samples if isinstance(s, dict))
-        if total > best_n:
-            best_n = total
-    if best_n <= 0:
+
+
+def _as_unit_interval(x: Any) -> Optional[float]:
+    """
+    Normalize common metric encodings:
+    - Some sources encode AUC/R²/C-index as percentages (e.g., 28.5 meaning 28.5%).
+    - Convert 0-100 values to 0-1 when applicable.
+    """
+    v = _safe_metric_float(x)
+    if v is None:
         return None
-    return f"n={best_n:,}"
+    if v > 1.0 and v <= 100.0:
+        v = v / 100.0
+    if 0.0 <= v <= 1.0:
+        return v
+    return None
+
+
+def _metric_name(entry: Dict[str, Any]) -> str:
+    return str(entry.get("name_short") or entry.get("name_long") or "").strip()
+
+
+def _metric_name_upper(entry: Dict[str, Any]) -> str:
+    return _metric_name(entry).upper()
+
+
+def _metric_name_lower(entry: Dict[str, Any]) -> str:
+    return _metric_name(entry).lower()
+
+
+def _is_delta_metric(entry: Dict[str, Any]) -> bool:
+    name = _metric_name(entry)
+    lower = name.lower()
+    return ("incremental" in lower) or ("delta" in lower) or ("change" in lower) or ("Δ" in name)
+
+
+def _is_auc_like_name(name_lower: str) -> bool:
+    return ("auc" in name_lower) or ("auroc" in name_lower) or ("area under" in name_lower)
+
+
+def _is_r2_like_name(name_lower: str) -> bool:
+    return ("r2" in name_lower) or ("r²" in name_lower) or ("r^2" in name_lower) or ("variance" in name_lower)
+
+
+def _is_pgs_only_auc_metric(entry: Dict[str, Any]) -> bool:
+    lower = _metric_name_lower(entry)
+    return "pgs" in lower and _is_auc_like_name(lower)
+
+
+def _is_pgs_only_r2_metric(entry: Dict[str, Any]) -> bool:
+    lower = _metric_name_lower(entry)
+    if "pgs" in lower and _is_r2_like_name(lower):
+        return True
+    return "covariates regressed out" in lower and _is_r2_like_name(lower)
+
+
+def _is_full_model_r2_metric(entry: Dict[str, Any]) -> bool:
+    lower = _metric_name_lower(entry)
+    upper = _metric_name_upper(entry)
+    if _is_pgs_only_r2_metric(entry):
+        return False
+    return upper in R2_NAMES or _is_r2_like_name(lower)
+
+
+def _metric_max(current: Optional[float], candidate: Optional[float]) -> Optional[float]:
+    if candidate is None:
+        return current
+    if current is None:
+        return candidate
+    return max(current, candidate)
+
+
+def _normalized_metric_entries(entries: Any) -> List[Dict[str, Any]]:
+    normalized: List[Dict[str, Any]] = []
+    for entry in entries or []:
+        if not isinstance(entry, dict):
+            continue
+        item = dict(entry)
+        if "estimate" in item:
+            item["estimate"] = _safe_metric_float(item.get("estimate"))
+        if "ci_lower" in item:
+            item["ci_lower"] = _safe_metric_float(item.get("ci_lower"))
+        if "ci_upper" in item:
+            item["ci_upper"] = _safe_metric_float(item.get("ci_upper"))
+        normalized.append(item)
+    return normalized
+
+
+def _iter_metric_entries(pm: Dict[str, Any]) -> Iterable[Tuple[str, Dict[str, Any]]]:
+    for key, out_key in (
+        ("effect_sizes", "effect_sizes"),
+        ("class_acc", "classification_metrics"),
+        ("othermetrics", "other_metrics"),
+    ):
+        for entry in _normalized_metric_entries(pm.get(key) or []):
+            yield out_key, entry
+
+
+def _extract_auc_r2_from_metrics_dict(metrics_dict: Dict[str, Any]) -> Tuple[Optional[float], Optional[float]]:
+    """Extract PRS-comparable AUC/R²-like metrics from a single performance_metrics dict."""
+    summary = _extract_metric_summary_from_metrics_dict(metrics_dict)
+    return summary.get("auc"), summary.get("r2")
+
+
+def _extract_metric_summary_from_metrics_dict(metrics_dict: Dict[str, Any]) -> Dict[str, Optional[float]]:
+    """
+    Separate PRS-comparable metrics from full-model metrics within one validation record.
+
+    Top-level `auc` and `r2` are reserved for PRS-comparable metrics aligned to
+    Contribution1-style interpretation. Full-model AUROC/R² are kept separately
+    for sanity checking and inspection.
+    """
+    best_pgs_only_auc: Optional[float] = None
+    best_pgs_only_r2: Optional[float] = None
+    best_full_model_auc: Optional[float] = None
+    best_full_model_r2: Optional[float] = None
+    best_incremental_auc: Optional[float] = None
+    best_c_index: Optional[float] = None
+
+    for section, entry in _iter_metric_entries(metrics_dict):
+        name_upper = _metric_name_upper(entry)
+        name_lower = _metric_name_lower(entry)
+        estimate = entry.get("estimate")
+        if estimate is None:
+            continue
+        value = _as_unit_interval(estimate)
+
+        if _is_pgs_only_auc_metric(entry):
+            best_pgs_only_auc = _metric_max(best_pgs_only_auc, value)
+            continue
+
+        if _is_delta_metric(entry) and _is_auc_like_name(name_lower):
+            best_incremental_auc = _metric_max(best_incremental_auc, value)
+            continue
+
+        if name_upper in C_INDEX_NAMES:
+            best_c_index = _metric_max(best_c_index, value)
+            continue
+
+        if name_upper in PRIMARY_AUC_NAMES:
+            best_full_model_auc = _metric_max(best_full_model_auc, value)
+            continue
+
+        if section == "other_metrics" and not _is_delta_metric(entry) and _is_auc_like_name(name_lower):
+            best_full_model_auc = _metric_max(best_full_model_auc, value)
+            continue
+
+        if _is_pgs_only_r2_metric(entry):
+            best_pgs_only_r2 = _metric_max(best_pgs_only_r2, value)
+            continue
+
+        if _is_full_model_r2_metric(entry):
+            best_full_model_r2 = _metric_max(best_full_model_r2, value)
+
+    if best_full_model_auc is None and best_c_index is not None:
+        best_full_model_auc = best_c_index
+
+    return {
+        "auc": best_pgs_only_auc,
+        "r2": best_pgs_only_r2,
+        "pgs_only_auc": best_pgs_only_auc,
+        "pgs_only_r2": best_pgs_only_r2,
+        "full_model_auc": best_full_model_auc,
+        "full_model_r2": best_full_model_r2,
+        "incremental_auc": best_incremental_auc,
+    }
+
+
+def _extract_validation_ancestries(record: Dict[str, Any]) -> List[str]:
+    ancestries: List[str] = []
+    sampleset = record.get("sampleset") or {}
+    if not isinstance(sampleset, dict):
+        return ancestries
+    for sample in sampleset.get("samples") or []:
+        if not isinstance(sample, dict):
+            continue
+        ancestry = sample.get("ancestry_broad") or sample.get("ancestry_free")
+        if ancestry:
+            value = str(ancestry).strip()
+            if value and value not in ancestries:
+                ancestries.append(value)
+    return ancestries
+
+
+def _is_european_ancestry(label: str) -> bool:
+    text = (label or "").strip().lower()
+    return ("europe" in text) or bool(re.search(r"\beur\b", text))
+
+
+def _extract_validation_sample_count(record: Dict[str, Any]) -> int:
+    sampleset = record.get("sampleset") or {}
+    if not isinstance(sampleset, dict):
+        return 0
+    total = 0
+    for sample in sampleset.get("samples") or []:
+        if not isinstance(sample, dict):
+            continue
+        total += int(sample.get("sample_number") or 0)
+    return total
+
+
+def _format_validation_sample_size(sample_count: int) -> Optional[str]:
+    if sample_count <= 0:
+        return None
+    return f"n={sample_count:,}"
+
+
+def _select_representative_performance_record(
+    performance_records: List[Dict[str, Any]]
+) -> Optional[Dict[str, Any]]:
+    """
+    Select one representative validation record for agent-facing reasoning.
+
+    Rule:
+    1. Prefer records with European validation ancestry.
+    2. Within EUR records, choose the highest-result record.
+    3. If no EUR record exists, choose the highest-result record overall.
+
+    "Highest-result" is determined by:
+    - PRS-comparable AUC first
+    - then PRS-comparable R²
+    - then full-model AUC
+    - then full-model R²
+    - then validation sample size
+    """
+    ranked: List[Tuple[int, int, float, int, int, Dict[str, Any]]] = []
+    for idx, record in enumerate(performance_records or []):
+        if not isinstance(record, dict):
+            continue
+        metrics_dict = record.get("performance_metrics") or {}
+        if not isinstance(metrics_dict, dict):
+            metrics_dict = {}
+        metric_summary = _extract_metric_summary_from_metrics_dict(metrics_dict)
+        comparable_auc = metric_summary.get("auc")
+        comparable_r2 = metric_summary.get("r2")
+        full_model_auc = metric_summary.get("full_model_auc")
+        full_model_r2 = metric_summary.get("full_model_r2")
+        if comparable_auc is not None:
+            metric_tier = 4
+            metric_value = comparable_auc
+        elif comparable_r2 is not None:
+            metric_tier = 3
+            metric_value = comparable_r2
+        elif full_model_auc is not None:
+            metric_tier = 2
+            metric_value = full_model_auc
+        elif full_model_r2 is not None:
+            metric_tier = 1
+            metric_value = full_model_r2
+        else:
+            metric_tier = 0
+            metric_value = -1.0
+        ancestries = _extract_validation_ancestries(record)
+        eur_flag = 1 if any(_is_european_ancestry(a) for a in ancestries) else 0
+        sample_n = _extract_validation_sample_count(record)
+        ranked.append((eur_flag, metric_tier, metric_value, sample_n, -idx, record))
+
+    if not ranked:
+        return None
+
+    eur_ranked = [item for item in ranked if item[0] == 1]
+    pool = eur_ranked if eur_ranked else ranked
+    return max(pool, key=lambda item: (item[1], item[2], item[3], item[4]))[-1]
+
+
+def _build_selected_performance_summary(
+    performance_records: List[Dict[str, Any]]
+) -> Tuple[Dict[str, Any], Optional[Dict[str, Any]]]:
+    selected = _select_representative_performance_record(performance_records)
+    if not selected:
+        return {
+            "auc": None,
+            "r2": None,
+            "selected_performance_id": None,
+            "selected_validation_ancestry": None,
+            "record_count": len(performance_records or []),
+            "classification_metrics": [],
+            "other_metrics": [],
+            "effect_sizes": [],
+        }, None
+
+    metrics_dict = selected.get("performance_metrics") or {}
+    if not isinstance(metrics_dict, dict):
+        metrics_dict = {}
+    metric_summary = _extract_metric_summary_from_metrics_dict(metrics_dict)
+    ancestries = _extract_validation_ancestries(selected)
+    return {
+        "auc": metric_summary.get("auc"),
+        "r2": metric_summary.get("r2"),
+        "pgs_only_auc": metric_summary.get("pgs_only_auc"),
+        "pgs_only_r2": metric_summary.get("pgs_only_r2"),
+        "full_model_auc": metric_summary.get("full_model_auc"),
+        "full_model_r2": metric_summary.get("full_model_r2"),
+        "incremental_auc": metric_summary.get("incremental_auc"),
+        "selected_performance_id": selected.get("id"),
+        "selected_validation_ancestry": ", ".join(ancestries) if ancestries else None,
+        "record_count": len(performance_records or []),
+        "classification_metrics": _normalized_metric_entries(metrics_dict.get("class_acc") or []),
+        "other_metrics": _normalized_metric_entries(metrics_dict.get("othermetrics") or []),
+        "effect_sizes": _normalized_metric_entries(metrics_dict.get("effect_sizes") or []),
+    }, selected
 
 
 def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
@@ -364,93 +662,17 @@ def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
     return sorted(cohorts)
 
 
-def _extract_auc_r2_from_performance_records(performance_records: List[Dict[str, Any]]) -> Tuple[Optional[float], Optional[float]]:
+def _extract_auc_r2_from_performance_records(
+    performance_records: List[Dict[str, Any]]
+) -> Tuple[Optional[float], Optional[float]]:
     """
-    Extract (best) AUC and R2 from a list of performance/search records.
+    Extract AUC and R² using the same representative-record rule as agent-facing summaries.
 
-    A score can have multiple performance entries; we take the maximum AUC and maximum R²
-    across entries to avoid missing strong validations.
+    This keeps candidate metadata and global performance-landscape calculations on the same basis:
+    best European validation result if available; otherwise best overall result.
     """
-    best_auc: Optional[float] = None
-    best_r2: Optional[float] = None
-
-    # Some endpoints return "performance records" shaped like:
-    # - /performance/search: [{..., "performance_metrics": {"effect_sizes": [...], "class_acc": [...], ...}}, ...]
-    # - /performance/all:    [{..., "performance_metrics": {"effect_sizes": [...], ...}}, ...]
-    # While other call sites may pass the inner dict directly: {"effect_sizes": [...], ...}
-    #
-    # Normalize both shapes by treating `pm` as either p["performance_metrics"] (dict) or `p` itself.
-    best_c_index: Optional[float] = None
-
-    def _as_unit_interval(x: float) -> Optional[float]:
-        """
-        Normalize common metric encodings:
-        - Some sources encode AUC/R²/C-index as percentages (e.g., 28.5 meaning 28.5%).
-        - Convert 0-100 values to 0-1 when applicable.
-        """
-        if x is None:
-            return None
-        try:
-            v = float(x)
-        except Exception:
-            return None
-        if v > 1.0 and v <= 100.0:
-            v = v / 100.0
-        if 0.0 <= v <= 1.0:
-            return v
-        return None
-
-    def _iter_metric_entries(pm: Dict[str, Any]) -> Iterable[Dict[str, Any]]:
-        for key in ("effect_sizes", "class_acc", "othermetrics"):
-            for entry in (pm.get(key) or []):
-                if isinstance(entry, dict):
-                    yield entry
-
-    for p in performance_records or []:
-        if not isinstance(p, dict):
-            continue
-        pm = p.get("performance_metrics")
-        if isinstance(pm, dict):
-            metrics_dict = pm
-        else:
-            metrics_dict = p
-
-        for m in _iter_metric_entries(metrics_dict):
-            name = str(m.get("name_short", "")).strip().upper()
-            estimate = m.get("estimate")
-            if estimate is None:
-                continue
-            try:
-                val = float(estimate)
-            except Exception:
-                continue
-
-            # AUC-like metrics (accept common aliases used by PGS Catalog).
-            if name in {"AUC", "AUROC", "ROC AUC", "AUCROC"}:
-                v = _as_unit_interval(val)
-                if v is not None:
-                    best_auc = v if best_auc is None else max(best_auc, v)
-                continue
-
-            # Concordance statistic (often used in cancer risk models); keep as AUC fallback.
-            if name in {"C-INDEX", "C INDEX", "CINDEX"}:
-                v = _as_unit_interval(val)
-                if v is not None:
-                    best_c_index = v if best_c_index is None else max(best_c_index, v)
-                continue
-
-            # R²-like metrics.
-            if name in {"R²", "R2", "R^2"}:
-                v = _as_unit_interval(val)
-                if v is not None:
-                    best_r2 = v if best_r2 is None else max(best_r2, v)
-
-    # If AUC is not available but C-index exists, treat C-index as the best available AUC-like score.
-    # This preserves ranking behavior and avoids dropping cancer scores that report concordance.
-    if best_auc is None and best_c_index is not None:
-        best_auc = best_c_index
-
-    return best_auc, best_r2
+    summary, _ = _build_selected_performance_summary(performance_records)
+    return summary.get("auc"), summary.get("r2")
 
 
 def _parse_sample_size(samples_training: str) -> Optional[int]:
@@ -537,7 +759,11 @@ def prs_model_performance_landscape(
                 raw = json.loads(cache_path.read_text(encoding="utf-8"))
                 ts = float(raw.get("created_at_epoch_s") or 0.0)
                 age = time.time() - ts
-                if age >= 0 and age <= cache_ttl_s:
+                if (
+                    age >= 0
+                    and age <= cache_ttl_s
+                    and raw.get("performance_selection_policy_version") == PERFORMANCE_SELECTION_POLICY_VERSION
+                ):
                     payload = raw.get("landscape")
                     if isinstance(payload, dict):
                         return PerformanceLandscape(**payload)
@@ -545,19 +771,17 @@ def prs_model_performance_landscape(
             # Cache is best-effort only.
             pass
 
-    # Build performance index: PGS id -> best (auc, r2) across ALL performance records
-    perf_best: Dict[str, Tuple[Optional[float], Optional[float]]] = {}
+    # Build performance index: PGS id -> representative (auc, r2) from the selected validation record
+    perf_records_by_pgs: Dict[str, List[Dict[str, Any]]] = {}
     for rec in client.iter_all_performances(batch_size=100, max_records=max_performance_records):
         pgs_id = rec.get("associated_pgs_id")
         if not pgs_id:
             continue
-        pm = (rec.get("performance_metrics") or {})
-        # Normalize to a "performance/search-like" record list so we can reuse parsing
-        auc, r2 = _extract_auc_r2_from_performance_records([pm])
-        prev = perf_best.get(pgs_id, (None, None))
-        best_auc = auc if prev[0] is None else (max(prev[0], auc) if auc is not None else prev[0])
-        best_r2 = r2 if prev[1] is None else (max(prev[1], r2) if r2 is not None else prev[1])
-        perf_best[pgs_id] = (best_auc, best_r2)
+        perf_records_by_pgs.setdefault(str(pgs_id), []).append(rec)
+    perf_best: Dict[str, Tuple[Optional[float], Optional[float]]] = {}
+    for pgs_id, records in perf_records_by_pgs.items():
+        summary, _ = _build_selected_performance_summary(records)
+        perf_best[pgs_id] = (summary.get("auc"), summary.get("r2"))
 
     auc_vals: List[float] = []
     r2_vals: List[float] = []
@@ -660,6 +884,7 @@ def prs_model_performance_landscape(
                     "max_scores": max_scores,
                     "max_performance_records": max_performance_records,
                 },
+                "performance_selection_policy_version": PERFORMANCE_SELECTION_POLICY_VERSION,
                 "landscape": landscape.model_dump(),
             }
             cache_path.write_text(stable_json_dumps(blob), encoding="utf-8")
@@ -770,6 +995,119 @@ KNOWLEDGE_BASE_PATH = os.path.join(
 )
 
 
+@lru_cache(maxsize=1)
+def _get_heritability_aggregator():
+    from src.server.modules.heritability.aggregator import HeritabilityAggregator
+    return HeritabilityAggregator()
+
+
+def _format_optional_float(value: Optional[float], digits: int = 4) -> str:
+    if value is None:
+        return "N/A"
+    return f"{float(value):.{digits}f}"
+
+
+def _format_optional_int(value: Optional[int]) -> str:
+    if value is None:
+        return "N/A"
+    try:
+        parsed = int(value)
+    except Exception:
+        return "N/A"
+    return f"{parsed:,}" if parsed > 0 else "N/A"
+
+
+def _collapse_query_to_trait(query: str) -> Optional[str]:
+    text = re.sub(r"\s+", " ", (query or "").strip())
+    if not text:
+        return None
+    text = re.sub(r";.*$", "", text)
+    return text or None
+
+
+def _heritability_confidence_rank(est: Any) -> Tuple[int, float, int]:
+    source_priority = {
+        "gwas_atlas": 3,
+        "ukbb_ldsc": 2,
+        "pan_ukb": 1,
+    }
+    n_samples = int(getattr(est, "n_samples", 0) or 0)
+    se = getattr(est, "h2_obs_se", None)
+    se_inv = 0.0 if not se else 1.0 / (float(se) + 0.001)
+    source = getattr(getattr(est, "source", None), "value", getattr(est, "source", ""))
+    return (n_samples, se_inv, source_priority.get(str(source), 0))
+
+
+def _build_trait_specific_heritability_section(query: str) -> Optional[Tuple[str, str]]:
+    target_trait = _extract_target_trait_phrase(query) or _collapse_query_to_trait(query)
+    if not target_trait:
+        return None
+
+    try:
+        aggregator = _get_heritability_aggregator()
+        eur_best = aggregator.get_best_estimate(target_trait, ancestry="EUR")
+        all_results = aggregator.search(target_trait, min_score=70, limit=8)
+    except Exception as exc:
+        logger.warning("Failed to load trait-specific heritability for '%s': %s", target_trait, exc)
+        return (
+            "Trait-Specific Heritability",
+            (
+                f"Target trait: {target_trait}\n"
+                "Local heritability lookup failed.\n"
+                "- use heritability only as a ceiling/sanity field for PGS-only metrics\n"
+                "- do not back-calculate or rank by full-model AUROC"
+            ),
+        )
+
+    if eur_best is None and all_results:
+        eur_best = sorted(all_results, key=_heritability_confidence_rank, reverse=True)[0]
+
+    if eur_best is None:
+        return (
+            "Trait-Specific Heritability",
+            (
+                f"Target trait: {target_trait}\n"
+                "No matching local heritability estimate was found above the retrieval threshold.\n"
+                "- use the generic ceiling rule only\n"
+                "- do not infer PRS quality from full-model AUROC alone"
+            ),
+        )
+
+    top_results = sorted(all_results, key=_heritability_confidence_rank, reverse=True)[:3]
+    best_source = getattr(getattr(eur_best, "source", None), "value", getattr(eur_best, "source", "N/A"))
+    lines = [
+        f"Target trait: {target_trait}",
+        (
+            "Best matched local heritability estimate: "
+            f"h2_obs={_format_optional_float(getattr(eur_best, 'h2_obs', None))}; "
+            f"h2_liability={_format_optional_float(getattr(eur_best, 'h2_liability', None))}; "
+            f"SE={_format_optional_float(getattr(eur_best, 'h2_obs_se', None))}; "
+            f"z={_format_optional_float(getattr(eur_best, 'h2_z', None), digits=2)}; "
+            f"population={getattr(eur_best, 'population', 'N/A')}; "
+            f"n={_format_optional_int(getattr(eur_best, 'n_samples', None))}; "
+            f"source={best_source}."
+        ),
+        "Sanity-check usage:",
+        "- compare PGS-only R2 or covariates-regressed-out R2 against h2; they should remain below the trait heritability ceiling",
+        "- if full-model AUROC is very high but incremental AUROC and PGS-only R2 are small relative to h2, treat the AUROC as mostly covariate-driven rather than PRS-driven",
+        "- if PGS-only AUROC is absent, do not substitute the full-model AUROC as a comparable PRS metric",
+        "- use heritability as a ceiling/sanity field, not as an exact formula to reconstruct AUROC",
+    ]
+    if top_results:
+        lines.append("Top local matches:")
+        for est in top_results:
+            source = getattr(getattr(est, "source", None), "value", getattr(est, "source", "N/A"))
+            lines.append(
+                "- "
+                f"{getattr(est, 'trait_name', 'Unknown')} | "
+                f"h2_obs={_format_optional_float(getattr(est, 'h2_obs', None))} | "
+                f"population={getattr(est, 'population', 'N/A')} | "
+                f"n={_format_optional_int(getattr(est, 'n_samples', None))} | "
+                f"source={source}"
+            )
+    return ("Trait-Specific Heritability", "\n".join(lines))
+
+
 def prs_model_domain_knowledge(
     query: str,
     knowledge_file: Optional[str] = None,
@@ -809,6 +1147,11 @@ def prs_model_domain_knowledge(
     
     # Parse into sections
     sections = _parse_markdown_sections(content)
+    dynamic_sections: List[Tuple[str, str]] = []
+    heritability_section = _build_trait_specific_heritability_section(query)
+    if heritability_section:
+        dynamic_sections.append(heritability_section)
+    sections = dynamic_sections + sections
     
     # Score and rank sections by relevance
     query_terms = _expand_domain_query_terms(query)
@@ -860,16 +1203,24 @@ def prs_model_domain_knowledge(
         truncated = content_text[:500] + "..." if len(content_text) > 500 else content_text
         
         snippet = KnowledgeSnippet(
-            source="prs_model_domain_knowledge.md",
+            source="local_heritability_data" if title == "Trait-Specific Heritability" else "prs_model_domain_knowledge.md",
             section=title,
             content=truncated,
             relevance_score=min(score / 10.0, 1.0)  # Normalize to 0-1
         )
         snippets.append(snippet)
-    
+
+    full_document = content.strip()
+    if dynamic_sections:
+        dynamic_doc = "\n\n".join(
+            f"## {title}\n\n{section_content.strip()}"
+            for title, section_content in dynamic_sections
+        ).strip()
+        full_document = f"{dynamic_doc}\n\n{full_document}" if full_document else dynamic_doc
+
     return DomainKnowledgeResult(
         query=query,
-        full_document=content.strip(),
+        full_document=full_document,
         snippets=snippets,
         source_type="local"
     )

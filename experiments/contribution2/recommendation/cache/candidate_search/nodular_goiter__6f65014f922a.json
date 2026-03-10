@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "nodular goiter",
   "candidate_model_ids": [
     "PGS005274",
@@ -27,7 +27,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009412",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0277,
+            "ci_lower": 0.0135,
+            "ci_upper": 0.0419
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Nontoxic multinodular goiter",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -51,7 +70,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011050",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.024,
+            "ci_lower": 0.0098,
+            "ci_upper": 0.0382
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Nontoxic multinodular goiter",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -74,8 +112,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.585439091716637,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.585439091716637,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022744",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.585439091716637
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.048
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.047
+          }
+        ]
       },
       "phenotyping_reported": "benign nodular gioter",
       "covariates": "Unknown",
@@ -112,8 +178,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.593306633581433,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.593306633581433,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022745",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.593306633581433
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.40838651920181
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.342444736541657
+          }
+        ]
       },
       "phenotyping_reported": "benign nodular gioter",
       "covariates": "Unknown",
@@ -150,8 +244,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.587559211464932,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.587559211464932,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022746",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.587559211464932
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.36199799551033
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.308952736001074
+          }
+        ]
       },
       "phenotyping_reported": "benign nodular gioter",
       "covariates": "Unknown",
@@ -186,8 +308,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.617388005401901,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.617388005401901,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022756",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.617388005401901
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.55051776688383
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.438588918302023
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
       "covariates": "Unknown",
@@ -220,8 +370,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.613489463745261,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613489463745261,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022757",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.613489463745261
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.49346171423604
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.401096723418125
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
       "covariates": "Unknown",
@@ -239,11 +417,5 @@
       "validation_sample_size": "n=94,651"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS005273",
-    "reported_auc": 0.6174,
-    "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
-    "method_name": "PRSCS",
-    "validation_sample_size": "n=94,651"
-  }
+  "baseline": null
 }

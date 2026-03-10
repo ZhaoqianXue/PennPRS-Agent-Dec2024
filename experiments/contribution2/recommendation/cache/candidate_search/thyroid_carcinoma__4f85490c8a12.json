@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "thyroid carcinoma",
   "candidate_model_ids": [
     "PGS000208",
@@ -51,13 +51,44 @@
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.679,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.679,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002052",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.679
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.666,
+            "se": 0.023
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.57,
+            "ci_lower": 1.36,
+            "ci_upper": 1.82
+          }
+        ]
       },
-      "phenotyping_reported": "Thyroid cancer",
-      "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, sex, 10 PCs.",
+      "phenotyping_reported": "Incident thyroid cancer",
+      "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
       "training_development_cohorts": [],
-      "validation_sample_size": "n=411,118"
+      "validation_sample_size": "n=391,189"
     },
     {
       "id": "PGS000162",
@@ -74,7 +105,31 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000482",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Mean realative risk",
+            "name_short": "Mean realative risk",
+            "estimate": 1.09,
+            "ci_lower": 1.04,
+            "ci_upper": 1.15
+          },
+          {
+            "name_long": "Wilcoxon test (case vs. control) p-value",
+            "name_short": "Wilcoxon test (case vs. control) p-value",
+            "estimate": 3.64e-05
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "Unknown",
@@ -95,8 +150,27 @@
       "date_release": "2020-07-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.692,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.692,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000631",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.692,
+            "ci_lower": 0.673,
+            "ci_upper": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "gender, birth year, family history of disease (1st or 2nd degree relative)",
@@ -105,7 +179,7 @@
         "UKB",
         "deCODE"
       ],
-      "validation_sample_size": "n=264,956"
+      "validation_sample_size": "n=3,137"
     },
     {
       "id": "PGS000208",
@@ -121,8 +195,27 @@
       "date_release": "2020-07-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.751,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.751,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000632",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.751,
+            "ci_lower": 0.736,
+            "ci_upper": 0.768
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "gender, birth year, family history of disease (1st or 2nd degree relative)",
@@ -146,8 +239,27 @@
       "date_release": "2020-07-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.694,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.694,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000633",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.694,
+            "ci_lower": 0.673,
+            "ci_upper": 0.716
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "gender, birth year",
@@ -171,8 +283,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.529,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.529,
+        "full_model_r2": 0.0041,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001311",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.529,
+            "ci_lower": 0.496,
+            "ci_upper": 0.559
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0041
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.44,
+            "ci_lower": 1.18,
+            "ci_upper": 5.02
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.161,
+            "ci_lower": 1.048,
+            "ci_upper": 1.285
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.149,
+            "se": 0.052
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -195,8 +358,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.56,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.56,
+        "full_model_r2": 0.0107,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001312",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.56,
+            "ci_lower": 0.53,
+            "ci_upper": 0.59
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0107
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.42,
+            "ci_lower": 1.17,
+            "ci_upper": 4.98
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.27,
+            "ci_lower": 1.148,
+            "ci_upper": 1.405
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.239,
+            "se": 0.0515
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -219,8 +433,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.565,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.565,
+        "full_model_r2": 0.0114,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001313",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.565,
+            "ci_lower": 0.535,
+            "ci_upper": 0.595
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0114
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0823
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.91,
+            "ci_lower": 0.861,
+            "ci_upper": 4.22
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.276,
+            "ci_lower": 1.155,
+            "ci_upper": 1.41
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.244,
+            "se": 0.0509
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -243,8 +508,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.52,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.52,
+        "full_model_r2": 0.00247,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001314",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.52,
+            "ci_lower": 0.488,
+            "ci_upper": 0.55
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00247
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.15,
+            "ci_lower": 1.01,
+            "ci_upper": 4.59
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.114,
+            "se": 0.0517
+          },
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.121,
+            "ci_lower": 1.013,
+            "ci_upper": 1.24
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -267,8 +583,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.626,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.626,
+        "full_model_r2": 0.0393,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001315",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.626,
+            "ci_lower": 0.597,
+            "ci_upper": 0.655
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0393
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0811
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.53,
+            "ci_lower": 1.87,
+            "ci_upper": 6.66
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.598,
+            "ci_lower": 1.439,
+            "ci_upper": 1.775
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.469,
+            "se": 0.0536
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -291,8 +658,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=2,034",
       "performance_metrics": {
-        "auc": 0.636,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.636,
+        "full_model_r2": 0.0478,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001316",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.636,
+            "ci_lower": 0.589,
+            "ci_upper": 0.682
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0478
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0803
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.4,
+            "ci_lower": 1.81,
+            "ci_upper": 10.7
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.651,
+            "ci_lower": 1.41,
+            "ci_upper": 1.934
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.501,
+            "se": 0.0806
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -315,8 +733,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.618,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.618,
+        "full_model_r2": 0.0365,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001317",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.618,
+            "ci_lower": 0.587,
+            "ci_upper": 0.647
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0365
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0812
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 5.14,
+            "ci_lower": 2.94,
+            "ci_upper": 8.99
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.568,
+            "ci_lower": 1.412,
+            "ci_upper": 1.74
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.45,
+            "se": 0.0532
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -339,8 +808,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=2,034",
       "performance_metrics": {
-        "auc": 0.628,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.628,
+        "full_model_r2": 0.0447,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001318",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.628,
+            "ci_lower": 0.582,
+            "ci_upper": 0.675
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0447
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0804
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.41,
+            "ci_lower": 1.81,
+            "ci_upper": 10.7
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.609,
+            "ci_lower": 1.38,
+            "ci_upper": 1.876
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.476,
+            "se": 0.0783
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -363,8 +883,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.535,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.535,
+        "full_model_r2": 0.00228,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001319",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.535,
+            "ci_lower": 0.504,
+            "ci_upper": 0.567
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00228
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.39,
+            "ci_lower": 0.562,
+            "ci_upper": 3.45
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.119,
+            "ci_lower": 1.008,
+            "ci_upper": 1.241
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.112,
+            "se": 0.053
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -387,8 +958,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.569,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.569,
+        "full_model_r2": 0.0151,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001320",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.569,
+            "ci_lower": 0.538,
+            "ci_upper": 0.598
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0151
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0822
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.65,
+            "ci_lower": 0.708,
+            "ci_upper": 3.83
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.315,
+            "ci_lower": 1.194,
+            "ci_upper": 1.448
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.274,
+            "se": 0.0492
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -411,8 +1033,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=4,481",
       "performance_metrics": {
-        "auc": 0.578,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.578,
+        "full_model_r2": 0.0205,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001321",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.578,
+            "ci_lower": 0.548,
+            "ci_upper": 0.607
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0205
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0819
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.21,
+            "ci_lower": 1.67,
+            "ci_upper": 6.15
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.385,
+            "ci_lower": 1.254,
+            "ci_upper": 1.529
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.325,
+            "se": 0.0507
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, batch PCs 1-4",
@@ -435,8 +1108,45 @@
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.701,
-        "r2": 0.31
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.701,
+        "full_model_r2": 0.31,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002068",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.701
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.692,
+            "se": 0.022
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.31
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.75,
+            "ci_lower": 1.53,
+            "ci_upper": 2.01
+          }
+        ]
       },
       "phenotyping_reported": "Incident thyroid cancer",
       "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
@@ -463,8 +1173,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.83233,
-        "r2": 0.16699
+        "auc": 0.61843,
+        "r2": 0.01236,
+        "pgs_only_auc": 0.61843,
+        "pgs_only_r2": 0.01236,
+        "full_model_auc": 0.63744,
+        "full_model_r2": 0.016,
+        "incremental_auc": 0.03389,
+        "selected_performance_id": "PPM008947",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63744,
+            "ci_lower": 0.5901,
+            "ci_upper": 0.68478
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.016
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03389
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01236
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61843,
+            "ci_lower": 0.56413,
+            "ci_upper": 0.67273
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -487,11 +1239,33 @@
       "date_release": "2021-11-04",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.83,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.83,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM005183",
+        "selected_validation_ancestry": "European",
+        "record_count": 9,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.83
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.842
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
-      "phenotyping_reported": "Subsequent thyroid cancer in childhood cancer survivors",
-      "covariates": "Attained age modeled by restricted cubic splines",
+      "phenotyping_reported": "Subsequent thyroid cancer in childhood cancer survivors aged 40",
+      "covariates": "Clincial model (age at diagnosis, attained age modeled by restricted cubic splines, sex, combined treatment group)",
       "training_development_cohorts": [
         "ICR",
         "NBS",
@@ -499,7 +1273,7 @@
         "RUNMC",
         "deCODE"
       ],
-      "validation_sample_size": "n=6,416"
+      "validation_sample_size": "n=2,370"
     },
     {
       "id": "PGS001794",
@@ -515,8 +1289,31 @@
       "date_release": "2022-09-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.676,
-        "r2": null
+        "auc": null,
+        "r2": 0.013659,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.013659,
+        "full_model_auc": 0.676,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009298",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.676
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.013659
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
@@ -551,8 +1348,31 @@
       "date_release": "2022-09-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.685,
-        "r2": null
+        "auc": null,
+        "r2": 0.010362,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.010362,
+        "full_model_auc": 0.685,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009315",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.685
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.010362
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "sex,age, 20PCs",
@@ -589,7 +1409,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009374",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0307,
+            "ci_lower": 0.0168,
+            "ci_upper": 0.0446
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -613,7 +1452,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011018",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0295,
+            "ci_lower": 0.0157,
+            "ci_upper": 0.0434
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -636,8 +1494,35 @@
       "date_release": "2023-03-03",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.64,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017145",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64,
+            "ci_lower": 0.61,
+            "ci_upper": 66.0
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.95,
+            "ci_lower": 1.68,
+            "ci_upper": 2.26
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "age, sex, and genetic composition, townsend deprivation index at recruitment, qualifications and average total household income before tax",
@@ -659,7 +1544,26 @@
       "samples_training": "n=179",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018502",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.63,
+            "ci_lower": 1.44,
+            "ci_upper": 1.85
+          }
+        ]
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "Unknown",
@@ -682,8 +1586,25 @@
       "date_release": "2024-09-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.7,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021769",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Asian unspecified, European, Native American, Not reported",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Thyroid cancer",
       "covariates": "Age, sex, genotyping batch, 10 PCs",
@@ -705,7 +1626,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022587",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.48,
+            "ci_lower": 1.31,
+            "ci_upper": 1.67
+          }
+        ]
       },
       "phenotyping_reported": "Risk of thyroid cancer in childhood cancer survivors",
       "covariates": "childhood cancer diagnosis, ancestry, age at childhood cancer diagnosis, radiation dose to the body region of the second cancer and chemotherapy exposure",
@@ -726,8 +1666,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.686161285410893,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.686161285410893,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022741",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.686161285410893
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.02
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.016
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma",
       "covariates": "Unknown",
@@ -767,8 +1735,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.695254013741303,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.695254013741303,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022742",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.695254013741303
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.03688674186851
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.71142253524162
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma",
       "covariates": "Unknown",
@@ -808,8 +1804,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.684522760200784,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.684522760200784,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022743",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.684522760200784
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.96019114706853
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.673041992501825
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma",
       "covariates": "Unknown",
@@ -845,8 +1869,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.617388005401901,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.617388005401901,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022756",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.617388005401901
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.55051776688383
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.438588918302023
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
       "covariates": "Unknown",
@@ -879,8 +1931,36 @@
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.613489463745261,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613489463745261,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022757",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.613489463745261
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.49346171423604
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.401096723418125
+          }
+        ]
       },
       "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
       "covariates": "Unknown",
@@ -900,7 +1980,7 @@
   ],
   "baseline": {
     "pgs_id": "PGS001289",
-    "reported_auc": 0.8323,
+    "reported_auc": 0.6184,
     "trait_reported": "Thyroid cancer",
     "method_name": "snpnet",
     "validation_sample_size": "n=67,425"

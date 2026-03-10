@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "obstructive sleep apnea",
   "candidate_model_ids": [
     "PGS003207",
@@ -39,8 +39,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.49,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.49,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015959",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.49,
+            "ci_lower": 0.482,
+            "ci_upper": 0.499
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.983,
+            "ci_lower": 0.952,
+            "ci_upper": 1.014
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.0174,
+            "se": 0.016
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -63,8 +96,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.5,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015965",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5,
+            "ci_lower": 0.491,
+            "ci_upper": 0.509
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.998,
+            "ci_lower": 0.967,
+            "ci_upper": 1.03
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.00225,
+            "se": 0.0161
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -87,8 +153,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.49,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.49,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015961",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.49,
+            "ci_lower": 0.48,
+            "ci_upper": 0.499
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.975,
+            "ci_lower": 0.945,
+            "ci_upper": 1.007
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.0252,
+            "se": 0.0162
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -111,8 +210,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.492,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.492,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015957",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.492,
+            "ci_lower": 0.484,
+            "ci_upper": 0.501
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.975,
+            "ci_lower": 0.945,
+            "ci_upper": 1.005
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.0258,
+            "se": 0.016
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -135,8 +267,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.505,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.505,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015963",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.505,
+            "ci_lower": 0.497,
+            "ci_upper": 0.514
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.016,
+            "ci_lower": 0.984,
+            "ci_upper": 1.048
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0154,
+            "se": 0.0161
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -159,8 +324,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.514,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.514,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015953",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.514,
+            "ci_lower": 0.506,
+            "ci_upper": 0.523
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.053,
+            "ci_lower": 1.02,
+            "ci_upper": 1.087
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0517,
+            "se": 0.0162
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -183,8 +381,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.519,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.519,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015956",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.519,
+            "ci_lower": 0.51,
+            "ci_upper": 0.528
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.073,
+            "ci_lower": 1.04,
+            "ci_upper": 1.108
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0708,
+            "se": 0.0162
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -207,8 +438,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.515,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.515,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015954",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.515,
+            "ci_lower": 0.506,
+            "ci_upper": 0.525
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.061,
+            "ci_lower": 1.028,
+            "ci_upper": 1.096
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0595,
+            "se": 0.0162
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -231,8 +495,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.496,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.496,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015952",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.496,
+            "ci_lower": 0.487,
+            "ci_upper": 0.504
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.014,
+            "ci_lower": 0.982,
+            "ci_upper": 1.046
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0135,
+            "se": 0.016
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -255,8 +552,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=21,209",
       "performance_metrics": {
-        "auc": 0.527,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.527,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015955",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.527,
+            "ci_lower": 0.517,
+            "ci_upper": 0.536
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.106,
+            "ci_lower": 1.071,
+            "ci_upper": 1.142
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.101,
+            "se": 0.0162
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "SEX,AGE,Batch,PC1,PC2,PC3,PC4",
@@ -279,8 +609,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=203,739",
       "performance_metrics": {
-        "auc": 0.5,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015960",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5,
+            "ci_lower": 0.489,
+            "ci_upper": 0.513
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.004,
+            "ci_lower": 0.962,
+            "ci_upper": 1.047
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.00364,
+            "se": 0.0214
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
@@ -303,8 +666,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=203,739",
       "performance_metrics": {
-        "auc": 0.489,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.489,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015966",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.489,
+            "ci_lower": 0.477,
+            "ci_upper": 0.501
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.967,
+            "ci_lower": 0.928,
+            "ci_upper": 1.009
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.0331,
+            "se": 0.0215
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
@@ -328,8 +724,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=203,739",
       "performance_metrics": {
-        "auc": 0.497,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.497,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015962",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.497,
+            "ci_lower": 0.485,
+            "ci_upper": 0.509
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.992,
+            "ci_lower": 0.951,
+            "ci_upper": 1.034
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.00819,
+            "se": 0.0214
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
@@ -352,8 +781,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=203,739",
       "performance_metrics": {
-        "auc": 0.485,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.485,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015958",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.485,
+            "ci_lower": 0.475,
+            "ci_upper": 0.495
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.021,
+            "ci_lower": 0.98,
+            "ci_upper": 1.064
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0207,
+            "se": 0.0211
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
@@ -376,8 +838,41 @@
       "date_release": "2022-11-23",
       "samples_training": "n=203,739",
       "performance_metrics": {
-        "auc": 0.5,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015964",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5,
+            "ci_lower": 0.488,
+            "ci_upper": 0.512
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.003,
+            "ci_lower": 0.962,
+            "ci_upper": 1.046
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.00286,
+            "se": 0.0214
+          }
+        ]
       },
       "phenotyping_reported": "Sleep Apnea",
       "covariates": "Sex,birthYear,genotyping.array,PC1,PC2,PC3,PC4",
@@ -401,7 +896,25 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017318",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 34,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.038,
+            "se": 0.093
+          }
+        ]
       },
       "phenotyping_reported": "DBP",
       "covariates": "Age, sex, center, 5 genetic PCs, Hispanic/Latino background, BMI",
@@ -422,11 +935,37 @@
       "date_release": "2023-09-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.77,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.77,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018710",
+        "selected_validation_ancestry": "African unspecified, Asian unspecified, European, Hispanic or Latin American, Not reported",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77,
+            "ci_lower": 0.75,
+            "ci_upper": 0.78
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.014,
+            "se": 0.017
+          }
+        ]
       },
-      "phenotyping_reported": "BMI unadjusted obstructive sleep apnea",
-      "covariates": "age, sex, genetic batch, PCs 1-10",
+      "phenotyping_reported": "BMI adjusted obstructive sleep apnea",
+      "covariates": "BMI, age, sex, genetic batch, PCs 1-10",
       "training_development_cohorts": [
         "MVP"
       ],
@@ -446,11 +985,37 @@
       "date_release": "2023-09-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.77,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.77,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018712",
+        "selected_validation_ancestry": "African unspecified, Asian unspecified, European, Hispanic or Latin American, Not reported",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77,
+            "ci_lower": 0.76,
+            "ci_upper": 0.79
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.066,
+            "se": 0.017
+          }
+        ]
       },
-      "phenotyping_reported": "BMI unadjusted obstructive sleep apnea",
-      "covariates": "age, sex, genetic batch, PCs 1-10",
+      "phenotyping_reported": "BMI adjusted obstructive sleep apnea",
+      "covariates": "BMI, age, sex, genetic batch, PCs 1-10",
       "training_development_cohorts": [
         "MVP"
       ],
@@ -470,8 +1035,33 @@
       "date_release": "2025-06-16",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.79,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.79,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022619",
+        "selected_validation_ancestry": "European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.79
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.98,
+            "ci_lower": 1.74,
+            "ci_upper": 2.24
+          }
+        ]
       },
       "phenotyping_reported": "Obstructive sleep apnea",
       "covariates": "age, sex, self-reported race/ethnicity , BMI and 11PCs",
@@ -496,8 +1086,33 @@
       "date_release": "2025-06-16",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.79,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.79,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022620",
+        "selected_validation_ancestry": "European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.79
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.53,
+            "ci_lower": 1.39,
+            "ci_upper": 1.68
+          }
+        ]
       },
       "phenotyping_reported": "Obstructive sleep apnea",
       "covariates": "age, sex, self-reported race/ethnicity , BMI and 11PCs",
@@ -509,11 +1124,5 @@
       "validation_sample_size": "n=21,975"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS005219",
-    "reported_auc": 0.79,
-    "trait_reported": "Obstructive sleep apnea (AdjustedBMI)",
-    "method_name": "weighted PRSsummation PRS-CSs",
-    "validation_sample_size": "n=21,975"
-  }
+  "baseline": null
 }

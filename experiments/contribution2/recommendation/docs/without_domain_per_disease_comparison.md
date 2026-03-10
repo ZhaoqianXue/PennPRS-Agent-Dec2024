@@ -11,7 +11,7 @@ Each disease table includes all models in the benchmark `Target_TopK` set, liste
 ## High-Level Outcome
 
 - Without Domain Knowledge: `19/30 = 63.33%`; `trial_hits = 190/300 = 63.33%`
-- Baseline: `11/30 = 36.67%`
+- Baseline: `11/30 = 36.67%`; `coverage = 30/30 = 100.00%`
 
 ## Per-Disease Tables
 
@@ -31,8 +31,17 @@ Candidate pool: `96` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | prostate carcinoma | prostate carcinoma | prostate carcinoma | Agent Input |
 | phenotyping_reported | Cancer of prostate | 5-year incident prostate cancer | Prostate cancer | Agent Input |
 | method_name | PRS-CS | SCT (Stacked Clumping and Thresholding) | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.5910 | 0.8450 | 0.9701 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | 0.4016 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=5,607 | n=184,010 | n=67,425 | Agent Input |
 | samples_training | n=5,650 | n=10,000 | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) / DEV: EUR (100%) / EVAL: AFR (20%), EUR (60%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -60,8 +69,17 @@ Candidate pool: `32` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | thyroid carcinoma | benign, thyroid carcinoma, nodular goiter | benign, thyroid carcinoma, nodular goiter | thyroid carcinoma | thyroid carcinoma | Agent Input |
 | phenotyping_reported | thyroid carcenoma | thyroid carcenoma vs benign nodular goiter | thyroid carcenoma vs benign nodular goiter | Thyroid cancer | Thyroid cancer | Agent Input |
 | method_name | PRSCS | PRSCS | PRSCS | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6845 | 0.6135 | 0.6174 | 0.8323 | 0.8323 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | 0.1670 | 0.1670 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=67,425 | n=67,425 | Agent Input |
 | samples_training | N/A | N/A | N/A | n=269,704 | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -89,8 +107,17 @@ Candidate pool: `28` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | hypothyroidism | hypothyroidism | hypothyroidism | Agent Input |
 | phenotyping_reported | hypothyroidism | Hypothyroidism | Hypothyroidism | Agent Input |
 | method_name | PRSCS | PRS-CS | PRS-CS | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6389 | 0.8590 | 0.8590 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=94,651 | n=441,692 | n=441,692 | Agent Input |
 | samples_training | N/A | n=1,146,562 | n=1,146,562 | Agent Input |
 | ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -118,8 +145,17 @@ Candidate pool: `27` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | Hodgkins lymphoma | Hodgkins lymphoma | Hodgkins lymphoma | Hodgkins lymphoma | chronic lymphocytic leukemia | Agent Input |
 | phenotyping_reported | Hodgkin's disease | Chronic lymphocytic leukemia | Hodgkin's disease | Hodgkin's disease | Chronic lymphocytic leukemia | Agent Input |
 | method_name | Pruning and Thresholding (P+T) | Genome-wide significant SNPs | GWAS Hits | Pruning and Thresholding (P+T) | Representative SNPs from chronic lymphocytic leukemia susceptibility loci | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6200 | N/A | 0.6010 | 0.6200 | 0.8610 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=775 | n=20,134 | n=775 | n=775 | n=3,958 | Agent Input |
 | samples_training | n=736 | N/A | n=736 | n=736 | N/A | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: NR (50%), AFR (12%), EUR (25%), MAE (12%) | Agent Input |
@@ -147,8 +183,17 @@ Candidate pool: `20` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | Agent Input |
 | phenotyping_reported | Obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Agent Input |
 | method_name | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7900 | 0.7900 | 0.7900 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=21,975 | n=21,975 | n=21,975 | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | Agent Input |
@@ -176,8 +221,17 @@ Candidate pool: `20` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | Agent Input |
 | phenotyping_reported | Obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Agent Input |
 | method_name | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7900 | 0.7900 | 0.7900 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=21,975 | n=21,975 | n=21,975 | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | Agent Input |
@@ -205,8 +259,17 @@ Candidate pool: `14` models. Benchmark `Target_TopK`: `5`.
 | trait_efo | testicular carcinoma, Testicular Germ Cell Tumor | testicular carcinoma | testicular carcinoma | testicular carcinoma | testicular carcinoma | testicular carcinoma | testicular carcinoma | Agent Input |
 | phenotyping_reported | Incident testicular cancer | Malignant neoplasm of testis | Testicular cancer | Malignant neoplasm of testis | Malignant neoplasm of testis | Testicular cancer | Testicular cancer | Agent Input |
 | method_name | 52 variants from Graff et al (PGS000086) with inverse variant weights | lassosum | snpnet | Pruning and Thresholding (P+T) | lassosum | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7870 | 0.6360 | 0.9816 | 0.6370 | 0.6560 | 0.9816 | 0.9816 | Agent Input |
 | performance_metrics.r2 | 0.6050 | N/A | 0.2970 | N/A | N/A | 0.2970 | 0.2970 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=179,537 | n=755 | n=67,425 | n=755 | n=755 | n=67,425 | n=67,425 | Agent Input |
 | samples_training | N/A | n=776 | n=269,704 | n=776 | n=776 | n=269,704 | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (67%), SAS (33%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (67%), SAS (33%) | DEV: EUR (100%) / EVAL: EUR (67%), SAS (33%) | Agent Input |
@@ -234,8 +297,17 @@ Candidate pool: `14` models. Benchmark `Target_TopK`: `4`.
 | trait_efo | endometrial carcinoma | endometrial carcinoma | endometrial carcinoma | endometrial carcinoma | uterine carcinoma | cervical carcinoma | Agent Input |
 | phenotyping_reported | Endometrial cancer | Incident endometrial cancer | uterine endometrial carcinoma | Risk of endometrial cancer | Uterine cancer | Cervical cancer | Agent Input |
 | method_name | Genome-wide significant variants | 9 variants from Graff et al (PGS000075) with inverse variant weights | lassosum | Genome-wide significant variants | PRS-CS-auto | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7550 | 0.7540 | 0.7610 | 0.5600 | 0.6600 | 0.9143 | Agent Input |
 | performance_metrics.r2 | N/A | 0.4860 | 0.1100 | N/A | N/A | 0.2202 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=221,699 | n=212,156 | n=144,479 | n=118,636 | n=170,276 | n=67,425 | Agent Input |
 | samples_training | N/A | N/A | N/A | n=1,757 | N/A | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: NR (34%), EUR (66%) / EVAL: EUR (100%) | GWAS: NR (34%), EUR (66%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: NR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EAS (15%), EUR (84%), OTH (80%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -263,8 +335,17 @@ Candidate pool: `10` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | renal carcinoma | renal carcinoma | renal carcinoma | Agent Input |
 | phenotyping_reported | Kidney cancer | Kidney cancer | Kidney cancer | Agent Input |
 | method_name | Genome-wide significant SNPs | Genome-wide significant SNPs | Genome-wide significant SNPs | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7400 | 0.7400 | 0.7400 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=324,805 | n=324,805 | n=324,805 | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) / EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) / EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) / EVAL: EUR (100%) | Agent Input |
@@ -292,8 +373,17 @@ Candidate pool: `10` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | obesity | obesity | obesity | Agent Input |
 | phenotyping_reported | Obesity (phecode: 278.1) | TTE obesity | TTE obesity | Agent Input |
 | method_name | LDpred2-auto | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | 0.6533 | 0.6533 | Agent Input |
 | performance_metrics.r2 | N/A | 0.0423 | 0.0423 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=100,960 | n=67,425 | n=67,425 | Agent Input |
 | samples_training | N/A | n=269,704 | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -321,8 +411,17 @@ Candidate pool: `9` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | Agent Input |
 | phenotyping_reported | Ankylosing spondylitis | Ankylosing spondylitis | TTE ankylosing spondylitis | TTE ankylosing spondylitis | TTE ankylosing spondylitis | Agent Input |
 | method_name | Penalized regression (bigstatsr) | snpnet | snpnet | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | 0.9891 | 0.9915 | 0.9915 | 0.9915 | Agent Input |
 | performance_metrics.r2 | N/A | 0.4432 | 0.4486 | 0.4486 | 0.4486 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=18,262 | n=67,425 | n=67,425 | n=67,425 | n=67,425 | Agent Input |
 | samples_training | n=391,124 | n=269,704 | n=269,704 | n=269,704 | n=269,704 | Agent Input |
 | ancestry_distribution | DEV: EUR (100%) / EVAL: EUR (60%), GME (20%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -350,8 +449,17 @@ Candidate pool: `8` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | aortic stenosis | aortic stenosis, aortic measurement | aortic stenosis, aortic measurement | aortic stenosis | aortic stenosis | Agent Input |
 | phenotyping_reported | incident aortic stenosis | incident aortic stenosis | incident aortic stenosis | Incident aortic stenosis cases | Incident aortic stenosis cases | Agent Input |
 | method_name | PRS-CS | PRS-CS | PRS-CS | LDPred2 | LDPred2 | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | 0.8700 | 0.8700 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=244,450 | n=244,450 | n=244,450 | n=446,895 | n=446,895 | Agent Input |
 | samples_training | n=205,483 | n=98,645 | n=96,385 | n=47,691 | n=47,691 | Agent Input |
 | ancestry_distribution | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -379,8 +487,17 @@ Candidate pool: `8` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | renal carcinoma | renal carcinoma | renal carcinoma | Agent Input |
 | phenotyping_reported | Kidney cancer | Kidney cancer | Kidney cancer | Agent Input |
 | method_name | Genome-wide significant SNPs | Genome-wide significant SNPs | Genome-wide significant SNPs | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7400 | 0.7400 | 0.7400 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=324,805 | n=324,805 | n=324,805 | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) / EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) / EVAL: EUR (100%) | GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) / EVAL: EUR (100%) | Agent Input |
@@ -408,8 +525,17 @@ Candidate pool: `7` models. Benchmark `Target_TopK`: `2`.
 | trait_efo | Graves disease | Graves disease | Graves disease | Thyrotoxicosis | Agent Input |
 | phenotyping_reported | graves' disease | graves' disease | graves' disease | TTE thyrotoxicosis [hyperthyroidism] | Agent Input |
 | method_name | PRSCS | PRSCS | PRSCS | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6637 | 0.6652 | 0.6652 | 0.7429 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | 0.0808 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=67,425 | Agent Input |
 | samples_training | N/A | N/A | N/A | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -437,8 +563,17 @@ Candidate pool: `7` models. Benchmark `Target_TopK`: `2`.
 | trait_efo | benign, nodular goiter | benign, nodular goiter | benign, nodular goiter | benign, thyroid carcinoma, nodular goiter | Agent Input |
 | phenotyping_reported | benign nodular gioter | benign nodular gioter | benign nodular gioter | thyroid carcenoma vs benign nodular goiter | Agent Input |
 | method_name | PRSCS | PRSCS | PRSCS | PRSCS | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.5876 | 0.5933 | 0.5933 | 0.6174 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=94,651 | Agent Input |
 | samples_training | N/A | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | Agent Input |
@@ -466,8 +601,17 @@ Candidate pool: `7` models. Benchmark `Target_TopK`: `4`.
 | trait_efo | pulmonary embolism, deep vein thrombosis | pulmonary embolism | pulmonary embolism, deep vein thrombosis | pulmonary embolism, deep vein thrombosis | pulmonary embolism | pulmonary embolism, deep vein thrombosis | Agent Input |
 | phenotyping_reported | Blood clot in the leg (DVT) or lung | TTE PE | PE +/- DVT | Blood clot in the lung | TTE PE | Blood clot in the lung | Agent Input |
 | method_name | snpnet | snpnet | snpnet | snpnet | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6674 | 0.8074 | 0.8083 | 0.8256 | 0.8074 | 0.8256 | Agent Input |
 | performance_metrics.r2 | 0.0364 | 0.1233 | 0.1233 | 0.1674 | 0.1233 | 0.1674 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=67,349 | n=67,425 | n=67,425 | n=67,349 | n=67,425 | n=67,349 | Agent Input |
 | samples_training | n=269,382 | n=269,704 | n=269,704 | n=269,382 | n=269,704 | n=269,382 | Agent Input |
 | ancestry_distribution | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -495,8 +639,17 @@ Candidate pool: `6` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Agent Input |
 | phenotyping_reported | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Agent Input |
 | method_name | PRS-CS | shaPRS + LDpred2 | PRS-CS | PRS-CS | PRS-CS | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.8820 | 0.7080 | 0.6900 | 0.8820 | 0.8820 | Agent Input |
 | performance_metrics.r2 | N/A | 0.0055 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=7,517 | n=91,731 | n=7,324 | n=7,517 | n=7,517 | Agent Input |
 | samples_training | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: EUR (89%), MAE (11%) / EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | Agent Input |
@@ -524,8 +677,17 @@ Candidate pool: `6` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | age-related macular degeneration | age-related macular degeneration | age-related macular degeneration | age-related macular degeneration | age-related macular degeneration | Agent Input |
 | phenotyping_reported | Age-related macular degeneration | Rentinal layer thickness (photoreceptor inner and outer segments) | Early age-related macular degeneration (Clinical Classification) | Age-related macular degeneration | Early age-related macular degeneration (Clinical Classification) | Agent Input |
 | method_name | PRS-CS | Independent variants associated with AMD | Genome-wide significant SNPs | PRS-CS | Genome-wide significant SNPs | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7100 | N/A | 0.8420 | 0.7100 | 0.8420 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=163,011 | n=44,823 | n=1,780 | n=163,011 | n=1,780 | Agent Input |
 | samples_training | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: MAE (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -553,8 +715,17 @@ Candidate pool: `6` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | cervical carcinoma | cervical carcinoma | cervical carcinoma | Agent Input |
 | phenotyping_reported | Cervical cancer | Cervical cancer | Cervical cancer | Agent Input |
 | method_name | Genome-wide significant variants | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7450 | 0.9143 | 0.9143 | Agent Input |
 | performance_metrics.r2 | N/A | 0.2202 | 0.2202 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=226,216 | n=67,425 | n=67,425 | Agent Input |
 | samples_training | N/A | n=269,704 | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
@@ -582,8 +753,17 @@ Candidate pool: `5` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | Agent Input |
 | phenotyping_reported | skin cutaneous melanoma | skin cutaneous melanoma | skin cutaneous melanoma | Agent Input |
 | method_name | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6820 | 0.6820 | 0.6820 | Agent Input |
 | performance_metrics.r2 | 0.0261 | 0.0261 | 0.0261 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=273,786 | n=273,786 | n=273,786 | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -611,8 +791,17 @@ Candidate pool: `5` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | late-onset Alzheimer's disease | late-onset Alzheimer's disease | late-onset Alzheimer's disease | Agent Input |
 | phenotyping_reported | Familial late-onset Alzheimer's disease (LOAD) | Late-onset Alzheimer's disease | Late-onset Alzheimer's disease | Agent Input |
 | method_name | Genome-wide significant variants | Clumping and Thresholding (C+T) | Clumping and Thresholding (C+T) | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | 0.7310 | 0.7310 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=3,324 | n=136 | n=136 | Agent Input |
 | samples_training | N/A | n=439 | n=439 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: AMR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -640,8 +829,17 @@ Candidate pool: `5` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | Agent Input |
 | phenotyping_reported | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma | Agent Input |
 | method_name | Lassosum | Lassosum | PRS-CS-auto | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7480 | 0.7480 | 0.7490 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=407,667 | n=407,667 | n=7,128 | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: AFR (2%), EAS (12%), EUR (86%) / EVAL: MAE (100%) | GWAS: AFR (2%), EAS (12%), EUR (86%) / EVAL: MAE (100%) | GWAS: AFR (2%), ASN (60%), EAS (18%), EUR (79%), OTH (60%) / EVAL: EUR (100%) | Agent Input |
@@ -669,8 +867,17 @@ Candidate pool: `4` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | alcohol dependence | alcohol dependence | N/A | Agent Input |
 | phenotyping_reported | Alcohol use disorder (AUD) in individuals with family history of AUD | Alcohol use disorder (AUD) in individuals with family history of AUD | N/A | Agent Input |
 | method_name | PRS-CS | PRS-CS | N/A | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=7,900 | n=7,900 | N/A | Agent Input |
 | samples_training | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%) / EVAL: EUR (100%) | GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%) / EVAL: EUR (100%) | N/A | Agent Input |
@@ -698,8 +905,17 @@ Candidate pool: `4` models. Benchmark `Target_TopK`: `3`.
 | trait_efo | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | Agent Input |
 | phenotyping_reported | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Agent Input |
 | method_name | PRS-CS | Genome-wide significant variants | PRS-CS | PRS-CS | Genome-wide significant variants | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.8000 | 0.8210 | 0.7300 | 0.8000 | 0.8210 | Agent Input |
 | performance_metrics.r2 | 0.0480 | N/A | 0.0310 | 0.0480 | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=343,182 | n=184,511 | n=343,182 | n=343,182 | n=184,511 | Agent Input |
 | samples_training | N/A | n=47,737 | N/A | N/A | n=47,737 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: NR (2%), AFR (3%), EAS (80%), EUR (90%), OTH (60%), SAS (4%) / DEV: MAE (100%) / EVAL: EUR (40%), MAE (60%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: NR (2%), AFR (3%), EAS (80%), EUR (90%), OTH (60%), SAS (4%) / DEV: MAE (100%) / EVAL: EUR (40%), MAE (60%) | Agent Input |
@@ -727,8 +943,17 @@ Candidate pool: `4` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | juvenile idiopathic arthritis | juvenile idiopathic arthritis | enthesitis-related juvenile idiopathic arthritis | Agent Input |
 | phenotyping_reported | Juvenile Idiopathic Arthritis | Juvenile Idiopathic Arthritis | Enthesitis-related Arthritis | Agent Input |
 | method_name | SparSNP | SparSNP | SparSNP | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7380 | 0.7380 | 0.9300 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=3,513 | n=3,513 | n=3,020 | Agent Input |
 | samples_training | n=7,505 | n=7,505 | n=5,354 | Agent Input |
 | ancestry_distribution | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -756,8 +981,17 @@ Candidate pool: `4` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | peripheral arterial disease | peripheral vascular disease | peripheral arterial disease | Agent Input |
 | phenotyping_reported | Incident and prevelant peripheral artery disease | Peripheral vascular disease, unspecified | Incident and prevelant peripheral artery disease | Agent Input |
 | method_name | LDpred2 | Penalized regression (bigstatsr) | LDpred2 | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.7310 | N/A | 0.7310 | Agent Input |
 | performance_metrics.r2 | 0.3166 | N/A | 0.3166 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=304,294 | n=19,668 | n=304,294 | Agent Input |
 | samples_training | n=96,239 | n=391,124 | n=96,239 | Agent Input |
 | ancestry_distribution | GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%) / DEV: EUR (100%) / EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%) | DEV: EUR (100%) / EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%) | GWAS: NR (2%), AFR (70%), AMR (50%), EAS (7%), EUR (74%), MAE (14%), MAO (2%), OTH (6%), SAS (100%) / DEV: EUR (100%) / EVAL: AFR (20%), AMR (13%), EAS (13%), EUR (20%), GME (13%), MAE (7%), SAS (13%) | Agent Input |
@@ -785,8 +1019,17 @@ Candidate pool: `3` models. Benchmark `Target_TopK`: `2`.
 | trait_efo | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Agent Input |
 | phenotyping_reported | lymphocytic thyroiditis | lymphocytic thyroiditis | lymphocytic thyroiditis | lymphocytic thyroiditis | Agent Input |
 | method_name | PRSCS | PRSCS | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.6054 | 0.6297 | 0.6387 | 0.6387 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=94,651 | Agent Input |
 | samples_training | N/A | N/A | N/A | N/A | Agent Input |
 | ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | Agent Input |
@@ -814,8 +1057,17 @@ Candidate pool: `3` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | preeclampsia | preeclampsia | N/A | Agent Input |
 | phenotyping_reported | Pre-eclampsia/eclampsia | Pre-eclampsia/eclampsia | N/A | Agent Input |
 | method_name | PRS-CS | PRS-CS | N/A | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=25,582 | n=25,582 | N/A | Agent Input |
 | samples_training | n=212,034 | n=212,034 | N/A | Agent Input |
 | ancestry_distribution | GWAS: AFR (30%), AMR (50%), ASN (21%), EUR (78%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: AFR (30%), AMR (50%), ASN (21%), EUR (78%) / DEV: EUR (100%) / EVAL: EUR (100%) | N/A | Agent Input |
@@ -843,8 +1095,17 @@ Candidate pool: `3` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | skin carcinoma in situ | skin carcinoma in situ | skin carcinoma in situ | Agent Input |
 | phenotyping_reported | Carcinoma in situ of skin | Carcinoma in situ of skin | Carcinoma in situ of skin | Agent Input |
 | method_name | lassosum | lassosum | lassosum | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | 0.5690 | 0.5690 | 0.5690 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=5,500 | n=5,500 | n=5,500 | Agent Input |
 | samples_training | n=6,005 | n=6,005 | n=6,005 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -872,8 +1133,17 @@ Candidate pool: `3` models. Benchmark `Target_TopK`: `1`.
 | trait_efo | Vitiligo | Vitiligo | Vitiligo | Agent Input |
 | phenotyping_reported | anti-PD-L1 induced hypothyroidism in cancer patients | TTE vitiligo | TTE vitiligo | Agent Input |
 | method_name | GCTA-COJO forward selection highest PPA variants | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | N/A | N/A | N/A | Agent Input |
+| performance_metrics.selected_validation_ancestry | N/A | N/A | N/A | Agent Input |
+| performance_metrics.record_count | N/A | N/A | N/A | Agent Input |
 | performance_metrics.auc | N/A | 0.8277 | 0.8277 | Agent Input |
 | performance_metrics.r2 | N/A | 0.0805 | 0.0805 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | Agent Input |
+| performance_metrics.incremental_auc | N/A | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | Agent Input |
 | validation_sample_size | n=1,584 | n=67,425 | n=67,425 | Agent Input |
 | samples_training | n=408,959 | n=269,704 | n=269,704 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |

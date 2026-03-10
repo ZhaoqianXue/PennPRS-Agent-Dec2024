@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "cervical carcinoma",
   "candidate_model_ids": [
     "PGS003428",
@@ -25,15 +25,46 @@
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.745,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002039",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.75,
+            "se": 0.017
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.22,
+            "ci_lower": 1.09,
+            "ci_upper": 1.37
+          }
+        ]
       },
-      "phenotyping_reported": "Cervical cancer",
-      "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs.",
+      "phenotyping_reported": "Incident cervical cancer",
+      "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
       "training_development_cohorts": [
         "TwinGene"
       ],
-      "validation_sample_size": "n=226,216"
+      "validation_sample_size": "n=211,795"
     },
     {
       "id": "PGS000784",
@@ -49,8 +80,45 @@
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.745,
-        "r2": 0.437
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745,
+        "full_model_r2": 0.437,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002055",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.749,
+            "se": 0.017
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.437
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.21,
+            "ci_lower": 1.07,
+            "ci_upper": 1.35
+          }
+        ]
       },
       "phenotyping_reported": "Incident cervical cancer",
       "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
@@ -77,15 +145,57 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.91431,
-        "r2": 0.22017
+        "auc": 0.55215,
+        "r2": 0.00263,
+        "pgs_only_auc": 0.55215,
+        "pgs_only_r2": 0.00263,
+        "full_model_auc": 0.76761,
+        "full_model_r2": 0.11284,
+        "incremental_auc": 0.00676,
+        "selected_performance_id": "PPM008994",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76761,
+            "ci_lower": 0.74661,
+            "ci_upper": 0.7886
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11284
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00676
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00263
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.55215,
+            "ci_lower": 0.51478,
+            "ci_upper": 0.58952
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Cervical cancer",
       "covariates": "age, sex, UKB array type, Genotype PCs",
       "training_development_cohorts": [
         "UKB"
       ],
-      "validation_sample_size": "n=67,425"
+      "validation_sample_size": "n=24,905"
     },
     {
       "id": "PGS003389",
@@ -101,8 +211,31 @@
       "date_release": "2023-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.563,
-        "r2": 0.00158
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.563,
+        "full_model_r2": 0.00158,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016264",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.563
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00158
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "cervical cancer",
       "covariates": "age, top 20 genetic principal components",
@@ -123,8 +256,32 @@
       "date_release": "2023-04-28",
       "samples_training": "n=4,295",
       "performance_metrics": {
-        "auc": 0.613,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017102",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.613
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.33,
+            "se": 0.069
+          }
+        ]
       },
       "phenotyping_reported": "Incident cervical cancer",
       "covariates": "age, smoking",
@@ -150,8 +307,38 @@
       "date_release": "2025-03-17",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.566,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.566,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022403",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.566
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.2,
+            "ci_lower": 1.06,
+            "ci_upper": 1.36
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.182
+          }
+        ]
       },
       "phenotyping_reported": "Cervical Cancer",
       "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
@@ -163,9 +350,9 @@
   ],
   "baseline": {
     "pgs_id": "PGS001299",
-    "reported_auc": 0.9143,
+    "reported_auc": 0.5522,
     "trait_reported": "Cervical cancer",
     "method_name": "snpnet",
-    "validation_sample_size": "n=67,425"
+    "validation_sample_size": "n=24,905"
   }
 }

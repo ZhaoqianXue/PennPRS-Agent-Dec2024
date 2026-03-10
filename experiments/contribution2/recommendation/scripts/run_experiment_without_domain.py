@@ -87,7 +87,7 @@ EVALUATED_JSON = GROUND_TRUTH_DIR / "evaluated_pgs_per_ontology.json"
 CONTRIB1_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
 CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
 ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
-PREPARE_CACHE_VERSION = "v2"
+PREPARE_CACHE_VERSION = "v4"
 
 ACTIVE_RUN_DIR: Optional[Path] = None
 ACTIVE_RUN_TAG: Optional[str] = None
@@ -155,6 +155,7 @@ STEP1_RATIONALE_FEATURE_KEYWORDS = {
     "trait_match": ["trait", "phenotype", "proxy", "family history"],
     "auc": ["auc", "auroc", "roc"],
     "r2": ["r2", "r²", "variance explained"],
+    "heritability": ["heritability", "h2", "h²", "ceiling"],
     "sample_size": ["sample", "n=", "cohort", "powered"],
     "ancestry": ["ancestry", "eur", "afr", "eas", "sas", "multi-ancestry"],
     "method": ["method", "ldpred", "prs-cs", "lassosum", "genoboost", "snpnet"],
@@ -172,8 +173,17 @@ FIELD_ROWS: list[tuple[str, str]] = [
     ("trait_efo", "agent_input"),
     ("phenotyping_reported", "agent_input"),
     ("method_name", "agent_input"),
+    ("performance_metrics.selected_performance_id", "agent_input"),
+    ("performance_metrics.selected_validation_ancestry", "agent_input"),
+    ("performance_metrics.record_count", "agent_input"),
     ("performance_metrics.auc", "agent_input"),
     ("performance_metrics.r2", "agent_input"),
+    ("performance_metrics.full_model_auc", "agent_input"),
+    ("performance_metrics.full_model_r2", "agent_input"),
+    ("performance_metrics.incremental_auc", "agent_input"),
+    ("performance_metrics.classification_metrics", "agent_input"),
+    ("performance_metrics.other_metrics", "agent_input"),
+    ("performance_metrics.effect_sizes", "agent_input"),
     ("validation_sample_size", "agent_input"),
     ("samples_training", "agent_input"),
     ("ancestry_distribution", "agent_input"),
@@ -334,7 +344,7 @@ def _sort_disease_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: (-row["n_models"], row["ontology"]))
 
 
-def _best_reported_auc_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
+def _best_reported_pgs_only_auc_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
     best_model = None
     best_auc = None
     for model in models:
@@ -838,7 +848,7 @@ def _prepare_manifest(
             candidate_models = list(candidate_result.models)
             total_found = candidate_result.total_found
             candidate_model_summaries = [_summarize_model_for_llm(model) for model in candidate_models]
-            baseline = _best_reported_auc_baseline(candidate_models)
+            baseline = _best_reported_pgs_only_auc_baseline(candidate_models)
             _write_cached_candidate_bundle(
                 ontology=ontology,
                 candidate_model_ids=candidate_model_ids,
@@ -1311,6 +1321,7 @@ def _build_summary_and_results(
     majority_vote_hits = sum(1 for row in per_disease if row["modal_recommendation_in_target_topk"])
     majority_vote_accuracy = majority_vote_hits / total_ontologies if total_ontologies else 0.0
     baseline_hits = sum(1 for row in per_disease if row["baseline_in_target_topk"])
+    baseline_available = sum(1 for row in per_disease if row.get("baseline"))
     baseline_accuracy = baseline_hits / total_ontologies if total_ontologies else 0.0
 
     summary = {
@@ -1326,7 +1337,9 @@ def _build_summary_and_results(
         "majority_vote_hits": majority_vote_hits,
         "majority_vote_accuracy": round(majority_vote_accuracy, 4),
         "baseline": {
-            "name": "highest_reported_auc_in_pgscatalog_metadata",
+            "name": "highest_reported_pgs_only_auroc_in_pgscatalog_metadata",
+            "available": baseline_available,
+            "coverage": round(baseline_available / total_ontologies, 4) if total_ontologies else 0.0,
             "hits": baseline_hits,
             "accuracy": round(baseline_accuracy, 4),
         },
@@ -1517,7 +1530,12 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
             f"`{summary['majority_vote_hits']}/{summary['total_ontologies']} = {_format_percent(summary['majority_vote_accuracy'])}`; "
             f"`trial_hits = {summary['diagnostics']['trial_hits']}/{summary['diagnostics']['total_trials']} = {_format_percent(summary['diagnostics']['trial_hit_rate'])}`"
         ),
-        f"- Baseline: `{summary['baseline']['hits']}/{summary['total_ontologies']} = {_format_percent(summary['baseline']['accuracy'])}`",
+        (
+            f"- Baseline: `{summary['baseline']['hits']}/{summary['total_ontologies']} = "
+            f"{_format_percent(summary['baseline']['accuracy'])}`; "
+            f"`coverage = {summary['baseline'].get('available', summary['total_ontologies'])}/{summary['total_ontologies']} = "
+            f"{_format_percent(summary['baseline'].get('coverage', 1.0))}`"
+        ),
         "",
         "## Per-Disease Tables",
         "",
@@ -1627,8 +1645,9 @@ def _write_report(summary: dict[str, Any]) -> None:
             f"`trial_hits = {trial_hits}/{total_trials} = {_format_percent(trial_hit_rate)}`"
         ),
         (
-            f"- **Baseline (highest reported AUC in PGS Catalog metadata)**: "
-            f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}"
+            f"- **Baseline (highest reported PGS-only AUROC in PGS Catalog metadata, when available)**: "
+            f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}; "
+            f"`coverage = {summary['baseline'].get('available', total_ontologies)}/{total_ontologies} = {_format_percent(summary['baseline'].get('coverage', 1.0))}`"
         ),
         "",
         "## Experiment Setup",
@@ -1637,7 +1656,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         "- **Domain Knowledge**: Disabled",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set",
-        "- **Baseline rule**: choose the candidate model with the highest reported AUC in PGS Catalog metadata",
+        "- **Baseline rule**: choose the candidate model with the highest reported PGS-only AUROC in PGS Catalog metadata; do not fall back to full-model AUROC",
         "",
         "## Results by Disease",
         "",

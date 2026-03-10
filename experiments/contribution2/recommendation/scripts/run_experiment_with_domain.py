@@ -65,8 +65,17 @@ FIELD_ROWS: list[tuple[str, str]] = [
     ("trait_efo", "agent_input"),
     ("phenotyping_reported", "agent_input"),
     ("method_name", "agent_input"),
+    ("performance_metrics.selected_performance_id", "agent_input"),
+    ("performance_metrics.selected_validation_ancestry", "agent_input"),
+    ("performance_metrics.record_count", "agent_input"),
     ("performance_metrics.auc", "agent_input"),
     ("performance_metrics.r2", "agent_input"),
+    ("performance_metrics.full_model_auc", "agent_input"),
+    ("performance_metrics.full_model_r2", "agent_input"),
+    ("performance_metrics.incremental_auc", "agent_input"),
+    ("performance_metrics.classification_metrics", "agent_input"),
+    ("performance_metrics.other_metrics", "agent_input"),
+    ("performance_metrics.effect_sizes", "agent_input"),
     ("validation_sample_size", "agent_input"),
     ("samples_training", "agent_input"),
     ("ancestry_distribution", "agent_input"),
@@ -149,11 +158,12 @@ def _configure_without_domain_module(model: str, trials: int, run_tag: Optional[
 
 def _domain_query(ontology: str) -> str:
     return (
-        f"target_trait: {ontology}; PRS clinical thresholds AUC R2 must-pass gates "
+        f"target_trait: {ontology}; PRS clinical thresholds AUC R2 heritability ceiling sanity-check must-pass gates "
         "phenotype alignment endpoint specificity external transfer reliability "
         "ancestry compatibility ranking features penalties method priors "
         "validation sample size tie-break time-to-event horizon-specific "
-        "incident case-control dominant subtype snpnet biobank transportability"
+        "incident case-control dominant subtype PGS-only no-covariates incremental AUROC "
+        "snpnet biobank transportability"
     )
 
 
@@ -408,7 +418,12 @@ def _write_per_disease_comparison_doc(
             f"`{without_domain_summary['majority_vote_hits']}/{without_domain_summary['total_ontologies']} = {without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}`; "
             f"`trial_hits = {without_domain_summary['diagnostics']['trial_hits']}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_summary['diagnostics']['trial_hit_rate'])}`"
         ),
-        f"- Baseline: `{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = {without_domain._format_percent(domain_summary['baseline']['accuracy'])}`",
+        (
+            f"- Baseline: `{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
+            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}`; "
+            f"`coverage = {domain_summary['baseline']['available']}/{domain_summary['total_ontologies']} = "
+            f"{without_domain._format_percent(domain_summary['baseline']['coverage'])}`"
+        ),
         "",
         "## Per-Disease Tables",
         "",
@@ -603,7 +618,9 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         (
             f"- **Baseline**: "
             f"{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}"
+            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}; "
+            f"`coverage = {domain_summary['baseline']['available']}/{domain_summary['total_ontologies']} = "
+            f"{without_domain._format_percent(domain_summary['baseline']['coverage'])}`"
         ),
         "",
         "## Results by Disease",

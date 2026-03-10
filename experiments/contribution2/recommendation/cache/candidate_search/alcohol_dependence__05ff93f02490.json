@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "alcohol dependence",
   "candidate_model_ids": [
     "PGS002739",
@@ -24,7 +24,31 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000626",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "\u0394R-squared (vs. covariates alone)",
+            "name_short": "\u0394R-squared (vs. covariates alone)",
+            "estimate": 0.01192
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.099,
+            "se": 0.01
+          }
+        ]
       },
       "phenotyping_reported": "Alcohol use disorder (DSM-5 criteria count, log-transformed)",
       "covariates": "sex, age of last observation, 10 Genetic PCs, genotyping array, data collection site",
@@ -48,7 +72,31 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000629",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "\u0394R-squared (vs. covariates alone)",
+            "name_short": "\u0394R-squared (vs. covariates alone)",
+            "estimate": 0.00456
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.043,
+            "se": 0.019
+          }
+        ]
       },
       "phenotyping_reported": "Alcohol use disorder (DSM-5 criteria count, log-transformed)",
       "covariates": "sex, age of last observation, 10 Genetic PCs",
@@ -72,9 +120,35 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014841",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR top 10% vs rest)",
+            "name_short": "Odds Ratio (OR top 10% vs rest)",
+            "estimate": 1.96,
+            "ci_lower": 1.54,
+            "ci_upper": 2.51
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 3.17,
+            "se": 1.87
+          }
+        ]
       },
-      "phenotyping_reported": "Alcohol use disorder (AUD) in individuals with family history of AUD",
+      "phenotyping_reported": "Alcohol use disorder",
       "covariates": "Unknown",
       "training_development_cohorts": [
         "MVP",
@@ -97,7 +171,33 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014842",
+        "selected_validation_ancestry": "African American or Afro-Caribbean",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR top 10% vs rest)",
+            "name_short": "Odds Ratio (OR top 10% vs rest)",
+            "estimate": 1.76,
+            "ci_lower": 1.32,
+            "ci_upper": 2.34
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.17,
+            "se": 0.03
+          }
+        ]
       },
       "phenotyping_reported": "Alcohol use disorder",
       "covariates": "Unknown",

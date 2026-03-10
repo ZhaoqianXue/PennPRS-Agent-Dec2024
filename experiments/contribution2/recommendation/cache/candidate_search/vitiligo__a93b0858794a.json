@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "vitiligo",
   "candidate_model_ids": [
     "PGS000738",
@@ -23,12 +23,35 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": 0.032522586
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.038569956,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018438",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "pseudo R\u00b2",
+            "name_short": "pseudo R\u00b2",
+            "estimate": 0.038569956
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.694777831
+          }
+        ]
       },
-      "phenotyping_reported": "Vitiligo",
+      "phenotyping_reported": "Red hair",
       "covariates": "Unknown",
       "training_development_cohorts": [],
-      "validation_sample_size": "n=4,987"
+      "validation_sample_size": "n=4,702"
     },
     {
       "id": "PGS000760",
@@ -45,7 +68,32 @@
       "samples_training": "n=408,959",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001935",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "meta-analysis p-value",
+            "name_short": "meta-analysis p-value",
+            "estimate": 1.1e-06
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.41,
+            "ci_lower": 1.22,
+            "ci_upper": 1.61
+          }
+        ]
       },
       "phenotyping_reported": "anti-PD-L1 induced hypothyroidism in cancer patients",
       "covariates": "5 genotype PCs",
@@ -68,8 +116,50 @@
       "date_release": "2021-11-25",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.82774,
-        "r2": 0.08055
+        "auc": 0.64193,
+        "r2": 0.01621,
+        "pgs_only_auc": 0.64193,
+        "pgs_only_r2": 0.01621,
+        "full_model_auc": 0.63449,
+        "full_model_r2": 0.01686,
+        "incremental_auc": 0.08163,
+        "selected_performance_id": "PPM005219",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63449,
+            "ci_lower": 0.58754,
+            "ci_upper": 0.68144
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01686
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.08163
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01621
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.64193,
+            "ci_lower": 0.59907,
+            "ci_upper": 0.68478
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "TTE vitiligo",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -81,7 +171,7 @@
   ],
   "baseline": {
     "pgs_id": "PGS001536",
-    "reported_auc": 0.8277,
+    "reported_auc": 0.6419,
     "trait_reported": "Vitiligo (time-to-event)",
     "method_name": "snpnet",
     "validation_sample_size": "n=67,425"

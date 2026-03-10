@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "preeclampsia",
   "candidate_model_ids": [
     "PGS003586",
@@ -23,7 +23,26 @@
       "samples_training": "n=212,034",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018280",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.31,
+            "ci_lower": 1.24,
+            "ci_upper": 1.38
+          }
+        ]
       },
       "phenotyping_reported": "Pre-eclampsia/eclampsia",
       "covariates": "maternal age at delivery, age2, and the first ten principal components of genetic ancestry",
@@ -55,7 +74,26 @@
       "samples_training": "n=212,034",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018281",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.2,
+            "ci_lower": 1.14,
+            "ci_upper": 1.26
+          }
+        ]
       },
       "phenotyping_reported": "Pre-eclampsia/eclampsia",
       "covariates": "maternal age at delivery, age2, and the first ten principal components of genetic ancestry",
@@ -85,7 +123,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020743",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.16,
+            "ci_lower": 1.14,
+            "ci_upper": 1.19
+          }
+        ]
       },
       "phenotyping_reported": "Gestational hypertension",
       "covariates": "Collection year, genotyping batch, and the first 10 genetic principal components",

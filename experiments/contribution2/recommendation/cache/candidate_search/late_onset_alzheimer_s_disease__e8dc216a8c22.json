@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "late-onset alzheimer's disease",
   "candidate_model_ids": [
     "PGS004918",
@@ -25,7 +25,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000133",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.29,
+            "ci_lower": 1.21,
+            "ci_upper": 1.37
+          }
+        ]
       },
       "phenotyping_reported": "Familial late-onset Alzheimer's disease (LOAD)",
       "covariates": "Age, sex",
@@ -67,7 +86,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000135",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73,
+            "ci_lower": 1.57,
+            "ci_upper": 1.93
+          }
+        ]
       },
       "phenotyping_reported": "Familial late-onset Alzheimer's disease (LOAD)",
       "covariates": "Age, sex",
@@ -109,7 +147,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": 0.191
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.191,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000901",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.191,
+            "ci_lower": 0.131,
+            "ci_upper": 0.269
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
       "covariates": "Unknown",
@@ -117,7 +174,7 @@
         "IGAP",
         "UKB"
       ],
-      "validation_sample_size": "n=5,347"
+      "validation_sample_size": "n=3,810"
     },
     {
       "id": "PGS002289",
@@ -134,7 +191,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012988",
+        "selected_validation_ancestry": "European",
+        "record_count": 13,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Difference in mean cognition per decacde increase in age per 1-SD higher GRS (%)",
+            "name_short": "Difference in mean cognition per decacde increase in age per 1-SD higher GRS (%)",
+            "estimate": 11.5
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Pairs matching (short-term memory and attention) no. of correct online round 1 x age interaction",
       "covariates": "Unknown",
@@ -175,8 +249,25 @@
       "date_release": "2024-06-12",
       "samples_training": "n=439",
       "performance_metrics": {
-        "auc": 0.731,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.731,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021384",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.731
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Late-onset Alzheimer's disease",
       "covariates": "Unknown",
@@ -190,11 +281,5 @@
       "validation_sample_size": "n=136"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS004918",
-    "reported_auc": 0.731,
-    "trait_reported": "Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function)",
-    "method_name": "Clumping and Thresholding (C+T)",
-    "validation_sample_size": "n=136"
-  }
+  "baseline": null
 }

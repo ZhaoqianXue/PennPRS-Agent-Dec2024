@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "open-angle glaucoma",
   "candidate_model_ids": [
     "PGS000764",
@@ -25,7 +25,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000997",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.24,
+            "ci_lower": 1.21,
+            "ci_upper": 1.27
+          }
+        ]
       },
       "phenotyping_reported": "Primary open-angle glaucoma",
       "covariates": "sex,  DNA source, population structure",
@@ -77,7 +96,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001956",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, African unspecified",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR per 1 point increase)",
+            "name_short": "Odds Ratio (OR per 1 point increase)",
+            "estimate": 1.08,
+            "ci_lower": 1.06,
+            "ci_upper": 1.11
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Primary-open angle glaucoma",
       "covariates": "Age, ancestry (q0), gender",
@@ -98,8 +136,31 @@
       "date_release": "2022-09-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.749,
-        "r2": null
+        "auc": null,
+        "r2": 0.031479,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.031479,
+        "full_model_auc": 0.749,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009313",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.749
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.031479
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Primary open-angle glaucoma",
       "covariates": "sex,age, 20PCs",
@@ -133,8 +194,27 @@
       "date_release": "2022-08-03",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.69,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014900",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67,
+            "ci_lower": 0.66,
+            "ci_upper": 0.68
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Primary open-angle glaucoma",
       "covariates": "Age, sex, and 10 sample-specific PCs",
@@ -155,8 +235,33 @@
       "date_release": "2024-08-29",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.748,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.748,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021744",
+        "selected_validation_ancestry": "African unspecified, Hispanic or Latin American, East Asian, South Asian, European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.748
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.74,
+            "ci_lower": 1.71,
+            "ci_upper": 1.77
+          }
+        ]
       },
       "phenotyping_reported": "Primary open-angle glaucoma (self-reported)",
       "covariates": "Age, age2, sex, ancestry",
@@ -164,11 +269,5 @@
       "validation_sample_size": "n=407,667"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS001797",
-    "reported_auc": 0.749,
-    "trait_reported": "Primary open-angle glaucoma",
-    "method_name": "PRS-CS-auto",
-    "validation_sample_size": "n=7,128"
-  }
+  "baseline": null
 }

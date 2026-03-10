@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "kidney cancer",
   "candidate_model_ids": [
     "PGS003744",
@@ -29,11 +29,42 @@
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.722,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.722,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002042",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.722
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.724,
+            "se": 0.011
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.16,
+            "ci_lower": 1.08,
+            "ci_upper": 1.26
+          }
+        ]
       },
-      "phenotyping_reported": "Kidney cancer",
-      "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, sex, 10 PCs.",
+      "phenotyping_reported": "Incident kidney cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), body mass index, smoking status (never vs. former vs. current), cigarette pack-years, ever diagnosed with hypertension",
       "training_development_cohorts": [
         "AHS",
         "ASHRAM",
@@ -66,7 +97,7 @@
         "WTCCC",
         "conFIRM"
       ],
-      "validation_sample_size": "n=411,695"
+      "validation_sample_size": "n=391,610"
     },
     {
       "id": "PGS000161",
@@ -83,7 +114,31 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000481",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Mean realative risk",
+            "name_short": "Mean realative risk",
+            "estimate": 1.09,
+            "ci_lower": 1.06,
+            "ci_upper": 1.12
+          },
+          {
+            "name_long": "Wilcoxon test (case vs. control) p-value",
+            "name_short": "Wilcoxon test (case vs. control) p-value",
+            "estimate": 8.66e-10
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Renal cancer",
       "covariates": "Unknown",
@@ -137,8 +192,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=5,539",
       "performance_metrics": {
-        "auc": 0.517,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.517,
+        "full_model_r2": 0.00398,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001290",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.517,
+            "ci_lower": 0.492,
+            "ci_upper": 0.54
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00398
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.17,
+            "ci_lower": 1.13,
+            "ci_upper": 4.14
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.154,
+            "ci_lower": 1.062,
+            "ci_upper": 1.254
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.143,
+            "se": 0.0426
+          }
+        ]
       },
       "phenotyping_reported": "Malignant neoplasm of kidney, except pelvis",
       "covariates": "age, sex, batch PCs 1-4",
@@ -161,8 +267,59 @@
       "date_release": "2020-12-15",
       "samples_training": "n=5,539",
       "performance_metrics": {
-        "auc": 0.517,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.517,
+        "full_model_r2": 0.00398,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001291",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.517,
+            "ci_lower": 0.492,
+            "ci_upper": 0.54
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00398
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.17,
+            "ci_lower": 1.13,
+            "ci_upper": 4.14
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.154,
+            "ci_lower": 1.062,
+            "ci_upper": 1.254
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.143,
+            "se": 0.0426
+          }
+        ]
       },
       "phenotyping_reported": "Malignant neoplasm of kidney, except pelvis",
       "covariates": "age, sex, batch PCs 1-4",
@@ -185,8 +342,27 @@
       "date_release": "2021-02-03",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.567,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.567,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001652",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.567,
+            "ci_lower": 0.543,
+            "ci_upper": 0.591
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Incident kidney cancer",
       "covariates": "Genotyping array",
@@ -245,8 +421,45 @@
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.722,
-        "r2": 0.366
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.722,
+        "full_model_r2": 0.366,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002058",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.722
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.723,
+            "se": 0.011
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.366
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.15,
+            "ci_lower": 1.07,
+            "ci_upper": 1.24
+          }
+        ]
       },
       "phenotyping_reported": "Incident kidney cancer",
       "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), body mass index, smoking status (never vs. former vs. current), cigarette pack-years, ever diagnosed with hypertension",
@@ -299,7 +512,26 @@
       "samples_training": "n=649",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018500",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.24,
+            "ci_lower": 1.14,
+            "ci_upper": 1.35
+          }
+        ]
       },
       "phenotyping_reported": "Renal cancer",
       "covariates": "Unknown",
@@ -323,7 +555,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020302",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.22,
+            "ci_lower": 1.02,
+            "ci_upper": 1.45
+          }
+        ]
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "first 10 genetic principal components",
@@ -344,8 +595,25 @@
       "date_release": "2024-03-18",
       "samples_training": "n=367,502",
       "performance_metrics": {
-        "auc": 0.5644,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5644,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020875",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5644
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "Unknown",
@@ -369,8 +637,35 @@
       "date_release": "2024-05-22",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.74,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021361",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74,
+            "ci_lower": 0.72,
+            "ci_upper": 0.75
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.5,
+            "ci_lower": 1.43,
+            "ci_upper": 1.58
+          }
+        ]
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "Age, sex, PCs, BMI, smoking, hypertension",
@@ -382,11 +677,5 @@
       "validation_sample_size": "n=324,805"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS004908",
-    "reported_auc": 0.74,
-    "trait_reported": "Kidney cancer",
-    "method_name": "Genome-wide significant SNPs",
-    "validation_sample_size": "n=324,805"
-  }
+  "baseline": null
 }

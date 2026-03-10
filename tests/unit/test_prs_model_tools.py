@@ -65,13 +65,36 @@ class TestPerformanceLandscape:
             "ancestry_distribution": {"gwas": {"dist": {major_gwas: 1.0}}},
         }
 
-    def _perf(self, pgs_id: str, auc: float | None, r2: float | None):
-        effect_sizes = []
+    def _perf(
+        self,
+        pgs_id: str,
+        auc: float | None,
+        r2: float | None,
+        *,
+        full_auc: float | None = None,
+        full_r2: float | None = None,
+        incremental_auc: float | None = None,
+    ):
+        class_acc = []
+        othermetrics = []
+        if full_auc is not None:
+            class_acc.append({"name_short": "AUROC", "estimate": full_auc})
         if auc is not None:
-            effect_sizes.append({"name_short": "AUC", "estimate": auc})
+            othermetrics.append({"name_short": "PGS AUROC (no covariates)", "estimate": auc})
+        if full_r2 is not None:
+            othermetrics.append({"name_short": "R²", "estimate": full_r2})
         if r2 is not None:
-            effect_sizes.append({"name_short": "R2", "estimate": r2})
-        return {"associated_pgs_id": pgs_id, "performance_metrics": {"effect_sizes": effect_sizes}}
+            othermetrics.append({"name_short": "PGS R2 (no covariates)", "estimate": r2})
+        if incremental_auc is not None:
+            othermetrics.append({"name_short": "Incremental AUROC (full-covars)", "estimate": incremental_auc})
+        return {
+            "associated_pgs_id": pgs_id,
+            "performance_metrics": {
+                "class_acc": class_acc,
+                "othermetrics": othermetrics,
+                "effect_sizes": [],
+            },
+        }
     
     def test_basic_calculation(self):
         """Test performance landscape calculation with basic input."""
@@ -208,6 +231,29 @@ class TestPerformanceLandscape:
         
         assert result.auc.missing_count == 2
         assert result.r2.max == 0.25
+
+    def test_full_model_only_metrics_do_not_fill_comparable_landscape_auc_or_r2(self):
+        """Generic full-model metrics should not be treated as PRS-comparable landscape values."""
+        client = self._FakeClient(
+            scores=[
+                self._score("PGS001", variants=100, train_n=1000, method="LDpred2", major_gwas="EUR"),
+                self._score("PGS002", variants=200, train_n=2000, method="PRS-CS", major_gwas="EUR"),
+            ],
+            performances=[
+                self._perf("PGS001", auc=None, r2=None, full_auc=0.75, full_r2=0.15, incremental_auc=0.02),
+                self._perf("PGS002", auc=0.62, r2=0.08, full_auc=0.81, full_r2=0.22, incremental_auc=0.01),
+            ]
+        )
+
+        result = prs_model_performance_landscape(client, candidate_models=[])
+
+        assert result.total_models == 2
+        assert result.auc.missing_count == 1
+        assert result.auc.min == 0.62
+        assert result.auc.max == 0.62
+        assert result.r2.missing_count == 1
+        assert result.r2.min == 0.08
+        assert result.r2.max == 0.08
 
     def test_ancestry_method_and_cohort_counts(self):
         """Test that ancestry/method/cohort counts are aggregated."""
@@ -494,3 +540,218 @@ class TestPGSCatalogSearch:
         m2 = next(m for m in result.models if m.id == "PGS002")
         assert m2.trait_reported == "Unknown"
         assert m2.method_name == "Unknown"
+
+    def test_search_prefers_best_european_validation_record(self):
+        """Representative performance record should prefer the highest EUR validation result."""
+        from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
+        from unittest.mock import Mock
+
+        mock_client = Mock()
+        mock_client.search_scores.return_value = [{"id": "PGS001"}]
+        mock_client.get_score_details.return_value = {
+            "id": "PGS001",
+            "trait_reported": "Prostate cancer",
+            "trait_efo": [{"label": "prostate carcinoma"}],
+            "method_name": "snpnet",
+            "variants_number": 100,
+            "ancestry_distribution": {"gwas": {"dist": {"EUR": 1.0}}},
+            "publication": {"title": "Pub", "journal": "Journal"},
+            "date_release": "2020-01-01",
+            "samples_training": [{"sample_number": 1000}],
+        }
+        mock_client.get_score_performance.return_value = [
+            {
+                "id": "PPM_AFR",
+                "phenotyping_reported": "Prostate cancer",
+                "covariates": "age, sex, PCs",
+                "sampleset": {"samples": [{"sample_number": 6497, "ancestry_broad": "African unspecified"}]},
+                "performance_metrics": {
+                    "class_acc": [
+                        {"name_short": "AUROC", "estimate": 0.97, "ci_lower": 0.95, "ci_upper": 0.99}
+                    ],
+                    "othermetrics": [{"name_short": "R²", "estimate": 0.40}],
+                    "effect_sizes": [],
+                },
+            },
+            {
+                "id": "PPM_EUR",
+                "phenotyping_reported": "Prostate cancer",
+                "covariates": "age, sex, UKB array type, Genotype PCs",
+                "sampleset": {"samples": [{"sample_number": 91406, "ancestry_broad": "European"}]},
+                "performance_metrics": {
+                    "class_acc": [
+                        {"name_short": "AUROC", "estimate": 0.91, "ci_lower": 0.90, "ci_upper": 0.92}
+                    ],
+                    "othermetrics": [
+                        {"name_short": "R²", "estimate": 0.30},
+                        {"name_short": "Incremental AUROC (full-covars)", "estimate": 0.01},
+                        {"name_short": "PGS R2 (no covariates)", "estimate": 0.05},
+                        {"name_short": "PGS AUROC (no covariates)", "estimate": 0.65},
+                    ],
+                    "effect_sizes": [],
+                },
+            },
+        ]
+
+        result = prs_model_pgscatalog_search(mock_client, "Prostate cancer")
+
+        model = result.models[0]
+        assert model.performance_metrics["selected_performance_id"] == "PPM_EUR"
+        assert model.performance_metrics["selected_validation_ancestry"] == "European"
+        assert model.performance_metrics["auc"] == pytest.approx(0.65)
+        assert model.performance_metrics["r2"] == pytest.approx(0.05)
+        assert model.performance_metrics["full_model_auc"] == pytest.approx(0.91)
+        assert model.performance_metrics["full_model_r2"] == pytest.approx(0.30)
+        assert model.performance_metrics["incremental_auc"] == pytest.approx(0.01)
+        assert model.phenotyping_reported == "Prostate cancer"
+        assert model.covariates == "age, sex, UKB array type, Genotype PCs"
+        assert model.validation_sample_size == "n=91,406"
+
+    def test_search_preserves_full_classification_and_other_metrics(self):
+        """Selected performance summary should retain full classification/other metric lists."""
+        from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search
+        from unittest.mock import Mock
+
+        mock_client = Mock()
+        mock_client.search_scores.return_value = [{"id": "PGS001"}]
+        mock_client.get_score_details.return_value = {
+            "id": "PGS001",
+            "trait_reported": "Test trait",
+            "trait_efo": [{"label": "test trait"}],
+            "method_name": "LDpred2",
+            "variants_number": 100,
+            "ancestry_distribution": {"gwas": {"dist": {"EUR": 1.0}}},
+            "publication": {"title": "Pub", "journal": "Journal"},
+            "date_release": "2020-01-01",
+            "samples_training": [{"sample_number": 1000}],
+        }
+        mock_client.get_score_performance.return_value = [
+            {
+                "id": "PPM001",
+                "phenotyping_reported": "Test trait",
+                "covariates": "age, sex",
+                "sampleset": {"samples": [{"sample_number": 5000, "ancestry_broad": "European"}]},
+                "performance_metrics": {
+                    "class_acc": [
+                        {"name_short": "AUROC", "name_long": "Area Under ROC", "estimate": 0.75, "ci_lower": 0.72, "ci_upper": 0.78}
+                    ],
+                    "othermetrics": [
+                        {"name_short": "R²", "name_long": "Proportion of variance explained", "estimate": 0.15},
+                        {"name_short": "Incremental AUROC (full-covars)", "estimate": 0.02},
+                        {"name_short": "PGS R2 (no covariates)", "estimate": 0.05},
+                    ],
+                    "effect_sizes": [{"name_short": "OR", "estimate": 1.2}],
+                },
+            }
+        ]
+
+        result = prs_model_pgscatalog_search(mock_client, "Test trait")
+        model = result.models[0]
+        classification = model.performance_metrics["classification_metrics"]
+        other = model.performance_metrics["other_metrics"]
+        effects = model.performance_metrics["effect_sizes"]
+
+        assert len(classification) == 1
+        assert classification[0]["name_short"] == "AUROC"
+        assert classification[0]["ci_lower"] == pytest.approx(0.72)
+        assert len(other) == 3
+        assert {entry["name_short"] for entry in other} == {
+            "R²",
+            "Incremental AUROC (full-covars)",
+            "PGS R2 (no covariates)",
+        }
+        assert effects[0]["name_short"] == "OR"
+        assert model.performance_metrics["auc"] is None
+        assert model.performance_metrics["r2"] == pytest.approx(0.05)
+        assert model.performance_metrics["full_model_auc"] == pytest.approx(0.75)
+        assert model.performance_metrics["full_model_r2"] == pytest.approx(0.15)
+        assert model.performance_metrics["incremental_auc"] == pytest.approx(0.02)
+
+    def test_performance_landscape_uses_same_eur_preference_rule(self):
+        """Global landscape should use the same EUR-first representative-record rule per PGS ID."""
+        from src.server.core.tools.prs_model_tools import prs_model_performance_landscape
+
+        class _Client:
+            def iter_all_scores(self, batch_size: int = 200, max_scores=None):
+                yield {
+                    "id": "PGS001",
+                    "method_name": "LDpred2",
+                    "variants_number": 100,
+                    "samples_training": [{"sample_number": 1000}],
+                    "samples_variants": [],
+                    "ancestry_distribution": {"gwas": {"dist": {"EUR": 1.0}}},
+                }
+
+            def iter_all_performances(self, batch_size: int = 200, max_records=None):
+                yield {
+                    "associated_pgs_id": "PGS001",
+                    "sampleset": {"samples": [{"sample_number": 1000, "ancestry_broad": "African unspecified"}]},
+                    "performance_metrics": {
+                        "class_acc": [{"name_short": "AUROC", "estimate": 0.97}],
+                        "othermetrics": [
+                            {"name_short": "R²", "estimate": 0.40},
+                            {"name_short": "PGS R2 (no covariates)", "estimate": 0.08},
+                            {"name_short": "PGS AUROC (no covariates)", "estimate": 0.70},
+                        ],
+                    },
+                }
+                yield {
+                    "associated_pgs_id": "PGS001",
+                    "sampleset": {"samples": [{"sample_number": 2000, "ancestry_broad": "European"}]},
+                    "performance_metrics": {
+                        "class_acc": [{"name_short": "AUROC", "estimate": 0.91}],
+                        "othermetrics": [
+                            {"name_short": "R²", "estimate": 0.30},
+                            {"name_short": "PGS R2 (no covariates)", "estimate": 0.05},
+                            {"name_short": "PGS AUROC (no covariates)", "estimate": 0.65},
+                        ],
+                    },
+                }
+
+        result = prs_model_performance_landscape(_Client(), candidate_models=[], max_scores=1, max_performance_records=2)
+        assert result.auc.min == pytest.approx(0.65)
+        assert result.auc.max == pytest.approx(0.65)
+        assert result.r2.min == pytest.approx(0.05)
+
+    def test_domain_knowledge_includes_trait_specific_heritability(self, monkeypatch):
+        """Domain knowledge should prepend a trait-specific local heritability summary."""
+        from types import SimpleNamespace
+        from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+
+        class _FakeAggregator:
+            def get_best_estimate(self, trait: str, ancestry: str = "EUR"):
+                assert trait == "prostate cancer"
+                assert ancestry == "EUR"
+                return SimpleNamespace(
+                    trait_name="Prostate cancer",
+                    h2_obs=0.12,
+                    h2_liability=0.23,
+                    h2_obs_se=0.02,
+                    h2_z=6.0,
+                    population="EUR",
+                    n_samples=120000,
+                    source=SimpleNamespace(value="gwas_atlas"),
+                )
+
+            def search(self, trait: str, min_score: int = 70, limit: int = 8):
+                assert trait == "prostate cancer"
+                return [
+                    SimpleNamespace(
+                        trait_name="Prostate cancer",
+                        h2_obs=0.12,
+                        population="EUR",
+                        n_samples=120000,
+                        source=SimpleNamespace(value="gwas_atlas"),
+                    )
+                ]
+
+        monkeypatch.setattr(
+            "src.server.core.tools.prs_model_tools._get_heritability_aggregator",
+            lambda: _FakeAggregator(),
+        )
+
+        result = prs_model_domain_knowledge("target_trait: prostate cancer; AUC R2 heritability ceiling")
+
+        assert "Trait-Specific Heritability" in result.full_document
+        assert "h2_obs=0.1200" in result.full_document
+        assert any(snippet.section == "Trait-Specific Heritability" for snippet in result.snippets)

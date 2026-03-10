@@ -30,13 +30,33 @@ class TestPRSModelSchemas:
             publication={"title": "Smith et al. 2020", "journal": "Test Journal"},
             date_release="2020-01-01",
             samples_training="n=50000",
-            performance_metrics={"auc": 0.75, "r2": 0.15},
+            performance_metrics={
+                "auc": 0.63,
+                "r2": 0.15,
+                "pgs_only_auc": 0.63,
+                "pgs_only_r2": 0.15,
+                "full_model_auc": 0.75,
+                "full_model_r2": 0.22,
+                "incremental_auc": 0.03,
+                "selected_performance_id": "PPM000001",
+                "selected_validation_ancestry": "European",
+                "record_count": 2,
+                "classification_metrics": [{"name_short": "AUROC", "estimate": 0.75}],
+                "other_metrics": [
+                    {"name_short": "R²", "estimate": 0.22},
+                    {"name_short": "PGS R2 (no covariates)", "estimate": 0.15},
+                    {"name_short": "PGS AUROC (no covariates)", "estimate": 0.63},
+                ],
+                "effect_sizes": [],
+            },
             phenotyping_reported="Type 2 Diabetes",
             covariates="age, sex, PC1-10",
             training_development_cohorts=["UKB"]
         )
         assert summary.id == "PGS000025"
-        assert summary.performance_metrics["auc"] == 0.75
+        assert summary.performance_metrics["auc"] == 0.63
+        assert summary.performance_metrics["full_model_auc"] == 0.75
+        assert summary.performance_metrics["selected_performance_id"] == "PPM000001"
         assert summary.trait_reported == "Type 2 Diabetes"
         assert summary.publication.journal == "Test Journal"
         assert "sampleset" not in summary.model_dump()

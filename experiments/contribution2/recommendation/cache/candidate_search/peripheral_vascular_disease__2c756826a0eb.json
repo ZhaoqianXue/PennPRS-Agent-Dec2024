@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "peripheral vascular disease",
   "candidate_model_ids": [
     "PGS005217",
@@ -24,7 +24,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009634",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0151,
+            "ci_lower": 0.0011,
+            "ci_upper": 0.029
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Peripheral vascular disease, unspecified",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -48,7 +67,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011302",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0175,
+            "ci_lower": 0.0035,
+            "ci_upper": 0.0315
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Peripheral vascular disease, unspecified",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -72,7 +110,26 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022378",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.13,
+            "ci_lower": 1.03,
+            "ci_upper": 1.23
+          }
+        ]
       },
       "phenotyping_reported": "Peripheral artery disease in type 2 diabetes",
       "covariates": "age (continuous, years), sex (male, female), Townsend Deprivation Index (continuous), race/ethnicity (White, others), education\nattainment (college or university degree, A/AS levels or equivalent or O levels/GCSEs or equivalent or other professional qualifications, or none\nof the above), family history of CVD (yes, no), prevalence of hypertension (yes, no), use of antihypertensive medication (yes, no), use of lipidlowing medication (yes, no), use of aspirin (yes, no), diabetes duration (continuous, years), HbA1c (continuous, %), use of diabetes medication (none, only oral medication pills, or only insulin or combination of oral medications and insulin), genotype measurement batch, the first 10 principal components of ancestry, weighted healthy lifestyle scores (continuous)",
@@ -93,10 +150,35 @@
       "date_release": "2025-06-16",
       "samples_training": "n=96,239",
       "performance_metrics": {
-        "auc": 0.731,
-        "r2": 0.316618944460322
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.731,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022612",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, East Asian, European, Greater Middle Eastern (Middle Eastern, North African or Persian), South Asian",
+        "record_count": 15,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.731
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.66,
+            "ci_lower": 1.61,
+            "ci_upper": 1.71
+          }
+        ]
       },
-      "phenotyping_reported": "Incident and prevelant peripheral artery disease",
+      "phenotyping_reported": "Incident peripheral artery disease",
       "covariates": "age, sex and the first ten principal components of genetic ancestry",
       "training_development_cohorts": [
         "ARIC",
@@ -144,11 +226,5 @@
       "validation_sample_size": "n=304,294"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS005217",
-    "reported_auc": 0.731,
-    "trait_reported": "Peripheral artery disease",
-    "method_name": "LDpred2",
-    "validation_sample_size": "n=304,294"
-  }
+  "baseline": null
 }

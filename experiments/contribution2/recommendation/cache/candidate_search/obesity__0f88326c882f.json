@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "obesity",
   "candidate_model_ids": [
     "PGS001825",
@@ -29,8 +29,50 @@
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
-        "auc": 0.65328,
-        "r2": 0.04232
+        "auc": 0.57573,
+        "r2": 0.01146,
+        "pgs_only_auc": 0.57573,
+        "pgs_only_r2": 0.01146,
+        "full_model_auc": 0.59555,
+        "full_model_r2": 0.01814,
+        "incremental_auc": 0.03355,
+        "selected_performance_id": "PPM008991",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.59555,
+            "ci_lower": 0.58697,
+            "ci_upper": 0.60413
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01814
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03355
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01146
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.57573,
+            "ci_lower": 0.56713,
+            "ci_upper": 0.58434
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "TTE obesity",
       "covariates": "age, sex, UKB array type, Genotype PCs",
@@ -54,7 +96,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009497",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0547,
+            "ci_lower": 0.0409,
+            "ci_upper": 0.0686
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Overweight, obesity and other hyperalimentation",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -78,7 +139,26 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011135",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0789,
+            "ci_lower": 0.0651,
+            "ci_upper": 0.0927
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Overweight, obesity and other hyperalimentation",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -102,7 +182,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": 0.0192
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0192,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016284",
+        "selected_validation_ancestry": "European, African unspecified, Asian unspecified, Other",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0192
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "BMI",
       "covariates": "Unknown",
@@ -124,7 +221,25 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019107",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.149,
+            "se": 0.028
+          }
+        ]
       },
       "phenotyping_reported": "Obesity",
       "covariates": "Age, sex, race, centres, education, Townsend deprivation index, household income, smoking, alcohol consumption, physical activity, sleep pattern, energy intake, and BMI, WC or BF% at baseline",
@@ -146,7 +261,24 @@
       "samples_training": "n=174,489",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020562",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.35970338057817
+          }
+        ]
       },
       "phenotyping_reported": "E66 (Obesity)",
       "covariates": "Unknown",
@@ -170,7 +302,24 @@
       "samples_training": "n=174,489",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020632",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.22554
+          }
+        ]
       },
       "phenotyping_reported": "E66 (Obesity)",
       "covariates": "Unknown",
@@ -194,7 +343,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022365",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.60817500694587
+          }
+        ]
       },
       "phenotyping_reported": "Obesity",
       "covariates": "age, sex",
@@ -218,7 +384,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022374",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.76187749677908
+          }
+        ]
       },
       "phenotyping_reported": "Obesity",
       "covariates": "age, sex",
@@ -242,7 +425,24 @@
       "samples_training": "N/A",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022667",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.9704649488977
+          }
+        ]
       },
       "phenotyping_reported": "Obesity (phecode: 278.1)",
       "covariates": "age, sex, batch, and the first 10 genetic principal components",
@@ -256,7 +456,7 @@
   ],
   "baseline": {
     "pgs_id": "PGS001298",
-    "reported_auc": 0.6533,
+    "reported_auc": 0.5757,
     "trait_reported": "Obesity (time-to-event)",
     "method_name": "snpnet",
     "validation_sample_size": "n=67,425"

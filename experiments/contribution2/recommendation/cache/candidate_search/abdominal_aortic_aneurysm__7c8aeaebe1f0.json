@@ -1,5 +1,5 @@
 {
-  "cache_version": "v2",
+  "cache_version": "v4",
   "ontology": "abdominal aortic aneurysm",
   "candidate_model_ids": [
     "PGS003972",
@@ -26,7 +26,26 @@
       "samples_training": "n=8,772",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001912",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37,
+            "ci_lower": 1.3,
+            "ci_upper": 1.44
+          }
+        ]
       },
       "phenotyping_reported": "Prevalent abdominal aortic aneurysm",
       "covariates": "Age, sex, PCs (1-5)",
@@ -34,7 +53,7 @@
         "MAYO-VDB",
         "MVP"
       ],
-      "validation_sample_size": "n=47,098"
+      "validation_sample_size": "n=46,564"
     },
     {
       "id": "PGS001784",
@@ -50,8 +69,31 @@
       "date_release": "2022-09-08",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.868,
-        "r2": null
+        "auc": null,
+        "r2": 0.014661,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.014661,
+        "full_model_auc": 0.868,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009288",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.868
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.014661
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Abdominal aortic aneurysm",
       "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
@@ -84,7 +126,24 @@
       "samples_training": "n=391,124",
       "performance_metrics": {
         "auc": null,
-        "r2": null
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011294",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0144
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Abdominal aortic aneurysm",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
@@ -107,8 +166,33 @@
       "date_release": "2023-12-15",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.708,
-        "r2": 0.00547
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.708,
+        "full_model_r2": 0.00547,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017103",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.708,
+            "ci_lower": 0.691,
+            "ci_upper": 0.725
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00547
+          }
+        ],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Abdominal aortic aneurysm",
       "covariates": "Unknown",
@@ -131,8 +215,25 @@
       "date_release": "2023-11-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.69,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.69,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019134",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Abdominal aortic aneurysm",
       "covariates": "Unknown",
@@ -154,7 +255,7 @@
         "deCODE",
         "eMERGE"
       ],
-      "validation_sample_size": "n=7,324"
+      "validation_sample_size": "n=6,940"
     },
     {
       "id": "PGS003973",
@@ -170,8 +271,27 @@
       "date_release": "2023-11-01",
       "samples_training": "N/A",
       "performance_metrics": {
-        "auc": 0.882,
-        "r2": null
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.882,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019137",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.882,
+            "ci_lower": 0.872,
+            "ci_upper": 0.892
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
       },
       "phenotyping_reported": "Abdominal aortic aneurysm",
       "covariates": "Age, Age^2, Sex",
@@ -193,11 +313,5 @@
       "validation_sample_size": "n=7,517"
     }
   ],
-  "baseline": {
-    "pgs_id": "PGS003973",
-    "reported_auc": 0.882,
-    "trait_reported": "Abdominal aortic aneurysm",
-    "method_name": "PRS-CS",
-    "validation_sample_size": "n=7,517"
-  }
+  "baseline": null
 }
