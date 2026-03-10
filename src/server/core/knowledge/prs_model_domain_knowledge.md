@@ -17,6 +17,8 @@ Global rules:
 - Missing evidence should lower confidence.
 - Do not let one attractive field dominate the decision.
 - A model from a disease-focused multi-cohort study should not lose to a pan-trait framework score unless the framework score has clearly stronger endpoint AND metric evidence.
+- If several endpoint-faithful candidates from the same disease-focused study family form a coherent cluster, that cluster is strong evidence and should usually beat a lone exact-label or lone high-AUC candidate whose apparent edge comes mainly from recency, exact wording, or a single full-model metric.
+- Basic demographic adjustment (`age`, `age^2`, `sex`, PCs, batch, genotyping array) is not heavy clinical leakage. Family history, treatment terms, disease biomarkers, and horizon-conditioned absolute-risk packaging are.
 
 ## 1. trait_reported / trait_efo / phenotyping_reported
 
@@ -34,9 +36,12 @@ Prefer:
 - combined or generic disease endpoints over fixed-horizon future-risk endpoints when the target itself is a generic disease concept
 - diagnostic-code or phecode-based disease endpoints when they directly map to the same disease concept
 - disease-adjacent trait labels when `phenotyping_reported` is still a direct diagnosis endpoint for the target disease and the study context remains disease-focused
+- broader biology labels when `phenotyping_reported` is still a direct disease diagnosis endpoint for the target disease (for example, `adiposity` with an obesity phecode endpoint)
+- combined labels that explicitly contain the target disease, even if they also mention a closely related condition
 - near-synonymous disease labels with richer supporting evidence over exact but vague or unspecified labels
 - exact disease endpoints with much stronger validation and materially better discrimination, even when they are self-reported
 - clinically dominant subtypes when the target label is a broad organ-site cancer or umbrella carcinoma term and the subtype has much stronger support
+- familial late-onset forms when the target itself is the same late-onset disease and no early-onset or monogenic enrichment is shown
 
 Clinically dominant subtype equivalences:
 
@@ -54,6 +59,7 @@ Down-rank when:
 - `phenotyping_reported` is incident-only while the target is generic disease risk, unless the candidate is from a dedicated disease GWAS meta-analysis with much stronger study support than the competing generic-label alternative
 - `phenotyping_reported` is horizon-specific, such as 5-year risk
 - `phenotyping_reported` is future-risk prediction rather than generic disease status
+- `phenotyping_reported` is an age-conditioned or horizon-conditioned absolute-risk package rather than direct disease status
 - `phenotyping_reported` is subtype-only, unless it is the clinically dominant subtype of the target disease
 - `phenotyping_reported` is a proxy phenotype
 - `phenotyping_reported` is treatment-induced or therapy-specific, unless the genetic basis captured by the score is biologically relevant to the target disease and no better alternative exists
@@ -77,6 +83,11 @@ Tie-break guidance:
 - When the target is a broad organ-site cancer concept, dominant subtypes such as the most common site-specific carcinoma can be preferred if they are the only candidates with clearly stronger endpoint and study evidence, especially when the broad-label alternative mainly comes from a portability-style framework.
 - If several near-synonymous subtype or diagnosis-anchored candidates form a coherent high-support cluster, that cluster should be treated as stronger evidence than a lone exact-label framework score.
 - An incident-only or time-to-event endpoint from a major disease-focused multi-cohort study should not automatically lose to a generic-label portability-framework score that only has a modest partial-correlation or similar weak metric. The disease-focused study context and stronger overall evidence package can outweigh the endpoint-type penalty.
+- Minor anatomical qualifiers, tissue descriptors, or formatting variants should not create a mismatch when `trait_reported`, `trait_efo`, and `phenotyping_reported` all point to the same underlying disease entity.
+- Composite endpoints remain valid direct matches when the target disease is explicitly present in the endpoint and the added component is a closely related manifestation, subtype, or companion diagnosis from the same clinical spectrum.
+- Case-control endpoints that contrast the target disease against a benign, precursor, or common differential-diagnosis condition remain direct matches because the disease arm is still the target endpoint.
+- Familial forms remain direct matches when the disease concept and age-of-onset class are otherwise unchanged and no monogenic, syndromic, or clearly enriched special-population construct is explicit.
+- When phenotype fields are noisy, partially contradictory, or likely contaminated by catalog artifacts, resolve the ranking from the most coherent disease-level evidence package across `trait_reported`, `trait_efo`, `phenotyping_reported`, publication context, effect sizes, performance metrics, and covariates rather than letting one anomalous field dominate.
 
 ## 2. performance_metrics.auc / performance_metrics.r2 / covariates
 
@@ -105,6 +116,7 @@ Prefer:
 - reported performance from candidates with comparable endpoints
 - explicit PRS-only or otherwise PRS-comparable discrimination metrics
 - discrimination reported with basic or otherwise comparable covariates
+- full-model metrics that use only demographic/basic adjustment (`age`, `age^2`, `sex`, PCs, array, batch)
 - stable performance evidence that does not depend on obvious endpoint shortcuts
 - performance packages that do not rely on downstream clinical disease variables, family history, or treatment context
 - performance packages that do not rely on near-outcome quantitative traits or baseline measurements tightly coupled to the target disease
@@ -120,6 +132,7 @@ Down-rank when:
 - performance depends on heavy clinical covariates
 - performance depends on disease-adjacent clinical variables such as family history or established downstream clinical predictors
 - performance depends on treatment assignment, treatment interaction, or other intervention-context variables
+- reported discrimination comes from an age-specific absolute-risk or horizon-conditioned risk package rather than a direct PRS discrimination setting
 - performance depends on near-outcome baseline measurements such as body-size, organ-function, or disease-severity variables that are tightly coupled to the target phenotype
 - the only candidate with reported AUC in a study family wins solely because competing models have null metrics
 - the only visible AUC comes from the more covariate-heavy or more internally optimized candidate within the same endpoint family
@@ -129,8 +142,10 @@ Covariate rule:
 
 - Treat `covariates` as a comparability and optimism field.
 - Heavy clinical covariates can make reported discrimination look better than the PRS alone.
+- `age`, `age^2`, `sex`, ancestry PCs, batch, and genotyping array are basic covariates and usually remain comparable across studies.
 - Family history or disease-related clinical predictors can also make the reported metric less comparable to a PRS-only or PRS-light setting.
 - Treatment variables, intervention terms, and near-outcome baseline measurements can make the metric reflect prognostic enrichment rather than PRS quality.
+- Absolute-risk calibration or age-specific absolute-risk adjustment should be treated as a risk-package wrapper, not as a neutral covariate set.
 - If `classification_metrics` AUROC is high but the visible `other_metrics` suggest only a small incremental AUROC or small PGS-only R2, interpret the AUROC as mostly covariate-driven.
 - Unknown covariates should lower confidence, not automatically help or hurt the candidate.
 
@@ -162,6 +177,8 @@ Tie-break guidance:
 - If one model's main advantage is an outlier AUC from a high-throughput single-biobank framework, treat that metric as weak when several cleaner direct-match competitors cluster together in endpoint and study design.
 - If no explicit PGS-only AUROC is reported, do not silently substitute the full-model AUROC as the ranking AUC.
 - If one candidate reports only effect sizes (OR/HR per SD) while another reports an explicit but modest PRS-comparable metric from a portability framework, the effect-size candidate should not automatically lose. Compare the overall evidence packages including study design, cohort scale, and method context.
+- Full-model C-index or AUROC with only basic demographic covariates can still be informative; do not penalize it as if it came from biomarker-heavy or treatment-aware clinical packaging.
+- Within the same publication family and same endpoint family, a materially stronger OR/HR can break ties even if another candidate has slightly larger validation size or a more familiar evaluation ancestry.
 
 ### Heritability sanity check
 
@@ -212,6 +229,8 @@ Tie-break guidance:
 - Order-of-magnitude validation differences are meaningful only after checking endpoint fidelity, covariate comparability, and study archetype together.
 - When reported discrimination is nearly tied, very large validation support can break the tie even if one candidate uses a self-reported version of the same disease endpoint.
 - Very large validation from a portability-framework study should not automatically outweigh a moderately large validation from a disease-focused multi-cohort study.
+- Modest validation-size differences within the same publication family are weak tie-breaks.
+- Larger validation size should not automatically beat a near-clone candidate from the same study family if the near-clone has materially stronger effect sizes.
 
 ## 4. training_development_cohorts / samples_training
 
@@ -359,6 +378,8 @@ Tie-break guidance:
 - Do not let mixed-ancestry evaluation beat a much stronger exact-disease candidate by itself.
 - A single non-EUR or mixed-ancestry evaluation is not automatically more deployable than a much larger exact-disease evaluation in one ancestry.
 - Multi-ancestry evaluation from a disease-focused multi-cohort study (e.g., AllofUs, MVP, diverse biobanks) is supportive evidence of model robustness.
+- If deployment ancestry is unspecified, a single-ancestry non-overlapping candidate (for example, EAS-only) should not outrank otherwise comparable EUR or multi-ancestry candidates merely because it has an exact label or a higher full-model metric.
+- Within the same study family and same endpoint family, do not automatically prefer the European candidate if a non-European candidate has materially stronger effect sizes and no other major weakness.
 
 ## 7. publication.title / publication.journal / date_release
 
@@ -405,10 +426,13 @@ Tie-break guidance:
 - If an exposure-, lifestyle-, or treatment-centered paper surfaces a PRS only as an auxiliary predictor, do not let that title framing beat a disease-genetics candidate with similarly direct phenotype support.
 - If a paper centers on integrating disease PRSs with risk-factor PRSs, treat it as a framework-style context rather than direct evidence that its disease score is the best standalone PRS.
 - Cross-cancer or broad evaluation framing is not automatically disqualifying if the candidate remains a dominant subtype match with stronger endpoint and study support than a broad-label alternative.
+- Cross-cancer external evaluation is not the same as a pan-trait framework paper; if the endpoint is the exact target disease and the model was externally validated in large cohorts, do not penalize it as if it were a generic phenome sweep.
 - Disease-focused publication framing is supportive but weak; it should not override materially stronger validation/performance from a broader evaluation study when endpoint fidelity remains acceptable.
 - Repeated candidates from the same disease-focused study family are supportive when they remain endpoint-faithful and internally consistent.
 - Do not let recency or journal prestige override phenotype fidelity, comparable performance, or transportability.
 - A disease-focused GWAS meta-analysis (e.g., from a named disease consortium) should generally be preferred over a generic pan-trait framework paper from UKB, even if the meta-analysis is older or in preprint form.
+- Prospective studies whose title or design centers on treatment assignment, modifiable risk-factor integration, or intervention interaction should not automatically be treated as the best standalone PRS source.
+- Cost-effectiveness or screening-stratification papers can contain useful PRSs, but the paper framing itself is not proof that the score is the best standalone deployment model.
 
 ## 8. variants_number
 
@@ -430,3 +454,16 @@ Tie-break guidance:
 - `variants_number` should never be the primary reason to select a model.
 - Very low variant counts (single-digit to low-tens) combined with a pan-trait framework origin is a warning sign: the model may not capture enough polygenic signal for complex traits.
 - Very high variant counts (>100K) from genome-wide shrinkage methods are expected and should not be penalized; they reflect the method's design rather than overfitting.
+
+## 9. Disease-family policy
+
+Apply these family-level policies only after confirming that the candidate remains a true direct match for the target disease concept.
+
+- Endocrine and thyroid-spectrum diseases: treat thyroid-state biomarkers, family history, and similar disease-state covariates as strong sources of metric inflation. When several direct-match candidates come from the same coherent disease-focused thyroid study family, prefer that family over legacy exact-label models whose main advantage is a biomarker-inflated or family-history-inflated full-model metric. Within one thyroid-focused study family, small differences in full-model AUROC or validation size are weak tie-breaks; endpoint fidelity, cleaner covariates, and stronger effect sizes matter more.
+- Metabolic and anthropometric diseases: a broader biology-oriented trait label can still be a direct match when `phenotyping_reported` is an exact disease diagnosis, disease phecode, or other explicit disease endpoint. Prefer disease-endpoint models over broad administrative-bundle phenotypes or framework-derived time-to-event variants unless those alternatives have clearly stronger comparable PRS-only evidence.
+- Thromboembolic diseases: endpoints that explicitly include the target thrombotic event together with a closely related event remain direct matches if the target event is still clearly represented. When deployment ancestry is unspecified, do not let a single-ancestry exact-label candidate outrank otherwise comparable EUR or mixed-ancestry direct-match candidates solely on label exactness or one full-model metric.
+- Cardiovascular and large-vessel diseases: disease-focused multi-cohort meta-analysis models with exact endpoints and only basic demographic covariates should usually be preferred over older prevalent-endpoint sparse models. In this family, `age`, `age^2`, and `sex` are basic adjustment variables, not heavy clinical leakage.
+- Organ-site cancers and sex-specific neoplasms: cross-cancer external evaluation is not equivalent to a pan-trait framework when the candidate's endpoint is the exact target cancer and validation is large. Closely related organ-site labels within the same malignant disease family should be treated as direct matches, while prospective or intervention-aware risk packages that rely on family history, treatment assignment, or interaction terms should be down-ranked.
+- Immune-mediated and autoimmune diseases: if catalog metadata are noisy, partially contradictory, or obviously mixed with phenotype artifacts, do not let one anomalous field dominate. Reconstruct the ranking from the full evidence package: exact trait/efo alignment, disease-focused study context, covariate cleanliness, and effect-size or PRS-comparable performance support.
+- Late-onset neurodegenerative diseases: familial late-onset forms remain direct matches to generic late-onset disease deployment unless a clear early-onset or monogenic mismatch is visible. Within the same study family, materially stronger effect sizes can outweigh slightly larger validation size or a more familiar evaluation ancestry.
+- Sleep-disordered breathing diseases: prefer the clinically dominant subtype over a broader umbrella breathing-disorder label when the dominant-subtype model is at least as well supported on endpoint fidelity, validation, and performance evidence.
