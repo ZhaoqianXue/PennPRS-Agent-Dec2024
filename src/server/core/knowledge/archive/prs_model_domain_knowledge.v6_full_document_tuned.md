@@ -30,9 +30,6 @@ Prefer:
 - direct clinical disease endpoint
 - generic disease endpoint for generic disease-risk deployment
 - general case-control or incident-plus-prevalent disease endpoint when the target is a generic disease concept
-- combined or generic disease endpoints over fixed-horizon future-risk endpoints when the target itself is a generic disease concept
-- diagnostic-code or phecode-based disease endpoints when they directly map to the same disease concept
-- disease-adjacent trait labels when `phenotyping_reported` is still a direct diagnosis endpoint for the target disease and the study context remains disease-focused
 - near-synonymous disease labels with richer supporting evidence over exact but vague or unspecified labels
 - exact disease endpoints with much stronger validation and materially better discrimination, even when they are self-reported
 - clinically dominant subtypes when the target label is a broad organ-site cancer or umbrella carcinoma term and the subtype has much stronger support
@@ -42,29 +39,21 @@ Down-rank when:
 - `phenotyping_reported` is time-to-event
 - `phenotyping_reported` is incident-only while the target is generic disease risk
 - `phenotyping_reported` is horizon-specific, such as 5-year risk
-- `phenotyping_reported` is future-risk prediction rather than generic disease status
 - `phenotyping_reported` is subtype-only
 - `phenotyping_reported` is a proxy phenotype
 - `phenotyping_reported` is treatment-induced or therapy-specific
 - `phenotyping_reported` is a broad administrative phenotype bundle
 - the label is broad or vague while a competing candidate is a clinically dominant subtype with much stronger support
 - the endpoint is generic but unspecified and mainly surfaced by a portability or pan-trait framework rather than a disease-focused study
-- the score is an exact broad-label match from a portability or framework paper while several near-synonymous subtype or diagnosis-anchored candidates have richer support
 
 Tie-break guidance:
 
 - Incident-only, time-to-event, and self-reported exact disease endpoints are all acceptable but none is an automatic winner.
 - Self-reported exact disease should not automatically lose to a clinically ascertained alternative if it has much stronger validation support and materially better reported discrimination.
-- If discrimination is nearly identical, self-reported exact disease with orders-of-magnitude larger validation support can beat a clinically phrased alternative.
-- Diagnostic-code and phecode instantiations of the same disease should not automatically lose to literal disease-string endpoints.
-- A broader `trait_reported` label should not automatically lose when `phenotyping_reported` is a direct diagnosis endpoint for the target disease.
 - Do not over-penalize minor wording differences when the disease concept is clearly the same.
 - Do not automatically prefer an exact but vague label over a near-synonymous candidate with much richer evidence.
-- Do not automatically prefer an exact but unspecified umbrella label from a portability-style or sparse-metadata study over a near-synonymous clinically specific disease label with much stronger validation and reported discrimination.
 - Do not automatically prefer a broad umbrella label over a clinically dominant subtype with much stronger endpoint and study support.
-- Fixed-horizon future-risk or prediction-oriented endpoints should not outrank a generic disease endpoint for generic deployment unless the generic disease candidates are otherwise much weaker.
-- When the target is a broad organ-site cancer concept, dominant subtypes such as the most common site-specific carcinoma can be preferred if they are the only candidates with clearly stronger endpoint and study evidence, especially when the broad-label alternative mainly comes from a portability-style framework.
-- If several near-synonymous subtype or diagnosis-anchored candidates form a coherent high-support cluster, that cluster should be treated as stronger evidence than a lone exact-label framework score.
+- When the target is a broad organ-site cancer concept, dominant subtypes such as the most common site-specific carcinoma can be preferred if they are the only candidates with clearly stronger endpoint and study evidence.
 
 ## 2. performance_metrics.auc / performance_metrics.r2 / covariates
 
@@ -79,41 +68,31 @@ Prefer:
 - discrimination reported with basic or otherwise comparable covariates
 - stable performance evidence that does not depend on obvious endpoint shortcuts
 - performance packages that do not rely on downstream clinical disease variables, family history, or treatment context
-- performance packages that do not rely on near-outcome quantitative traits or baseline measurements tightly coupled to the target disease
 
 Down-rank when:
 
 - very high AUC or R2 appears on a weaker endpoint
 - very high AUC or R2 appears on a narrower endpoint
 - very high AUC or R2 appears in a time-to-event, broad EHR, or internally optimized single-biobank setting
-- the AUC is a clear outlier relative to the rest of the direct-match set and comes from a high-throughput single-biobank framework
 - reported performance is not comparable across studies
 - performance depends on heavy clinical covariates
 - performance depends on disease-adjacent clinical variables such as family history or established downstream clinical predictors
-- performance depends on treatment assignment, treatment interaction, or other intervention-context variables
-- performance depends on near-outcome baseline measurements such as body-size, organ-function, or disease-severity variables that are tightly coupled to the target phenotype
 - the only candidate with reported AUC in a study family wins solely because competing models have null metrics
 - the only visible AUC comes from the more covariate-heavy or more internally optimized candidate within the same endpoint family
-- the reported metric appears to come from a combined clinical-risk package rather than something close to PRS-plus-basic covariates
 
 Covariate rule:
 
 - Treat `covariates` as a comparability and optimism field.
 - Heavy clinical covariates can make reported discrimination look better than the PRS alone.
 - Family history or disease-related clinical predictors can also make the reported metric less comparable to a PRS-only or PRS-light setting.
-- Treatment variables, intervention terms, and near-outcome baseline measurements can make the metric reflect prognostic enrichment rather than PRS quality.
 - Unknown covariates should lower confidence, not automatically help or hurt the candidate.
 
 Tie-break guidance:
 
 - Use AUC and R2 to separate candidates only when endpoint fidelity is already acceptable.
 - Small metric gaps should not dominate if endpoint or covariate design differs.
-- Material performance and validation advantages can outweigh a more disease-focused narrative when endpoints remain acceptably aligned and covariates are cleaner or more comparable.
 - Missing metrics should lower confidence, but they do not automatically lose to inflated or non-comparable AUC.
 - If two candidates share the same endpoint family and one reports high AUC only with much heavier covariates, do not let that AUC dominate over a cleaner but partially missing comparator.
-- If a candidate’s apparent advantage depends on family history, treatment variables, or target-adjacent baseline measurements, treat that advantage as weak unless the comparator evidence is otherwise clearly inferior.
-- If two candidates share the same exact disease endpoint family and one candidate’s only visible edge is a covariate-heavy AUC built on extensive comorbidity or near-outcome adjustment, do not let that metric automatically outrank a cleaner comparator that lacks AUC but has otherwise comparable support.
-- If one model’s main advantage is an outlier AUC from a high-throughput single-biobank framework, treat that metric as weak when several cleaner direct-match competitors cluster together in endpoint and study design.
 
 ## 3. validation_sample_size
 
@@ -139,7 +118,6 @@ Tie-break guidance:
 - A small AUC advantage from a tiny validation cohort should not automatically beat a near-tie candidate validated in a much larger cohort.
 - Huge validation support alone should not beat a cleaner endpoint or a cleaner covariate design.
 - Order-of-magnitude validation differences are meaningful only after checking endpoint fidelity, covariate comparability, and study archetype together.
-- When reported discrimination is nearly tied, very large validation support can break the tie even if one candidate uses a self-reported version of the same disease endpoint.
 
 ## 4. training_development_cohorts / samples_training
 
@@ -157,8 +135,6 @@ Prefer:
 - disease-specific development over broad high-throughput frameworks when endpoint evidence is otherwise similar
 - disease-focused multi-cohort development over single-biobank portability sweeps when the latter mainly contributes generic labels rather than richer disease evidence
 - broad multi-cohort disease studies when they look biologically and clinically targeted rather than trait-agnostic
-- large disease-focused multi-cohort or global studies when exact-disease endpoint fidelity remains acceptable and the competing alternative is mainly a single-ancestry metric winner
-- repeated support from multiple candidates in the same disease-focused study family when they share endpoint, ancestry, and validation context
 
 Down-rank when:
 
@@ -174,8 +150,6 @@ Tie-break guidance:
 - Large training size cannot compensate for weaker endpoint fidelity.
 - Within the same publication family, modest cohort-list or training-size differences are weak tie-breaks.
 - Single-biobank portability papers should not beat disease-focused multi-cohort studies unless they also have clearly cleaner endpoint evidence and comparable metrics.
-- When two candidates are both endpoint-faithful, do not automatically let a single-ancestry large-metric model beat a disease-focused multi-cohort or global study unless the former also has cleaner covariates and no stronger portability concerns.
-- If several candidates from the same study family are all endpoint-faithful and share the same validation/evaluation context, treat that repeated family pattern as corroborating evidence rather than redundancy.
 
 ## 5. method_name
 
@@ -200,18 +174,14 @@ Do not automatically assume:
 - sparser methods are worse
 - newer methods are more portable
 - more complex methods are more clinically credible
-- rare-pathogenic or monogenic-leaning constructions are better for generic common-disease PRS deployment
 
 Tie-break guidance:
 
 - Use `method_name` only after endpoint fidelity, comparable performance, validation support, and transportability have already been considered.
 - If candidates are otherwise closely matched within the same study family, LD-aware shrinkage methods such as `PRS-CS`, `LDpred`, or `LDpred2` may be mildly preferred over very sparse P+T or GWAS-hit constructions.
 - If candidates are otherwise closely matched within the same endpoint family, do not let a very sparse P+T score beat a genome-wide shrinkage score solely because of a modest AUC edge.
-- If candidates share the same publication family, phenotype, validation cohort, and ancestry context, a modest AUC edge from an ultra-sparse construction is weak evidence against a genome-wide shrinkage score.
-- If candidates share the same publication family, endpoint, validation size, ancestry context, and similarly missing covariates, prefer the genome-wide shrinkage score unless the sparse construction has a clearly larger, not merely modest, metric advantage.
 - If a candidate wins mainly because the method name looks stronger, lower confidence.
 - `snpnet` or other high-capacity penalized regression methods need extra caution when their advantage comes mainly from single-biobank optimization or unusually high internal AUC.
-- Rare-pathogenic or clearly monogenic-leaning constructions should not automatically outrank genome-wide polygenic scores for generic common-disease risk unless the metadata show unusually strong and clean disease-level support.
 
 ## 6. ancestry_distribution
 
@@ -252,9 +222,7 @@ Use `publication.title` to detect:
 - cross-cancer study
 - multitrait or pan-phenome study
 - portability study
-- risk-factor integration study
 - related-trait rather than exact-disease study
-- exposure-, lifestyle-, or treatment-centered study where the PRS may be an auxiliary predictor rather than the main disease-genetics object
 
 Do not automatically prefer:
 
@@ -271,12 +239,6 @@ Tie-break guidance:
 - Titles that emphasize portability, pan-phenome breadth, many traits, or broad biobank screening often indicate framework papers rather than automatic deployment winners.
 - Titles that emphasize external evaluation in independent biobanks or a disease-focused multi-cohort study can be supportive when the candidate remains endpoint-faithful.
 - Global multi-ancestry disease studies are supportive when they are clearly disease-focused; they should not be dismissed simply because they are newer or in preprint form.
-- Titles centered on exposure effects, diet, treatment response, or non-genetic prognostic framing should be treated cautiously when the goal is generic disease-risk PRS selection.
-- If an exposure-, lifestyle-, or treatment-centered paper surfaces a PRS only as an auxiliary predictor, do not let that title framing beat a disease-genetics candidate with similarly direct phenotype support.
-- If a paper centers on integrating disease PRSs with risk-factor PRSs, treat it as a framework-style context rather than direct evidence that its disease score is the best standalone PRS.
-- Cross-cancer or broad evaluation framing is not automatically disqualifying if the candidate remains a dominant subtype match with stronger endpoint and study support than a broad-label alternative.
-- Disease-focused publication framing is supportive but weak; it should not override materially stronger validation/performance from a broader evaluation study when endpoint fidelity remains acceptable.
-- Repeated candidates from the same disease-focused study family are supportive when they remain endpoint-faithful and internally consistent.
 - Do not let recency or journal prestige override phenotype fidelity, comparable performance, or transportability.
 
 ## 8. variants_number

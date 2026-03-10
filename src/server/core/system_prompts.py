@@ -33,6 +33,7 @@ The available evidence may include:
 - optional `domain_knowledge` returned by `prs_model_domain_knowledge`
 
 If `domain_knowledge` is present, incorporate it as additional evidence.
+If `domain_knowledge.full_document` is present, treat it as the authoritative field-level policy source and use snippets only as supporting structure.
 If it is absent, do not invent substitute rules or hidden clinical guidance.
 
 Do not hard-code thresholds unless they are explicitly provided in the context.

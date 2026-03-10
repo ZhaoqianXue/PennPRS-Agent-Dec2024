@@ -78,10 +78,15 @@ from src.server.core.pgs_catalog_client import PGSCatalogClient
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
 UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
+DOCS_DIR = Path(__file__).parent.parent / "docs"
+WITHOUT_DOMAIN_PER_DISEASE_DOC = DOCS_DIR / "without_domain_per_disease_comparison.md"
 LOCAL_CACHE_DIR = Path(__file__).parent.parent / "cache"
 GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
 TOP_K_JSON = GROUND_TRUTH_DIR / "top_k_pgs_per_ontology.json"
 EVALUATED_JSON = GROUND_TRUTH_DIR / "evaluated_pgs_per_ontology.json"
+CONTRIB1_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
+CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
+ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
 PREPARE_CACHE_VERSION = "v2"
 
 ACTIVE_RUN_DIR: Optional[Path] = None
@@ -156,6 +161,29 @@ STEP1_RATIONALE_FEATURE_KEYWORDS = {
     "variants": ["variant", "snp"],
     "covariates": ["covariate", "age", "sex", "pc"],
 }
+
+FIELD_ROWS: list[tuple[str, str]] = [
+    ("Selected PGS ID", "agent_input"),
+    ("AoU benchmark rank", "benchmark_only"),
+    ("AoU benchmark AUC", "benchmark_only"),
+    ("In Target_TopK", "benchmark_only"),
+    ("Selection frequency", "benchmark_only"),
+    ("trait_reported", "agent_input"),
+    ("trait_efo", "agent_input"),
+    ("phenotyping_reported", "agent_input"),
+    ("method_name", "agent_input"),
+    ("performance_metrics.auc", "agent_input"),
+    ("performance_metrics.r2", "agent_input"),
+    ("validation_sample_size", "agent_input"),
+    ("samples_training", "agent_input"),
+    ("ancestry_distribution", "agent_input"),
+    ("training_development_cohorts", "agent_input"),
+    ("publication.title", "agent_input"),
+    ("publication.journal", "agent_input"),
+    ("date_release", "agent_input"),
+    ("variants_number", "agent_input"),
+    ("covariates", "agent_input"),
+]
 
 
 class Step1Decision(BaseModel):
@@ -972,11 +1000,13 @@ def _quick_eval() -> dict[str, Any]:
     _write_json(RESULTS_JSON, trial_results)
     _write_json(SUMMARY_JSON, summary)
     _write_report(summary)
+    per_disease_doc = _write_without_domain_per_disease_doc(summary)
     archive_dir = _archive_current_outputs(summary=summary)
 
     print(f"Results: {RESULTS_JSON}")
     print(f"Summary: {SUMMARY_JSON}")
     print(f"Report:  {REPORT_MD}")
+    print(f"Per-disease doc: {per_disease_doc}")
     print(f"Archive: {archive_dir}")
     return summary
 
@@ -1312,11 +1342,260 @@ def _build_summary_and_results(
     return trial_results, summary
 
 
+def _normalize_ontology_key(text: str) -> str:
+    return _normalize_ontology(text)
+
+
+def _load_aou_auc_lookup() -> dict[str, dict[str, float]]:
+    union_df = pd.read_csv(UNION_CSV)
+    child_matrix = pd.read_csv(CHILDCODE_AUC_MATRIX)
+    root_matrix = pd.read_csv(ROOTCODE_AUC_MATRIX)
+
+    lookup: dict[str, dict[str, float]] = {}
+    child_row_map = child_matrix.set_index("trait")
+    root_row_map = root_matrix.set_index("trait")
+
+    for _, row in union_df.iterrows():
+        ontology = str(row.get("Ontology", "")).strip()
+        icd = str(row.get("ICD", "")).strip()
+        source = str(row.get("Source", "")).strip().lower()
+        if not ontology or not icd:
+            continue
+
+        matrix = child_row_map if source in {"childrencode", "both"} else root_row_map
+        if icd not in matrix.index:
+            continue
+
+        auc_row = matrix.loc[icd]
+        if isinstance(auc_row, pd.DataFrame):
+            auc_row = auc_row.iloc[0]
+
+        per_model: dict[str, float] = {}
+        for column, value in auc_row.items():
+            if column == "trait" or pd.isna(value):
+                continue
+            pgs_id = str(column).replace("_hmPOS_GRCh38", "")
+            try:
+                per_model[pgs_id] = float(value)
+            except (TypeError, ValueError):
+                continue
+        lookup[_normalize_ontology_key(ontology)] = per_model
+
+    return lookup
+
+
+def _model_map(row: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return {
+        str(model.get("id")): model
+        for model in (row.get("candidate_models_visible_to_llm") or [])
+        if model.get("id")
+    }
+
+
+def _get_nested_field(model: Optional[dict[str, Any]], field: str) -> Any:
+    if not model:
+        return None
+    if field == "Selected PGS ID":
+        return model.get("id")
+    if "." not in field:
+        return model.get(field)
+    value: Any = model
+    for part in field.split("."):
+        if not isinstance(value, dict):
+            return None
+        value = value.get(part)
+    return value
+
+
+def _collapse_whitespace(text: str) -> str:
+    return " ".join((text or "").split())
+
+
+def _format_doc_value(value: Any, field: str) -> str:
+    if value is None or value == "":
+        return "N/A"
+    if isinstance(value, float):
+        return f"{value:.4f}"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, list):
+        if not value:
+            return "N/A"
+        return _collapse_whitespace(" ".join(str(v) for v in value))
+    if isinstance(value, dict):
+        return _collapse_whitespace(json.dumps(value, sort_keys=True))
+
+    text = str(value)
+    text = text.replace("|", " / ").replace("\n", " ")
+    text = _collapse_whitespace(text)
+    return text or "N/A"
+
+
+def _benchmark_rank_label(selected_id: Optional[str], row: dict[str, Any]) -> str:
+    if not selected_id:
+        return "N/A"
+    ranked_ids = row.get("benchmark_ranked_ids") or []
+    try:
+        rank = ranked_ids.index(selected_id) + 1
+        return f"{rank}/{len(ranked_ids)}"
+    except ValueError:
+        return "N/A"
+
+
+def _benchmark_auc_value(
+    ontology: str,
+    selected_id: Optional[str],
+    auc_lookup: dict[str, dict[str, float]],
+) -> str:
+    if not selected_id:
+        return "N/A"
+    value = auc_lookup.get(_normalize_ontology_key(ontology), {}).get(selected_id)
+    if value is None:
+        return "N/A"
+    return f"{value:.4f}"
+
+
+def _in_target_topk_label(selected_id: Optional[str], row: dict[str, Any]) -> str:
+    if not selected_id:
+        return "N/A"
+    return "Yes" if selected_id in (row.get("target_topk_ids") or []) else "No"
+
+
+def _build_per_disease_doc_value(
+    field: str,
+    ontology: str,
+    selected_id: Optional[str],
+    row: dict[str, Any],
+    model_map: dict[str, dict[str, Any]],
+    auc_lookup: dict[str, dict[str, float]],
+    selection_label: str,
+) -> str:
+    if field == "Selected PGS ID":
+        return selected_id or "N/A"
+    if field == "AoU benchmark rank":
+        return _benchmark_rank_label(selected_id, row)
+    if field == "AoU benchmark AUC":
+        return _benchmark_auc_value(ontology, selected_id, auc_lookup)
+    if field == "In Target_TopK":
+        return _in_target_topk_label(selected_id, row)
+    if field == "Selection frequency":
+        return selection_label
+
+    model = model_map.get(selected_id or "")
+    return _format_doc_value(_get_nested_field(model, field), field)
+
+
+def _target_columns(row: dict[str, Any]) -> list[tuple[str, Optional[str], str]]:
+    target_ids = list(row.get("target_topk_ids") or [])
+    columns: list[tuple[str, Optional[str], str]] = []
+    for idx, target_id in enumerate(target_ids, start=1):
+        columns.append((f"Target #{idx}", target_id, f"Benchmark target #{idx}"))
+    if not columns:
+        columns.append(("Target #1", None, "Benchmark target #1"))
+    return columns
+
+
+def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
+    auc_lookup = _load_aou_auc_lookup()
+    per_disease_rows = _sort_disease_rows(summary["per_disease"])
+
+    lines = [
+        "# Without Domain Knowledge: Per-Disease Comparison",
+        "",
+        "## Scope",
+        "",
+        "This report is a disease-by-disease comparison built from the without-domain experiment summary and the underlying AoU benchmark matrices.",
+        "",
+        "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
+        "",
+        "Each disease table includes all models in the benchmark `Target_TopK` set, listed in benchmark order as `Target #1..#K`.",
+        "",
+        "## High-Level Outcome",
+        "",
+        (
+            f"- Without Domain Knowledge: "
+            f"`{summary['majority_vote_hits']}/{summary['total_ontologies']} = {_format_percent(summary['majority_vote_accuracy'])}`; "
+            f"`trial_hits = {summary['diagnostics']['trial_hits']}/{summary['diagnostics']['total_trials']} = {_format_percent(summary['diagnostics']['trial_hit_rate'])}`"
+        ),
+        f"- Baseline: `{summary['baseline']['hits']}/{summary['total_ontologies']} = {_format_percent(summary['baseline']['accuracy'])}`",
+        "",
+        "## Per-Disease Tables",
+        "",
+    ]
+
+    for row in per_disease_rows:
+        ontology = row["ontology"]
+        models = _model_map(row)
+        target_columns = _target_columns(row)
+        without_id = row.get("modal_recommendation")
+        baseline_id = (row.get("baseline") or {}).get("pgs_id")
+
+        header = ["Field"] + [label for label, _, _ in target_columns] + ["Without Domain Knowledge", "Baseline", "Field Type"]
+        separator = ["---"] * len(header)
+
+        lines.extend([
+            f"### {ontology}",
+            "",
+            f"Candidate pool: `{row['n_models']}` models. Benchmark `Target_TopK`: `{row['target_topk']}`.",
+            "",
+            "",
+            f"| {' | '.join(header)} |",
+            f"| {' | '.join(separator)} |",
+        ])
+
+        for field, field_type in FIELD_ROWS:
+            values = [field]
+            for _, target_id, selection_label in target_columns:
+                values.append(
+                    _build_per_disease_doc_value(
+                        field=field,
+                        ontology=ontology,
+                        selected_id=target_id,
+                        row=row,
+                        model_map=models,
+                        auc_lookup=auc_lookup,
+                        selection_label=selection_label,
+                    )
+                )
+            values.append(
+                _build_per_disease_doc_value(
+                    field=field,
+                    ontology=ontology,
+                    selected_id=without_id,
+                    row=row,
+                    model_map=models,
+                    auc_lookup=auc_lookup,
+                    selection_label=f"{row.get('modal_recommendation_count', 0)}/{summary['trials_per_ontology']} trials",
+                )
+            )
+            values.append(
+                _build_per_disease_doc_value(
+                    field=field,
+                    ontology=ontology,
+                    selected_id=baseline_id,
+                    row=row,
+                    model_map=models,
+                    auc_lookup=auc_lookup,
+                    selection_label="Rule-based baseline",
+                )
+            )
+            values.append("Agent Input" if field_type == "agent_input" else "Benchmark Only")
+            lines.append(f"| {' | '.join(values)} |")
+
+        lines.extend(["", ""])
+
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    WITHOUT_DOMAIN_PER_DISEASE_DOC.write_text("\n".join(lines), encoding="utf-8")
+    return WITHOUT_DOMAIN_PER_DISEASE_DOC
+
+
 def _write_report(summary: dict[str, Any]) -> None:
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
     majority_vote_hits = summary["majority_vote_hits"]
     majority_vote_accuracy = summary["majority_vote_accuracy"]
+    trial_hits = summary["diagnostics"]["trial_hits"]
+    trial_hit_rate = summary["diagnostics"]["trial_hit_rate"]
     baseline_hits = summary["baseline"]["hits"]
     baseline_accuracy = summary["baseline"]["accuracy"]
     cost = summary.get("cost") or {}
@@ -1342,7 +1621,11 @@ def _write_report(summary: dict[str, Any]) -> None:
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
             f"{_format_currency(cost_breakdown.get('output', 0.0))})"
         ),
-        f"- **Overall Recommended Model Accuracy**: {majority_vote_hits}/{total_ontologies} = {_format_percent(majority_vote_accuracy)}",
+        (
+            f"- **Overall Recommended Model Accuracy**: {majority_vote_hits}/{total_ontologies} = "
+            f"{_format_percent(majority_vote_accuracy)}; "
+            f"`trial_hits = {trial_hits}/{total_trials} = {_format_percent(trial_hit_rate)}`"
+        ),
         (
             f"- **Baseline (highest reported AUC in PGS Catalog metadata)**: "
             f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}"
@@ -1433,6 +1716,7 @@ def _collect(batch_id: Optional[str]) -> dict[str, Any]:
     _write_json(RESULTS_JSON, trial_results)
     _write_json(SUMMARY_JSON, summary)
     _write_report(summary)
+    per_disease_doc = _write_without_domain_per_disease_doc(summary)
     archive_dir = _archive_current_outputs(summary=summary)
 
     job_payload = {
@@ -1455,6 +1739,7 @@ def _collect(batch_id: Optional[str]) -> dict[str, Any]:
     print(f"Results: {RESULTS_JSON}")
     print(f"Summary: {SUMMARY_JSON}")
     print(f"Report:  {REPORT_MD}")
+    print(f"Per-disease doc: {per_disease_doc}")
     print(f"Archive: {archive_dir}")
     return summary
 

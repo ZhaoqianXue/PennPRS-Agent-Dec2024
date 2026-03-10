@@ -16,6 +16,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from dotenv import load_dotenv
+import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent.parent
 if str(PROJECT_ROOT) not in sys.path:
@@ -26,8 +27,14 @@ from experiments.contribution2.recommendation.scripts import run_experiment_with
 from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
 
 _ORIGINAL_PREPARE_MANIFEST = without_domain._prepare_manifest
+_ORIGINAL_STEP1_MESSAGES = without_domain._step1_messages
 
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
+DOCS_DIR = Path(__file__).parent.parent / "docs"
+WITH_VS_WITHOUT_PER_DISEASE_DOC = DOCS_DIR / "with_vs_without_domain_per_disease_comparison.md"
+CONTRIB1_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
+CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
+ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
 
 RESULTS_JSON = Path()
 SUMMARY_JSON = Path()
@@ -47,6 +54,29 @@ DEFAULT_WITHOUT_DOMAIN_SUMMARY_JSON = (
 )
 DEFAULT_MODEL = "gpt-5.2"
 DEFAULT_WITHOUT_DOMAIN_BATCH_CALIBRATION_DIR = RECOMMENDATION_RUNS / "without-domain-gpt-5.2-t10"
+
+FIELD_ROWS: list[tuple[str, str]] = [
+    ("Selected PGS ID", "agent_input"),
+    ("AoU benchmark rank", "benchmark_only"),
+    ("AoU benchmark AUC", "benchmark_only"),
+    ("In Target_TopK", "benchmark_only"),
+    ("Selection frequency", "benchmark_only"),
+    ("trait_reported", "agent_input"),
+    ("trait_efo", "agent_input"),
+    ("phenotyping_reported", "agent_input"),
+    ("method_name", "agent_input"),
+    ("performance_metrics.auc", "agent_input"),
+    ("performance_metrics.r2", "agent_input"),
+    ("validation_sample_size", "agent_input"),
+    ("samples_training", "agent_input"),
+    ("ancestry_distribution", "agent_input"),
+    ("training_development_cohorts", "agent_input"),
+    ("publication.title", "agent_input"),
+    ("publication.journal", "agent_input"),
+    ("date_release", "agent_input"),
+    ("variants_number", "agent_input"),
+    ("covariates", "agent_input"),
+]
 
 
 def _sync_paths_from_without_domain() -> None:
@@ -134,7 +164,7 @@ def _step1_context(
     landscape: dict[str, Any],
 ) -> dict[str, Any]:
     query = _domain_query(ontology)
-    domain = prs_model_domain_knowledge(query, max_snippets=5).model_dump()
+    domain = prs_model_domain_knowledge(query, max_snippets=8).model_dump()
     return {
         "target_trait": ontology,
         "direct_models": {
@@ -151,7 +181,7 @@ def _step1_context(
 
 
 def _step1_messages(context_json: str) -> list[dict[str, str]]:
-    return without_domain._step1_messages(context_json)
+    return _ORIGINAL_STEP1_MESSAGES(context_json)
 
 
 def _prepare_manifest(
@@ -191,14 +221,292 @@ def _format_models(items: list[dict[str, Any]]) -> str:
     ) or "-"
 
 
+def _normalize_ontology_key(text: str) -> str:
+    return (text or "").strip().lower()
+
+
+def _load_aou_auc_lookup() -> dict[str, dict[str, float]]:
+    if not without_domain.UNION_CSV.exists():
+        raise FileNotFoundError(f"Union CSV not found: {without_domain.UNION_CSV}")
+    if not CHILDCODE_AUC_MATRIX.exists():
+        raise FileNotFoundError(f"Child-code AUC matrix not found: {CHILDCODE_AUC_MATRIX}")
+    if not ROOTCODE_AUC_MATRIX.exists():
+        raise FileNotFoundError(f"Root-code AUC matrix not found: {ROOTCODE_AUC_MATRIX}")
+
+    union_df = pd.read_csv(without_domain.UNION_CSV)
+    child_matrix = pd.read_csv(CHILDCODE_AUC_MATRIX)
+    root_matrix = pd.read_csv(ROOTCODE_AUC_MATRIX)
+
+    lookup: dict[str, dict[str, float]] = {}
+    child_row_map = child_matrix.set_index("trait")
+    root_row_map = root_matrix.set_index("trait")
+
+    for _, row in union_df.iterrows():
+        ontology = str(row.get("Ontology", "")).strip()
+        icd = str(row.get("ICD", "")).strip()
+        source = str(row.get("Source", "")).strip().lower()
+        if not ontology or not icd:
+            continue
+
+        matrix = child_row_map if source in {"childrencode", "both"} else root_row_map
+        if icd not in matrix.index:
+            continue
+
+        auc_row = matrix.loc[icd]
+        if isinstance(auc_row, pd.DataFrame):
+            auc_row = auc_row.iloc[0]
+
+        ontology_key = _normalize_ontology_key(ontology)
+        per_model: dict[str, float] = {}
+        for column, value in auc_row.items():
+            if column == "trait" or pd.isna(value):
+                continue
+            pgs_id = str(column).replace("_hmPOS_GRCh38", "")
+            try:
+                per_model[pgs_id] = float(value)
+            except (TypeError, ValueError):
+                continue
+        lookup[ontology_key] = per_model
+
+    return lookup
+
+
+def _model_map(row: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return {
+        str(model.get("id")): model
+        for model in (row.get("candidate_models_visible_to_llm") or [])
+        if model.get("id")
+    }
+
+
+def _get_nested_field(model: Optional[dict[str, Any]], field: str) -> Any:
+    if not model:
+        return None
+    if field == "Selected PGS ID":
+        return model.get("id")
+    if "." not in field:
+        return model.get(field)
+    value: Any = model
+    for part in field.split("."):
+        if not isinstance(value, dict):
+            return None
+        value = value.get(part)
+    return value
+
+
+def _collapse_whitespace(text: str) -> str:
+    return " ".join((text or "").split())
+
+
+def _format_doc_value(value: Any, field: str) -> str:
+    if value is None or value == "":
+        return "N/A"
+    if isinstance(value, float):
+        return f"{value:.4f}"
+    if isinstance(value, int):
+        return str(value)
+    if isinstance(value, list):
+        if not value:
+            return "N/A"
+        return _collapse_whitespace(" ".join(str(v) for v in value))
+    if isinstance(value, dict):
+        return _collapse_whitespace(json.dumps(value, sort_keys=True))
+
+    text = str(value)
+    text = text.replace("|", " / ").replace("\n", " ")
+    text = _collapse_whitespace(text)
+    return text or "N/A"
+
+
+def _benchmark_rank_label(selected_id: Optional[str], row: dict[str, Any]) -> str:
+    if not selected_id:
+        return "N/A"
+    ranked_ids = row.get("benchmark_ranked_ids") or []
+    try:
+        rank = ranked_ids.index(selected_id) + 1
+        return f"{rank}/{len(ranked_ids)}"
+    except ValueError:
+        return "N/A"
+
+
+def _benchmark_auc_value(
+    ontology: str,
+    selected_id: Optional[str],
+    auc_lookup: dict[str, dict[str, float]],
+) -> str:
+    if not selected_id:
+        return "N/A"
+    value = auc_lookup.get(_normalize_ontology_key(ontology), {}).get(selected_id)
+    if value is None:
+        return "N/A"
+    return f"{value:.4f}"
+
+
+def _in_target_topk_label(selected_id: Optional[str], row: dict[str, Any]) -> str:
+    if not selected_id:
+        return "N/A"
+    return "Yes" if selected_id in (row.get("target_topk_ids") or []) else "No"
+
+
+def _build_comparison_doc_value(
+    field: str,
+    ontology: str,
+    selected_id: Optional[str],
+    row: dict[str, Any],
+    model_map: dict[str, dict[str, Any]],
+    auc_lookup: dict[str, dict[str, float]],
+    selection_label: str,
+) -> str:
+    if field == "Selected PGS ID":
+        return selected_id or "N/A"
+    if field == "AoU benchmark rank":
+        return _benchmark_rank_label(selected_id, row)
+    if field == "AoU benchmark AUC":
+        return _benchmark_auc_value(ontology, selected_id, auc_lookup)
+    if field == "In Target_TopK":
+        return _in_target_topk_label(selected_id, row)
+    if field == "Selection frequency":
+        return selection_label
+
+    model = model_map.get(selected_id or "")
+    return _format_doc_value(_get_nested_field(model, field), field)
+
+
+def _write_per_disease_comparison_doc(
+    domain_summary: dict[str, Any],
+    without_domain_summary_path: Path,
+) -> Optional[Path]:
+    if not without_domain_summary_path.exists():
+        return None
+
+    without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    auc_lookup = _load_aou_auc_lookup()
+    domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
+    without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
+    per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
+
+    lines = [
+        "# With Domain Knowledge vs Without Domain Knowledge: Per-Disease Comparison",
+        "",
+        "## Scope",
+        "",
+        "This report is a disease-by-disease comparison built from the latest with-domain and without-domain experiment summaries and the underlying AoU benchmark matrices.",
+        "",
+        "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
+        "",
+        "Each disease table includes all models in the benchmark `Target_TopK` set, listed in benchmark order as `Target #1..#K`, followed by the current with-domain, without-domain, and baseline selections.",
+        "",
+        "## High-Level Outcome",
+        "",
+        (
+            f"- With Domain Knowledge: "
+            f"`{domain_summary['majority_vote_hits']}/{domain_summary['total_ontologies']} = {without_domain._format_percent(domain_summary['majority_vote_accuracy'])}`; "
+            f"`trial_hits = {domain_summary['diagnostics']['trial_hits']}/{domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(domain_summary['diagnostics']['trial_hit_rate'])}`"
+        ),
+        (
+            f"- Without Domain Knowledge: "
+            f"`{without_domain_summary['majority_vote_hits']}/{without_domain_summary['total_ontologies']} = {without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}`; "
+            f"`trial_hits = {without_domain_summary['diagnostics']['trial_hits']}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_summary['diagnostics']['trial_hit_rate'])}`"
+        ),
+        f"- Baseline: `{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = {without_domain._format_percent(domain_summary['baseline']['accuracy'])}`",
+        "",
+        "## Per-Disease Tables",
+        "",
+    ]
+
+    for row in per_disease_rows:
+        ontology = row["ontology"]
+        domain_row = domain_rows[ontology]
+        without_row = without_domain_rows[ontology]
+        models = _model_map(domain_row)
+        target_columns = without_domain._target_columns(row)
+        with_id = domain_row.get("modal_recommendation")
+        without_id = without_row.get("modal_recommendation")
+        baseline_id = (domain_row.get("baseline") or {}).get("pgs_id")
+
+        header = ["Field"] + [label for label, _, _ in target_columns] + ["With Domain Knowledge", "Without Domain Knowledge", "Baseline", "Field Type"]
+        separator = ["---"] * len(header)
+
+        lines.extend([
+            f"### {ontology}",
+            "",
+            f"Candidate pool: `{row['n_models']}` models. Benchmark `Target_TopK`: `{row['target_topk']}`.",
+            "",
+            "",
+            f"| {' | '.join(header)} |",
+            f"| {' | '.join(separator)} |",
+        ])
+
+        for field, field_type in FIELD_ROWS:
+            values = [field]
+            for _, target_id, selection_label in target_columns:
+                values.append(
+                    _build_comparison_doc_value(
+                        field=field,
+                        ontology=ontology,
+                        selected_id=target_id,
+                        row=row,
+                        model_map=models,
+                        auc_lookup=auc_lookup,
+                        selection_label=selection_label,
+                    )
+                )
+            values.append(
+                _build_comparison_doc_value(
+                    field=field,
+                    ontology=ontology,
+                    selected_id=with_id,
+                    row=domain_row,
+                    model_map=models,
+                    auc_lookup=auc_lookup,
+                    selection_label=f"{domain_row.get('modal_recommendation_count', 0)}/{domain_summary['trials_per_ontology']} trials",
+                )
+            )
+            values.append(
+                _build_comparison_doc_value(
+                    field=field,
+                    ontology=ontology,
+                    selected_id=without_id,
+                    row=without_row,
+                    model_map=models,
+                    auc_lookup=auc_lookup,
+                    selection_label=f"{without_row.get('modal_recommendation_count', 0)}/{without_domain_summary['trials_per_ontology']} trials",
+                )
+            )
+            values.append(
+                _build_comparison_doc_value(
+                    field=field,
+                    ontology=ontology,
+                    selected_id=baseline_id,
+                    row=domain_row,
+                    model_map=models,
+                    auc_lookup=auc_lookup,
+                    selection_label="Rule-based baseline",
+                )
+            )
+            values.append("Agent Input" if field_type == "agent_input" else "Benchmark Only")
+            lines.append(f"| {' | '.join(values)} |")
+
+        lines.extend(["", ""])
+
+    DOCS_DIR.mkdir(parents=True, exist_ok=True)
+    WITH_VS_WITHOUT_PER_DISEASE_DOC.write_text("\n".join(lines), encoding="utf-8")
+    without_domain._write_without_domain_per_disease_doc(without_domain_summary)
+    return WITH_VS_WITHOUT_PER_DISEASE_DOC
+
+
 def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) -> None:
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
     recommended_hits = summary["majority_vote_hits"]
     recommended_accuracy = summary["majority_vote_accuracy"]
+    trial_hits = summary["diagnostics"]["trial_hits"]
+    trial_hit_rate = summary["diagnostics"]["trial_hit_rate"]
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
     without_domain_hits = without_domain_summary["majority_vote_hits"]
     without_domain_accuracy = without_domain_summary["majority_vote_accuracy"]
+    without_domain_trial_hits = without_domain_summary["diagnostics"]["trial_hits"]
+    without_domain_trial_hit_rate = without_domain_summary["diagnostics"]["trial_hit_rate"]
     cost = summary.get("cost") or {}
     token_usage = cost.get("token_usage") or {}
     cost_breakdown = cost.get("estimated_cost_breakdown_usd") or {}
@@ -223,10 +531,15 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
             f"{without_domain._format_currency(cost_breakdown.get('output', 0.0))})"
         ),
-        f"- **Overall Recommended Model Accuracy**: {recommended_hits}/{total_ontologies} = {without_domain._format_percent(recommended_accuracy)}",
+        (
+            f"- **Overall Recommended Model Accuracy**: {recommended_hits}/{total_ontologies} = "
+            f"{without_domain._format_percent(recommended_accuracy)}; "
+            f"`trial_hits = {trial_hits}/{total_trials} = {without_domain._format_percent(trial_hit_rate)}`"
+        ),
         (
             f"- **Without Domain Knowledge**: "
-            f"{without_domain_hits}/{total_ontologies} = {without_domain._format_percent(without_domain_accuracy)}"
+            f"{without_domain_hits}/{total_ontologies} = {without_domain._format_percent(without_domain_accuracy)}; "
+            f"`trial_hits = {without_domain_trial_hits}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_trial_hit_rate)}`"
         ),
         "",
         "## Experiment Setup",
@@ -278,12 +591,14 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         (
             f"- **With Domain Knowledge**: "
             f"{domain_summary['majority_vote_hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['majority_vote_accuracy'])}"
+            f"{without_domain._format_percent(domain_summary['majority_vote_accuracy'])}; "
+            f"`trial_hits = {domain_summary['diagnostics']['trial_hits']}/{domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(domain_summary['diagnostics']['trial_hit_rate'])}`"
         ),
         (
             f"- **Without Domain Knowledge**: "
             f"{without_domain_summary['majority_vote_hits']}/{without_domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}"
+            f"{without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}; "
+            f"`trial_hits = {without_domain_summary['diagnostics']['trial_hits']}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_summary['diagnostics']['trial_hit_rate'])}`"
         ),
         (
             f"- **Baseline**: "
@@ -363,6 +678,7 @@ def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict
     without_domain._write_json(SUMMARY_JSON, summary)
     _write_report(summary, without_domain_summary_path)
     comparison_path = _write_comparison_report(summary, without_domain_summary_path)
+    per_disease_doc_path = _write_per_disease_comparison_doc(summary, without_domain_summary_path)
     archive_dir = without_domain._archive_current_outputs(summary=summary)
 
     job_payload = {
@@ -389,6 +705,10 @@ def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict
         print(f"Comparison Report: {comparison_path}")
     else:
         print(f"Comparison Report: skipped (without-domain summary not found at {without_domain_summary_path})")
+    if per_disease_doc_path:
+        print(f"Per-disease doc: {per_disease_doc_path}")
+    else:
+        print(f"Per-disease doc: skipped (without-domain summary not found at {without_domain_summary_path})")
     print(f"Archive: {archive_dir}")
     return summary
 
@@ -407,10 +727,15 @@ def _quick_eval(without_domain_summary_path: Path) -> dict[str, Any]:
     without_domain._write_json(SUMMARY_JSON, summary)
     _write_report(summary, without_domain_summary_path)
     comparison_path = _write_comparison_report(summary, without_domain_summary_path)
+    per_disease_doc_path = _write_per_disease_comparison_doc(summary, without_domain_summary_path)
     if comparison_path:
         print(f"Comparison Report: {comparison_path}")
     else:
         print(f"Comparison Report: skipped (without-domain summary not found at {without_domain_summary_path})")
+    if per_disease_doc_path:
+        print(f"Per-disease doc: {per_disease_doc_path}")
+    else:
+        print(f"Per-disease doc: skipped (without-domain summary not found at {without_domain_summary_path})")
     return summary
 
 

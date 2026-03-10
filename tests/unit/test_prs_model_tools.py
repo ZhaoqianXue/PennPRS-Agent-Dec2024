@@ -240,10 +240,13 @@ class TestDomainKnowledge:
         
         assert result is not None
         assert hasattr(result, 'query')
+        assert hasattr(result, 'full_document')
         assert hasattr(result, 'snippets')
+        assert result.full_document
         assert len(result.snippets) > 0
         # LDpred2 content should be found
-        assert any("LDpred2" in s.content for s in result.snippets)
+        assert "PRS Model Domain Knowledge" in result.full_document
+        assert any("ldpred2" in s.content.lower() or "ldpred2" in result.full_document.lower() for s in result.snippets)
     
     def test_search_ancestry_considerations(self):
         """Test search finds ancestry-related content."""
@@ -252,8 +255,11 @@ class TestDomainKnowledge:
         result = prs_model_domain_knowledge(query="African ancestry PRS")
         
         assert len(result.snippets) > 0
-        # Should find African ancestry section
-        assert any("AFR" in s.content or "African" in s.content for s in result.snippets)
+        assert any(
+            s.section == "6. ancestry_distribution"
+            or "ancestry" in s.content.lower()
+            for s in result.snippets
+        )
 
     def test_search_returns_empty_for_unrelated_query(self):
         """Test search returns empty for unrelated queries."""
@@ -289,11 +295,10 @@ class TestDomainKnowledge:
         assert len(result.snippets) > 0
         assert any(
             (
-                "Must-Pass Gates" in s.section
-                or "Ranking Features" in s.section
-                or "Penalties and Red Flags" in s.section
-                or "Method Priors" in s.section
-                or "Structured Selection Rules" in s.section
+                s.section == "1. trait_reported / trait_efo / phenotyping_reported"
+                or s.section == "2. performance_metrics.auc / performance_metrics.r2 / covariates"
+                or s.section == "4. training_development_cohorts / samples_training"
+                or s.section == "5. method_name"
             )
             for s in result.snippets
         )

@@ -69,9 +69,13 @@ class DomainKnowledgeResult(BaseModel):
     """
     Result from prs_model_domain_knowledge tool.
     Implements sop.md L394-428 output specification.
-    Token Budget: ~300 tokens.
+    Full-document injection is allowed for with-domain reasoning.
     """
     query: str
+    full_document: str = Field(
+        default="",
+        description="Full domain knowledge document injected into the agent context"
+    )
     snippets: List[KnowledgeSnippet]
     source_type: str = Field("local", description="'local' or 'web'")
 

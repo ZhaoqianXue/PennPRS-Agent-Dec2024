@@ -255,7 +255,7 @@ def _build_step1_feature_table(models: List[Any], top_n: int = TOP_MODELS_INLINE
 
 
 def _empty_domain_knowledge(query: str, source_type: str = "disabled") -> DomainKnowledgeResult:
-    return DomainKnowledgeResult(query=query, snippets=[], source_type=source_type)
+    return DomainKnowledgeResult(query=query, full_document="", snippets=[], source_type=source_type)
 
 
 def _extract_step1_rationale_features(rationale: str) -> List[str]:

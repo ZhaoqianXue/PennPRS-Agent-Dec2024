@@ -7,7 +7,7 @@
 - **Total trials**: 300
 - **Model**: gpt-5.2
 - **Estimated API cost**: $1.0176 (uncached input 613,194 tokens = $0.5365; cached input 36,992 tokens = $0.0032; output 68,256 tokens = $0.4778)
-- **Overall Recommended Model Accuracy**: 19/30 = 63.33%
+- **Overall Recommended Model Accuracy**: 19/30 = 63.33%; `trial_hits = 190/300 = 63.33%`
 - **Baseline (highest reported AUC in PGS Catalog metadata)**: 11/30 = 36.67%
 
 ## Experiment Setup

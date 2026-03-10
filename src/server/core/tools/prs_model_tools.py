@@ -773,14 +773,15 @@ KNOWLEDGE_BASE_PATH = os.path.join(
 def prs_model_domain_knowledge(
     query: str,
     knowledge_file: Optional[str] = None,
-    max_snippets: int = 5
+    max_snippets: int = 8
 ):
     """
     Search domain knowledge for PRS model selection guidance.
     
     Implements sop.md L394-428 specification.
     Currently uses local file retrieval; will upgrade to web search.
-    Token Budget: ~300 tokens.
+    Returns the full knowledge document for agent injection plus
+    relevance-ranked section snippets for inspection/debugging.
     
     Args:
         query: Search query (e.g., "LDpred2 best for", "ancestry considerations")
@@ -801,6 +802,7 @@ def prs_model_domain_knowledge(
     except FileNotFoundError:
         return DomainKnowledgeResult(
             query=query,
+            full_document="",
             snippets=[],
             source_type="local"
         )
@@ -867,6 +869,7 @@ def prs_model_domain_knowledge(
     
     return DomainKnowledgeResult(
         query=query,
+        full_document=content.strip(),
         snippets=snippets,
         source_type="local"
     )

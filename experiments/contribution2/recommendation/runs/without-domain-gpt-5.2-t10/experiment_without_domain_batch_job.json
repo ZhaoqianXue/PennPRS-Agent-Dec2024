@@ -28,8 +28,8 @@
     "finalizing_at": 1773111610,
     "in_progress_at": 1773111426,
     "metadata": {
-      "experiment": "contribution2_without_domain",
-      "manifest_file": "experiment_without_domain_batch_manifest.json"
+      "experiment": "contribution2_native_gpt",
+      "manifest_file": "experiment_native_gpt_batch_manifest.json"
     },
     "model": "gpt-5.2-2025-12-11",
     "output_file_id": "file-L6y27WVgSy43TEUF18Tx9u",

@@ -4,7 +4,7 @@
   "strict_llm_only": true,
   "cross_disease_enabled": false,
   "batch_mode": true,
-  "run_tag": "step1-prompt-v4-20260310",
+  "run_tag": null,
   "model": "gpt-5.2",
   "total_ontologies": 30,
   "trials_per_ontology": 10,
