@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "preeclampsia",
   "candidate_model_ids": [
     "PGS003586",
@@ -15,7 +15,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1087033,
       "ancestry_distribution": "GWAS: AFR (30%), AMR (50%), ASN (21%), EUR (78%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Polygenic prediction of preeclampsia and gestational hypertension.",
+      "publication": {
+        "title": "Polygenic prediction of preeclampsia and gestational hypertension.",
+        "journal": "Nat Med"
+      },
       "date_release": "2023-06-22",
       "samples_training": "n=212,034",
       "performance_metrics": {
@@ -24,7 +27,6 @@
       },
       "phenotyping_reported": "Pre-eclampsia/eclampsia",
       "covariates": "maternal age at delivery, age2, and the first ten principal components of genetic ancestry",
-      "sampleset": "PSS010956",
       "training_development_cohorts": [
         "BBJ",
         "BioMe",
@@ -36,8 +38,6 @@
         "MGI",
         "UKB"
       ],
-      "variants_genomebuild": "hg37",
-      "samples_variants": "n=468,391",
       "validation_sample_size": "n=25,582"
     },
     {
@@ -47,7 +47,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1087916,
       "ancestry_distribution": "GWAS: AFR (70%), AMR (1%), ASN (7%), EUR (91%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Polygenic prediction of preeclampsia and gestational hypertension.",
+      "publication": {
+        "title": "Polygenic prediction of preeclampsia and gestational hypertension.",
+        "journal": "Nat Med"
+      },
       "date_release": "2023-06-22",
       "samples_training": "n=212,034",
       "performance_metrics": {
@@ -56,7 +59,6 @@
       },
       "phenotyping_reported": "Pre-eclampsia/eclampsia",
       "covariates": "maternal age at delivery, age2, and the first ten principal components of genetic ancestry",
-      "sampleset": "PSS010956",
       "training_development_cohorts": [
         "BBJ",
         "BioMe",
@@ -66,8 +68,6 @@
         "MGBB",
         "UKB"
       ],
-      "variants_genomebuild": "hg37",
-      "samples_variants": "n=193,886",
       "validation_sample_size": "n=25,582"
     },
     {
@@ -77,7 +77,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1102059,
       "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
-      "publication": "Associations of polygenic risk scores for preeclampsia and blood pressure with hypertensive disorders of pregnancy.",
+      "publication": {
+        "title": "Associations of polygenic risk scores for preeclampsia and blood pressure with hypertensive disorders of pregnancy.",
+        "journal": "J Hypertens"
+      },
       "date_release": "2024-01-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -86,10 +89,7 @@
       },
       "phenotyping_reported": "Gestational hypertension",
       "covariates": "Collection year, genotyping batch, and the first 10 genetic principal components",
-      "sampleset": "PSS011387",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=159,029",
       "validation_sample_size": "n=138,317"
     }
   ],

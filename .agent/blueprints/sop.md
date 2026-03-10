@@ -42,7 +42,7 @@ This paper makes the following contributions:
     - **Nature**: Data engineering and computational evaluation. This contribution is independent of the AI Agent and serves as the **gold-standard ground truth** for validating C2 and C3.
 - **C2: LLM-Based PRS Model Selection** (Core Project Value = Step 1)
     - **Claim**: PennPRS Agent, powered by GPT-5.2 with domain-specific tool calling, can select the best-performing PRS model from the full pool of PGS Catalog candidates, matching or exceeding naive selection baselines.
-    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame (Clinical Consensus + Performance Landscape), and outputs a ranked recommendation. We add a controlled Step 1 ablation switch to disable `prs_model_domain_knowledge` and produce structured artifacts for feature attribution analysis.
+    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame from evidence explicitly present in context, and outputs a ranked recommendation. `prs_model_performance_landscape` is always provided; `prs_model_domain_knowledge` is injected as optional additional evidence. Contribution2 uses a controlled Step 1 ablation that keeps the Step 1 prompt fixed and toggles only whether `prs_model_domain_knowledge` is present in context, while logging structured artifacts for feature attribution analysis.
     - **Validation**: C1's Performance Matrix serves as ground truth. We evaluate both default and ablation settings against the benchmark-optimal model for each disease, and quantify agreement/feature shifts.
 - **C3: LLM-Based Local Graph for Cross-Disease Model Transfer** (Methodological Innovation = Step 2a)
     - **Claim**: For diseases without existing PRS models, PennPRS Agent leverages an LLM-based local knowledge graph to discover genetically related diseases and recommend their PRS models as effective substitutes.
@@ -161,16 +161,17 @@ Step 1: Direct Match Assessment
            │
            ├──[No models found]──► Proceed to Step 2a
            ▼
-    prs_model_domain_knowledge(query)          ──┐
-    prs_model_performance_landscape(candidates) ──┤
+    prs_model_performance_landscape(candidates) ──┐
+    prs_model_domain_knowledge(query) [optional] ─┤
            │                                       │
            ▼                                       │
     ┌─────────────────────────────────────────────────────────────────┐
     │              LLM QUALITY EVALUATION (Evaluation Reference Frame)│
     │                                                                  │
     │  Agent combines:                                                 │
-    │    - Clinical Consensus (from domain_knowledge)                  │
-    │    - Market Statistics (from performance_landscape)               │
+    │    - Candidate metadata (always)                                 │
+    │    - Market Statistics (from performance_landscape)              │
+    │    - Clinical Consensus (from domain_knowledge, if available)    │
     │                                                                  │
     │         ├──[HIGH_QUALITY]──► Generate Report (Direct)            │
     │         │                    + Offer "Train New Model" option     │
@@ -316,7 +317,7 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
 
 - **Reasoning & Persona (System Prompt)**: The cognitive core of the agent, implemented as a structured system prompt that:
     - **Encodes the Sequential Workflow**: Instructs the LLM to navigate Step 1 (Direct Match Assessment) → Step 2 (Augmented Recommendation) decision logic autonomously.
-    - **Constructs the Evaluation Reference Frame**: Dynamically assembles scientific standards using `prs_model_domain_knowledge` (Clinical Consensus) and `prs_model_performance_landscape` (Market Statistics) to guide quality judgments.
+    - **Constructs the Evaluation Reference Frame**: Uses evidence explicitly present in context. Candidate metadata and `prs_model_performance_landscape` are always available; `prs_model_domain_knowledge` is incorporated only when injected as optional additional evidence.
     - **Maintains Co-Scientist Persona**: Ensures all responses are reasoned, evidence-backed, and reflect the specialized scientific partner voice.
     - **Manages Attention via Recitation**: Uses structured scratchpad/todo tracking to push critical objectives into the LLM's recent attention span.
 
@@ -355,7 +356,7 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
     - **Module 4: System Prompt**
         - **Persona Definition**: Define the Co-scientist Expert voice, tone, response patterns, and boundaries (what it will/won't do).
         - **Plan-and-Solve Decision Logic**: Develop the **gpt-5.2** prompt encoding the Sequential Workflow (L27-35) as structured decision steps with explicit transition conditions.
-        - **Evaluation Reference Frame Construction**: Specify how the agent combines outputs from `prs_model_domain_knowledge` and `prs_model_performance_landscape` to form quality judgment criteria.
+        - **Evaluation Reference Frame Construction**: Specify how the agent reasons from evidence explicitly present in context, with `prs_model_domain_knowledge` treated as optional additional evidence rather than a separate prompt policy.
         - **Tool Orchestration Protocol**: Define the logical flow for selecting and chaining tools. Specifically, guide the agent to use `genetic_graph_validate_mechanism` as a biological validator for traits discovered via `genetic_graph_get_neighbors`.
         - **Human-in-the-Loop Integration**: Define how the agent provides the "Train New Model" option at the end of every recommendation report, waiting for user interaction before calling `pennprs_train_model`.
         - **Scratchpad/State Format**: Define the `todo.md` style internal state tracking format for workflow progress. *(Manus: Manipulate Attention Through Recitation)*
@@ -406,14 +407,14 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 
 #### Agent Context Injection
 
-The structured metadata fields above provide the foundational evidence for evaluation. The agent utilizes **JIT Context Loading** to dynamically construct a **Scientific Reasoning Context**—transforming lightweight model references into a rigorous evaluation frame by fetching clinical benchmarks, performance landscapes, and expert consensus to guide scientific judgment.
+The structured metadata fields above provide the foundational evidence for evaluation. The agent utilizes **JIT Context Loading** to dynamically construct a **Scientific Reasoning Context**—transforming lightweight model references into a rigorous evaluation frame by fetching candidate metadata, performance landscapes, and optional domain knowledge to guide scientific judgment.
 
 **Target Classification**: The `[Agent + UI]` fields in the table above are serialized into the LLM context for scientific reasoning, whereas `[UI Only]` fields are passed exclusively to the frontend for comprehensive model detail presentation to minimize agent context noise.
 
 **Combined Results Workflow**:
 1. `prs_model_pgscatalog_search` returns only fields with Target `[Agent + UI]`; `[UI Only]` metadata such as `variants_genomebuild`, `samples_variants`, `publication.doi`, and `sampleset` is excluded from agent/LLM context.
 2. **No AUC/R² pre-filtering**: All models from retrieval are included (aligned with C1 for consistency).
-3. **Combined context injection**: The filtered search results, `prs_model_domain_knowledge` results, and `prs_model_performance_landscape` results are returned to the LLM **simultaneously**.
+3. **Combined context injection**: The filtered search results and `prs_model_performance_landscape` results are always returned to the LLM. `prs_model_domain_knowledge` is injected simultaneously only when enabled for that run.
 4. **LLM Decision**: The Agent makes a determination of **High-Quality Match / Sub-optimal Match / No Match**.
 
 **Open Question**: For different Traits, should we implement different filtering standards, or trust that the LLM has this capability? (To be determined during implementation.)
@@ -421,7 +422,7 @@ The structured metadata fields above provide the foundational evidence for evalu
 **Pain Point (Trait/Disease-Conditioned Thresholding)**:
 - Empirically, **the AUC gain curve is highly disease-specific**: different diseases exhibit dramatically different AUC improvements as GWAS sample size increases (and similarly for other variables such as `variants_number`, PRS method, and ancestry composition).
 - Example evidence: see Fig. 3 in [Wang et al., 2020, *Nature Communications*](https://www.nature.com/articles/s41467-020-16483-3), where the projected AUC-vs-sample-size trajectories differ substantially across cancer types (different slopes, saturation points, and apparent ceilings).
-- Implication for the Agent: **a single global heuristic threshold (e.g., fixed AUC cutoff or fixed N cutoff) is brittle** and may over-filter valid models for some diseases while under-filtering for others. The evaluation reference frame must allow **disease-conditioned interpretation** using `prs_model_domain_knowledge` (clinical consensus / review context) + `prs_model_performance_landscape` (global statistics), rather than hard-coded universal cutoffs.
+- Implication for the Agent: **a single global heuristic threshold (e.g., fixed AUC cutoff or fixed N cutoff) is brittle** and may over-filter valid models for some diseases while under-filtering for others. The evaluation reference frame must allow **disease-conditioned interpretation** using `prs_model_performance_landscape` plus any additional evidence explicitly present in context, including `prs_model_domain_knowledge` when enabled, rather than hard-coded universal cutoffs.
 
 #### Implementation Status
 
@@ -923,9 +924,10 @@ Instead of hard-coded heuristic tiers, we leverage the **Large Language Model** 
 
 - **Mechanism**: The Agent receives structured metadata (`[Agent + UI]` fields from Module 1) in its context window.
 - **Evaluation Reference Frame**: The Agent constructs a scientific judgment framework using:
-    1. **Clinical Consensus** via `prs_model_domain_knowledge`: What do guidelines say about acceptable performance thresholds?
+    1. **Candidate metadata + validation evidence** from `prs_model_pgscatalog_search`: What does the model explicitly report about phenotype alignment, performance, ancestry, method, and study design?
     2. **Market Statistics** via `prs_model_performance_landscape`: How does this model compare to the distribution of all available models?
-- **Evolution Note**: Initial metadata-based judgments may be limited. Subsequent **Tool-Driven JIT Context Loading** (e.g., autonomously invoking `prs_model_domain_knowledge` with refined queries for deeper clinical context) enables the **Co-scientist Expert Scrutiny** phase for Step 1 decisions.
+    3. **Optional Clinical Consensus** via `prs_model_domain_knowledge`: When provided, what additional endpoint-integrity, transportability, or disease-specific cautions should be applied?
+- **Evolution Note**: Initial metadata-based judgments may be limited. Optional **Tool-Driven JIT Context Loading** through `prs_model_domain_knowledge` enables the **Co-scientist Expert Scrutiny** phase for Step 1 decisions without changing the core Step 1 prompt.
 
 #### Sequential Workflow Encoding
 
@@ -934,8 +936,9 @@ The prompt must encode the following decision logic from the Objective section (
 ```
 STEP 1: DIRECT MATCH ASSESSMENT
 1. Call prs_model_pgscatalog_search directly with target_trait (no synonym expansion needed)
-2. Evaluate models using prs_model_domain_knowledge and prs_model_performance_landscape
-3. For Contribution2 analysis, support a controlled ablation mode where `prs_model_domain_knowledge` is disabled and Step 1 decisions are logged as structured artifacts.
+2. Evaluate models using candidate metadata and prs_model_performance_landscape
+3. If enabled for the run, inject prs_model_domain_knowledge as additional Step 1 evidence
+4. For Contribution2 analysis, support a controlled ablation mode where the Step 1 prompt stays fixed and only the presence/absence of `prs_model_domain_knowledge` in context is toggled; log Step 1 decisions as structured artifacts.
 IF direct_models_exist AND quality >= HIGH_THRESHOLD:
     OUTCOME: DIRECT_HIGH_QUALITY
 ELIF direct_models_exist AND quality < HIGH_THRESHOLD:
@@ -1121,7 +1124,7 @@ The report structure varies by `recommendation_type`. Note that the "Train New M
     - **Centralized Prompts**: System prompts consolidated in `src/server/core/system_prompts.py`.
     - **Persona Definition**: Co-scientist voice/tone guidelines and boundary specifications.
     - **Plan-and-Solve Prompt Structure**: Layered prompt architecture with workflow encoding (Step 1 + Report prompts).
-    - **Evaluation Reference Frame Logic**: Explicit instructions to combine clinical consensus and performance landscape.
+    - **Evaluation Reference Frame Logic**: Explicit instructions to use evidence present in context, with `prs_model_domain_knowledge` treated as optional additional evidence rather than a separate prompt policy.
     - **Scratchpad Format**: File-backed `todo.md` recitation via `src/server/core/recitation_todo.py` + `src/server/modules/disease/recommendation_agent.py`.
     - **File System as Context**: Deterministic artifact externalization via `src/server/core/agent_artifacts.py` + `output/agent_artifacts/`.
     - **Output Report Schema**: JSON template for final recommendations.

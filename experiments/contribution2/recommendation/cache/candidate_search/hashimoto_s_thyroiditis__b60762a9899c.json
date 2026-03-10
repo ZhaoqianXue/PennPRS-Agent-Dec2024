@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "hashimoto's thyroiditis",
   "candidate_model_ids": [
     "PGS005272",
@@ -15,7 +15,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 55,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -24,7 +27,6 @@
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BBJ",
@@ -39,8 +41,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     },
     {
@@ -50,7 +50,10 @@
       "method_name": "PRSCS",
       "variants_number": 1085156,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -59,7 +62,6 @@
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BBJ",
@@ -75,8 +77,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     },
     {
@@ -86,7 +86,10 @@
       "method_name": "PRSCS",
       "variants_number": 1085142,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -95,7 +98,6 @@
       },
       "phenotyping_reported": "lymphocytic thyroiditis",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BioMe",
@@ -109,8 +111,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     }
   ],
@@ -119,8 +119,6 @@
     "reported_auc": 0.6387,
     "trait_reported": "Lymphocytic thyroiditis",
     "method_name": "Pruning and Thresholding (P+T)",
-    "validation_sample_size": "n=94,651",
-    "rank": 3,
-    "rank_label": "3/3"
+    "validation_sample_size": "n=94,651"
   }
 }

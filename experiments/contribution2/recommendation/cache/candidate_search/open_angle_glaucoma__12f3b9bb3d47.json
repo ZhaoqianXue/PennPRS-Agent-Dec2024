@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "open-angle glaucoma",
   "candidate_model_ids": [
     "PGS000764",
@@ -17,7 +17,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 12,
       "ancestry_distribution": "GWAS: EUR (94%), MAO (6%) | EVAL: EUR (100%)",
-      "publication": "Association of a Primary Open-Angle Glaucoma Genetic Risk Score With Earlier Age at Diagnosis.",
+      "publication": {
+        "title": "Association of a Primary Open-Angle Glaucoma Genetic Risk Score With Earlier Age at Diagnosis.",
+        "journal": "JAMA Ophthalmol"
+      },
       "date_release": "2020-12-08",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -26,7 +29,6 @@
       },
       "phenotyping_reported": "Primary open-angle glaucoma",
       "covariates": "sex,  DNA source, population structure",
-      "sampleset": "PSS000512",
       "training_development_cohorts": [
         "ALIENOR",
         "ANZRAG",
@@ -58,8 +60,6 @@
         "WGHS",
         "deCODE"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=122,995",
       "validation_sample_size": "n=6,538"
     },
     {
@@ -69,7 +69,10 @@
       "method_name": "SNPs associated with primary-open angle glaucoma were selected from the GWAS Catalog",
       "variants_number": 23,
       "ancestry_distribution": "GWAS: MAE (100%) | EVAL: MAO (100%)",
-      "publication": "The Role of Genetic Ancestry as a Risk Factor for Primary Open-angle Glaucoma in African Americans.",
+      "publication": {
+        "title": "The Role of Genetic Ancestry as a Risk Factor for Primary Open-angle Glaucoma in African Americans.",
+        "journal": "Invest Ophthalmol Vis Sci"
+      },
       "date_release": "2021-04-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -78,10 +81,7 @@
       },
       "phenotyping_reported": "Primary-open angle glaucoma",
       "covariates": "Age, ancestry (q0), gender",
-      "sampleset": "PSS000977",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=3,830"
     },
     {
@@ -91,7 +91,10 @@
       "method_name": "PRS-CS-auto",
       "variants_number": 885417,
       "ancestry_distribution": "GWAS: AFR (2%), ASN (60%), EAS (18%), EUR (79%), OTH (60%) | EVAL: EUR (100%)",
-      "publication": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
       "date_release": "2022-09-08",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -100,7 +103,6 @@
       },
       "phenotyping_reported": "Primary open-angle glaucoma",
       "covariates": "sex,age, 20PCs",
-      "sampleset": "PSS007695",
       "training_development_cohorts": [
         "BBJ",
         "BioMe",
@@ -115,8 +117,6 @@
         "UCLA",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=1,487,447",
       "validation_sample_size": "n=7,128"
     },
     {
@@ -126,7 +126,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 127,
       "ancestry_distribution": "GWAS: AFR (2%), EAS (12%), EUR (86%) | EVAL: AFR (50%), EUR (50%)",
-      "publication": "Glaucoma genetic risk scores in the Million Veteran Program.",
+      "publication": {
+        "title": "Glaucoma genetic risk scores in the Million Veteran Program.",
+        "journal": "Ophthalmology"
+      },
       "date_release": "2022-08-03",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -135,10 +138,7 @@
       },
       "phenotyping_reported": "Primary open-angle glaucoma",
       "covariates": "Age, sex, and 10 sample-specific PCs",
-      "sampleset": "PSS009920",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=383,500",
       "validation_sample_size": "n=3,382"
     },
     {
@@ -148,7 +148,10 @@
       "method_name": "Lassosum",
       "variants_number": 144019,
       "ancestry_distribution": "GWAS: AFR (2%), EAS (12%), EUR (86%) | EVAL: MAE (100%)",
-      "publication": "Deep Ocular Phenotyping Across Primary Open-Angle Glaucoma Genetic Burden.",
+      "publication": {
+        "title": "Deep Ocular Phenotyping Across Primary Open-Angle Glaucoma Genetic Burden.",
+        "journal": "JAMA Ophthalmol"
+      },
       "date_release": "2024-08-29",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -157,10 +160,7 @@
       },
       "phenotyping_reported": "Primary open-angle glaucoma (self-reported)",
       "covariates": "Age, age2, sex, ancestry",
-      "sampleset": "PSS011776",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=383,500",
       "validation_sample_size": "n=407,667"
     }
   ],
@@ -169,8 +169,6 @@
     "reported_auc": 0.749,
     "trait_reported": "Primary open-angle glaucoma",
     "method_name": "PRS-CS-auto",
-    "validation_sample_size": "n=7,128",
-    "rank": 2,
-    "rank_label": "2/5"
+    "validation_sample_size": "n=7,128"
   }
 }

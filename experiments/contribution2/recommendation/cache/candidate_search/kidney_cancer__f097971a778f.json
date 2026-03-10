@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "kidney cancer",
   "candidate_model_ids": [
     "PGS003744",
@@ -22,7 +22,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 19,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -31,7 +34,6 @@
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, sex, 10 PCs.",
-      "sampleset": "PSS000115",
       "training_development_cohorts": [
         "AHS",
         "ASHRAM",
@@ -64,8 +66,6 @@
         "WTCCC",
         "conFIRM"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=42,061",
       "validation_sample_size": "n=411,695"
     },
     {
@@ -75,7 +75,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 10,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+      "publication": {
+        "title": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+        "journal": "Cancer Med"
+      },
       "date_release": "2020-04-29",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -84,7 +87,6 @@
       },
       "phenotyping_reported": "Renal cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS000281",
       "training_development_cohorts": [
         "AHS",
         "ASHRAM",
@@ -119,8 +121,6 @@
         "WTCCC",
         "conFIRM"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=67,529",
       "validation_sample_size": "n=13,880"
     },
     {
@@ -130,7 +130,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 12,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,539",
       "performance_metrics": {
@@ -139,12 +142,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of kidney, except pelvis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000575",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=33,826",
       "validation_sample_size": "n=5,818"
     },
     {
@@ -154,7 +154,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 12,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,539",
       "performance_metrics": {
@@ -163,12 +166,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of kidney, except pelvis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000575",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=33,826",
       "validation_sample_size": "n=5,818"
     },
     {
@@ -178,7 +178,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 15,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+      "publication": {
+        "title": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+        "journal": "JNCI Cancer Spectr"
+      },
       "date_release": "2021-02-03",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -187,7 +190,6 @@
       },
       "phenotyping_reported": "Incident kidney cancer",
       "covariates": "Genotyping array",
-      "sampleset": "PSS000856",
       "training_development_cohorts": [
         "AHS",
         "ASHRAM",
@@ -227,8 +229,6 @@
         "conFIRM",
         "deCODE"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=142,756",
       "validation_sample_size": "n=400,812"
     },
     {
@@ -238,7 +238,10 @@
       "method_name": "19 variants from Graff et al (PGS000076) with inverse variant weights",
       "variants_number": 19,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -247,7 +250,6 @@
       },
       "phenotyping_reported": "Incident kidney cancer",
       "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), body mass index, smoking status (never vs. former vs. current), cigarette pack-years, ever diagnosed with hypertension",
-      "sampleset": "PSS001015",
       "training_development_cohorts": [
         "AHS",
         "ASHRAM",
@@ -280,8 +282,6 @@
         "WTCCC",
         "conFIRM"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=42,061",
       "validation_sample_size": "n=391,610"
     },
     {
@@ -291,7 +291,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 14,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+      "publication": {
+        "title": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+        "journal": "EBioMedicine"
+      },
       "date_release": "2023-06-01",
       "samples_training": "n=649",
       "performance_metrics": {
@@ -300,12 +303,9 @@
       },
       "phenotyping_reported": "Renal cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS010994",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=31,190",
       "validation_sample_size": "n=692"
     },
     {
@@ -315,7 +315,10 @@
       "method_name": "PRSice-2",
       "variants_number": 12,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
       "date_release": "2023-12-15",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -324,10 +327,7 @@
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "first 10 genetic principal components",
-      "sampleset": "PSS011328",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=31,190",
       "validation_sample_size": "n=133,830"
     },
     {
@@ -337,7 +337,10 @@
       "method_name": "AnnoPred",
       "variants_number": 6351669,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+      "publication": {
+        "title": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+        "journal": "JNCI Cancer Spectr"
+      },
       "date_release": "2024-03-18",
       "samples_training": "n=367,502",
       "performance_metrics": {
@@ -346,13 +349,10 @@
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS011434",
       "training_development_cohorts": [
         "FinnGen",
         "UKB"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=309,154",
       "validation_sample_size": "n=40,841"
     },
     {
@@ -362,7 +362,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 107,
       "ancestry_distribution": "GWAS: AFR (70%), AMR (70%), EAS (16%), EUR (82%) | EVAL: EUR (100%)",
-      "publication": "Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions.",
+      "publication": {
+        "title": "Multi-ancestry genome-wide association study of kidney cancer identifies 63 susceptibility regions.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2024-05-22",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -371,14 +374,11 @@
       },
       "phenotyping_reported": "Kidney cancer",
       "covariates": "Age, sex, PCs, BMI, smoking, hypertension",
-      "sampleset": "PSS011702",
       "training_development_cohorts": [
         "BBJ",
         "FinnGen",
         "NCI"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=539,885",
       "validation_sample_size": "n=324,805"
     }
   ],
@@ -387,8 +387,6 @@
     "reported_auc": 0.74,
     "trait_reported": "Kidney cancer",
     "method_name": "Genome-wide significant SNPs",
-    "validation_sample_size": "n=324,805",
-    "rank": 1,
-    "rank_label": "1/10"
+    "validation_sample_size": "n=324,805"
   }
 }

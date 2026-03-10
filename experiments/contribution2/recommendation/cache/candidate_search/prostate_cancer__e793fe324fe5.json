@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "prostate cancer",
   "candidate_model_ids": [
     "PGS000592",
@@ -98,7 +98,7 @@
     "PGS004109",
     "PGS000580"
   ],
-  "total_found": 95,
+  "total_found": 96,
   "candidate_models": [
     {
       "id": "PGS000030",
@@ -107,7 +107,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 147,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (10%), AFR (10%), EUR (70%), MAE (10%)",
-      "publication": "Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci.",
+      "publication": {
+        "title": "Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2019-10-14",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -116,10 +119,7 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Top 7 Genetic PCs, country",
-      "sampleset": "PSS000041",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=81,094"
     },
     {
@@ -129,7 +129,10 @@
       "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
       "variants_number": 66,
       "ancestry_distribution": "GWAS: EAS (5%), EUR (95%) | EVAL: EUR (100%)",
-      "publication": "Reducing overdiagnosis by polygenic risk-stratified screening: findings from the Finnish section of the ERSPC.",
+      "publication": {
+        "title": "Reducing overdiagnosis by polygenic risk-stratified screening: findings from the Finnish section of the ERSPC.",
+        "journal": "Br J Cancer"
+      },
       "date_release": "2019-12-18",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -138,7 +141,6 @@
       },
       "phenotyping_reported": "Elevated serum prostate-specific antigen (PSA) levels",
       "covariates": "cancer stage, Gleason score",
-      "sampleset": "PSS000068",
       "training_development_cohorts": [
         "ICR",
         "IGD",
@@ -147,8 +149,6 @@
         "UKGPCS",
         "deCODE"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=153,371",
       "validation_sample_size": "n=17,012"
     },
     {
@@ -158,7 +158,10 @@
       "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
       "variants_number": 103,
       "ancestry_distribution": "GWAS: AFR (12%), AMR (2%), EAS (8%), EUR (78%) | EVAL: EUR (100%)",
-      "publication": "Prediction of Breast and Prostate Cancer Risks in Male BRCA1 and BRCA2 Mutation Carriers Using Polygenic Risk Scores.",
+      "publication": {
+        "title": "Prediction of Breast and Prostate Cancer Risks in Male BRCA1 and BRCA2 Mutation Carriers Using Polygenic Risk Scores.",
+        "journal": "J Clin Oncol"
+      },
       "date_release": "2019-12-18",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -167,10 +170,7 @@
       },
       "phenotyping_reported": "Prostate cancer in male carriers of BRCA1/2 mutations",
       "covariates": "3 PCs of ancestry, age at breast or prostate cancer for patient-cases and age at interview for controls, mutation status of BRCA1 or BRCA2",
-      "sampleset": "PSS000075",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=87,040",
       "validation_sample_size": "n=3,325"
     },
     {
@@ -180,7 +180,10 @@
       "method_name": "Polygenic Hazard Score",
       "variants_number": 54,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), ASN (10%), EUR (50%), MAE (20%)",
-      "publication": "Polygenic hazard score to guide screening for aggressive prostate cancer: development and validation in large scale cohorts.",
+      "publication": {
+        "title": "Polygenic hazard score to guide screening for aggressive prostate cancer: development and validation in large scale cohorts.",
+        "journal": "BMJ"
+      },
       "date_release": "2020-02-12",
       "samples_training": "n=31,747",
       "performance_metrics": {
@@ -189,10 +192,7 @@
       },
       "phenotyping_reported": "aggressive prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS000105",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=56,994"
     },
     {
@@ -202,7 +202,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 161,
       "ancestry_distribution": "GWAS: NR (10%), AFR (3%), AMR (1%), EAS (2%), EUR (93%) | EVAL: EUR (100%)",
-      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -211,7 +214,6 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs.",
-      "sampleset": "PSS000123",
       "training_development_cohorts": [
         "BCFR",
         "BFBOCC",
@@ -261,8 +263,6 @@
         "dbGAP",
         "kConFab"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=449,626",
       "validation_sample_size": "n=201,516"
     },
     {
@@ -272,7 +272,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 79,
       "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (3%), EUR (92%) | EVAL: EUR (100%)",
-      "publication": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+      "publication": {
+        "title": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+        "journal": "Cancer Med"
+      },
       "date_release": "2020-04-29",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -281,7 +284,6 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS000280",
       "training_development_cohorts": [
         "BCFR",
         "BFBOCC",
@@ -328,8 +330,6 @@
         "deCODE",
         "kConFab"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=337,424",
       "validation_sample_size": "n=6,828"
     },
     {
@@ -339,7 +339,10 @@
       "method_name": "LDpred",
       "variants_number": 6606785,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), MAE (33%)",
-      "publication": "Polygenic and clinical risk scores and their impact on age at onset and prediction of cardiometabolic diseases and common cancers.",
+      "publication": {
+        "title": "Polygenic and clinical risk scores and their impact on age at onset and prediction of cardiometabolic diseases and common cancers.",
+        "journal": "Nat Med"
+      },
       "date_release": "2020-09-18",
       "samples_training": "n=21,813",
       "performance_metrics": {
@@ -348,12 +351,9 @@
       },
       "phenotyping_reported": "Prostate cancer (incident and prevalent cases)",
       "covariates": "genotyping array/batch, 10 ancestry PCs",
-      "sampleset": "PSS000446",
       "training_development_cohorts": [
         "FINRISK"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=91,106"
     },
     {
@@ -363,7 +363,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 21,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -372,12 +375,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -387,7 +387,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1111494,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -396,12 +399,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -411,7 +411,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 78,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -420,12 +423,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -435,7 +435,10 @@
       "method_name": "lassosum",
       "variants_number": 1401,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -444,12 +447,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -459,7 +459,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 49,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -468,12 +471,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -483,7 +483,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1111493,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -492,12 +495,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -507,7 +507,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 100,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -516,12 +519,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -531,7 +531,10 @@
       "method_name": "lassosum",
       "variants_number": 1809,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -540,12 +543,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -555,7 +555,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 31,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -564,12 +567,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -579,7 +579,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1111493,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -588,12 +591,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -603,7 +603,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 47,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -612,12 +615,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -627,7 +627,10 @@
       "method_name": "lassosum",
       "variants_number": 905,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -636,12 +639,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -651,7 +651,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 117,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -660,12 +663,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=644,688",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -675,7 +675,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 117,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=32,122",
       "performance_metrics": {
@@ -684,12 +687,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000573",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=644,688",
       "validation_sample_size": "n=32,664"
     },
     {
@@ -699,7 +699,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 122,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -708,12 +711,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=644,688",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -723,7 +723,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 118,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=32,122",
       "performance_metrics": {
@@ -732,12 +735,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000573",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=644,688",
       "validation_sample_size": "n=32,664"
     },
     {
@@ -747,7 +747,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 377,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -756,12 +759,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -771,7 +771,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 377,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=32,122",
       "performance_metrics": {
@@ -780,12 +783,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000573",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=32,664"
     },
     {
@@ -795,7 +795,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1119311,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -804,12 +807,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -819,7 +819,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1120596,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=32,122",
       "performance_metrics": {
@@ -828,12 +831,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000573",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=32,664"
     },
     {
@@ -843,7 +843,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 1301,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -852,12 +855,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -867,7 +867,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 1023,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=32,122",
       "performance_metrics": {
@@ -876,12 +879,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000573",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=32,664"
     },
     {
@@ -891,7 +891,10 @@
       "method_name": "lassosum",
       "variants_number": 26418,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -900,12 +903,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -915,7 +915,10 @@
       "method_name": "lassosum",
       "variants_number": 178259,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=32,122",
       "performance_metrics": {
@@ -924,12 +927,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000573",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=32,664"
     },
     {
@@ -939,7 +939,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 42,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -948,12 +951,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=175,928",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -963,7 +963,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1119236,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -972,12 +975,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=175,928",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -987,7 +987,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 80,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -996,12 +999,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=175,928",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -1011,7 +1011,10 @@
       "method_name": "lassosum",
       "variants_number": 1334,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=5,650",
       "performance_metrics": {
@@ -1020,12 +1023,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000552",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=175,928",
       "validation_sample_size": "n=5,607"
     },
     {
@@ -1035,7 +1035,10 @@
       "method_name": "Independent genome-wide significant variants identified by fine-mapping using JAM (Joint Analysis of Marginal summary statistics)",
       "variants_number": 269,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | EVAL: AFR (21%), EAS (5%), EUR (47%), MAE (26%)",
-      "publication": "Trans-ancestry genome-wide association meta-analysis of prostate cancer identifies new susceptibility loci and informs genetic risk prediction.",
+      "publication": {
+        "title": "Trans-ancestry genome-wide association meta-analysis of prostate cancer identifies new susceptibility loci and informs genetic risk prediction.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2021-01-07",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1044,7 +1047,6 @@
       },
       "phenotyping_reported": "Prostate Cancer",
       "covariates": "Age, 10 PCs",
-      "sampleset": "PSS000596",
       "training_development_cohorts": [
         "AAPC",
         "BBJ",
@@ -1059,8 +1061,6 @@
         "UKGPCS",
         "iCOGS"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=199,969"
     },
     {
@@ -1070,7 +1070,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 55,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Prostate cancer risk prediction using a polygenic risk score.",
+      "publication": {
+        "title": "Prostate cancer risk prediction using a polygenic risk score.",
+        "journal": "Sci Rep"
+      },
       "date_release": "2021-02-03",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1079,10 +1082,7 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS000840",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=22,548",
       "validation_sample_size": "n=5,138"
     },
     {
@@ -1092,7 +1092,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 134,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+      "publication": {
+        "title": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+        "journal": "JNCI Cancer Spectr"
+      },
       "date_release": "2021-02-03",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1101,10 +1104,7 @@
       },
       "phenotyping_reported": "Incident prostate cancer",
       "covariates": "Genotyping array",
-      "sampleset": "PSS000860",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=400,812"
     },
     {
@@ -1114,7 +1114,10 @@
       "method_name": "46 variants from Seibert et al (PGS000067). Effect weights from Huynh-Le et al (DOI: 10.1101/19012237)",
       "variants_number": 49,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: AFR (100%) | EVAL: AFR (100%)",
-      "publication": "African-specific improvement of a polygenic hazard score for age at diagnosis of prostate cancer.",
+      "publication": {
+        "title": "African-specific improvement of a polygenic hazard score for age at diagnosis of prostate cancer.",
+        "journal": "Int J Cancer"
+      },
       "date_release": "2021-02-23",
       "samples_training": "n=6,271",
       "performance_metrics": {
@@ -1123,7 +1126,6 @@
       },
       "phenotyping_reported": "Age at diagnosis of any prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS000874",
       "training_development_cohorts": [
         "BioVU",
         "CAPS",
@@ -1160,8 +1162,6 @@
         "UTAHSTUD",
         "WUGS"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=31,747",
       "validation_sample_size": "n=6,271"
     },
     {
@@ -1171,7 +1171,10 @@
       "method_name": "Cox proportional hazard regression - reestimated weights of 46 SNPs from Seibert et al (PGS000067)",
       "variants_number": 46,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: NR (20%), MAE (20%), MAO (60%)",
-      "publication": "Polygenic hazard score is associated with prostate cancer in multi-ethnic populations.",
+      "publication": {
+        "title": "Polygenic hazard score is associated with prostate cancer in multi-ethnic populations.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-03-22",
       "samples_training": "n=43,854",
       "performance_metrics": {
@@ -1180,7 +1183,6 @@
       },
       "phenotyping_reported": "Prostate cancer (age at diagnosis)",
       "covariates": "Unknown",
-      "sampleset": "PSS000925",
       "training_development_cohorts": [
         "CAPS",
         "CPCS",
@@ -1201,8 +1203,6 @@
         "UTAH",
         "WUGS"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=80,491"
     },
     {
@@ -1212,7 +1212,10 @@
       "method_name": "LASSO-regularized Cox PH regression of 180 SNPs from Seibert et al (PGS000067) and Schumacher et al (PGS000030).",
       "variants_number": 166,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Additional SNPs improve risk stratification of a polygenic hazard score for prostate cancer.",
+      "publication": {
+        "title": "Additional SNPs improve risk stratification of a polygenic hazard score for prostate cancer.",
+        "journal": "Prostate Cancer Prostatic Dis"
+      },
       "date_release": "2021-03-22",
       "samples_training": "n=75,596",
       "performance_metrics": {
@@ -1221,7 +1224,6 @@
       },
       "phenotyping_reported": "Prostate cancer (age of onset)",
       "covariates": "Unknown",
-      "sampleset": "PSS000926",
       "training_development_cohorts": [
         "AHS",
         "ATBC",
@@ -1276,8 +1278,6 @@
         "UTAH",
         "WUGS"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=172,001",
       "validation_sample_size": "n=6,411"
     },
     {
@@ -1287,7 +1287,10 @@
       "method_name": "Known prostate cancer risk alleles",
       "variants_number": 178,
       "ancestry_distribution": "GWAS: AFR (5%), EAS (2%), EUR (94%) | EVAL: AMR (100%)",
-      "publication": "A genome-wide association study of prostate cancer in Latinos.",
+      "publication": {
+        "title": "A genome-wide association study of prostate cancer in Latinos.",
+        "journal": "Int J Cancer"
+      },
       "date_release": "2021-03-22",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1296,7 +1299,6 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Age, study, PCs(1-10)",
-      "sampleset": "PSS000953",
       "training_development_cohorts": [
         "AHS",
         "ATBC",
@@ -1377,8 +1379,6 @@
         "WUGS",
         "iCOGS"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=436,934",
       "validation_sample_size": "n=4,324"
     },
     {
@@ -1388,7 +1388,10 @@
       "method_name": "161 variants from Graff et al (PGS000084) with inverse variant weights",
       "variants_number": 161,
       "ancestry_distribution": "GWAS: NR (10%), AFR (3%), AMR (1%), EAS (2%), EUR (93%) | EVAL: EUR (100%)",
-      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1397,7 +1400,6 @@
       },
       "phenotyping_reported": "Incident prostate cancer",
       "covariates": "Age at assessment, family history of prostate cancer, genotyping array, PCs(1-15), family history of prostate cancer",
-      "sampleset": "PSS001023",
       "training_development_cohorts": [
         "BCFR",
         "BFBOCC",
@@ -1449,8 +1451,6 @@
         "dbGAP",
         "kConFab"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=449,626",
       "validation_sample_size": "n=184,225"
     },
     {
@@ -1460,7 +1460,10 @@
       "method_name": "Clumping of genome-wide significant SNPs",
       "variants_number": 4,
       "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
-      "publication": "Evaluation of Polygenic Risk Scores for Prediction of Prostate Cancer in Korean Men.",
+      "publication": {
+        "title": "Evaluation of Polygenic Risk Scores for Prediction of Prostate Cancer in Korean Men.",
+        "journal": "Front Oncol"
+      },
       "date_release": "2021-08-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1469,12 +1472,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Age",
-      "sampleset": "PSS001135",
       "training_development_cohorts": [
         "KARE"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=3,178",
       "validation_sample_size": "n=638"
     },
     {
@@ -1484,7 +1484,10 @@
       "method_name": "Variants associated with prostate cancer",
       "variants_number": 72,
       "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (3%), EUR (92%) | EVAL: EUR (100%)",
-      "publication": "Association of prostate cancer polygenic risk score with number and laterality of tumor cores in active surveillance patients.",
+      "publication": {
+        "title": "Association of prostate cancer polygenic risk score with number and laterality of tumor cores in active surveillance patients.",
+        "journal": "Prostate"
+      },
       "date_release": "2021-08-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1493,7 +1496,6 @@
       },
       "phenotyping_reported": "Number of positive prostate cancer tumour cores at diagnostic biposy",
       "covariates": "Age at diagnosis, study site",
-      "sampleset": "PSS001140",
       "training_development_cohorts": [
         "BCFR",
         "BFBOCC",
@@ -1542,8 +1544,6 @@
         "deCODE",
         "kConFab"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=362,161",
       "validation_sample_size": "n=1,237"
     },
     {
@@ -1553,7 +1553,10 @@
       "method_name": "snpnet",
       "variants_number": 948,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
@@ -1562,12 +1565,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS007636",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,425"
     },
     {
@@ -1577,7 +1577,10 @@
       "method_name": "snpnet",
       "variants_number": 602,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
@@ -1586,12 +1589,9 @@
       },
       "phenotyping_reported": "Prostate cancer (FH)",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS004039",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,425"
     },
     {
@@ -1601,7 +1601,10 @@
       "method_name": "Penalized regression (bigstatsr)",
       "variants_number": 2579,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -1610,12 +1613,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009275",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=8,501"
     },
     {
@@ -1625,7 +1625,10 @@
       "method_name": "LDpred2 (bigsnpr)",
       "variants_number": 450963,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -1634,12 +1637,9 @@
       },
       "phenotyping_reported": "Cancer of prostate",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009275",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=8,501"
     },
     {
@@ -1649,7 +1649,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1092093,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (33%), EUR (33%), SAS (33%)",
-      "publication": "Genome-wide risk prediction of common diseases across ancestries in one million people.",
+      "publication": {
+        "title": "Genome-wide risk prediction of common diseases across ancestries in one million people.",
+        "journal": "Cell Genom"
+      },
       "date_release": "2022-04-13",
       "samples_training": "n=258,402",
       "performance_metrics": {
@@ -1658,12 +1661,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, 10 PCs (+/- dataset-specific technical covariates)",
-      "sampleset": "PSS009544",
       "training_development_cohorts": [
         "FinnGen"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=343,676"
     },
     {
@@ -1673,7 +1673,10 @@
       "method_name": "LDpred",
       "variants_number": 6497734,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (22%), EAS (11%), EUR (56%), SAS (11%)",
-      "publication": "Genome-wide risk prediction of common diseases across ancestries in one million people.",
+      "publication": {
+        "title": "Genome-wide risk prediction of common diseases across ancestries in one million people.",
+        "journal": "Cell Genom"
+      },
       "date_release": "2022-04-13",
       "samples_training": "n=175,364",
       "performance_metrics": {
@@ -1682,12 +1685,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, 10 PCs (+/- dataset-specific technical covariates)",
-      "sampleset": "PSS009524",
       "training_development_cohorts": [
         "FinnGen"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=343,676"
     },
     {
@@ -1697,7 +1697,10 @@
       "method_name": "LD clumping",
       "variants_number": 29,
       "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
-      "publication": "Prediction of clinically significant prostate cancer using polygenic risk models in Asians.",
+      "publication": {
+        "title": "Prediction of clinically significant prostate cancer using polygenic risk models in Asians.",
+        "journal": "Investig Clin Urol"
+      },
       "date_release": "2022-04-01",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1706,10 +1709,7 @@
       },
       "phenotyping_reported": "Clinically significant prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS009617",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=10,187",
       "validation_sample_size": "n=3,695"
     },
     {
@@ -1719,7 +1719,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 126,
       "ancestry_distribution": "GWAS: NR (2%), AFR (2%), AMR (40%), EAS (1%), EUR (92%), MAE (3%) | DEV: AFR (3%), EAS (1%), EUR (96%) | EVAL: EUR (100%)",
-      "publication": "Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations.",
+      "publication": {
+        "title": "Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations.",
+        "journal": "Prostate"
+      },
       "date_release": "2022-09-29",
       "samples_training": "n=109,323",
       "performance_metrics": {
@@ -1728,7 +1731,6 @@
       },
       "phenotyping_reported": "Prostate cancer risk",
       "covariates": "disease diagnostic age or age at recruitment, subgroups and 10 principal components",
-      "sampleset": "PSS009957",
       "training_development_cohorts": [
         "AAPC",
         "BCFR",
@@ -1776,8 +1778,6 @@
         "deCODE",
         "kConFab"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=574,209",
       "validation_sample_size": "n=104,586"
     },
     {
@@ -1787,7 +1787,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 67,
       "ancestry_distribution": "GWAS: NR (2%), AFR (2%), AMR (40%), EAS (1%), EUR (91%), MAE (3%) | DEV: AFR (3%), EAS (1%), EUR (96%) | EVAL: AFR (100%)",
-      "publication": "Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations.",
+      "publication": {
+        "title": "Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations.",
+        "journal": "Prostate"
+      },
       "date_release": "2022-09-29",
       "samples_training": "n=109,323",
       "performance_metrics": {
@@ -1796,7 +1799,6 @@
       },
       "phenotyping_reported": "Prostate cancer risk",
       "covariates": "disease diagnostic age or age at recruitment, subgroups and 10 principal components",
-      "sampleset": "PSS009955",
       "training_development_cohorts": [
         "AAPC",
         "BCFR",
@@ -1844,8 +1846,6 @@
         "deCODE",
         "kConFab"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=537,870",
       "validation_sample_size": "n=3,008"
     },
     {
@@ -1855,7 +1855,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 82,
       "ancestry_distribution": "GWAS: NR (2%), AFR (2%), AMR (40%), EAS (1%), EUR (92%), MAE (3%) | DEV: AFR (3%), EAS (1%), EUR (96%) | EVAL: EAS (100%)",
-      "publication": "Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations.",
+      "publication": {
+        "title": "Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations.",
+        "journal": "Prostate"
+      },
       "date_release": "2022-09-29",
       "samples_training": "n=109,323",
       "performance_metrics": {
@@ -1864,7 +1867,6 @@
       },
       "phenotyping_reported": "Prostate cancer risk",
       "covariates": "disease diagnostic age or age at recruitment, subgroups and 10 principal components",
-      "sampleset": "PSS009956",
       "training_development_cohorts": [
         "AAPC",
         "BCFR",
@@ -1912,8 +1914,6 @@
         "deCODE",
         "kConFab"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=571,375",
       "validation_sample_size": "n=1,190"
     },
     {
@@ -1923,7 +1923,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 232,
       "ancestry_distribution": "GWAS: AFR (6%), AMR (2%), EAS (7%), EUR (85%) | EVAL: EUR (100%)",
-      "publication": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+      "publication": {
+        "title": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+        "journal": "Eur Urol Open Sci"
+      },
       "date_release": "2022-10-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -1932,7 +1935,6 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, 10 genetic PCs",
-      "sampleset": "PSS009968",
       "training_development_cohorts": [
         "BCFR",
         "BFBOCC",
@@ -1981,8 +1983,6 @@
         "deCODE",
         "kConFab"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=571,220",
       "validation_sample_size": "n=888,086"
     },
     {
@@ -1992,7 +1992,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 67,
       "ancestry_distribution": "GWAS: AFR (8%), AMR (7%), EAS (11%), EUR (74%) | EVAL: AMR (100%)",
-      "publication": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+      "publication": {
+        "title": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+        "journal": "Eur Urol Open Sci"
+      },
       "date_release": "2022-10-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2001,15 +2004,12 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, 10 genetic PCs",
-      "sampleset": "PSS009969",
       "training_development_cohorts": [
         "CMHS",
         "GERA",
         "ProHealth",
         "RPGEH"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=288,584",
       "validation_sample_size": "n=81,109"
     },
     {
@@ -2019,7 +2019,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 128,
       "ancestry_distribution": "GWAS: AFR (17%), AMR (3%), EAS (9%), EUR (71%) | EVAL: AFR (100%)",
-      "publication": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+      "publication": {
+        "title": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+        "journal": "Eur Urol Open Sci"
+      },
       "date_release": "2022-10-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2028,15 +2031,12 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, 10 genetic PCs",
-      "sampleset": "PSS009966",
       "training_development_cohorts": [
         "CMHS",
         "GERA",
         "ProHealth",
         "RPGEH"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=407,351",
       "validation_sample_size": "n=30,472"
     },
     {
@@ -2046,7 +2046,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 138,
       "ancestry_distribution": "GWAS: AFR (8%), AMR (4%), EAS (18%), EUR (70%) | EVAL: EAS (100%)",
-      "publication": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+      "publication": {
+        "title": "Reliability of Ancestry-specific Prostate Cancer Genetic Risk Score in Four Racial and Ethnic Populations.",
+        "journal": "Eur Urol Open Sci"
+      },
       "date_release": "2022-10-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2055,15 +2058,12 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, 10 genetic PCs",
-      "sampleset": "PSS009967",
       "training_development_cohorts": [
         "CMHS",
         "GERA",
         "ProHealth",
         "RPGEH"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=306,220",
       "validation_sample_size": "n=13,985"
     },
     {
@@ -2073,7 +2073,10 @@
       "method_name": "LASSO",
       "variants_number": 290,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | DEV: EUR (100%) | EVAL: NR (20%), AFR (20%), ASN (20%), EUR (20%), MAE (20%)",
-      "publication": "Prostate cancer risk stratification improvement across multiple ancestries with new polygenic hazard score.",
+      "publication": {
+        "title": "Prostate cancer risk stratification improvement across multiple ancestries with new polygenic hazard score.",
+        "journal": "Prostate Cancer Prostatic Dis"
+      },
       "date_release": "2022-11-23",
       "samples_training": "n=72,181",
       "performance_metrics": {
@@ -2082,12 +2085,9 @@
       },
       "phenotyping_reported": "Any prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS010046",
       "training_development_cohorts": [
         "PRACTICAL"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=590,750"
     },
     {
@@ -2097,7 +2097,10 @@
       "method_name": "lassosum",
       "variants_number": 168700,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
       "date_release": "2023-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2106,10 +2109,7 @@
       },
       "phenotyping_reported": "prostate adenocarcinoma",
       "covariates": "age, top 20 genetic principal components",
-      "sampleset": "PSS010084",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=133,752"
     },
     {
@@ -2119,7 +2119,10 @@
       "method_name": "Genome-wide rare pathogenic variants",
       "variants_number": 268,
       "ancestry_distribution": "GWAS: AFR (6%), AMR (2%), EAS (7%), EUR (85%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "CanRisk-Prostate: A Comprehensive, Externally Validated Risk Model for the Prediction of Future Prostate Cancer.",
+      "publication": {
+        "title": "CanRisk-Prostate: A Comprehensive, Externally Validated Risk Model for the Prediction of Future Prostate Cancer.",
+        "journal": "J Clin Oncol"
+      },
       "date_release": "2023-02-08",
       "samples_training": "n=20,952",
       "performance_metrics": {
@@ -2128,12 +2131,9 @@
       },
       "phenotyping_reported": "5 years incident prostate cancer risk",
       "covariates": "Unknown",
-      "sampleset": "PSS010112",
       "training_development_cohorts": [
         "UKGPCS"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=374,507",
       "validation_sample_size": "n=170,850"
     },
     {
@@ -2143,7 +2143,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 7,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (100%)",
-      "publication": "PRState: Incorporating genetic ancestry in prostate cancer risk scores for men of African ancestry.",
+      "publication": {
+        "title": "PRState: Incorporating genetic ancestry in prostate cancer risk scores for men of African ancestry.",
+        "journal": "BMC Cancer"
+      },
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2152,12 +2155,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "genetics, age and family history",
-      "sampleset": "PSS010114",
       "training_development_cohorts": [
         "ELLIPSE"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=5,393",
       "validation_sample_size": "n=4,533"
     },
     {
@@ -2167,7 +2167,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 14,
       "ancestry_distribution": "GWAS: AFR (46%), EUR (54%) | EVAL: AFR (100%)",
-      "publication": "PRState: Incorporating genetic ancestry in prostate cancer risk scores for men of African ancestry.",
+      "publication": {
+        "title": "PRState: Incorporating genetic ancestry in prostate cancer risk scores for men of African ancestry.",
+        "journal": "BMC Cancer"
+      },
       "date_release": "2023-02-08",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2176,12 +2179,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "genetics, age and family history",
-      "sampleset": "PSS010114",
       "training_development_cohorts": [
         "ELLIPSE"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=9,926",
       "validation_sample_size": "n=4,533"
     },
     {
@@ -2191,7 +2191,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 278,
       "ancestry_distribution": "GWAS: AFR (17%), AMR (3%), EAS (11%), EUR (70%) | EVAL: AFR (100%)",
-      "publication": "Evidence of Novel Susceptibility Variants for Prostate Cancer and a Multiancestry Polygenic Risk Score Associated with Aggressive Disease in Men of African Ancestry.",
+      "publication": {
+        "title": "Evidence of Novel Susceptibility Variants for Prostate Cancer and a Multiancestry Polygenic Risk Score Associated with Aggressive Disease in Men of African Ancestry.",
+        "journal": "Eur Urol"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2200,10 +2203,7 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS010182",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=255,607",
       "validation_sample_size": "n=801"
     },
     {
@@ -2213,7 +2213,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 118,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+      "publication": {
+        "title": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+        "journal": "EBioMedicine"
+      },
       "date_release": "2023-06-01",
       "samples_training": "n=4,882",
       "performance_metrics": {
@@ -2222,12 +2225,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS010992",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=408"
     },
     {
@@ -2237,7 +2237,10 @@
       "method_name": "Independent genome-wide significant variants included, identified from fine-mapping GWAS results.",
       "variants_number": 451,
       "ancestry_distribution": "GWAS: MAE (100%) | EVAL: AFR (50%), EUR (50%)",
-      "publication": "Characterizing prostate cancer risk through multi-ancestry genome-wide discovery of 187 novel risk variants",
+      "publication": {
+        "title": "Characterizing prostate cancer risk through multi-ancestry genome-wide discovery of 187 novel risk variants",
+        "journal": "Nature Genetics"
+      },
       "date_release": "2023-12-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2246,10 +2249,7 @@
       },
       "phenotyping_reported": "Prostate Cancer",
       "covariates": "Age, 10 PCs",
-      "sampleset": "PSS011033",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=944,762",
       "validation_sample_size": "n=12,848"
     },
     {
@@ -2259,7 +2259,10 @@
       "method_name": "Independent genome-wide significant variants included, identified from fine-mapping GWAS results. Variants were lifted-over from GRCh37 to GRCh38, proxy variants in TOPMED imputation panel were selected if no exact variant was available in TOPMed.",
       "variants_number": 451,
       "ancestry_distribution": "GWAS: MAE (100%) | EVAL: AFR (50%), EUR (50%)",
-      "publication": "Characterizing prostate cancer risk through multi-ancestry genome-wide discovery of 187 novel risk variants",
+      "publication": {
+        "title": "Characterizing prostate cancer risk through multi-ancestry genome-wide discovery of 187 novel risk variants",
+        "journal": "Nature Genetics"
+      },
       "date_release": "2023-12-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2268,10 +2271,7 @@
       },
       "phenotyping_reported": "Prostate Cancer",
       "covariates": "Age, 10 PCs",
-      "sampleset": "PSS011035",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=944,762",
       "validation_sample_size": "n=30,898"
     },
     {
@@ -2281,7 +2281,10 @@
       "method_name": "DBSLMM-auto",
       "variants_number": 1139671,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2290,12 +2293,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2305,7 +2305,10 @@
       "method_name": "lassosum.auto",
       "variants_number": 26873,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2314,12 +2317,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2329,7 +2329,10 @@
       "method_name": "LDpred2-auto",
       "variants_number": 1045276,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2338,12 +2341,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2353,7 +2353,10 @@
       "method_name": "LDpred2.CV",
       "variants_number": 1045276,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2362,12 +2365,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2377,7 +2377,10 @@
       "method_name": "megaprs.auto",
       "variants_number": 777255,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2386,12 +2389,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2401,7 +2401,10 @@
       "method_name": "megaprs.CV",
       "variants_number": 777255,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2410,12 +2413,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2425,7 +2425,10 @@
       "method_name": "PRS-CS-auto",
       "variants_number": 1105199,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2434,12 +2437,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2449,7 +2449,10 @@
       "method_name": "PRS-CS.CV",
       "variants_number": 1105199,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2458,12 +2461,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2473,7 +2473,10 @@
       "method_name": "pt_clump.auto",
       "variants_number": 200,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2482,12 +2485,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2497,7 +2497,10 @@
       "method_name": "pt_clump_nested.CV",
       "variants_number": 765,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2506,12 +2509,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2521,7 +2521,10 @@
       "method_name": "SBayesR-auto",
       "variants_number": 945385,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2530,12 +2533,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2545,7 +2545,10 @@
       "method_name": "UKBB-EUR.MultiPRS.CV",
       "variants_number": 1139693,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2023-12-19",
       "samples_training": "n=9,671",
       "performance_metrics": {
@@ -2554,12 +2557,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "0",
-      "sampleset": "PSS011221",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=171,474"
     },
     {
@@ -2569,7 +2569,10 @@
       "method_name": "PRSice-2",
       "variants_number": 125,
       "ancestry_distribution": "GWAS: AFR (1%), AMR (2%), EAS (2%), EUR (95%) | EVAL: EUR (100%)",
-      "publication": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
       "date_release": "2023-12-15",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2578,10 +2581,7 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "first 10 genetic principal components",
-      "sampleset": "PSS011329",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=186,632",
       "validation_sample_size": "n=115,207"
     },
     {
@@ -2591,7 +2591,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1102292,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "High-Resolution Genotyping of Formalin-Fixed Tissue Accurately Estimates Polygenic Risk Scores in Human Diseases.",
+      "publication": {
+        "title": "High-Resolution Genotyping of Formalin-Fixed Tissue Accurately Estimates Polygenic Risk Scores in Human Diseases.",
+        "journal": "Lab Invest"
+      },
       "date_release": "2024-02-20",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2600,10 +2603,7 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS011367",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=151,620"
     },
     {
@@ -2613,7 +2613,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 102,
       "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
-      "publication": "The Combined Effect of Polygenic Risk Score and Prostate Health Index in Chinese Men Undergoing Prostate Biopsy.",
+      "publication": {
+        "title": "The Combined Effect of Polygenic Risk Score and Prostate Health Index in Chinese Men Undergoing Prostate Biopsy.",
+        "journal": "J Clin Med"
+      },
       "date_release": "2024-01-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2622,10 +2625,7 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Age, family history, PSA, %fPSA, 10 PCs",
-      "sampleset": "PSS011391",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=57,978",
       "validation_sample_size": "n=3,166"
     },
     {
@@ -2635,7 +2635,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 17,
       "ancestry_distribution": "GWAS: AFR (3%), AMR (6%), EAS (34%), EUR (57%) | EVAL: EAS (100%)",
-      "publication": "Systematic evaluation of narrow-sense validity of polygenic risk score for prostate cancer in a Chinese prostate biopsy cohort.",
+      "publication": {
+        "title": "Systematic evaluation of narrow-sense validity of polygenic risk score for prostate cancer in a Chinese prostate biopsy cohort.",
+        "journal": "Clin Genet"
+      },
       "date_release": "2024-01-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2644,10 +2647,7 @@
       },
       "phenotyping_reported": "Prostate cancer in males undergoing prostate biopsy",
       "covariates": "Unknown",
-      "sampleset": "PSS011394",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=65,364",
       "validation_sample_size": "n=2,628"
     },
     {
@@ -2657,7 +2657,10 @@
       "method_name": "SDPR",
       "variants_number": 1016708,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+      "publication": {
+        "title": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+        "journal": "JNCI Cancer Spectr"
+      },
       "date_release": "2024-03-18",
       "samples_training": "n=166,671",
       "performance_metrics": {
@@ -2666,12 +2669,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS011438",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=140,306",
       "validation_sample_size": "n=18,514"
     },
     {
@@ -2681,7 +2681,10 @@
       "method_name": "PRSmix",
       "variants_number": 922102,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
       "date_release": "2024-03-28",
       "samples_training": "n=15,129",
       "performance_metrics": {
@@ -2690,12 +2693,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
-      "sampleset": "PSS011469",
       "training_development_cohorts": [
         "AllofUs"
       ],
-      "variants_genomebuild": "hg38",
-      "samples_variants": null,
       "validation_sample_size": "n=3,782"
     },
     {
@@ -2705,7 +2705,10 @@
       "method_name": "PRSmixPlus",
       "variants_number": 922104,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
       "date_release": "2024-03-28",
       "samples_training": "n=15,129",
       "performance_metrics": {
@@ -2714,12 +2717,9 @@
       },
       "phenotyping_reported": "Prostate cancer",
       "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
-      "sampleset": "PSS011469",
       "training_development_cohorts": [
         "AllofUs"
       ],
-      "variants_genomebuild": "hg38",
-      "samples_variants": null,
       "validation_sample_size": "n=3,782"
     },
     {
@@ -2729,7 +2729,10 @@
       "method_name": "megaprs.auto",
       "variants_number": 765876,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2024-06-27",
       "samples_training": "n=404",
       "performance_metrics": {
@@ -2738,12 +2741,9 @@
       },
       "phenotyping_reported": "Incident Prostate Cancer",
       "covariates": "PCs 1-10",
-      "sampleset": "PSS011627",
       "training_development_cohorts": [
         "1000G"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=204,761"
     },
     {
@@ -2753,7 +2753,10 @@
       "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
       "variants_number": 157,
       "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
-      "publication": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+      "publication": {
+        "title": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+        "journal": "PLoS Med"
+      },
       "date_release": "2025-03-17",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2762,12 +2765,9 @@
       },
       "phenotyping_reported": "Prostate Cancer",
       "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
-      "sampleset": "PSS011941",
       "training_development_cohorts": [
         "BBJ"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=117,752",
       "validation_sample_size": "n=42,860"
     },
     {
@@ -2777,7 +2777,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 130,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "The BARCODE1 Pilot: a feasibility study of using germline single nucleotide polymorphisms to target prostate cancer screening.",
+      "publication": {
+        "title": "The BARCODE1 Pilot: a feasibility study of using germline single nucleotide polymorphisms to target prostate cancer screening.",
+        "journal": "BJU Int"
+      },
       "date_release": "2025-05-20",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2786,10 +2789,7 @@
       },
       "phenotyping_reported": "prostate cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS012021",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=140,254",
       "validation_sample_size": "n=6,393"
     },
     {
@@ -2799,7 +2799,10 @@
       "method_name": "SCT (Stacked Clumping and Thresholding)",
       "variants_number": 517551,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | DEV: EUR (100%) | EVAL: AFR (20%), EUR (60%), SAS (20%)",
-      "publication": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+      "publication": {
+        "title": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+        "journal": "HGG Adv"
+      },
       "date_release": "2025-10-06",
       "samples_training": "n=10,000",
       "performance_metrics": {
@@ -2808,12 +2811,9 @@
       },
       "phenotyping_reported": "5-year incident prostate cancer",
       "covariates": "-",
-      "sampleset": "PSS012056",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=184,010"
     },
     {
@@ -2823,7 +2823,10 @@
       "method_name": "LDpred2",
       "variants_number": 964607,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | DEV: EUR (100%) | EVAL: AFR (20%), EUR (60%), SAS (20%)",
-      "publication": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+      "publication": {
+        "title": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+        "journal": "HGG Adv"
+      },
       "date_release": "2025-10-06",
       "samples_training": "n=10,000",
       "performance_metrics": {
@@ -2832,12 +2835,9 @@
       },
       "phenotyping_reported": "5-year incident prostate cancer",
       "covariates": "-",
-      "sampleset": "PSS012056",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=184,010"
     },
     {
@@ -2847,7 +2847,10 @@
       "method_name": "PRS-CS",
       "variants_number": 943048,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | DEV: EUR (100%) | EVAL: AFR (20%), EUR (60%), SAS (20%)",
-      "publication": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+      "publication": {
+        "title": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+        "journal": "HGG Adv"
+      },
       "date_release": "2025-10-06",
       "samples_training": "n=10,000",
       "performance_metrics": {
@@ -2856,12 +2859,9 @@
       },
       "phenotyping_reported": "5-year incident prostate cancer",
       "covariates": "-",
-      "sampleset": "PSS012056",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=184,010"
     },
     {
@@ -2871,7 +2871,10 @@
       "method_name": "SBayesR",
       "variants_number": 904103,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | EVAL: AFR (20%), EUR (60%), SAS (20%)",
-      "publication": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+      "publication": {
+        "title": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+        "journal": "HGG Adv"
+      },
       "date_release": "2025-10-06",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2880,10 +2883,7 @@
       },
       "phenotyping_reported": "5-year incident prostate cancer",
       "covariates": "-",
-      "sampleset": "PSS012056",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=184,010"
     },
     {
@@ -2893,7 +2893,10 @@
       "method_name": "SBayesRC",
       "variants_number": 3802635,
       "ancestry_distribution": "GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) | EVAL: AFR (20%), EUR (60%), SAS (20%)",
-      "publication": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+      "publication": {
+        "title": "Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts.",
+        "journal": "HGG Adv"
+      },
       "date_release": "2025-10-06",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -2902,10 +2905,7 @@
       },
       "phenotyping_reported": "5-year incident prostate cancer",
       "covariates": "-",
-      "sampleset": "PSS012056",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=234,253",
       "validation_sample_size": "n=184,010"
     }
   ],
@@ -2914,8 +2914,6 @@
     "reported_auc": 0.9701,
     "trait_reported": "Prostate cancer",
     "method_name": "snpnet",
-    "validation_sample_size": "n=67,425",
-    "rank": 18,
-    "rank_label": "18/96"
+    "validation_sample_size": "n=67,425"
   }
 }

@@ -1,4 +1,4 @@
-# Contribution2 Experiment 2: GPT + prs_model_domain_knowledge
+# Contribution2 Experiment 2: With Domain Knowledge
 
 ## Summary
 
@@ -8,7 +8,7 @@
 - **Model**: gpt-5.2
 - **Estimated API cost**: $2.9586 (uncached input 679,262 tokens = $1.1887; cached input 56,028 tokens = $0.0098; output 125,722 tokens = $1.7601)
 - **Overall Recommended Model Accuracy**: 25/30 = 83.33%
-- **Native GPT**: 20/30 = 66.67%
+- **Without Domain Knowledge**: 20/30 = 66.67%
 
 ## Experiment Setup
 
@@ -16,14 +16,14 @@
 - **Domain Knowledge**: Enabled (local curated knowledge base)
 - **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us
 - **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set
-- **Native GPT reference**: compare against `native-gpt__gpt-5.2__t10` under the same 30-disease / 10-trial protocol
+- **Without Domain Knowledge reference**: compare against `without-domain-gpt-5.2-t10` under the same 30-disease / 10-trial protocol
 
 ## Results by Disease
 
 All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.
 They are **not** PGS Catalog reported-AUC ranks.
 
-| Ontology | N Models | Target_TopK | Trial Hits | Domain GPT Hits Target | Domain GPT | Native GPT Hits Target | Native GPT |
+| Ontology | N Models | Target_TopK | Trial Hits | With Domain Knowledge Hits Target | With Domain Knowledge | Without Domain Knowledge Hits Target | Without Domain Knowledge |
 |----------|----------|-------------|------------|------------------------|------------|------------------------|------------|
 | prostate cancer | 96 | 1 | 0/10 | No | PGS000719 (AUC rank 11/96): x4<br>PGS003415 (AUC rank 79/96): x3<br>PGS000795 (AUC rank 54/96): x2<br>PGS000084 (AUC rank 75/96): x1 | No | PGS005237 (AUC rank 72/96): x10 |
 | thyroid carcinoma | 32 | 3 | 0/10 | No | PGS004954 (AUC rank 8/32): x9<br>PGS005259 (AUC rank 4/32): x1 | No | PGS001289 (AUC rank 24/32): x10 |

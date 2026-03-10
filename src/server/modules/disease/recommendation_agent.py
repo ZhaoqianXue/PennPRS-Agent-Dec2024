@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 from src.server.core.llm_config import get_llm
 from src.server.core.system_prompts import (
     CO_SCIENTIST_STEP1_PROMPT,
-    CO_SCIENTIST_STEP1_NATIVE_PROMPT,
     CO_SCIENTIST_REPORT_PROMPT
 )
 from src.server.core.pgs_catalog_client import PGSCatalogClient
@@ -650,14 +649,15 @@ def _ensure_list_fields_not_none(report: RecommendationReport) -> Recommendation
 
 
 def _build_step1_chain(use_native_prompt: bool = False):
+    # Backward-compatible signature: ablation now changes context only, not the Step 1 prompt.
+    _ = use_native_prompt
     llm = get_llm("disease_workflow")
-    system_prompt = CO_SCIENTIST_STEP1_NATIVE_PROMPT if use_native_prompt else CO_SCIENTIST_STEP1_PROMPT
     prompt = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
+        ("system", CO_SCIENTIST_STEP1_PROMPT),
         ("human", (
-            "Perform STEP 1 only. Use the context JSON below to decide whether the direct "
-            "match quality is HIGH, SUB_OPTIMAL, or NO_MATCH_FOUND. "
-            "Return JSON with fields: outcome, best_model_id, confidence, rationale.\n\n"
+            "Perform direct-match assessment only. Use the context JSON below to select the best "
+            "supported direct-match candidate and return exactly one JSON object with fields: "
+            "outcome, best_model_id, confidence, rationale.\n\n"
             "Context:\n{context_json}"
         ))
     ])
@@ -804,7 +804,7 @@ def recommend_models(
     if request_id and request_id in search_progress:
         search_progress[request_id].update({
             "fetched": 3,
-            "current_action": "Reviewing clinical standards",
+            "current_action": "Assembling Step 1 evidence",
             "current_step": "step-3"
         })
 
@@ -842,7 +842,7 @@ def recommend_models(
         )
         logger.info(f"TEST MODE: Forcing Step 1 outcome to {force_step1_outcome}")
     else:
-        chain = _build_step1_chain(use_native_prompt=step1_disable_domain_knowledge)
+        chain = _build_step1_chain()
         step1_decision, main_step1_error = _invoke_step1_chain(
             chain=chain,
             context_payload=step1_context,
@@ -872,7 +872,7 @@ def recommend_models(
 
             shadow_context = dict(step1_context)
             shadow_context["domain_knowledge"] = shadow_domain.model_dump()
-            shadow_chain = _build_step1_chain(use_native_prompt=not step1_disable_domain_knowledge)
+            shadow_chain = _build_step1_chain()
             step1_shadow_decision, shadow_step1_error = _invoke_step1_chain(
                 chain=shadow_chain,
                 context_payload=shadow_context,

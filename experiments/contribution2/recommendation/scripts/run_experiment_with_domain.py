@@ -1,9 +1,9 @@
 """
-Contribution2 Experiment 2: GPT + prs_model_domain_knowledge batch evaluation.
+Contribution2 Experiment 2: With Domain Knowledge batch evaluation.
 
-This runner reuses the native batch workflow but enables local
+This runner reuses the no-domain batch workflow but enables local
 `prs_model_domain_knowledge` retrieval for Step 1 and emits an additional
-comparison report against the archived native GPT-5.2 results.
+comparison report against the archived without-domain GPT-5.2 results.
 """
 
 from __future__ import annotations
@@ -22,11 +22,10 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 load_dotenv(PROJECT_ROOT / ".env")
 
-from experiments.contribution2.recommendation.scripts import run_experiment_native_gpt as native
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
+from experiments.contribution2.recommendation.scripts import run_experiment_without_domain as without_domain
 from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
 
-_ORIGINAL_PREPARE_MANIFEST = native._prepare_manifest
+_ORIGINAL_PREPARE_MANIFEST = without_domain._prepare_manifest
 
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 
@@ -41,80 +40,80 @@ BATCH_OUTPUT_JSONL = Path()
 BATCH_ERROR_JSONL = Path()
 
 COMPARISON_REPORT_MD = Path()
-DEFAULT_NATIVE_SUMMARY_JSON = (
+DEFAULT_WITHOUT_DOMAIN_SUMMARY_JSON = (
     RECOMMENDATION_RUNS
-    / "native-gpt__gpt-5.2__t10"
-    / "experiment_native_gpt_summary.json"
+    / "without-domain-gpt-5.2-t10"
+    / "experiment_without_domain_summary.json"
 )
 DEFAULT_MODEL = "gpt-5.2"
-DEFAULT_NATIVE_BATCH_CALIBRATION_DIR = RECOMMENDATION_RUNS / "native-gpt__gpt-5.2__t10"
+DEFAULT_WITHOUT_DOMAIN_BATCH_CALIBRATION_DIR = RECOMMENDATION_RUNS / "without-domain-gpt-5.2-t10"
 
 
-def _sync_paths_from_native() -> None:
+def _sync_paths_from_without_domain() -> None:
     global RESULTS_JSON, SUMMARY_JSON, REPORT_MD
     global BATCH_REQUESTS_JSONL, BATCH_MANIFEST_JSON, BATCH_JOB_JSON
     global BATCH_OUTPUT_JSONL, BATCH_ERROR_JSONL, COMPARISON_REPORT_MD
 
-    RESULTS_JSON = native.RESULTS_JSON
-    SUMMARY_JSON = native.SUMMARY_JSON
-    REPORT_MD = native.REPORT_MD
-    BATCH_REQUESTS_JSONL = native.BATCH_REQUESTS_JSONL
-    BATCH_MANIFEST_JSON = native.BATCH_MANIFEST_JSON
-    BATCH_JOB_JSON = native.BATCH_JOB_JSON
-    BATCH_OUTPUT_JSONL = native.BATCH_OUTPUT_JSONL
-    BATCH_ERROR_JSONL = native.BATCH_ERROR_JSONL
-    if native.ACTIVE_RUN_DIR is None:
-        raise RuntimeError("Native run directory is not configured.")
-    COMPARISON_REPORT_MD = native.ACTIVE_RUN_DIR / "experiment_domain_knowledge_vs_native_gpt_report.md"
+    RESULTS_JSON = without_domain.RESULTS_JSON
+    SUMMARY_JSON = without_domain.SUMMARY_JSON
+    REPORT_MD = without_domain.REPORT_MD
+    BATCH_REQUESTS_JSONL = without_domain.BATCH_REQUESTS_JSONL
+    BATCH_MANIFEST_JSON = without_domain.BATCH_MANIFEST_JSON
+    BATCH_JOB_JSON = without_domain.BATCH_JOB_JSON
+    BATCH_OUTPUT_JSONL = without_domain.BATCH_OUTPUT_JSONL
+    BATCH_ERROR_JSONL = without_domain.BATCH_ERROR_JSONL
+    if without_domain.ACTIVE_RUN_DIR is None:
+        raise RuntimeError("Without-domain run directory is not configured.")
+    COMPARISON_REPORT_MD = without_domain.ACTIVE_RUN_DIR / "experiment_with_vs_without_domain_report.md"
 
 
 def _set_domain_artifact_paths() -> None:
-    if native.ACTIVE_RUN_DIR is None:
-        raise RuntimeError("Native run directory is not configured.")
+    if without_domain.ACTIVE_RUN_DIR is None:
+        raise RuntimeError("Without-domain run directory is not configured.")
 
-    run_dir = native.ACTIVE_RUN_DIR
-    native.RESULTS_JSON = run_dir / "experiment_domain_knowledge_gpt_results.json"
-    native.SUMMARY_JSON = run_dir / "experiment_domain_knowledge_gpt_summary.json"
-    native.REPORT_MD = run_dir / "experiment_domain_knowledge_gpt_report.md"
-    native.BATCH_REQUESTS_JSONL = run_dir / "experiment_domain_knowledge_gpt_batch_requests.jsonl"
-    native.BATCH_MANIFEST_JSON = run_dir / "experiment_domain_knowledge_gpt_batch_manifest.json"
-    native.BATCH_JOB_JSON = run_dir / "experiment_domain_knowledge_gpt_batch_job.json"
-    native.BATCH_OUTPUT_JSONL = run_dir / "experiment_domain_knowledge_gpt_batch_output.jsonl"
-    native.BATCH_ERROR_JSONL = run_dir / "experiment_domain_knowledge_gpt_batch_errors.jsonl"
-    native.ARCHIVE_ARTIFACTS = [
-        native.TOP_K_JSON,
-        native.EVALUATED_JSON,
-        native.BATCH_JOB_JSON,
-        native.BATCH_MANIFEST_JSON,
-        native.BATCH_OUTPUT_JSONL,
-        native.BATCH_ERROR_JSONL,
-        native.BATCH_REQUESTS_JSONL,
-        native.REPORT_MD,
-        native.RESULTS_JSON,
-        native.SUMMARY_JSON,
-        run_dir / "experiment_domain_knowledge_vs_native_gpt_report.md",
+    run_dir = without_domain.ACTIVE_RUN_DIR
+    without_domain.RESULTS_JSON = run_dir / "experiment_with_domain_results.json"
+    without_domain.SUMMARY_JSON = run_dir / "experiment_with_domain_summary.json"
+    without_domain.REPORT_MD = run_dir / "experiment_with_domain_report.md"
+    without_domain.BATCH_REQUESTS_JSONL = run_dir / "experiment_with_domain_batch_requests.jsonl"
+    without_domain.BATCH_MANIFEST_JSON = run_dir / "experiment_with_domain_batch_manifest.json"
+    without_domain.BATCH_JOB_JSON = run_dir / "experiment_with_domain_batch_job.json"
+    without_domain.BATCH_OUTPUT_JSONL = run_dir / "experiment_with_domain_batch_output.jsonl"
+    without_domain.BATCH_ERROR_JSONL = run_dir / "experiment_with_domain_batch_errors.jsonl"
+    without_domain.ARCHIVE_ARTIFACTS = [
+        without_domain.TOP_K_JSON,
+        without_domain.EVALUATED_JSON,
+        without_domain.BATCH_JOB_JSON,
+        without_domain.BATCH_MANIFEST_JSON,
+        without_domain.BATCH_OUTPUT_JSONL,
+        without_domain.BATCH_ERROR_JSONL,
+        without_domain.BATCH_REQUESTS_JSONL,
+        without_domain.REPORT_MD,
+        without_domain.RESULTS_JSON,
+        without_domain.SUMMARY_JSON,
+        run_dir / "experiment_with_vs_without_domain_report.md",
     ]
-    _sync_paths_from_native()
+    _sync_paths_from_without_domain()
 
 
 def _domain_archive_dir_name(model: str, trials: int, run_tag: Optional[str] = None) -> str:
-    safe_model = native.re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
-    base = f"domain-gpt__{safe_model}__t{trials}"
-    safe_tag = native.re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
+    safe_model = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
+    base = f"with-domain-{safe_model}-t{trials}"
+    safe_tag = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
     return f"{base}__{safe_tag}" if safe_tag else base
 
 
-def _configure_native_module(model: str, trials: int, run_tag: Optional[str] = None) -> None:
+def _configure_without_domain_module(model: str, trials: int, run_tag: Optional[str] = None) -> None:
     os.environ["PENNPRS_STEP1_DISABLE_DOMAIN_KNOWLEDGE"] = "0"
     os.environ["PENNPRS_STEP1_RUN_NO_DOMAIN_ABLATION"] = "0"
     os.environ["PENNPRS_CONTRIB2_STRICT_LLM_ONLY"] = "1"
 
-    native._model_name = lambda: model  # type: ignore[assignment]
-    native._archive_dir_name = _domain_archive_dir_name  # type: ignore[assignment]
-    native._prepare_manifest = _prepare_manifest  # type: ignore[assignment]
-    native._step1_context = _step1_context  # type: ignore[assignment]
-    native._step1_messages = _step1_messages  # type: ignore[assignment]
-    native._set_run_paths(trials=trials, model=model, run_tag=run_tag)
+    without_domain._model_name = lambda: model  # type: ignore[assignment]
+    without_domain._archive_dir_name = _domain_archive_dir_name  # type: ignore[assignment]
+    without_domain._prepare_manifest = _prepare_manifest  # type: ignore[assignment]
+    without_domain._step1_context = _step1_context  # type: ignore[assignment]
+    without_domain._step1_messages = _step1_messages  # type: ignore[assignment]
+    without_domain._set_run_paths(trials=trials, model=model, run_tag=run_tag)
     _set_domain_artifact_paths()
 
 
@@ -142,7 +141,7 @@ def _step1_context(
             "query_trait": ontology,
             "total_found": total_found,
             "after_filter": len(candidate_models),
-            "models": [native._summarize_model_for_llm(model) for model in candidate_models],
+            "models": [without_domain._summarize_model_for_llm(model) for model in candidate_models],
         },
         "performance_landscape": landscape,
         "domain_knowledge": domain,
@@ -152,23 +151,7 @@ def _step1_context(
 
 
 def _step1_messages(context_json: str) -> list[dict[str, str]]:
-    return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
-        {
-            "role": "user",
-            "content": (
-                "Perform STEP 1 only. Use the context JSON below to decide whether the direct "
-                "match quality is HIGH, SUB_OPTIMAL, or NO_MATCH_FOUND. "
-                "Apply domain_knowledge must-pass gates and family-level cautions before "
-                "ranking by reported metrics. If multiple candidates remain clinically acceptable "
-                "and close on discrimination, prefer endpoint fidelity and validation_sample_size "
-                "over method modernity alone. If domain_knowledge contains a family-relevant "
-                "caution section for this trait, treat it as higher priority than generic rules. "
-                "Return JSON with fields: outcome, best_model_id, confidence, rationale.\n\n"
-                f"Context:\n{context_json}"
-            ),
-        },
-    ]
+    return without_domain._step1_messages(context_json)
 
 
 def _prepare_manifest(
@@ -183,9 +166,9 @@ def _prepare_manifest(
         refresh_cache=refresh_cache,
         ontology_filter=ontology_filter,
     )
-    manifest["experiment"] = "domain_knowledge_gpt_batch_formal"
+    manifest["experiment"] = "with_domain_batch_formal"
     manifest["domain_knowledge"] = True
-    manifest["model"] = native._model_name()
+    manifest["model"] = without_domain._model_name()
     return manifest
 
 
@@ -194,8 +177,8 @@ def _build_summary_and_results(
     parsed_outputs: dict[str, dict[str, Any]],
     error_map: dict[str, str],
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    trial_results, summary = native._build_summary_and_results(manifest, parsed_outputs, error_map)
-    summary["experiment"] = "domain_knowledge_gpt_batch_formal"
+    trial_results, summary = without_domain._build_summary_and_results(manifest, parsed_outputs, error_map)
+    summary["experiment"] = "with_domain_batch_formal"
     summary["domain_knowledge"] = True
     summary["model"] = manifest["model"]
     return trial_results, summary
@@ -208,22 +191,22 @@ def _format_models(items: list[dict[str, Any]]) -> str:
     ) or "-"
 
 
-def _write_report(summary: dict[str, Any], native_summary_path: Path) -> None:
+def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) -> None:
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
     recommended_hits = summary["majority_vote_hits"]
     recommended_accuracy = summary["majority_vote_accuracy"]
-    native_summary = json.loads(native_summary_path.read_text(encoding="utf-8"))
-    native_hits = native_summary["majority_vote_hits"]
-    native_accuracy = native_summary["majority_vote_accuracy"]
+    without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    without_domain_hits = without_domain_summary["majority_vote_hits"]
+    without_domain_accuracy = without_domain_summary["majority_vote_accuracy"]
     cost = summary.get("cost") or {}
     token_usage = cost.get("token_usage") or {}
     cost_breakdown = cost.get("estimated_cost_breakdown_usd") or {}
-    per_disease_rows = native._sort_disease_rows(summary["per_disease"])
-    native_rows = {row["ontology"]: row for row in native_summary["per_disease"]}
+    per_disease_rows = without_domain._sort_disease_rows(summary["per_disease"])
+    without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
 
     lines = [
-        "# Contribution2 Experiment 2: GPT + prs_model_domain_knowledge",
+        "# Contribution2 Experiment 2: With Domain Knowledge",
         "",
         "## Summary",
         "",
@@ -232,18 +215,18 @@ def _write_report(summary: dict[str, Any], native_summary_path: Path) -> None:
         f"- **Total trials**: {total_trials}",
         f"- **Model**: {summary['model']}",
         (
-            f"- **Estimated API cost**: {native._format_currency(cost.get('estimated_total_cost_usd', 0.0))} "
+            f"- **Estimated API cost**: {without_domain._format_currency(cost.get('estimated_total_cost_usd', 0.0))} "
             f"(uncached input {token_usage.get('uncached_input_tokens', 0):,} tokens = "
-            f"{native._format_currency(cost_breakdown.get('uncached_input', 0.0))}; "
+            f"{without_domain._format_currency(cost_breakdown.get('uncached_input', 0.0))}; "
             f"cached input {token_usage.get('cached_input_tokens', 0):,} tokens = "
-            f"{native._format_currency(cost_breakdown.get('cached_input', 0.0))}; "
+            f"{without_domain._format_currency(cost_breakdown.get('cached_input', 0.0))}; "
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
-            f"{native._format_currency(cost_breakdown.get('output', 0.0))})"
+            f"{without_domain._format_currency(cost_breakdown.get('output', 0.0))})"
         ),
-        f"- **Overall Recommended Model Accuracy**: {recommended_hits}/{total_ontologies} = {native._format_percent(recommended_accuracy)}",
+        f"- **Overall Recommended Model Accuracy**: {recommended_hits}/{total_ontologies} = {without_domain._format_percent(recommended_accuracy)}",
         (
-            f"- **Native GPT**: "
-            f"{native_hits}/{total_ontologies} = {native._format_percent(native_accuracy)}"
+            f"- **Without Domain Knowledge**: "
+            f"{without_domain_hits}/{total_ontologies} = {without_domain._format_percent(without_domain_accuracy)}"
         ),
         "",
         "## Experiment Setup",
@@ -252,71 +235,71 @@ def _write_report(summary: dict[str, Any], native_summary_path: Path) -> None:
         "- **Domain Knowledge**: Enabled (local curated knowledge base)",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set",
-        "- **Native GPT reference**: compare against `native-gpt__gpt-5.2__t10` under the same 30-disease / 10-trial protocol",
+        "- **Without Domain Knowledge reference**: compare against `without-domain-gpt-5.2-t10` under the same 30-disease / 10-trial protocol",
         "",
         "## Results by Disease",
         "",
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Target_TopK | Trial Hits | Domain GPT Hits Target | Domain GPT | Native GPT Hits Target | Native GPT |",
-        "|----------|----------|-------------|------------|------------------------|------------|------------------------|------------|",
+        "| Ontology | N Models | Target_TopK | Trial Hits | With Domain Knowledge Hits Target | With Domain Knowledge | Without Domain Knowledge Hits Target | Without Domain Knowledge |",
+        "|----------|----------|-------------|------------|-----------------------------------|-----------------------|--------------------------------------|--------------------------|",
     ]
 
     for row in per_disease_rows:
         recommended_hit = "Yes" if row["modal_recommendation_in_target_topk"] else "No"
-        native_row = native_rows[row["ontology"]]
-        native_hit = "Yes" if native_row["modal_recommendation_in_target_topk"] else "No"
+        without_domain_row = without_domain_rows[row["ontology"]]
+        without_domain_hit = "Yes" if without_domain_row["modal_recommendation_in_target_topk"] else "No"
         lines.append(
             f"| {row['ontology']} | {row['n_models']} | {row['target_topk']} | "
             f"{row['trial_hits']}/{summary['trials_per_ontology']} | "
             f"{recommended_hit} | {_format_models(row.get('recommended_model_counts') or [])} | "
-            f"{native_hit} | {_format_models(native_row.get('recommended_model_counts') or [])} |"
+            f"{without_domain_hit} | {_format_models(without_domain_row.get('recommended_model_counts') or [])} |"
         )
 
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
 
 
-def _write_comparison_report(domain_summary: dict[str, Any], native_summary_path: Path) -> Optional[Path]:
-    if not native_summary_path.exists():
+def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summary_path: Path) -> Optional[Path]:
+    if not without_domain_summary_path.exists():
         return None
 
-    native_summary = json.loads(native_summary_path.read_text(encoding="utf-8"))
+    without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
-    native_rows = {row["ontology"]: row for row in native_summary["per_disease"]}
-    per_disease_rows = native._sort_disease_rows(domain_summary["per_disease"])
+    without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
+    per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
 
     lines = [
-        "# Contribution2 Experiment 2: GPT + prs_model_domain_knowledge vs Native GPT vs Baseline",
+        "# Contribution2 Experiment 2: With Domain Knowledge vs Without Domain Knowledge vs Baseline",
         "",
         "## Summary",
         "",
         f"- **Model**: {domain_summary['model']}",
         (
-            f"- **GPT + prs_model_domain_knowledge**: "
+            f"- **With Domain Knowledge**: "
             f"{domain_summary['majority_vote_hits']}/{domain_summary['total_ontologies']} = "
-            f"{native._format_percent(domain_summary['majority_vote_accuracy'])}"
+            f"{without_domain._format_percent(domain_summary['majority_vote_accuracy'])}"
         ),
         (
-            f"- **Native GPT**: "
-            f"{native_summary['majority_vote_hits']}/{native_summary['total_ontologies']} = "
-            f"{native._format_percent(native_summary['majority_vote_accuracy'])}"
+            f"- **Without Domain Knowledge**: "
+            f"{without_domain_summary['majority_vote_hits']}/{without_domain_summary['total_ontologies']} = "
+            f"{without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}"
         ),
         (
             f"- **Baseline**: "
             f"{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
-            f"{native._format_percent(domain_summary['baseline']['accuracy'])}"
+            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}"
         ),
         "",
         "## Results by Disease",
         "",
-        "| Ontology | N Models | Target_TopK | Baseline Hits Target | Baseline Models | Native GPT Hits Target | Native GPT | Domain GPT Hits Target | Domain GPT |",
-        "|----------|----------|-------------|----------------------|-----------------|------------------------|------------|------------------------|------------|",
+        "| Ontology | N Models | Target_TopK | Baseline Hits Target | Baseline Models | Without Domain Knowledge Hits Target | Without Domain Knowledge | With Domain Knowledge Hits Target | With Domain Knowledge |",
+        "|----------|----------|-------------|----------------------|-----------------|--------------------------------------|--------------------------|-----------------------------------|-----------------------|",
     ]
 
     for row in per_disease_rows:
         domain_row = domain_rows[row["ontology"]]
-        native_row = native_rows[row["ontology"]]
+        without_domain_row = without_domain_rows[row["ontology"]]
         baseline = domain_row.get("baseline") or {}
         baseline_id = baseline.get("pgs_id")
         baseline_rank_label = baseline.get("rank_label") or "-"
@@ -325,8 +308,8 @@ def _write_comparison_report(domain_summary: dict[str, Any], native_summary_path
             f"| {row['ontology']} | {row['n_models']} | {row['target_topk']} | "
             f"{'Yes' if domain_row['baseline_in_target_topk'] else 'No'} | "
             f"{baseline_text} | "
-            f"{'Yes' if native_row['modal_recommendation_in_target_topk'] else 'No'} | "
-            f"{_format_models(native_row.get('recommended_model_counts') or [])} | "
+            f"{'Yes' if without_domain_row['modal_recommendation_in_target_topk'] else 'No'} | "
+            f"{_format_models(without_domain_row.get('recommended_model_counts') or [])} | "
             f"{'Yes' if domain_row['modal_recommendation_in_target_topk'] else 'No'} | "
             f"{_format_models(domain_row.get('recommended_model_counts') or [])} |"
         )
@@ -335,14 +318,14 @@ def _write_comparison_report(domain_summary: dict[str, Any], native_summary_path
     return COMPARISON_REPORT_MD
 
 
-def _collect(batch_id: Optional[str], native_summary_path: Path) -> dict[str, Any]:
+def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict[str, Any]:
     if not BATCH_MANIFEST_JSON.exists():
         raise FileNotFoundError(
             f"Batch manifest not found: {BATCH_MANIFEST_JSON}. Run with --mode prepare or --mode prepare-submit first."
         )
-    manifest = native._load_json(BATCH_MANIFEST_JSON)
-    job = native._load_job(batch_id=batch_id)
-    client = native._client()
+    manifest = without_domain._load_json(BATCH_MANIFEST_JSON)
+    job = without_domain._load_job(batch_id=batch_id)
+    client = without_domain._client()
     batch = client.batches.retrieve(job["batch_id"])
 
     if batch.status != "completed":
@@ -365,22 +348,22 @@ def _collect(batch_id: Optional[str], native_summary_path: Path) -> dict[str, An
         if not line.strip():
             continue
         record = json.loads(line)
-        parsed = native._parse_batch_output_line(record)
+        parsed = without_domain._parse_batch_output_line(record)
         parsed_outputs[parsed["custom_id"]] = parsed
 
-    error_map = native._parse_error_file(raw_error_jsonl) if raw_error_jsonl else {}
+    error_map = without_domain._parse_error_file(raw_error_jsonl) if raw_error_jsonl else {}
     trial_results, summary = _build_summary_and_results(
         manifest=manifest,
         parsed_outputs=parsed_outputs,
         error_map=error_map,
     )
-    summary["cost"] = native._estimate_batch_cost(batch.model_dump())
+    summary["cost"] = without_domain._estimate_batch_cost(batch.model_dump())
 
-    native._write_json(RESULTS_JSON, trial_results)
-    native._write_json(SUMMARY_JSON, summary)
-    _write_report(summary, native_summary_path)
-    comparison_path = _write_comparison_report(summary, native_summary_path)
-    archive_dir = native._archive_current_outputs(summary=summary)
+    without_domain._write_json(RESULTS_JSON, trial_results)
+    without_domain._write_json(SUMMARY_JSON, summary)
+    _write_report(summary, without_domain_summary_path)
+    comparison_path = _write_comparison_report(summary, without_domain_summary_path)
+    archive_dir = without_domain._archive_current_outputs(summary=summary)
 
     job_payload = {
         "batch_id": batch.id,
@@ -394,7 +377,7 @@ def _collect(batch_id: Optional[str], native_summary_path: Path) -> dict[str, An
         "output_jsonl_file": str(BATCH_OUTPUT_JSONL),
         "error_jsonl_file": str(BATCH_ERROR_JSONL) if batch.error_file_id else None,
     }
-    native._write_json(BATCH_JOB_JSON, job_payload)
+    without_domain._write_json(BATCH_JOB_JSON, job_payload)
 
     print(f"Collected batch output: {BATCH_OUTPUT_JSONL}")
     if batch.error_file_id:
@@ -405,35 +388,35 @@ def _collect(batch_id: Optional[str], native_summary_path: Path) -> dict[str, An
     if comparison_path:
         print(f"Comparison Report: {comparison_path}")
     else:
-        print(f"Comparison Report: skipped (native summary not found at {native_summary_path})")
+        print(f"Comparison Report: skipped (without-domain summary not found at {without_domain_summary_path})")
     print(f"Archive: {archive_dir}")
     return summary
 
 
-def _quick_eval(native_summary_path: Path) -> dict[str, Any]:
-    summary = native._quick_eval()
-    summary["experiment"] = "domain_knowledge_gpt_formal"
+def _quick_eval(without_domain_summary_path: Path) -> dict[str, Any]:
+    summary = without_domain._quick_eval()
+    summary["experiment"] = "with_domain_formal"
     summary["domain_knowledge"] = True
     summary["batch_mode"] = False
-    summary["cost"] = native._estimate_quick_eval_cost_from_artifacts(
-        manifest=native._load_json(BATCH_MANIFEST_JSON),
-        trial_results=native._load_json(RESULTS_JSON),
+    summary["cost"] = without_domain._estimate_quick_eval_cost_from_artifacts(
+        manifest=without_domain._load_json(BATCH_MANIFEST_JSON),
+        trial_results=without_domain._load_json(RESULTS_JSON),
         model_name=summary["model"],
-        calibration_run_dir=DEFAULT_NATIVE_BATCH_CALIBRATION_DIR,
+        calibration_run_dir=DEFAULT_WITHOUT_DOMAIN_BATCH_CALIBRATION_DIR,
     )
-    native._write_json(SUMMARY_JSON, summary)
-    _write_report(summary, native_summary_path)
-    comparison_path = _write_comparison_report(summary, native_summary_path)
+    without_domain._write_json(SUMMARY_JSON, summary)
+    _write_report(summary, without_domain_summary_path)
+    comparison_path = _write_comparison_report(summary, without_domain_summary_path)
     if comparison_path:
         print(f"Comparison Report: {comparison_path}")
     else:
-        print(f"Comparison Report: skipped (native summary not found at {native_summary_path})")
+        print(f"Comparison Report: skipped (without-domain summary not found at {without_domain_summary_path})")
     return summary
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Contribution2 Experiment 2: GPT + prs_model_domain_knowledge batch evaluation"
+        description="Contribution2 Experiment 2: With Domain Knowledge batch evaluation"
     )
     parser.add_argument(
         "--mode",
@@ -454,10 +437,10 @@ def main() -> int:
         help="Ignore experiment-local prepare cache and refetch candidate metadata",
     )
     parser.add_argument(
-        "--native-summary",
+        "--without-domain-summary",
         type=str,
-        default=str(DEFAULT_NATIVE_SUMMARY_JSON),
-        help="Path to the native GPT summary JSON used for comparison report generation",
+        default=str(DEFAULT_WITHOUT_DOMAIN_SUMMARY_JSON),
+        help="Path to the without-domain summary JSON used for comparison report generation",
     )
     args = parser.parse_args()
 
@@ -465,34 +448,34 @@ def main() -> int:
         print("ERROR: OPENAI_API_KEY is not set. Configure .env before running.")
         return 1
 
-    ontology_filter = native._load_ontology_filter(args.ontology, args.ontologies_file)
-    _configure_native_module(model=args.model, trials=args.trials, run_tag=args.run_tag)
-    native_summary_path = Path(args.native_summary)
+    ontology_filter = without_domain._load_ontology_filter(args.ontology, args.ontologies_file)
+    _configure_without_domain_module(model=args.model, trials=args.trials, run_tag=args.run_tag)
+    without_domain_summary_path = Path(args.without_domain_summary)
 
     try:
         if args.mode == "prepare":
-            native._prepare(
+            without_domain._prepare(
                 limit=args.limit,
                 trials=args.trials,
                 refresh_cache=args.refresh_cache,
                 ontology_filter=ontology_filter,
             )
         elif args.mode == "prepare-submit":
-            native._prepare(
+            without_domain._prepare(
                 limit=args.limit,
                 trials=args.trials,
                 refresh_cache=args.refresh_cache,
                 ontology_filter=ontology_filter,
             )
-            native._submit_batch()
+            without_domain._submit_batch()
         elif args.mode == "status":
-            native._status(batch_id=args.batch_id)
+            without_domain._status(batch_id=args.batch_id)
         elif args.mode == "collect":
-            _collect(batch_id=args.batch_id, native_summary_path=native_summary_path)
+            _collect(batch_id=args.batch_id, without_domain_summary_path=without_domain_summary_path)
         elif args.mode == "archive-current":
-            native._archive_current_outputs()
+            without_domain._archive_current_outputs()
         elif args.mode == "quick-eval":
-            _quick_eval(native_summary_path=native_summary_path)
+            _quick_eval(without_domain_summary_path=without_domain_summary_path)
         else:
             raise ValueError(f"Unsupported mode: {args.mode}")
     except Exception as exc:

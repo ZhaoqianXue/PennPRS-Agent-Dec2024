@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "testicular neoplasm",
   "candidate_model_ids": [
     "PGS001806",
@@ -16,7 +16,7 @@
     "PGS000595",
     "PGS000597"
   ],
-  "total_found": 13,
+  "total_found": 14,
   "candidate_models": [
     {
       "id": "PGS000595",
@@ -25,7 +25,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 9,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -34,12 +37,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=755"
     },
     {
@@ -49,7 +49,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 5,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -58,12 +61,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=755"
     },
     {
@@ -73,7 +73,10 @@
       "method_name": "lassosum",
       "variants_number": 771,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -82,12 +85,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=166,988",
       "validation_sample_size": "n=755"
     },
     {
@@ -97,7 +97,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 6,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -106,12 +109,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=755"
     },
     {
@@ -121,7 +121,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 31,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -130,12 +133,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=755"
     },
     {
@@ -145,7 +145,10 @@
       "method_name": "lassosum",
       "variants_number": 250,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -154,12 +157,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=167,020",
       "validation_sample_size": "n=755"
     },
     {
@@ -169,7 +169,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 40,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -178,12 +181,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=77,639",
       "validation_sample_size": "n=755"
     },
     {
@@ -193,7 +193,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 40,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=1,671",
       "performance_metrics": {
@@ -202,12 +205,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000574",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=77,639",
       "validation_sample_size": "n=1,484"
     },
     {
@@ -217,7 +217,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 22,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=776",
       "performance_metrics": {
@@ -226,12 +229,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000553",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=77,639",
       "validation_sample_size": "n=755"
     },
     {
@@ -241,7 +241,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 44,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=1,671",
       "performance_metrics": {
@@ -250,12 +253,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000574",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=77,639",
       "validation_sample_size": "n=1,484"
     },
     {
@@ -265,7 +265,10 @@
       "method_name": "52 variants from Graff et al (PGS000086) with inverse variant weights",
       "variants_number": 52,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -274,7 +277,6 @@
       },
       "phenotyping_reported": "Incident testicular cancer",
       "covariates": "Age at assessment, genotyping array, PCs(1-15)",
-      "sampleset": "PSS001024",
       "training_development_cohorts": [
         "B58C",
         "BCAC",
@@ -289,8 +291,6 @@
         "UKTCC",
         "UPENN"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=56,799",
       "validation_sample_size": "n=179,537"
     },
     {
@@ -300,7 +300,10 @@
       "method_name": "snpnet",
       "variants_number": 280,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
@@ -309,12 +312,9 @@
       },
       "phenotyping_reported": "Testicular cancer",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS007643",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,425"
     },
     {
@@ -324,7 +324,10 @@
       "method_name": "Penalized regression (bigstatsr)",
       "variants_number": 231,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EUR (60%), SAS (20%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -333,12 +336,9 @@
       },
       "phenotyping_reported": "Malignant neoplasm of testis",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009276",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=8,743"
     }
   ],
@@ -347,8 +347,6 @@
     "reported_auc": 0.9816,
     "trait_reported": "Testicular cancer",
     "method_name": "snpnet",
-    "validation_sample_size": "n=67,425",
-    "rank": 3,
-    "rank_label": "3/14"
+    "validation_sample_size": "n=67,425"
   }
 }

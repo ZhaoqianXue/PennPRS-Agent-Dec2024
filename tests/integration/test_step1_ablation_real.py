@@ -74,7 +74,7 @@ def _step1_context(domain_knowledge_payload):
 
 
 def test_step1_chain_real_with_structured_domain_knowledge():
-    chain = _build_step1_chain(use_native_prompt=False)
+    chain = _build_step1_chain()
     domain = prs_model_domain_knowledge(
         "clinical thresholds must-pass gates penalties method priors ancestry phenotype"
     ).model_dump()
@@ -87,7 +87,7 @@ def test_step1_chain_real_with_structured_domain_knowledge():
 
 
 def test_step1_chain_real_without_domain_knowledge_ablation():
-    chain = _build_step1_chain(use_native_prompt=True)
+    chain = _build_step1_chain()
     domain_disabled = {"query": "", "snippets": [], "source_type": "disabled_by_ablation"}
     result = chain.invoke({"context_json": stable_json_dumps(_step1_context(domain_disabled))})
 

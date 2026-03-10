@@ -1,14 +1,14 @@
 {
-  "experiment": "native_gpt_batch_formal",
-  "domain_knowledge": false,
+  "experiment": "with_domain_formal",
+  "domain_knowledge": true,
   "strict_llm_only": true,
   "cross_disease_enabled": false,
-  "batch_mode": true,
+  "batch_mode": false,
   "model": "gpt-5.2",
   "total_ontologies": 30,
   "trials_per_ontology": 10,
-  "majority_vote_hits": 20,
-  "majority_vote_accuracy": 0.6667,
+  "majority_vote_hits": 25,
+  "majority_vote_accuracy": 0.8333,
   "baseline": {
     "name": "highest_reported_auc_in_pgscatalog_metadata",
     "hits": 11,
@@ -16,8 +16,8 @@
   },
   "diagnostics": {
     "total_trials": 300,
-    "trial_hits": 197,
-    "trial_hit_rate": 0.6567,
+    "trial_hits": 242,
+    "trial_hit_rate": 0.8067,
     "valid_outputs": 300,
     "valid_output_rate": 1.0
   },
@@ -230,13 +230,13 @@
           "validation_sample_size": "n=7,517"
         }
       ],
-      "trial_hits": 8,
-      "trial_hit_rate": 0.8,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS003973",
-      "modal_recommendation_count": 8,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/6",
       "modal_recommendation_in_target_topk": true,
@@ -249,8 +249,8 @@
         "PGS003973",
         "PGS003973",
         "PGS003973",
-        "PGS001784",
-        "PGS001784"
+        "PGS003973",
+        "PGS003973"
       ],
       "trial_recommendations_detailed": [
         {
@@ -311,42 +311,36 @@
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001784",
-          "rank": 4,
-          "rank_label": "4/6",
-          "in_target_topk": false
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001784",
-          "rank": 4,
-          "rank_label": "4/6",
-          "in_target_topk": false
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
           "pgs_id": "PGS003973",
-          "count": 8,
+          "count": 10,
           "rank": 1,
           "rank_label": "1/6"
-        },
-        {
-          "pgs_id": "PGS001784",
-          "count": 2,
-          "rank": 4,
-          "rank_label": "4/6"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 2,
-        "method": 3,
-        "r2": 4,
+        "covariates": 8,
+        "method": 10,
+        "r2": 1,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 5
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS003973",
@@ -646,11 +640,11 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 1,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 10,
-        "method": 1,
-        "r2": 7,
+        "covariates": 9,
+        "method": 6,
+        "r2": 10,
         "sample_size": 10,
         "trait_match": 10,
         "variants": 1
@@ -786,24 +780,24 @@
           "validation_sample_size": "n=6,315"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 8,
+      "trial_hit_rate": 0.8,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS002738",
-      "modal_recommendation_count": 10,
+      "modal_recommendation_count": 8,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/4",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
+        "PGS000201",
         "PGS002738",
         "PGS002738",
         "PGS002738",
         "PGS002738",
         "PGS002738",
-        "PGS002738",
-        "PGS002738",
+        "PGS000201",
         "PGS002738",
         "PGS002738",
         "PGS002738"
@@ -811,10 +805,10 @@
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS002738",
-          "rank": 1,
-          "rank_label": "1/4",
-          "in_target_topk": true
+          "pgs_id": "PGS000201",
+          "rank": 2,
+          "rank_label": "2/4",
+          "in_target_topk": false
         },
         {
           "trial": 2,
@@ -853,10 +847,10 @@
         },
         {
           "trial": 7,
-          "pgs_id": "PGS002738",
-          "rank": 1,
-          "rank_label": "1/4",
-          "in_target_topk": true
+          "pgs_id": "PGS000201",
+          "rank": 2,
+          "rank_label": "2/4",
+          "in_target_topk": false
         },
         {
           "trial": 8,
@@ -883,19 +877,26 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS002738",
-          "count": 10,
+          "count": 8,
           "rank": 1,
           "rank_label": "1/4"
+        },
+        {
+          "pgs_id": "PGS000201",
+          "count": 2,
+          "rank": 2,
+          "rank_label": "2/4"
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 7,
+        "covariates": 2,
+        "method": 3,
         "r2": 10,
-        "sample_size": 10,
+        "sample_size": 8,
         "trait_match": 10,
-        "variants": 8
+        "variants": 6
       },
       "baseline": null,
       "baseline_in_target_topk": false
@@ -1144,112 +1145,112 @@
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001268",
+      "modal_recommendation": "PGS001267",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 3,
-      "modal_recommendation_rank_label": "3/9",
+      "modal_recommendation_rank": 2,
+      "modal_recommendation_rank_label": "2/9",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268",
-        "PGS001268"
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001268",
-          "rank": 3,
-          "rank_label": "3/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001268",
+          "pgs_id": "PGS001267",
           "count": 10,
-          "rank": 3,
-          "rank_label": "3/9"
+          "rank": 2,
+          "rank_label": "2/9"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 2,
-        "method": 3,
-        "r2": 10,
+        "covariates": 5,
+        "method": 10,
+        "r2": 8,
         "sample_size": 10,
-        "trait_match": 10,
-        "variants": 6
+        "trait_match": 9,
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS001268",
@@ -1493,117 +1494,116 @@
           "validation_sample_size": "n=244,450"
         }
       ],
-      "trial_hits": 0,
-      "trial_hit_rate": 0.0,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS005252",
+      "modal_recommendation": "PGS005254",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 8,
-      "modal_recommendation_rank_label": "8/8",
-      "modal_recommendation_in_target_topk": false,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/8",
+      "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252",
-        "PGS005252"
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254",
+        "PGS005254"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 3,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 8,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS005252",
-          "rank": 8,
-          "rank_label": "8/8",
-          "in_target_topk": false
+          "pgs_id": "PGS005254",
+          "rank": 1,
+          "rank_label": "1/8",
+          "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS005252",
+          "pgs_id": "PGS005254",
           "count": 10,
-          "rank": 8,
-          "rank_label": "8/8"
+          "rank": 1,
+          "rank_label": "1/8"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 6,
-        "method": 9,
-        "r2": 4,
-        "sample_size": 10,
-        "trait_match": 10,
-        "variants": 9
+        "covariates": 10,
+        "method": 10,
+        "r2": 10,
+        "sample_size": 9,
+        "trait_match": 8
       },
       "baseline": {
         "pgs_id": "PGS005252",
@@ -1790,116 +1790,117 @@
           "validation_sample_size": "n=57,359"
         }
       ],
-      "trial_hits": 0,
-      "trial_hit_rate": 0.0,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001299",
+      "modal_recommendation": "PGS000073",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 6,
-      "modal_recommendation_rank_label": "6/6",
-      "modal_recommendation_in_target_topk": false,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/6",
+      "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299",
-        "PGS001299"
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073",
+        "PGS000073"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001299",
-          "rank": 6,
-          "rank_label": "6/6",
-          "in_target_topk": false
+          "pgs_id": "PGS000073",
+          "rank": 1,
+          "rank_label": "1/6",
+          "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001299",
+          "pgs_id": "PGS000073",
           "count": 10,
-          "rank": 6,
-          "rank_label": "6/6"
+          "rank": 1,
+          "rank_label": "1/6"
         }
       ],
       "feature_mentions": {
-        "ancestry": 10,
+        "ancestry": 9,
         "auc": 10,
-        "covariates": 8,
-        "r2": 8,
-        "sample_size": 10,
-        "trait_match": 9,
-        "variants": 9
+        "covariates": 2,
+        "method": 10,
+        "r2": 1,
+        "sample_size": 8,
+        "trait_match": 7,
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS001299",
@@ -2070,13 +2071,13 @@
           "validation_sample_size": "n=133,830"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 9,
+      "trial_hit_rate": 0.9,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS003382",
-      "modal_recommendation_count": 10,
+      "modal_recommendation_count": 9,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/5",
       "modal_recommendation_in_target_topk": true,
@@ -2086,7 +2087,7 @@
         "PGS003382",
         "PGS003382",
         "PGS003382",
-        "PGS003382",
+        "PGS000766",
         "PGS003382",
         "PGS003382",
         "PGS003382",
@@ -2130,10 +2131,10 @@
         },
         {
           "trial": 6,
-          "pgs_id": "PGS003382",
-          "rank": 1,
-          "rank_label": "1/5",
-          "in_target_topk": true
+          "pgs_id": "PGS000766",
+          "rank": 3,
+          "rank_label": "3/5",
+          "in_target_topk": false
         },
         {
           "trial": 7,
@@ -2167,16 +2168,22 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS003382",
-          "count": 10,
+          "count": 9,
           "rank": 1,
           "rank_label": "1/5"
+        },
+        {
+          "pgs_id": "PGS000766",
+          "count": 1,
+          "rank": 3,
+          "rank_label": "3/5"
         }
       ],
       "feature_mentions": {
-        "ancestry": 2,
+        "ancestry": 9,
         "auc": 10,
-        "covariates": 2,
-        "r2": 10,
+        "covariates": 7,
+        "r2": 7,
         "sample_size": 10,
         "trait_match": 10
       },
@@ -2527,12 +2534,11 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 9,
-        "method": 4,
-        "r2": 3,
+        "covariates": 10,
+        "method": 9,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 7
+        "variants": 8
       },
       "baseline": {
         "pgs_id": "PGS001042",
@@ -2670,115 +2676,116 @@
           "validation_sample_size": "n=94,651"
         }
       ],
-      "trial_hits": 0,
-      "trial_hit_rate": 0.0,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS005270",
+      "modal_recommendation": "PGS005271",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 3,
-      "modal_recommendation_rank_label": "3/3",
-      "modal_recommendation_in_target_topk": false,
+      "modal_recommendation_rank": 2,
+      "modal_recommendation_rank_label": "2/3",
+      "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270",
-        "PGS005270"
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271",
+        "PGS005271"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 3,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 8,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
-          "in_target_topk": false
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
+          "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS005270",
+          "pgs_id": "PGS005271",
           "count": 10,
-          "rank": 3,
-          "rank_label": "3/3"
+          "rank": 2,
+          "rank_label": "2/3"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 3,
+        "covariates": 10,
+        "method": 10,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 8
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS005270",
@@ -3680,10 +3687,11 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "r2": 10,
+        "method": 3,
+        "r2": 8,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 9
+        "variants": 5
       },
       "baseline": {
         "pgs_id": "PGS000874",
@@ -3932,10 +3940,11 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 10,
+        "ancestry": 9,
         "auc": 10,
-        "method": 1,
-        "r2": 1,
+        "covariates": 4,
+        "method": 4,
+        "r2": 6,
         "sample_size": 10,
         "trait_match": 10,
         "variants": 10
@@ -4874,11 +4883,13 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 8,
+        "ancestry": 10,
         "auc": 10,
-        "r2": 10,
+        "covariates": 3,
+        "method": 10,
         "sample_size": 10,
-        "trait_match": 10
+        "trait_match": 10,
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS005218",
@@ -5121,10 +5132,11 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 2,
+        "covariates": 5,
+        "method": 1,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 8
+        "variants": 4
       },
       "baseline": {
         "pgs_id": "PGS000324",
@@ -5639,12 +5651,13 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 3,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 1,
+        "covariates": 7,
+        "method": 3,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 10
+        "variants": 9
       },
       "baseline": {
         "pgs_id": "PGS004908",
@@ -5865,7 +5878,7 @@
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS000334",
-      "modal_recommendation_count": 8,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 3,
       "modal_recommendation_rank_label": "3/5",
       "modal_recommendation_in_target_topk": false,
@@ -5878,8 +5891,8 @@
         "PGS000334",
         "PGS000334",
         "PGS000334",
-        "PGS004918",
-        "PGS004918"
+        "PGS000334",
+        "PGS000334"
       ],
       "trial_recommendations_detailed": [
         {
@@ -5940,40 +5953,36 @@
         },
         {
           "trial": 9,
-          "pgs_id": "PGS004918",
-          "rank": 4,
-          "rank_label": "4/5",
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
           "in_target_topk": false
         },
         {
           "trial": 10,
-          "pgs_id": "PGS004918",
-          "rank": 4,
-          "rank_label": "4/5",
+          "pgs_id": "PGS000334",
+          "rank": 3,
+          "rank_label": "3/5",
           "in_target_topk": false
         }
       ],
       "recommended_model_counts": [
         {
           "pgs_id": "PGS000334",
-          "count": 8,
+          "count": 10,
           "rank": 3,
           "rank_label": "3/5"
-        },
-        {
-          "pgs_id": "PGS004918",
-          "count": 2,
-          "rank": 4,
-          "rank_label": "4/5"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
+        "covariates": 7,
+        "method": 1,
         "r2": 10,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 8
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS004918",
@@ -6345,12 +6354,11 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 4,
-        "method": 5,
+        "covariates": 10,
+        "method": 3,
         "r2": 10,
         "sample_size": 10,
-        "trait_match": 10,
-        "variants": 5
+        "trait_match": 10
       },
       "baseline": {
         "pgs_id": "PGS005273",
@@ -6634,115 +6642,129 @@
           "validation_sample_size": "n=100,960"
         }
       ],
-      "trial_hits": 0,
-      "trial_hit_rate": 0.0,
+      "trial_hits": 6,
+      "trial_hit_rate": 0.6,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001298",
-      "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 8,
-      "modal_recommendation_rank_label": "8/10",
-      "modal_recommendation_in_target_topk": false,
+      "modal_recommendation": "PGS005235",
+      "modal_recommendation_count": 6,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/10",
+      "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298",
-        "PGS001298"
+        "PGS005235",
+        "PGS003959",
+        "PGS005235",
+        "PGS005235",
+        "PGS005235",
+        "PGS005235",
+        "PGS003400",
+        "PGS005235",
+        "PGS003959",
+        "PGS003959"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
-          "in_target_topk": false
+          "pgs_id": "PGS005235",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
+          "pgs_id": "PGS003959",
+          "rank": 3,
+          "rank_label": "3/10",
           "in_target_topk": false
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
-          "in_target_topk": false
+          "pgs_id": "PGS005235",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
-          "in_target_topk": false
+          "pgs_id": "PGS005235",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
-          "in_target_topk": false
+          "pgs_id": "PGS005235",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
-          "in_target_topk": false
+          "pgs_id": "PGS005235",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
+          "pgs_id": "PGS003400",
+          "rank": 9,
+          "rank_label": "9/10",
           "in_target_topk": false
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
-          "in_target_topk": false
+          "pgs_id": "PGS005235",
+          "rank": 1,
+          "rank_label": "1/10",
+          "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
+          "pgs_id": "PGS003959",
+          "rank": 3,
+          "rank_label": "3/10",
           "in_target_topk": false
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001298",
-          "rank": 8,
-          "rank_label": "8/10",
+          "pgs_id": "PGS003959",
+          "rank": 3,
+          "rank_label": "3/10",
           "in_target_topk": false
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001298",
-          "count": 10,
-          "rank": 8,
-          "rank_label": "8/10"
+          "pgs_id": "PGS005235",
+          "count": 6,
+          "rank": 1,
+          "rank_label": "1/10"
+        },
+        {
+          "pgs_id": "PGS003959",
+          "count": 3,
+          "rank": 3,
+          "rank_label": "3/10"
+        },
+        {
+          "pgs_id": "PGS003400",
+          "count": 1,
+          "rank": 9,
+          "rank_label": "9/10"
         }
       ],
       "feature_mentions": {
-        "ancestry": 8,
-        "auc": 10,
+        "ancestry": 10,
+        "auc": 9,
+        "covariates": 8,
+        "method": 5,
         "r2": 10,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 4
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS001298",
@@ -7396,8 +7418,9 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 3,
-        "r2": 2,
+        "covariates": 8,
+        "method": 6,
+        "r2": 3,
         "sample_size": 10,
         "trait_match": 10,
         "variants": 10
@@ -7694,11 +7717,12 @@
       "feature_mentions": {
         "ancestry": 9,
         "auc": 10,
-        "method": 9,
-        "r2": 2,
+        "covariates": 1,
+        "method": 7,
+        "r2": 7,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 9
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS001797",
@@ -7971,9 +7995,12 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
+        "covariates": 1,
+        "method": 2,
         "r2": 10,
         "sample_size": 10,
-        "trait_match": 10
+        "trait_match": 10,
+        "variants": 5
       },
       "baseline": {
         "pgs_id": "PGS005217",
@@ -8192,14 +8219,13 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 8,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 2,
         "method": 3,
         "r2": 10,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 9
+        "variants": 2
       },
       "baseline": null,
       "baseline_in_target_topk": false
@@ -11220,108 +11246,129 @@
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS005237",
-      "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 72,
-      "modal_recommendation_rank_label": "72/96",
+      "modal_recommendation": "PGS000719",
+      "modal_recommendation_count": 4,
+      "modal_recommendation_rank": 11,
+      "modal_recommendation_rank_label": "11/96",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237",
-        "PGS005237"
+        "PGS003415",
+        "PGS000719",
+        "PGS000795",
+        "PGS000084",
+        "PGS000795",
+        "PGS000719",
+        "PGS003415",
+        "PGS003415",
+        "PGS000719",
+        "PGS000719"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS003415",
+          "rank": 79,
+          "rank_label": "79/96",
           "in_target_topk": false
         },
         {
           "trial": 2,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000719",
+          "rank": 11,
+          "rank_label": "11/96",
           "in_target_topk": false
         },
         {
           "trial": 3,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000795",
+          "rank": 54,
+          "rank_label": "54/96",
           "in_target_topk": false
         },
         {
           "trial": 4,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000084",
+          "rank": 75,
+          "rank_label": "75/96",
           "in_target_topk": false
         },
         {
           "trial": 5,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000795",
+          "rank": 54,
+          "rank_label": "54/96",
           "in_target_topk": false
         },
         {
           "trial": 6,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000719",
+          "rank": 11,
+          "rank_label": "11/96",
           "in_target_topk": false
         },
         {
           "trial": 7,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS003415",
+          "rank": 79,
+          "rank_label": "79/96",
           "in_target_topk": false
         },
         {
           "trial": 8,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS003415",
+          "rank": 79,
+          "rank_label": "79/96",
           "in_target_topk": false
         },
         {
           "trial": 9,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000719",
+          "rank": 11,
+          "rank_label": "11/96",
           "in_target_topk": false
         },
         {
           "trial": 10,
-          "pgs_id": "PGS005237",
-          "rank": 72,
-          "rank_label": "72/96",
+          "pgs_id": "PGS000719",
+          "rank": 11,
+          "rank_label": "11/96",
           "in_target_topk": false
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS005237",
-          "count": 10,
-          "rank": 72,
-          "rank_label": "72/96"
+          "pgs_id": "PGS000719",
+          "count": 4,
+          "rank": 11,
+          "rank_label": "11/96"
+        },
+        {
+          "pgs_id": "PGS003415",
+          "count": 3,
+          "rank": 79,
+          "rank_label": "79/96"
+        },
+        {
+          "pgs_id": "PGS000795",
+          "count": 2,
+          "rank": 54,
+          "rank_label": "54/96"
+        },
+        {
+          "pgs_id": "PGS000084",
+          "count": 1,
+          "rank": 75,
+          "rank_label": "75/96"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
+        "covariates": 8,
+        "method": 10,
         "sample_size": 10,
-        "trait_match": 10
+        "trait_match": 10,
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS001291",
@@ -11532,13 +11579,13 @@
           "validation_sample_size": "n=56,192"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 9,
+      "trial_hit_rate": 0.9,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS001279",
-      "modal_recommendation_count": 10,
+      "modal_recommendation_count": 9,
       "modal_recommendation_rank": 4,
       "modal_recommendation_rank_label": "4/7",
       "modal_recommendation_in_target_topk": true,
@@ -11548,7 +11595,7 @@
         "PGS001279",
         "PGS001279",
         "PGS001279",
-        "PGS001279",
+        "PGS003861",
         "PGS001279",
         "PGS001279",
         "PGS001279",
@@ -11592,10 +11639,10 @@
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001279",
-          "rank": 4,
-          "rank_label": "4/7",
-          "in_target_topk": true
+          "pgs_id": "PGS003861",
+          "rank": 7,
+          "rank_label": "7/7",
+          "in_target_topk": false
         },
         {
           "trial": 7,
@@ -11629,19 +11676,26 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS001279",
-          "count": 10,
+          "count": 9,
           "rank": 4,
           "rank_label": "4/7"
+        },
+        {
+          "pgs_id": "PGS003861",
+          "count": 1,
+          "rank": 7,
+          "rank_label": "7/7"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "method": 1,
-        "r2": 10,
-        "sample_size": 10,
+        "covariates": 2,
+        "method": 10,
+        "r2": 8,
+        "sample_size": 5,
         "trait_match": 10,
-        "variants": 1
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS001279",
@@ -12106,10 +12160,12 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 1,
+        "covariates": 9,
+        "method": 2,
+        "r2": 4,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 9
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS004908",
@@ -12318,8 +12374,11 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
+        "covariates": 6,
+        "method": 8,
         "sample_size": 10,
-        "trait_match": 10
+        "trait_match": 10,
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS000471",
@@ -12868,13 +12927,13 @@
           "validation_sample_size": "n=21,975"
         }
       ],
-      "trial_hits": 9,
-      "trial_hit_rate": 0.9,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS005220",
-      "modal_recommendation_count": 9,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/20",
       "modal_recommendation_in_target_topk": true,
@@ -12887,7 +12946,7 @@
         "PGS005220",
         "PGS005220",
         "PGS005220",
-        "PGS005219",
+        "PGS005220",
         "PGS005220"
       ],
       "trial_recommendations_detailed": [
@@ -12949,10 +13008,10 @@
         },
         {
           "trial": 9,
-          "pgs_id": "PGS005219",
-          "rank": 2,
-          "rank_label": "2/20",
-          "in_target_topk": false
+          "pgs_id": "PGS005220",
+          "rank": 1,
+          "rank_label": "1/20",
+          "in_target_topk": true
         },
         {
           "trial": 10,
@@ -12965,25 +13024,20 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS005220",
-          "count": 9,
+          "count": 10,
           "rank": 1,
           "rank_label": "1/20"
-        },
-        {
-          "pgs_id": "PGS005219",
-          "count": 1,
-          "rank": 2,
-          "rank_label": "2/20"
         }
       ],
       "feature_mentions": {
-        "ancestry": 2,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 7,
-        "r2": 7,
-        "sample_size": 3,
+        "covariates": 5,
+        "method": 3,
+        "r2": 1,
+        "sample_size": 10,
         "trait_match": 10,
-        "variants": 9
+        "variants": 8
       },
       "baseline": {
         "pgs_id": "PGS005219",
@@ -13367,110 +13421,112 @@
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001164",
+      "modal_recommendation": "PGS000796",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 3,
-      "modal_recommendation_rank_label": "3/14",
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/14",
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164",
-        "PGS001164"
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796",
+        "PGS000796"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001164",
-          "rank": 3,
-          "rank_label": "3/14",
+          "pgs_id": "PGS000796",
+          "rank": 1,
+          "rank_label": "1/14",
           "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001164",
+          "pgs_id": "PGS000796",
           "count": 10,
-          "rank": 3,
-          "rank_label": "3/14"
+          "rank": 1,
+          "rank_label": "1/14"
         }
       ],
       "feature_mentions": {
-        "ancestry": 3,
+        "ancestry": 10,
         "auc": 10,
-        "method": 1,
-        "sample_size": 10,
+        "covariates": 3,
+        "method": 10,
+        "r2": 6,
+        "sample_size": 9,
         "trait_match": 10,
-        "variants": 1
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS001164",
@@ -14427,111 +14483,118 @@
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001289",
-      "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 24,
-      "modal_recommendation_rank_label": "24/32",
+      "modal_recommendation": "PGS004954",
+      "modal_recommendation_count": 9,
+      "modal_recommendation_rank": 8,
+      "modal_recommendation_rank_label": "8/32",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289",
-        "PGS001289"
+        "PGS004954",
+        "PGS004954",
+        "PGS004954",
+        "PGS004954",
+        "PGS004954",
+        "PGS005259",
+        "PGS004954",
+        "PGS004954",
+        "PGS004954",
+        "PGS004954"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS005259",
+          "rank": 4,
+          "rank_label": "4/32",
           "in_target_topk": false
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001289",
-          "rank": 24,
-          "rank_label": "24/32",
+          "pgs_id": "PGS004954",
+          "rank": 8,
+          "rank_label": "8/32",
           "in_target_topk": false
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001289",
-          "count": 10,
-          "rank": 24,
-          "rank_label": "24/32"
+          "pgs_id": "PGS004954",
+          "count": 9,
+          "rank": 8,
+          "rank_label": "8/32"
+        },
+        {
+          "pgs_id": "PGS005259",
+          "count": 1,
+          "rank": 4,
+          "rank_label": "4/32"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "method": 8,
-        "r2": 9,
-        "sample_size": 10,
+        "covariates": 8,
+        "method": 10,
+        "r2": 1,
+        "sample_size": 8,
         "trait_match": 10,
-        "variants": 9
+        "variants": 10
       },
       "baseline": {
         "pgs_id": "PGS001289",
@@ -14936,114 +14999,116 @@
           "validation_sample_size": "n=57,359"
         }
       ],
-      "trial_hits": 0,
-      "trial_hit_rate": 0.0,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001795",
+      "modal_recommendation": "PGS003381",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 9,
-      "modal_recommendation_rank_label": "9/14",
-      "modal_recommendation_in_target_topk": false,
+      "modal_recommendation_rank": 3,
+      "modal_recommendation_rank_label": "3/14",
+      "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795",
-        "PGS001795"
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381",
+        "PGS003381"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001795",
-          "rank": 9,
-          "rank_label": "9/14",
-          "in_target_topk": false
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
+          "in_target_topk": true
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001795",
+          "pgs_id": "PGS003381",
           "count": 10,
-          "rank": 9,
-          "rank_label": "9/14"
+          "rank": 3,
+          "rank_label": "3/14"
         }
       ],
       "feature_mentions": {
+        "ancestry": 10,
         "auc": 10,
-        "r2": 7,
-        "sample_size": 3,
+        "covariates": 3,
+        "method": 2,
+        "sample_size": 10,
         "trait_match": 10,
-        "variants": 2
+        "variants": 3
       },
       "baseline": {
         "pgs_id": "PGS001299",
@@ -15150,109 +15215,112 @@
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS001536",
+      "modal_recommendation": "PGS000738",
       "modal_recommendation_count": 10,
-      "modal_recommendation_rank": 3,
-      "modal_recommendation_rank_label": "3/3",
+      "modal_recommendation_rank": 2,
+      "modal_recommendation_rank_label": "2/3",
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536",
-        "PGS001536"
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738",
+        "PGS000738"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 2,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 3,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 4,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 5,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 7,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001536",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS000738",
+          "rank": 2,
+          "rank_label": "2/3",
           "in_target_topk": false
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS001536",
+          "pgs_id": "PGS000738",
           "count": 10,
-          "rank": 3,
-          "rank_label": "3/3"
+          "rank": 2,
+          "rank_label": "2/3"
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 10,
         "auc": 10,
+        "covariates": 3,
+        "method": 3,
         "r2": 10,
-        "sample_size": 10,
-        "trait_match": 10
+        "sample_size": 7,
+        "trait_match": 10,
+        "variants": 3
       },
       "baseline": {
         "pgs_id": "PGS001536",
@@ -15266,26 +15334,35 @@
       "baseline_in_target_topk": false
     }
   ],
+  "execution_mode": "quick_eval_chat_completions",
   "cost": {
     "model_pricing_key": "gpt-5.2",
     "token_usage": {
-      "input_tokens": 670252,
-      "cached_input_tokens": 51072,
-      "uncached_input_tokens": 619180,
-      "output_tokens": 89600,
-      "total_tokens": 759852
+      "input_tokens": 735290,
+      "cached_input_tokens": 56028,
+      "uncached_input_tokens": 679262,
+      "output_tokens": 125722,
+      "total_tokens": 861012
     },
     "pricing_per_million_tokens_usd": {
-      "input": 0.875,
-      "cached_input": 0.0875,
-      "output": 7.0
+      "input": 1.75,
+      "cached_input": 0.175,
+      "output": 14.0
     },
-    "method": "exact_batch_usage_times_official_batch_tier_prices",
+    "method": "estimated_quick_eval_tokens_from_request_response_content_with_native_batch_calibration",
+    "calibration_source_run_dir": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/without-domain-gpt-5.2-t10",
     "estimated_cost_breakdown_usd": {
-      "uncached_input": 0.5418,
-      "cached_input": 0.0045,
-      "output": 0.6272
+      "uncached_input": 1.1887,
+      "cached_input": 0.0098,
+      "output": 1.7601
     },
-    "estimated_total_cost_usd": 1.1735
+    "estimated_total_cost_usd": 2.9586,
+    "estimation_notes": {
+      "raw_input_tokens_from_tokenized_requests": 752272,
+      "raw_output_tokens_from_reconstructed_decisions": 120554,
+      "input_calibration_ratio": 0.977426,
+      "output_calibration_ratio": 1.042867,
+      "cached_input_share": 0.076198
+    }
   }
 }

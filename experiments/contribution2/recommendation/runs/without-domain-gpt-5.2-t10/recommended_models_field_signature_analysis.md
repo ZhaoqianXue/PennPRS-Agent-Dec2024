@@ -1,20 +1,20 @@
-# Analysis of Recommended Models in `native-gpt__gpt-5.2__t10`
+# Analysis of Recommended Models in `without-domain-gpt-5.2-t10`
 
 ## Scope
 
-This note analyzes why the modal `Recommended Models` were selected in the Native GPT Contribution2 run, using only the fields exposed to the model under the PGS Catalog metadata context:
+This note analyzes why the modal `Recommended Models` were selected in the Without Domain Knowledge Contribution2 run, using only the fields exposed to the model under the PGS Catalog metadata context:
 
 `trait_reported`, `trait_efo`, `phenotyping_reported`, `performance_metrics`, `validation_sample_size`, `samples_variants`, `samples_training`, `ancestry_distribution`, `method_name`, `variants_number`, `variants_genomebuild`, `covariates`, `training_development_cohorts`, `publication`, and `date_release`.
 
 The analysis is derived from three run artifacts:
 
-- `experiment_native_gpt_batch_requests.jsonl`
-- `experiment_native_gpt_results.json`
-- `experiment_native_gpt_summary.json`
+- `experiment_without_domain_batch_requests.jsonl`
+- `experiment_without_domain_results.json`
+- `experiment_without_domain_summary.json`
 
 ## Executive Takeaways
 
-- Native GPT behaves as a metadata-driven reranker rather than a domain-aware PRS scientist.
+- Without Domain Knowledge behaves as a metadata-driven reranker rather than a domain-aware PRS scientist.
 - Its dominant heuristic is: phenotype alignment first, then reported validation strength, then study-scale/portability proxies.
 - This heuristic is highly stable: 27/30 diseases had the same recommendation in all 10 trials.
 - It is often useful: 20/30 modal recommendations landed in the benchmark `Target_TopK`.
@@ -61,7 +61,7 @@ This suggests that GPT was attracted to modern large-scale models in general, bu
 
 ## Why These Models Were Chosen
 
-In practice, Native GPT translated the visible fields into a stable ranking rule:
+In practice, Without Domain Knowledge translated the visible fields into a stable ranking rule:
 
 1. Keep only exact or near-exact direct matches for the target disease.
 2. Prefer the model with the strongest reported AUC relative to the global performance landscape.
@@ -98,7 +98,7 @@ Representative failure patterns:
 | Standardized high-metric `snpnet` model | `PGS001299` for cervical carcinoma | AUC `0.91431`, R2 `0.22017`, training `n=269,704`, validation `n=67,425` | It ranked `6/6` in the benchmark |
 | Same `snpnet` pattern repeated across diseases | `PGS001289` thyroid carcinoma, `PGS001298` obesity, `PGS001536` vitiligo | Strong reported AUC/R2 and clean UKB-style metadata | They ranked `24/32`, `8/10`, and `3/3`, respectively |
 
-The central lesson is that Native GPT was often selecting the model with the best-looking published metadata, not the model with the best external portability to All of Us.
+The central lesson is that Without Domain Knowledge was often selecting the model with the best-looking published metadata, not the model with the best external portability to All of Us.
 
 ## Interpretation for Contribution2
 

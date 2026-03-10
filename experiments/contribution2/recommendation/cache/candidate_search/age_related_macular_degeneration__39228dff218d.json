@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "age-related macular degeneration",
   "candidate_model_ids": [
     "PGS002041",
@@ -18,7 +18,10 @@
       "method_name": "Penalized regression (bigstatsr)",
       "variants_number": 157,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -27,12 +30,9 @@
       },
       "phenotyping_reported": "Macular degeneration (senile) of retina NOS",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009304",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=19,413"
     },
     {
@@ -42,7 +42,10 @@
       "method_name": "LDpred2 (bigsnpr)",
       "variants_number": 116538,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -51,12 +54,9 @@
       },
       "phenotyping_reported": "Macular degeneration (senile) of retina NOS",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009304",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=19,413"
     },
     {
@@ -66,7 +66,10 @@
       "method_name": "Independent variants associated with AMD",
       "variants_number": 47,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
-      "publication": "Photoreceptor Layer Thinning Is an Early Biomarker for Age-Related Macular Degeneration: Epidemiologic and Genetic Evidence from UK Biobank OCT Data.",
+      "publication": {
+        "title": "Photoreceptor Layer Thinning Is an Early Biomarker for Age-Related Macular Degeneration: Epidemiologic and Genetic Evidence from UK Biobank OCT Data.",
+        "journal": "Ophthalmology"
+      },
       "date_release": "2022-04-01",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -75,7 +78,6 @@
       },
       "phenotyping_reported": "Rentinal layer thickness (photoreceptor inner and outer segments)",
       "covariates": "Age, age2 (to adjust for non-linear relationships with age), sex, smoking status, and the first ten principal components of genetic ancestry",
-      "sampleset": "PSS009618",
       "training_development_cohorts": [
         "AREDS",
         "BDES",
@@ -92,8 +94,6 @@
         "UWALF",
         "Vanderbilt"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=33,976",
       "validation_sample_size": "n=44,823"
     },
     {
@@ -103,7 +103,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1000946,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries.",
+      "publication": {
+        "title": "Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2024-02-20",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -112,12 +115,9 @@
       },
       "phenotyping_reported": "Age-related macular degeneration",
       "covariates": "age, sex, principal components 1-10",
-      "sampleset": "PSS011398",
       "training_development_cohorts": [
         "IAMDGC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=33,976",
       "validation_sample_size": "n=163,011"
     },
     {
@@ -127,7 +127,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1067520,
       "ancestry_distribution": "GWAS: AFR (100%) | EVAL: EUR (100%)",
-      "publication": "Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries.",
+      "publication": {
+        "title": "Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2024-02-20",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -136,12 +139,9 @@
       },
       "phenotyping_reported": "Age-related macular degeneration",
       "covariates": "age, sex, principal components 1-10",
-      "sampleset": "PSS011398",
       "training_development_cohorts": [
         "MVP"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=31,525",
       "validation_sample_size": "n=163,011"
     },
     {
@@ -151,7 +151,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 52,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
+      "publication": {
+        "title": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
+        "journal": "Invest Ophthalmol Vis Sci"
+      },
       "date_release": "2024-09-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -160,12 +163,9 @@
       },
       "phenotyping_reported": "Early age-related macular degeneration (Clinical Classification)",
       "covariates": "Age, sex, survey membership, 10 PCs",
-      "sampleset": "PSS011783",
       "training_development_cohorts": [
         "IAMDGC"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=33,976",
       "validation_sample_size": "n=1,780"
     }
   ],
@@ -174,8 +174,6 @@
     "reported_auc": 0.842,
     "trait_reported": "Age-related macular degeneration",
     "method_name": "Genome-wide significant SNPs",
-    "validation_sample_size": "n=1,780",
-    "rank": 3,
-    "rank_label": "3/6"
+    "validation_sample_size": "n=1,780"
   }
 }

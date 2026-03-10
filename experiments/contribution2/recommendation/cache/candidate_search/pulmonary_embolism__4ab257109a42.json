@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "pulmonary embolism",
   "candidate_model_ids": [
     "PGS004530",
@@ -19,7 +19,10 @@
       "method_name": "snpnet",
       "variants_number": 96,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
@@ -28,12 +31,9 @@
       },
       "phenotyping_reported": "PE +/- DVT",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS004344",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,425"
     },
     {
@@ -43,7 +43,10 @@
       "method_name": "snpnet",
       "variants_number": 551,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,382",
       "performance_metrics": {
@@ -52,12 +55,9 @@
       },
       "phenotyping_reported": "Blood clot in the leg (DVT) or lung",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS003795",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,349"
     },
     {
@@ -67,7 +67,10 @@
       "method_name": "snpnet",
       "variants_number": 94,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,382",
       "performance_metrics": {
@@ -76,12 +79,9 @@
       },
       "phenotyping_reported": "Blood clot in the lung",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS004014",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,349"
     },
     {
@@ -91,7 +91,10 @@
       "method_name": "snpnet",
       "variants_number": 88,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
@@ -100,12 +103,9 @@
       },
       "phenotyping_reported": "TTE PE",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS004731",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,425"
     },
     {
@@ -115,7 +115,10 @@
       "method_name": "PRSice-2",
       "variants_number": 288,
       "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
-      "publication": "Genome-wide association analyses identified novel susceptibility loci for pulmonary embolism among Han Chinese population.",
+      "publication": {
+        "title": "Genome-wide association analyses identified novel susceptibility loci for pulmonary embolism among Han Chinese population.",
+        "journal": "BMC Med"
+      },
       "date_release": "2023-09-01",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -124,12 +127,9 @@
       },
       "phenotyping_reported": "Pulmonary embolism",
       "covariates": "Unknown",
-      "sampleset": "PSS011090",
       "training_development_cohorts": [
         "CURES_China"
       ],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=9,478",
       "validation_sample_size": "n=9,456"
     },
     {
@@ -139,7 +139,10 @@
       "method_name": "LDpred2",
       "variants_number": 1059939,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
       "date_release": "2024-03-18",
       "samples_training": "n=174,489",
       "performance_metrics": {
@@ -148,12 +151,9 @@
       },
       "phenotyping_reported": "I26 (Pulmonary embolism)",
       "covariates": "Unknown",
-      "sampleset": "PSS011364",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=56,192"
     },
     {
@@ -163,7 +163,10 @@
       "method_name": "RFDiseasemetaPRS",
       "variants_number": 1059939,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
       "date_release": "2024-03-18",
       "samples_training": "n=174,489",
       "performance_metrics": {
@@ -172,12 +175,9 @@
       },
       "phenotyping_reported": "I26 (Pulmonary embolism)",
       "covariates": "Unknown",
-      "sampleset": "PSS011364",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=56,192"
     }
   ],
@@ -186,8 +186,6 @@
     "reported_auc": 0.8256,
     "trait_reported": "previously: Blood clot in the lung",
     "method_name": "snpnet",
-    "validation_sample_size": "n=67,349",
-    "rank": 4,
-    "rank_label": "4/7"
+    "validation_sample_size": "n=67,349"
   }
 }

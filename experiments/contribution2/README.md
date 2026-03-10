@@ -13,7 +13,7 @@ contribution2/
 │
 ├── recommendation/       # 推荐模型 (Agent model recommendation evaluation)
 │   ├── configs/           # generate_evaluated_pgs_list.py
-│   ├── scripts/           # run_experiment_native_gpt.py, test_agent_n_models_input.py
+│   ├── scripts/           # run_experiment_without_domain.py, test_agent_n_models_input.py
 │   ├── docs/              # EXPERIMENT_DESIGN.md
 │   └── runs/              # evaluated_pgs, top_k_pgs, experiment results
 │
@@ -60,9 +60,9 @@ python experiments/contribution2/recommendation/configs/generate_evaluated_pgs_l
 
 Outputs: `recommendation/runs/evaluated_pgs_per_ontology.json`, `top_k_pgs_per_ontology.json`
 
-### 2. Run Experiment (Native GPT Batch)
+### 2. Run Experiment (Without Domain Knowledge Batch)
 
-Configure `.env` with `OPENAI_API_KEY` (see `.env.example`). The script loads `.env` automatically and enforces the formal native-GPT protocol:
+Configure `.env` with `OPENAI_API_KEY` (see `.env.example`). The script loads `.env` automatically and enforces the formal without-domain protocol:
 
 - 30 diseases from the union CSV
 - 10 trials per disease by default
@@ -83,19 +83,19 @@ The Markdown report also includes an experiment-cost summary computed from exact
 
 ```bash
 # Prepare requests and submit one OpenAI Batch job
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py
 
 # Quick debug: prepare a smaller batch only
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode prepare --limit 3 --trials 2
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode prepare --limit 3 --trials 2
 
 # Check batch status later
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode status
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode status
 
 # Download completed batch outputs and build final metrics/report
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode collect
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode collect
 ```
 
-### 3. Run Experiment (GPT + `prs_model_domain_knowledge`)
+### 3. Run Experiment (With Domain Knowledge)
 
 This arm keeps the exact same Contribution2 protocol, but enables the local curated knowledge base used by `prs_model_domain_knowledge`.
 
@@ -104,21 +104,21 @@ This arm keeps the exact same Contribution2 protocol, but enables the local cura
 - same `N Models` candidate pool
 - same 10 trials per disease
 - same strict no-fallback policy
-- same disease-level report format as the native arm
-- plus one extra Markdown report comparing `with domain knowledge` vs archived `native GPT-5.2`
+- same disease-level report format as the Without Domain Knowledge arm
+- plus one extra Markdown report comparing `With Domain Knowledge` vs the archived `without-domain-gpt-5.2-t10` run
 
 ```bash
 # Prepare requests and submit one OpenAI Batch job
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py
 
 # Quick debug: prepare a smaller batch only
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode prepare --limit 3 --trials 2
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode prepare --limit 3 --trials 2
 
 # Check batch status later
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode status
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode status
 
 # Download completed batch outputs and build final metrics/report
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode collect
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode collect
 ```
 
 ### 4. Test N Models Input
@@ -127,30 +127,30 @@ python experiments/contribution2/recommendation/scripts/run_experiment_domain_kn
 python experiments/contribution2/recommendation/scripts/test_agent_n_models_input.py --limit 5
 ```
 
-### 5. Native GPT Outputs
+### 5. Without Domain Knowledge Outputs
 
 | Path | Description |
 |------|-------------|
-| `recommendation/runs/experiment_native_gpt_batch_requests.jsonl` | OpenAI Batch input JSONL |
-| `recommendation/runs/experiment_native_gpt_batch_manifest.json` | Local manifest with disease metadata and trial mapping |
-| `recommendation/runs/experiment_native_gpt_batch_job.json` | Latest batch job metadata |
-| `recommendation/runs/experiment_native_gpt_batch_output.jsonl` | Downloaded OpenAI Batch output |
-| `recommendation/runs/experiment_native_gpt_results.json` | Per-trial results across all diseases |
-| `recommendation/runs/experiment_native_gpt_summary.json` | Aggregate summary plus per-disease summaries |
-| `recommendation/runs/experiment_native_gpt_report.md` | Human-readable report |
+| `recommendation/runs/experiment_without_domain_batch_requests.jsonl` | OpenAI Batch input JSONL |
+| `recommendation/runs/experiment_without_domain_batch_manifest.json` | Local manifest with disease metadata and trial mapping |
+| `recommendation/runs/experiment_without_domain_batch_job.json` | Latest batch job metadata |
+| `recommendation/runs/experiment_without_domain_batch_output.jsonl` | Downloaded OpenAI Batch output |
+| `recommendation/runs/experiment_without_domain_results.json` | Per-trial results across all diseases |
+| `recommendation/runs/experiment_without_domain_summary.json` | Aggregate summary plus per-disease summaries |
+| `recommendation/runs/experiment_without_domain_report.md` | Human-readable report |
 
-### 6. Domain-Knowledge GPT Outputs
+### 6. With Domain Knowledge Outputs
 
 | Path | Description |
 |------|-------------|
-| `recommendation/runs/experiment_domain_knowledge_gpt_batch_requests.jsonl` | OpenAI Batch input JSONL |
-| `recommendation/runs/experiment_domain_knowledge_gpt_batch_manifest.json` | Local manifest with disease metadata and trial mapping |
-| `recommendation/runs/experiment_domain_knowledge_gpt_batch_job.json` | Latest batch job metadata |
-| `recommendation/runs/experiment_domain_knowledge_gpt_batch_output.jsonl` | Downloaded OpenAI Batch output |
-| `recommendation/runs/experiment_domain_knowledge_gpt_results.json` | Per-trial results across all diseases |
-| `recommendation/runs/experiment_domain_knowledge_gpt_summary.json` | Aggregate summary plus per-disease summaries |
-| `recommendation/runs/experiment_domain_knowledge_gpt_report.md` | Human-readable report with the same format as the native arm |
-| `recommendation/runs/experiment_domain_knowledge_vs_native_gpt_report.md` | Comparison report versus archived native GPT-5.2 |
+| `recommendation/runs/experiment_with_domain_batch_requests.jsonl` | OpenAI Batch input JSONL |
+| `recommendation/runs/experiment_with_domain_batch_manifest.json` | Local manifest with disease metadata and trial mapping |
+| `recommendation/runs/experiment_with_domain_batch_job.json` | Latest batch job metadata |
+| `recommendation/runs/experiment_with_domain_batch_output.jsonl` | Downloaded OpenAI Batch output |
+| `recommendation/runs/experiment_with_domain_results.json` | Per-trial results across all diseases |
+| `recommendation/runs/experiment_with_domain_summary.json` | Aggregate summary plus per-disease summaries |
+| `recommendation/runs/experiment_with_domain_report.md` | Human-readable report with the same format as the Without Domain Knowledge arm |
+| `recommendation/runs/experiment_with_vs_without_domain_report.md` | Comparison report versus the archived `without-domain-gpt-5.2-t10` run |
 
 ### Design
 

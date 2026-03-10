@@ -1,15 +1,15 @@
-# Contribution2 Experiment 2: GPT + prs_model_domain_knowledge vs Native GPT vs Baseline
+# Contribution2 Experiment 2: With Domain Knowledge vs Without Domain Knowledge vs Baseline
 
 ## Summary
 
 - **Model**: gpt-5.2
-- **GPT + prs_model_domain_knowledge**: 25/30 = 83.33%
-- **Native GPT**: 20/30 = 66.67%
+- **With Domain Knowledge**: 25/30 = 83.33%
+- **Without Domain Knowledge**: 20/30 = 66.67%
 - **Baseline**: 11/30 = 36.67%
 
 ## Results by Disease
 
-| Ontology | N Models | Target_TopK | Baseline Hits Target | Baseline Models | Native GPT Hits Target | Native GPT | Domain GPT Hits Target | Domain GPT |
+| Ontology | N Models | Target_TopK | Baseline Hits Target | Baseline Models | Without Domain Knowledge Hits Target | Without Domain Knowledge | With Domain Knowledge Hits Target | With Domain Knowledge |
 |----------|----------|-------------|----------------------|-----------------|------------------------|------------|------------------------|------------|
 | prostate cancer | 96 | 1 | No | PGS001291 (AUC rank 18/96) | No | PGS005237 (AUC rank 72/96): x10 | No | PGS000719 (AUC rank 11/96): x4<br>PGS003415 (AUC rank 79/96): x3<br>PGS000795 (AUC rank 54/96): x2<br>PGS000084 (AUC rank 75/96): x1 |
 | thyroid carcinoma | 32 | 3 | No | PGS001289 (AUC rank 24/32) | No | PGS001289 (AUC rank 24/32): x10 | No | PGS004954 (AUC rank 8/32): x9<br>PGS005259 (AUC rank 4/32): x1 |

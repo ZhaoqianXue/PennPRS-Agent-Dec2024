@@ -53,7 +53,7 @@ These fields come from the `[Agent + UI]` specification in [sop.md](/Users/zhaoq
 
 ---
 
-## Experiment 1: Native GPT
+## Experiment 1: Without Domain Knowledge
 
 ### Scope
 
@@ -72,12 +72,12 @@ This is the primary Contribution2 experiment and should be executed now.
 | Baseline | Highest reported AUC in PGS Catalog metadata |
 | LLM execution | OpenAI Batch API |
 
-### Native GPT protocol
+### Without Domain Knowledge protocol
 
 1. Use the 30 diseases from the union CSV.
 2. For each disease, restrict Step 1 candidates to `evaluated_pgs_per_ontology.json`.
 3. Disable `prs_model_domain_knowledge`.
-4. Use the native Step 1 prompt that explicitly instructs the LLM to reason only from candidate metadata plus `prs_model_performance_landscape`.
+4. Use the fixed Step 1 prompt and provide only candidate metadata plus `prs_model_performance_landscape` in context.
 5. Disable fallback behavior:
    - no fallback Step 1 decision
    - no fallback final report
@@ -154,34 +154,34 @@ The Markdown report includes an experiment cost summary.
 
 ```bash
 # Prepare requests and submit the batch job
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py
 
 # Debug only: prepare a smaller batch locally
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode prepare --limit 3 --trials 2
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode prepare --limit 3 --trials 2
 
 # Check batch status
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode status
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode status
 
 # Download completed batch output and compute final metrics/report
-python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode collect
+python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode collect
 ```
 
 ### Output files
 
 | Path | Description |
 |------|-------------|
-| `runs/experiment_native_gpt_batch_requests.jsonl` | OpenAI Batch input JSONL |
-| `runs/experiment_native_gpt_batch_manifest.json` | Local manifest with disease metadata and request mapping |
-| `runs/experiment_native_gpt_batch_job.json` | Batch job metadata |
-| `runs/experiment_native_gpt_batch_output.jsonl` | Downloaded OpenAI Batch output |
-| `runs/experiment_native_gpt_batch_errors.jsonl` | Downloaded OpenAI Batch errors (if any) |
-| `runs/experiment_native_gpt_results.json` | Per-trial results |
-| `runs/experiment_native_gpt_summary.json` | Aggregate summary plus per-disease summaries |
-| `runs/experiment_native_gpt_report.md` | Human-readable report |
+| `runs/experiment_without_domain_batch_requests.jsonl` | OpenAI Batch input JSONL |
+| `runs/experiment_without_domain_batch_manifest.json` | Local manifest with disease metadata and request mapping |
+| `runs/experiment_without_domain_batch_job.json` | Batch job metadata |
+| `runs/experiment_without_domain_batch_output.jsonl` | Downloaded OpenAI Batch output |
+| `runs/experiment_without_domain_batch_errors.jsonl` | Downloaded OpenAI Batch errors (if any) |
+| `runs/experiment_without_domain_results.json` | Per-trial results |
+| `runs/experiment_without_domain_summary.json` | Aggregate summary plus per-disease summaries |
+| `runs/experiment_without_domain_report.md` | Human-readable report |
 
 ---
 
-## Experiment 2: GPT + `prs_model_domain_knowledge`
+## Experiment 2: With Domain Knowledge
 
 ### Status
 
@@ -189,9 +189,9 @@ Implementation ready. Formal execution still requires an explicit run decision.
 
 ### Scope
 
-Experiment 2 is a strict paired ablation against the archived native GPT-5.2 result.
+Experiment 2 is a strict paired ablation against the archived Without Domain Knowledge GPT-5.2 result.
 
-The only intentional change relative to the native arm is:
+The only intentional change relative to the Without Domain Knowledge arm is:
 
 - Enable local `prs_model_domain_knowledge`
 
@@ -215,7 +215,7 @@ For Contribution2, `prs_model_domain_knowledge` is intentionally implemented as 
 
 This experiment therefore evaluates:
 
-- `GPT + local prs_model_domain_knowledge`
+- `With Domain Knowledge`
 
 not live web-search-based guideline retrieval.
 
@@ -223,41 +223,41 @@ not live web-search-based guideline retrieval.
 
 - fixed model for this arm: `gpt-5.2`
 
-This is locked so Experiment 2 can be compared directly with the archived native GPT-5.2 run.
+This is locked so Experiment 2 can be compared directly with the archived Without Domain Knowledge GPT-5.2 run.
 
 ### Outputs
 
-The arm produces a disease-level report with the same format as the native report, plus one additional comparison report.
+The arm produces a disease-level report with the same format as the Without Domain Knowledge report, plus one additional comparison report.
 
 Main outputs:
 
-- `runs/experiment_domain_knowledge_gpt_results.json`
-- `runs/experiment_domain_knowledge_gpt_summary.json`
-- `runs/experiment_domain_knowledge_gpt_report.md`
+- `runs/experiment_with_domain_results.json`
+- `runs/experiment_with_domain_summary.json`
+- `runs/experiment_with_domain_report.md`
 
 Comparison output:
 
-- `runs/experiment_domain_knowledge_vs_native_gpt_report.md`
+- `runs/experiment_with_vs_without_domain_report.md`
 
 ### Comparison targets
 
 - `Overall Recommended Model Accuracy`
 - `Baseline accuracy`
-- disease-level comparison against native GPT-5.2
+- disease-level comparison against the archived Without Domain Knowledge GPT-5.2 run
 - `Win / Loss / Tie-Hit / Tie-Miss`
 
 ### Batch workflow
 
 ```bash
 # Prepare requests and submit the domain-knowledge batch job
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py
 
 # Debug only: prepare a smaller local batch
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode prepare --limit 3 --trials 2
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode prepare --limit 3 --trials 2
 
 # Check batch status
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode status
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode status
 
 # Download completed batch output and compute final metrics/report
-python experiments/contribution2/recommendation/scripts/run_experiment_domain_knowledge_gpt.py --mode collect
+python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode collect
 ```

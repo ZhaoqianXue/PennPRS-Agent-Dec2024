@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "nodular goiter",
   "candidate_model_ids": [
     "PGS005274",
@@ -19,7 +19,10 @@
       "method_name": "Penalized regression (bigstatsr)",
       "variants_number": 322,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -28,12 +31,9 @@
       },
       "phenotyping_reported": "Nontoxic multinodular goiter",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009284",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=19,043"
     },
     {
@@ -43,7 +43,10 @@
       "method_name": "LDpred2 (bigsnpr)",
       "variants_number": 375470,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
-      "publication": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2022-01-10",
       "samples_training": "n=391,124",
       "performance_metrics": {
@@ -52,12 +55,9 @@
       },
       "phenotyping_reported": "Nontoxic multinodular goiter",
       "covariates": "sex, age, birth date, deprivation index, 16 PCs",
-      "sampleset": "PSS009284",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=19,043"
     },
     {
@@ -67,7 +67,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 110,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -76,7 +79,6 @@
       },
       "phenotyping_reported": "benign nodular gioter",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BBJ",
@@ -94,8 +96,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     },
     {
@@ -105,7 +105,10 @@
       "method_name": "PRSCS",
       "variants_number": 1085173,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -114,7 +117,6 @@
       },
       "phenotyping_reported": "benign nodular gioter",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BBJ",
@@ -132,8 +134,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     },
     {
@@ -143,7 +143,10 @@
       "method_name": "PRSCS",
       "variants_number": 1085170,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -152,7 +155,6 @@
       },
       "phenotyping_reported": "benign nodular gioter",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BioMe",
@@ -168,8 +170,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     },
     {
@@ -179,7 +179,10 @@
       "method_name": "PRSCS",
       "variants_number": 1085164,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -188,7 +191,6 @@
       },
       "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BBJ",
@@ -202,8 +204,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     },
     {
@@ -213,7 +213,10 @@
       "method_name": "PRSCS",
       "variants_number": 1084965,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
-      "publication": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
       "date_release": "2026-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -222,7 +225,6 @@
       },
       "phenotyping_reported": "thyroid carcenoma vs benign nodular goiter",
       "covariates": "Unknown",
-      "sampleset": "PSS012069",
       "training_development_cohorts": [
         "AllofUs",
         "BioMe",
@@ -234,8 +236,6 @@
         "PMB",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=94,651"
     }
   ],
@@ -244,8 +244,6 @@
     "reported_auc": 0.6174,
     "trait_reported": "Thyroid carcenoma vs benign nodular goiter",
     "method_name": "PRSCS",
-    "validation_sample_size": "n=94,651",
-    "rank": 6,
-    "rank_label": "6/7"
+    "validation_sample_size": "n=94,651"
   }
 }

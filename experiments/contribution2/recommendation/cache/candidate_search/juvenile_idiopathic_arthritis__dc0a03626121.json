@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "juvenile idiopathic arthritis",
   "candidate_model_ids": [
     "PGS000326",
@@ -16,7 +16,10 @@
       "method_name": "SparSNP",
       "variants_number": 26,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "publication": {
+        "title": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+        "journal": "Ann Rheum Dis"
+      },
       "date_release": "2020-02-27",
       "samples_training": "n=7,505",
       "performance_metrics": {
@@ -25,14 +28,11 @@
       },
       "phenotyping_reported": "Juvenile Idiopathic Arthritis",
       "covariates": "Unknown",
-      "sampleset": "PSS000179",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
         "WTCCC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=3,513"
     },
     {
@@ -42,7 +42,10 @@
       "method_name": "SparSNP",
       "variants_number": 138,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "publication": {
+        "title": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+        "journal": "Ann Rheum Dis"
+      },
       "date_release": "2020-09-18",
       "samples_training": "n=5,354",
       "performance_metrics": {
@@ -51,14 +54,11 @@
       },
       "phenotyping_reported": "Enthesitis-related Arthritis",
       "covariates": "Unknown",
-      "sampleset": "PSS000429",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
         "WTCCC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=3,020"
     },
     {
@@ -68,7 +68,10 @@
       "method_name": "SparSNP",
       "variants_number": 21,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "publication": {
+        "title": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+        "journal": "Ann Rheum Dis"
+      },
       "date_release": "2020-09-18",
       "samples_training": "n=6,137",
       "performance_metrics": {
@@ -77,14 +80,11 @@
       },
       "phenotyping_reported": "Oligoarthritis Juvenile Idiophatic Arthritis",
       "covariates": "Unknown",
-      "sampleset": "PSS000430",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
         "WTCCC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=3,157"
     },
     {
@@ -94,7 +94,10 @@
       "method_name": "SparSNP",
       "variants_number": 12,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+      "publication": {
+        "title": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+        "journal": "Ann Rheum Dis"
+      },
       "date_release": "2020-09-18",
       "samples_training": "n=5,733",
       "performance_metrics": {
@@ -103,14 +106,11 @@
       },
       "phenotyping_reported": "Rheumatoid-factor-negative Polyarthritis",
       "covariates": "Unknown",
-      "sampleset": "PSS000431",
       "training_development_cohorts": [
         "B58C",
         "UKBS",
         "WTCCC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=3,089"
     }
   ],
@@ -119,8 +119,6 @@
     "reported_auc": 0.93,
     "trait_reported": "Enthesitis-related Juvenile Idiophatic Arthritis",
     "method_name": "SparSNP",
-    "validation_sample_size": "n=3,020",
-    "rank": 4,
-    "rank_label": "4/4"
+    "validation_sample_size": "n=3,020"
   }
 }

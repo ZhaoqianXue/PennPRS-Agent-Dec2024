@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "uterine carcinoma",
   "candidate_model_ids": [
     "PGS003428",
@@ -26,7 +26,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 10,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -35,12 +38,9 @@
       },
       "phenotyping_reported": "Cervical cancer",
       "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs.",
-      "sampleset": "PSS000112",
       "training_development_cohorts": [
         "TwinGene"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=20,405",
       "validation_sample_size": "n=226,216"
     },
     {
@@ -50,7 +50,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 9,
       "ancestry_distribution": "GWAS: NR (34%), EUR (66%) | EVAL: EUR (100%)",
-      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -59,10 +62,7 @@
       },
       "phenotyping_reported": "Endometrial cancer",
       "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, 10 PCs.",
-      "sampleset": "PSS000114",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=43,054",
       "validation_sample_size": "n=221,699"
     },
     {
@@ -72,7 +72,10 @@
       "method_name": "10 variants from Graff et al (PGS000073) with inverse variant weights",
       "variants_number": 10,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -81,7 +84,6 @@
       },
       "phenotyping_reported": "Incident cervical cancer",
       "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
-      "sampleset": "PSS001012",
       "training_development_cohorts": [
         "NCI",
         "Seattle",
@@ -89,8 +91,6 @@
         "Umea",
         "WTCCC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=20,405",
       "validation_sample_size": "n=211,795"
     },
     {
@@ -100,7 +100,10 @@
       "method_name": "9 variants from Graff et al (PGS000075) with inverse variant weights",
       "variants_number": 9,
       "ancestry_distribution": "GWAS: NR (34%), EUR (66%) | EVAL: EUR (100%)",
-      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -109,7 +112,6 @@
       },
       "phenotyping_reported": "Incident endometrial cancer",
       "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
-      "sampleset": "PSS001014",
       "training_development_cohorts": [
         "ANECS",
         "B58C",
@@ -122,8 +124,6 @@
         "SEARCH",
         "WTCCC"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=43,054",
       "validation_sample_size": "n=212,156"
     },
     {
@@ -133,7 +133,10 @@
       "method_name": "snpnet",
       "variants_number": 24,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
-      "publication": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
       "date_release": "2021-10-21",
       "samples_training": "n=269,704",
       "performance_metrics": {
@@ -142,12 +145,9 @@
       },
       "phenotyping_reported": "Cervical cancer",
       "covariates": "age, sex, UKB array type, Genotype PCs",
-      "sampleset": "PSS007631",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": null,
       "validation_sample_size": "n=67,425"
     },
     {
@@ -157,7 +157,10 @@
       "method_name": "PRS-CS-auto",
       "variants_number": 911692,
       "ancestry_distribution": "GWAS: EAS (15%), EUR (84%), OTH (80%) | EVAL: EUR (100%)",
-      "publication": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
       "date_release": "2022-09-08",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -166,7 +169,6 @@
       },
       "phenotyping_reported": "Uterine cancer",
       "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
-      "sampleset": "PSS007718",
       "training_development_cohorts": [
         "BBJ",
         "BioMe",
@@ -180,8 +182,6 @@
         "MGI",
         "deCODE"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=692,891",
       "validation_sample_size": "n=170,276"
     },
     {
@@ -191,7 +191,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 19,
       "ancestry_distribution": "GWAS: NR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+      "publication": {
+        "title": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+        "journal": "Genet Med"
+      },
       "date_release": "2022-07-21",
       "samples_training": "n=1,757",
       "performance_metrics": {
@@ -200,10 +203,7 @@
       },
       "phenotyping_reported": "Risk of endometrial cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS009907",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=118,636"
     },
     {
@@ -213,7 +213,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 24,
       "ancestry_distribution": "GWAS: NR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+      "publication": {
+        "title": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+        "journal": "Genet Med"
+      },
       "date_release": "2022-07-21",
       "samples_training": "n=1,757",
       "performance_metrics": {
@@ -222,10 +225,7 @@
       },
       "phenotyping_reported": "Risk of endometrial cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS009907",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=118,636"
     },
     {
@@ -235,7 +235,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 72,
       "ancestry_distribution": "GWAS: NR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+      "publication": {
+        "title": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+        "journal": "Genet Med"
+      },
       "date_release": "2022-07-21",
       "samples_training": "n=1,757",
       "performance_metrics": {
@@ -244,10 +247,7 @@
       },
       "phenotyping_reported": "Risk of endometrial cancer",
       "covariates": "Unknown",
-      "sampleset": "PSS009907",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=0",
       "validation_sample_size": "n=118,636"
     },
     {
@@ -257,7 +257,10 @@
       "method_name": "lassosum",
       "variants_number": 529365,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
       "date_release": "2023-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -266,10 +269,7 @@
       },
       "phenotyping_reported": "uterine endometrial carcinoma",
       "covariates": "age, top 20 genetic principal components",
-      "sampleset": "PSS010086",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=121,885",
       "validation_sample_size": "n=144,479"
     },
     {
@@ -279,7 +279,10 @@
       "method_name": "lassosum",
       "variants_number": 2814,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
       "date_release": "2023-01-19",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -288,10 +291,7 @@
       },
       "phenotyping_reported": "cervical cancer",
       "covariates": "age, top 20 genetic principal components",
-      "sampleset": "PSS010075",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=9,347",
       "validation_sample_size": "n=144,374"
     },
     {
@@ -301,7 +301,10 @@
       "method_name": "LDpred",
       "variants_number": 2894555,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "GWAS meta-analyses clarify genetics of cervical phenotypes and inform risk stratification for cervical cancer.",
+      "publication": {
+        "title": "GWAS meta-analyses clarify genetics of cervical phenotypes and inform risk stratification for cervical cancer.",
+        "journal": "Hum Mol Genet"
+      },
       "date_release": "2023-04-28",
       "samples_training": "n=4,295",
       "performance_metrics": {
@@ -310,15 +313,12 @@
       },
       "phenotyping_reported": "Incident cervical cancer",
       "covariates": "age, smoking",
-      "sampleset": "PSS010125",
       "training_development_cohorts": [
         "EB",
         "FinnGen",
         "KP",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=326,610",
       "validation_sample_size": "n=128,113"
     },
     {
@@ -328,7 +328,10 @@
       "method_name": "PRSice-2",
       "variants_number": 16,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
       "date_release": "2023-12-15",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -337,10 +340,7 @@
       },
       "phenotyping_reported": "Endometrial cancer",
       "covariates": "first 10 genetic principal components",
-      "sampleset": "PSS011328",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=121,885",
       "validation_sample_size": "n=133,830"
     },
     {
@@ -350,7 +350,10 @@
       "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
       "variants_number": 15,
       "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
-      "publication": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+      "publication": {
+        "title": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+        "journal": "PLoS Med"
+      },
       "date_release": "2025-03-17",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -359,12 +362,9 @@
       },
       "phenotyping_reported": "Cervical Cancer",
       "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
-      "sampleset": "PSS011943",
       "training_development_cohorts": [
         "BBJ"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=73,294",
       "validation_sample_size": "n=57,359"
     }
   ],
@@ -373,8 +373,6 @@
     "reported_auc": 0.9143,
     "trait_reported": "Cervical cancer",
     "method_name": "snpnet",
-    "validation_sample_size": "n=67,425",
-    "rank": 10,
-    "rank_label": "10/14"
+    "validation_sample_size": "n=67,425"
   }
 }

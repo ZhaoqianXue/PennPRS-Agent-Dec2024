@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "hodgkins lymphoma",
   "candidate_model_ids": [
     "PGS000649",
@@ -39,7 +39,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 19,
       "ancestry_distribution": "GWAS: NR (15%), EUR (85%) | EVAL: EUR (100%)",
-      "publication": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2020-02-12",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -48,10 +51,7 @@
       },
       "phenotyping_reported": "Non-Hodgkin's lymphoma",
       "covariates": "Genotyping reagent kit (GERA cohort only), genotyping array (UK Biobank only), age, sex, 10 PCs.",
-      "sampleset": "PSS000119",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=34,043",
       "validation_sample_size": "n=412,765"
     },
     {
@@ -61,7 +61,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1047511,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
@@ -70,12 +73,9 @@
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000559",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=361,141",
       "validation_sample_size": "n=775"
     },
     {
@@ -85,7 +85,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 16,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
@@ -94,12 +97,9 @@
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000559",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=83,473",
       "validation_sample_size": "n=775"
     },
     {
@@ -109,7 +109,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 20,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
@@ -118,12 +121,9 @@
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000559",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=83,473",
       "validation_sample_size": "n=775"
     },
     {
@@ -133,7 +133,10 @@
       "method_name": "lassosum",
       "variants_number": 1119335,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=736",
       "performance_metrics": {
@@ -142,12 +145,9 @@
       },
       "phenotyping_reported": "Hodgkin's disease",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000559",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=404,724",
       "validation_sample_size": "n=775"
     },
     {
@@ -157,7 +157,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 12,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=9,923",
       "performance_metrics": {
@@ -166,12 +169,9 @@
       },
       "phenotyping_reported": "Non-Hodgkins lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000580",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=25,391",
       "validation_sample_size": "n=9,952"
     },
     {
@@ -181,7 +181,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 10,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=9,923",
       "performance_metrics": {
@@ -190,12 +193,9 @@
       },
       "phenotyping_reported": "Non-Hodgkins lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000580",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=25,391",
       "validation_sample_size": "n=9,952"
     },
     {
@@ -205,7 +205,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1048780,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=3,696",
       "performance_metrics": {
@@ -214,12 +217,9 @@
       },
       "phenotyping_reported": "Nodular lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000560",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=361,194",
       "validation_sample_size": "n=3,256"
     },
     {
@@ -229,7 +229,10 @@
       "method_name": "lassosum",
       "variants_number": 2209179,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=3,696",
       "performance_metrics": {
@@ -238,12 +241,9 @@
       },
       "phenotyping_reported": "Nodular lymphoma",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000560",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=361,194",
       "validation_sample_size": "n=3,256"
     },
     {
@@ -253,7 +253,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 32,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
@@ -262,12 +265,9 @@
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000561",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=51,308",
       "validation_sample_size": "n=756"
     },
     {
@@ -277,7 +277,10 @@
       "method_name": "GWAS Hits",
       "variants_number": 32,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=2,833",
       "performance_metrics": {
@@ -286,12 +289,9 @@
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000581",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=51,308",
       "validation_sample_size": "n=2,758"
     },
     {
@@ -301,7 +301,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 44,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
@@ -310,12 +313,9 @@
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000561",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=51,308",
       "validation_sample_size": "n=756"
     },
     {
@@ -325,7 +325,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 27,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=2,833",
       "performance_metrics": {
@@ -334,12 +337,9 @@
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000581",
       "training_development_cohorts": [
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=51,308",
       "validation_sample_size": "n=2,758"
     },
     {
@@ -349,7 +349,10 @@
       "method_name": "Pruning and Thresholding (P+T)",
       "variants_number": 6,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
@@ -358,12 +361,9 @@
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000561",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=404,972",
       "validation_sample_size": "n=756"
     },
     {
@@ -373,7 +373,10 @@
       "method_name": "lassosum",
       "variants_number": 76,
       "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
       "date_release": "2020-12-15",
       "samples_training": "n=730",
       "performance_metrics": {
@@ -382,12 +385,9 @@
       },
       "phenotyping_reported": "Lymphoid leukemia, chronic",
       "covariates": "age, sex, batch PCs 1-4",
-      "sampleset": "PSS000561",
       "training_development_cohorts": [
         "MGI"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=404,972",
       "validation_sample_size": "n=756"
     },
     {
@@ -397,7 +397,10 @@
       "method_name": "19 variants from Graff et al (PGS000080) with inverse variant weights",
       "variants_number": 19,
       "ancestry_distribution": "GWAS: NR (15%), EUR (85%) | EVAL: EUR (100%)",
-      "publication": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -406,7 +409,6 @@
       },
       "phenotyping_reported": "Incident non-hodgkin's lymphoma",
       "covariates": "Age at assessment, sex, genotyping array, PCs(1-15)",
-      "sampleset": "PSS001019",
       "training_development_cohorts": [
         "ATBC",
         "BCCA",
@@ -433,8 +435,6 @@
         "WHI",
         "Yale"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=34,043",
       "validation_sample_size": "n=391,968"
     },
     {
@@ -444,7 +444,10 @@
       "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
       "variants_number": 41,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (50%), AFR (12%), EUR (25%), MAE (12%)",
-      "publication": "Association of polygenic risk score with the risk of chronic lymphocytic leukemia and monoclonal B-cell lymphocytosis.",
+      "publication": {
+        "title": "Association of polygenic risk score with the risk of chronic lymphocytic leukemia and monoclonal B-cell lymphocytosis.",
+        "journal": "Blood"
+      },
       "date_release": "2021-08-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -453,7 +456,6 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Age, sex, study, socioeconomic status (when available)",
-      "sampleset": "PSS001123",
       "training_development_cohorts": [
         "ATBC",
         "BCCA",
@@ -478,8 +480,6 @@
         "UTAH",
         "Yale"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=17,691",
       "validation_sample_size": "n=3,958"
     },
     {
@@ -489,7 +489,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 9,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+      "publication": {
+        "title": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+        "journal": "Int J Cancer"
+      },
       "date_release": "2022-06-09",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -498,7 +501,6 @@
       },
       "phenotyping_reported": "Diffuse large B-cell lymphoma",
       "covariates": "Unknown",
-      "sampleset": "PSS009657",
       "training_development_cohorts": [
         "ATBC",
         "BCCA",
@@ -524,8 +526,6 @@
         "WHI",
         "Yale"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=11,523",
       "validation_sample_size": "n=308"
     },
     {
@@ -535,7 +535,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 6,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+      "publication": {
+        "title": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+        "journal": "Int J Cancer"
+      },
       "date_release": "2022-06-09",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -544,7 +547,6 @@
       },
       "phenotyping_reported": "Follicular lymphoma",
       "covariates": "Unknown",
-      "sampleset": "PSS009658",
       "training_development_cohorts": [
         "ATBC",
         "BCCA",
@@ -567,8 +569,6 @@
         "WHI",
         "Yale"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=10,486",
       "validation_sample_size": "n=197"
     },
     {
@@ -578,7 +578,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 15,
       "ancestry_distribution": "GWAS: AFR (5%), AMR (14%), EUR (81%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -587,10 +590,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=75,027",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -600,7 +600,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 21,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -609,10 +612,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=52,745",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -622,7 +622,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 2,
       "ancestry_distribution": "GWAS: NR (100%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -631,10 +634,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=4,988",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -644,7 +644,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 2,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -653,10 +656,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=4,015",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -666,7 +666,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 43,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -675,10 +678,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=42,908",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -688,7 +688,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 5,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -697,10 +700,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=11,523",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -710,7 +710,10 @@
       "method_name": "Genome-wide significant SNPs",
       "variants_number": 7,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
       "date_release": "2023-03-24",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -719,10 +722,7 @@
       },
       "phenotyping_reported": "Chronic lymphocytic leukemia",
       "covariates": "Unknown",
-      "sampleset": "PSS010176",
       "training_development_cohorts": [],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=781",
       "validation_sample_size": "n=20,134"
     },
     {
@@ -732,7 +732,10 @@
       "method_name": "PRSice-2",
       "variants_number": 20,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
       "date_release": "2023-12-15",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -741,10 +744,7 @@
       },
       "phenotyping_reported": "Non-Hodgkin's lymphoma",
       "covariates": "first 10 genetic principal components",
-      "sampleset": "PSS011328",
       "training_development_cohorts": [],
-      "variants_genomebuild": "NR",
-      "samples_variants": "n=37,455",
       "validation_sample_size": "n=133,830"
     }
   ],
@@ -753,8 +753,6 @@
     "reported_auc": 0.861,
     "trait_reported": "Chronic lymphocytic leukemia",
     "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
-    "validation_sample_size": "n=3,958",
-    "rank": 10,
-    "rank_label": "10/27"
+    "validation_sample_size": "n=3,958"
   }
 }

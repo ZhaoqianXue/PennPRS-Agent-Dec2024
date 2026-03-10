@@ -1,5 +1,5 @@
 """
-Contribution2 Experiment 1: Native GPT batch evaluation.
+Contribution2 Experiment 1: Without Domain Knowledge batch evaluation.
 
 This runner converts the formal Contribution2 Step 1 experiment into an OpenAI
 Batch API workflow so the LLM decisions can be evaluated in parallel.
@@ -11,10 +11,10 @@ Workflow:
   4. After the batch completes, download outputs and compute the experiment metrics.
 
 Usage:
-  python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py
-  python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode status
-  python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode collect
-  python experiments/contribution2/recommendation/scripts/run_experiment_native_gpt.py --mode prepare --limit 3 --trials 2
+  python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py
+  python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode status
+  python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode collect
+  python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode prepare --limit 3 --trials 2
 """
 
 from __future__ import annotations
@@ -50,7 +50,7 @@ except ImportError:
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-# Force Contribution2 native-GPT settings before importing project modules.
+# Force Contribution2 without-domain settings before importing project modules.
 os.environ["PENNPRS_STEP1_DISABLE_DOMAIN_KNOWLEDGE"] = "1"
 os.environ["PENNPRS_STEP1_RUN_NO_DOMAIN_ABLATION"] = "0"
 os.environ["PENNPRS_CONTRIB2_STRICT_LLM_ONLY"] = "1"
@@ -68,7 +68,7 @@ if eval_pgs_path.exists():
     os.environ["PENNPRS_CONTRIB2_EVALUATED_PGS_JSON"] = str(eval_pgs_path)
 
 from src.server.core.llm_config import get_config
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_NATIVE_PROMPT
+from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
 from src.server.core.tools.prs_model_tools import (
     prs_model_performance_landscape,
     prs_model_pgscatalog_search,
@@ -351,7 +351,7 @@ def _format_currency(value: float) -> str:
 
 def _archive_dir_name(model: str, trials: int, run_tag: Optional[str] = None) -> str:
     safe_model = re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
-    base = f"native-gpt__{safe_model}__t{trials}"
+    base = f"without-domain-{safe_model}-t{trials}"
     safe_tag = re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
     return f"{base}__{safe_tag}" if safe_tag else base
 
@@ -370,14 +370,14 @@ def _set_run_paths(trials: int, model: Optional[str] = None, run_tag: Optional[s
     ACTIVE_RUN_DIR = RECOMMENDATION_RUNS / _archive_dir_name(run_model, trials, run_tag=run_tag)
     ACTIVE_RUN_DIR.mkdir(parents=True, exist_ok=True)
 
-    RESULTS_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_results.json"
-    SUMMARY_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_summary.json"
-    REPORT_MD = ACTIVE_RUN_DIR / "experiment_native_gpt_report.md"
-    BATCH_REQUESTS_JSONL = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_requests.jsonl"
-    BATCH_MANIFEST_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_manifest.json"
-    BATCH_JOB_JSON = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_job.json"
-    BATCH_OUTPUT_JSONL = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_output.jsonl"
-    BATCH_ERROR_JSONL = ACTIVE_RUN_DIR / "experiment_native_gpt_batch_errors.jsonl"
+    RESULTS_JSON = ACTIVE_RUN_DIR / "experiment_without_domain_results.json"
+    SUMMARY_JSON = ACTIVE_RUN_DIR / "experiment_without_domain_summary.json"
+    REPORT_MD = ACTIVE_RUN_DIR / "experiment_without_domain_report.md"
+    BATCH_REQUESTS_JSONL = ACTIVE_RUN_DIR / "experiment_without_domain_batch_requests.jsonl"
+    BATCH_MANIFEST_JSON = ACTIVE_RUN_DIR / "experiment_without_domain_batch_manifest.json"
+    BATCH_JOB_JSON = ACTIVE_RUN_DIR / "experiment_without_domain_batch_job.json"
+    BATCH_OUTPUT_JSONL = ACTIVE_RUN_DIR / "experiment_without_domain_batch_output.jsonl"
+    BATCH_ERROR_JSONL = ACTIVE_RUN_DIR / "experiment_without_domain_batch_errors.jsonl"
     ARCHIVE_ARTIFACTS = [
         TOP_K_JSON,
         EVALUATED_JSON,
@@ -472,13 +472,13 @@ def _step1_context(
 
 def _step1_messages(context_json: str) -> list[dict[str, str]]:
     return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_NATIVE_PROMPT},
+        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
         {
             "role": "user",
             "content": (
-                "Perform STEP 1 only. Use the context JSON below to decide whether the direct "
-                "match quality is HIGH, SUB_OPTIMAL, or NO_MATCH_FOUND. "
-                "Return JSON with fields: outcome, best_model_id, confidence, rationale.\n\n"
+                "Perform direct-match assessment only. Use the context JSON below to select the "
+                "best supported direct-match candidate and return exactly one JSON object with "
+                "fields: outcome, best_model_id, confidence, rationale.\n\n"
                 f"Context:\n{context_json}"
             ),
         },
@@ -646,9 +646,9 @@ def _estimate_quick_eval_cost_from_artifacts(
     calibration_source = None
 
     if calibration_run_dir:
-        job_path = calibration_run_dir / "experiment_native_gpt_batch_job.json"
-        manifest_path = calibration_run_dir / "experiment_native_gpt_batch_manifest.json"
-        results_path = calibration_run_dir / "experiment_native_gpt_results.json"
+        job_path = calibration_run_dir / "experiment_without_domain_batch_job.json"
+        manifest_path = calibration_run_dir / "experiment_without_domain_batch_manifest.json"
+        results_path = calibration_run_dir / "experiment_without_domain_results.json"
         if job_path.exists() and manifest_path.exists() and results_path.exists():
             batch_payload = (_load_json(job_path) or {}).get("batch") or {}
             usage = batch_payload.get("usage") or {}
@@ -687,7 +687,7 @@ def _estimate_quick_eval_cost_from_artifacts(
 
     method = "estimated_quick_eval_tokens_from_request_response_content"
     if calibration_source:
-        method += "_with_native_batch_calibration"
+        method += "_with_without_domain_batch_calibration"
 
     return {
         "model_pricing_key": pricing_key or model_name,
@@ -861,7 +861,7 @@ def _prepare_manifest(
             trial_start += chunk_size
 
     manifest = {
-        "experiment": "native_gpt_batch_formal",
+        "experiment": "without_domain_batch_formal",
         "model": _model_name(),
         "trials_per_ontology": trials,
         "total_ontologies": len(disease_metadata),
@@ -910,7 +910,7 @@ def _submit_batch() -> dict[str, Any]:
         endpoint="/v1/chat/completions",
         completion_window="24h",
         metadata={
-            "experiment": "contribution2_native_gpt",
+            "experiment": "contribution2_without_domain",
             "manifest_file": BATCH_MANIFEST_JSON.name,
         },
     )
@@ -1284,7 +1284,7 @@ def _build_summary_and_results(
     baseline_accuracy = baseline_hits / total_ontologies if total_ontologies else 0.0
 
     summary = {
-        "experiment": "native_gpt_batch_formal",
+        "experiment": "without_domain_batch_formal",
         "domain_knowledge": False,
         "strict_llm_only": True,
         "cross_disease_enabled": False,
@@ -1325,7 +1325,7 @@ def _write_report(summary: dict[str, Any]) -> None:
     per_disease_rows = _sort_disease_rows(summary["per_disease"])
 
     lines = [
-        "# Contribution2 Experiment 1: Native GPT",
+        "# Contribution2 Experiment 1: Without Domain Knowledge",
         "",
         "## Summary",
         "",
@@ -1361,7 +1361,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Target_TopK | Trial Hits | Native GPT Hits Target | Native GPT | Baseline Hits Target | Baseline Models |",
+        "| Ontology | N Models | Target_TopK | Trial Hits | Without Domain Knowledge Hits Target | Without Domain Knowledge | Baseline Hits Target | Baseline Models |",
         "|----------|----------|-------------|------------|------------------------|------------|----------------------|-----------------|",
     ]
 
@@ -1460,7 +1460,7 @@ def _collect(batch_id: Optional[str]) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Contribution2 Experiment 1: Native GPT batch evaluation")
+    parser = argparse.ArgumentParser(description="Contribution2 Experiment 1: Without Domain Knowledge batch evaluation")
     parser.add_argument(
         "--mode",
         choices=["prepare", "prepare-submit", "status", "collect", "archive-current", "quick-eval"],

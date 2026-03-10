@@ -1,5 +1,5 @@
 {
-  "experiment": "domain_knowledge_gpt_batch_formal",
+  "experiment": "with_domain_batch_formal",
   "model": "gpt-5.2",
   "trials_per_ontology": 10,
   "total_ontologies": 30,

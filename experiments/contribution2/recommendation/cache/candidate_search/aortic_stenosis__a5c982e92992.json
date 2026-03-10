@@ -1,5 +1,5 @@
 {
-  "cache_version": "v1",
+  "cache_version": "v2",
   "ontology": "aortic stenosis",
   "candidate_model_ids": [
     "PGS000778",
@@ -20,7 +20,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 27,
       "ancestry_distribution": "GWAS: NR (2%), AFR (3%), EAS (80%), EUR (90%), OTH (60%), SAS (4%) | DEV: MAE (100%) | EVAL: EUR (40%), MAE (60%)",
-      "publication": "Common genetic variants and modifiable risk factors underpin hypertrophic cardiomyopathy susceptibility and expressivity.",
+      "publication": {
+        "title": "Common genetic variants and modifiable risk factors underpin hypertrophic cardiomyopathy susceptibility and expressivity.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2021-02-23",
       "samples_training": "n=47,737",
       "performance_metrics": {
@@ -29,14 +32,11 @@
       },
       "phenotyping_reported": "Hypertrophic cardiomyopathy",
       "covariates": "Age, gender, PCs(1-10)",
-      "sampleset": "PSS000909",
       "training_development_cohorts": [
         "BRRD",
         "HCMR",
         "UKB"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=50,266",
       "validation_sample_size": "n=184,511"
     },
     {
@@ -46,7 +46,10 @@
       "method_name": "Genome-wide significant variants",
       "variants_number": 20,
       "ancestry_distribution": "GWAS: MAE (100%) | EVAL: NR (100%)",
-      "publication": "Shared genetic pathways contribute to risk of hypertrophic and dilated cardiomyopathies with opposite directions of effect.",
+      "publication": {
+        "title": "Shared genetic pathways contribute to risk of hypertrophic and dilated cardiomyopathies with opposite directions of effect.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2021-05-28",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -55,7 +58,6 @@
       },
       "phenotyping_reported": "Maximal left ventricular wall thickness indexed to body surface area (mm/m^2) in individuals with a pathogenic or likely pathogenic sarcomeric variant",
       "covariates": "Genetic relatedness matrix",
-      "sampleset": "PSS001001",
       "training_development_cohorts": [
         "ERSPC",
         "LHSC",
@@ -65,8 +67,6 @@
         "UKDHP",
         "UMCG"
       ],
-      "variants_genomebuild": "GRCh37",
-      "samples_variants": "n=8,361",
       "validation_sample_size": "n=368"
     },
     {
@@ -76,7 +76,10 @@
       "method_name": "PRS-CS",
       "variants_number": 374190,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings.",
+      "publication": {
+        "title": "Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2025-02-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -85,15 +88,12 @@
       },
       "phenotyping_reported": "Hypertrophic cardiomyopathy",
       "covariates": "age, age^2, sex, PC1-10",
-      "sampleset": "PSS011704",
       "training_development_cohorts": [
         "BRRD",
         "GEL",
         "HCMR",
         "RBH-CRB"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=74,259",
       "validation_sample_size": "n=343,182"
     },
     {
@@ -103,7 +103,10 @@
       "method_name": "PRS-CS",
       "variants_number": 374114,
       "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings.",
+      "publication": {
+        "title": "Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2025-02-26",
       "samples_training": "N/A",
       "performance_metrics": {
@@ -112,15 +115,12 @@
       },
       "phenotyping_reported": "Hypertrophic cardiomyopathy",
       "covariates": "age, age^2, sex, PC1-10",
-      "sampleset": "PSS011704",
       "training_development_cohorts": [
         "BRRD",
         "GEL",
         "HCMR",
         "RBH-CRB"
       ],
-      "variants_genomebuild": "hg19",
-      "samples_variants": "n=74,259",
       "validation_sample_size": "n=343,182"
     },
     {
@@ -130,7 +130,10 @@
       "method_name": "LDPred2",
       "variants_number": 1119377,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction.",
+      "publication": {
+        "title": "Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2026-01-19",
       "samples_training": "n=47,691",
       "performance_metrics": {
@@ -139,12 +142,9 @@
       },
       "phenotyping_reported": "Incident aortic stenosis cases",
       "covariates": "age, sex, genetic ancestry principal components 1-5, type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, body mass index, current smoking, renal failure.",
-      "sampleset": "PSS012066",
       "training_development_cohorts": [
         "MGBB"
       ],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": null,
       "validation_sample_size": "n=446,895"
     },
     {
@@ -154,7 +154,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1110912,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk.",
+      "publication": {
+        "title": "Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2026-01-19",
       "samples_training": "n=205,483",
       "performance_metrics": {
@@ -163,10 +166,7 @@
       },
       "phenotyping_reported": "incident aortic stenosis",
       "covariates": "self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry.",
-      "sampleset": "PSS012068",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": null,
       "validation_sample_size": "n=244,450"
     },
     {
@@ -176,7 +176,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1111632,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk.",
+      "publication": {
+        "title": "Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2026-01-19",
       "samples_training": "n=98,645",
       "performance_metrics": {
@@ -185,10 +188,7 @@
       },
       "phenotyping_reported": "incident aortic stenosis",
       "covariates": "self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry.",
-      "sampleset": "PSS012068",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": null,
       "validation_sample_size": "n=244,450"
     },
     {
@@ -198,7 +198,10 @@
       "method_name": "PRS-CS",
       "variants_number": 1111632,
       "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
-      "publication": "Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk.",
+      "publication": {
+        "title": "Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk.",
+        "journal": "Nat Genet"
+      },
       "date_release": "2026-01-19",
       "samples_training": "n=96,385",
       "performance_metrics": {
@@ -207,10 +210,7 @@
       },
       "phenotyping_reported": "incident aortic stenosis",
       "covariates": "self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry.",
-      "sampleset": "PSS012068",
       "training_development_cohorts": [],
-      "variants_genomebuild": "GRCh38",
-      "samples_variants": null,
       "validation_sample_size": "n=244,450"
     }
   ],
@@ -219,8 +219,6 @@
     "reported_auc": 0.87,
     "trait_reported": "Aortic stenosis",
     "method_name": "LDPred2",
-    "validation_sample_size": "n=446,895",
-    "rank": 8,
-    "rank_label": "8/8"
+    "validation_sample_size": "n=446,895"
   }
 }
