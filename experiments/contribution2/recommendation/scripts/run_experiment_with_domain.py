@@ -31,7 +31,6 @@ _ORIGINAL_STEP1_MESSAGES = without_domain._step1_messages
 
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
-WITH_VS_WITHOUT_PER_DISEASE_DOC = DOCS_DIR / "with_vs_without_domain_per_disease_comparison.md"
 CONTRIB1_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
 CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
 ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
@@ -47,11 +46,6 @@ BATCH_OUTPUT_JSONL = Path()
 BATCH_ERROR_JSONL = Path()
 
 COMPARISON_REPORT_MD = Path()
-DEFAULT_WITHOUT_DOMAIN_SUMMARY_JSON = (
-    RECOMMENDATION_RUNS
-    / "without-domain-gpt-5.2-t10"
-    / "experiment_without_domain_summary.json"
-)
 DEFAULT_MODEL = "gpt-5.2"
 DEFAULT_WITHOUT_DOMAIN_BATCH_CALIBRATION_DIR = RECOMMENDATION_RUNS / "without-domain-gpt-5.2-t10"
 
@@ -59,7 +53,11 @@ FIELD_ROWS: list[tuple[str, str]] = [
     ("Selected PGS ID", "agent_input"),
     ("AoU benchmark rank", "benchmark_only"),
     ("AoU benchmark AUC", "benchmark_only"),
-    ("In Target_TopK", "benchmark_only"),
+    ("Hit@1", "benchmark_only"),
+    ("Hit@2", "benchmark_only"),
+    ("Hit@3", "benchmark_only"),
+    ("Hit@4", "benchmark_only"),
+    ("Hit@5", "benchmark_only"),
     ("Selection frequency", "benchmark_only"),
     ("trait_reported", "agent_input"),
     ("trait_efo", "agent_input"),
@@ -106,6 +104,20 @@ def _sync_paths_from_without_domain() -> None:
     COMPARISON_REPORT_MD = without_domain.ACTIVE_RUN_DIR / "experiment_with_vs_without_domain_report.md"
 
 
+def _comparison_doc_path() -> Path:
+    return without_domain._doc_path("with_vs_without_domain_per_disease_comparison")
+
+
+def _default_without_domain_summary_path(model: str, trials: int, run_tag: Optional[str]) -> Path:
+    run_dir = RECOMMENDATION_RUNS / without_domain._archive_dir_name(
+        model,
+        trials,
+        run_tag=run_tag,
+        dataset_label=without_domain.ACTIVE_BENCHMARK_LABEL,
+    )
+    return run_dir / "experiment_without_domain_summary.json"
+
+
 def _set_domain_artifact_paths() -> None:
     if without_domain.ACTIVE_RUN_DIR is None:
         raise RuntimeError("Without-domain run directory is not configured.")
@@ -135,9 +147,16 @@ def _set_domain_artifact_paths() -> None:
     _sync_paths_from_without_domain()
 
 
-def _domain_archive_dir_name(model: str, trials: int, run_tag: Optional[str] = None) -> str:
+def _domain_archive_dir_name(
+    model: str,
+    trials: int,
+    run_tag: Optional[str] = None,
+    dataset_label: Optional[str] = None,
+) -> str:
     safe_model = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
     base = f"with-domain-{safe_model}-t{trials}"
+    if dataset_label:
+        base = f"{base}__{dataset_label}"
     safe_tag = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
     return f"{base}__{safe_tag}" if safe_tag else base
 
@@ -352,10 +371,8 @@ def _benchmark_auc_value(
     return f"{value:.4f}"
 
 
-def _in_target_topk_label(selected_id: Optional[str], row: dict[str, Any]) -> str:
-    if not selected_id:
-        return "N/A"
-    return "Yes" if selected_id in (row.get("target_topk_ids") or []) else "No"
+def _hit_at_k_label(selected_id: Optional[str], row: dict[str, Any], k: int) -> str:
+    return without_domain._hit_at_k_label(selected_id, row, k)
 
 
 def _build_comparison_doc_value(
@@ -373,50 +390,14 @@ def _build_comparison_doc_value(
         return _benchmark_rank_label(selected_id, row)
     if field == "AoU benchmark AUC":
         return _benchmark_auc_value(ontology, selected_id, auc_lookup)
-    if field == "In Target_TopK":
-        return _in_target_topk_label(selected_id, row)
+    hit_k = without_domain._hit_at_k_field(field)
+    if hit_k is not None:
+        return _hit_at_k_label(selected_id, row, hit_k)
     if field == "Selection frequency":
         return selection_label
 
     model = model_map.get(selected_id or "")
     return _format_doc_value(_get_nested_field(model, field), field)
-
-
-def _normalized_ranking_score(rank: Optional[int], candidate_count: Optional[int]) -> Optional[float]:
-    if rank is None or candidate_count is None or candidate_count <= 1:
-        return None
-    if rank < 1 or rank > candidate_count:
-        return None
-    return (candidate_count - rank) / (candidate_count - 1)
-
-
-def _format_score(value: Optional[float]) -> str:
-    if value is None:
-        return "N/A"
-    return f"{value:.4f}"
-
-
-def _compute_nrs_metrics(summary: dict[str, Any]) -> dict[str, Any]:
-    modal_scores: list[float] = []
-    trial_scores: list[float] = []
-
-    for row in summary.get("per_disease", []):
-        candidate_count = row.get("n_models")
-        modal_score = _normalized_ranking_score(row.get("modal_recommendation_rank"), candidate_count)
-        if modal_score is not None:
-            modal_scores.append(modal_score)
-
-        for trial_row in row.get("trial_recommendations_detailed", []):
-            trial_score = _normalized_ranking_score(trial_row.get("rank"), candidate_count)
-            if trial_score is not None:
-                trial_scores.append(trial_score)
-
-    return {
-        "modal_mean_nrs": (sum(modal_scores) / len(modal_scores)) if modal_scores else None,
-        "modal_count": len(modal_scores),
-        "trial_mean_nrs": (sum(trial_scores) / len(trial_scores)) if trial_scores else None,
-        "trial_count": len(trial_scores),
-    }
 
 
 def _write_per_disease_comparison_doc(
@@ -427,9 +408,12 @@ def _write_per_disease_comparison_doc(
         return None
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    output_path = _comparison_doc_path()
+    without_domain._ensure_summary_hit_metrics(domain_summary)
+    without_domain._ensure_summary_hit_metrics(without_domain_summary)
     auc_lookup = _load_aou_auc_lookup()
-    domain_nrs = _compute_nrs_metrics(domain_summary)
-    without_domain_nrs = _compute_nrs_metrics(without_domain_summary)
+    domain_nrs = without_domain._compute_nrs_metrics(domain_summary)
+    without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
@@ -443,24 +427,43 @@ def _write_per_disease_comparison_doc(
         "",
         "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
         "",
-        "Each disease table includes all models in the benchmark `Target_TopK` set, listed in benchmark order as `Target #1..#K`, followed by the current with-domain, without-domain, and baseline selections.",
+        "Each disease table includes benchmark-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models), followed by the current with-domain, without-domain, and baseline selections.",
+        "Rows `Hit@1`..`Hit@5` use eligible-only denominators; diseases with fewer than `k` evaluated models are marked `N/A` for `Hit@k`.",
         "",
         "## High-Level Outcome",
         "",
-        (
-            f"- With Domain Knowledge: "
-            f"`{domain_summary['majority_vote_hits']}/{domain_summary['total_ontologies']} = {without_domain._format_percent(domain_summary['majority_vote_accuracy'])}`; "
-            f"`trial_hits = {domain_summary['diagnostics']['trial_hits']}/{domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(domain_summary['diagnostics']['trial_hit_rate'])}`"
-        ),
-        (
-            f"- Without Domain Knowledge: "
-            f"`{without_domain_summary['majority_vote_hits']}/{without_domain_summary['total_ontologies']} = {without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}`; "
-            f"`trial_hits = {without_domain_summary['diagnostics']['trial_hits']}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_summary['diagnostics']['trial_hit_rate'])}`"
-        ),
-        (
-            f"- Baseline: `{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}`"
-        ),
+        *[
+            (
+                f"- With Domain Knowledge `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
+                f"`trial_hits = {domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
+        *[
+            (
+                f"- Without Domain Knowledge `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
+                f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
+        *[
+            (
+                f"- Baseline `Hit@{k}`: `{domain_summary['baseline']['hit_at_k'][str(k)]['hits']}/"
+                f"{domain_summary['baseline']['hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(domain_summary['baseline']['hit_at_k'][str(k)]['accuracy'] or 0.0)}` "
+                f"(coverage `{domain_summary['baseline']['hit_at_k'][str(k)]['available']}/"
+                f"{domain_summary['baseline']['hit_at_k'][str(k)]['eligible']}`)"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
         "",
         "## Normalized Ranking Score (NRS)",
         "",
@@ -469,16 +472,16 @@ def _write_per_disease_comparison_doc(
         "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
         (
             f"- With Domain Knowledge: "
-            f"`mean NRS = {_format_score(domain_nrs['modal_mean_nrs'])}` "
+            f"`mean NRS = {without_domain._format_score(domain_nrs['modal_mean_nrs'])}` "
             f"({domain_nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {_format_score(domain_nrs['trial_mean_nrs'])}` "
+            f"`trial mean NRS = {without_domain._format_score(domain_nrs['trial_mean_nrs'])}` "
             f"({domain_nrs['trial_count']} trials)"
         ),
         (
             f"- Without Domain Knowledge: "
-            f"`mean NRS = {_format_score(without_domain_nrs['modal_mean_nrs'])}` "
+            f"`mean NRS = {without_domain._format_score(without_domain_nrs['modal_mean_nrs'])}` "
             f"({without_domain_nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {_format_score(without_domain_nrs['trial_mean_nrs'])}` "
+            f"`trial mean NRS = {without_domain._format_score(without_domain_nrs['trial_mean_nrs'])}` "
             f"({without_domain_nrs['trial_count']} trials)"
         ),
         "",
@@ -491,18 +494,18 @@ def _write_per_disease_comparison_doc(
         domain_row = domain_rows[ontology]
         without_row = without_domain_rows[ontology]
         models = _model_map(domain_row)
-        target_columns = without_domain._target_columns(row)
+        benchmark_columns = without_domain._benchmark_columns(row)
         with_id = domain_row.get("modal_recommendation")
         without_id = without_row.get("modal_recommendation")
         baseline_id = (domain_row.get("baseline") or {}).get("pgs_id")
 
-        header = ["Field"] + [label for label, _, _ in target_columns] + ["With Domain Knowledge", "Without Domain Knowledge", "Baseline", "Field Type"]
+        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["With Domain Knowledge", "Without Domain Knowledge", "Baseline", "Field Type"]
         separator = ["---"] * len(header)
 
         lines.extend([
             f"### {ontology}",
             "",
-            f"Candidate pool: `{row['n_models']}` models. Benchmark `Target_TopK`: `{row['target_topk']}`.",
+            f"Candidate pool: `{row['n_models']}` models. Eligible `Hit@k`: `{without_domain._format_eligible_ks(row.get('eligible_at_k') or {})}`.",
             "",
             "",
             f"| {' | '.join(header)} |",
@@ -511,12 +514,12 @@ def _write_per_disease_comparison_doc(
 
         for field, field_type in FIELD_ROWS:
             values = [field]
-            for _, target_id, selection_label in target_columns:
+            for _, benchmark_id, selection_label in benchmark_columns:
                 values.append(
                     _build_comparison_doc_value(
                         field=field,
                         ontology=ontology,
-                        selected_id=target_id,
+                        selected_id=benchmark_id,
                         row=row,
                         model_map=models,
                         auc_lookup=auc_lookup,
@@ -562,23 +565,19 @@ def _write_per_disease_comparison_doc(
         lines.extend(["", ""])
 
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    WITH_VS_WITHOUT_PER_DISEASE_DOC.write_text("\n".join(lines), encoding="utf-8")
+    output_path.write_text("\n".join(lines), encoding="utf-8")
     without_domain._write_without_domain_per_disease_doc(without_domain_summary)
-    return WITH_VS_WITHOUT_PER_DISEASE_DOC
+    return output_path
 
 
 def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) -> None:
+    without_domain._ensure_summary_hit_metrics(summary)
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
-    recommended_hits = summary["majority_vote_hits"]
-    recommended_accuracy = summary["majority_vote_accuracy"]
-    trial_hits = summary["diagnostics"]["trial_hits"]
-    trial_hit_rate = summary["diagnostics"]["trial_hit_rate"]
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
-    without_domain_hits = without_domain_summary["majority_vote_hits"]
-    without_domain_accuracy = without_domain_summary["majority_vote_accuracy"]
-    without_domain_trial_hits = without_domain_summary["diagnostics"]["trial_hits"]
-    without_domain_trial_hit_rate = without_domain_summary["diagnostics"]["trial_hit_rate"]
+    without_domain._ensure_summary_hit_metrics(without_domain_summary)
+    nrs = without_domain._compute_nrs_metrics(summary)
+    without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
     cost = summary.get("cost") or {}
     token_usage = cost.get("token_usage") or {}
     cost_breakdown = cost.get("estimated_cost_breakdown_usd") or {}
@@ -603,15 +602,45 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
             f"{without_domain._format_currency(cost_breakdown.get('output', 0.0))})"
         ),
+        *[
+            (
+                f"- **With Domain Modal Hit@{k}**: {summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}; "
+                f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
+        *[
+            (
+                f"- **Without Domain Modal Hit@{k}**: {without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}; "
+                f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
+        "",
+        "## Normalized Ranking Score (NRS)",
+        "",
+        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
+        "- Formula: `NRS = (M - r) / (M - 1)`, with `r = 1` as best and `r = M` as worst.",
+        "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
         (
-            f"- **Overall Recommended Model Accuracy**: {recommended_hits}/{total_ontologies} = "
-            f"{without_domain._format_percent(recommended_accuracy)}; "
-            f"`trial_hits = {trial_hits}/{total_trials} = {without_domain._format_percent(trial_hit_rate)}`"
+            f"- With Domain Knowledge: `mean NRS = {without_domain._format_score(nrs['modal_mean_nrs'])}` "
+            f"({nrs['modal_count']} modal selections); "
+            f"`trial mean NRS = {without_domain._format_score(nrs['trial_mean_nrs'])}` "
+            f"({nrs['trial_count']} trials)"
         ),
         (
-            f"- **Without Domain Knowledge**: "
-            f"{without_domain_hits}/{total_ontologies} = {without_domain._format_percent(without_domain_accuracy)}; "
-            f"`trial_hits = {without_domain_trial_hits}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_trial_hit_rate)}`"
+            f"- Without Domain Knowledge: `mean NRS = {without_domain._format_score(without_domain_nrs['modal_mean_nrs'])}` "
+            f"({without_domain_nrs['modal_count']} modal selections); "
+            f"`trial mean NRS = {without_domain._format_score(without_domain_nrs['trial_mean_nrs'])}` "
+            f"({without_domain_nrs['trial_count']} trials)"
         ),
         "",
         "## Experiment Setup",
@@ -619,7 +648,8 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_domain_knowledge + prs_model_performance_landscape",
         "- **Domain Knowledge**: Enabled (local curated knowledge base)",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
-        "- **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set",
+        "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking; diseases with fewer than `k` evaluated models are excluded from the `Hit@k` denominator",
+        "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
         "- **Without Domain Knowledge reference**: compare against `without-domain-gpt-5.2-t10` under the same 30-disease / 10-trial protocol",
         "",
         "## Results by Disease",
@@ -627,19 +657,17 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Target_TopK | Trial Hits | With Domain Knowledge Hits Target | With Domain Knowledge | Without Domain Knowledge Hits Target | Without Domain Knowledge |",
-        "|----------|----------|-------------|------------|-----------------------------------|-----------------------|--------------------------------------|--------------------------|",
+        "| Ontology | N Models | Eligible Ks | Trial Hit@1..5 | With Domain Knowledge Hit@1..5 | With Domain Knowledge | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge |",
+        "|----------|----------|-------------|---------------|----------------------------------|-----------------------|-------------------------------------|--------------------------|",
     ]
 
     for row in per_disease_rows:
-        recommended_hit = "Yes" if row["modal_recommendation_in_target_topk"] else "No"
         without_domain_row = without_domain_rows[row["ontology"]]
-        without_domain_hit = "Yes" if without_domain_row["modal_recommendation_in_target_topk"] else "No"
         lines.append(
-            f"| {row['ontology']} | {row['n_models']} | {row['target_topk']} | "
-            f"{row['trial_hits']}/{summary['trials_per_ontology']} | "
-            f"{recommended_hit} | {_format_models(row.get('recommended_model_counts') or [])} | "
-            f"{without_domain_hit} | {_format_models(without_domain_row.get('recommended_model_counts') or [])} |"
+            f"| {row['ontology']} | {row['n_models']} | {without_domain._format_eligible_ks(row.get('eligible_at_k') or {})} | "
+            f"{without_domain._format_rate_vector(row.get('trial_hit_rates_at_k') or {})} | "
+            f"{without_domain._format_hit_vector(row.get('modal_recommendation_hit_at_k') or {})} | {_format_models(row.get('recommended_model_counts') or [])} | "
+            f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | {_format_models(without_domain_row.get('recommended_model_counts') or [])} |"
         )
 
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
@@ -650,6 +678,8 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         return None
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    without_domain._ensure_summary_hit_metrics(domain_summary)
+    without_domain._ensure_summary_hit_metrics(without_domain_summary)
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
@@ -662,15 +692,15 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         f"- **Model**: {domain_summary['model']}",
         (
             f"- **With Domain Knowledge**: "
-            f"{domain_summary['majority_vote_hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['majority_vote_accuracy'])}; "
-            f"`trial_hits = {domain_summary['diagnostics']['trial_hits']}/{domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(domain_summary['diagnostics']['trial_hit_rate'])}`"
+            f"{domain_summary['modal_hit_at_k']['1']['hits']}/{domain_summary['modal_hit_at_k']['1']['eligible']} = "
+            f"{without_domain._format_percent(domain_summary['modal_hit_at_k']['1']['accuracy'] or 0.0)}; "
+            f"`trial_hits = {domain_summary['trial_hit_at_k']['1']['hits']}/{domain_summary['trial_hit_at_k']['1']['eligible']} = {without_domain._format_percent(domain_summary['trial_hit_at_k']['1']['accuracy'] or 0.0)}`"
         ),
         (
             f"- **Without Domain Knowledge**: "
-            f"{without_domain_summary['majority_vote_hits']}/{without_domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(without_domain_summary['majority_vote_accuracy'])}; "
-            f"`trial_hits = {without_domain_summary['diagnostics']['trial_hits']}/{without_domain_summary['diagnostics']['total_trials']} = {without_domain._format_percent(without_domain_summary['diagnostics']['trial_hit_rate'])}`"
+            f"{without_domain_summary['modal_hit_at_k']['1']['hits']}/{without_domain_summary['modal_hit_at_k']['1']['eligible']} = "
+            f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k']['1']['accuracy'] or 0.0)}; "
+            f"`trial_hits = {without_domain_summary['trial_hit_at_k']['1']['hits']}/{without_domain_summary['trial_hit_at_k']['1']['eligible']} = {without_domain._format_percent(without_domain_summary['trial_hit_at_k']['1']['accuracy'] or 0.0)}`"
         ),
         (
             f"- **Baseline**: "
@@ -680,8 +710,8 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         "",
         "## Results by Disease",
         "",
-        "| Ontology | N Models | Target_TopK | Baseline Hits Target | Baseline Models | Without Domain Knowledge Hits Target | Without Domain Knowledge | With Domain Knowledge Hits Target | With Domain Knowledge |",
-        "|----------|----------|-------------|----------------------|-----------------|--------------------------------------|--------------------------|-----------------------------------|-----------------------|",
+        "| Ontology | N Models | Eligible Ks | Baseline Hit@1..5 | Baseline Models | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | With Domain Knowledge Hit@1..5 | With Domain Knowledge |",
+        "|----------|----------|-------------|-------------------|-----------------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
     ]
 
     for row in per_disease_rows:
@@ -692,12 +722,12 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         baseline_rank_label = baseline.get("rank_label") or "-"
         baseline_text = f"{baseline_id} (AUC rank {baseline_rank_label})" if baseline_id else "-"
         lines.append(
-            f"| {row['ontology']} | {row['n_models']} | {row['target_topk']} | "
-            f"{'Yes' if domain_row['baseline_in_target_topk'] else 'No'} | "
+            f"| {row['ontology']} | {row['n_models']} | {without_domain._format_eligible_ks(row.get('eligible_at_k') or {})} | "
+            f"{without_domain._format_hit_vector(domain_row.get('baseline_hit_at_k') or {})} | "
             f"{baseline_text} | "
-            f"{'Yes' if without_domain_row['modal_recommendation_in_target_topk'] else 'No'} | "
+            f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | "
             f"{_format_models(without_domain_row.get('recommended_model_counts') or [])} | "
-            f"{'Yes' if domain_row['modal_recommendation_in_target_topk'] else 'No'} | "
+            f"{without_domain._format_hit_vector(domain_row.get('modal_recommendation_hit_at_k') or {})} | "
             f"{_format_models(domain_row.get('recommended_model_counts') or [])} |"
         )
 
@@ -870,6 +900,18 @@ def main() -> int:
     parser.add_argument("--ontologies-file", type=str, default=None, help="Path to a newline-delimited ontology filter file")
     parser.add_argument("--run-tag", type=str, default=None, help="Optional tag appended to the run directory name")
     parser.add_argument(
+        "--union-csv",
+        type=str,
+        default=str(without_domain.DEFAULT_UNION_CSV),
+        help="Disease union CSV used for evaluation (default: frozen 30-disease union).",
+    )
+    parser.add_argument(
+        "--ground-truth-dir",
+        type=str,
+        default=None,
+        help="Ground-truth directory produced by generate_evaluated_pgs_list.py. Defaults to a path derived from --union-csv.",
+    )
+    parser.add_argument(
         "--refresh-cache",
         action="store_true",
         help="Ignore experiment-local prepare cache and refetch candidate metadata",
@@ -877,8 +919,8 @@ def main() -> int:
     parser.add_argument(
         "--without-domain-summary",
         type=str,
-        default=str(DEFAULT_WITHOUT_DOMAIN_SUMMARY_JSON),
-        help="Path to the without-domain summary JSON used for comparison report generation",
+        default=None,
+        help="Optional path to the without-domain summary JSON used for comparison report generation. Defaults to the matching without-domain run for the same disease list.",
     )
     parser.add_argument(
         "--with-run-dir",
@@ -893,8 +935,16 @@ def main() -> int:
         return 1
 
     ontology_filter = without_domain._load_ontology_filter(args.ontology, args.ontologies_file)
+    without_domain._configure_benchmark_sources(
+        union_csv=args.union_csv,
+        ground_truth_dir=args.ground_truth_dir,
+    )
     _configure_without_domain_module(model=args.model, trials=args.trials, run_tag=args.run_tag)
-    without_domain_summary_path = Path(args.without_domain_summary)
+    without_domain_summary_path = (
+        Path(args.without_domain_summary)
+        if args.without_domain_summary
+        else _default_without_domain_summary_path(args.model, args.trials, args.run_tag)
+    )
 
     try:
         if args.mode == "prepare":
@@ -923,7 +973,17 @@ def main() -> int:
         elif args.mode == "regenerate-baseline":
             _regenerate_baseline(
                 without_domain_summary_path=without_domain_summary_path,
-                with_run_dir=Path(args.with_run_dir) if args.with_run_dir else RECOMMENDATION_RUNS / "with-domain-gpt-5.2-t10",
+                with_run_dir=(
+                    Path(args.with_run_dir)
+                    if args.with_run_dir
+                    else RECOMMENDATION_RUNS
+                    / _domain_archive_dir_name(
+                        args.model,
+                        args.trials,
+                        run_tag=args.run_tag,
+                        dataset_label=without_domain.ACTIVE_BENCHMARK_LABEL,
+                    )
+                ),
             )
         else:
             raise ValueError(f"Unsupported mode: {args.mode}")

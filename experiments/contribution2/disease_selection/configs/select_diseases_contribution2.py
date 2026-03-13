@@ -4,13 +4,14 @@ Contribution2 Disease Selection Script
 Select diseases from All of Us benchmark (contribution1) based on three criteria:
 1. Top PRS model AUC has distinguishability from the rest (for Agent to identify optimal model)
 2. Overall AUC not too low (mean AUC of all candidate models > threshold)
-3. Genetic significance and broad recognition (not niche)
+3. Exception allowlist for broad-recognition diseases, plus niche blacklist
 
 Output: selected_diseases_contribution2.csv and selection_report.md
 
 Usage:
   python select_diseases_contribution2.py           # rootcode (default)
   python select_diseases_contribution2.py --childrencode  # childrencode
+  python select_diseases_contribution2.py --min-n-models 3  # legacy threshold
 """
 
 from __future__ import annotations
@@ -34,30 +35,51 @@ OUTPUT_METRICS_DIR = DISEASE_SELECTION_DIR / "metrics"
 # Selection criteria parameters
 # ---------------------------------------------------------------------------
 MIN_MEAN_AUC = 0.5  # Mean AUC across all candidate models (QC3)
-MIN_N_MODELS = 3
+DEFAULT_MIN_N_MODELS = 2
 
-# Criterion 1: Top vs Rest - any of (T1 vs Rest, T2 vs Rest, T3 vs Rest) >= threshold
+# Criterion 1: Top vs Rest - any of (T1 vs Rest, T2 vs Rest, T3 vs Rest, T4 vs Rest, T5 vs Rest) >= threshold
 # Pass if at least one cliff exists in the top tier
 MIN_TOP_VS_REST_GAP = 0.025
+QC1_TOP_K = 5
 
 # Hard minimum on Top-1 AUC: best model must perform at least this well
 MIN_TOP1_AUC = 0.55
 
 # ---------------------------------------------------------------------------
-# Criterion 2: Genetic significance (keyword screening)
-# Curated domains and traits with broad genetic epidemiology recognition
-# Excludes: rare conditions, non-genetic traits, very niche phenotypes
+# Criterion 2: Exception allowlist (hard-add) + niche blacklist
+# Curated ontology names that should be allowed through even if QC1 is weak.
+# Non-matching diseases are neutral; they are not excluded by QC2.
 # ---------------------------------------------------------------------------
-GENETICALLY_SIGNIFICANT_KEYWORDS = [
-    "alzheimer", "parkinson", "dementia",
-    "schizophrenia", "bipolar", "depressive", "depression", "adhd", "autism", "anxiety",
-    "coronary", "atrial fibrillation", "myocardial", "heart failure", "hypertension",
-    "breast", "prostate", "lung", "melanoma", "ovarian", "colorectal", "bladder", "renal",
-    "thyroid",
-    "type 2 diabetes", "diabetes", "obesity",
-    "rheumatoid", "lupus", "psoriasis", "inflammatory bowel", "celiac", "ankylosing", "spondylitis",
-    "asthma", "copd", "chronic obstructive", "chronic kidney", "gout", "osteoporosis",
-    "age-related macular", "glaucoma", "hearing", "graves", "hashimoto",
+EXCEPTION_ALLOWLIST_ONTOLOGIES = [
+    "acute lymphoblastic leukemia",
+    "atrial flutter",
+    "asthma",
+    "atrial fibrillation",
+    "basal cell carcinoma",
+    "bipolar disorder",
+    "breast carcinoma",
+    "chronic kidney disease",
+    "chronic obstructive pulmonary disease",
+    "coronary artery disease",
+    "dilated cardiomyopathy",
+    "glaucoma",
+    "gout",
+    "heart failure",
+    "hypertension",
+    "knee osteoarthritis",
+    "lung cancer",
+    "major depressive disorder",
+    "melanoma",
+    "myocardial infarction",
+    "nephrolithiasis",
+    "osteoporosis",
+    "ovarian carcinoma",
+    "parkinson disease",
+    "psoriasis",
+    "rheumatoid arthritis",
+    "sarcoidosis",
+    "systemic lupus erythematosus",
+    "urinary bladder cancer",
 ]
 
 NICHE_EXCLUSION_KEYWORDS = [
@@ -69,7 +91,11 @@ NICHE_EXCLUSION_KEYWORDS = [
     "rh isoimmunization", "slipped epiphyses",
     "dupuytren contracture", "corneal disease", "overnutrition",
     "atopic eczema", "her2-negative breast carcinoma", "her2 negative breast",
-    "diabetic eye disease",
+    "diabetic eye disease", "corneal dystrophy", "iron metabolism disease",
+    "alcohol-induced mental disorder",
+    "congenital vitamin k-dependent coagulation factors deficiency",
+    "nasal cavity polyp", "prolapse of female genital organ",
+    "skin carcinoma in situ", "testicular neoplasm",
 ]
 
 
@@ -80,6 +106,10 @@ def _parse_pgs_ids(pgs_str: str) -> list[str]:
         return list(out) if isinstance(out, (list, tuple)) else [out]
     except (ValueError, SyntaxError):
         return []
+
+
+def _normalize_ontology_name(name: str) -> str:
+    return " ".join(str(name).lower().split())
 
 
 def _get_trait_auc_for_models(
@@ -104,7 +134,7 @@ def _get_trait_auc_for_models(
     return pd.Series(vals)
 
 
-def main(use_childrencode: bool = False) -> None:
+def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODELS) -> None:
     suffix = "childrencode" if use_childrencode else "rootcode"
     trait_col = "icd" if use_childrencode else "icd_root"
 
@@ -128,15 +158,15 @@ def main(use_childrencode: bool = False) -> None:
         icd_root = mrow["icd_root"]
         icd_trait = mrow[trait_col]
         pgs_ids = _parse_pgs_ids(str(mrow["pgs_ids"]))
-        if len(pgs_ids) < MIN_N_MODELS:
+        if len(pgs_ids) < min_n_models:
             continue
 
         auc_series = _get_trait_auc_for_models(matrix, icd_trait, pgs_ids)
-        if auc_series.empty or len(auc_series) < MIN_N_MODELS:
+        if auc_series.empty or len(auc_series) < min_n_models:
             continue
 
         auc_values = auc_series.dropna().values
-        if len(auc_values) < MIN_N_MODELS:
+        if len(auc_values) < min_n_models:
             continue
 
         # Top-1 through Top-10 = sorted by AUC descending
@@ -185,62 +215,64 @@ def main(use_childrencode: bool = False) -> None:
     # Apply criteria
     # -----------------------------------------------------------------------
     # Criterion 1: Any of (T1..T5 vs Rest) >= threshold
-    gap_cols = [f"top{i}_vs_rest_gap" for i in range(1, 6)]
+    gap_cols = [f"top{i}_vs_rest_gap" for i in range(1, QC1_TOP_K + 1)]
     max_gap = df[gap_cols].fillna(-1).max(axis=1)
     df["c1_distinguishable"] = (max_gap >= MIN_TOP_VS_REST_GAP) | (df["n_models"] == 2)
 
-    # Criterion 2: Genetic significance (keyword screening: whitelist - blacklist)
-    def _genetic_ok(name: str) -> bool:
-        name_lower = name.lower()
+    # Criterion 2: Exception allowlist (hard-add), with blacklist taking precedence.
+    def _qc2_exception_allow(name: str) -> bool:
+        name_lower = _normalize_ontology_name(name)
         for k in NICHE_EXCLUSION_KEYWORDS:
             if k in name_lower:
                 return False
-        for k in GENETICALLY_SIGNIFICANT_KEYWORDS:
-            if k in name_lower:
-                return True
-        return False
+        return name_lower in EXCEPTION_ALLOWLIST_ONTOLOGIES
 
-    df["c2_genetic_significance"] = df["ontology"].apply(_genetic_ok)
+    df["c2_exception_allowlist"] = df["ontology"].apply(_qc2_exception_allow)
 
     # Criterion 3: AUC thresholds (Mean >= 0.5 AND Top-1 >= 0.55) - filtering step
     df["c3_auc_ok"] = (df["mean_auc"] >= MIN_MEAN_AUC) & (df["top1_auc"] >= MIN_TOP1_AUC)
 
     # QC1/QC2/QC3 explicit columns for report
     df["qc1_t1_t5_vs_rest_ge_0025"] = df["c1_distinguishable"].map({True: "Yes", False: "No"})
-    df["qc2_genetic_significance"] = df["c2_genetic_significance"].map({True: "Yes", False: "No"})
+    df["qc2_exception_allowlist"] = df["c2_exception_allowlist"].map({True: "Yes", False: "No"})
     df["qc3_auc_ok"] = df["c3_auc_ok"].map({True: "Yes", False: "No"})
 
     # Staged selection (not intersection):
-    # Step 1 (QC2): Genetic significance = whitelist add, blacklist subtract
-    # Step 2 (QC1): Add those with distinguishability -> pool = QC2 OR QC1 (additive)
+    # Step 1 (QC1): Distinguishability-based selection
+    # Step 2 (QC2): Exception allowlist hard-add -> pool = QC1 OR QC2
     # Step 3 (QC3): Filter pool by AUC thresholds
     # Step 4: Exclude blacklisted ontologies entirely (hard exclusion)
     def _is_blacklisted(name: str) -> bool:
         name_lower = name.lower()
         return any(k in name_lower for k in NICHE_EXCLUSION_KEYWORDS)
 
-    pool = df[df["c2_genetic_significance"] | df["c1_distinguishable"]]
+    pool = df[df["c2_exception_allowlist"] | df["c1_distinguishable"]]
     pool = pool[~pool["ontology"].apply(_is_blacklisted)]
     selected = pool[pool["c3_auc_ok"]].copy()
     selected = selected.sort_values("mean_auc", ascending=False)
 
-    # Rootcode: dedup by icd_root (one per root). Childrencode: no dedup, keep each children code.
+    # Rootcode: dedup by icd_root (one per root). Prefer the ontology with the
+    # most evaluated AUCs; break ties by max AUC. Childrencode keeps all rows.
     if use_childrencode:
         selected_final = selected.reset_index(drop=True)
     else:
-        selected_final = selected.drop_duplicates("icd_root", keep="first").reset_index(drop=True)
-    # Sort: QC1=Yes first, then by mean_auc descending
+        selected_final = selected.sort_values(
+            ["n_with_auc", "max_auc"],
+            ascending=[False, False],
+        ).drop_duplicates("icd_root", keep="first").reset_index(drop=True)
+    # Sort: QC1=Yes first, then QC2 allowlisted rows, then by mean_auc descending
     selected_final = selected_final.sort_values(
-        ["c1_distinguishable", "mean_auc"],
-        ascending=[False, False],
+        ["c1_distinguishable", "c2_exception_allowlist", "mean_auc"],
+        ascending=[False, False, False],
     ).reset_index(drop=True)
 
-    # Output: QC1=Yes only (hide QC1=No per user request)
-    selected_output = selected_final[selected_final["c1_distinguishable"]].reset_index(drop=True)
+    # Output: keep both QC1-selected rows and QC2 exception-allowlisted rows.
+    selected_output = selected_final.reset_index(drop=True)
 
     # Build table-matching CSV (same columns, order, and format as report table)
     icd_col = "icd_trait" if use_childrencode else "icd_root"
     qc1_col = f"QC1 (≥{MIN_TOP_VS_REST_GAP})"
+    qc2_col = "QC2 (Allowlist)"
 
     def _cell(val):
         return "-" if pd.isna(val) or val == "" else val
@@ -249,6 +281,7 @@ def main(use_childrencode: bool = False) -> None:
     for _, r in selected_output.iterrows():
         top_vals = [_cell(r.get(f"top{i}_auc")) for i in range(1, 11)]
         qc1_val = r.get("qc1_t1_t5_vs_rest_ge_0025", "Yes" if r.get("c1_distinguishable") else "No")
+        qc2_val = r.get("qc2_exception_allowlist", "Yes" if r.get("c2_exception_allowlist") else "No")
         table_rows.append({
             "Ontology": r["ontology"],
             "ICD": r[icd_col],
@@ -260,6 +293,7 @@ def main(use_childrencode: bool = False) -> None:
             **{f"Top-{i}": top_vals[i - 1] for i in range(1, 11)},
             "Case N": _cell(r.get("case_num")),
             qc1_col: qc1_val,
+            qc2_col: qc2_val,
         })
     table_df = pd.DataFrame(table_rows)
 
@@ -276,6 +310,7 @@ def main(use_childrencode: bool = False) -> None:
     for _, r in df.iterrows():
         top_vals = [_cell(r.get(f"top{i}_auc")) for i in range(1, 11)]
         qc1_val = r.get("qc1_t1_t5_vs_rest_ge_0025", "Yes" if r.get("c1_distinguishable") else "No")
+        qc2_val = r.get("qc2_exception_allowlist", "Yes" if r.get("c2_exception_allowlist") else "No")
         metrics_rows.append({
             "Ontology": r["ontology"],
             "ICD": r[icd_col],
@@ -287,6 +322,7 @@ def main(use_childrencode: bool = False) -> None:
             **{f"Top-{i}": top_vals[i - 1] for i in range(1, 11)},
             "Case N": _cell(r.get("case_num")),
             qc1_col: qc1_val,
+            qc2_col: qc2_val,
         })
     pd.DataFrame(metrics_rows).to_csv(
         OUTPUT_METRICS_DIR / f"disease_selection_full_metrics{out_suffix}.csv", index=False
@@ -305,25 +341,32 @@ def main(use_childrencode: bool = False) -> None:
         "- **Tk vs Rest**: Top-k AUC - Top-(k+1) AUC (cliff between rank k and k+1).",
         f"- **Threshold**: Pass if any of (T1, T2, T3, T4, T5 vs Rest) >= {MIN_TOP_VS_REST_GAP}.",
         "",
-        "### QC2: Genetic Significance (keyword screening)",
-        "- **Whitelist**: Ontology name matches GENETICALLY_SIGNIFICANT_KEYWORDS.",
+        "### QC2: Exception Allowlist",
+        "- **Allowlist**: Ontology name is an exact curated match in EXCEPTION_ALLOWLIST_ONTOLOGIES and is force-kept even if QC1 is weak.",
+        "- **Non-match**: Neutral. It is not excluded by QC2.",
         "- **Blacklist**: Exclude if matches NICHE_EXCLUSION_KEYWORDS.",
         "",
         "### QC3: AUC Thresholds (filtering step)",
         f"- **Mean AUC** >= {MIN_MEAN_AUC}, **Top-1 AUC** >= {MIN_TOP1_AUC}.",
         "",
         "### Staged Logic (no intersection, no count limit)",
-        "- **QC2**: Genetic significance pool (whitelist add, blacklist subtract).",
-        "- **QC1 + QC2**: Pool = QC2 OR QC1 (additive: genetic significance OR distinguishability).",
+        f"- **Base eligibility**: At least {min_n_models} candidate PGS models with evaluated AUC.",
+        "- **QC1**: Primary selection by top-model distinguishability.",
+        "- **QC2**: Exception allowlist hard-add.",
+        "- **QC1 + QC2**: Pool = QC1 OR QC2.",
         "- **QC3**: Filter pool by AUC thresholds."
-        + (" Dedup by ICD root." if not use_childrencode else " No dedup (each ICD children code independent)."),
+        + (
+            " Dedup by ICD root, preferring the ontology with the most evaluated AUCs and then higher max AUC."
+            if not use_childrencode
+            else " No dedup (each ICD children code independent)."
+        ),
         "",
         "## Selected Diseases",
         "",
-        f"Total selected (QC1=Yes only): {len(selected_output)}",
+        f"Total selected (after QC3 and dedup): {len(selected_output)}",
         "",
-        f"| Ontology | ICD | N Models | Max | Mean | Median | Min | Top-1 | Top-2 | Top-3 | Top-4 | Top-5 | Top-6 | Top-7 | Top-8 | Top-9 | Top-10 | Case N | QC1 (≥{MIN_TOP_VS_REST_GAP}) |",
-        "|----------|-----|----------|-----|------|--------|-----|-------|-------|-------|-------|-------|-------|-------|-------|--------|--------|-----|---------------------|",
+        f"| Ontology | ICD | N Models | Max | Mean | Median | Min | Top-1 | Top-2 | Top-3 | Top-4 | Top-5 | Top-6 | Top-7 | Top-8 | Top-9 | Top-10 | Case N | QC1 (≥{MIN_TOP_VS_REST_GAP}) | QC2 (Allowlist) |",
+        "|----------|-----|----------|-----|------|--------|-----|-------|-------|-------|-------|-------|-------|-------|-------|--------|--------|-----|---------------------|-----------------|",
     ]
     icd_col = "icd_trait" if use_childrencode else "icd_root"
     for _, r in selected_output.iterrows():
@@ -332,8 +375,9 @@ def main(use_childrencode: bool = False) -> None:
         top_cols = [r.get(f"top{i}_auc") if pd.notna(r.get(f"top{i}_auc")) else "-" for i in range(1, 11)]
         top_str = " | ".join(str(v) for v in top_cols)
         qc1 = r.get("qc1_t1_t5_vs_rest_ge_0025", "Yes" if r.get("c1_distinguishable") else "No")
+        qc2 = r.get("qc2_exception_allowlist", "Yes" if r.get("c2_exception_allowlist") else "No")
         report_lines.append(
-            f"| {r['ontology']} | {r[icd_col]} | {r['n_models']} | {mx} | {r['mean_auc']} | {med} | {r['min_auc']} | {top_str} | {r['case_num']} | {qc1} |"
+            f"| {r['ontology']} | {r[icd_col]} | {r['n_models']} | {mx} | {r['mean_auc']} | {med} | {r['min_auc']} | {top_str} | {r['case_num']} | {qc1} | {qc2} |"
         )
     report_lines.extend([
         "",
@@ -342,16 +386,19 @@ def main(use_childrencode: bool = False) -> None:
         "| Metric | Count |",
         "|--------|-------|",
         f"| Ontologies passing QC1 (T1..T5 vs Rest >= {MIN_TOP_VS_REST_GAP}) | {df['c1_distinguishable'].sum()} |",
-        f"| Ontologies passing QC2 (genetic significance) | {df['c2_genetic_significance'].sum()} |",
+        f"| Ontologies on QC2 exception allowlist | {df['c2_exception_allowlist'].sum()} |",
         f"| Ontologies passing QC3 (Mean AUC >= {MIN_MEAN_AUC} & Top-1 >= {MIN_TOP1_AUC}) | {df['c3_auc_ok'].sum()} |",
-        f"| Final selected (QC1=Yes) | {len(selected_output)} |",
-        f"| Total pool before QC1 filter | {len(selected_final)} |",
+        f"| Final selected (QC1 or QC2 allowlist, after QC3) | {len(selected_output)} |",
+        f"| Total pool before QC3 filter | {len(pool)} |",
     ])
 
     report_path = OUTPUT_RUNS_DIR / f"disease_selection_report{out_suffix}.md"
     report_path.write_text("\n".join(report_lines), encoding="utf-8")
 
-    print(f"Selected {len(selected_output)} diseases (QC1=Yes only, {code_label}). Outputs written to {DISEASE_SELECTION_DIR}")
+    print(
+        f"Selected {len(selected_output)} diseases (QC1 or QC2 allowlist, {code_label}, min_n_models={min_n_models}). "
+        f"Outputs written to {DISEASE_SELECTION_DIR}"
+    )
     print(f"  - runs/selected_diseases_contribution2{out_suffix}.csv")
     print(f"  - runs/disease_selection_report{out_suffix}.md")
     print(f"  - metrics/disease_selection_full_metrics{out_suffix}.csv")
@@ -364,5 +411,11 @@ if __name__ == "__main__":
         action="store_true",
         help="Use childrencode data (ICD sub-codes) instead of rootcode",
     )
+    parser.add_argument(
+        "--min-n-models",
+        type=int,
+        default=DEFAULT_MIN_N_MODELS,
+        help="Minimum number of candidate PGS models required to enter disease selection (default: 2).",
+    )
     args = parser.parse_args()
-    main(use_childrencode=args.childrencode)
+    main(use_childrencode=args.childrencode, min_n_models=args.min_n_models)

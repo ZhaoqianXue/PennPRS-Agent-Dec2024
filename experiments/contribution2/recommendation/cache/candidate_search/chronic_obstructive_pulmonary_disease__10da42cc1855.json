@@ -1,0 +1,586 @@
+{
+  "cache_version": "v4",
+  "ontology": "chronic obstructive pulmonary disease",
+  "candidate_model_ids": [
+    "PGS001334",
+    "PGS001788",
+    "PGS004466",
+    "PGS001326",
+    "PGS001850",
+    "PGS001332",
+    "PGS002062",
+    "PGS001783",
+    "PGS001333",
+    "PGS004536"
+  ],
+  "total_found": 10,
+  "candidate_models": [
+    {
+      "id": "PGS001326",
+      "trait_reported": "Emphysema",
+      "trait_efo": "emphysema",
+      "method_name": "snpnet",
+      "variants_number": 42,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.56911,
+        "r2": 0.00531,
+        "pgs_only_auc": 0.56911,
+        "pgs_only_r2": 0.00531,
+        "full_model_auc": 0.72797,
+        "full_model_r2": 0.05838,
+        "incremental_auc": 0.00547,
+        "selected_performance_id": "PPM009121",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72797,
+            "ci_lower": 0.70437,
+            "ci_upper": 0.75156
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05838
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00547
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00531
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.56911,
+            "ci_lower": 0.54137,
+            "ci_upper": 0.59684
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Emphysema",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001332",
+      "trait_reported": "Chronic obstructive pulmonary disease",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "snpnet",
+      "variants_number": 482,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.53971,
+        "r2": 0.00235,
+        "pgs_only_auc": 0.53971,
+        "pgs_only_r2": 0.00235,
+        "full_model_auc": 0.73063,
+        "full_model_r2": 0.08401,
+        "incremental_auc": 0.003,
+        "selected_performance_id": "PPM009150",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.73063,
+            "ci_lower": 0.71971,
+            "ci_upper": 0.74156
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.08401
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.003
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00235
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.53971,
+            "ci_lower": 0.52633,
+            "ci_upper": 0.5531
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Chronic obstructive airways disease/copd",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001333",
+      "trait_reported": "Chronic obstructive pulmonary disease (algorithmically-defined)",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "snpnet",
+      "variants_number": 569,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.53939,
+        "r2": 0.00236,
+        "pgs_only_auc": 0.53939,
+        "pgs_only_r2": 0.00236,
+        "full_model_auc": 0.71622,
+        "full_model_r2": 0.08141,
+        "incremental_auc": 0.00289,
+        "selected_performance_id": "PPM009153",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71622,
+            "ci_lower": 0.70023,
+            "ci_upper": 0.7322
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.08141
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00289
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00236
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.53939,
+            "ci_lower": 0.52155,
+            "ci_upper": 0.55723
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "AD chronic obstructive pulmonary disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001334",
+      "trait_reported": "Other chronic obstructive pulmonary disease (time-to-event)",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "snpnet",
+      "variants_number": 498,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.54658,
+        "r2": 0.00314,
+        "pgs_only_auc": 0.54658,
+        "pgs_only_r2": 0.00314,
+        "full_model_auc": 0.72542,
+        "full_model_r2": 0.0827,
+        "incremental_auc": 0.00368,
+        "selected_performance_id": "PPM009160",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72542,
+            "ci_lower": 0.71492,
+            "ci_upper": 0.73591
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00368
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00314
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.54658,
+            "ci_lower": 0.5339,
+            "ci_upper": 0.55926
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE other chronic obstructive pulmonary disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001783",
+      "trait_reported": "Chronic obstructive pulmonary disease",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 884139,
+      "ancestry_distribution": "GWAS: AFR (2%), ASN (2%), EAS (24%), EUR (72%), OTH (1%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.038092,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.038092,
+        "full_model_auc": 0.74,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009312",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.038092
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Chronic obstructive pulmonary disease",
+      "covariates": "sex,age, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "G&H",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "TWB",
+        "UCLA",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=7,128"
+    },
+    {
+      "id": "PGS001788",
+      "trait_reported": "Chronic obstructive pulmonary disease",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 910082,
+      "ancestry_distribution": "GWAS: AFR (2%), ASN (2%), EAS (33%), EUR (61%), OTH (2%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.0163,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.0163,
+        "full_model_auc": 0.715,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009292",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.715
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.0163
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Chronic obstructive pulmonary disease",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "G&H",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "TWB",
+        "UCLA",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=337,168"
+    },
+    {
+      "id": "PGS001850",
+      "trait_reported": "Chronic airway obstruction",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 7347,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009690",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0241,
+            "ci_lower": 0.0098,
+            "ci_upper": 0.0384
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Chronic airway obstruction",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,735"
+    },
+    {
+      "id": "PGS002062",
+      "trait_reported": "Chronic airway obstruction",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 811003,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011358",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.047,
+            "ci_lower": 0.0327,
+            "ci_upper": 0.0613
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Chronic airway obstruction",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,735"
+    },
+    {
+      "id": "PGS004466",
+      "trait_reported": "J44 (Other chronic obstructive pulmonary disease)",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020581",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.30838779665344
+          }
+        ]
+      },
+      "phenotyping_reported": "J44 (Other chronic obstructive pulmonary disease)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004536",
+      "trait_reported": "J44 (Other chronic obstructive pulmonary disease)",
+      "trait_efo": "chronic obstructive pulmonary disease",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020651",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.487584
+          }
+        ]
+      },
+      "phenotyping_reported": "J44 (Other chronic obstructive pulmonary disease)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001326",
+    "reported_auc": 0.5691,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Emphysema",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

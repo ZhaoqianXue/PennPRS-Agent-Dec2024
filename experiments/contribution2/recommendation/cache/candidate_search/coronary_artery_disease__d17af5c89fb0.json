@@ -1,0 +1,5133 @@
+{
+  "cache_version": "v4",
+  "ontology": "coronary artery disease",
+  "candidate_model_ids": [
+    "PGS000798",
+    "PGS000962",
+    "PGS004198",
+    "PGS000748",
+    "PGS000329",
+    "PGS000013",
+    "PGS003446",
+    "PGS004596",
+    "PGS004899",
+    "PGS005231",
+    "PGS004306",
+    "PGS004941",
+    "PGS000010",
+    "PGS002809",
+    "PGS000349",
+    "PGS000059",
+    "PGS005297",
+    "PGS004696",
+    "PGS005152",
+    "PGS004197",
+    "PGS000011",
+    "PGS003438",
+    "PGS002775",
+    "PGS004196",
+    "PGS000116",
+    "PGS000337",
+    "PGS005294",
+    "PGS000899",
+    "PGS003727",
+    "PGS004698",
+    "PGS004595",
+    "PGS004200",
+    "PGS005322",
+    "PGS004888",
+    "PGS004307",
+    "PGS004308",
+    "PGS004309",
+    "PGS004744",
+    "PGS004321",
+    "PGS000012",
+    "PGS004305",
+    "PGS001355",
+    "PGS003356",
+    "PGS004745",
+    "PGS005092",
+    "PGS005112",
+    "PGS004513",
+    "PGS003355",
+    "PGS004199",
+    "PGS005295",
+    "PGS004237",
+    "PGS000818",
+    "PGS000058",
+    "PGS003726",
+    "PGS000746",
+    "PGS003866",
+    "PGS001839",
+    "PGS002244",
+    "PGS005143",
+    "PGS000747",
+    "PGS004879",
+    "PGS005293",
+    "PGS003725",
+    "PGS000019",
+    "PGS002048",
+    "PGS005236",
+    "PGS004921",
+    "PGS004443",
+    "PGS000296",
+    "PGS000749",
+    "PGS001780",
+    "PGS005296",
+    "PGS000200",
+    "PGS002776",
+    "PGS000057",
+    "PGS004925",
+    "PGS004444",
+    "PGS000018",
+    "PGS005091",
+    "PGS004746",
+    "PGS005298",
+    "PGS004697",
+    "PGS004743",
+    "PGS002262",
+    "PGS004514"
+  ],
+  "total_found": 85,
+  "candidate_models": [
+    {
+      "id": "PGS000010",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 27,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic risk, coronary heart disease events, and the clinical benefit of statin therapy: an analysis of primary and secondary prevention trials.",
+        "journal": "Lancet"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012951",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "NRI (GRS-added vs. baseline model)",
+            "name_short": "NRI (GRS-added vs. baseline model)",
+            "estimate": 0.097
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Reccurent cardiovascular event (coronary heart disease death, non-fatal myocardial infraction, unstable angina pectoris, coronary artery bypass graft and Percutaneous coronary intervention)",
+      "covariates": "Hypertension, low-density lipoprotein cholesterol, high-density lipoprotein cholesterol, diabetes, sex, age, current smoking",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AtheroRemo",
+        "CADomics",
+        "CHARGE",
+        "GerMIFS",
+        "LURIC",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PennCATH",
+        "WTCCC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=4,932"
+    },
+    {
+      "id": "PGS000011",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 50,
+      "ancestry_distribution": "GWAS: EUR (40%), MAE (53%), SAS (6%) | EVAL: NR (19%), AFR (12%), AMR (12%), EUR (50%), MAE (6%)",
+      "publication": {
+        "title": "Risk prediction by genetic risk scores for coronary heart disease is independent of self-reported family history.",
+        "journal": "Eur Heart J"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000598",
+        "selected_validation_ancestry": "European",
+        "record_count": 23,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28,
+            "ci_lower": 1.25,
+            "ci_upper": 1.32
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary heart disease (incident and prevalent)",
+      "covariates": "age at first EHR record, duration of EHR, sex, eMERGE site, first five ancestry-specific principal components",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AMC-PAS",
+        "ARIC",
+        "Angio-Lueb",
+        "BHF-FHS",
+        "BLOODOMICS",
+        "CARDIA",
+        "CARDIOGENICS",
+        "CHS",
+        "COROGENE",
+        "DILGOM",
+        "Duke",
+        "EGCUT",
+        "EMIL",
+        "EPIC",
+        "FGENTCARD",
+        "FINCAVAS",
+        "FOS",
+        "FRISCII",
+        "GENRIC",
+        "GLACIER",
+        "GoDARTS",
+        "HPS",
+        "HSIEA",
+        "ITH",
+        "KORA",
+        "LOLIPOP",
+        "LURIC",
+        "METSIM",
+        "MONICA",
+        "MORGAM",
+        "OHGS",
+        "PIVUS",
+        "PMB",
+        "POPGEN",
+        "PROCARDIS",
+        "PROMIS",
+        "PennCATH",
+        "SCARFSHEEP",
+        "STR",
+        "ULSAM",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=45,645"
+    },
+    {
+      "id": "PGS000012",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LD thinning",
+      "variants_number": 49310,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (80%), MAE (20%)",
+      "publication": {
+        "title": "Genomic prediction of coronary heart disease.",
+        "journal": "Eur Heart J"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=5,883",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000028",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.524,
+            "ci_lower": 1.498,
+            "ci_upper": 1.551
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary artery disease",
+      "covariates": "sex, genetic PCs (1-10), genotyping array",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AMC-PAS",
+        "Angio-Lueb",
+        "CARDIOGENICS",
+        "COROGENE",
+        "DILGOM",
+        "Duke",
+        "EGCUT",
+        "EMIL",
+        "EPIC",
+        "FGENTCARD",
+        "FINCAVAS",
+        "FRISCII",
+        "GENRIC",
+        "GLACIER",
+        "GoDARTS",
+        "HPS",
+        "HSIEA",
+        "ITH",
+        "KORA",
+        "LOLIPOP",
+        "LURIC",
+        "METSIM",
+        "MIGen",
+        "MORGAM",
+        "OHGS",
+        "PIVUS",
+        "PMB",
+        "POPGEN",
+        "PROCARDIS",
+        "PROMIS",
+        "SCARFSHEEP",
+        "STR",
+        "ULSAM",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=482,629"
+    },
+    {
+      "id": "PGS000013",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 6630150,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: NR (3%), AFR (10%), AMR (10%), ASN (2%), EAS (5%), EUR (49%), MAE (16%), SAS (6%)",
+      "publication": {
+        "title": "Genome-wide polygenic scores for common diseases identify individuals with risk equivalent to monogenic mutations.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=120,280",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.04,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.04,
+        "full_model_auc": 0.81,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000022",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.81,
+            "ci_lower": 0.81,
+            "ci_upper": 0.81
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke\u2019s R2 (estimate of variance explained by the PGS after covariate adjustment)",
+            "name_short": "Nagelkerke\u2019s R2 (estimate of variance explained by the PGS after covariate adjustment)",
+            "estimate": 0.04
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age; sex; Ancestry PC 1-4; genotyping chip",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=288,978"
+    },
+    {
+      "id": "PGS000018",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "metaGRS",
+      "variants_number": 1745179,
+      "ancestry_distribution": "GWAS: AFR (80%), AMR (1%), EAS (3%), EUR (37%), GME (60%), MAE (51%), SAS (7%) | DEV: MAE (100%) | EVAL: AFR (9%), AMR (9%), EUR (69%), GME (3%), MAE (9%)",
+      "publication": {
+        "title": "Genomic Risk Prediction of Coronary Artery Disease in 480,000 Adults: Implications for Primary Prevention.",
+        "journal": "J Am Coll Cardiol"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=3,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.89,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000035",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.89,
+            "ci_lower": 0.88,
+            "ci_upper": 0.91
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.6,
+            "ci_lower": 1.43,
+            "ci_upper": 1.8
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease (prevalent)",
+      "covariates": "age, sex, first four genetic PCs",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "AMC-PAS",
+        "ARIC",
+        "Angio-Lueb",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DILGOM",
+        "DUKE_2",
+        "Duke",
+        "EGCUT",
+        "EMIL",
+        "EPIC",
+        "FGENTCARD",
+        "FHS",
+        "FINCAVAS",
+        "FINRISK",
+        "FRISCII",
+        "FamHS",
+        "GENRIC",
+        "GLACIER",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "KORA",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "METSIM",
+        "MIGen",
+        "MORGAM",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PMB",
+        "POPGEN",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SCARFSHEEP",
+        "SDS",
+        "STR",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=3,309"
+    },
+    {
+      "id": "PGS000019",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 192,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk score predicts prevalence of cardiovascular disease in patients with familial hypercholesterolemia.",
+        "journal": "J Clin Lipidol"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000038",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.66,
+            "ci_lower": 1.06,
+            "ci_upper": 2.62
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease in familial hypercholesterolemia patients",
+      "covariates": "age, gender, prior statin use, smoking, diabetes, hypertension, BMI, LDL-C, HDL-C, TGs, Lp(a), and type of LDLR mutation",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=725"
+    },
+    {
+      "id": "PGS000057",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Hard thresholding",
+      "variants_number": 57,
+      "ancestry_distribution": "GWAS: AFR (60%), AMR (80%), EAS (2%), EUR (52%), GME (50%), MAE (39%), SAS (5%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Polygenic Risk Score Identifies Subgroup With Higher Burden of Atherosclerosis and Greater Relative Benefit From Statin Therapy in the Primary Prevention Setting.",
+        "journal": "Circulation"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000146",
+        "selected_validation_ancestry": "NR",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.097,
+            "ci_lower": 1.022,
+            "ci_upper": 1.178
+          }
+        ]
+      },
+      "phenotyping_reported": "Carotid artery plaque burden",
+      "covariates": "age, sex, diabetes meliitus status, smoking status, LDL cholesterol, HDL cholesterol, systolic blood pressure, antihypertensive medication status,  family history of CHD",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,392"
+    },
+    {
+      "id": "PGS000058",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 204,
+      "ancestry_distribution": "GWAS: NR (20%), AFR (20%), AMR (30%), EAS (80%), EUR (41%), GME (20%), MAE (35%), SAS (3%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic Tools for Coronary Risk Assessment in Type 2 Diabetes: A Cohort Study From the ACCORD Clinical Trial.",
+        "journal": "Diabetes Care"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000147",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.27,
+            "ci_lower": 1.18,
+            "ci_upper": 1.37
+          }
+        ]
+      },
+      "phenotyping_reported": "Major coronary events (MCE) events among Type 2 Diabetes patients",
+      "covariates": "age, sex, ACCORD study covariates (randomized treament assignement, clinical network, genotyping platform, PCs of genetic ancestry)",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "AMC-PAS",
+        "ARIC",
+        "Angio-Lueb",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DILGOM",
+        "DUKE_2",
+        "Duke",
+        "EGCUT",
+        "EMIL",
+        "EPIC",
+        "FGENTCARD",
+        "FHS",
+        "FINCAVAS",
+        "FINRISK",
+        "FRISCII",
+        "FamHS",
+        "GENRIC",
+        "GLACIER",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "KORA",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "METSIM",
+        "MIGen",
+        "MORGAM",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PMB",
+        "POPGEN",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SCARFSHEEP",
+        "SDS",
+        "STR",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=5,360"
+    },
+    {
+      "id": "PGS000059",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Literature-derived SNP selection",
+      "variants_number": 46,
+      "ancestry_distribution": "GWAS: AFR (60%), AMR (80%), EAS (3%), EUR (51%), GME (40%), MAE (36%), SAS (8%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Coronary Heart Disease Genetic Risk Score Predicts Cardiovascular Disease Risk in Men, Not Women.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000150",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "HR (top vs. bottom quartiles of GRS)",
+            "name_short": "HR (top vs. bottom quartiles of GRS)",
+            "estimate": 0.76,
+            "ci_lower": 0.41,
+            "ci_upper": 1.39
+          },
+          {
+            "name_long": "p-value (association between risk and incidence)",
+            "name_short": "p-value (association between risk and incidence)",
+            "estimate": 0.31
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "NR",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=1,320"
+    },
+    {
+      "id": "PGS000116",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "lassosum",
+      "variants_number": 40079,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: MAE (100%) | EVAL: EUR (17%), MAE (83%)",
+      "publication": {
+        "title": "Predictive Accuracy of a Polygenic Risk Score-Enhanced Prediction Model vs a Clinical Risk Score for Coronary Artery Disease.",
+        "journal": "JAMA"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "n=80,103",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.83,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000838",
+        "selected_validation_ancestry": "European, South Asian, African American or Afro-Caribbean, African unspecified, East Asian, Asian unspecified",
+        "record_count": 22,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.83,
+            "ci_lower": 0.81,
+            "ci_upper": 0.84
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident coronary artery disease (under age 55)",
+      "covariates": "QRISK3",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=147,110"
+    },
+    {
+      "id": "PGS000200",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 28,
+      "ancestry_distribution": "GWAS: EUR (88%), SAS (12%) | EVAL: AFR (22%), AMR (22%), EUR (56%)",
+      "publication": {
+        "title": "Genetic risk prediction and a 2-stage risk screening strategy for coronary heart disease.",
+        "journal": "Arterioscler Thromb Vasc Biol"
+      },
+      "date_release": "2020-06-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.859,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000588",
+        "selected_validation_ancestry": "European",
+        "record_count": 15,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.859
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "\u0394C-index (over covariate only model)",
+            "name_short": "\u0394C-index (over covariate only model)",
+            "estimate": 0.004,
+            "ci_lower": 0.003,
+            "ci_upper": 0.005
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident acute coronary syndrome",
+      "covariates": "sex, total cholesterol, high-density lipoprotein-cholesterol, body mass index, systolic blood pressure, antihypertensive treatment, smoking, type 2 diabetes mellitus, family history",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AtheroRemo",
+        "CADomics",
+        "CHARGE",
+        "GerMIFS",
+        "LURIC",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PennCATH",
+        "WTCCC",
+        "deCODE_CAD"
+      ],
+      "validation_sample_size": "n=24,124"
+    },
+    {
+      "id": "PGS000296",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 6630150,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: SAS (100%) | EVAL: GME (33%), SAS (67%)",
+      "publication": {
+        "title": "Validation of a Genome-Wide Polygenic\u00a0Score for Coronary Artery\u00a0Disease in\u00a0South Asians.",
+        "journal": "J Am Coll Cardiol"
+      },
+      "date_release": "2020-08-19",
+      "samples_training": "n=8,766",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.712,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000745",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.712
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.66,
+            "ci_lower": 1.53,
+            "ci_upper": 1.81
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, top 5 genetic PCs",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GenomeAsia100K",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=2,963"
+    },
+    {
+      "id": "PGS000329",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 6423165,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic and clinical risk scores and their impact on age at onset and prediction of cardiometabolic diseases and common cancers.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2020-09-18",
+      "samples_training": "n=21,813",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.832,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000891",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.832
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.25,
+            "ci_lower": 1.18,
+            "ci_upper": 1.32
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "age, sex, FINRISK cohort, genotyping array/batch, 10 ancestry PCs",
+      "training_development_cohorts": [
+        "FINRISK",
+        "UKB"
+      ],
+      "validation_sample_size": "n=20,165"
+    },
+    {
+      "id": "PGS000337",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "P-value thresholding",
+      "variants_number": 75028,
+      "ancestry_distribution": "GWAS: NR (46%), AFR (50%), AMR (60%), EAS (28%), EUR (22%), GME (30%), SAS (4%) | EVAL: EAS (86%), GME (14%)",
+      "publication": {
+        "title": "Population-specific and trans-ancestry genome-wide analyses identify distinct and shared genetic risk loci for coronary artery disease.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-11-05",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.674,
+        "full_model_r2": 0.087,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000907",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.674,
+            "ci_lower": 0.661,
+            "ci_upper": 0.687
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.087,
+            "ci_lower": 0.074,
+            "ci_upper": 0.101
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.84,
+            "ci_lower": 1.744,
+            "ci_upper": 1.943
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BBJ",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=10,999"
+    },
+    {
+      "id": "PGS000349",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 70,
+      "ancestry_distribution": "GWAS: AFR (50%), AMR (70%), EAS (2%), EUR (59%), GME (40%), MAE (33%), SAS (4%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Risk prediction for coronary heart disease by a genetic risk score - results from the Heinz Nixdorf Recall study.",
+        "journal": "BMC Med Genet"
+      },
+      "date_release": "2020-12-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000989",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.18,
+            "ci_lower": 1.06,
+            "ci_upper": 1.31
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident Coronary Heart Disease",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "AMC-PAS",
+        "ARIC",
+        "Angio-Lueb",
+        "AtheroRemo",
+        "BAS",
+        "BHF-FHS",
+        "BioMe",
+        "BioVU",
+        "CADomics",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "CHARGE",
+        "COROGENE",
+        "DILGOM",
+        "DUKE_2",
+        "Duke",
+        "EGCUT",
+        "EMIL",
+        "EPIC",
+        "EPIC_CAD",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FRISCII",
+        "FamHS",
+        "GENRIC",
+        "GLACIER",
+        "GerMIFS",
+        "GoDARTS",
+        "HNR",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "HUNT",
+        "IATVB",
+        "ITH",
+        "KORA",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MDC",
+        "METSIM",
+        "MHI",
+        "MIGen",
+        "MONICA",
+        "MORGAM",
+        "MSP",
+        "MedSTAR",
+        "Munich_MI",
+        "OHGS",
+        "OHS",
+        "PIVUS",
+        "PMB",
+        "POPGEN",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SCARFSHEEP",
+        "SDS",
+        "STR",
+        "THISEAS",
+        "TwinGene",
+        "ULSAM",
+        "VHS",
+        "VIP",
+        "WGHS",
+        "WHI",
+        "WTCCC",
+        "WTCCC_CAD",
+        "deCODE_CAD"
+      ],
+      "validation_sample_size": "n=4,041"
+    },
+    {
+      "id": "PGS000746",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LD clumping",
+      "variants_number": 1940,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Population Bias in Polygenic Risk Prediction Models for Coronary Artery Disease.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-03-22",
+      "samples_training": "n=10,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6133,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001836",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6133,
+            "ci_lower": 0.6094,
+            "ci_upper": 0.6172
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Area under the Precision-Recall curve (AUPRC)",
+            "name_short": "Area under the Precision-Recall curve (AUPRC)",
+            "estimate": 0.0752,
+            "ci_lower": 0.0745,
+            "ci_upper": 0.076
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=431,814"
+    },
+    {
+      "id": "PGS000747",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LD clumping",
+      "variants_number": 375822,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Population Bias in Polygenic Risk Prediction Models for Coronary Artery Disease.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-03-22",
+      "samples_training": "n=10,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6565,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001838",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6565,
+            "ci_lower": 0.6369,
+            "ci_upper": 0.676
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Area under the Precision-Recall curve (AUPRC)",
+            "name_short": "Area under the Precision-Recall curve (AUPRC)",
+            "estimate": 0.0765,
+            "ci_lower": 0.0755,
+            "ci_upper": 0.0774
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EB",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=27,048"
+    },
+    {
+      "id": "PGS000748",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 3423987,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Population Bias in Polygenic Risk Prediction Models for Coronary Artery Disease.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-03-22",
+      "samples_training": "n=10,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6891,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001840",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6752,
+            "ci_lower": 0.6612,
+            "ci_upper": 0.6891
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Area under the Precision-Recall curve (AUPRC)",
+            "name_short": "Area under the Precision-Recall curve (AUPRC)",
+            "estimate": 0.6891,
+            "ci_lower": 0.6887,
+            "ci_upper": 0.6895
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=5,581"
+    },
+    {
+      "id": "PGS000749",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 1056021,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (67%), GME (33%)",
+      "publication": {
+        "title": "Population Bias in Polygenic Risk Prediction Models for Coronary Artery Disease.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-03-22",
+      "samples_training": "n=10,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6112,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001843",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6112,
+            "ci_lower": 0.5919,
+            "ci_upper": 0.6305
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Area under the Precision-Recall curve (AUPRC)",
+            "name_short": "Area under the Precision-Recall curve (AUPRC)",
+            "estimate": 0.048,
+            "ci_lower": 0.0473,
+            "ci_upper": 0.0487
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EB",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=27,048"
+    },
+    {
+      "id": "PGS000798",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 157,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Using a genetic risk score to calculate the optimal age for an individual to undergo coronary artery calcium screening.",
+        "journal": "J Cardiovasc Comput Tomogr"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002075",
+        "selected_validation_ancestry": "European, East Asian, African American or Afro-Caribbean, Hispanic or Latin American",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37,
+            "ci_lower": 1.29,
+            "ci_upper": 1.45
+          }
+        ]
+      },
+      "phenotyping_reported": "Cornary artery calcium (non-zero CAC score)",
+      "covariates": "Age, sex",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D",
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,660"
+    },
+    {
+      "id": "PGS000818",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 138,
+      "ancestry_distribution": "GWAS: NR (78%), EUR (3%), MAE (19%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Comparison of genetic risk prediction models to improve prediction of coronary heart disease in two large cohorts of the MONICA/KORA study.",
+        "journal": "Genet Epidemiol"
+      },
+      "date_release": "2021-07-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.792,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002179",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.792,
+            "ci_lower": 0.7622,
+            "ci_upper": 0.8219
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "Age, sex, survey, Framingham risk score (diabetes status, current and former smoking status, systolic blood pressure, antihypertensive medication, HDL cholesterol, total cholesterol)",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AMC-PAS",
+        "Angio-Lueb",
+        "CARDIOGENICS",
+        "CARDIoGRAMplusC4D",
+        "CCHS",
+        "CGPS",
+        "CIHDS",
+        "DILGOM",
+        "Duke",
+        "EGCUT",
+        "EPIC",
+        "FGENTCARD",
+        "FRISCII",
+        "GLACIER",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "ITH",
+        "KORA",
+        "LOLIPOP",
+        "LURIC",
+        "METSIM",
+        "MIGen",
+        "MORGAM",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PMB",
+        "POPGEN",
+        "PROCARDIS",
+        "PROMIS",
+        "PennCATH",
+        "SCARFSHEEP",
+        "STR",
+        "THISEAS",
+        "UKB",
+        "ULSAM",
+        "WTCCC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=2,909"
+    },
+    {
+      "id": "PGS000899",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Two sets of SNPS: (1) genome-wide significant SNPs, (2) SNPs in low linkage disequilibrium",
+      "variants_number": 176,
+      "ancestry_distribution": "GWAS: NR (64%), AFR (60%), AMR (20%), EAS (1%), EUR (17%), GME (10%), MAE (15%), SAS (2%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Heterogeneity of the Predictive Polygenic Risk Scores for Coronary Heart Disease Age-at-Onset in Three Different Coronary Heart Disease Family-Based Ascertainments.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-09-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002640",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.6,
+            "ci_lower": 1.33,
+            "ci_upper": 1.92
+          }
+        ]
+      },
+      "phenotyping_reported": "Prevalent coronary heart disease age-at-onset",
+      "covariates": "Age, sex, study, PRS*LLFS, PRS*FamnHS-High risk, type II diabetes, hypertension, high density lipoprotein cholesterol, low density lipoprotein cholesterol, waist circumference, current cigarette smoking, current alcohol drinking.",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BRAVE",
+        "BioMe",
+        "CARDIOGENICS",
+        "CARDIoGRAMplusC4D",
+        "CAS",
+        "CCGB",
+        "CCHS",
+        "CGPS",
+        "CIHDS",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "EPIC",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TaiChi",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WHI",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=7,403"
+    },
+    {
+      "id": "PGS000962",
+      "trait_reported": "Chronic ischaemic heart disease (time-to-event)",
+      "trait_efo": "Myocardial Ischemia",
+      "method_name": "snpnet",
+      "variants_number": 2168,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.59199,
+        "r2": 0.01869,
+        "pgs_only_auc": 0.59199,
+        "pgs_only_r2": 0.01869,
+        "full_model_auc": 0.76113,
+        "full_model_r2": 0.14665,
+        "incremental_auc": 0.01428,
+        "selected_performance_id": "PPM007638",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76113,
+            "ci_lower": 0.75467,
+            "ci_upper": 0.7676
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14665
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01428
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01869
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.59199,
+            "ci_lower": 0.58389,
+            "ci_upper": 0.60008
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE chronic ischaemic heart disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001355",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "AnnoPred",
+      "variants_number": 2994055,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Interactions Between Enhanced Polygenic Risk Scores and Lifestyle for Cardiovascular Disease, Diabetes, and Lipid Levels.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "n=92,928",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6425,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM005187",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6425
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Age, sex, PCs(1-10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=176,238"
+    },
+    {
+      "id": "PGS001780",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1090048,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of questionnaire-based risk factors improves polygenic risk scores for human coronary heart disease and type 2 diabetes.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2022-02-23",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.913,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009280",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.913,
+            "ci_lower": 0.911,
+            "ci_upper": 0.916
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44,
+            "ci_lower": 1.41,
+            "ci_upper": 1.47
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "year of birth, sex, ten first principal components of Finnish ancestry, batch, genotyping array",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=291,720"
+    },
+    {
+      "id": "PGS001839",
+      "trait_reported": "Coronary atherosclerosis",
+      "trait_efo": "coronary atherosclerosis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 25425,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009602",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1021,
+            "ci_lower": 0.0881,
+            "ci_upper": 0.1161
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary atherosclerosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,308"
+    },
+    {
+      "id": "PGS002048",
+      "trait_reported": "Coronary atherosclerosis",
+      "trait_efo": "coronary atherosclerosis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 762124,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011246",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1078,
+            "ci_lower": 0.0938,
+            "ci_upper": 0.1217
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary atherosclerosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,308"
+    },
+    {
+      "id": "PGS002244",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 6576338,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: AFR (25%), AMR (8%), EAS (8%), EUR (50%), SAS (8%)",
+      "publication": {
+        "title": "Genome-wide risk prediction of common diseases across ancestries in one million people.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-04-13",
+      "samples_training": "n=175,364",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012756",
+        "selected_validation_ancestry": "European",
+        "record_count": 12,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.64,
+            "ci_lower": 1.61,
+            "ci_upper": 1.67
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, 10 PCs (+/- dataset-specific technical covariates)",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "FinnGen",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=343,676"
+    },
+    {
+      "id": "PGS002262",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "metaPRS (elasticnet)",
+      "variants_number": 540,
+      "ancestry_distribution": "GWAS: ASN (70%), EAS (99%) | DEV: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "A polygenic risk score improves risk stratification of coronary artery disease: a large-scale prospective Chinese cohort study.",
+        "journal": "Eur Heart J"
+      },
+      "date_release": "2022-03-16",
+      "samples_training": "n=4,855",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.615,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012875",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.615,
+            "ci_lower": 0.598,
+            "ci_upper": 0.631
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.44,
+            "ci_lower": 1.36,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "AGEN",
+        "BAS",
+        "BBJ",
+        "CAGE",
+        "CAS",
+        "Other",
+        "PUUMA",
+        "SCES",
+        "SCHS",
+        "SIMES",
+        "SP2"
+      ],
+      "validation_sample_size": "n=41,271"
+    },
+    {
+      "id": "PGS002775",
+      "trait_reported": "Incident coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Maximum clumping and thresholding (maxCT)",
+      "variants_number": 1059,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for cardiovascular diseases and type 2 diabetes.",
+        "journal": "PLoS One"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "n=38,217",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.572,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014975",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.572,
+            "ci_lower": 0.56,
+            "ci_upper": 0.584
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.29,
+            "ci_lower": 1.24,
+            "ci_upper": 1.35
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=16,374"
+    },
+    {
+      "id": "PGS002776",
+      "trait_reported": "Incident coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Stacked clumping and thresholding (SCT)",
+      "variants_number": 390782,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for cardiovascular diseases and type 2 diabetes.",
+        "journal": "PLoS One"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "n=38,217",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.587,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014976",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.587,
+            "ci_lower": 0.576,
+            "ci_upper": 0.599
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.36,
+            "ci_lower": 1.31,
+            "ci_upper": 1.42
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=16,374"
+    },
+    {
+      "id": "PGS002809",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 205,
+      "ancestry_distribution": "GWAS: NR (20%), EAS (10%), EUR (31%), MAE (39%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Reclassification of coronary artery disease risk using genetic risk score among subjects with borderline or intermediate clinical risk.",
+        "journal": "Int J Cardiol Heart Vasc"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015577",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, >=3 vs <0.5 risk)",
+            "name_short": "Hazard ratio (HR, >=3 vs <0.5 risk)",
+            "estimate": 3.02,
+            "ci_lower": 2.73,
+            "ci_upper": 3.33
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AtheroRemo",
+        "CADomics",
+        "CHARGE",
+        "GerMIFS",
+        "LURIC",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PennCATH",
+        "UKB",
+        "WTCCC",
+        "deCODE_CAD"
+      ],
+      "validation_sample_size": "n=360,098"
+    },
+    {
+      "id": "PGS003355",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 1532758,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | EVAL: NR (50%), EUR (50%)",
+      "publication": {
+        "title": "Discovery and systematic characterization of risk variants and genes for coronary artery disease in over a million participants.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016212",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.13,
+            "ci_lower": 1.04,
+            "ci_upper": 1.22
+          }
+        ]
+      },
+      "phenotyping_reported": "Recurrent coronary artery disease",
+      "covariates": "age, sex and ancestry (PCs 1-5)",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=14,298"
+    },
+    {
+      "id": "PGS003356",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 2324683,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: NR (25%), AFR (25%), EUR (50%)",
+      "publication": {
+        "title": "Discovery and systematic characterization of risk variants and genes for coronary artery disease in over a million participants.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016211",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.2,
+            "ci_lower": 1.11,
+            "ci_upper": 1.29
+          }
+        ]
+      },
+      "phenotyping_reported": "Recurrent coronary artery disease",
+      "covariates": "age, sex and ancestry (PCs 1-5)",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D",
+        "ENGAGE_AF-TIMI_48",
+        "EPIC_CAD",
+        "GCC",
+        "GerMIFS",
+        "HUNT",
+        "MGBB",
+        "PEGASUS-TIMI_54",
+        "SAVOR-TIMI_53",
+        "TEENAGE",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=14,298"
+    },
+    {
+      "id": "PGS003438",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 241,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Predictive Utility of a Coronary Artery Disease Polygenic Risk Score in Primary Prevention.",
+        "journal": "JAMA Cardiol"
+      },
+      "date_release": "2023-03-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.76,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017157",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.76,
+            "ci_lower": 0.73,
+            "ci_upper": 0.78
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atherosclerotic Cardiovascular Disease (ASCVD) events in < 50 years",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=330,201"
+    },
+    {
+      "id": "PGS003446",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRSice",
+      "variants_number": 538084,
+      "ancestry_distribution": "GWAS: AFR (14%), AMR (6%), EUR (81%) | EVAL: AFR (25%), AMR (25%), EUR (50%)",
+      "publication": {
+        "title": "Large-scale genome-wide association study of coronary artery disease in genetically diverse populations.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.82,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021717",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.82
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.6,
+            "ci_lower": 1.42,
+            "ci_upper": 1.82
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "BBJ",
+        "CARDIoGRAMplusC4D",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,417"
+    },
+    {
+      "id": "PGS003725",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1296172,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: AFR (22%), AMR (11%), EAS (11%), EUR (22%), MAE (11%), SAS (22%)",
+      "publication": {
+        "title": "A multi-ancestry polygenic risk score improves risk prediction for coronary artery disease.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2023-07-05",
+      "samples_training": "n=116,649",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018419",
+        "selected_validation_ancestry": "European",
+        "record_count": 11,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.75,
+            "ci_lower": 1.71,
+            "ci_upper": 1.78
+          },
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.14,
+            "ci_lower": 2.1,
+            "ci_upper": 2.19
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex and the first ten principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "AGENT2D",
+        "BBJ",
+        "CARDIoGRAMplusC4D",
+        "DIAMANTE",
+        "FinnGen",
+        "G&H",
+        "GBMI",
+        "GIANT",
+        "GLGC",
+        "MEGASTROKE",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=308,264"
+    },
+    {
+      "id": "PGS003726",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1296172,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "A multi-ancestry polygenic risk score improves risk prediction for coronary artery disease.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2023-07-05",
+      "samples_training": "n=116,649",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018427",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.73,
+            "ci_lower": 1.69,
+            "ci_upper": 1.76
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex and the first ten principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "BBJ",
+        "CARDIoGRAMplusC4D",
+        "FinnGen",
+        "G&H",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=308,264"
+    },
+    {
+      "id": "PGS003727",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1125113,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (17%), EAS (17%), EUR (33%), MAE (17%), SAS (17%)",
+      "publication": {
+        "title": "A multi-ancestry polygenic risk score improves risk prediction for coronary artery disease.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2023-07-05",
+      "samples_training": "n=116,649",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018431",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.67,
+            "ci_lower": 1.64,
+            "ci_upper": 1.7
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex and the first ten principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D",
+        "UKB"
+      ],
+      "validation_sample_size": "n=308,264"
+    },
+    {
+      "id": "PGS003866",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "lassosum2",
+      "variants_number": 10440,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: GME (100%)",
+      "publication": {
+        "title": "Clinical utility of polygenic scores for cardiometabolic disease in Arabs.",
+        "journal": "Nature Communications"
+      },
+      "date_release": "2023-11-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.795,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018758",
+        "selected_validation_ancestry": "Greater Middle Eastern (Middle Eastern, North African or Persian)",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.795,
+            "ci_lower": 0.7768,
+            "ci_upper": 0.8132
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.51,
+            "ci_lower": 1.42,
+            "ci_upper": 1.61
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, array version, and the first 10 principal components of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=2,669"
+    },
+    {
+      "id": "PGS004196",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LASSO",
+      "variants_number": 3892,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745609,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020130",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745609
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004197",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LASSO",
+      "variants_number": 11490,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.756845,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020131",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.756845
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004198",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LASSO",
+      "variants_number": 5723,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.752119,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020132",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.752119
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004199",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LASSO",
+      "variants_number": 6085,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.750312,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020133",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.750312
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004200",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LASSO",
+      "variants_number": 8361,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.576478784644,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020134",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.576478784644
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lipoprotein A",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004237",
+      "trait_reported": "Coronary Artery Disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred",
+      "variants_number": 1146511,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic Risk Score for Coronary Artery Disease Improves the Prediction of Early-Onset Myocardial Infarction and Mortality in Men.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=5,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.789,
+        "full_model_r2": 0.162,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020260",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.789
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.162
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73,
+            "ci_lower": 1.7,
+            "ci_upper": 1.76
+          }
+        ]
+      },
+      "phenotyping_reported": "Prevalent Myocardial Infarction and Coronary Revascularization procedure",
+      "covariates": "Age, Sex and Genetic Principal Components (1 to 10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=403,422"
+    },
+    {
+      "id": "PGS004305",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "GenoBoost",
+      "variants_number": 3000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.755312829423568,
+        "full_model_r2": 0.0223677154796288,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020373",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.755312829423568
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0223677154796288
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.755312829423568
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004306",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "GenoBoost",
+      "variants_number": 4000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.756192423661107,
+        "full_model_r2": 0.0239701843095146,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020374",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.756192423661107
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0239701843095146
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.756192423661107
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004307",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "GenoBoost",
+      "variants_number": 4000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.756690725753621,
+        "full_model_r2": 0.0241956560235253,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020375",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.756690725753621
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0241956560235253
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.756690725753621
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004308",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "GenoBoost",
+      "variants_number": 1500,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.754539288872405,
+        "full_model_r2": 0.0217348314451193,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020376",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.754539288872405
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0217348314451193
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.754539288872405
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004309",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "GenoBoost",
+      "variants_number": 3000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.757187523772834,
+        "full_model_r2": 0.0242748213841381,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020377",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.757187523772834
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0242748213841381
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.757187523772834
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004321",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 27,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Predicting Benefit From Evolocumab Therapy in Patients With Atherosclerotic Disease Using a Genetic Risk Score: Results From the FOURIER Trial.",
+        "journal": "Circulation"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020426",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.1,
+            "ci_lower": 1.03,
+            "ci_upper": 1.18
+          }
+        ]
+      },
+      "phenotyping_reported": "Major vascular events (placebo arm)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=14,298"
+    },
+    {
+      "id": "PGS004443",
+      "trait_reported": "Coronary artery disease (CAD)",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020558",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.485782
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease (CAD)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004444",
+      "trait_reported": "Coronary vascular disease (CVD)",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020559",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28186
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary vascular disease (CVD)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004513",
+      "trait_reported": "Coronary artery disease (CAD)",
+      "trait_efo": "coronary artery disease",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020628",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.576864
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease (CAD)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004514",
+      "trait_reported": "Coronary vascular disease (CVD)",
+      "trait_efo": "coronary artery disease",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020629",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.340594
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary vascular disease (CVD)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004595",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 164,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic Risk Score and Statin Relative Risk Reduction for Primary Prevention of Myocardial Infarction in a Real-World Population.",
+        "journal": "Clin Pharmacol Ther"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020745",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.59,
+            "ci_lower": 1.42,
+            "ci_upper": 1.78
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction in non-statin users",
+      "covariates": "Age, sex, hypertension, diabetes, and cigarette smoking status",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=21,824"
+    },
+    {
+      "id": "PGS004596",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 64,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Lifestyle Factors, Genetic Risk, and Cardiovascular Disease Risk among Breast Cancer Survivors: A Prospective Cohort Study in UK Biobank.",
+        "journal": "Nutrients"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020748",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, top 50% vs bottom 50% of PRS)",
+            "name_short": "Hazard ratio (HR, top 50% vs bottom 50% of PRS)",
+            "estimate": 1.36,
+            "ci_lower": 1.1,
+            "ci_upper": 1.67
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident coronary artery disease in breast cancer survivors",
+      "covariates": "Age at diagnosis of breast cancer, race, Townsend Deprivation Index, diabetes, hypertension, antihypertensive medications, insulin treatment, lipid treatments, hormone replacement therapy, menopause, surgical treatment of breast cancer, genetic testing batches, 10 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=13,348"
+    },
+    {
+      "id": "PGS004696",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CSx",
+      "variants_number": 1289980,
+      "ancestry_distribution": "GWAS: AFR (7%), AMR (3%), EAS (19%), EUR (71%) | DEV: AFR (19%), AMR (11%), EUR (64%), MAO (5%) | EVAL: AFR (20%), AMR (20%), EAS (20%), EUR (20%), SAS (20%)",
+      "publication": {
+        "title": "Multi-Ancestry Polygenic Risk Score for Coronary Heart Disease Based on an Ancestrally Diverse Genome-Wide Association Study and Population-Specific Optimization.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=87,724",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.774,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020904",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.774
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.65,
+            "ci_lower": 1.59,
+            "ci_upper": 1.71
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "age, sex, 10 PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "CARDIoGRAMplusC4D",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=52,702"
+    },
+    {
+      "id": "PGS004697",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CSx",
+      "variants_number": 1120251,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (11%), EUR (83%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (20%), EAS (20%), EUR (20%), SAS (20%)",
+      "publication": {
+        "title": "Multi-Ancestry Polygenic Risk Score for Coronary Heart Disease Based on an Ancestrally Diverse Genome-Wide Association Study and Population-Specific Optimization.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=56,359",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.773,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020903",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.773
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.55,
+            "ci_lower": 1.5,
+            "ci_upper": 1.6
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "age, sex, 10 PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "CARDIoGRAMplusC4D",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=52,702"
+    },
+    {
+      "id": "PGS004698",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 542218,
+      "ancestry_distribution": "GWAS: AFR (7%), AMR (3%), EAS (19%), EUR (71%) | DEV: AFR (19%), AMR (11%), EUR (64%), MAO (5%) | EVAL: AFR (20%), AMR (20%), EAS (20%), EUR (20%), SAS (20%)",
+      "publication": {
+        "title": "Multi-Ancestry Polygenic Risk Score for Coronary Heart Disease Based on an Ancestrally Diverse Genome-Wide Association Study and Population-Specific Optimization.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=87,724",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.773,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020913",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.773
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.65,
+            "unit": "[1.59 -1.72)"
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "age, sex, 10 PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "CARDIoGRAMplusC4D",
+        "MVP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=52,702"
+    },
+    {
+      "id": "PGS004743",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRSmix",
+      "variants_number": 3606321,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=29,863",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.039,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020968",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.039,
+            "ci_lower": 0.03,
+            "ci_upper": 0.048
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=7,465"
+    },
+    {
+      "id": "PGS004744",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRSmix",
+      "variants_number": 7082943,
+      "ancestry_distribution": "DEV: SAS (100%) | EVAL: SAS (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=35,350",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.014,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020969",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.014,
+            "ci_lower": 0.009,
+            "ci_upper": 0.019
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "G&H"
+      ],
+      "validation_sample_size": "n=8,837"
+    },
+    {
+      "id": "PGS004745",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRSmixPlus",
+      "variants_number": 4769577,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=29,863",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.05,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020970",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.05,
+            "ci_lower": 0.04,
+            "ci_upper": 0.059
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=7,465"
+    },
+    {
+      "id": "PGS004746",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRSmixPlus",
+      "variants_number": 6483064,
+      "ancestry_distribution": "DEV: SAS (100%) | EVAL: SAS (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=35,350",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.02,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020971",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.02,
+            "ci_lower": 0.014,
+            "ci_upper": 0.026
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "G&H"
+      ],
+      "validation_sample_size": "n=8,837"
+    },
+    {
+      "id": "PGS004879",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "megaprs.auto",
+      "variants_number": 610677,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021214",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.62,
+            "ci_lower": 0.62,
+            "ci_upper": 0.62
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.41,
+            "ci_lower": 1.4,
+            "ci_upper": 1.43
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident CHD",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=412,090"
+    },
+    {
+      "id": "PGS004888",
+      "trait_reported": "Coronary artery diseae",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1110046,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: NR (2%), AFR (5%), AMR (6%), EAS (2%), EUR (84%), GME (90%), SAS (1%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Polygenic scores for longitudinal prediction of incident type 2 diabetes in an ancestrally and medically diverse primary care physician network: a patient cohort study.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2024-05-08",
+      "samples_training": "n=53,555",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.752,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021266",
+        "selected_validation_ancestry": "European, Hispanic or Latin American, African unspecified, East Asian, South Asian, Greater Middle Eastern (Middle Eastern, North African or Persian), Not reported",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.752
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.27,
+            "ci_lower": 1.18,
+            "ci_upper": 1.36
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary artery disease cases without diabetes",
+      "covariates": "first 10 ancestry PCs, age, sex, smoking status, systolic blood pressure, HDL, and total cholesterol combined into a clinical risk score",
+      "training_development_cohorts": [
+        "MGBB"
+      ],
+      "validation_sample_size": "n=11,515"
+    },
+    {
+      "id": "PGS004899",
+      "trait_reported": "Spontaneous coronary artery dissection",
+      "trait_efo": "spontaneous coronary artery dissection",
+      "method_name": "LD-pruning",
+      "variants_number": 7,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: NR (25%), EUR (75%)",
+      "publication": {
+        "title": "Chromosome 1q21.2 and additional loci influence risk of spontaneous coronary artery dissection and myocardial infarction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-05-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021317",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 0.91,
+            "ci_lower": 0.89,
+            "ci_upper": 0.93
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.094,
+            "se": 0.011
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "Age, sex, genotyping array and batch, PCs (1-4)",
+      "training_development_cohorts": [
+        "MGI",
+        "canSCAD"
+      ],
+      "validation_sample_size": "n=373,056"
+    },
+    {
+      "id": "PGS004921",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Known CAD loci",
+      "variants_number": 161,
+      "ancestry_distribution": "GWAS: NR (100%) | DEV: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sexual Differences in Genetic Predisposition of Coronary Artery Disease.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=187,599",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021399",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.41,
+            "ci_lower": 1.38,
+            "ci_upper": 1.44
+          }
+        ]
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease",
+      "covariates": "Age, population stratification, smoking status, alcohol consumption, BMI, history of diabetes or hypertension, cholesterol medication use, education, Townsend deprivation index",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB_2",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "IPM",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO_VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "THISEAS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=317,509"
+    },
+    {
+      "id": "PGS004925",
+      "trait_reported": "Coronary heart disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 300,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Replacing device-measured sedentary time with physical activity is associated with lower risk of coronary heart disease regardless of genetic risk.",
+        "journal": "J Intern Med"
+      },
+      "date_release": "2024-07-31",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021707",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.63,
+            "ci_lower": 1.49,
+            "ci_upper": 1.78
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary heart disease",
+      "covariates": "Sex, genotype array type, 10 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=77,500"
+    },
+    {
+      "id": "PGS004941",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "MetaPRS",
+      "variants_number": 3711629,
+      "ancestry_distribution": "GWAS: NR (5%), EAS (14%), EUR (82%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Joint impact of polygenic risk score and lifestyles on early- and late-onset cardiovascular diseases.",
+        "journal": "Nat Hum Behav"
+      },
+      "date_release": "2024-08-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.809,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021739",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.809,
+            "ci_lower": 0.799,
+            "ci_upper": 0.819
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.42,
+            "ci_lower": 1.36,
+            "ci_upper": 1.49
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident coronary artery disease",
+      "covariates": "age, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=72,149"
+    },
+    {
+      "id": "PGS005091",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDPred2Auto",
+      "variants_number": 1428772,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (1%), EAS (13%), EUR (30%), MAE (53%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Evaluating Performance and Agreement of Coronary Heart Disease Polygenic Risk Scores.",
+        "journal": "JAMA"
+      },
+      "date_release": "2024-11-21",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022179",
+        "selected_validation_ancestry": "European, African unspecified, Hispanic or Latin American, East Asian, South Asian, Not reported",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.143
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.374,
+            "ci_lower": 1.343,
+            "ci_upper": 1.406
+          }
+        ]
+      },
+      "phenotyping_reported": "Prevalent coronary heart disease",
+      "covariates": "Age, sex, first 5 PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "CKB",
+        "FinnGen",
+        "MVP"
+      ],
+      "validation_sample_size": "n=53,092"
+    },
+    {
+      "id": "PGS005092",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CSx",
+      "variants_number": 1279502,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (1%), EAS (13%), EUR (30%), MAE (53%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Evaluating Performance and Agreement of Coronary Heart Disease Polygenic Risk Scores.",
+        "journal": "JAMA"
+      },
+      "date_release": "2024-11-21",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.801,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022182",
+        "selected_validation_ancestry": "European, African unspecified, Hispanic or Latin American, East Asian, South Asian, Not reported",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.801
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.1425
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.384,
+            "ci_lower": 1.353,
+            "ci_upper": 1.416
+          }
+        ]
+      },
+      "phenotyping_reported": "Prevalent coronary heart disease",
+      "covariates": "Age, sex, first 5 PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "CKB",
+        "FinnGen",
+        "MVP"
+      ],
+      "validation_sample_size": "n=53,092"
+    },
+    {
+      "id": "PGS005112",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CSx",
+      "variants_number": 1106628,
+      "ancestry_distribution": "GWAS: AFR (80%), AMR (100%), EAS (56%), EUR (35%), GME (60%), SAS (6%) | EVAL: EUR (50%), MAE (50%)",
+      "publication": {
+        "title": "Identification of plasma proteomic markers underlying polygenic risk of type 2 diabetes and related comorbidities.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022303",
+        "selected_validation_ancestry": "European, East Asian, South Asian, Hispanic or Latin American, African unspecified",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.45,
+            "ci_lower": 1.41,
+            "ci_upper": 1.49
+          }
+        ]
+      },
+      "phenotyping_reported": "coronary artery disease",
+      "covariates": "age, age^2, sex, UKB centre, array, genetic PCS 1-20",
+      "training_development_cohorts": [
+        "BBJ",
+        "CARDIoGRAMplusC4D"
+      ],
+      "validation_sample_size": "n=48,603"
+    },
+    {
+      "id": "PGS005143",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CS",
+      "variants_number": 943274,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022363",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.27560936784465
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=58,625"
+    },
+    {
+      "id": "PGS005152",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "PRS-CSx",
+      "variants_number": 943274,
+      "ancestry_distribution": "GWAS: EAS (22%), EUR (78%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022372",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.30833325147581
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "age, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=58,625"
+    },
+    {
+      "id": "PGS005231",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 142,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Targeted Coronary Artery Calcium Screening in High-Risk Younger Individuals Using Consumer Genetic Screening Results.",
+        "journal": "JACC Cardiovasc Imaging"
+      },
+      "date_release": "2025-06-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022660",
+        "selected_validation_ancestry": "European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.33,
+            "ci_lower": 1.26,
+            "ci_upper": 1.4
+          }
+        ]
+      },
+      "phenotyping_reported": "coronary artery calcium",
+      "covariates": "age, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=8,587"
+    },
+    {
+      "id": "PGS005236",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "AnnoPred",
+      "variants_number": 2994055,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Robust pleiotropy-decomposed polygenic scores identify distinct contributions to elevated coronary artery disease polygenic risk.",
+        "journal": "PLoS Comput Biol"
+      },
+      "date_release": "2025-07-24",
+      "samples_training": "n=81,581",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022669",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.72
+          }
+        ]
+      },
+      "phenotyping_reported": "Coronary artery disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D",
+        "UKB"
+      ],
+      "validation_sample_size": "n=407,903"
+    },
+    {
+      "id": "PGS005293",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1003984,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=2,500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.772,
+        "full_model_r2": 0.27974,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023001",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.772
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.27974
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease defined as myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, unstable angina and chronic ischemic heart disease.",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005294",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1003984,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": 0.12154,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023002",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12154
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease defined as myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, unstable angina and chronic ischemic heart disease.",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=5,152"
+    },
+    {
+      "id": "PGS005295",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1003984,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=1,503",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6921811,
+        "full_model_r2": 0.15544,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023003",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6921811
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.15544
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease defined as myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, unstable angina and chronic ischemic heart disease.",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=7,525"
+    },
+    {
+      "id": "PGS005296",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1042395,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=2,500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.772,
+        "full_model_r2": 0.27809,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023004",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.772
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.27809
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease defined as myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, unstable angina and chronic ischemic heart disease.",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005297",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1042395,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6860317,
+        "full_model_r2": 0.10575,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023005",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6860317
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10575
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease defined as myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, unstable angina and chronic ischemic heart disease.",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=5,152"
+    },
+    {
+      "id": "PGS005298",
+      "trait_reported": "Coronary artery disease",
+      "trait_efo": "coronary artery disease",
+      "method_name": "LDpred2",
+      "variants_number": 1042395,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=1,503",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6919077,
+        "full_model_r2": 0.15574,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023006",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6919077
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.15574
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent coronary artery disease defined as myocardial infarction, percutaneous transluminal coronary angioplasty, coronary artery bypass grafting, unstable angina and chronic ischemic heart disease.",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=7,525"
+    },
+    {
+      "id": "PGS005322",
+      "trait_reported": "Coronary artery disease (Endothelial cell-related)",
+      "trait_efo": "coronary artery disease",
+      "method_name": "Genome wide significant variants related to Endothelial cell function",
+      "variants_number": 36,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Endothelial cell-related genetic variants identify LDL cholesterol-sensitive individuals who derive greater benefit from aggressive lipid lowering.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2025-10-06",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023069",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.23,
+            "ci_lower": 1.21,
+            "ci_upper": 1.26
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident CAD",
+      "covariates": "age, sex, population structure (by principal components 1-5), smoking, LDL-C, systolic blood pressure, HbA1c and hsCRP",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D",
+        "EPIC_CAD",
+        "GerMIFS",
+        "HUNT",
+        "MGBB",
+        "Other",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=348,967"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000962",
+    "reported_auc": 0.592,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Chronic ischaemic heart disease (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

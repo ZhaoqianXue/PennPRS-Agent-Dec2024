@@ -1,0 +1,136 @@
+{
+  "cache_version": "v4",
+  "ontology": "bipolar disorder",
+  "candidate_model_ids": [
+    "PGS002787",
+    "PGS002786",
+    "PGS002788"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS002786",
+      "trait_reported": "Bipolar disorder",
+      "trait_efo": "bipolar disorder",
+      "method_name": "SDPR",
+      "variants_number": 948996,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex-specific genetic association between psychiatric disorders and cognition, behavior and brain imaging in children and adults.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2022-09-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.00251110019585597,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015078",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "partial R\u00b2",
+            "name_short": "partial R\u00b2",
+            "estimate": 0.00251110019585597
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cognitive function (pattern comparison)",
+      "covariates": "age, PCs1-3",
+      "training_development_cohorts": [
+        "PGC"
+      ],
+      "validation_sample_size": "n=2,524"
+    },
+    {
+      "id": "PGS002787",
+      "trait_reported": "Type 1 bipolar disorder",
+      "trait_efo": "bipolar I disorder",
+      "method_name": "SDPR",
+      "variants_number": 937511,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex-specific genetic association between psychiatric disorders and cognition, behavior and brain imaging in children and adults.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2022-09-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.00275397293669774,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015158",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "partial R\u00b2",
+            "name_short": "partial R\u00b2",
+            "estimate": 0.00275397293669774
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psychiatric behavior (Dsm5 depression)",
+      "covariates": "age, PCs1-3",
+      "training_development_cohorts": [
+        "PGC"
+      ],
+      "validation_sample_size": "n=2,198"
+    },
+    {
+      "id": "PGS002788",
+      "trait_reported": "Type 2 bipolar disorder",
+      "trait_efo": "bipolar II disorder",
+      "method_name": "SDPR",
+      "variants_number": 935292,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex-specific genetic association between psychiatric disorders and cognition, behavior and brain imaging in children and adults.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2022-09-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.00307366437856391,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015195",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "partial R\u00b2",
+            "name_short": "partial R\u00b2",
+            "estimate": 0.00307366437856391
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psychiatric behavior (Sluggish cognitive tempo)",
+      "covariates": "age, PCs1-3",
+      "training_development_cohorts": [
+        "PGC"
+      ],
+      "validation_sample_size": "n=2,524"
+    }
+  ],
+  "baseline": null
+}

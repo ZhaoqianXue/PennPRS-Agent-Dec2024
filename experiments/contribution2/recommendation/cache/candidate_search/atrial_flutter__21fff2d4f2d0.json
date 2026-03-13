@@ -1,0 +1,239 @@
+{
+  "cache_version": "v4",
+  "ontology": "atrial flutter",
+  "candidate_model_ids": [
+    "PGS001841",
+    "PGS001339",
+    "PGS002050",
+    "PGS001263"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS001263",
+      "trait_reported": "Atrial flutter",
+      "trait_efo": "atrial flutter",
+      "method_name": "snpnet",
+      "variants_number": 2087,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.61716,
+        "r2": 0.02517,
+        "pgs_only_auc": 0.61716,
+        "pgs_only_r2": 0.02517,
+        "full_model_auc": 0.78179,
+        "full_model_r2": 0.1422,
+        "incremental_auc": 0.02171,
+        "selected_performance_id": "PPM008822",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.78179,
+            "ci_lower": 0.76842,
+            "ci_upper": 0.79516
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1422
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02171
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02517
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61716,
+            "ci_lower": 0.59934,
+            "ci_upper": 0.63498
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial flutter",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001339",
+      "trait_reported": "Atrial fibrillation and flutter (time-to-event)",
+      "trait_efo": "atrial fibrillation, atrial flutter",
+      "method_name": "snpnet",
+      "variants_number": 2142,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EAS (17%), EUR (33%), MAO (17%), SAS (17%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.613,
+        "r2": 0.02447,
+        "pgs_only_auc": 0.613,
+        "pgs_only_r2": 0.02447,
+        "full_model_auc": 0.77656,
+        "full_model_r2": 0.14023,
+        "incremental_auc": 0.02188,
+        "selected_performance_id": "PPM009183",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77656,
+            "ci_lower": 0.76352,
+            "ci_upper": 0.7896
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14023
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02188
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02447
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.613,
+            "ci_lower": 0.59591,
+            "ci_upper": 0.6301
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE atrial fibrillation and flutter",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001841",
+      "trait_reported": "Atrial fibrillation and flutter",
+      "trait_efo": "atrial fibrillation, atrial flutter",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 3980,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009618",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1026,
+            "ci_lower": 0.0885,
+            "ci_upper": 0.1165
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation and flutter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,230"
+    },
+    {
+      "id": "PGS002050",
+      "trait_reported": "Atrial fibrillation and flutter",
+      "trait_efo": "atrial fibrillation, atrial flutter",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 554908,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011262",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1034,
+            "ci_lower": 0.0894,
+            "ci_upper": 0.1174
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation and flutter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,230"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001263",
+    "reported_auc": 0.6172,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Atrial flutter",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

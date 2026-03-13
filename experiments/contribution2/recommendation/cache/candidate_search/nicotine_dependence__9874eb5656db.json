@@ -1,0 +1,98 @@
+{
+  "cache_version": "v4",
+  "ontology": "nicotine dependence",
+  "candidate_model_ids": [
+    "PGS002037",
+    "PGS001830"
+  ],
+  "total_found": 2,
+  "candidate_models": [
+    {
+      "id": "PGS001830",
+      "trait_reported": "Tobacco use disorder",
+      "trait_efo": "nicotine dependence",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 13838,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009533",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0557,
+            "ci_lower": 0.0416,
+            "ci_upper": 0.0697
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Tobacco use disorder",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,400"
+    },
+    {
+      "id": "PGS002037",
+      "trait_reported": "Tobacco use disorder",
+      "trait_efo": "nicotine dependence",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 847691,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (18%), AMR (9%), EAS (18%), EUR (36%), GME (9%), SAS (9%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011163",
+        "selected_validation_ancestry": "European",
+        "record_count": 11,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0741,
+            "ci_lower": 0.0601,
+            "ci_upper": 0.0881
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Tobacco use disorder",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,400"
+    }
+  ],
+  "baseline": null
+}

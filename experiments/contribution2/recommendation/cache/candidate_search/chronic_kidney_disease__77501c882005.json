@@ -1,0 +1,1375 @@
+{
+  "cache_version": "v4",
+  "ontology": "chronic kidney disease",
+  "candidate_model_ids": [
+    "PGS004128",
+    "PGS004158",
+    "PGS004112",
+    "PGS000728",
+    "PGS004101",
+    "PGS004004",
+    "PGS004142",
+    "PGS002757",
+    "PGS005113",
+    "PGS005090",
+    "PGS004224",
+    "PGS002237",
+    "PGS004889",
+    "PGS004016",
+    "PGS004058",
+    "PGS003988",
+    "PGS004074",
+    "PGS001272",
+    "PGS004045",
+    "PGS004030",
+    "PGS000859",
+    "PGS004088"
+  ],
+  "total_found": 22,
+  "candidate_models": [
+    {
+      "id": "PGS000728",
+      "trait_reported": "Chronic kidney disease",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "LD thinning",
+      "variants_number": 1958860,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative analysis of the plasma proteome and polygenic risk of cardiometabolic diseases",
+        "journal": "Nat Metab"
+      },
+      "date_release": "2021-02-23",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001669",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.9,
+            "ci_lower": -1.45,
+            "ci_upper": -0.36
+          }
+        ]
+      },
+      "phenotyping_reported": "Estimated Glomerular Filtration Rate (eGFR)",
+      "covariates": "age, sex, 10 genetic PCs",
+      "training_development_cohorts": [
+        "ADVANCE_TRIAL",
+        "AFTER_EU",
+        "AGES",
+        "Airwave",
+        "BBJ",
+        "BioMe",
+        "CHNS",
+        "CHRIS",
+        "CHS",
+        "CoLaus",
+        "DC",
+        "DIACORE",
+        "ERF",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GS:SFHS",
+        "INGI-FVG",
+        "JHS",
+        "JUPITER",
+        "KORA",
+        "LIFE-Adult",
+        "LIFE-HEART",
+        "LLFS",
+        "LOLIPOP",
+        "LURIC",
+        "LifeLines",
+        "MDC-CC",
+        "MESA",
+        "MyCode",
+        "OGP",
+        "PIVUS",
+        "PREVEND",
+        "QIMR",
+        "RS",
+        "SAAR",
+        "SCES",
+        "SHIP",
+        "SIMES",
+        "SINDI",
+        "SOLID-TIMI_52",
+        "STABILITY",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "Vanderbilt",
+        "WGHS",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=3,037"
+    },
+    {
+      "id": "PGS000859",
+      "trait_reported": "Chronic kidney disease",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 34,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analyses highlight etiological differences underlying newly defined subtypes of diabetes",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002382",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.98,
+            "ci_lower": 0.93,
+            "ci_upper": 1.03
+          }
+        ]
+      },
+      "phenotyping_reported": "Moderate Age-Related Diabetes",
+      "covariates": "PC1-10",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=5,597"
+    },
+    {
+      "id": "PGS001272",
+      "trait_reported": "Chronic renal failure (time-to-event)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "snpnet",
+      "variants_number": 158,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.53623,
+        "r2": 0.00203,
+        "pgs_only_auc": 0.53623,
+        "pgs_only_r2": 0.00203,
+        "full_model_auc": 0.70402,
+        "full_model_r2": 0.06815,
+        "incremental_auc": 0.00281,
+        "selected_performance_id": "PPM008862",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.70402,
+            "ci_lower": 0.69403,
+            "ci_upper": 0.71401
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06815
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00281
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00203
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.53623,
+            "ci_lower": 0.52445,
+            "ci_upper": 0.548
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE chronic renal failure",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS002237",
+      "trait_reported": "Chronic kidney disease (stage 3 or greater)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 471316,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (14%), AMR (14%), ASN (14%), EUR (29%), MAE (29%)",
+      "publication": {
+        "title": "Genome-wide polygenic score to predict chronic kidney disease across ancestries.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=279,819",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.78,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018708",
+        "selected_validation_ancestry": "European",
+        "record_count": 9,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.78,
+            "ci_lower": 0.75,
+            "ci_upper": 0.8
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.47,
+            "ci_lower": 1.32,
+            "ci_upper": 1.65
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease (eGFR <45 ml/min per 1.73 m2)",
+      "covariates": "age, sex, alcohol, smoking, hypertension, diabetes, body mass index, nonsteroidal anti-inflammatory drug and angiotensin-converting enzyme inhibitor/angiotensin receptor blocker use, and visit year",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=11,813"
+    },
+    {
+      "id": "PGS002757",
+      "trait_reported": "Chronic kidney disease",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1090783,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014957",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.15,
+            "ci_lower": 1.05,
+            "ci_upper": 1.26
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS003988",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "DBSLMM-auto",
+      "variants_number": 1141637,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.57879719,
+        "full_model_r2": 0.01491588,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019734",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.57879719,
+            "ci_lower": 0.56896997,
+            "ci_upper": 0.5886244
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01491588,
+            "ci_lower": 0.01181946,
+            "ci_upper": 0.01883422
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.32811612,
+            "ci_lower": 1.28320824,
+            "ci_upper": 1.37459563
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.28376149,
+            "ci_lower": 0.24936338,
+            "ci_upper": 0.3181596
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004004",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "lassosum.auto",
+      "variants_number": 15373,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.57830254,
+        "full_model_r2": 0.01487757,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019800",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.57830254,
+            "ci_lower": 0.56845467,
+            "ci_upper": 0.5881504
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01487757,
+            "ci_lower": 0.01154959,
+            "ci_upper": 0.01893036
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.28324556,
+            "ci_lower": 0.24886546,
+            "ci_upper": 0.31762566
+          },
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.32743108,
+            "ci_lower": 1.28256946,
+            "ci_upper": 1.37386187
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004016",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "lassosum.CV",
+      "variants_number": 88605,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58281214,
+        "full_model_r2": 0.01668477,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019810",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58281214,
+            "ci_lower": 0.57298399,
+            "ci_upper": 0.59264029
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01668477,
+            "ci_lower": 0.01325458,
+            "ci_upper": 0.02089586
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.34989933,
+            "ci_lower": 1.30425668,
+            "ci_upper": 1.39713926
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.30003002,
+            "ci_lower": 0.26563328,
+            "ci_upper": 0.33442676
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004030",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "LDpred2-auto",
+      "variants_number": 1050295,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58871735,
+        "full_model_r2": 0.0187256,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019754",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58871735,
+            "ci_lower": 0.57899906,
+            "ci_upper": 0.59843563
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0187256,
+            "ci_lower": 0.01506559,
+            "ci_upper": 0.02314554
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37576394,
+            "ci_lower": 1.32906928,
+            "ci_upper": 1.42409914
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.31900917,
+            "ci_lower": 0.28447891,
+            "ci_upper": 0.35353943
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004045",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "LDpred2.CV",
+      "variants_number": 1050295,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58851351,
+        "full_model_r2": 0.01871484,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019694",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58851351,
+            "ci_lower": 0.57882039,
+            "ci_upper": 0.59820663
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01871484,
+            "ci_lower": 0.01517095,
+            "ci_upper": 0.0232003
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37553032,
+            "ci_lower": 1.32885232,
+            "ci_upper": 1.42384795
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.31883934,
+            "ci_lower": 0.28431565,
+            "ci_upper": 0.35336303
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004058",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "megaprs.auto",
+      "variants_number": 846995,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58807256,
+        "full_model_r2": 0.01816826,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019764",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58807256,
+            "ci_lower": 0.57841176,
+            "ci_upper": 0.59773335
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01816826,
+            "ci_lower": 0.01448802,
+            "ci_upper": 0.02239938
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.36871033,
+            "ci_lower": 1.32230724,
+            "ci_upper": 1.41674183
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.31386893,
+            "ci_lower": 0.27937812,
+            "ci_upper": 0.34835975
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004074",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "megaprs.CV",
+      "variants_number": 846995,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58867836,
+        "full_model_r2": 0.01859661,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019774",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58867836,
+            "ci_lower": 0.57900777,
+            "ci_upper": 0.59834895
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01859661,
+            "ci_lower": 0.01476562,
+            "ci_upper": 0.02283747
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37315168,
+            "ci_lower": 1.32665979,
+            "ci_upper": 1.42127286
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.3171086,
+            "ci_lower": 0.28266434,
+            "ci_upper": 0.35155285
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004088",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 1109217,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5819827,
+        "full_model_r2": 0.01615694,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019790",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5819827,
+            "ci_lower": 0.5721855,
+            "ci_upper": 0.5917799
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01615694,
+            "ci_lower": 0.01278626,
+            "ci_upper": 0.020327
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.34393774,
+            "ci_lower": 1.29844261,
+            "ci_upper": 1.39102695
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.29560392,
+            "ci_lower": 0.26116555,
+            "ci_upper": 0.33004229
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004101",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "PRS-CS.CV",
+      "variants_number": 1109217,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.57986136,
+        "full_model_r2": 0.01531992,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019780",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.57986136,
+            "ci_lower": 0.57008693,
+            "ci_upper": 0.58963579
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01531992,
+            "ci_lower": 0.01200722,
+            "ci_upper": 0.01924268
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.33356847,
+            "ci_lower": 1.28842926,
+            "ci_upper": 1.38028911
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.28785841,
+            "ci_lower": 0.25342385,
+            "ci_upper": 0.32229297
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004112",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "pt_clump.auto",
+      "variants_number": 301,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.54776644,
+        "full_model_r2": 0.00531608,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019704",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.54776644,
+            "ci_lower": 0.53787572,
+            "ci_upper": 0.55765716
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00531608,
+            "ci_lower": 0.0033413,
+            "ci_upper": 0.00779053
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.18493693,
+            "ci_lower": 1.14485436,
+            "ci_upper": 1.22642284
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.16968955,
+            "ci_lower": 0.13527743,
+            "ci_upper": 0.20410167
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004128",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "pt_clump_nested.CV",
+      "variants_number": 8543,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.56987714,
+        "full_model_r2": 0.01142668,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019714",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.56987714,
+            "ci_lower": 0.56003795,
+            "ci_upper": 0.57971632
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01142668,
+            "ci_lower": 0.00850992,
+            "ci_upper": 0.01493158
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28243908,
+            "ci_lower": 1.23903323,
+            "ci_upper": 1.32736551
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.24876379,
+            "ci_lower": 0.21433143,
+            "ci_upper": 0.28319616
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004142",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "SBayesR-auto",
+      "variants_number": 804867,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58615954,
+        "full_model_r2": 0.01770204,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019744",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58615954,
+            "ci_lower": 0.5764651,
+            "ci_upper": 0.59585397
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01770204,
+            "ci_lower": 0.01412712,
+            "ci_upper": 0.02191158
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.36397618,
+            "ci_lower": 1.31765357,
+            "ci_upper": 1.41192727
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.31040409,
+            "ci_lower": 0.27585256,
+            "ci_upper": 0.34495563
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004158",
+      "trait_reported": "Chronic kidney disease (CKD)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "UKBB-EUR.MultiPRS.CV",
+      "variants_number": 1135455,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=13,496",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.59165352,
+        "full_model_r2": 0.0199569,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019720",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.59165352,
+            "ci_lower": 0.58198776,
+            "ci_upper": 0.60131927
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0199569,
+            "ci_lower": 0.01607829,
+            "ci_upper": 0.02453676
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.38924704,
+            "ci_lower": 1.34216238,
+            "ci_upper": 1.43798349
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.3287619,
+            "ci_lower": 0.29428203,
+            "ci_upper": 0.36324178
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease or dialysis",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004224",
+      "trait_reported": "Chronic kidney disease",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 241,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Secondhand smoke, genetic susceptibility, and incident chronic kidney disease in never smokers: A prospective study of a selected population from the UK Biobank.",
+        "journal": "Tob Induc Dis"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020162",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, second hand smoke exposure and high PRS vs. no exposure and low PRS)",
+            "name_short": "Hazard ratio (HR, second hand smoke exposure and high PRS vs. no exposure and low PRS)",
+            "estimate": 1.34,
+            "ci_lower": 1.21,
+            "ci_upper": 1.48
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident CKD with second hand smoke exposure",
+      "covariates": "Age, sex, race, physical activity, Townsend deprivation index, alcohol consumption, total triglyceride, body mass index, hypertension, and diabetes mellitus",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=214,244"
+    },
+    {
+      "id": "PGS004889",
+      "trait_reported": "Chronic kidney disease",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1117375,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: NR (2%), AFR (5%), AMR (6%), EAS (2%), EUR (84%), GME (90%), SAS (1%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Polygenic scores for longitudinal prediction of incident type 2 diabetes in an ancestrally and medically diverse primary care physician network: a patient cohort study.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2024-05-08",
+      "samples_training": "n=53,555",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.78,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021267",
+        "selected_validation_ancestry": "European, Hispanic or Latin American, African unspecified, East Asian, South Asian, Greater Middle Eastern (Middle Eastern, North African or Persian), Not reported",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.78
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.3,
+            "ci_lower": 1.18,
+            "ci_upper": 1.44
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident chronic kidney disease cases without diabetes",
+      "covariates": "first 10 ancestry PCs, age, sex, diagnosis history, systolic blood pressure, diastolic blood pressure, weight and HTN diagnosis combined into a clinical risk score",
+      "training_development_cohorts": [
+        "MGBB"
+      ],
+      "validation_sample_size": "n=11,645"
+    },
+    {
+      "id": "PGS005090",
+      "trait_reported": "Chronic kidney disease (stage 3 or higher)",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1142436,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: AFR (100%)",
+      "publication": {
+        "title": "Single-Ancestry versus Multi-Ancestry Polygenic Risk Scores for CKD in Black American Populations.",
+        "journal": "J Am Soc Nephrol"
+      },
+      "date_release": "2024-10-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.9,
+        "full_model_r2": 0.1,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022177",
+        "selected_validation_ancestry": "African American or Afro-Caribbean",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.9
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.41,
+            "ci_lower": 1.14,
+            "ci_upper": 1.76
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic kidney disease",
+      "covariates": "age, sex, diabetes, PC1-PC10",
+      "training_development_cohorts": [
+        "MVP",
+        "REGARDS"
+      ],
+      "validation_sample_size": "n=67,819"
+    },
+    {
+      "id": "PGS005113",
+      "trait_reported": "Chronic kidney disease",
+      "trait_efo": "chronic kidney disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1116379,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (50%), MAE (50%)",
+      "publication": {
+        "title": "Identification of plasma proteomic markers underlying polygenic risk of type 2 diabetes and related comorbidities.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022304",
+        "selected_validation_ancestry": "European, East Asian, South Asian, Hispanic or Latin American, African unspecified",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.35,
+            "ci_lower": 1.29,
+            "ci_upper": 1.41
+          }
+        ]
+      },
+      "phenotyping_reported": "chronic kidney disease",
+      "covariates": "age, age^2, sex, UKB centre, array, genetic PCS 1-20",
+      "training_development_cohorts": [
+        "CKDGen"
+      ],
+      "validation_sample_size": "n=48,603"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001272",
+    "reported_auc": 0.5362,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Chronic renal failure (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

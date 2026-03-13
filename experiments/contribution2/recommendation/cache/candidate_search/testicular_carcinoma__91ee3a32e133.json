@@ -1,0 +1,910 @@
+{
+  "cache_version": "v4",
+  "ontology": "testicular carcinoma",
+  "candidate_model_ids": [
+    "PGS000598",
+    "PGS000599",
+    "PGS000602",
+    "PGS001164",
+    "PGS000796",
+    "PGS000601",
+    "PGS000603",
+    "PGS000600",
+    "PGS000596",
+    "PGS000604",
+    "PGS000595",
+    "PGS000597"
+  ],
+  "total_found": 13,
+  "candidate_models": [
+    {
+      "id": "PGS000595",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 9,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.658,
+        "full_model_r2": 0.0543,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001280",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.658,
+            "ci_lower": 0.594,
+            "ci_upper": 0.719
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0543
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0838
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.64,
+            "ci_lower": 0.535,
+            "ci_upper": 13.0
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.713,
+            "ci_lower": 1.33,
+            "ci_upper": 2.206
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.538,
+            "se": 0.129
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000596",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 5,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.649,
+        "full_model_r2": 0.0475,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001281",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.649,
+            "ci_lower": 0.586,
+            "ci_upper": 0.714
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0475
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0841
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.49,
+            "ci_lower": 0.816,
+            "ci_upper": 14.9
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.68,
+            "ci_lower": 1.28,
+            "ci_upper": 2.206
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.519,
+            "se": 0.139
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000597",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 771,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.656,
+        "full_model_r2": 0.0487,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001282",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.656,
+            "ci_lower": 0.593,
+            "ci_upper": 0.717
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0487
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.084
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.72,
+            "ci_lower": 0.568,
+            "ci_upper": 13.1
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.667,
+            "ci_lower": 1.296,
+            "ci_upper": 2.143
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.511,
+            "se": 0.128
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000598",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.648,
+        "full_model_r2": 0.0447,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001283",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.648,
+            "ci_lower": 0.581,
+            "ci_upper": 0.712
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0447
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0841
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.85,
+            "ci_lower": 0.942,
+            "ci_upper": 15.7
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.639,
+            "ci_lower": 1.263,
+            "ci_upper": 2.126
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.494,
+            "se": 0.133
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000599",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 31,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.637,
+        "full_model_r2": 0.0473,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001284",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.637,
+            "ci_lower": 0.568,
+            "ci_upper": 0.703
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0473
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0844
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.35,
+            "ci_lower": 1.08,
+            "ci_upper": 17.5
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.628,
+            "ci_lower": 1.281,
+            "ci_upper": 2.069
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.487,
+            "se": 0.122
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000600",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 250,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.636,
+        "full_model_r2": 0.046,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001285",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.636,
+            "ci_lower": 0.565,
+            "ci_upper": 0.698
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.046
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0839
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 6.35,
+            "ci_lower": 1.81,
+            "ci_upper": 22.3
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.619,
+            "ci_lower": 1.267,
+            "ci_upper": 2.067
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.482,
+            "se": 0.125
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000601",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 40,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.598,
+        "full_model_r2": 0.0258,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001286",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.598,
+            "ci_lower": 0.526,
+            "ci_upper": 0.672
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0258
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.085
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.438,
+            "ci_lower": 1.132,
+            "ci_upper": 1.827
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.363,
+            "se": 0.122
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000602",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 40,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=1,671",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.698,
+        "full_model_r2": 0.0839,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001287",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.698,
+            "ci_lower": 0.656,
+            "ci_upper": 0.74
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0839
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0795
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.6,
+            "ci_lower": 1.75,
+            "ci_upper": 12.1
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.055,
+            "ci_lower": 1.692,
+            "ci_upper": 2.496
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.72,
+            "se": 0.0993
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=1,484"
+    },
+    {
+      "id": "PGS000603",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=776",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.625,
+        "full_model_r2": 0.044,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001288",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.625,
+            "ci_lower": 0.557,
+            "ci_upper": 0.693
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.044
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.084
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 6.05,
+            "ci_lower": 1.73,
+            "ci_upper": 21.2
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.625,
+            "ci_lower": 1.27,
+            "ci_upper": 2.079
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.485,
+            "se": 0.126
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=755"
+    },
+    {
+      "id": "PGS000604",
+      "trait_reported": "Malignant neoplasm of testis",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 44,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=1,671",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.703,
+        "full_model_r2": 0.0882,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001289",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.703,
+            "ci_lower": 0.659,
+            "ci_upper": 0.745
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0793
+          },
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0882
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.6,
+            "ci_lower": 1.75,
+            "ci_upper": 12.1
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.106,
+            "ci_lower": 1.729,
+            "ci_upper": 2.565
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.745,
+            "se": 0.101
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of testis",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=1,484"
+    },
+    {
+      "id": "PGS000796",
+      "trait_reported": "Testicular cancer",
+      "trait_efo": "testicular carcinoma, Testicular Germ Cell Tumor",
+      "method_name": "52 variants from Graff et al (PGS000086) with inverse variant weights",
+      "variants_number": 52,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.787,
+        "full_model_r2": 0.605,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002067",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.787
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.766,
+            "se": 0.033
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.605
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 2.26,
+            "ci_lower": 1.71,
+            "ci_upper": 2.99
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident testicular cancer",
+      "covariates": "Age at assessment, genotyping array, PCs(1-15)",
+      "training_development_cohorts": [
+        "B58C",
+        "BCAC",
+        "FCCC",
+        "NCI",
+        "Penn",
+        "PennCATH",
+        "SEARCH",
+        "Sweden",
+        "UKBS",
+        "UKGPCS",
+        "UKTCC",
+        "UPENN"
+      ],
+      "validation_sample_size": "n=179,537"
+    },
+    {
+      "id": "PGS001164",
+      "trait_reported": "Testicular cancer",
+      "trait_efo": "testicular carcinoma",
+      "method_name": "snpnet",
+      "variants_number": 280,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), SAS (33%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.62956,
+        "r2": 0.01573,
+        "pgs_only_auc": 0.62956,
+        "pgs_only_r2": 0.01573,
+        "full_model_auc": 0.83915,
+        "full_model_r2": 0.1291,
+        "incremental_auc": 0.03126,
+        "selected_performance_id": "PPM008544",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.83915,
+            "ci_lower": 0.8185,
+            "ci_upper": 0.85981
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1291
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03126
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01573
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.62956,
+            "ci_lower": 0.58302,
+            "ci_upper": 0.67611
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Testicular cancer",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001164",
+    "reported_auc": 0.6296,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Testicular cancer",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

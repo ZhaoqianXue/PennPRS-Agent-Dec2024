@@ -1,0 +1,1998 @@
+{
+  "cache_version": "v4",
+  "ontology": "lung cancer",
+  "candidate_model_ids": [
+    "PGS004512",
+    "PGS000389",
+    "PGS000880",
+    "PGS000395",
+    "PGS003391",
+    "PGS004955",
+    "PGS000397",
+    "PGS002270",
+    "PGS004164",
+    "PGS000721",
+    "PGS004442",
+    "PGS000394",
+    "PGS000070",
+    "PGS004691",
+    "PGS005163",
+    "PGS003393",
+    "PGS000740",
+    "PGS004860",
+    "PGS000078",
+    "PGS004325",
+    "PGS000393",
+    "PGS000789",
+    "PGS001392",
+    "PGS000390",
+    "PGS000396",
+    "PGS005169",
+    "PGS000156",
+    "PGS003392",
+    "PGS000391",
+    "PGS000392",
+    "PGS004165",
+    "PGS000388",
+    "PGS002808",
+    "PGS004884",
+    "PGS004246"
+  ],
+  "total_found": 35,
+  "candidate_models": [
+    {
+      "id": "PGS000070",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung adenocarcinoma",
+      "method_name": "Genomewide-significant SNPs, filtered to be specific to Chinese ancestry individuals",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EAS (49%), EUR (51%) | EVAL: EAS (86%), EUR (14%)",
+      "publication": {
+        "title": "Identification of risk loci and a polygenic risk score for lung cancer: a large-scale prospective cohort study in Chinese populations.",
+        "journal": "Lancet Respir Med"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.726,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020283",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.726,
+            "ci_lower": 0.698,
+            "ci_upper": 0.754
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Age, sex, current smoking status, BMI, forced expiratory volume in 1 second/forced vital capacity ratio",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,202"
+    },
+    {
+      "id": "PGS000078",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 109,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.846,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002044",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.846
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.849,
+            "se": 0.006
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.16,
+            "ci_lower": 1.11,
+            "ci_upper": 1.22
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident lung cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), family history of lung cancer, PM2.5 in 2010, cigarettes per day, years of smoking, smoking status (never vs. former vs. current), smoking status*cigarettes per day, smoking stutus*years of smoking",
+      "training_development_cohorts": [
+        "ATBC",
+        "B58C",
+        "CARET",
+        "EAGLE",
+        "GELCAPS",
+        "HGF",
+        "HUNT2",
+        "Harvard",
+        "IARC",
+        "ICR-GWAS",
+        "LLP",
+        "MDACCS",
+        "PLCO",
+        "SLRI",
+        "Tromso",
+        "UKBS",
+        "WTCCC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=392,539"
+    },
+    {
+      "id": "PGS000156",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+        "journal": "Cancer Med"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.732,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020284",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.732,
+            "ci_lower": 0.704,
+            "ci_upper": 0.76
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Age, sex, current smoking status, BMI, forced expiratory volume in 1 second/forced vital capacity ratio",
+      "training_development_cohorts": [
+        "B58C",
+        "GELCAPS",
+        "IARC",
+        "MDACCS"
+      ],
+      "validation_sample_size": "n=1,202"
+    },
+    {
+      "id": "PGS000388",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1109069,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.533,
+        "full_model_r2": 0.00265,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001073",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.533,
+            "ci_lower": 0.505,
+            "ci_upper": 0.562
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00265
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.96,
+            "ci_lower": 0.926,
+            "ci_upper": 4.14
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.132,
+            "ci_lower": 1.024,
+            "ci_upper": 1.25
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.124,
+            "se": 0.0508
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000389",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "GWAS Hits",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.52,
+        "full_model_r2": 0.00202,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001074",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.52,
+            "ci_lower": 0.492,
+            "ci_upper": 0.547
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00202
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.19,
+            "ci_lower": 1.07,
+            "ci_upper": 4.49
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.11,
+            "ci_lower": 1.006,
+            "ci_upper": 1.225
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.105,
+            "se": 0.0501
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000390",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "GWAS Hits",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=12,336",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.543,
+        "full_model_r2": 0.00583,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001075",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.543,
+            "ci_lower": 0.526,
+            "ci_upper": 0.562
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00583
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.852,
+            "ci_lower": 0.437,
+            "ci_upper": 1.66
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.194,
+            "ci_lower": 1.124,
+            "ci_upper": 1.269
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.178,
+            "se": 0.0309
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=12,201"
+    },
+    {
+      "id": "PGS000391",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 14,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.731,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020287",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.731,
+            "ci_lower": 0.703,
+            "ci_upper": 0.759
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Age, sex, current smoking status, BMI, forced expiratory volume in 1 second/forced vital capacity ratio",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=1,202"
+    },
+    {
+      "id": "PGS000392",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=12,336",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.733,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020288",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.733,
+            "ci_lower": 0.705,
+            "ci_upper": 0.761
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Age, sex, current smoking status, BMI, forced expiratory volume in 1 second/forced vital capacity ratio",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=1,202"
+    },
+    {
+      "id": "PGS000393",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1110438,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.539,
+        "full_model_r2": 0.00329,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001078",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.539,
+            "ci_lower": 0.508,
+            "ci_upper": 0.568
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00329
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.18,
+            "ci_lower": 1.06,
+            "ci_upper": 4.46
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.149,
+            "ci_lower": 1.04,
+            "ci_upper": 1.269
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.139,
+            "se": 0.0509
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000394",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1110438,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.539,
+        "full_model_r2": 0.00329,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001079",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.539,
+            "ci_lower": 0.508,
+            "ci_upper": 0.568
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00329
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.18,
+            "ci_lower": 1.06,
+            "ci_upper": 4.46
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.149,
+            "ci_lower": 1.04,
+            "ci_upper": 1.269
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.139,
+            "se": 0.0509
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000395",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1119238,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.533,
+        "full_model_r2": 0.00277,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001080",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.533,
+            "ci_lower": 0.505,
+            "ci_upper": 0.562
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00277
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.27,
+            "ci_lower": 0.514,
+            "ci_upper": 3.12
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.133,
+            "ci_lower": 1.025,
+            "ci_upper": 1.252
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.125,
+            "se": 0.051
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000396",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 75,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.525,
+        "full_model_r2": 0.00233,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001081",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.525,
+            "ci_lower": 0.496,
+            "ci_upper": 0.554
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00233
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.21,
+            "ci_lower": 1.08,
+            "ci_upper": 4.51
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.121,
+            "ci_lower": 1.015,
+            "ci_upper": 1.238
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.114,
+            "se": 0.0507
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000397",
+      "trait_reported": "Lung and bronchus cancer",
+      "trait_efo": "tracheal cancer, bronchus cancer, lung cancer",
+      "method_name": "lassosum",
+      "variants_number": 46920,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=4,900",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.528,
+        "full_model_r2": 0.00202,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001082",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.528,
+            "ci_lower": 0.503,
+            "ci_upper": 0.556
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00202
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.03,
+            "ci_lower": 0.387,
+            "ci_upper": 2.77
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.114,
+            "ci_lower": 1.009,
+            "ci_upper": 1.23
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.108,
+            "se": 0.0507
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bronchus; lung",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=4,698"
+    },
+    {
+      "id": "PGS000721",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EAS (33%), EUR (67%)",
+      "publication": {
+        "title": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.738,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020286",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.738,
+            "ci_lower": 0.71,
+            "ci_upper": 0.766
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Age, sex, current smoking status, BMI, forced expiratory volume in 1 second/forced vital capacity ratio",
+      "training_development_cohorts": [
+        "ATBC",
+        "B58C",
+        "CARET",
+        "EAGLE",
+        "GAME-ON",
+        "GECCO",
+        "GELCAPS",
+        "GLC",
+        "HGF",
+        "HUNT2",
+        "Harvard",
+        "IARC",
+        "ICR-GWAS",
+        "LLP",
+        "MDACCS",
+        "NCI",
+        "PLCO",
+        "SLRI",
+        "Tromso",
+        "UKBS",
+        "WTCCC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=1,202"
+    },
+    {
+      "id": "PGS000740",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Clumped lung cancer loci (35 SNP score) combined with LASSO penalized regression (93 SNP score)",
+      "variants_number": 128,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (8%), EUR (92%)",
+      "publication": {
+        "title": "Assessing Lung Cancer Absolute Risk Trajectory Based on a Polygenic Risk Model.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2021-03-22",
+      "samples_training": "n=32,341",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.811,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001789",
+        "selected_validation_ancestry": "European",
+        "record_count": 14,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.811,
+            "ci_lower": 0.701,
+            "ci_upper": 0.922
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Early onset lung cancer (< 50 years)",
+      "covariates": "Age, sex, education, body mass index, personal history of cancer, family history of lung cancer, lung function",
+      "training_development_cohorts": [
+        "ATBC",
+        "BioVU",
+        "CAPUA",
+        "CARET",
+        "CPS",
+        "CanSS",
+        "CopenhagenLCS",
+        "EAGLE",
+        "EPIC",
+        "GLC",
+        "HGF",
+        "HLCS",
+        "HMGU",
+        "Harvard",
+        "IARC",
+        "ICR",
+        "ICR-GWAS",
+        "ILCCO",
+        "LCRI-DOD",
+        "LCSC",
+        "LLP",
+        "MAYOLC",
+        "MCCS",
+        "MDACC",
+        "MDC",
+        "MEC",
+        "MSH",
+        "MSKLCG",
+        "NELCS",
+        "NHS",
+        "NICCC-LCA",
+        "NLC",
+        "NPHS",
+        "NSHDS",
+        "NorwayLCS",
+        "PLCO",
+        "PLuSS",
+        "PMHT",
+        "RUSS",
+        "Resolucent",
+        "SLRI",
+        "TLC",
+        "TampaLC",
+        "Toronto",
+        "UoPMC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=167,955"
+    },
+    {
+      "id": "PGS000789",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "109 variants from Graff et al (PGS000078) with inverse variant weights",
+      "variants_number": 109,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.846,
+        "full_model_r2": 0.799,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002060",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.846
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.849,
+            "se": 0.006
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.799
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.17,
+            "ci_lower": 1.12,
+            "ci_upper": 1.23
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident lung cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), family history of lung cancer, PM2.5 in 2010, cigarettes per day, years of smoking, smoking status (never vs. former vs. current), smoking status*cigarettes per day, smoking stutus*years of smoking",
+      "training_development_cohorts": [
+        "ATBC",
+        "B58C",
+        "CARET",
+        "EAGLE",
+        "GELCAPS",
+        "GELCC",
+        "HGF",
+        "HUNT2",
+        "Harvard",
+        "IARC",
+        "ICR",
+        "ICR-GWAS",
+        "LLP",
+        "MDACCS",
+        "ODZH",
+        "PLCO",
+        "SLRI",
+        "Tromso",
+        "UKBS",
+        "WTCCC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=392,539"
+    },
+    {
+      "id": "PGS000880",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 18,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Relationships of sleep traits with lung cancer risk: a prospective cohort study in UK Biobank.",
+        "journal": "Sleep"
+      },
+      "date_release": "2021-08-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002521",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.2,
+            "ci_lower": 1.15,
+            "ci_upper": 1.26
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident lung cancer",
+      "covariates": "Sex, education (college or uni- versity degree/vocational qualification, other qualification), smoking status (never, former, current), pack-years, alcohol in- take (nondrinker, <1, 1-10, 10-20, \u226520 g/day), physical activity (Metabolic Equivalent Task hours per week, MET-h/week), and body mass index (BMI, kg/m2)",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=382,598"
+    },
+    {
+      "id": "PGS001392",
+      "trait_reported": "Family history of lung cancer",
+      "trait_efo": "family history of lung cancer",
+      "method_name": "snpnet",
+      "variants_number": 312,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-11-25",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.51927,
+        "r2": 0.00154,
+        "pgs_only_auc": 0.51927,
+        "pgs_only_r2": 0.00154,
+        "full_model_auc": 0.58684,
+        "full_model_r2": 0.02847,
+        "incremental_auc": 0.00084,
+        "selected_performance_id": "PPM005197",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.58684,
+            "ci_lower": 0.57949,
+            "ci_upper": 0.59418
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02847
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00084
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00154
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.51927,
+            "ci_lower": 0.51173,
+            "ci_upper": 0.52681
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer (FH)",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS002270",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 33,
+      "ancestry_distribution": "GWAS: EAS (20%), EUR (80%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of smoking and polygenic risk with the incidence of lung cancer: a prospective cohort study.",
+        "journal": "Br J Cancer"
+      },
+      "date_release": "2022-04-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.725,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020290",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.725,
+            "ci_lower": 0.697,
+            "ci_upper": 0.754
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Age, sex, current smoking status, BMI, forced expiratory volume in 1 second/forced vital capacity ratio",
+      "training_development_cohorts": [
+        "BBJ",
+        "GAME-ON",
+        "GELCAPS",
+        "GLC",
+        "IARC",
+        "ICR",
+        "ILCCO",
+        "MDACC",
+        "MRC",
+        "NCI",
+        "SLRI",
+        "TRICL"
+      ],
+      "validation_sample_size": "n=1,202"
+    },
+    {
+      "id": "PGS002808",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 20,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of the interaction between mosaic chromosomal alterations and polygenic risk score with the risk of lung cancer: an array-based case-control association and prospective cohort study.",
+        "journal": "Lancet Oncol"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015574",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard  ratio (HR,  high vs low risk)",
+            "name_short": "Hazard  ratio (HR,  high vs low risk)",
+            "estimate": 1.48,
+            "ci_lower": 1.31,
+            "ci_upper": 1.68
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=450,821"
+    },
+    {
+      "id": "PGS003391",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 133,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.729,
+        "full_model_r2": 0.00135,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016266",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.729
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00135
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "lung cancer",
+      "covariates": "age, sex, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=271,540"
+    },
+    {
+      "id": "PGS003392",
+      "trait_reported": "Lung squamous cell carcinoma",
+      "trait_efo": "squamous cell lung carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 90,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.778,
+        "full_model_r2": 0.000746,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016267",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.778
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.000746
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "lung squamous cell carcinoma",
+      "covariates": "age, sex, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=270,054"
+    },
+    {
+      "id": "PGS003393",
+      "trait_reported": "Lung adenocarcinoma",
+      "trait_efo": "lung adenocarcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 74,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.743,
+        "full_model_r2": 0.00649,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016268",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.743
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00649
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "lung adenocarcinoma",
+      "covariates": "age, sex, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=270,412"
+    },
+    {
+      "id": "PGS004164",
+      "trait_reported": "Lung cancer in never smokers",
+      "trait_efo": "lung carcinoma, smoking status measurement",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Development and evaluation of a polygenic risk score for lung cancer in never-smoking women: A large-scale prospective Chinese cohort study.",
+        "journal": "Int J Cancer"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020095",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.28,
+            "ci_lower": 1.17,
+            "ci_upper": 1.4
+          }
+        ]
+      },
+      "phenotyping_reported": "Lung cancer in never smokers",
+      "covariates": "age, education, BMI, COPD history, personal history of cancer, family history of cancer, and the first 10 principal components of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=55,266"
+    },
+    {
+      "id": "PGS004165",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EAS (65%), EUR (35%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Development and evaluation of a polygenic risk score for lung cancer in never-smoking women: A large-scale prospective Chinese cohort study.",
+        "journal": "Int J Cancer"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020096",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.29,
+            "ci_lower": 1.18,
+            "ci_upper": 1.41
+          }
+        ]
+      },
+      "phenotyping_reported": "Lung cancer in never smokers",
+      "covariates": "age, education, BMI, COPD history, personal history of cancer, family history of cancer, and the first 10 principal components of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=55,266"
+    },
+    {
+      "id": "PGS004246",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "PRSice-2",
+      "variants_number": 43,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020303",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.18,
+            "ci_lower": 1.08,
+            "ci_upper": 1.28
+          }
+        ]
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "first 10 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=133,830"
+    },
+    {
+      "id": "PGS004325",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of oxidative stress, programmed cell death, GSTM1 gene polymorphisms, smoking and the risk of lung carcinogenesis: A two-step Mendelian randomization study.",
+        "journal": "Front Physiol"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020438",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, highest PRS quintile and heavy smokers vs lowest PRS quintile and never smokers)",
+            "name_short": "Hazard ratio (HR, highest PRS quintile and heavy smokers vs lowest PRS quintile and never smokers)",
+            "estimate": 4.63,
+            "ci_lower": 3.0,
+            "ci_upper": 7.13
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung carcinogenesis (in smokers)",
+      "covariates": "Education, sex, genotype array, and the first ten important components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=308,490"
+    },
+    {
+      "id": "PGS004442",
+      "trait_reported": "C34 (Malignant neoplasm of bronchus and lung)",
+      "trait_efo": "lung carcinoma",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020557",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.16806990302364
+          }
+        ]
+      },
+      "phenotyping_reported": "C34 (Malignant neoplasm of bronchus and lung)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004512",
+      "trait_reported": "C34 (Malignant neoplasm of bronchus and lung)",
+      "trait_efo": "lung carcinoma",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020627",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.316492
+          }
+        ]
+      },
+      "phenotyping_reported": "C34 (Malignant neoplasm of bronchus and lung)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004691",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "LDPred2",
+      "variants_number": 950353,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=367,633",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6178,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020876",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6178
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Lung cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=40,850"
+    },
+    {
+      "id": "PGS004860",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "LDpred2",
+      "variants_number": 1143554,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic inheritance and its interplay with smoking history in predicting lung cancer diagnosis: a French-Canadian case-control cohort.",
+        "journal": "EBioMedicine"
+      },
+      "date_release": "2024-07-31",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.893,
+        "full_model_r2": 0.49,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021091",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.893,
+            "ci_lower": 0.887,
+            "ci_upper": 0.898
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.49
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.33
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident lung cancer",
+      "covariates": "Sex, age,BMI, smocking status(ever or never smoker), and the first 10 ancestry-based PCA",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=24,012"
+    },
+    {
+      "id": "PGS004884",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "megaprs.auto",
+      "variants_number": 655479,
+      "ancestry_distribution": "GWAS: EAS (27%), EUR (73%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021250",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.62,
+            "ci_lower": 0.61,
+            "ci_upper": 0.63
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.24,
+            "ci_lower": 1.2,
+            "ci_upper": 1.28
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident lung cancer",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=277,400"
+    },
+    {
+      "id": "PGS004955",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Ethnic differences of genetic risk and smoking in lung cancer: two prospective cohort studies.",
+        "journal": "Int J Epidemiol"
+      },
+      "date_release": "2024-09-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021775",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.24,
+            "ci_lower": 1.19,
+            "ci_upper": 1.29
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident lung cancer",
+      "covariates": "Age, sex, smoking status, BMI, highest education level, family history of cancer, personal medical history (previous cancer diagnoses and chronic obstructive pulmonary disease), the forced expiratory volume in 1 second, 10 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=406,880"
+    },
+    {
+      "id": "PGS005163",
+      "trait_reported": "Lung cancer",
+      "trait_efo": "lung carcinoma",
+      "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
+      "variants_number": 42,
+      "ancestry_distribution": "GWAS: EAS (91%), EUR (9%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+        "journal": "PLoS Med"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.55,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022401",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.55
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.22,
+            "ci_lower": 1.16,
+            "ci_upper": 1.28
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.199
+          }
+        ]
+      },
+      "phenotyping_reported": "Lung Cancer",
+      "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=100,219"
+    },
+    {
+      "id": "PGS005169",
+      "trait_reported": "Lung adenocarcinoma",
+      "trait_efo": "lung adenocarcinoma",
+      "method_name": "genome-wide significant SNPs",
+      "variants_number": 25,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Polygenic Risk Score, Environmental Tobacco Smoke, and Risk of Lung Adenocarcinoma in Never-Smoking Women in Taiwan.",
+        "journal": "JAMA Netw Open"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022451",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.6,
+            "ci_lower": 1.46,
+            "ci_upper": 1.75
+          }
+        ]
+      },
+      "phenotyping_reported": "Lung adenocarcinoma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "FLCCA",
+        "NR",
+        "Other"
+      ],
+      "validation_sample_size": "n=2,048"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001392",
+    "reported_auc": 0.5193,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Family history of lung cancer",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

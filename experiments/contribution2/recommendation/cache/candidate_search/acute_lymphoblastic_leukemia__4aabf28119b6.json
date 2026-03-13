@@ -1,0 +1,630 @@
+{
+  "cache_version": "v4",
+  "ontology": "acute lymphoblastic leukemia",
+  "candidate_model_ids": [
+    "PGS000649",
+    "PGS003448",
+    "PGS000874",
+    "PGS000651",
+    "PGS000646",
+    "PGS000647",
+    "PGS000650",
+    "PGS000648",
+    "PGS003453"
+  ],
+  "total_found": 9,
+  "candidate_models": [
+    {
+      "id": "PGS000646",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "GWAS Hits",
+      "variants_number": 32,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=730",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.696,
+        "full_model_r2": 0.0973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001331",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.696,
+            "ci_lower": 0.628,
+            "ci_upper": 0.765
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0973
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0779
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 11.3,
+            "ci_lower": 3.76,
+            "ci_upper": 33.9
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.104,
+            "ci_lower": 1.628,
+            "ci_upper": 2.718
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.744,
+            "se": 0.131
+          }
+        ]
+      },
+      "phenotyping_reported": "Lymphoid leukemia, chronic",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=756"
+    },
+    {
+      "id": "PGS000647",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "GWAS Hits",
+      "variants_number": 32,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,833",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.675,
+        "full_model_r2": 0.0689,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001332",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.675,
+            "ci_lower": 0.64,
+            "ci_upper": 0.707
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0689
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0795
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.11,
+            "ci_lower": 1.97,
+            "ci_upper": 8.6
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.874,
+            "ci_lower": 1.639,
+            "ci_upper": 2.144
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.628,
+            "se": 0.0685
+          }
+        ]
+      },
+      "phenotyping_reported": "Lymphoid leukemia, chronic",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=2,758"
+    },
+    {
+      "id": "PGS000648",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 44,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=730",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.696,
+        "full_model_r2": 0.102,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001333",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.696,
+            "ci_lower": 0.621,
+            "ci_upper": 0.764
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.102
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0776
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 12.9,
+            "ci_lower": 4.45,
+            "ci_upper": 37.6
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.124,
+            "ci_lower": 1.648,
+            "ci_upper": 2.738
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.753,
+            "se": 0.13
+          }
+        ]
+      },
+      "phenotyping_reported": "Lymphoid leukemia, chronic",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=756"
+    },
+    {
+      "id": "PGS000649",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 27,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,833",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.672,
+        "full_model_r2": 0.0665,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001334",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.672,
+            "ci_lower": 0.637,
+            "ci_upper": 0.703
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0665
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0796
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.52,
+            "ci_lower": 1.04,
+            "ci_upper": 6.08
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.85,
+            "ci_lower": 1.619,
+            "ci_upper": 2.114
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.615,
+            "se": 0.0681
+          }
+        ]
+      },
+      "phenotyping_reported": "Lymphoid leukemia, chronic",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=2,758"
+    },
+    {
+      "id": "PGS000650",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=730",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.577,
+        "full_model_r2": 0.0205,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001335",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.577,
+            "ci_lower": 0.511,
+            "ci_upper": 0.645
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0205
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0822
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.0,
+            "ci_lower": 0.308,
+            "ci_upper": 13.0
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.368,
+            "ci_lower": 1.097,
+            "ci_upper": 1.705
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.313,
+            "se": 0.113
+          }
+        ]
+      },
+      "phenotyping_reported": "Lymphoid leukemia, chronic",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=756"
+    },
+    {
+      "id": "PGS000651",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "lassosum",
+      "variants_number": 76,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=730",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.573,
+        "full_model_r2": 0.0145,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001336",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.573,
+            "ci_lower": 0.503,
+            "ci_upper": 0.644
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0145
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0823
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.84,
+            "ci_lower": 1.23,
+            "ci_upper": 19.0
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.32,
+            "ci_lower": 1.041,
+            "ci_upper": 1.675
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.278,
+            "se": 0.121
+          }
+        ]
+      },
+      "phenotyping_reported": "Lymphoid leukemia, chronic",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=756"
+    },
+    {
+      "id": "PGS000874",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
+      "variants_number": 41,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (50%), AFR (12%), EUR (25%), MAE (12%)",
+      "publication": {
+        "title": "Association of polygenic risk score with the risk of chronic lymphocytic leukemia and monoclonal B-cell lymphocytosis.",
+        "journal": "Blood"
+      },
+      "date_release": "2021-08-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.861,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002495",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 17,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.861,
+            "ci_lower": 0.82,
+            "ci_upper": 0.9
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 3.79,
+            "ci_lower": 2.44,
+            "ci_upper": 5.87
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic lymphocytic leukemia in individuals with a family history of hematological cancers",
+      "covariates": "Age, sex, study, socioeconomic status (when available)",
+      "training_development_cohorts": [
+        "ATBC",
+        "BCCA",
+        "CPSII",
+        "ENGELA",
+        "EPIC",
+        "EpiLymph",
+        "HPFS",
+        "Italian_GxE",
+        "MAYO",
+        "MCCS",
+        "MSKCC",
+        "NCI-SEER",
+        "NHS",
+        "NSW",
+        "NYU-WHS",
+        "PLCO",
+        "SCALE",
+        "UCSF",
+        "UCSF2",
+        "UK-CLL",
+        "UTAH",
+        "Yale"
+      ],
+      "validation_sample_size": "n=3,958"
+    },
+    {
+      "id": "PGS003448",
+      "trait_reported": "Acute lymphoblastic leukemia",
+      "trait_efo": "acute lymphoblastic leukemia",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: AFR (5%), AMR (14%), EUR (81%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017230",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.95,
+            "ci_lower": 0.9,
+            "ci_upper": 1.0
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic lymphocytic leukemia",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=20,134"
+    },
+    {
+      "id": "PGS003453",
+      "trait_reported": "Chronic lymphocytic leukemia",
+      "trait_efo": "chronic lymphocytic leukemia",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 43,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017224",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.17,
+            "ci_lower": 2.07,
+            "ci_upper": 2.28
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic lymphocytic leukemia",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=20,134"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000874",
+    "reported_auc": 0.861,
+    "tier": "full_model_auroc",
+    "trait_reported": "Chronic lymphocytic leukemia",
+    "method_name": "Representative SNPs from chronic lymphocytic leukemia susceptibility loci",
+    "validation_sample_size": "n=3,958"
+  }
+}

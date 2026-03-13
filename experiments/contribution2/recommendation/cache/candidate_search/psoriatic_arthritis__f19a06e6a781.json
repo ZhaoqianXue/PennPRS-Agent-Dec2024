@@ -1,0 +1,126 @@
+{
+  "cache_version": "v4",
+  "ontology": "psoriatic arthritis",
+  "candidate_model_ids": [
+    "PGS000342",
+    "PGS001287"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS000342",
+      "trait_reported": "Psoriatic arthritis",
+      "trait_efo": "psoriatic arthritis",
+      "method_name": "GWAS-significant variants, HLA-specific significant variants.",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Evaluation of a Genetic Risk Score for Diagnosis of Psoriatic Arthritis.",
+        "journal": "J Psoriasis Psoriatic Arthritis"
+      },
+      "date_release": "2020-11-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.562,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000971",
+        "selected_validation_ancestry": "NR",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.562,
+            "ci_lower": 0.506,
+            "ci_upper": 0.618
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriatic arthritis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=543"
+    },
+    {
+      "id": "PGS001287",
+      "trait_reported": "Psoriatic arthropathy",
+      "trait_efo": "psoriatic arthritis",
+      "method_name": "snpnet",
+      "variants_number": 36,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.67648,
+        "r2": 0.0335,
+        "pgs_only_auc": 0.67648,
+        "pgs_only_r2": 0.0335,
+        "full_model_auc": 0.72814,
+        "full_model_r2": 0.05154,
+        "incremental_auc": 0.08346,
+        "selected_performance_id": "PPM008935",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72814,
+            "ci_lower": 0.67154,
+            "ci_upper": 0.78475
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05154
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.08346
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0335
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.67648,
+            "ci_lower": 0.61155,
+            "ci_upper": 0.7414
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriatic arthropathy",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001287",
+    "reported_auc": 0.6765,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Psoriatic arthropathy",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

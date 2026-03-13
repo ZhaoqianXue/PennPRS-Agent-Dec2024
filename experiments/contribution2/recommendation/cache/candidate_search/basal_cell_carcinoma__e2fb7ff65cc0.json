@@ -1,0 +1,1392 @@
+{
+  "cache_version": "v4",
+  "ontology": "basal cell carcinoma",
+  "candidate_model_ids": [
+    "PGS000448",
+    "PGS005207",
+    "PGS000453",
+    "PGS000449",
+    "PGS000451",
+    "PGS000730",
+    "PGS000455",
+    "PGS000459",
+    "PGS000458",
+    "PGS000450",
+    "PGS000456",
+    "PGS003416",
+    "PGS000457",
+    "PGS000445",
+    "PGS000452",
+    "PGS000119",
+    "PGS003417",
+    "PGS000447",
+    "PGS000446",
+    "PGS000454"
+  ],
+  "total_found": 20,
+  "candidate_models": [
+    {
+      "id": "PGS000119",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "GWAS Catalog SNPs",
+      "variants_number": 32,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Exploring various polygenic risk scores for skin cancer in the phenomes of the Michigan genomics initiative and the UK Biobank with a visual catalog: PRSWeb.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "n=10,234",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000341",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64,
+            "ci_lower": 0.62,
+            "ci_upper": 0.66
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.65,
+            "ci_lower": 1.56,
+            "ci_upper": 1.75
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch, PC1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=20,468"
+    },
+    {
+      "id": "PGS000445",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.571,
+        "full_model_r2": 0.0184,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001130",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.571,
+            "ci_lower": 0.555,
+            "ci_upper": 0.587
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0184
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.108
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.54,
+            "ci_lower": 1.72,
+            "ci_upper": 3.74
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.334,
+            "ci_lower": 1.264,
+            "ci_upper": 1.409
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.289,
+            "se": 0.0278
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000446",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1111490,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.575,
+        "full_model_r2": 0.0139,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001131",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.575,
+            "ci_lower": 0.559,
+            "ci_upper": 0.591
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0139
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.109
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.42,
+            "ci_lower": 0.871,
+            "ci_upper": 2.33
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.291,
+            "ci_lower": 1.221,
+            "ci_upper": 1.366
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.256,
+            "se": 0.0286
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000447",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 72,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.591,
+        "full_model_r2": 0.0237,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001132",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.591,
+            "ci_lower": 0.575,
+            "ci_upper": 0.607
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0237
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.108
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.5,
+            "ci_lower": 1.68,
+            "ci_upper": 3.71
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.398,
+            "ci_lower": 1.322,
+            "ci_upper": 1.477
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.335,
+            "se": 0.0282
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000448",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 183,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.587,
+        "full_model_r2": 0.0254,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001133",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.587,
+            "ci_lower": 0.57,
+            "ci_upper": 0.604
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0254
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.108
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.93,
+            "ci_lower": 2.03,
+            "ci_upper": 4.25
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.411,
+            "ci_lower": 1.335,
+            "ci_upper": 1.491
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.344,
+            "se": 0.0282
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000449",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1073162,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.525,
+        "full_model_r2": 0.00141,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001134",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.525,
+            "ci_lower": 0.509,
+            "ci_upper": 0.54
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00141
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.109
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.65,
+            "ci_lower": 1.04,
+            "ci_upper": 2.61
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.093,
+            "ci_lower": 1.034,
+            "ci_upper": 1.155
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0888,
+            "se": 0.0282
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000450",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.504,
+        "full_model_r2": 0.00145,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001135",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.504,
+            "ci_lower": 0.489,
+            "ci_upper": 0.52
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00145
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.109
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.42,
+            "ci_lower": 0.882,
+            "ci_upper": 2.3
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.079,
+            "ci_lower": 1.022,
+            "ci_upper": 1.139
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0759,
+            "se": 0.0278
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000451",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 2231,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.521,
+        "full_model_r2": 0.00396,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001136",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.521,
+            "ci_lower": 0.506,
+            "ci_upper": 0.536
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00396
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.109
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.44,
+            "ci_lower": 1.65,
+            "ci_upper": 3.62
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.144,
+            "ci_lower": 1.084,
+            "ci_upper": 1.208
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.135,
+            "se": 0.0278
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000452",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 28,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.632,
+        "full_model_r2": 0.0487,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001137",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.632,
+            "ci_lower": 0.616,
+            "ci_upper": 0.647
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0487
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.106
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.61,
+            "ci_lower": 2.53,
+            "ci_upper": 5.15
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.663,
+            "ci_lower": 1.57,
+            "ci_upper": 1.761
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.508,
+            "se": 0.0293
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000453",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 28,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.611,
+        "full_model_r2": 0.0301,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001138",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.611,
+            "ci_lower": 0.604,
+            "ci_upper": 0.619
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0301
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0813
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.8,
+            "ci_lower": 2.33,
+            "ci_upper": 3.36
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.511,
+            "ci_lower": 1.47,
+            "ci_upper": 1.554
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.413,
+            "se": 0.0142
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000454",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 27,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.632,
+        "full_model_r2": 0.0489,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001139",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.632,
+            "ci_lower": 0.616,
+            "ci_upper": 0.647
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0489
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.106
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.79,
+            "ci_lower": 2.68,
+            "ci_upper": 5.35
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.661,
+            "ci_lower": 1.568,
+            "ci_upper": 1.759
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.507,
+            "se": 0.0293
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000455",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 28,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.611,
+        "full_model_r2": 0.0301,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001140",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.611,
+            "ci_lower": 0.604,
+            "ci_upper": 0.619
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0301
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0813
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.8,
+            "ci_lower": 2.33,
+            "ci_upper": 3.36
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.511,
+            "ci_lower": 1.47,
+            "ci_upper": 1.554
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.413,
+            "se": 0.0142
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000456",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 30,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.63,
+        "full_model_r2": 0.0456,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001141",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63,
+            "ci_lower": 0.615,
+            "ci_upper": 0.646
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0456
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.106
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.95,
+            "ci_lower": 2.79,
+            "ci_upper": 5.58
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.633,
+            "ci_lower": 1.541,
+            "ci_upper": 1.729
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.49,
+            "se": 0.0293
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000457",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 30,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.617,
+        "full_model_r2": 0.0322,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001142",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.617,
+            "ci_lower": 0.609,
+            "ci_upper": 0.625
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0322
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0813
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.11,
+            "ci_lower": 2.6,
+            "ci_upper": 3.71
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.535,
+            "ci_lower": 1.493,
+            "ci_upper": 1.579
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.429,
+            "se": 0.0144
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000458",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=11,734",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.628,
+        "full_model_r2": 0.0457,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001143",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.628,
+            "ci_lower": 0.612,
+            "ci_upper": 0.644
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0457
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.106
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.03,
+            "ci_lower": 2.86,
+            "ci_upper": 5.69
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.634,
+            "ci_lower": 1.542,
+            "ci_upper": 1.732
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.491,
+            "se": 0.0296
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=11,322"
+    },
+    {
+      "id": "PGS000459",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 24,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.615,
+        "full_model_r2": 0.0314,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001144",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.615,
+            "ci_lower": 0.608,
+            "ci_upper": 0.623
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0314
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0813
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.05,
+            "ci_lower": 2.55,
+            "ci_upper": 3.64
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.528,
+            "ci_lower": 1.485,
+            "ci_upper": 1.572
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.424,
+            "se": 0.0144
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000730",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "RiskPipe (clumping and thresholding)",
+      "variants_number": 47,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Disease risk scores for skin cancers.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-02-23",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.624,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001670",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.624
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.57,
+            "ci_lower": 1.55,
+            "ci_upper": 1.6
+          }
+        ]
+      },
+      "phenotyping_reported": "Basal cell carcinoma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "23andMe"
+      ],
+      "validation_sample_size": "n=88,924"
+    },
+    {
+      "id": "PGS003416",
+      "trait_reported": "Basal cell carcinoma (MTAG)",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 462,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A multi-phenotype analysis reveals 19 susceptibility loci for basal cell carcinoma and 15 for squamous cell carcinoma.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017069",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.66,
+            "ci_lower": 1.55,
+            "ci_upper": 1.79
+          }
+        ]
+      },
+      "phenotyping_reported": "Keratinocyte cancers",
+      "covariates": "age, sex, 10 ancesty PCs",
+      "training_development_cohorts": [
+        "GERA",
+        "QSKIN",
+        "UKB",
+        "eMERGE"
+      ],
+      "validation_sample_size": "n=18,933"
+    },
+    {
+      "id": "PGS003417",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 273,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A multi-phenotype analysis reveals 19 susceptibility loci for basal cell carcinoma and 15 for squamous cell carcinoma.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017070",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.56,
+            "ci_lower": 1.45,
+            "ci_upper": 1.67
+          }
+        ]
+      },
+      "phenotyping_reported": "Keratinocyte cancers",
+      "covariates": "age, sex, 10 ancesty PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,933"
+    },
+    {
+      "id": "PGS005207",
+      "trait_reported": "Basal cell carcinoma",
+      "trait_efo": "basal cell carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 29,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores, radiation treatment exposures and subsequent cancer risk in childhood cancer survivors.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2025-05-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022585",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37,
+            "ci_lower": 1.29,
+            "ci_upper": 1.46
+          }
+        ]
+      },
+      "phenotyping_reported": "Risk of basal cell carcinoma in childhood cancer survivors",
+      "covariates": "childhood cancer diagnosis, ancestry, age at childhood cancer diagnosis, radiation dose to the body region of the second cancer and chemotherapy exposure",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=11,220"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000119",
+    "reported_auc": 0.64,
+    "tier": "full_model_auroc",
+    "trait_reported": "Basal cell carcinoma",
+    "method_name": "GWAS Catalog SNPs",
+    "validation_sample_size": "n=20,468"
+  }
+}

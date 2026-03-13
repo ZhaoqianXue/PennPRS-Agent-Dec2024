@@ -1,0 +1,473 @@
+{
+  "cache_version": "v4",
+  "ontology": "systemic lupus erythematosus",
+  "candidate_model_ids": [
+    "PGS000772",
+    "PGS000771",
+    "PGS004917",
+    "PGS000803",
+    "PGS003755",
+    "PGS000328",
+    "PGS003960",
+    "PGS000754",
+    "PGS000196",
+    "PGS003756"
+  ],
+  "total_found": 11,
+  "candidate_models": [
+    {
+      "id": "PGS000196",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 55,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (67%), MAE (33%)",
+      "publication": {
+        "title": "Using genetics to prioritize diagnoses for rheumatology outpatients with inflammatory arthritis.",
+        "journal": "Sci Transl Med"
+      },
+      "date_release": "2020-06-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.79,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000573",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.79,
+            "ci_lower": 0.72,
+            "ci_upper": 0.85
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Systemic lupus erythematosus diagnosis in patient with arthritis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=245"
+    },
+    {
+      "id": "PGS000328",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Genomewide-significant variants (sourced from PMID:28509669)",
+      "variants_number": 57,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "High genetic risk score is associated with early disease onset, damage accrual and decreased survival in systemic lupus erythematosus.",
+        "journal": "Ann Rheum Dis"
+      },
+      "date_release": "2020-09-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.83,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000881",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.83
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Systemic lupus erythematosus (onset before age 20)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,001"
+    },
+    {
+      "id": "PGS000754",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "lassosum",
+      "variants_number": 293684,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: ASN (20%), EAS (20%), EUR (60%)",
+      "publication": {
+        "title": "Identification of 38 novel loci for systemic lupus erythematosus and genetic heterogeneity between ancestral groups.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-04-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.65,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001921",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Systemic lupus erythematosus",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=7,733"
+    },
+    {
+      "id": "PGS000771",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 95,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (1%), EAS (32%), EUR (53%), MAE (9%), MAO (2%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide assessment of genetic risk for systemic lupus erythematosus and disease severity.",
+        "journal": "Hum Mol Genet"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "n=10,995",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.576,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001996",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.576,
+            "ci_lower": 0.518,
+            "ci_upper": 0.634
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Renal disease age of onset",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CCHMC",
+        "GENYO",
+        "Illumina_iControlDB",
+        "UAB",
+        "UCLA",
+        "UCSF",
+        "UMN",
+        "USC",
+        "WASHU",
+        "WFSM"
+      ],
+      "validation_sample_size": "n=524"
+    },
+    {
+      "id": "PGS000772",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 95,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (1%), EAS (32%), EUR (53%), MAE (9%), MAO (2%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide assessment of genetic risk for systemic lupus erythematosus and disease severity.",
+        "journal": "Hum Mol Genet"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "n=3,076",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001997",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR, top 20% vs bottom 20%)",
+            "name_short": "Odds Ratio (OR, top 20% vs bottom 20%)",
+            "estimate": 1.578,
+            "ci_lower": 1.25,
+            "ci_upper": 1.991
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Renal disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CCHMC",
+        "GENYO",
+        "Illumina_iControlDB",
+        "UAB",
+        "UCLA",
+        "UCSF",
+        "UMN",
+        "USC",
+        "WASHU",
+        "WFSM"
+      ],
+      "validation_sample_size": "n=3,101"
+    },
+    {
+      "id": "PGS000803",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Variants significantly associated with systemic lupus erythematosus",
+      "variants_number": 41,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pleiotropy of systemic lupus erythematosus risk alleles and cardiometabolic disorders: A phenome-wide association study and inverse-variance weighted meta-analysis.",
+        "journal": "Lupus"
+      },
+      "date_release": "2021-06-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002104",
+        "selected_validation_ancestry": "European",
+        "record_count": 15,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28,
+            "ci_lower": 1.22,
+            "ci_upper": 1.34
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.246,
+            "se": 0.024
+          }
+        ]
+      },
+      "phenotyping_reported": "Erythematous conditions",
+      "covariates": "PCs(1-5), median age in the electronic health record, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=50,429"
+    },
+    {
+      "id": "PGS003755",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Genome-wide significant SNPs; HLA-DRB1 specific haplotypes",
+      "variants_number": 122,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Higher Genetic Risk Loads Confer More Diverse Manifestations and Higher Risk of Lupus Nephritis in Systemic Lupus Erythematosus.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2023-06-22",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.681,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018526",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.681,
+            "ci_lower": 0.602,
+            "ci_upper": 0.76
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Class V lupus nephritis in anti-sm positive systemic lupus erythematosus",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,655"
+    },
+    {
+      "id": "PGS003756",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 112,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Higher Genetic Risk Loads Confer More Diverse Manifestations and Higher Risk of Lupus Nephritis in Systemic Lupus Erythematosus.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2023-06-22",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018521",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.133,
+            "ci_lower": 0.071,
+            "ci_upper": 0.194
+          }
+        ]
+      },
+      "phenotyping_reported": "Number of American College of Rheumatology (ACR) criteria for systemic lupus erythematosus",
+      "covariates": "Onset age, sex, disease duration, and top 4 principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,655"
+    },
+    {
+      "id": "PGS003960",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 57,
+      "ancestry_distribution": "GWAS: EAS (6%), EUR (94%) | EVAL: AFR (33%), EUR (33%), MAE (33%)",
+      "publication": {
+        "title": "Phenotype Risk Score but Not Genetic Risk Score Aids in Identifying Individuals With Systemic Lupus Erythematosus in the Electronic Health Record.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.89,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019118",
+        "selected_validation_ancestry": "European, African unspecified, Asian unspecified, Not reported",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.89,
+            "ci_lower": 0.87,
+            "ci_upper": 0.9
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Systemic lupus erythematosus",
+      "covariates": "phenotype risk score",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,048"
+    },
+    {
+      "id": "PGS004917",
+      "trait_reported": "Systemic lupus erythematosus",
+      "trait_efo": "systemic lupus erythematosus",
+      "method_name": "Clumping of genome-wide significant variants",
+      "variants_number": 97,
+      "ancestry_distribution": "GWAS: EAS (21%), EUR (79%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Interactions Between Genome-Wide Genetic Factors and Smoking Influencing Risk of Systemic Lupus Erythematosus.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.696,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021383",
+        "selected_validation_ancestry": "European, Not reported, European, Asian unspecified, African unspecified, Not reported",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.696
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.01,
+            "ci_lower": 1.83,
+            "ci_upper": 2.22
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.7,
+            "se": 0.05
+          }
+        ]
+      },
+      "phenotyping_reported": "Systemic lupus erythematosus",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,945"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS003960",
+    "reported_auc": 0.89,
+    "tier": "full_model_auroc",
+    "trait_reported": "Systemic lupus erythematosus",
+    "method_name": "Genome-wide significant SNPs",
+    "validation_sample_size": "n=3,048"
+  }
+}

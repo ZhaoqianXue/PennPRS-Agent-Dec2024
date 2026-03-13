@@ -1,0 +1,356 @@
+{
+  "cache_version": "v4",
+  "ontology": "knee osteoarthritis",
+  "candidate_model_ids": [
+    "PGS002767",
+    "PGS001192",
+    "PGS004479",
+    "PGS004883",
+    "PGS002749",
+    "PGS002729",
+    "PGS004549"
+  ],
+  "total_found": 7,
+  "candidate_models": [
+    {
+      "id": "PGS001192",
+      "trait_reported": "Gonarthrosis [arthrosis of knee] (time-to-event)",
+      "trait_efo": "osteoarthritis, knee",
+      "method_name": "snpnet",
+      "variants_number": 4525,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.55655,
+        "r2": 0.0068,
+        "pgs_only_auc": 0.55655,
+        "pgs_only_r2": 0.0068,
+        "full_model_auc": 0.64504,
+        "full_model_r2": 0.04312,
+        "incremental_auc": 0.0104,
+        "selected_performance_id": "PPM008613",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64504,
+            "ci_lower": 0.63733,
+            "ci_upper": 0.65274
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04312
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0104
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0068
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.55655,
+            "ci_lower": 0.54824,
+            "ci_upper": 0.56485
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE gonarthrosis [arthrosis of knee]",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS002729",
+      "trait_reported": "Knee osteoarthritis",
+      "trait_efo": "osteoarthritis, knee",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 24,
+      "ancestry_distribution": "GWAS: EAS (1%), EUR (99%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Risk assessment for hip and knee osteoarthritis using polygenic risk scores.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2022-06-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014792",
+        "selected_validation_ancestry": "European",
+        "record_count": 23,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66,
+            "ci_lower": 0.61,
+            "ci_upper": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Clinical osteoarthritis",
+      "covariates": "Age, sex, BMI",
+      "training_development_cohorts": [
+        "BBJ",
+        "EB",
+        "GARP",
+        "HUNT",
+        "LLS",
+        "MyCode",
+        "UKB",
+        "arcOGEN",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=14,926"
+    },
+    {
+      "id": "PGS002749",
+      "trait_reported": "Total knee replacement",
+      "trait_efo": "osteoarthritis, knee, total knee arthroplasty",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genomic Risk Score for Advanced Osteoarthritis in Older Adults.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014939",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.13,
+            "ci_lower": 1.07,
+            "ci_upper": 1.2
+          }
+        ]
+      },
+      "phenotyping_reported": "Knee replacement",
+      "covariates": "Age, sex, body mass index, education, and index of relative socioeconomic advantage and disadvantage",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,422"
+    },
+    {
+      "id": "PGS002767",
+      "trait_reported": "Knee osteoarthritis",
+      "trait_efo": "osteoarthritis, knee",
+      "method_name": "PRS-CS",
+      "variants_number": 1052275,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014967",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.35,
+            "ci_lower": 1.3,
+            "ci_upper": 1.4
+          }
+        ]
+      },
+      "phenotyping_reported": "Knee osteoarthritis",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS004479",
+      "trait_reported": "M17 (Gonarthrosis [arthrosis of knee])",
+      "trait_efo": "osteoarthritis, knee",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020594",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.32326102443575
+          }
+        ]
+      },
+      "phenotyping_reported": "M17 (Gonarthrosis [arthrosis of knee])",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004549",
+      "trait_reported": "M17 (Gonarthrosis [arthrosis of knee])",
+      "trait_efo": "osteoarthritis, knee",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020664",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.366693
+          }
+        ]
+      },
+      "phenotyping_reported": "M17 (Gonarthrosis [arthrosis of knee])",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004883",
+      "trait_reported": "Knee osteoarthritis",
+      "trait_efo": "osteoarthritis, knee",
+      "method_name": "megaprs.auto",
+      "variants_number": 952133,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021240",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.6,
+            "ci_lower": 0.58,
+            "ci_upper": 0.61
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.37,
+            "ci_lower": 1.3,
+            "ci_upper": 1.44
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident knee osteoarthritis",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=29,427"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001192",
+    "reported_auc": 0.5565,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Gonarthrosis [arthrosis of knee] (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

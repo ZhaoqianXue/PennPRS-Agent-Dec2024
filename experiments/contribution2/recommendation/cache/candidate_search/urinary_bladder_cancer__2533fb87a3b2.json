@@ -1,0 +1,1356 @@
+{
+  "cache_version": "v4",
+  "ontology": "urinary bladder cancer",
+  "candidate_model_ids": [
+    "PGS000610",
+    "PGS000612",
+    "PGS000608",
+    "PGS004241",
+    "PGS000071",
+    "PGS000614",
+    "PGS000616",
+    "PGS001807",
+    "PGS000782",
+    "PGS000723",
+    "PGS002017",
+    "PGS004687",
+    "PGS000613",
+    "PGS003335",
+    "PGS000609",
+    "PGS000611",
+    "PGS003736",
+    "PGS000152",
+    "PGS000615",
+    "PGS000607"
+  ],
+  "total_found": 20,
+  "candidate_models": [
+    {
+      "id": "PGS000071",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.803,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002037",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.803
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.813,
+            "se": 0.008
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.28,
+            "ci_lower": 1.2,
+            "ci_upper": 1.37
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident blader cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), cigarette pack-years, smoking status(never vs. former vs. current), body mass index",
+      "training_development_cohorts": [
+        "ATBC",
+        "BBCS_b",
+        "CPSII",
+        "EAGLE",
+        "EPIC",
+        "FPCC",
+        "FrBCS",
+        "HPFS",
+        "ICR",
+        "LABCS",
+        "MEC",
+        "NBCS",
+        "NBS",
+        "NEBCS",
+        "NHS",
+        "PLCO",
+        "SpBCS",
+        "TXBCS",
+        "UMC",
+        "WHI",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=391,888"
+    },
+    {
+      "id": "PGS000152",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+        "journal": "Cancer Med"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000472",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Mean realative risk",
+            "name_short": "Mean realative risk",
+            "estimate": 1.04,
+            "ci_lower": 1.0,
+            "ci_upper": 1.08
+          },
+          {
+            "name_long": "Wilcoxon test (case vs. control) p-value",
+            "name_short": "Wilcoxon test (case vs. control) p-value",
+            "estimate": 0.00377
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Bladder cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ICR",
+        "NBCS",
+        "NBS",
+        "UMC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=13,770"
+    },
+    {
+      "id": "PGS000607",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1095241,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.531,
+        "full_model_r2": 0.00156,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001292",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.531,
+            "ci_lower": 0.509,
+            "ci_upper": 0.551
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00156
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0922
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.671,
+            "ci_lower": 0.279,
+            "ci_upper": 1.61
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.096,
+            "ci_lower": 1.018,
+            "ci_upper": 1.18
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0918,
+            "se": 0.0377
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000608",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1097063,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.521,
+        "full_model_r2": 0.00124,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001293",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.521,
+            "ci_lower": 0.499,
+            "ci_upper": 0.541
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00124
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0922
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.53,
+            "ci_lower": 0.832,
+            "ci_upper": 2.83
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.084,
+            "ci_lower": 1.006,
+            "ci_upper": 1.167
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0803,
+            "se": 0.0377
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000609",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 1130,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.528,
+        "full_model_r2": 0.00205,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001294",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.528,
+            "ci_lower": 0.508,
+            "ci_upper": 0.549
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00205
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0922
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.69,
+            "ci_lower": 0.934,
+            "ci_upper": 3.06
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.106,
+            "ci_lower": 1.027,
+            "ci_upper": 1.191
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.101,
+            "se": 0.0376
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000610",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 13,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.572,
+        "full_model_r2": 0.013,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001295",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.572,
+            "ci_lower": 0.55,
+            "ci_upper": 0.594
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.013
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0917
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.47,
+            "ci_lower": 0.779,
+            "ci_upper": 2.77
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.292,
+            "ci_lower": 1.201,
+            "ci_upper": 1.391
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.256,
+            "se": 0.0375
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000611",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 13,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=12,992",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.567,
+        "full_model_r2": 0.0114,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001296",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.567,
+            "ci_lower": 0.551,
+            "ci_upper": 0.584
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0114
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0821
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.66,
+            "ci_lower": 1.79,
+            "ci_upper": 3.93
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.284,
+            "ci_lower": 1.211,
+            "ci_upper": 1.361
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.25,
+            "se": 0.0298
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=13,530"
+    },
+    {
+      "id": "PGS000612",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 13,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.572,
+        "full_model_r2": 0.013,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001297",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.572,
+            "ci_lower": 0.55,
+            "ci_upper": 0.594
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.013
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0917
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.47,
+            "ci_lower": 0.779,
+            "ci_upper": 2.77
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.292,
+            "ci_lower": 1.201,
+            "ci_upper": 1.391
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.256,
+            "se": 0.0375
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000613",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=12,992",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.571,
+        "full_model_r2": 0.0125,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001298",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.571,
+            "ci_lower": 0.555,
+            "ci_upper": 0.588
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0125
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0821
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.91,
+            "ci_lower": 1.99,
+            "ci_upper": 4.24
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.301,
+            "ci_lower": 1.227,
+            "ci_upper": 1.379
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.263,
+            "se": 0.0299
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=13,530"
+    },
+    {
+      "id": "PGS000614",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1119238,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.525,
+        "full_model_r2": 0.00135,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001299",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.525,
+            "ci_lower": 0.503,
+            "ci_upper": 0.547
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00135
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0922
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.675,
+            "ci_lower": 0.28,
+            "ci_upper": 1.62
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.087,
+            "ci_lower": 1.01,
+            "ci_upper": 1.171
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0836,
+            "se": 0.0377
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000615",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 106,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.519,
+        "full_model_r2": 0.00137,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001300",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.519,
+            "ci_lower": 0.498,
+            "ci_upper": 0.541
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00137
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0922
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.788,
+            "ci_lower": 0.35,
+            "ci_upper": 1.78
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.084,
+            "ci_lower": 1.007,
+            "ci_upper": 1.167
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0809,
+            "se": 0.0376
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000616",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 24359,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,469",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.538,
+        "full_model_r2": 0.00345,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001301",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.538,
+            "ci_lower": 0.517,
+            "ci_upper": 0.557
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00345
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0921
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.983,
+            "ci_lower": 0.459,
+            "ci_upper": 2.11
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.138,
+            "ci_lower": 1.057,
+            "ci_upper": 1.225
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.129,
+            "se": 0.0376
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=7,622"
+    },
+    {
+      "id": "PGS000723",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 14,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.583,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001653",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.583,
+            "ci_lower": 0.559,
+            "ci_upper": 0.607
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident bladder cancer",
+      "covariates": "Genotyping array",
+      "training_development_cohorts": [
+        "ASHRAM",
+        "ATBC",
+        "BBCS_b",
+        "CPSII",
+        "DBCS",
+        "EAGLE",
+        "EPIC",
+        "FPCC",
+        "FrBCS",
+        "HPFS",
+        "IBCS",
+        "ICR",
+        "LABCS",
+        "LBCS",
+        "MEC",
+        "MSKBCS",
+        "NBCS",
+        "NBS",
+        "NCBCS",
+        "NEBCS",
+        "NHS",
+        "NeuBCS",
+        "PLCO",
+        "SANBCS",
+        "SpBCS",
+        "TBCS",
+        "TXBCS",
+        "UMC",
+        "WHI",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=400,812"
+    },
+    {
+      "id": "PGS000782",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "15 variants from Graff et al (PGS000071) with inverse variant weights",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.804,
+        "full_model_r2": 0.628,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002053",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.804
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.814,
+            "se": 0.008
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.628
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.3,
+            "ci_lower": 1.22,
+            "ci_upper": 1.39
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident blader cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), cigarette pack-years, smoking status(never vs. former vs. current), body mass index",
+      "training_development_cohorts": [
+        "ASHRAM",
+        "ATBC",
+        "BBCS_b",
+        "CPSII",
+        "DBCS",
+        "EAGLE",
+        "EPIC",
+        "FPCC",
+        "FrBCS",
+        "HPFS",
+        "IBCS",
+        "ICR",
+        "LABCS",
+        "LBCS",
+        "MEC",
+        "MSKBCS",
+        "NBCS",
+        "NBS",
+        "NCBCS",
+        "NEBCS",
+        "NHS",
+        "NeuBCS",
+        "PLCO",
+        "SANBCS",
+        "SBCS",
+        "SpBCS",
+        "TBCS",
+        "TXBCS",
+        "UMC",
+        "WHI",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=391,888"
+    },
+    {
+      "id": "PGS001807",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 291,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009359",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0197,
+            "ci_lower": 0.0058,
+            "ci_upper": 0.0336
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,893"
+    },
+    {
+      "id": "PGS002017",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 510453,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011010",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0181,
+            "ci_lower": 0.0042,
+            "ci_upper": 0.032
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cancer of bladder",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,893"
+    },
+    {
+      "id": "PGS003335",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 18,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Interaction between blood pressure and genetic risk score for bladder cancer, and risk of urothelial carcinoma in men.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016166",
+        "selected_validation_ancestry": "European",
+        "record_count": 9,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.27,
+            "ci_lower": 1.15,
+            "ci_upper": 1.4
+          }
+        ]
+      },
+      "phenotyping_reported": "Urothelial carcinoma",
+      "covariates": "Smoking, BMI, education, and physical activity",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=10,576"
+    },
+    {
+      "id": "PGS003736",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder cancer",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 13,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+        "journal": "EBioMedicine"
+      },
+      "date_release": "2023-06-01",
+      "samples_training": "n=526",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018492",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.14,
+            "ci_lower": 1.01,
+            "ci_upper": 1.29
+          }
+        ]
+      },
+      "phenotyping_reported": "Bladder cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=327"
+    },
+    {
+      "id": "PGS004241",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "PRSice-2",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020298",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.41,
+            "ci_lower": 1.09,
+            "ci_upper": 1.83
+          }
+        ]
+      },
+      "phenotyping_reported": "Bladder cancer",
+      "covariates": "first 10 genetic principal components",
+      "training_development_cohorts": [
+        "ASHRAM",
+        "ATBC",
+        "BBCS",
+        "CPSII",
+        "CeRePP",
+        "DBCS",
+        "EAGLE",
+        "EPIC",
+        "FBCS",
+        "HPFS",
+        "IBCS",
+        "LABCS",
+        "LBCS",
+        "MEC",
+        "MSKBCS",
+        "NBCS",
+        "NCBCS",
+        "NEBCS",
+        "NHS",
+        "PLCO",
+        "SANBCS",
+        "SBCS",
+        "TBCS",
+        "TXBCS",
+        "WHI"
+      ],
+      "validation_sample_size": "n=133,830"
+    },
+    {
+      "id": "PGS004687",
+      "trait_reported": "Bladder cancer",
+      "trait_efo": "urinary bladder carcinoma",
+      "method_name": "LDPred2",
+      "variants_number": 1077775,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=366,997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5582,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020872",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5582
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Bladder cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "FinnGen",
+        "UKB"
+      ],
+      "validation_sample_size": "n=40,771"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000782",
+    "reported_auc": 0.804,
+    "tier": "full_model_auroc",
+    "trait_reported": "Bladder cancer",
+    "method_name": "15 variants from Graff et al (PGS000071) with inverse variant weights",
+    "validation_sample_size": "n=391,888"
+  }
+}

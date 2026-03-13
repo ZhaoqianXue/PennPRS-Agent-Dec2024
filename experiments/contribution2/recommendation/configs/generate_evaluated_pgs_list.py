@@ -5,10 +5,14 @@ Reads Contribution1 metadata + AUC matrix and the union CSV to produce
 ontology -> [PGS IDs with valid AUC in All of Us] mapping. Only models that appear
 in the N Models count (i.e. passed All of Us evaluation) are included.
 
-Output: recommendation/runs/evaluated_pgs_per_ontology.json, top_k_pgs_per_ontology.json
+Outputs:
+  - recommendation/runs/.../evaluated_pgs_per_ontology.json
+  - recommendation/runs/.../top_k_pgs_per_ontology.json
+  - recommendation/runs/.../benchmark_auc_per_ontology.json
 
 Usage:
   python generate_evaluated_pgs_list.py
+  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union.csv
 
 Requirements:
   - experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_*.csv
@@ -20,6 +24,7 @@ If Contribution1 files are missing, prints a clear message and exits.
 
 from __future__ import annotations
 
+import argparse
 import ast
 import json
 from pathlib import Path
@@ -32,9 +37,11 @@ import pandas as pd
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
 CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
 RECOMMENDATION_DIR = Path(__file__).parent.parent
-UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
-OUTPUT_JSON = RECOMMENDATION_DIR / "runs" / "evaluated_pgs_per_ontology.json"
-TOP_K_PGS_JSON = RECOMMENDATION_DIR / "runs" / "top_k_pgs_per_ontology.json"
+DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
+DEFAULT_OUTPUT_DIR = RECOMMENDATION_DIR / "runs" / "ground-truth__contribution1"
+EVALUATED_JSON_NAME = "evaluated_pgs_per_ontology.json"
+RANKED_JSON_NAME = "top_k_pgs_per_ontology.json"
+BENCHMARK_AUC_JSON_NAME = "benchmark_auc_per_ontology.json"
 
 
 def _parse_pgs_ids(pgs_str: str) -> list[str]:
@@ -73,11 +80,42 @@ def _normalize_ontology(s: str) -> str:
     return (s or "").strip().lower()
 
 
+def _default_output_dir_for_union(union_path: Path) -> Path:
+    if union_path.resolve() == DEFAULT_UNION_CSV.resolve():
+        return DEFAULT_OUTPUT_DIR
+    return RECOMMENDATION_DIR / "runs" / f"ground-truth__{union_path.stem}"
+
+
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Generate Contribution2 benchmark ground-truth JSON files from Contribution1 AoU outputs."
+    )
+    parser.add_argument(
+        "--union-csv",
+        type=str,
+        default=str(DEFAULT_UNION_CSV),
+        help="Path to the disease union CSV (default: frozen 30-disease union).",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="Output directory for ground-truth JSON files. Defaults to runs/ground-truth__<union-stem> for non-default unions.",
+    )
+    return parser.parse_args()
+
+
 def main() -> None:
-    union_path = UNION_CSV
+    args = _parse_args()
+    union_path = Path(args.union_csv)
     if not union_path.exists():
         print(f"Union CSV not found: {union_path}")
         return
+
+    output_dir = Path(args.output_dir) if args.output_dir else _default_output_dir_for_union(union_path)
+    output_json = output_dir / EVALUATED_JSON_NAME
+    ranked_json = output_dir / RANKED_JSON_NAME
+    benchmark_auc_json = output_dir / BENCHMARK_AUC_JSON_NAME
 
     union_df = pd.read_csv(union_path)
     if union_df.empty:
@@ -107,6 +145,7 @@ def main() -> None:
 
     ontology_to_evaluated_pgs: dict[str, list[str]] = {}
     ontology_to_top_k_pgs: dict[str, list[str]] = {}
+    ontology_to_benchmark_auc: dict[str, dict[str, float]] = {}
 
     for _, row in union_df.iterrows():
         ontology = str(row.get("Ontology", "")).strip()
@@ -145,20 +184,32 @@ def main() -> None:
 
         # Sorted by AUC descending (rank 1 = best)
         sorted_pgs = auc_series.sort_values(ascending=False).index.tolist()
+        benchmark_auc = {
+            pgs_id: round(float(auc_series[pgs_id]), 6)
+            for pgs_id in sorted_pgs
+            if pd.notna(auc_series.get(pgs_id))
+        }
 
         key = _normalize_ontology(ontology)
         ontology_to_evaluated_pgs[key] = evaluated_pgs
         ontology_to_top_k_pgs[key] = sorted_pgs
+        ontology_to_benchmark_auc[key] = benchmark_auc
 
-    OUTPUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_json, "w", encoding="utf-8") as f:
         json.dump(ontology_to_evaluated_pgs, f, indent=2, sort_keys=True)
 
-    with open(TOP_K_PGS_JSON, "w", encoding="utf-8") as f:
+    with open(ranked_json, "w", encoding="utf-8") as f:
         json.dump(ontology_to_top_k_pgs, f, indent=2, sort_keys=True)
 
-    print(f"Wrote {len(ontology_to_evaluated_pgs)} ontologies to {OUTPUT_JSON}")
-    print(f"Wrote {len(ontology_to_top_k_pgs)} ontologies to {TOP_K_PGS_JSON}")
+    with open(benchmark_auc_json, "w", encoding="utf-8") as f:
+        json.dump(ontology_to_benchmark_auc, f, indent=2, sort_keys=True)
+
+    print(f"Union CSV: {union_path}")
+    print(f"Output dir: {output_dir}")
+    print(f"Wrote {len(ontology_to_evaluated_pgs)} ontologies to {output_json}")
+    print(f"Wrote {len(ontology_to_top_k_pgs)} ontologies to {ranked_json}")
+    print(f"Wrote {len(ontology_to_benchmark_auc)} ontologies to {benchmark_auc_json}")
 
 
 if __name__ == "__main__":

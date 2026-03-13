@@ -1,0 +1,1810 @@
+{
+  "cache_version": "v4",
+  "ontology": "myocardial infarction",
+  "candidate_model_ids": [
+    "PGS005253",
+    "PGS001048",
+    "PGS002361",
+    "PGS005037",
+    "PGS001316",
+    "PGS005043",
+    "PGS002584",
+    "PGS004458",
+    "PGS001315",
+    "PGS005045",
+    "PGS001314",
+    "PGS005035",
+    "PGS001317",
+    "PGS002535",
+    "PGS005044",
+    "PGS005046",
+    "PGS000117",
+    "PGS005039",
+    "PGS002633",
+    "PGS002388",
+    "PGS002486",
+    "PGS004238",
+    "PGS000710",
+    "PGS005034",
+    "PGS005041",
+    "PGS002437",
+    "PGS005036",
+    "PGS000863",
+    "PGS004528",
+    "PGS002316",
+    "PGS005038",
+    "PGS001335",
+    "PGS005042",
+    "PGS005040",
+    "PGS002682"
+  ],
+  "total_found": 35,
+  "candidate_models": [
+    {
+      "id": "PGS000117",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "lassosum",
+      "variants_number": 297862,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (2%), EAS (6%), EUR (75%), GME (1%), SAS (14%) | DEV: MAE (100%) | EVAL: EUR (17%), MAE (83%)",
+      "publication": {
+        "title": "Predictive Accuracy of a Polygenic Risk Score-Enhanced Prediction Model vs a Clinical Risk Score for Coronary Artery Disease.",
+        "journal": "JAMA"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "n=80,103",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.77,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000829",
+        "selected_validation_ancestry": "European, African unspecified, NR",
+        "record_count": 22,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.77,
+            "ci_lower": 0.76,
+            "ci_upper": 0.78
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident cardiovascular disease (over age 55)",
+      "covariates": "pooled cohort equations",
+      "training_development_cohorts": [
+        "ADVANCE",
+        "AGES",
+        "AIDHS",
+        "ARIC",
+        "BAS",
+        "BioMe",
+        "CARDIOGENICS",
+        "CAS",
+        "CCGB",
+        "COROGENE",
+        "DUKE_2",
+        "EGCUT",
+        "FGENTCARD",
+        "FHS",
+        "FINRISK",
+        "FamHS",
+        "GENRIC",
+        "GerMIFS",
+        "GoDARTS",
+        "HPS",
+        "HSDS",
+        "HSIEA",
+        "ITH",
+        "LIFE-HEART",
+        "LOLIPOP",
+        "LURIC",
+        "MAYO-VDB",
+        "MIGen",
+        "MedSTAR",
+        "OHGS",
+        "PIVUS",
+        "PROCARDIS",
+        "PROMIS",
+        "PROSPER",
+        "PennCATH",
+        "RS",
+        "SDS",
+        "TwinGene",
+        "UKB",
+        "ULSAM",
+        "WGHS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=147,985"
+    },
+    {
+      "id": "PGS000710",
+      "trait_reported": "Myocardial infarction",
+      "trait_efo": "myocardial infarction",
+      "method_name": "snpnet (multi-PRS)",
+      "variants_number": 183566,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetics of 35 blood and urine biomarkers in the UK Biobank.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "n=223,327",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.707,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001606",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.707
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.19,
+            "ci_lower": 1.17,
+            "ci_upper": 1.22
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "Age as time scale, sex, batch, PCs(1-10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=135,300"
+    },
+    {
+      "id": "PGS000863",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 330,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analyses highlight etiological differences underlying newly defined subtypes of diabetes",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002402",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.98,
+            "ci_lower": 0.93,
+            "ci_upper": 1.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Moderate Age-Related Diabetes",
+      "covariates": "PC1-10",
+      "training_development_cohorts": [
+        "CARDIoGRAMplusC4D"
+      ],
+      "validation_sample_size": "n=5,597"
+    },
+    {
+      "id": "PGS001048",
+      "trait_reported": "NSTEMI (algorithmically-defined)",
+      "trait_efo": "Non-ST Elevation Myocardial Infarction",
+      "method_name": "snpnet",
+      "variants_number": 687,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.54042,
+        "r2": 0.00234,
+        "pgs_only_auc": 0.54042,
+        "pgs_only_r2": 0.00234,
+        "full_model_auc": 0.72145,
+        "full_model_r2": 0.06213,
+        "incremental_auc": 0.004,
+        "selected_performance_id": "PPM008002",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72145,
+            "ci_lower": 0.70591,
+            "ci_upper": 0.73699
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06213
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.004
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00234
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.54042,
+            "ci_lower": 0.52208,
+            "ci_upper": 0.55876
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "AD NSTEMI",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001314",
+      "trait_reported": "Acute myocardial infarction (time-to-event)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "snpnet",
+      "variants_number": 1108,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.59003,
+        "r2": 0.01217,
+        "pgs_only_auc": 0.59003,
+        "pgs_only_r2": 0.01217,
+        "full_model_auc": 0.77705,
+        "full_model_r2": 0.12586,
+        "incremental_auc": 0.00931,
+        "selected_performance_id": "PPM009065",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77705,
+            "ci_lower": 0.76156,
+            "ci_upper": 0.79255
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12586
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00931
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01217
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.59003,
+            "ci_lower": 0.56941,
+            "ci_upper": 0.61066
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE acute myocardial infarction",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001315",
+      "trait_reported": "Myocardial infarction",
+      "trait_efo": "myocardial infarction",
+      "method_name": "snpnet",
+      "variants_number": 1788,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.58432,
+        "r2": 0.0122,
+        "pgs_only_auc": 0.58432,
+        "pgs_only_r2": 0.0122,
+        "full_model_auc": 0.75834,
+        "full_model_r2": 0.11912,
+        "incremental_auc": 0.01051,
+        "selected_performance_id": "PPM009072",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75834,
+            "ci_lower": 0.74967,
+            "ci_upper": 0.76701
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11912
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01051
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0122
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.58432,
+            "ci_lower": 0.57339,
+            "ci_upper": 0.59525
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Heart attack (MI)",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001316",
+      "trait_reported": "Myocardial infarction (algorithmically-defined)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "snpnet",
+      "variants_number": 1831,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.58557,
+        "r2": 0.01247,
+        "pgs_only_auc": 0.58557,
+        "pgs_only_r2": 0.01247,
+        "full_model_auc": 0.75963,
+        "full_model_r2": 0.12014,
+        "incremental_auc": 0.01074,
+        "selected_performance_id": "PPM009077",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75963,
+            "ci_lower": 0.75098,
+            "ci_upper": 0.76829
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12014
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01074
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01247
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.58557,
+            "ci_lower": 0.57459,
+            "ci_upper": 0.59655
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "AD myocardial infarction",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001317",
+      "trait_reported": "Vascular/heart problems diagnosed by doctor Heart attack",
+      "trait_efo": "myocardial infarction",
+      "method_name": "snpnet",
+      "variants_number": 1030,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=195,990",
+      "performance_metrics": {
+        "auc": 0.60058,
+        "r2": 0.01654,
+        "pgs_only_auc": 0.60058,
+        "pgs_only_r2": 0.01654,
+        "full_model_auc": 0.82191,
+        "full_model_r2": 0.18282,
+        "incremental_auc": 0.01045,
+        "selected_performance_id": "PPM009082",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.82191,
+            "ci_lower": 0.8123,
+            "ci_upper": 0.83152
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.18282
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01045
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01654
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.60058,
+            "ci_lower": 0.58663,
+            "ci_upper": 0.61453
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Vascular/heart problems diagnosed by doctor Heart attack",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=48,989"
+    },
+    {
+      "id": "PGS001335",
+      "trait_reported": "Vascular/heart problems diagnosed by doctor High BP",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "snpnet",
+      "variants_number": 14076,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=262,060",
+      "performance_metrics": {
+        "auc": 0.63791,
+        "r2": 0.06872,
+        "pgs_only_auc": 0.63791,
+        "pgs_only_r2": 0.06872,
+        "full_model_auc": 0.7135,
+        "full_model_r2": 0.16154,
+        "incremental_auc": 0.05215,
+        "selected_performance_id": "PPM009165",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7135,
+            "ci_lower": 0.70921,
+            "ci_upper": 0.71779
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.16154
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.05215
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.06872
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.63791,
+            "ci_lower": 0.63326,
+            "ci_upper": 0.64256
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Vascular/heart problems diagnosed by doctor High BP",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=65,564"
+    },
+    {
+      "id": "PGS002316",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "BOLT-LMM",
+      "variants_number": 1109311,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0419,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013179",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0419
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002361",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "BOLT-LMM-BBJ",
+      "variants_number": 920929,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0001,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013319",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0001
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002388",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 5621,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0156,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013467",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0156
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002437",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 20431,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0146,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013663",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0146
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002486",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 110640,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0099,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013859",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0099
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002535",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 1218,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0116,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014055",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0116
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002584",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 637,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0101,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014251",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0101
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002633",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "PolyFun-pred",
+      "variants_number": 381036,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0429,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014447",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "name_short": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "estimate": 0.0429
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002682",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "SBayesR",
+      "variants_number": 972965,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0402,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014643",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0402
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS004238",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 35,
+      "ancestry_distribution": "DEV: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Genetic risk score constructed from common genetic variants is associated with cardiovascular disease risk in type 2 diabetes mellitus.",
+        "journal": "J Gene Med"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=1,535",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.78,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020272",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.78,
+            "ci_lower": 0.717,
+            "ci_upper": 0.843
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cardiovascular disease in patients with type II diabetes Mellitus",
+      "covariates": "Age, gender, body mass index",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=385"
+    },
+    {
+      "id": "PGS004458",
+      "trait_reported": "I21 (Acute myocardial infarction)",
+      "trait_efo": "acute myocardial infarction",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020573",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28137008181119
+          }
+        ]
+      },
+      "phenotyping_reported": "I21 (Acute myocardial infarction)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004528",
+      "trait_reported": "I21 (Acute myocardial infarction)",
+      "trait_efo": "acute myocardial infarction",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020643",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.391477
+          }
+        ]
+      },
+      "phenotyping_reported": "I21 (Acute myocardial infarction)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS005034",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.768988297097586,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021908",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.768988297097586
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.099,
+            "ci_lower": 1.05,
+            "ci_upper": 1.16
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005035",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.783355229253263,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021910",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.783355229253263
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.541,
+            "ci_lower": 1.46,
+            "ci_upper": 1.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005036",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.769232203994974,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021909",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.769232203994974
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.124,
+            "ci_lower": 1.07,
+            "ci_upper": 1.18
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005037",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.782051515898234,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021905",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.782051515898234
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.5,
+            "ci_lower": 1.42,
+            "ci_upper": 1.58
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005038",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.783091552481915,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021906",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.783091552481915
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.53,
+            "ci_lower": 1.45,
+            "ci_upper": 1.61
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005039",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.784836989151752,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021907",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.784836989151752
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.578,
+            "ci_lower": 1.5,
+            "ci_upper": 1.67
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005040",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.76866638941772,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021807",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.76866638941772
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.071,
+            "ci_lower": 1.02,
+            "ci_upper": 1.13
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005041",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.783728758270691,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021809",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.783728758270691
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.535,
+            "ci_lower": 1.46,
+            "ci_upper": 1.62
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005042",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.769225123712732,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021808",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.769225123712732
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.122,
+            "ci_lower": 1.07,
+            "ci_upper": 1.18
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005043",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.779538407961862,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021804",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.779538407961862
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.434,
+            "ci_lower": 1.36,
+            "ci_upper": 1.51
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005044",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7836188471857,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021805",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.7836188471857
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.546,
+            "ci_lower": 1.47,
+            "ci_upper": 1.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005045",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.783850849010177,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021806",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.783850849010177
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.554,
+            "ci_lower": 1.47,
+            "ci_upper": 1.64
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005046",
+      "trait_reported": "Myocardial infarction (PheCode 411.2)",
+      "trait_efo": "myocardial infarction",
+      "method_name": "prscsx",
+      "variants_number": 1273891,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.783365290706975,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021810",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.783365290706975
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.527,
+            "ci_lower": 1.45,
+            "ci_upper": 1.61
+          }
+        ]
+      },
+      "phenotyping_reported": "Myocardial infarction",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,379"
+    },
+    {
+      "id": "PGS005253",
+      "trait_reported": "Cardiovascular disease",
+      "trait_efo": "cardiovascular disease",
+      "method_name": "MetaPRS",
+      "variants_number": 3846195,
+      "ancestry_distribution": "GWAS: AFR (40%), AMR (7%), EAS (12%), EUR (78%), MAE (9%), OTH (9%), SAS (7%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Impact of genetic risk and lifestyles on cardiovascular disease-free and total life expectancy: a cohort study.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2025-08-06",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022736",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.2,
+            "ci_lower": 1.19,
+            "ci_upper": 1.22
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident cardiovascular disease",
+      "covariates": "age, sex, highest education, marital status, top 10 genetic principal components, and genotyping arrays",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "CARDIoGRAMplusC4D",
+        "EPIC_CAD",
+        "FinnGen",
+        "GerMIFS",
+        "HUNT",
+        "MGBB",
+        "Multiple",
+        "MyCode",
+        "Other",
+        "PMB",
+        "UKB",
+        "deCODE",
+        "eMERGE"
+      ],
+      "validation_sample_size": "n=72,149"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001335",
+    "reported_auc": 0.6379,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Vascular/heart problems diagnosed by doctor High BP",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=65,564"
+  }
+}

@@ -1,0 +1,623 @@
+{
+  "cache_version": "v4",
+  "ontology": "dilated cardiomyopathy",
+  "candidate_model_ids": [
+    "PGS004950",
+    "PGS004861",
+    "PGS004949",
+    "PGS004946",
+    "PGS004951",
+    "PGS004948",
+    "PGS004862",
+    "PGS004947"
+  ],
+  "total_found": 8,
+  "candidate_models": [
+    {
+      "id": "PGS004861",
+      "trait_reported": "Dilated cardiomyopathy",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 713932,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analysis provides insights into the molecular etiology of dilated cardiomyopathy.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-04-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": 0.048,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021092",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.048
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.56
+          }
+        ]
+      },
+      "phenotyping_reported": "Dilated cardiomyopathy",
+      "covariates": "age, age^2, sex, PC1-10",
+      "training_development_cohorts": [
+        "HERMES"
+      ],
+      "validation_sample_size": "n=347,585"
+    },
+    {
+      "id": "PGS004862",
+      "trait_reported": "Dilated cardiomyopathy (MTAG)",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 709534,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analysis provides insights into the molecular etiology of dilated cardiomyopathy.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-04-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71,
+        "full_model_r2": 0.05,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021093",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.76
+          }
+        ]
+      },
+      "phenotyping_reported": "Dilated cardiomyopathy",
+      "covariates": "age, age^2, sex, PC1-10",
+      "training_development_cohorts": [
+        "HERMES"
+      ],
+      "validation_sample_size": "n=347,585"
+    },
+    {
+      "id": "PGS004946",
+      "trait_reported": "Dilated cardiomyopathy",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 1098677,
+      "ancestry_distribution": "GWAS: EUR (48%), MAE (52%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals mechanisms underlying dilated cardiomyopathy and myocardial resilience.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-12-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.65,
+        "full_model_r2": 0.227,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021753",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Univariate (PRS only) AUPRC",
+            "name_short": "Univariate (PRS only) AUPRC",
+            "estimate": 0.0095
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 full model",
+            "name_short": "Nagelkerke pseudo-R^2 full model",
+            "estimate": 0.064
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "name_short": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "estimate": 0.023
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "estimate": 0.227
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "estimate": 0.066
+          },
+          {
+            "name_long": "Univariate (PRS only) AUC",
+            "name_short": "Univariate (PRS only) AUC",
+            "estimate": 0.65,
+            "ci_lower": 0.62,
+            "ci_upper": 0.67
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.65762386
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.5,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Non-ischemic dilated cardiomyopathy",
+      "covariates": "Age, age^2, sex, PC1-12",
+      "training_development_cohorts": [
+        "AUMC_DCM",
+        "FinnGen",
+        "UKB"
+      ],
+      "validation_sample_size": "n=96,016"
+    },
+    {
+      "id": "PGS004947",
+      "trait_reported": "Dilated cardiomyopathy (MTAG)",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 1072247,
+      "ancestry_distribution": "GWAS: EUR (48%), MAE (52%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals mechanisms underlying dilated cardiomyopathy and myocardial resilience.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-12-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": 0.235,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021754",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke pseudo-R^2 full model",
+            "name_short": "Nagelkerke pseudo-R^2 full model",
+            "estimate": 0.068
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "name_short": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "estimate": 0.028
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "estimate": 0.235
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "estimate": 0.076
+          },
+          {
+            "name_long": "Univariate (PRS only) AUC",
+            "name_short": "Univariate (PRS only) AUC",
+            "estimate": 0.66,
+            "ci_lower": 0.63,
+            "ci_upper": 0.68
+          },
+          {
+            "name_long": "Univariate (PRS only) AUPRC",
+            "name_short": "Univariate (PRS only) AUPRC",
+            "estimate": 0.0109
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.55,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Non-ischemic dilated cardiomyopathy",
+      "covariates": "Age, age^2, sex, PC1-12",
+      "training_development_cohorts": [
+        "AUMC_DCM",
+        "FinnGen",
+        "UKB"
+      ],
+      "validation_sample_size": "n=96,016"
+    },
+    {
+      "id": "PGS004948",
+      "trait_reported": "Dilated cardiomyopathy",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 1068761,
+      "ancestry_distribution": "GWAS: EUR (91%), MAE (9%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals mechanisms underlying dilated cardiomyopathy and myocardial resilience.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-12-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": 0.186,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021755",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke pseudo-R^2 full model",
+            "name_short": "Nagelkerke pseudo-R^2 full model",
+            "estimate": 0.049
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "name_short": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "estimate": 0.018
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "estimate": 0.186
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "estimate": 0.06
+          },
+          {
+            "name_long": "Univariate (PRS only) AUC",
+            "name_short": "Univariate (PRS only) AUC",
+            "estimate": 0.64,
+            "ci_lower": 0.62,
+            "ci_upper": 0.66
+          },
+          {
+            "name_long": "Univariate (PRS only) AUPRC",
+            "name_short": "Univariate (PRS only) AUPRC",
+            "estimate": 0.0042
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.64
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.49,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Non-ischemic dilated cardiomyopathy",
+      "covariates": "Age, age^2, sex, array, PC1-12",
+      "training_development_cohorts": [
+        "AUMC_DCM",
+        "FinnGen",
+        "MGBB"
+      ],
+      "validation_sample_size": "n=326,106"
+    },
+    {
+      "id": "PGS004949",
+      "trait_reported": "Dilated cardiomyopathy (MTAG)",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 1038394,
+      "ancestry_distribution": "GWAS: EUR (91%), MAE (9%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals mechanisms underlying dilated cardiomyopathy and myocardial resilience.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-12-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.68,
+        "full_model_r2": 0.216,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021756",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke pseudo-R^2 full model",
+            "name_short": "Nagelkerke pseudo-R^2 full model",
+            "estimate": 0.06
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "name_short": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "estimate": 0.029
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "estimate": 0.216
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "estimate": 0.095
+          },
+          {
+            "name_long": "Univariate (PRS only) AUC",
+            "name_short": "Univariate (PRS only) AUC",
+            "estimate": 0.68,
+            "ci_lower": 0.66,
+            "ci_upper": 0.69
+          },
+          {
+            "name_long": "Univariate (PRS only) AUPRC",
+            "name_short": "Univariate (PRS only) AUPRC",
+            "estimate": 0.0052
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.91
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.65,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Non-ischemic dilated cardiomyopathy",
+      "covariates": "Age, age^2, sex, array, PC1-12",
+      "training_development_cohorts": [
+        "AUMC_DCM",
+        "FinnGen",
+        "MGBB"
+      ],
+      "validation_sample_size": "n=326,106"
+    },
+    {
+      "id": "PGS004950",
+      "trait_reported": "Dilated cardiomyopathy",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 1098677,
+      "ancestry_distribution": "GWAS: EUR (46%), MAE (54%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals mechanisms underlying dilated cardiomyopathy and myocardial resilience.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-12-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": 0.13,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021757",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke pseudo-R^2 full model",
+            "name_short": "Nagelkerke pseudo-R^2 full model",
+            "estimate": 0.101
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "name_short": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "estimate": 0.052
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "estimate": 0.13
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "estimate": 0.073
+          },
+          {
+            "name_long": "Univariate (PRS only) AUC",
+            "name_short": "Univariate (PRS only) AUC",
+            "estimate": 0.64,
+            "ci_lower": 0.62,
+            "ci_upper": 0.66
+          },
+          {
+            "name_long": "Univariate (PRS only) AUPRC",
+            "name_short": "Univariate (PRS only) AUPRC",
+            "estimate": 0.1765
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.71
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.54,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Clinical dilated cardiomyopathy",
+      "covariates": "Sex, PC1-12",
+      "training_development_cohorts": [
+        "FinnGen",
+        "MGBB",
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,761"
+    },
+    {
+      "id": "PGS004951",
+      "trait_reported": "Dilated cardiomyopathy (MTAG)",
+      "trait_efo": "dilated cardiomyopathy",
+      "method_name": "PRS-CS",
+      "variants_number": 1075760,
+      "ancestry_distribution": "GWAS: EUR (46%), MAE (54%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals mechanisms underlying dilated cardiomyopathy and myocardial resilience.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-12-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67,
+        "full_model_r2": 0.162,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021758",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke pseudo-R^2 full model",
+            "name_short": "Nagelkerke pseudo-R^2 full model",
+            "estimate": 0.124
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "name_short": "Nagelkerke pseudo-R^2 delta PRS/residual",
+            "estimate": 0.076
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) full model",
+            "estimate": 0.162
+          },
+          {
+            "name_long": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "name_short": "Liability-scale R^2 (assuming 0.4% prev) delta PRS/residual",
+            "estimate": 0.101
+          },
+          {
+            "name_long": "Univariate (PRS only) AUC",
+            "name_short": "Univariate (PRS only) AUC",
+            "estimate": 0.67,
+            "ci_lower": 0.65,
+            "ci_upper": 0.69
+          },
+          {
+            "name_long": "Univariate (PRS only) AUPRC",
+            "name_short": "Univariate (PRS only) AUPRC",
+            "estimate": 0.2023
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.93
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.66,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Clinical dilated cardiomyopathy",
+      "covariates": "Sex, PC1-12",
+      "training_development_cohorts": [
+        "FinnGen",
+        "MGBB",
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,761"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS004862",
+    "reported_auc": 0.71,
+    "tier": "full_model_auroc",
+    "trait_reported": "Dilated cardiomyopathy (MTAG)",
+    "method_name": "PRS-CS",
+    "validation_sample_size": "n=347,585"
+  }
+}

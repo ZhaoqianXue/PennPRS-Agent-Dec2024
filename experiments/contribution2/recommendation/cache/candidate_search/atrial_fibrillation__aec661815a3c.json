@@ -1,0 +1,3021 @@
+{
+  "cache_version": "v4",
+  "ontology": "atrial fibrillation",
+  "candidate_model_ids": [
+    "PGS004531",
+    "PGS005287",
+    "PGS005064",
+    "PGS000727",
+    "PGS005067",
+    "PGS005288",
+    "PGS005290",
+    "PGS001841",
+    "PGS000035",
+    "PGS001356",
+    "PGS005062",
+    "PGS001340",
+    "PGS004706",
+    "PGS004510",
+    "PGS005291",
+    "PGS004294",
+    "PGS005072",
+    "PGS004290",
+    "PGS004293",
+    "PGS005069",
+    "PGS004292",
+    "PGS005070",
+    "PGS000338",
+    "PGS002774",
+    "PGS005171",
+    "PGS004291",
+    "PGS005071",
+    "PGS002814",
+    "PGS004612",
+    "PGS005065",
+    "PGS004189",
+    "PGS005068",
+    "PGS004461",
+    "PGS005159",
+    "PGS004190",
+    "PGS001339",
+    "PGS004187",
+    "PGS004440",
+    "PGS004878",
+    "PGS005060",
+    "PGS002773",
+    "PGS000016",
+    "PGS005061",
+    "PGS004705",
+    "PGS002050",
+    "PGS005066",
+    "PGS005289",
+    "PGS005292",
+    "PGS003461",
+    "PGS004186",
+    "PGS003761",
+    "PGS004613",
+    "PGS000331",
+    "PGS004905",
+    "PGS005063",
+    "PGS004188",
+    "PGS002756",
+    "PGS005168",
+    "PGS005313",
+    "PGS004920",
+    "PGS004929"
+  ],
+  "total_found": 61,
+  "candidate_models": [
+    {
+      "id": "PGS000016",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred",
+      "variants_number": 6730541,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (3%), EUR (90%) | DEV: EUR (100%) | EVAL: NR (12%), EUR (50%), MAE (25%), MAO (12%)",
+      "publication": {
+        "title": "Genome-wide polygenic scores for common diseases identify individuals with risk equivalent to monogenic mutations.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=120,280",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.029,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.029,
+        "full_model_auc": 0.77,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000025",
+        "selected_validation_ancestry": "European",
+        "record_count": 13,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77,
+            "ci_lower": 0.76,
+            "ci_upper": 0.77
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke\u2019s R2 (estimate of variance explained by the PGS after covariate adjustment)",
+            "name_short": "Nagelkerke\u2019s R2 (estimate of variance explained by the PGS after covariate adjustment)",
+            "estimate": 0.029
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age; sex; Ancestry PC 1-4; genotyping chip",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=288,978"
+    },
+    {
+      "id": "PGS000035",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 1168,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (3%), EUR (90%) | DEV: EUR (100%) | EVAL: EUR (17%), MAE (67%), MAO (17%)",
+      "publication": {
+        "title": "Genetic Predisposition, Clinical Risk Factor Burden, and Lifetime Risk of Atrial Fibrillation.",
+        "journal": "Circulation"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=120,286",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.617,
+        "full_model_r2": 0.016,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020778",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.617,
+            "ci_lower": 0.574,
+            "ci_upper": 0.66
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.016,
+            "ci_lower": 0.004,
+            "ci_upper": 0.027
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.49,
+            "ci_lower": 1.3,
+            "ci_upper": 1.71
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=3,335"
+    },
+    {
+      "id": "PGS000331",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred",
+      "variants_number": 6183494,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (67%), MAO (33%)",
+      "publication": {
+        "title": "Polygenic and clinical risk scores and their impact on age at onset and prediction of cardiometabolic diseases and common cancers.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2020-09-18",
+      "samples_training": "n=21,813",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.751,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000893",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.751
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.62,
+            "ci_lower": 1.54,
+            "ci_upper": 1.7
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "age, sex, FINRISK cohort, genotyping array/batch, 10 ancestry PCs",
+      "training_development_cohorts": [
+        "AFGen",
+        "FINRISK",
+        "HUNT",
+        "MGI",
+        "MyCode",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=10,561"
+    },
+    {
+      "id": "PGS000338",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 97,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (90%), EAS (6%), EUR (91%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic risk and atrial fibrillation in patients with heart failure.",
+        "journal": "Eur J Heart Fail"
+      },
+      "date_release": "2020-11-05",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.721,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000920",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.721,
+            "ci_lower": 0.704,
+            "ci_upper": 737.0
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "PCs (1-10) of ancestry, CHARGE-AF risk factors (age, height, weight, systolic blood pressure, diastolic blood pressure, current smoking, myocardial infarction, diabetes)",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,759"
+    },
+    {
+      "id": "PGS000727",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LD thinning",
+      "variants_number": 2210336,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (50%), MAO (50%)",
+      "publication": {
+        "title": "Integrative analysis of the plasma proteome and polygenic risk of cardiometabolic diseases",
+        "journal": "Nat Metab"
+      },
+      "date_release": "2021-02-23",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001668",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.72,
+            "ci_lower": 1.2,
+            "ci_upper": 2.47
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "age, sex, 10 genetic PCs",
+      "training_development_cohorts": [
+        "AFGen",
+        "HUNT",
+        "MGI",
+        "MyCode",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=3,087"
+    },
+    {
+      "id": "PGS001339",
+      "trait_reported": "Atrial fibrillation and flutter (time-to-event)",
+      "trait_efo": "atrial fibrillation, atrial flutter",
+      "method_name": "snpnet",
+      "variants_number": 2142,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EAS (17%), EUR (33%), MAO (17%), SAS (17%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.613,
+        "r2": 0.02447,
+        "pgs_only_auc": 0.613,
+        "pgs_only_r2": 0.02447,
+        "full_model_auc": 0.77656,
+        "full_model_r2": 0.14023,
+        "incremental_auc": 0.02188,
+        "selected_performance_id": "PPM009183",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77656,
+            "ci_lower": 0.76352,
+            "ci_upper": 0.7896
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14023
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02188
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02447
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.613,
+            "ci_lower": 0.59591,
+            "ci_upper": 0.6301
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE atrial fibrillation and flutter",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001340",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "snpnet",
+      "variants_number": 2955,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EAS (17%), EUR (33%), MAO (17%), SAS (17%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.61305,
+        "r2": 0.02331,
+        "pgs_only_auc": 0.61305,
+        "pgs_only_r2": 0.02331,
+        "full_model_auc": 0.77562,
+        "full_model_r2": 0.13687,
+        "incremental_auc": 0.02036,
+        "selected_performance_id": "PPM009188",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77562,
+            "ci_lower": 0.76201,
+            "ci_upper": 0.78924
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.13687
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02036
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02331
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61305,
+            "ci_lower": 0.59537,
+            "ci_upper": 0.63074
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001356",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "AnnoPred",
+      "variants_number": 2996793,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Interactions Between Enhanced Polygenic Risk Scores and Lifestyle for Cardiovascular Disease, Diabetes, and Lipid Levels.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "n=92,928",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6321,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM005188",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6321
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "Age, sex, PCs(1-10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=178,651"
+    },
+    {
+      "id": "PGS001841",
+      "trait_reported": "Atrial fibrillation and flutter",
+      "trait_efo": "atrial fibrillation, atrial flutter",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 3980,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009618",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1026,
+            "ci_lower": 0.0885,
+            "ci_upper": 0.1165
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation and flutter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,230"
+    },
+    {
+      "id": "PGS002050",
+      "trait_reported": "Atrial fibrillation and flutter",
+      "trait_efo": "atrial fibrillation, atrial flutter",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 554908,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011262",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1034,
+            "ci_lower": 0.0894,
+            "ci_upper": 0.1174
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation and flutter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,230"
+    },
+    {
+      "id": "PGS002756",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRS-CS",
+      "variants_number": 1091491,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014956",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.87,
+            "ci_lower": 1.79,
+            "ci_upper": 1.96
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS002773",
+      "trait_reported": "Incident atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Maximum clumping and thresholding (maxCT)",
+      "variants_number": 265,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (3%), EUR (90%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for cardiovascular diseases and type 2 diabetes.",
+        "journal": "PLoS One"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "n=28,725",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.599,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014973",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.599,
+            "ci_lower": 0.585,
+            "ci_upper": 0.613
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.41,
+            "ci_lower": 1.35,
+            "ci_upper": 1.48
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=12,306"
+    },
+    {
+      "id": "PGS002774",
+      "trait_reported": "Incident atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Stacked clumping and thresholding (SCT)",
+      "variants_number": 216837,
+      "ancestry_distribution": "GWAS: AFR (4%), AMR (2%), EAS (3%), EUR (90%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for cardiovascular diseases and type 2 diabetes.",
+        "journal": "PLoS One"
+      },
+      "date_release": "2022-12-20",
+      "samples_training": "n=28,725",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014974",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.613,
+            "ci_lower": 0.599,
+            "ci_upper": 0.626
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.49,
+            "ci_lower": 1.42,
+            "ci_upper": 1.57
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=12,306"
+    },
+    {
+      "id": "PGS002814",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 4520,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: MAE (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Cross-ancestry genome-wide analysis of atrial fibrillation unveils disease biology and enables cardioembolic risk prediction.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "n=1,150,799",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74,
+        "full_model_r2": 0.14,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015602",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke\u2019s pseudo R2",
+            "name_short": "Nagelkerke\u2019s pseudo R2",
+            "estimate": 0.14
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.94332143455226
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.66
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, and the top 20 PCs",
+      "training_development_cohorts": [
+        "AFGen",
+        "BBJ",
+        "FinnGen",
+        "HUNT",
+        "MGI",
+        "MyCode",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=24,147"
+    },
+    {
+      "id": "PGS003461",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 162,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of accelerometer-derived circadian abnormalities and genetic risk with incidence of atrial fibrillation.",
+        "journal": "NPJ Digit Med"
+      },
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017265",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low tertile)",
+            "name_short": "Hazard ratio (HR, high vs low tertile)",
+            "estimate": 2.54,
+            "ci_lower": 2.26,
+            "ci_upper": 2.85
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=62,927"
+    },
+    {
+      "id": "PGS003761",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 165,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Associations of risk factor burden and genetic predisposition with the 10-year risk of atrial fibrillation: observations from a large prospective study of 348,904 participants.",
+        "journal": "BMC Med"
+      },
+      "date_release": "2023-08-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018560",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (elevated risk factor burden and high PRS vs optimal risk factor burden and low PRS)",
+            "name_short": "Hazard ratio (elevated risk factor burden and high PRS vs optimal risk factor burden and low PRS)",
+            "estimate": 4.12,
+            "ci_lower": 2.76,
+            "ci_upper": 6.14
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "10-year risk of atrial fibrillation with elevated risk burden",
+      "covariates": "sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=147,178"
+    },
+    {
+      "id": "PGS004186",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LASSO",
+      "variants_number": 3082,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.738313,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020119",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.738313
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004187",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LASSO",
+      "variants_number": 5118,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.743767,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020121",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.743767
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004188",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LASSO",
+      "variants_number": 2420,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.739136,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020122",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.739136
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004189",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LASSO",
+      "variants_number": 3434,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.744612,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020123",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.744612
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004190",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LASSO",
+      "variants_number": 1972,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.695733,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020124",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.695733
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Hypertension",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004290",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "GenoBoost",
+      "variants_number": 3000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.757529855409768,
+        "full_model_r2": 0.0337845901147423,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020358",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.757529855409768
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0337845901147423
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.757529855409768
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004291",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "GenoBoost",
+      "variants_number": 3000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.755659353759771,
+        "full_model_r2": 0.0310547107301835,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020359",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.755659353759771
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0310547107301835
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.755659353759771
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004292",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "GenoBoost",
+      "variants_number": 700,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.755911284150703,
+        "full_model_r2": 0.0315112880481633,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020360",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.755911284150703
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0315112880481633
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.755911284150703
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004293",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "GenoBoost",
+      "variants_number": 2000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.756271477846154,
+        "full_model_r2": 0.0325082139342152,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020361",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.756271477846154
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0325082139342152
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.756271477846154
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004294",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "GenoBoost",
+      "variants_number": 2000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.756480203541699,
+        "full_model_r2": 0.0326453842960213,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020362",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.756480203541699
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0326453842960213
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.756480203541699
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004440",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020555",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28671933141931
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004461",
+      "trait_reported": "I48 (Atrial fibrillation and flutter)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020576",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.34588441961571
+          }
+        ]
+      },
+      "phenotyping_reported": "I48 (Atrial fibrillation and flutter)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004510",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020625",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.245595
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004531",
+      "trait_reported": "I48 (Atrial fibrillation and flutter)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020646",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.279526
+          }
+        ]
+      },
+      "phenotyping_reported": "I48 (Atrial fibrillation and flutter)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004612",
+      "trait_reported": "ECG-AI predicted 5-year risk of atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRS-CS",
+      "variants_number": 1117399,
+      "ancestry_distribution": "GWAS: NR (3%), EUR (97%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genetic Susceptibility to Atrial Fibrillation Identified via Deep Learning of 12-Lead Electrocardiograms.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2024-02-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.738,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020787",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.738
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.07,
+            "ci_lower": 1.04,
+            "ci_upper": 1.09
+          }
+        ]
+      },
+      "phenotyping_reported": "5-year incident atrial fibrillation",
+      "covariates": "Age at enrollment, sex, genotyping array, 20 PCs of ancestry",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=424,411"
+    },
+    {
+      "id": "PGS004613",
+      "trait_reported": "CHARGE-AF predicted 5-year risk of atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRS-CS",
+      "variants_number": 1117400,
+      "ancestry_distribution": "GWAS: NR (3%), EUR (97%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genetic Susceptibility to Atrial Fibrillation Identified via Deep Learning of 12-Lead Electrocardiograms.",
+        "journal": "Circ Genom Precis Med"
+      },
+      "date_release": "2024-02-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.739,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020788",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.739
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.12,
+            "ci_lower": 1.09,
+            "ci_upper": 1.14
+          }
+        ]
+      },
+      "phenotyping_reported": "5-year incident atrial fibrillation",
+      "covariates": "Age at enrollment, sex, genotyping array, 20 PCs of ancestry",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=424,411"
+    },
+    {
+      "id": "PGS004705",
+      "trait_reported": "Atrial Fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRSmix",
+      "variants_number": 3575124,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.042,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020930",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.042,
+            "ci_lower": 0.034,
+            "ci_upper": 0.05
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial Fibrillation",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004706",
+      "trait_reported": "Atrial Fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRSmixPlus",
+      "variants_number": 3576958,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.044,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020931",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.044,
+            "ci_lower": 0.036,
+            "ci_upper": 0.053
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial Fibrillation",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004878",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "megaprs.auto",
+      "variants_number": 785779,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (90%), EAS (6%), EUR (91%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021206",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.66,
+            "ci_lower": 0.63,
+            "ci_upper": 0.68
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.62,
+            "ci_lower": 1.5,
+            "ci_upper": 1.75
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident AF",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=7,018"
+    },
+    {
+      "id": "PGS004905",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 155,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Air pollution, genetic susceptibility, and the risk of atrial fibrillation: A large prospective cohort study.",
+        "journal": "Proc Natl Acad Sci U S A"
+      },
+      "date_release": "2024-05-22",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021355",
+        "selected_validation_ancestry": "European, Not reported, Asian unspecified, African unspecified",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 2.145,
+            "ci_lower": 2.085,
+            "ci_upper": 2.205
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident atrial fibrillation",
+      "covariates": "Age, sex, ethnicity, education, employment, alcohol consumption status, smoking status, healthy diet score, physical activity, BMI, hypertension, hyperlipidemia, diabetes, genotyping batch, 10 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=401,251"
+    },
+    {
+      "id": "PGS004920",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 166,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Long-term night shift work is associated with the risk of atrial fibrillation and coronary heart disease.",
+        "journal": "Eur Heart J"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021391",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 2.68,
+            "ci_lower": 2.53,
+            "ci_upper": 2.84
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "Age, sex, ethnicity, Townsend index, education, smoking status, BMI <25.0 kg/m2, physical activity goal (\u2265150 min/week of moderate intensity, \u226575 min/week of vigorous intensity, or an equivalent combination), dietary score \u22654 proposed in previous studies, total cholesterol <5.18 mmol/L without using lipid-lowering medication, glycated haemoglobin <5.7% (39 mmol/mol) and no history of diabetes, blood pressure <120/<80 mmHg without using blood pressure-lowering medication",
+      "training_development_cohorts": [
+        "AFGen",
+        "HUNT",
+        "MGI",
+        "deCODE",
+        "discovEHR"
+      ],
+      "validation_sample_size": "n=193,819"
+    },
+    {
+      "id": "PGS004929",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 178814,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk score portability for common diseases across genetically diverse populations.",
+        "journal": "Human Genomics"
+      },
+      "date_release": "2024-09-19",
+      "samples_training": "n=285,899",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021716",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44,
+            "ci_lower": 1.28,
+            "ci_upper": 1.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,417"
+    },
+    {
+      "id": "PGS005060",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.80874534295067,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021944",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.80874534295067
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.208,
+            "ci_lower": 1.16,
+            "ci_upper": 1.26
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005061",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.82286697701744,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021946",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.82286697701744
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.639,
+            "ci_lower": 1.57,
+            "ci_upper": 1.71
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005062",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.808967345779323,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021945",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.808967345779323
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.206,
+            "ci_lower": 1.16,
+            "ci_upper": 1.26
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005063",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.823315823537061,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021941",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.823315823537061
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.619,
+            "ci_lower": 1.55,
+            "ci_upper": 1.69
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005064",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.819628881543923,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021942",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.819628881543923
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.497,
+            "ci_lower": 1.44,
+            "ci_upper": 1.56
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005065",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.825261688335632,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021943",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.825261688335632
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.67,
+            "ci_lower": 1.6,
+            "ci_upper": 1.74
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005066",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.807604444400107,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021849",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.807604444400107
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.164,
+            "ci_lower": 1.12,
+            "ci_upper": 1.21
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005067",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.827583786719081,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021851",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.827583786719081
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.734,
+            "ci_lower": 1.66,
+            "ci_upper": 1.81
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005068",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.807317626986339,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021850",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.807317626986339
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.146,
+            "ci_lower": 1.1,
+            "ci_upper": 1.2
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005069",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.821827648292313,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021846",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.821827648292313
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.578,
+            "ci_lower": 1.51,
+            "ci_upper": 1.65
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005070",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.826212424866212,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021847",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.826212424866212
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.685,
+            "ci_lower": 1.61,
+            "ci_upper": 1.76
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005071",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.826161353033083,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021848",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.826161353033083
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.693,
+            "ci_lower": 1.62,
+            "ci_upper": 1.77
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005072",
+      "trait_reported": "Atrial fibrillation (PheCode 427.21)",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "prscsx",
+      "variants_number": 1273891,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.826393832135198,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021852",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.826393832135198
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.684,
+            "ci_lower": 1.61,
+            "ci_upper": 1.76
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=25,409"
+    },
+    {
+      "id": "PGS005159",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 142,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Interaction of genetic risk and lifestyle on the incidence of atrial fibrillation.",
+        "journal": "Heart"
+      },
+      "date_release": "2025-02-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022385",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low tertile)",
+            "name_short": "Hazard ratio (HR, high vs low tertile)",
+            "estimate": 4.27,
+            "ci_lower": 3.61,
+            "ci_upper": 5.06
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, educational level, heart failure, stroke, diabetes mellitus, and myocardial infarction at baseline",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,094"
+    },
+    {
+      "id": "PGS005168",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRS-CS",
+      "variants_number": 382963,
+      "ancestry_distribution": "GWAS: AFR (1%), AMR (1%), EAS (17%), EUR (80%), SAS (7%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Meta-analysis of genome-wide associations and polygenic risk prediction for atrial fibrillation in more than 180,000 cases.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8718,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022406",
+        "selected_validation_ancestry": "European",
+        "record_count": 45,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.8718,
+            "ci_lower": 0.8657,
+            "ci_upper": 0.878
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.6663
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.5106,
+            "se": 0.0206
+          }
+        ]
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, age^2, sex, geno_array, CHARGE-AF",
+      "training_development_cohorts": [
+        "AGES",
+        "ARIC",
+        "BBJ",
+        "BioMe",
+        "Broad CVDi",
+        "CCAF",
+        "CHB",
+        "CHS",
+        "EGCUT",
+        "ENGAGE_AF-TIMI_48",
+        "FHS",
+        "FinnGen",
+        "GAPP",
+        "GS:SFHS",
+        "HRS",
+        "LURIC",
+        "MESA",
+        "MGI",
+        "MyCode",
+        "Other",
+        "PHB",
+        "PIVUS",
+        "PREVEND",
+        "PROSPER",
+        "RS",
+        "SHIP",
+        "SOLID-TIMI_52",
+        "SPHFC",
+        "SiGN",
+        "TwinGene",
+        "ULSAM",
+        "Vanderbilt",
+        "WGHS",
+        "WTCCC",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=52,757"
+    },
+    {
+      "id": "PGS005171",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 142,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Diabetes status, genetic susceptibility, and incident arrhythmias: A prospective cohort study of 457,151 participants.",
+        "journal": "Diabetes Metab Syndr"
+      },
+      "date_release": "2025-04-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022493",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low tertile)",
+            "name_short": "Hazard ratio (HR, high vs low tertile)",
+            "estimate": 2.56,
+            "ci_lower": 2.47,
+            "ci_upper": 2.65
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Atrial fibrillation",
+      "covariates": "age, sex, genotyping array, and the first 10 principal components of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=457,151"
+    },
+    {
+      "id": "PGS005287",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1016634,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=2,500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.703,
+        "full_model_r2": 0.14693,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022995",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.703
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14693
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent atrial fibrillation or flutter",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005288",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1016634,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.689964,
+        "full_model_r2": 0.11543,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022996",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.689964
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11543
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent atrial fibrillation or flutter",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=5,152"
+    },
+    {
+      "id": "PGS005289",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1016634,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=1,503",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6813004,
+        "full_model_r2": 0.12547,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022997",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6813004
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12547
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent atrial fibrillation or flutter",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=7,525"
+    },
+    {
+      "id": "PGS005290",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1045170,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=2,500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.703,
+        "full_model_r2": 0.14556,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022998",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.703
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14556
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent atrial fibrillation or flutter",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005291",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1045170,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6933057,
+        "full_model_r2": 0.11768,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022999",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6933057
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11768
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent atrial fibrillation or flutter",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=5,152"
+    },
+    {
+      "id": "PGS005292",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "LDpred2",
+      "variants_number": 1045170,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=1,503",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6844453,
+        "full_model_r2": 0.12821,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023000",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6844453
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12821
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent atrial fibrillation or flutter",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=7,525"
+    },
+    {
+      "id": "PGS005313",
+      "trait_reported": "Atrial fibrillation",
+      "trait_efo": "atrial fibrillation",
+      "method_name": "PRS-CSx",
+      "variants_number": 1271239,
+      "ancestry_distribution": "GWAS: AFR (5%), AMR (2%), EAS (6%), EUR (86%), SAS (2%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Cross-population GWAS and proteomics improve risk prediction and reveal mechanisms in atrial fibrillation.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2025-10-06",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.78,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023035",
+        "selected_validation_ancestry": "European, African unspecified, South Asian, East Asian, Hispanic or Latin American, Other",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.78,
+            "ci_lower": 0.778,
+            "ci_upper": 0.783
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.82,
+            "ci_lower": 1.79,
+            "ci_upper": 1.85
+          }
+        ]
+      },
+      "phenotyping_reported": "atrial fibrillation",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "AFGen",
+        "BBJ",
+        "FinnGen",
+        "G&H",
+        "HUNT",
+        "MGI",
+        "MVP",
+        "MyCode",
+        "SIMPLER",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=37,161"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001340",
+    "reported_auc": 0.613,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Atrial fibrillation",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

@@ -1,0 +1,433 @@
+{
+  "cache_version": "v4",
+  "ontology": "hyperthyroidism",
+  "candidate_model_ids": [
+    "PGS005265",
+    "PGS001042",
+    "PGS005266",
+    "PGS002023",
+    "PGS005264",
+    "PGS001043",
+    "PGS001815"
+  ],
+  "total_found": 7,
+  "candidate_models": [
+    {
+      "id": "PGS001042",
+      "trait_reported": "Thyrotoxicosis [hyperthyroidism] (time-to-event)",
+      "trait_efo": "Thyrotoxicosis",
+      "method_name": "snpnet",
+      "variants_number": 226,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.63392,
+        "r2": 0.02359,
+        "pgs_only_auc": 0.63392,
+        "pgs_only_r2": 0.02359,
+        "full_model_auc": 0.71296,
+        "full_model_r2": 0.05914,
+        "incremental_auc": 0.04673,
+        "selected_performance_id": "PPM007972",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71296,
+            "ci_lower": 0.69708,
+            "ci_upper": 0.72884
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05914
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04673
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02359
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.63392,
+            "ci_lower": 0.61562,
+            "ci_upper": 0.65223
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE thyrotoxicosis [hyperthyroidism]",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001043",
+      "trait_reported": "Hyperthyroidism, thyrotoxicosis",
+      "trait_efo": "hyperthyroidism, Thyrotoxicosis",
+      "method_name": "snpnet",
+      "variants_number": 69,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.6323,
+        "r2": 0.02158,
+        "pgs_only_auc": 0.6323,
+        "pgs_only_r2": 0.02158,
+        "full_model_auc": 0.71366,
+        "full_model_r2": 0.0566,
+        "incremental_auc": 0.04641,
+        "selected_performance_id": "PPM007977",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71366,
+            "ci_lower": 0.6965,
+            "ci_upper": 0.73082
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0566
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04641
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02158
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.6323,
+            "ci_lower": 0.61251,
+            "ci_upper": 0.6521
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Hyperthyroidism/thyrotoxicosis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001815",
+      "trait_reported": "Thyrotoxicosis with or without goiter",
+      "trait_efo": "Thyrotoxicosis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 280,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009420",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0191,
+            "ci_lower": 0.0049,
+            "ci_upper": 0.0332
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Thyrotoxicosis with or without goiter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,108"
+    },
+    {
+      "id": "PGS002023",
+      "trait_reported": "Thyrotoxicosis with or without goiter",
+      "trait_efo": "Thyrotoxicosis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 279385,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011058",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0199,
+            "ci_lower": 0.0057,
+            "ci_upper": 0.034
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Thyrotoxicosis with or without goiter",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,108"
+    },
+    {
+      "id": "PGS005264",
+      "trait_reported": "Graves' disease",
+      "trait_efo": "Graves disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 112,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6587,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022747",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6587
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.008
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.008
+          }
+        ]
+      },
+      "phenotyping_reported": "graves' disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005265",
+      "trait_reported": "Graves' disease",
+      "trait_efo": "Graves disease",
+      "method_name": "PRSCS",
+      "variants_number": 1085173,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.665220447565802,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022748",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.665220447565802
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.62508137678846
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.485557892551506
+          }
+        ]
+      },
+      "phenotyping_reported": "graves' disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "validation_sample_size": "n=94,651"
+    },
+    {
+      "id": "PGS005266",
+      "trait_reported": "Graves' disease",
+      "trait_efo": "Graves disease",
+      "method_name": "PRSCS",
+      "variants_number": 1085170,
+      "ancestry_distribution": "GWAS: NR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases",
+        "journal": "medRxiv"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.663730746326419,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022749",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, Hispanic or Latin American, European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.663730746326419
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.54332658848452
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.433940209108075
+          }
+        ]
+      },
+      "phenotyping_reported": "graves' disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "AllofUs",
+        "BioMe",
+        "BioVU",
+        "FinnGen",
+        "HUNT",
+        "LATVIANBIOBANK",
+        "MGBB",
+        "MGI",
+        "MVP",
+        "NSGHI",
+        "PMB",
+        "UKB"
+      ],
+      "validation_sample_size": "n=94,651"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001042",
+    "reported_auc": 0.6339,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Thyrotoxicosis [hyperthyroidism] (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

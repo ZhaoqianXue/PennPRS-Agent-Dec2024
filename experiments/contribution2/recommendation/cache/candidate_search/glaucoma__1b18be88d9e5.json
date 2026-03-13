@@ -1,0 +1,792 @@
+{
+  "cache_version": "v4",
+  "ontology": "glaucoma",
+  "candidate_model_ids": [
+    "PGS000137",
+    "PGS000764",
+    "PGS004765",
+    "PGS001322",
+    "PGS001321",
+    "PGS001792",
+    "PGS004766",
+    "PGS000350",
+    "PGS002043",
+    "PGS002761",
+    "PGS002741",
+    "PGS004944",
+    "PGS001836",
+    "PGS001797",
+    "PGS001323"
+  ],
+  "total_found": 15,
+  "candidate_models": [
+    {
+      "id": "PGS000137",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 2673,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (75%), MAE (12%), SAS (12%)",
+      "publication": {
+        "title": "Multitrait analysis of glaucoma identifies new risk loci and enables polygenic prediction of disease susceptibility and progression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "n=8,004",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000422",
+        "selected_validation_ancestry": "European",
+        "record_count": 14,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Primary open-angle glaucoma (POAG)",
+      "covariates": "age, sex, self-reported family history",
+      "training_development_cohorts": [
+        "ANZRAG"
+      ],
+      "validation_sample_size": "n=1,795"
+    },
+    {
+      "id": "PGS000350",
+      "trait_reported": "Primary open-angle glaucoma",
+      "trait_efo": "open-angle glaucoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (94%), MAO (6%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of a Primary Open-Angle Glaucoma Genetic Risk Score With Earlier Age at Diagnosis.",
+        "journal": "JAMA Ophthalmol"
+      },
+      "date_release": "2020-12-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000997",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.24,
+            "ci_lower": 1.21,
+            "ci_upper": 1.27
+          }
+        ]
+      },
+      "phenotyping_reported": "Primary open-angle glaucoma",
+      "covariates": "sex,  DNA source, population structure",
+      "training_development_cohorts": [
+        "ALIENOR",
+        "ANZRAG",
+        "BATS",
+        "BES",
+        "BMES",
+        "ERF",
+        "FES",
+        "GEP",
+        "GHS",
+        "GIST",
+        "HPFS",
+        "Iowa",
+        "MEEI",
+        "Marshfield",
+        "NEIGHBOR",
+        "NHS",
+        "OHTS",
+        "ORCADES",
+        "QIMR",
+        "REHS",
+        "RES",
+        "RS",
+        "SCES",
+        "SIMES",
+        "SINDI",
+        "TEST",
+        "TwinsUK",
+        "WGHS",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=6,538"
+    },
+    {
+      "id": "PGS000764",
+      "trait_reported": "Primary-open angle glaucoma",
+      "trait_efo": "open-angle glaucoma",
+      "method_name": "SNPs associated with primary-open angle glaucoma were selected from the GWAS Catalog",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: MAO (100%)",
+      "publication": {
+        "title": "The Role of Genetic Ancestry as a Risk Factor for Primary Open-angle Glaucoma in African Americans.",
+        "journal": "Invest Ophthalmol Vis Sci"
+      },
+      "date_release": "2021-04-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001956",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, African unspecified",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR per 1 point increase)",
+            "name_short": "Odds Ratio (OR per 1 point increase)",
+            "estimate": 1.08,
+            "ci_lower": 1.06,
+            "ci_upper": 1.11
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Primary-open angle glaucoma",
+      "covariates": "Age, ancestry (q0), gender",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,830"
+    },
+    {
+      "id": "PGS001321",
+      "trait_reported": "Eye problems/disorders (Glaucoma)",
+      "trait_efo": "glaucoma",
+      "method_name": "snpnet",
+      "variants_number": 1103,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=90,517",
+      "performance_metrics": {
+        "auc": 0.60001,
+        "r2": 0.0194,
+        "pgs_only_auc": 0.60001,
+        "pgs_only_r2": 0.0194,
+        "full_model_auc": 0.72434,
+        "full_model_r2": 0.09306,
+        "incremental_auc": 0.02225,
+        "selected_performance_id": "PPM009101",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72434,
+            "ci_lower": 0.70924,
+            "ci_upper": 0.73944
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.09306
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02225
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0194
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.60001,
+            "ci_lower": 0.58198,
+            "ci_upper": 0.61804
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Eye problems/disorders Glaucoma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=22,623"
+    },
+    {
+      "id": "PGS001322",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "snpnet",
+      "variants_number": 655,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.60261,
+        "r2": 0.015,
+        "pgs_only_auc": 0.60261,
+        "pgs_only_r2": 0.015,
+        "full_model_auc": 0.7048,
+        "full_model_r2": 0.0589,
+        "incremental_auc": 0.02562,
+        "selected_performance_id": "PPM009106",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7048,
+            "ci_lower": 0.69206,
+            "ci_upper": 0.71754
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0589
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02562
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.015
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.60261,
+            "ci_lower": 0.58762,
+            "ci_upper": 0.6176
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Glaucoma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001323",
+      "trait_reported": "Glaucoma (time-to-event)",
+      "trait_efo": "glaucoma",
+      "method_name": "snpnet",
+      "variants_number": 2066,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.61994,
+        "r2": 0.02201,
+        "pgs_only_auc": 0.61994,
+        "pgs_only_r2": 0.02201,
+        "full_model_auc": 0.70422,
+        "full_model_r2": 0.06469,
+        "incremental_auc": 0.0364,
+        "selected_performance_id": "PPM009111",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.70422,
+            "ci_lower": 0.69334,
+            "ci_upper": 0.7151
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06469
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0364
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02201
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61994,
+            "ci_lower": 0.60732,
+            "ci_upper": 0.63256
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE glaucoma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001792",
+      "trait_reported": "Primary open-angle glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 911402,
+      "ancestry_distribution": "GWAS: AFR (2%), EAS (25%), EUR (72%), OTH (90%) | EVAL: ASN (50%), EUR (50%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.03209,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.03209,
+        "full_model_auc": 0.777,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009296",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.777
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.03209
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Primary open-angle glaucoma",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "TWB",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=347,396"
+    },
+    {
+      "id": "PGS001797",
+      "trait_reported": "Primary open-angle glaucoma",
+      "trait_efo": "open-angle glaucoma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 885417,
+      "ancestry_distribution": "GWAS: AFR (2%), ASN (60%), EAS (18%), EUR (79%), OTH (60%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.031479,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.031479,
+        "full_model_auc": 0.749,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009313",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.749
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.031479
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Primary open-angle glaucoma",
+      "covariates": "sex,age, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,128"
+    },
+    {
+      "id": "PGS001836",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 7052,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009578",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0419,
+            "ci_lower": 0.0279,
+            "ci_upper": 0.0558
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Glaucoma",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,592"
+    },
+    {
+      "id": "PGS002043",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 672952,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011208",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0458,
+            "ci_lower": 0.0318,
+            "ci_upper": 0.0598
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Glaucoma",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,592"
+    },
+    {
+      "id": "PGS002741",
+      "trait_reported": "Primary open-angle glaucoma",
+      "trait_efo": "open-angle glaucoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 127,
+      "ancestry_distribution": "GWAS: AFR (2%), EAS (12%), EUR (86%) | EVAL: AFR (50%), EUR (50%)",
+      "publication": {
+        "title": "Glaucoma genetic risk scores in the Million Veteran Program.",
+        "journal": "Ophthalmology"
+      },
+      "date_release": "2022-08-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014900",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67,
+            "ci_lower": 0.66,
+            "ci_upper": 0.68
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Primary open-angle glaucoma",
+      "covariates": "Age, sex, and 10 sample-specific PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,382"
+    },
+    {
+      "id": "PGS002761",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1082518,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014961",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.68,
+            "ci_lower": 1.59,
+            "ci_upper": 1.78
+          }
+        ]
+      },
+      "phenotyping_reported": "Glaucoma",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS004765",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "PRSmix",
+      "variants_number": 835476,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.031,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020990",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.031,
+            "ci_lower": 0.024,
+            "ci_upper": 0.038
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Glaucoma",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004766",
+      "trait_reported": "Glaucoma",
+      "trait_efo": "glaucoma",
+      "method_name": "PRSmixPlus",
+      "variants_number": 837948,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.031,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020991",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.031,
+            "ci_lower": 0.024,
+            "ci_upper": 0.038
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Glaucoma",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004944",
+      "trait_reported": "Primary open-angle glaucoma",
+      "trait_efo": "open-angle glaucoma",
+      "method_name": "Lassosum",
+      "variants_number": 144019,
+      "ancestry_distribution": "GWAS: AFR (2%), EAS (12%), EUR (86%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Deep Ocular Phenotyping Across Primary Open-Angle Glaucoma Genetic Burden.",
+        "journal": "JAMA Ophthalmol"
+      },
+      "date_release": "2024-08-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.748,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021744",
+        "selected_validation_ancestry": "African unspecified, Hispanic or Latin American, East Asian, South Asian, European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.748
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.74,
+            "ci_lower": 1.71,
+            "ci_upper": 1.77
+          }
+        ]
+      },
+      "phenotyping_reported": "Primary open-angle glaucoma (self-reported)",
+      "covariates": "Age, age2, sex, ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=407,667"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001323",
+    "reported_auc": 0.6199,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Glaucoma (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

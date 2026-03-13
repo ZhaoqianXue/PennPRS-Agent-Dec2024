@@ -2,11 +2,15 @@
 
 ## Objective
 
-Evaluate whether the PennPRS Agent can select a single PRS model that belongs to the disease-specific `Target_TopK` benchmark set when only direct-match Step 1 tools are available.
+Evaluate whether the PennPRS Agent can select a single PRS model that ranks near the top of the disease-specific Contribution1 All of Us benchmark when only direct-match Step 1 tools are available.
 
-**Success definition**:
+**Primary evaluation definition**:
 - For each disease, the Agent outputs exactly one `PGS ID`.
-- A run is successful iff `recommended_pgs_id` belongs to the first `K` models in `top_k_pgs_per_ontology.json`, where `K = Target_TopK` from the union CSV.
+- The benchmark keeps the full disease-specific AoU ranking from `top_k_pgs_per_ontology.json`.
+- Report `Hit@k` for `k = 1, 2, 3, 4, 5`.
+- For `Hit@k`, a disease contributes to the denominator only when it has at least `k` evaluated models.
+- If the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`.
+- Keep `Normalized Ranking Score (NRS)` alongside the hit metrics.
 
 ---
 
@@ -19,9 +23,9 @@ Evaluate whether the PennPRS Agent can select a single PRS model that belongs to
 
 ### Benchmark Labels
 
-- `Target_TopK`: stored in the union CSV
-- Ranked benchmark PGS IDs: `experiments/contribution2/recommendation/runs/top_k_pgs_per_ontology.json`
-- Evaluated candidate pool: `experiments/contribution2/recommendation/runs/evaluated_pgs_per_ontology.json`
+- Ranked benchmark PGS IDs: `experiments/contribution2/recommendation/runs/.../top_k_pgs_per_ontology.json`
+- Benchmark AoU AUC map: `experiments/contribution2/recommendation/runs/.../benchmark_auc_per_ontology.json`
+- Evaluated candidate pool: `experiments/contribution2/recommendation/runs/.../evaluated_pgs_per_ontology.json`
 
 The experiment must restrict the Agent candidate pool to the evaluated PGS IDs only, so that Step 1 is compared against the exact same model universe used by Contribution1.
 
@@ -103,40 +107,44 @@ This is the primary Contribution2 experiment and should be executed now.
    - global `prs_model_performance_landscape`
 7. Create 10 batch requests per disease and submit them through the OpenAI Batch API.
 8. For each completed batch response, extract the single recommended `PGS ID` from the Step 1 structured output.
-9. Mark the run as a hit iff the recommended `PGS ID` belongs to `Target_TopK`.
+9. Compute benchmark rank, `Hit@1..5`, and `NRS` from the AoU ranking.
 
 ### Stored outputs per run
 
 - `ontology`
 - `trial`
-- `target_topk`
-- `target_topk_ids`
+- `benchmark_ranked_ids`
+- `benchmark_auc_by_id`
+- `benchmark_topk_ids`
+- `eligible_at_k`
 - `candidate_model_ids`
 - `recommended_pgs_id`
 - `recommendation_type`
 - `recommendation_confidence`
 - `valid_output`
-- `in_target_topk`
+- `hit_at_k`
 - `rationale`
 - `rationale_features`
 - `error`
 
 ### Stored outputs per disease
 
-- `trial_hits`
-- `trial_hit_rate`
+- `trial_hit_counts_at_k`
+- `trial_hit_rates_at_k`
 - `modal_recommendation`
 - `modal_recommendation_count`
-- `modal_recommendation_in_target_topk`
+- `modal_recommendation_hit_at_k`
 - `candidate_models_visible_to_llm`
 - `feature_mentions`
 - `baseline`
-- `baseline_in_target_topk`
+- `baseline_hit_at_k`
 
 ### Primary metrics
 
-- `Overall Recommended Model Accuracy`: for each disease, take the final recommended model across 10 runs and test whether it is in `Target_TopK`
-- `Baseline accuracy`: tiered deterministic baseline (see Naive baseline below)
+- `Modal Hit@1..5`: for each disease, take the final recommended model across 10 runs and evaluate against the AoU benchmark top-`k` set
+- `Trial Hit@1..5`: the same evaluation at the individual-trial level
+- `Baseline Hit@1..5`: tiered deterministic baseline (see Naive baseline below)
+- `Normalized Ranking Score (NRS)`
 
 ### Internal diagnostics
 
@@ -152,7 +160,7 @@ Use a tiered deterministic baseline to achieve high coverage:
 - **Tier 1**: Select the candidate model with the largest reported PRS-comparable `performance_metrics["auc"]` (PGS-only AUROC) among the evaluated candidate pool.
 - **Tier 2**: If no candidate has PGS-comparable AUROC, fall back to the candidate with the largest `performance_metrics["full_model_auc"]`.
 
-For each disease, test whether the baseline recommendation belongs to `Target_TopK`. Coverage is the fraction of diseases for which the baseline can make a recommendation (Tier 1 or Tier 2).
+For each disease, evaluate the baseline recommendation with `Hit@1..5`. Coverage is still reported because the baseline may fail to produce a recommendation for some diseases.
 
 ### Cost accounting
 
@@ -215,11 +223,11 @@ Everything else remains fixed:
 
 - same 30 diseases
 - same evaluated candidate pool (`N Models`)
-- same `Target_TopK` labels
+- same AoU benchmark ranking and tie-aware `Top@k` definition
 - same 10-trial design
 - same no-fallback policy
 - same Step 1-only direct-match evaluation
-- same success definition
+- same `Hit@1..5` and `NRS` definition
 
 ### Domain knowledge implementation
 

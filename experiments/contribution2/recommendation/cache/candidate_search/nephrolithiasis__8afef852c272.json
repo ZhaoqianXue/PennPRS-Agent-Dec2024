@@ -1,0 +1,168 @@
+{
+  "cache_version": "v4",
+  "ontology": "nephrolithiasis",
+  "candidate_model_ids": [
+    "PGS001250",
+    "PGS004563",
+    "PGS004493"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS001250",
+      "trait_reported": "Calculus of kidney and ureter (time-to-event)",
+      "trait_efo": "nephrolithiasis, ureterolithiasis",
+      "method_name": "snpnet",
+      "variants_number": 341,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.56681,
+        "r2": 0.00592,
+        "pgs_only_auc": 0.56681,
+        "pgs_only_r2": 0.00592,
+        "full_model_auc": 0.66491,
+        "full_model_r2": 0.03503,
+        "incremental_auc": 0.01494,
+        "selected_performance_id": "PPM008763",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66491,
+            "ci_lower": 0.64839,
+            "ci_upper": 0.68143
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03503
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01494
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00592
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.56681,
+            "ci_lower": 0.54876,
+            "ci_upper": 0.58486
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE calculus of kidney and ureter",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS004493",
+      "trait_reported": "N20 (Calculus of kidney and ureter)",
+      "trait_efo": "nephrolithiasis",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020608",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.22730929818809
+          }
+        ]
+      },
+      "phenotyping_reported": "N20 (Calculus of kidney and ureter)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004563",
+      "trait_reported": "N20 (Calculus of kidney and ureter)",
+      "trait_efo": "nephrolithiasis",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020678",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.283041
+          }
+        ]
+      },
+      "phenotyping_reported": "N20 (Calculus of kidney and ureter)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001250",
+    "reported_auc": 0.5668,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Calculus of kidney and ureter (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

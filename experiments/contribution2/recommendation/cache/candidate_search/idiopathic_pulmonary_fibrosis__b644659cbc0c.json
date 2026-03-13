@@ -1,0 +1,118 @@
+{
+  "cache_version": "v4",
+  "ontology": "idiopathic pulmonary fibrosis",
+  "candidate_model_ids": [
+    "PGS004695",
+    "PGS001791"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS001791",
+      "trait_reported": "Idiopathic pulmonary fibrosis",
+      "trait_efo": "idiopathic pulmonary fibrosis",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 910439,
+      "ancestry_distribution": "GWAS: AFR (100%), ASN (3%), EAS (30%), EUR (65%), OTH (2%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.005929,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.005929,
+        "full_model_auc": 0.758,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009295",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.758
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.005929
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Idiopathic pulmonary fibrosis",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "EB",
+        "FinnGen",
+        "G&H",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "TWB",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=347,350"
+    },
+    {
+      "id": "PGS004695",
+      "trait_reported": "Idiopathic pulmonary fibrosis",
+      "trait_efo": "idiopathic pulmonary fibrosis",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Low-level ambient sulfur dioxide exposure and genetic susceptibility associated with incidence of idiopathic pulmonary fibrosis: A national prospective cohort study.",
+        "journal": "Chemosphere"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020881",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low PRS quintile)",
+            "name_short": "Hazard ratio (HR, high vs low PRS quintile)",
+            "estimate": 3.78,
+            "ci_lower": 3.3,
+            "ci_upper": 4.34
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident idiopathic pulmonary fibrosis",
+      "covariates": "Age, sex, education level, smoking status, pack-years of smoking, BMI",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=402,042"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001791",
+    "reported_auc": 0.758,
+    "tier": "full_model_auroc",
+    "trait_reported": "Idiopathic pulmonary fibrosis",
+    "method_name": "PRS-CS-auto",
+    "validation_sample_size": "n=347,350"
+  }
+}

@@ -1,0 +1,622 @@
+{
+  "cache_version": "v4",
+  "ontology": "osteoporosis",
+  "candidate_model_ids": [
+    "PGS004560",
+    "PGS004495",
+    "PGS004565",
+    "PGS002095",
+    "PGS005146",
+    "PGS004809",
+    "PGS001274",
+    "PGS001883",
+    "PGS004490",
+    "PGS005155",
+    "PGS001273",
+    "PGS002768",
+    "PGS004810"
+  ],
+  "total_found": 13,
+  "candidate_models": [
+    {
+      "id": "PGS001273",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "snpnet",
+      "variants_number": 316,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.5685,
+        "r2": 0.00688,
+        "pgs_only_auc": 0.5685,
+        "pgs_only_r2": 0.00688,
+        "full_model_auc": 0.78972,
+        "full_model_r2": 0.14567,
+        "incremental_auc": 0.00477,
+        "selected_performance_id": "PPM008865",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.78972,
+            "ci_lower": 0.77584,
+            "ci_upper": 0.8036
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14567
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00477
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00688
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.5685,
+            "ci_lower": 0.55009,
+            "ci_upper": 0.58691
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001274",
+      "trait_reported": "Osteoporosis without pathological fracture (time-to-event)",
+      "trait_efo": "osteoporosis",
+      "method_name": "snpnet",
+      "variants_number": 1270,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.57595,
+        "r2": 0.00945,
+        "pgs_only_auc": 0.57595,
+        "pgs_only_r2": 0.00945,
+        "full_model_auc": 0.79652,
+        "full_model_r2": 0.15697,
+        "incremental_auc": 0.00777,
+        "selected_performance_id": "PPM008870",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.79652,
+            "ci_lower": 0.78363,
+            "ci_upper": 0.8094
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.15697
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00777
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00945
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.57595,
+            "ci_lower": 0.55816,
+            "ci_upper": 0.59374
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE osteoporosis without pathological fracture",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001883",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 365,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009948",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0308,
+            "ci_lower": 0.017,
+            "ci_upper": 0.0447
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,982"
+    },
+    {
+      "id": "PGS002095",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 658775,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011616",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0268,
+            "ci_lower": 0.013,
+            "ci_upper": 0.0407
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,982"
+    },
+    {
+      "id": "PGS002768",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis, heel bone mineral density",
+      "method_name": "PRS-CS",
+      "variants_number": 1091549,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014968",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.31,
+            "ci_lower": 1.25,
+            "ci_upper": 1.38
+          }
+        ]
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS004490",
+      "trait_reported": "M81 (Osteoporosis without pathological fracture)",
+      "trait_efo": "osteoporosis",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020605",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.17552423454533
+          }
+        ]
+      },
+      "phenotyping_reported": "M81 (Osteoporosis without pathological fracture)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004495",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020610",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.19793088603208
+          }
+        ]
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004560",
+      "trait_reported": "M81 (Osteoporosis without pathological fracture)",
+      "trait_efo": "osteoporosis",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020675",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.320825
+          }
+        ]
+      },
+      "phenotyping_reported": "M81 (Osteoporosis without pathological fracture)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004565",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020680",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.328222
+          }
+        ]
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004809",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "PRSmix",
+      "variants_number": 863731,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.011,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021034",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.011,
+            "ci_lower": 0.007,
+            "ci_upper": 0.015
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004810",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "PRSmixPlus",
+      "variants_number": 1876917,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.022,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021035",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.022,
+            "ci_lower": 0.016,
+            "ci_upper": 0.028
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS005146",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "PRS-CS",
+      "variants_number": 908465,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022366",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.09366342360984
+          }
+        ]
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=58,611"
+    },
+    {
+      "id": "PGS005155",
+      "trait_reported": "Osteoporosis",
+      "trait_efo": "osteoporosis",
+      "method_name": "PRS-CSx",
+      "variants_number": 908465,
+      "ancestry_distribution": "GWAS: EAS (28%), EUR (72%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022375",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.14434222963559
+          }
+        ]
+      },
+      "phenotyping_reported": "Osteoporosis",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "BBJ",
+        "UKB"
+      ],
+      "validation_sample_size": "n=58,611"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001274",
+    "reported_auc": 0.5759,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Osteoporosis without pathological fracture (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

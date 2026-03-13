@@ -1,0 +1,1163 @@
+{
+  "cache_version": "v4",
+  "ontology": "psoriasis",
+  "candidate_model_ids": [
+    "PGS004317",
+    "PGS004316",
+    "PGS001287",
+    "PGS002465",
+    "PGS002083",
+    "PGS002612",
+    "PGS005310",
+    "PGS005312",
+    "PGS002344",
+    "PGS004315",
+    "PGS000342",
+    "PGS005308",
+    "PGS001871",
+    "PGS005307",
+    "PGS001312",
+    "PGS005309",
+    "PGS001313",
+    "PGS002514",
+    "PGS002661",
+    "PGS005311",
+    "PGS002416",
+    "PGS002563",
+    "PGS002293",
+    "PGS002710"
+  ],
+  "total_found": 31,
+  "candidate_models": [
+    {
+      "id": "PGS000342",
+      "trait_reported": "Psoriatic arthritis",
+      "trait_efo": "psoriatic arthritis",
+      "method_name": "GWAS-significant variants, HLA-specific significant variants.",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Evaluation of a Genetic Risk Score for Diagnosis of Psoriatic Arthritis.",
+        "journal": "J Psoriasis Psoriatic Arthritis"
+      },
+      "date_release": "2020-11-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.562,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000971",
+        "selected_validation_ancestry": "NR",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.562,
+            "ci_lower": 0.506,
+            "ci_upper": 0.618
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriatic arthritis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=543"
+    },
+    {
+      "id": "PGS001287",
+      "trait_reported": "Psoriatic arthropathy",
+      "trait_efo": "psoriatic arthritis",
+      "method_name": "snpnet",
+      "variants_number": 36,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.67648,
+        "r2": 0.0335,
+        "pgs_only_auc": 0.67648,
+        "pgs_only_r2": 0.0335,
+        "full_model_auc": 0.72814,
+        "full_model_r2": 0.05154,
+        "incremental_auc": 0.08346,
+        "selected_performance_id": "PPM008935",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72814,
+            "ci_lower": 0.67154,
+            "ci_upper": 0.78475
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05154
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.08346
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0335
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.67648,
+            "ci_lower": 0.61155,
+            "ci_upper": 0.7414
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriatic arthropathy",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001312",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "snpnet",
+      "variants_number": 204,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.69158,
+        "r2": 0.05226,
+        "pgs_only_auc": 0.69158,
+        "pgs_only_r2": 0.05226,
+        "full_model_auc": 0.69754,
+        "full_model_r2": 0.05574,
+        "incremental_auc": 0.14505,
+        "selected_performance_id": "PPM009057",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69754,
+            "ci_lower": 0.68165,
+            "ci_upper": 0.71343
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05574
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.14505
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05226
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.69158,
+            "ci_lower": 0.6754,
+            "ci_upper": 0.70775
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001313",
+      "trait_reported": "Psoriasis (time-to-event)",
+      "trait_efo": "psoriasis",
+      "method_name": "snpnet",
+      "variants_number": 578,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.6729,
+        "r2": 0.04966,
+        "pgs_only_auc": 0.6729,
+        "pgs_only_r2": 0.04966,
+        "full_model_auc": 0.67543,
+        "full_model_r2": 0.05117,
+        "incremental_auc": 0.13853,
+        "selected_performance_id": "PPM009062",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67543,
+            "ci_lower": 0.66285,
+            "ci_upper": 0.68801
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05117
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.13853
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.04966
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.6729,
+            "ci_lower": 0.66027,
+            "ci_upper": 0.68553
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE psoriasis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001871",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 264,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009857",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0636,
+            "ci_lower": 0.0497,
+            "ci_upper": 0.0775
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,615"
+    },
+    {
+      "id": "PGS002083",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 71744,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011525",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0632,
+            "ci_lower": 0.0493,
+            "ci_upper": 0.0771
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,615"
+    },
+    {
+      "id": "PGS002293",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 62,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Associations of combined lifestyle and genetic risks with incident psoriasis: A prospective cohort study among UK Biobank participants of European ancestry.",
+        "journal": "J Am Acad Dermatol"
+      },
+      "date_release": "2022-05-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013020",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR, poor lifestyle and high genetic risk)",
+            "name_short": "Odds Ratio (OR, poor lifestyle and high genetic risk)",
+            "estimate": 4.625,
+            "ci_lower": 2.92,
+            "ci_upper": 7.348
+          },
+          {
+            "name_long": "Population-attributable fraction of genetic risk",
+            "name_short": "Population-attributable fraction of genetic risk",
+            "estimate": 0.13,
+            "ci_lower": 0.032,
+            "ci_upper": 0.218
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 4.625,
+            "ci_lower": 2.92,
+            "ci_upper": 7.348
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident psoriasis",
+      "covariates": "Age, sex, education, Townsend Index, and region, relatedness, number of alleles included in the polygenic risk score, and first 20 principal components of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=345,672"
+    },
+    {
+      "id": "PGS002344",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "BOLT-LMM",
+      "variants_number": 1109311,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.006999999999999999,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013207",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.006999999999999999
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002416",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 6879,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013495",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002465",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 21483,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013691",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002514",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 96453,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013887",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002563",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 1348,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014083",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002612",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 643,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014279",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002661",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "PolyFun-pred",
+      "variants_number": 283128,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.007,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014475",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "name_short": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "estimate": 0.007
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS002710",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "SBayesR",
+      "variants_number": 566839,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0014,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014671",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0014
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriasis",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,505"
+    },
+    {
+      "id": "PGS004315",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 88,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A partitioned 88-loci psoriasis genetic risk score reveals HLA and non-HLA contributions to clinical phenotypes in a Newfoundland psoriasis cohort.",
+        "journal": "Front Genet"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.061,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020388",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.061
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.02,
+            "ci_lower": 1.0,
+            "ci_upper": 1.06
+          }
+        ]
+      },
+      "phenotyping_reported": "Psoriasis severity",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=654"
+    },
+    {
+      "id": "PGS004316",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A partitioned 88-loci psoriasis genetic risk score reveals HLA and non-HLA contributions to clinical phenotypes in a Newfoundland psoriasis cohort.",
+        "journal": "Front Genet"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.077,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020389",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.077
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.09,
+            "ci_lower": 1.03,
+            "ci_upper": 1.15
+          }
+        ]
+      },
+      "phenotyping_reported": "Psoriasis severity",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=654"
+    },
+    {
+      "id": "PGS004317",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 77,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A partitioned 88-loci psoriasis genetic risk score reveals HLA and non-HLA contributions to clinical phenotypes in a Newfoundland psoriasis cohort.",
+        "journal": "Front Genet"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020392",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 0.97,
+            "ci_lower": 0.94,
+            "ci_upper": 1.0
+          }
+        ]
+      },
+      "phenotyping_reported": "Psoriasis in genital area",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=654"
+    },
+    {
+      "id": "PGS005307",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Clumping and thresholding",
+      "variants_number": 64,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic liability to psoriasis predicts severe disease outcomes.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023019",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44,
+            "ci_lower": 1.36,
+            "ci_upper": 1.51
+          }
+        ]
+      },
+      "phenotyping_reported": "Severe psoriasis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CASP",
+        "Genizon",
+        "KIEL",
+        "UCSF",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=14,167"
+    },
+    {
+      "id": "PGS005308",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "Clumping and thresholding",
+      "variants_number": 64,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic liability to psoriasis predicts severe disease outcomes.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023020",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.25,
+            "ci_lower": 1.18,
+            "ci_upper": 1.31
+          }
+        ]
+      },
+      "phenotyping_reported": "Severe psoriasis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CASP",
+        "Genizon",
+        "KIEL",
+        "UCSF",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=14,167"
+    },
+    {
+      "id": "PGS005309",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "SBayesR",
+      "variants_number": 513461,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic liability to psoriasis predicts severe disease outcomes.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023021",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.49,
+            "ci_lower": 1.41,
+            "ci_upper": 1.57
+          }
+        ]
+      },
+      "phenotyping_reported": "Severe psoriasis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CASP",
+        "Genizon",
+        "KIEL",
+        "UCSF",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=14,167"
+    },
+    {
+      "id": "PGS005310",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "SBayesR",
+      "variants_number": 513460,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic liability to psoriasis predicts severe disease outcomes.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023022",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.38,
+            "ci_lower": 1.31,
+            "ci_upper": 1.45
+          }
+        ]
+      },
+      "phenotyping_reported": "Severe psoriasis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CASP",
+        "Genizon",
+        "KIEL",
+        "UCSF",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=14,167"
+    },
+    {
+      "id": "PGS005311",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "SBayesR",
+      "variants_number": 487311,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic liability to psoriasis predicts severe disease outcomes.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023031",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Percentage of cases with risk >95th percentile of UKB psoraisis cases",
+            "name_short": "Percentage of cases with risk >95th percentile of UKB psoraisis cases",
+            "estimate": 15.3
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Severe psoriasis (BSTOP) vs. any psoriasis (UKB)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CASP",
+        "Genizon",
+        "KIEL",
+        "UCSF",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=13,577"
+    },
+    {
+      "id": "PGS005312",
+      "trait_reported": "Psoriasis",
+      "trait_efo": "psoriasis",
+      "method_name": "SBayesR",
+      "variants_number": 487310,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic liability to psoriasis predicts severe disease outcomes.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2026-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023032",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Percentage of cases with risk >95th percentile of UKB psoraisis cases",
+            "name_short": "Percentage of cases with risk >95th percentile of UKB psoraisis cases",
+            "estimate": 15.3
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Severe psoriasis (BSTOP) vs. any psoriasis (UKB)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CASP",
+        "Genizon",
+        "KIEL",
+        "UCSF",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=13,577"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001312",
+    "reported_auc": 0.6916,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Psoriasis",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

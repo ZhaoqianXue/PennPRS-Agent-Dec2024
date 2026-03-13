@@ -1,12 +1,13 @@
 # selected_diseases_contribution2_union.csv
 
-Union of diseases selected from Rootcode and Childrencode modes, with manual Target_TopK annotations for Contribution2 Agent evaluation.
+Frozen manual union of diseases selected from older Rootcode and Childrencode runs. The historical `Target_TopK` column is preserved for provenance, but the current Contribution2 evaluation no longer depends on it.
 
 ## Overview
 
-- **Rows**: 30 diseases (Ontology-level union, deduplicated)
-- **Source**: Merged from `selected_diseases_contribution2.csv` (rootcode) and `selected_diseases_contribution2_childrencode.csv` (childrencode)
-- **Use**: Ground-truth disease set for evaluating PennPRS Agent PRS model recommendation (Step 1)
+- **Rows**: 30 diseases (ontology-level union, deduplicated)
+- **Source**: Originally merged from earlier `selected_diseases_contribution2.csv` (rootcode) and `selected_diseases_contribution2_childrencode.csv` (childrencode) outputs
+- **Use**: Frozen 30-disease benchmark disease set for evaluating PennPRS Agent PRS model recommendation (Step 1)
+- **Status**: This file is manually maintained and is **not** auto-synced to the current `select_diseases_contribution2.py` logic
 
 ## Column Definitions
 
@@ -21,25 +22,38 @@ Union of diseases selected from Rootcode and Childrencode modes, with manual Tar
 | Min | Minimum AUC |
 | Top-1 .. Top-10 | AUC of rank-1 through rank-10 models (by adjusted AUC) |
 | Case N | Number of cases in All of Us |
-| QC1 (≥0.025) | Pass if any (T1..T5 vs Rest) >= 0.025 |
+| QC1 (≥0.025) | In this frozen file, QC1 reflects `T1..T5 vs Rest >= 0.025`, which is also the current QC1 rule |
 | Source | Origin: `rootcode`, `childrencode`, or `both` |
-| Target_TopK | Integer K: top K models are targets for the Agent to identify; Agent's top-1 recommendation is correct if it matches any of top 1..K |
+| Target_TopK | Historical manual annotation from the older evaluation protocol. Kept only for provenance; the current evaluation uses benchmark `Hit@1..5` derived directly from the full AoU ranking. |
 
 ## Source Values
 
-- **rootcode**: Present only in rootcode selection (ICD root-level)
-- **childrencode**: Present only in childrencode selection (ICD child-level)
-- **both**: Present in both; row metrics taken from childrencode (more granular ICD)
+- **rootcode**: Present only in the older rootcode selection (ICD root-level)
+- **childrencode**: Present only in the older childrencode selection (ICD child-level)
+- **both**: Present in both; row metrics were taken from childrencode (more granular ICD)
 
-## Target_TopK
+## Historical Target_TopK Column
 
-Manual annotation for each disease: the number of top-ranked PGS models that count as "correct" for Agent evaluation.
+`Target_TopK` belongs to the older manual-label evaluation protocol. It is no longer required for the current Contribution2 evaluation pipeline.
 
-- **Target_TopK = 1**: Agent must recommend the rank-1 model.
-- **Target_TopK = 2**: Agent's top-1 is correct if it matches rank-1 or rank-2.
-- **Target_TopK = K**: Agent's top-1 is correct if it matches any of ranks 1..K.
+The current protocol instead:
 
-Used to compute evaluation metrics (e.g., hit@1, MRR) in Contribution2 experiments.
+- keeps the full AoU benchmark ranking per disease
+- reports `Hit@1`, `Hit@2`, `Hit@3`, `Hit@4`, and `Hit@5`
+- excludes diseases with fewer than `k` evaluated models from the `Hit@k` denominator
+- preserves `Normalized Ranking Score (NRS)` alongside the hit metrics
+
+## Note On Current Selection Code
+
+The current `select_diseases_contribution2.py` code has moved on from the settings used to produce this frozen 30-disease benchmark:
+
+- default `min_n_models` is now `2`
+- `QC1` uses `Top-1..Top-5 vs Rest`
+- `QC2` is now an exception allowlist hard-add; non-match is neutral
+- rootcode dedup now prefers the ontology with the most evaluated AUCs, then higher max AUC
+
+If you want a new benchmark union that matches the current code, this file must be rebuilt manually rather than assumed to match the latest rootcode/childrencode outputs.
+For the current auto-generated canonical union, use `selected_diseases_contribution2_current_union.csv`.
 
 ## Evaluated Models Filter
 

@@ -1,0 +1,3206 @@
+{
+  "cache_version": "v4",
+  "ontology": "asthma",
+  "candidate_model_ids": [
+    "PGS001787",
+    "PGS004177",
+    "PGS005141",
+    "PGS002383",
+    "PGS001370",
+    "PGS004439",
+    "PGS004178",
+    "PGS005148",
+    "PGS001343",
+    "PGS005122",
+    "PGS005124",
+    "PGS005125",
+    "PGS001849",
+    "PGS004723",
+    "PGS005121",
+    "PGS004537",
+    "PGS004877",
+    "PGS001345",
+    "PGS004276",
+    "PGS004724",
+    "PGS004726",
+    "PGS005131",
+    "PGS004278",
+    "PGS005138",
+    "PGS005137",
+    "PGS004252",
+    "PGS001346",
+    "PGS002754",
+    "PGS002628",
+    "PGS000037",
+    "PGS004179",
+    "PGS005123",
+    "PGS005130",
+    "PGS005133",
+    "PGS004279",
+    "PGS001344",
+    "PGS002248",
+    "PGS005136",
+    "PGS004277",
+    "PGS000799",
+    "PGS002358",
+    "PGS004509",
+    "PGS005126",
+    "PGS005134",
+    "PGS004180",
+    "PGS002727",
+    "PGS002579",
+    "PGS001782",
+    "PGS002677",
+    "PGS002530",
+    "PGS004275",
+    "PGS004725",
+    "PGS002061",
+    "PGS002432",
+    "PGS004467",
+    "PGS005128",
+    "PGS005132",
+    "PGS004176",
+    "PGS005139",
+    "PGS005140",
+    "PGS002481",
+    "PGS005129",
+    "PGS001341",
+    "PGS002311",
+    "PGS005135",
+    "PGS005127"
+  ],
+  "total_found": 66,
+  "candidate_models": [
+    {
+      "id": "PGS000037",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk and the development and course of asthma: an analysis of data from a four-decade longitudinal study.",
+        "journal": "Lancet Respir Med"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.61,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000084",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.61,
+            "ci_lower": 0.53,
+            "ci_upper": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.17,
+            "ci_lower": 1.01,
+            "ci_upper": 1.34
+          }
+        ]
+      },
+      "phenotyping_reported": "Asthma onset",
+      "covariates": "sex",
+      "training_development_cohorts": [
+        "ALSPAC",
+        "AUGOSA",
+        "B58C",
+        "BAMSE",
+        "BHS",
+        "CAPPS",
+        "ECRHS",
+        "EGEA",
+        "G.MAS",
+        "GAIN.AST",
+        "GAS",
+        "KARELIA",
+        "KSMU",
+        "MAGICS",
+        "MRCA-UKC",
+        "PIAMA",
+        "SAGE.AST",
+        "SAPALDIA",
+        "SEVERE",
+        "SLSJ",
+        "TOMSK",
+        "UFA"
+      ],
+      "validation_sample_size": "n=187"
+    },
+    {
+      "id": "PGS000799",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: AFR (5%), AMR (2%), EAS (6%), EUR (87%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic risk scores do not improve asthma prediction in childhood.",
+        "journal": "J Allergy Clin Immunol"
+      },
+      "date_release": "2021-06-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.69,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002080",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma ever, at age 8 years",
+      "covariates": "Familial risk score (factors: parental allergy, parental allergy to pets, parental inhaled medication, low parental education) , environmental risk score (factors: pets at home during pregnancy, smoking mother during pregnancy, older siblings living at home), perinatal risk score (factors: sex, low birth weight < 2500 g)",
+      "training_development_cohorts": [
+        "AAGC",
+        "ALSPAC",
+        "ARIC",
+        "B58C",
+        "BAMSE",
+        "CAG",
+        "CAPPS",
+        "CARDIA",
+        "CHS",
+        "CHS_b",
+        "COPSAC",
+        "CSGA",
+        "DAG",
+        "DNBC",
+        "ECRHS",
+        "EGEA",
+        "EPIC",
+        "FHS",
+        "FINRISK",
+        "G.MAS",
+        "GAS",
+        "GINI",
+        "GRAAD",
+        "Generation_R",
+        "HBCS",
+        "Health2000",
+        "JHS",
+        "KSMU",
+        "LISAplus",
+        "MAAS",
+        "MAGICS",
+        "MESA",
+        "MRCA-UKC",
+        "NFBC",
+        "NTR",
+        "PIAMA",
+        "RAINE",
+        "RS",
+        "SAGE",
+        "SAGE.AST",
+        "SAPALDIA",
+        "SAPPHIRE",
+        "SARP",
+        "SEVERE",
+        "SLSJ",
+        "TOMSK",
+        "UFA",
+        "YFS",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=427"
+    },
+    {
+      "id": "PGS001341",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "snpnet",
+      "variants_number": 6430,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.6175,
+        "r2": 0.0373,
+        "pgs_only_auc": 0.6175,
+        "pgs_only_r2": 0.0373,
+        "full_model_auc": 0.63649,
+        "full_model_r2": 0.04868,
+        "incremental_auc": 0.06379,
+        "selected_performance_id": "PPM009193",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63649,
+            "ci_lower": 0.62628,
+            "ci_upper": 0.6467
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04868
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.06379
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0373
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.6175,
+            "ci_lower": 0.60705,
+            "ci_upper": 0.62795
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001343",
+      "trait_reported": "Asthma (algorithmically-defined)",
+      "trait_efo": "asthma",
+      "method_name": "snpnet",
+      "variants_number": 6425,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.61732,
+        "r2": 0.03703,
+        "pgs_only_auc": 0.61732,
+        "pgs_only_r2": 0.03703,
+        "full_model_auc": 0.63661,
+        "full_model_r2": 0.04847,
+        "incremental_auc": 0.06318,
+        "selected_performance_id": "PPM009198",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63661,
+            "ci_lower": 0.62631,
+            "ci_upper": 0.6469
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04847
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.06318
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.03703
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61732,
+            "ci_lower": 0.60678,
+            "ci_upper": 0.62786
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "AD asthma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001344",
+      "trait_reported": "Asthma (diagnosed by doctor)",
+      "trait_efo": "asthma",
+      "method_name": "snpnet",
+      "variants_number": 6139,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=216,121",
+      "performance_metrics": {
+        "auc": 0.64568,
+        "r2": 0.05973,
+        "pgs_only_auc": 0.64568,
+        "pgs_only_r2": 0.05973,
+        "full_model_auc": 0.66621,
+        "full_model_r2": 0.07596,
+        "incremental_auc": 0.07977,
+        "selected_performance_id": "PPM009203",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66621,
+            "ci_lower": 0.65552,
+            "ci_upper": 0.67691
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.07596
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.07977
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05973
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.64568,
+            "ci_lower": 0.63475,
+            "ci_upper": 0.65662
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma diagnosed by doctor",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,857"
+    },
+    {
+      "id": "PGS001345",
+      "trait_reported": "Asthma (diagnosed by doctor)",
+      "trait_efo": "asthma",
+      "method_name": "snpnet",
+      "variants_number": 435,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=68,835",
+      "performance_metrics": {
+        "auc": 0.57923,
+        "r2": 0.01667,
+        "pgs_only_auc": 0.57923,
+        "pgs_only_r2": 0.01667,
+        "full_model_auc": 0.60258,
+        "full_model_r2": 0.02879,
+        "incremental_auc": 0.03437,
+        "selected_performance_id": "PPM009210",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.60258,
+            "ci_lower": 0.58999,
+            "ci_upper": 0.61516
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02879
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03437
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01667
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.57923,
+            "ci_lower": 0.56641,
+            "ci_upper": 0.59204
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Doctor diagnosed asthma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=17,244"
+    },
+    {
+      "id": "PGS001346",
+      "trait_reported": "Asthma (time-to-event)",
+      "trait_efo": "asthma",
+      "method_name": "snpnet",
+      "variants_number": 8508,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.61803,
+        "r2": 0.03759,
+        "pgs_only_auc": 0.61803,
+        "pgs_only_r2": 0.03759,
+        "full_model_auc": 0.63612,
+        "full_model_r2": 0.04845,
+        "incremental_auc": 0.06586,
+        "selected_performance_id": "PPM009213",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63612,
+            "ci_lower": 0.62588,
+            "ci_upper": 0.64636
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04845
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.06586
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.03759
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61803,
+            "ci_lower": 0.60759,
+            "ci_upper": 0.62848
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE asthma",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001370",
+      "trait_reported": "Age asthma diagnosed",
+      "trait_efo": "asthma",
+      "method_name": "snpnet",
+      "variants_number": 922,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-11-25",
+      "samples_training": "n=28,474",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.02714,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.02714,
+        "full_model_auc": null,
+        "full_model_r2": 0.15588,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM007094",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.15588,
+            "ci_lower": 0.15084,
+            "ci_upper": 0.16091
+          },
+          {
+            "name_long": "Incremental R2 (full-covars)",
+            "name_short": "Incremental R2 (full-covars)",
+            "estimate": 0.02498
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02714,
+            "ci_lower": 0.02472,
+            "ci_upper": 0.02956
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Age asthma diagnosed",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,052"
+    },
+    {
+      "id": "PGS001782",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 884043,
+      "ancestry_distribution": "GWAS: AFR (2%), ASN (2%), EAS (19%), EUR (76%), GME (9%), OTH (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.048844,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.048844,
+        "full_model_auc": 0.659,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009311",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.659
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.048844
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "sex,age, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,128"
+    },
+    {
+      "id": "PGS001787",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 909990,
+      "ancestry_distribution": "GWAS: AFR (2%), ASN (2%), EAS (25%), EUR (70%), OTH (1%) | EVAL: AFR (17%), ASN (17%), EAS (17%), EUR (17%), GME (17%), OTH (17%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.035168,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.035168,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009291",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.035168
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "TWB",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=351,578"
+    },
+    {
+      "id": "PGS001849",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 22679,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009682",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1135,
+            "ci_lower": 0.0997,
+            "ci_upper": 0.1274
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,551"
+    },
+    {
+      "id": "PGS002061",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 793375,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011350",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1184,
+            "ci_lower": 0.1045,
+            "ci_upper": 0.1322
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,551"
+    },
+    {
+      "id": "PGS002248",
+      "trait_reported": "Childhood asthma",
+      "trait_efo": "childhood onset asthma",
+      "method_name": "PRSice (C+T)",
+      "variants_number": 105,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of Genomic Risk Scores to Improve the Prediction of Childhood Asthma Diagnosis",
+        "journal": "J Pers Med"
+      },
+      "date_release": "2022-01-24",
+      "samples_training": "n=908",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.85,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012795",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.85,
+            "ci_lower": 0.77,
+            "ci_upper": 0.92
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Childhood asthma by age 8",
+      "covariates": "CAPP model",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=1,018"
+    },
+    {
+      "id": "PGS002311",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "BOLT-LMM",
+      "variants_number": 1109311,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0238,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013174",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0238
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002358",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "BOLT-LMM-BBJ",
+      "variants_number": 920922,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013316",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002383",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 3893,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0017,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013462",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0017
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002432",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 15843,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0017,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013658",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0017
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002481",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 95252,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0009,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013854",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0009
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002530",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 817,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0077,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014050",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0077
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002579",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 503,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0073,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014246",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0073
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002628",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PolyFun-pred",
+      "variants_number": 205286,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0253,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014442",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "name_short": "Incremental R2 (full model when combined with BOLT-LMM vs. covariates alone)",
+            "estimate": 0.0253
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002677",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "SBayesR",
+      "variants_number": 934369,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (25%), SAS (25%)",
+      "publication": {
+        "title": "Leveraging fine-mapping and multipopulation training data to improve cross-population polygenic risk scores.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0212,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014638",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (full model vs. covariates alone)",
+            "name_short": "Incremental R2 (full model vs. covariates alone)",
+            "estimate": 0.0212
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, age*sex, assessment center, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=43,398"
+    },
+    {
+      "id": "PGS002727",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CS",
+      "variants_number": 985837,
+      "ancestry_distribution": "GWAS: AFR (6%), AMR (100%), EAS (4%), EUR (90%) | DEV: MAE (100%) | EVAL: AFR (20%), AMR (20%), EAS (20%), EUR (20%), SAS (20%)",
+      "publication": {
+        "title": "Multiancestral polygenic risk score for pediatric asthma.",
+        "journal": "J Allergy Clin Immunol"
+      },
+      "date_release": "2022-06-29",
+      "samples_training": "n=4,498",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": 0.04,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014751",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66,
+            "ci_lower": 0.65,
+            "ci_upper": 0.67
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.57,
+            "ci_lower": 1.55,
+            "ci_upper": 1.6
+          }
+        ]
+      },
+      "phenotyping_reported": "Pediatric asthma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "eMERGE"
+      ],
+      "validation_sample_size": "n=391,820"
+    },
+    {
+      "id": "PGS002754",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CS",
+      "variants_number": 668286,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014954",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.43,
+            "ci_lower": 1.39,
+            "ci_upper": 1.48
+          }
+        ]
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS004176",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LASSO",
+      "variants_number": 5210,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.627793,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020111",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.627793
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004177",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LASSO",
+      "variants_number": 6770,
+      "ancestry_distribution": "DEV: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "selected_performance_id": null,
+        "selected_validation_ancestry": null,
+        "record_count": 0,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Unknown",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": null
+    },
+    {
+      "id": "PGS004178",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LASSO",
+      "variants_number": 4924,
+      "ancestry_distribution": "DEV: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "selected_performance_id": null,
+        "selected_validation_ancestry": null,
+        "record_count": 0,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Unknown",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": null
+    },
+    {
+      "id": "PGS004179",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LASSO",
+      "variants_number": 3963,
+      "ancestry_distribution": "DEV: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "selected_performance_id": null,
+        "selected_validation_ancestry": null,
+        "record_count": 0,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Unknown",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": null
+    },
+    {
+      "id": "PGS004180",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LASSO",
+      "variants_number": 3641,
+      "ancestry_distribution": "DEV: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "selected_performance_id": null,
+        "selected_validation_ancestry": null,
+        "record_count": 0,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Unknown",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": null
+    },
+    {
+      "id": "PGS004252",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 212,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of air pollution, genetic risk, and lifestyle with incident adult-onset asthma: A prospective cohort study.",
+        "journal": "Ecotoxicol Environ Saf"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021390",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low PRS tertile)",
+            "name_short": "Hazard ratio (HR, high vs low PRS tertile)",
+            "estimate": 1.59,
+            "ci_lower": 1.5,
+            "ci_upper": 1.73
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident asthma",
+      "covariates": "Age, sex, education, Townsend Index, alcohol status, region, relatedness, number of alleles included in the polygenic risk score, 20 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=327,124"
+    },
+    {
+      "id": "PGS004275",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "GenoBoost",
+      "variants_number": 5000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613002023210023,
+        "full_model_r2": 0.0331366723192437,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020343",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.613002023210023
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0331366723192437
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.208188158108278
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004276",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "GenoBoost",
+      "variants_number": 4000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.608934108369735,
+        "full_model_r2": 0.0301498925971324,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020344",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.608934108369735
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0301498925971324
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.203971025494613
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004277",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "GenoBoost",
+      "variants_number": 4000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.608623557244499,
+        "full_model_r2": 0.029708578423364,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020345",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.608623557244499
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.029708578423364
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.203295143514759
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004278",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "GenoBoost",
+      "variants_number": 4000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.610568197846493,
+        "full_model_r2": 0.030762226725529,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020346",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.610568197846493
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.030762226725529
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.202808439556183
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004279",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "GenoBoost",
+      "variants_number": 5000,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.612619379197861,
+        "full_model_r2": 0.031907573811181,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020347",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.612619379197861
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.031907573811181
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.204997703962343
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004439",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020554",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.37056157164374
+          }
+        ]
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004467",
+      "trait_reported": "J45 (Asthma)",
+      "trait_efo": "asthma",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020582",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.3292468183096
+          }
+        ]
+      },
+      "phenotyping_reported": "J45 (Asthma)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004509",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020624",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.407986
+          }
+        ]
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004537",
+      "trait_reported": "J45 (Asthma)",
+      "trait_efo": "asthma",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020652",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.400912
+          }
+        ]
+      },
+      "phenotyping_reported": "J45 (Asthma)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004723",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRSmix",
+      "variants_number": 985316,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.033,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020948",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.033,
+            "ci_lower": 0.026,
+            "ci_upper": 0.04
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004724",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRSmix",
+      "variants_number": 2342250,
+      "ancestry_distribution": "DEV: SAS (100%) | EVAL: SAS (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=35,350",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.065,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020949",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.065,
+            "ci_lower": 0.055,
+            "ci_upper": 0.075
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "G&H"
+      ],
+      "validation_sample_size": "n=8,837"
+    },
+    {
+      "id": "PGS004725",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRSmixPlus",
+      "variants_number": 3972232,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.039,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020950",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.039,
+            "ci_lower": 0.031,
+            "ci_upper": 0.047
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004726",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRSmixPlus",
+      "variants_number": 2342250,
+      "ancestry_distribution": "DEV: SAS (100%) | EVAL: SAS (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=35,350",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.069,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020951",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.069,
+            "ci_lower": 0.059,
+            "ci_upper": 0.08
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "G&H"
+      ],
+      "validation_sample_size": "n=8,837"
+    },
+    {
+      "id": "PGS004877",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "megaprs.auto",
+      "variants_number": 870454,
+      "ancestry_distribution": "GWAS: AFR (2%), AMR (30%), EAS (100%), EUR (97%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021196",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.62,
+            "ci_lower": 0.61,
+            "ci_upper": 0.63
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.48,
+            "ci_lower": 1.43,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident Asthma",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=69,715"
+    },
+    {
+      "id": "PGS005121",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 1008855,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: AFR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.01354973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022341",
+        "selected_validation_ancestry": "African unspecified",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01354973
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "MGI",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,039"
+    },
+    {
+      "id": "PGS005122",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 965078,
+      "ancestry_distribution": "GWAS: AMR (100%) | EVAL: AFR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.01354973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022342",
+        "selected_validation_ancestry": "African unspecified",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01354973
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "CCPM",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,039"
+    },
+    {
+      "id": "PGS005123",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 835583,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: AFR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.01354973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022343",
+        "selected_validation_ancestry": "African unspecified",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01354973
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BBJ",
+        "CKB",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,039"
+    },
+    {
+      "id": "PGS005124",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 909301,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.01354973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022344",
+        "selected_validation_ancestry": "African unspecified",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01354973
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "UCLA",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=6,039"
+    },
+    {
+      "id": "PGS005125",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 922758,
+      "ancestry_distribution": "GWAS: MAO (100%) | EVAL: AFR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.01354973,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022345",
+        "selected_validation_ancestry": "African unspecified",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01354973
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "G&H",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,039"
+    },
+    {
+      "id": "PGS005126",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 699919,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.05266432,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022346",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05266432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "MGI",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=1,000"
+    },
+    {
+      "id": "PGS005127",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 711987,
+      "ancestry_distribution": "GWAS: AMR (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.05266432,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022347",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05266432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "CCPM",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=1,000"
+    },
+    {
+      "id": "PGS005128",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 711650,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.05266432,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022348",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05266432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "CKB",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=1,000"
+    },
+    {
+      "id": "PGS005129",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 692328,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.05266432,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022349",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05266432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "UCLA",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=1,000"
+    },
+    {
+      "id": "PGS005130",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 708315,
+      "ancestry_distribution": "GWAS: MAO (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.05266432,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022350",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05266432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "G&H",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=1,000"
+    },
+    {
+      "id": "PGS005131",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 1005883,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.053582,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022351",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.053582
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "MGI",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=8,741"
+    },
+    {
+      "id": "PGS005132",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 965696,
+      "ancestry_distribution": "GWAS: AMR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.053582,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022352",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.053582
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "CCPM",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,741"
+    },
+    {
+      "id": "PGS005133",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 837079,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.053582,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022353",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.053582
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BBJ",
+        "CKB",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,741"
+    },
+    {
+      "id": "PGS005134",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 909298,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.053582,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022354",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.053582
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "UCLA",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=8,741"
+    },
+    {
+      "id": "PGS005135",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 923118,
+      "ancestry_distribution": "GWAS: MAO (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.053582,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022355",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.053582
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "G&H",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,741"
+    },
+    {
+      "id": "PGS005136",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 982014,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: MAO (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.03767226,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022356",
+        "selected_validation_ancestry": "Central Asian, South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03767226
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "MGI",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=7,976"
+    },
+    {
+      "id": "PGS005137",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 965403,
+      "ancestry_distribution": "GWAS: AMR (100%) | EVAL: MAO (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.03767226,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022357",
+        "selected_validation_ancestry": "Central Asian, South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03767226
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "CCPM",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,976"
+    },
+    {
+      "id": "PGS005138",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 837039,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: MAO (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.03767226,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022358",
+        "selected_validation_ancestry": "Central Asian, South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03767226
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BBJ",
+        "CKB",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,976"
+    },
+    {
+      "id": "PGS005139",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 909320,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAO (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.03767226,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022359",
+        "selected_validation_ancestry": "Central Asian, South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03767226
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "UCLA",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=7,976"
+    },
+    {
+      "id": "PGS005140",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 904126,
+      "ancestry_distribution": "GWAS: MAO (100%) | EVAL: MAO (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis of asthma identifies novel associations and highlights the value of increased power and diversity.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2025-02-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.03767226,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022360",
+        "selected_validation_ancestry": "Central Asian, South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03767226
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex, 20 genetic principal components",
+      "training_development_cohorts": [
+        "G&H",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=7,976"
+    },
+    {
+      "id": "PGS005141",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CS",
+      "variants_number": 792583,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022361",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.2707496475640492
+          }
+        ]
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "BBJ",
+        "CKB",
+        "TWB",
+        "UCLA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=58,621"
+    },
+    {
+      "id": "PGS005148",
+      "trait_reported": "Asthma",
+      "trait_efo": "asthma",
+      "method_name": "PRS-CSx",
+      "variants_number": 792583,
+      "ancestry_distribution": "GWAS: EAS (20%), EUR (80%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022368",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.30988585522409
+          }
+        ]
+      },
+      "phenotyping_reported": "Asthma",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "GS:SFHS",
+        "HUNT",
+        "LifeLines",
+        "MGBB",
+        "MGI",
+        "QSKIN",
+        "TWB",
+        "UCLA",
+        "UKB",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=58,621"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001344",
+    "reported_auc": 0.6457,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Asthma (diagnosed by doctor)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=19,857"
+  }
+}

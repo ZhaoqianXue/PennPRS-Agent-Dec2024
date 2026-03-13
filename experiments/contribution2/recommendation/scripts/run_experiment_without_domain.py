@@ -76,21 +76,26 @@ from src.server.core.tools.prs_model_tools import (
 from src.server.core.pgs_catalog_client import PGSCatalogClient
 
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
-UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
-WITHOUT_DOMAIN_PER_DISEASE_DOC = DOCS_DIR / "without_domain_per_disease_comparison.md"
 LOCAL_CACHE_DIR = Path(__file__).parent.parent / "cache"
-GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
-TOP_K_JSON = GROUND_TRUTH_DIR / "top_k_pgs_per_ontology.json"
+DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
+UNION_CSV = DEFAULT_UNION_CSV
+DEFAULT_GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
+GROUND_TRUTH_DIR = DEFAULT_GROUND_TRUTH_DIR
+BENCHMARK_RANKED_JSON = GROUND_TRUTH_DIR / "top_k_pgs_per_ontology.json"
+TOP_K_JSON = BENCHMARK_RANKED_JSON
 EVALUATED_JSON = GROUND_TRUTH_DIR / "evaluated_pgs_per_ontology.json"
+BENCHMARK_AUC_JSON = GROUND_TRUTH_DIR / "benchmark_auc_per_ontology.json"
 CONTRIB1_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
 CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
 ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
 PREPARE_CACHE_VERSION = "v4"
+BENCHMARK_HIT_KS = (1, 2, 3, 4, 5)
 
 ACTIVE_RUN_DIR: Optional[Path] = None
 ACTIVE_RUN_TAG: Optional[str] = None
+ACTIVE_BENCHMARK_LABEL: Optional[str] = None
 RESULTS_JSON = Path()
 SUMMARY_JSON = Path()
 REPORT_MD = Path()
@@ -167,7 +172,11 @@ FIELD_ROWS: list[tuple[str, str]] = [
     ("Selected PGS ID", "agent_input"),
     ("AoU benchmark rank", "benchmark_only"),
     ("AoU benchmark AUC", "benchmark_only"),
-    ("In Target_TopK", "benchmark_only"),
+    ("Hit@1", "benchmark_only"),
+    ("Hit@2", "benchmark_only"),
+    ("Hit@3", "benchmark_only"),
+    ("Hit@4", "benchmark_only"),
+    ("Hit@5", "benchmark_only"),
     ("Selection frequency", "benchmark_only"),
     ("trait_reported", "agent_input"),
     ("trait_efo", "agent_input"),
@@ -210,6 +219,50 @@ def _normalize_ontology(s: str) -> str:
 def _slugify(text: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", (text or "").lower()).strip("_")
     return slug or "unknown"
+
+
+def _dataset_label_from_union_path(union_csv: Path) -> Optional[str]:
+    if union_csv.resolve() == DEFAULT_UNION_CSV.resolve():
+        return None
+    stem = union_csv.stem
+    if stem == "selected_diseases_contribution2_current_union":
+        return "current-union"
+    return _slugify(stem)
+
+
+def _default_ground_truth_dir_for_union(union_csv: Path) -> Path:
+    if union_csv.resolve() == DEFAULT_UNION_CSV.resolve():
+        return DEFAULT_GROUND_TRUTH_DIR
+    return RECOMMENDATION_RUNS / f"ground-truth__{union_csv.stem}"
+
+
+def _doc_path(stem: str) -> Path:
+    if not ACTIVE_BENCHMARK_LABEL:
+        return DOCS_DIR / f"{stem}.md"
+    return DOCS_DIR / f"{stem}__{ACTIVE_BENCHMARK_LABEL}.md"
+
+
+def _configure_benchmark_sources(
+    union_csv: Optional[str] = None,
+    ground_truth_dir: Optional[str] = None,
+) -> None:
+    global UNION_CSV, GROUND_TRUTH_DIR, BENCHMARK_RANKED_JSON
+    global TOP_K_JSON, EVALUATED_JSON, BENCHMARK_AUC_JSON, ACTIVE_BENCHMARK_LABEL
+
+    resolved_union = Path(union_csv) if union_csv else DEFAULT_UNION_CSV
+    resolved_ground_truth = (
+        Path(ground_truth_dir)
+        if ground_truth_dir
+        else _default_ground_truth_dir_for_union(resolved_union)
+    )
+
+    UNION_CSV = resolved_union
+    GROUND_TRUTH_DIR = resolved_ground_truth
+    BENCHMARK_RANKED_JSON = resolved_ground_truth / "top_k_pgs_per_ontology.json"
+    TOP_K_JSON = BENCHMARK_RANKED_JSON
+    EVALUATED_JSON = resolved_ground_truth / "evaluated_pgs_per_ontology.json"
+    BENCHMARK_AUC_JSON = resolved_ground_truth / "benchmark_auc_per_ontology.json"
+    ACTIVE_BENCHMARK_LABEL = _dataset_label_from_union_path(resolved_union)
 
 
 def _safe_int(value: Any, default: int = 0) -> int:
@@ -340,6 +393,296 @@ def _rank_label(rank: Optional[int], n_models: int) -> str:
     return f"{rank}/{n_models}"
 
 
+def _normalized_ranking_score(rank: Optional[int], candidate_count: Optional[int]) -> Optional[float]:
+    if rank is None or candidate_count is None or candidate_count <= 1:
+        return None
+    if rank < 1 or rank > candidate_count:
+        return None
+    return (candidate_count - rank) / (candidate_count - 1)
+
+
+def _format_score(value: Optional[float]) -> str:
+    if value is None:
+        return "N/A"
+    return f"{value:.4f}"
+
+
+def _candidate_count(row: dict[str, Any]) -> int:
+    ranked_ids = list(row.get("benchmark_ranked_ids") or [])
+    if ranked_ids:
+        return len(ranked_ids)
+    return _safe_int(row.get("n_models"))
+
+
+def _eligible_at_k_map(candidate_count: int) -> dict[str, bool]:
+    return {str(k): candidate_count >= k for k in BENCHMARK_HIT_KS}
+
+
+def _top_ids_with_ties(rank_order: list[str], auc_by_id: dict[str, float], k: int) -> list[str]:
+    if not rank_order or k <= 0:
+        return []
+    if len(rank_order) <= k:
+        return [pgs_id for pgs_id in rank_order if pgs_id]
+
+    cutoff_id = rank_order[k - 1]
+    cutoff_auc = _safe_float(auc_by_id.get(cutoff_id))
+    if cutoff_auc is None:
+        return [pgs_id for pgs_id in rank_order[:k] if pgs_id]
+
+    top_ids: list[str] = []
+    for pgs_id in rank_order:
+        auc = _safe_float(auc_by_id.get(pgs_id))
+        if auc is None:
+            if len(top_ids) < k:
+                top_ids.append(pgs_id)
+            continue
+        if auc >= cutoff_auc:
+            top_ids.append(pgs_id)
+            continue
+        break
+    return [pgs_id for pgs_id in top_ids if pgs_id]
+
+
+def _benchmark_topk_ids(rank_order: list[str], auc_by_id: Optional[dict[str, float]] = None) -> dict[str, list[str]]:
+    rank_order = [pgs_id for pgs_id in rank_order or [] if pgs_id]
+    auc_by_id = auc_by_id or {}
+    topk: dict[str, list[str]] = {}
+    for k in BENCHMARK_HIT_KS:
+        if len(rank_order) < k:
+            topk[str(k)] = []
+        elif auc_by_id:
+            topk[str(k)] = _top_ids_with_ties(rank_order, auc_by_id, k)
+        else:
+            topk[str(k)] = rank_order[:k]
+    return topk
+
+
+def _hit_at_k_map(
+    selected_id: Optional[str],
+    candidate_count: int,
+    benchmark_topk_ids: dict[str, list[str]],
+    valid_output: bool = True,
+) -> dict[str, Optional[bool]]:
+    hits: dict[str, Optional[bool]] = {}
+    for k in BENCHMARK_HIT_KS:
+        key = str(k)
+        if candidate_count < k:
+            hits[key] = None
+        else:
+            hits[key] = bool(valid_output and selected_id and selected_id in set(benchmark_topk_ids.get(key) or []))
+    return hits
+
+
+def _hit_label(value: Optional[bool]) -> str:
+    if value is None:
+        return "N/A"
+    return "Yes" if value else "No"
+
+
+def _format_hit_vector(hit_map: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for k in BENCHMARK_HIT_KS:
+        parts.append(f"{k}:{_hit_label((hit_map or {}).get(str(k)))}")
+    return ", ".join(parts)
+
+
+def _format_rate_vector(rate_map: dict[str, Any]) -> str:
+    parts: list[str] = []
+    for k in BENCHMARK_HIT_KS:
+        value = (rate_map or {}).get(str(k))
+        parts.append(f"{k}:{_format_percent(value) if value is not None else 'N/A'}")
+    return ", ".join(parts)
+
+
+def _format_eligible_ks(eligible_at_k: dict[str, Any]) -> str:
+    eligible = [str(k) for k in BENCHMARK_HIT_KS if (eligible_at_k or {}).get(str(k))]
+    return ",".join(eligible) if eligible else "-"
+
+
+def _hit_rate_payload(hits: int, eligible: int) -> dict[str, Any]:
+    return {
+        "hits": hits,
+        "eligible": eligible,
+        "accuracy": round(hits / eligible, 4) if eligible else None,
+    }
+
+
+def _aggregate_modal_hit_metrics(per_disease: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    metrics: dict[str, dict[str, Any]] = {}
+    for k in BENCHMARK_HIT_KS:
+        key = str(k)
+        eligible_rows = [row for row in per_disease if (row.get("modal_recommendation_hit_at_k") or {}).get(key) is not None]
+        hits = sum(1 for row in eligible_rows if (row.get("modal_recommendation_hit_at_k") or {}).get(key))
+        metrics[key] = _hit_rate_payload(hits, len(eligible_rows))
+    return metrics
+
+
+def _aggregate_baseline_hit_metrics(per_disease: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    metrics: dict[str, dict[str, Any]] = {}
+    for k in BENCHMARK_HIT_KS:
+        key = str(k)
+        eligible_rows = [row for row in per_disease if (row.get("baseline_hit_at_k") or {}).get(key) is not None]
+        hits = sum(1 for row in eligible_rows if (row.get("baseline_hit_at_k") or {}).get(key))
+        available = sum(
+            1
+            for row in eligible_rows
+            if (row.get("baseline") or {}).get("pgs_id")
+        )
+        payload = _hit_rate_payload(hits, len(eligible_rows))
+        payload["available"] = available
+        payload["coverage"] = round(available / len(eligible_rows), 4) if eligible_rows else None
+        metrics[key] = payload
+    return metrics
+
+
+def _aggregate_trial_hit_metrics(trial_results: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    metrics: dict[str, dict[str, Any]] = {}
+    for k in BENCHMARK_HIT_KS:
+        key = str(k)
+        eligible_trials = [row for row in trial_results if (row.get("hit_at_k") or {}).get(key) is not None]
+        hits = sum(1 for row in eligible_trials if (row.get("hit_at_k") or {}).get(key))
+        metrics[key] = _hit_rate_payload(hits, len(eligible_trials))
+    return metrics
+
+
+def _compute_nrs_metrics(summary: dict[str, Any]) -> dict[str, Any]:
+    modal_scores: list[float] = []
+    trial_scores: list[float] = []
+
+    for row in summary.get("per_disease", []):
+        candidate_count = _candidate_count(row)
+        modal_score = _normalized_ranking_score(row.get("modal_recommendation_rank"), candidate_count)
+        if modal_score is not None:
+            modal_scores.append(modal_score)
+
+        for trial_row in row.get("trial_recommendations_detailed", []):
+            trial_score = _normalized_ranking_score(trial_row.get("rank"), candidate_count)
+            if trial_score is not None:
+                trial_scores.append(trial_score)
+
+    return {
+        "modal_mean_nrs": (sum(modal_scores) / len(modal_scores)) if modal_scores else None,
+        "modal_count": len(modal_scores),
+        "trial_mean_nrs": (sum(trial_scores) / len(trial_scores)) if trial_scores else None,
+        "trial_count": len(trial_scores),
+    }
+
+
+def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
+    per_disease = summary.get("per_disease") or []
+    diagnostics = summary.setdefault("diagnostics", {})
+    baseline_summary = summary.setdefault("baseline", {})
+
+    for row in per_disease:
+        candidate_count = _candidate_count(row)
+        ranked_ids = list(row.get("benchmark_ranked_ids") or [])
+        auc_by_id = dict(row.get("benchmark_auc_by_id") or {})
+        benchmark_topk_ids = dict(row.get("benchmark_topk_ids") or {})
+        if not benchmark_topk_ids:
+            benchmark_topk_ids = _benchmark_topk_ids(ranked_ids, auc_by_id)
+        row["benchmark_topk_ids"] = benchmark_topk_ids
+        row["eligible_at_k"] = dict(row.get("eligible_at_k") or _eligible_at_k_map(candidate_count))
+
+        modal_hit_at_k = row.get("modal_recommendation_hit_at_k")
+        if not modal_hit_at_k:
+            modal_hit_at_k = _hit_at_k_map(
+                selected_id=row.get("modal_recommendation"),
+                candidate_count=candidate_count,
+                benchmark_topk_ids=benchmark_topk_ids,
+                valid_output=bool(row.get("modal_recommendation")),
+            )
+        row["modal_recommendation_hit_at_k"] = modal_hit_at_k
+        row["modal_recommendation_in_target_topk"] = bool(modal_hit_at_k.get("1"))
+
+        baseline = row.get("baseline") or {}
+        baseline_hit_at_k = row.get("baseline_hit_at_k")
+        if not baseline_hit_at_k:
+            baseline_hit_at_k = _hit_at_k_map(
+                selected_id=baseline.get("pgs_id"),
+                candidate_count=candidate_count,
+                benchmark_topk_ids=benchmark_topk_ids,
+                valid_output=bool(baseline.get("pgs_id")),
+            )
+        row["baseline_hit_at_k"] = baseline_hit_at_k
+        row["baseline_in_target_topk"] = bool(baseline_hit_at_k.get("1"))
+
+        trial_details = row.get("trial_recommendations_detailed") or []
+        for trial_row in trial_details:
+            selected_id = trial_row.get("pgs_id") or trial_row.get("recommended_pgs_id")
+            if trial_row.get("hit_at_k") is None:
+                trial_row["hit_at_k"] = _hit_at_k_map(
+                    selected_id=selected_id,
+                    candidate_count=candidate_count,
+                    benchmark_topk_ids=benchmark_topk_ids,
+                    valid_output=bool(selected_id),
+                )
+            if trial_row.get("in_target_topk") is None:
+                trial_row["in_target_topk"] = bool((trial_row.get("hit_at_k") or {}).get("1"))
+
+        if not row.get("trial_hit_counts_at_k"):
+            row["trial_hit_counts_at_k"] = {
+                str(k): sum(
+                    1 for trial_row in trial_details if (trial_row.get("hit_at_k") or {}).get(str(k))
+                )
+                for k in BENCHMARK_HIT_KS
+            }
+        if not row.get("trial_hit_rates_at_k"):
+            row["trial_hit_rates_at_k"] = {
+                str(k): (
+                    round(
+                        row["trial_hit_counts_at_k"][str(k)]
+                        / sum(
+                            1
+                            for trial_row in trial_details
+                            if (trial_row.get("hit_at_k") or {}).get(str(k)) is not None
+                        ),
+                        4,
+                    )
+                    if sum(
+                        1 for trial_row in trial_details if (trial_row.get("hit_at_k") or {}).get(str(k)) is not None
+                    )
+                    else None
+                )
+                for k in BENCHMARK_HIT_KS
+            }
+        row["trial_hits"] = _safe_int((row.get("trial_hit_counts_at_k") or {}).get("1"))
+        row["trial_hit_rate"] = (row.get("trial_hit_rates_at_k") or {}).get("1")
+
+    modal_hit_metrics = _aggregate_modal_hit_metrics(per_disease)
+    trial_hit_metrics = _aggregate_trial_hit_metrics([
+        trial_row
+        for row in per_disease
+        for trial_row in (row.get("trial_recommendations_detailed") or [])
+    ])
+    baseline_hit_metrics = _aggregate_baseline_hit_metrics(per_disease)
+
+    summary["modal_hit_at_k"] = modal_hit_metrics
+    summary["trial_hit_at_k"] = trial_hit_metrics
+    baseline_summary["hit_at_k"] = baseline_hit_metrics
+
+    hit1_modal = modal_hit_metrics.get("1") or {}
+    hit1_trial = trial_hit_metrics.get("1") or {}
+    hit1_baseline = baseline_hit_metrics.get("1") or {}
+    summary["majority_vote_hits"] = hit1_modal.get("hits", 0)
+    summary["majority_vote_accuracy"] = hit1_modal.get("accuracy", 0.0) or 0.0
+    diagnostics["trial_hits"] = hit1_trial.get("hits", 0)
+    diagnostics["trial_hit_rate"] = hit1_trial.get("accuracy", 0.0) or 0.0
+    baseline_summary["hits"] = hit1_baseline.get("hits", 0)
+    baseline_summary["accuracy"] = hit1_baseline.get("accuracy", 0.0) or 0.0
+    baseline_summary["available"] = hit1_baseline.get("available", baseline_summary.get("available", 0))
+    baseline_summary["coverage"] = hit1_baseline.get("coverage", baseline_summary.get("coverage", 0.0))
+
+    summary["nrs"] = _compute_nrs_metrics(summary)
+    summary["hit_at_k_definition"] = {
+        "k_values": list(BENCHMARK_HIT_KS),
+        "eligible_only_denominator": True,
+        "tie_aware_cutoff": True,
+        "ranked_benchmark_source": str(BENCHMARK_RANKED_JSON),
+        "benchmark_auc_source": str(BENCHMARK_AUC_JSON),
+    }
+    return summary
+
+
 def _sort_disease_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return sorted(rows, key=lambda row: (-row["n_models"], row["ontology"]))
 
@@ -414,9 +757,16 @@ def _format_currency(value: float) -> str:
     return f"${value:.4f}"
 
 
-def _archive_dir_name(model: str, trials: int, run_tag: Optional[str] = None) -> str:
+def _archive_dir_name(
+    model: str,
+    trials: int,
+    run_tag: Optional[str] = None,
+    dataset_label: Optional[str] = None,
+) -> str:
     safe_model = re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
     base = f"without-domain-{safe_model}-t{trials}"
+    if dataset_label:
+        base = f"{base}__{dataset_label}"
     safe_tag = re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
     return f"{base}__{safe_tag}" if safe_tag else base
 
@@ -432,7 +782,12 @@ def _set_run_paths(trials: int, model: Optional[str] = None, run_tag: Optional[s
 
     run_model = model or _model_name()
     ACTIVE_RUN_TAG = run_tag
-    ACTIVE_RUN_DIR = RECOMMENDATION_RUNS / _archive_dir_name(run_model, trials, run_tag=run_tag)
+    ACTIVE_RUN_DIR = RECOMMENDATION_RUNS / _archive_dir_name(
+        run_model,
+        trials,
+        run_tag=run_tag,
+        dataset_label=ACTIVE_BENCHMARK_LABEL,
+    )
     ACTIVE_RUN_DIR.mkdir(parents=True, exist_ok=True)
 
     RESULTS_JSON = ACTIVE_RUN_DIR / "experiment_without_domain_results.json"
@@ -492,6 +847,7 @@ def _require_ground_truth(
     union_df: pd.DataFrame,
     evaluated_data: dict[str, list[str]],
     top_k_data: dict[str, list[str]],
+    benchmark_auc_data: Optional[dict[str, dict[str, float]]] = None,
 ) -> Optional[str]:
     missing: list[str] = []
     for _, row in union_df.iterrows():
@@ -505,6 +861,8 @@ def _require_ground_truth(
             missing.append(f"{ontology}: missing top_k_pgs_per_ontology entry")
         elif not top_k_data.get(key):
             missing.append(f"{ontology}: empty top_k_pgs_per_ontology entry")
+        if benchmark_auc_data is not None and key not in benchmark_auc_data:
+            missing.append(f"{ontology}: missing benchmark_auc_per_ontology entry")
     if missing:
         return "\n".join(missing)
     return None
@@ -819,11 +1177,14 @@ def _prepare_manifest(
         raise FileNotFoundError(f"Top-K JSON not found: {TOP_K_JSON}")
     if not EVALUATED_JSON.exists():
         raise FileNotFoundError(f"Evaluated PGS JSON not found: {EVALUATED_JSON}")
+    if not BENCHMARK_AUC_JSON.exists():
+        raise FileNotFoundError(f"Benchmark AUC JSON not found: {BENCHMARK_AUC_JSON}")
 
     union_df = pd.read_csv(UNION_CSV)
     top_k_data = _load_json(TOP_K_JSON)
     evaluated_data = _load_json(EVALUATED_JSON)
-    missing_ground_truth = _require_ground_truth(union_df, evaluated_data, top_k_data)
+    benchmark_auc_data = _load_json(BENCHMARK_AUC_JSON)
+    missing_ground_truth = _require_ground_truth(union_df, evaluated_data, top_k_data, benchmark_auc_data)
     if missing_ground_truth:
         raise RuntimeError(f"Contribution2 ground truth is incomplete:\n{missing_ground_truth}")
 
@@ -848,13 +1209,13 @@ def _prepare_manifest(
         ontology = str(row.get("Ontology", "")).strip()
         key = _normalize_ontology(ontology)
         n_models = _safe_int(row.get("N Models"))
-        target_topk = _safe_int(row.get("Target_TopK"), default=1) or 1
         target_ranked_ids = list(top_k_data[key])
-        target_topk_ids = target_ranked_ids[:target_topk]
+        benchmark_auc_by_id = dict(benchmark_auc_data.get(key) or {})
+        benchmark_topk_ids = _benchmark_topk_ids(target_ranked_ids, benchmark_auc_by_id)
         candidate_model_ids = list(evaluated_data[key])
         candidate_id_set = set(candidate_model_ids)
 
-        print(f"[{index}/{len(rows)}] preparing {ontology} (Target_TopK={target_topk}, trials={trials})")
+        print(f"[{index}/{len(rows)}] preparing {ontology} (candidate models={n_models}, trials={trials})")
         cached_bundle = _load_cached_candidate_bundle(
             ontology=ontology,
             candidate_model_ids=candidate_model_ids,
@@ -897,9 +1258,10 @@ def _prepare_manifest(
             "ontology_key": key,
             "ontology_slug": slug,
             "n_models": n_models,
-            "target_topk": target_topk,
             "benchmark_ranked_ids": target_ranked_ids,
-            "target_topk_ids": target_topk_ids,
+            "benchmark_auc_by_id": benchmark_auc_by_id,
+            "benchmark_topk_ids": benchmark_topk_ids,
+            "eligible_at_k": _eligible_at_k_map(len(target_ranked_ids) or n_models),
             "candidate_model_ids": candidate_model_ids,
             "candidate_models_visible_to_llm": candidate_model_summaries,
             "baseline": baseline,
@@ -914,8 +1276,9 @@ def _prepare_manifest(
                 "ontology": ontology,
                 "trial_start": trial_start,
                 "trials": chunk_size,
-                "target_topk": target_topk,
-                "target_topk_ids": target_topk_ids,
+                "benchmark_ranked_ids": target_ranked_ids,
+                "benchmark_auc_by_id": benchmark_auc_by_id,
+                "benchmark_topk_ids": benchmark_topk_ids,
                 "candidate_model_ids": candidate_model_ids,
                 "request": _build_batch_request(
                     custom_id=custom_id,
@@ -933,6 +1296,8 @@ def _prepare_manifest(
         "total_requests": len(requests),
         "run_tag": ACTIVE_RUN_TAG,
         "ontology_filter": sorted(ontology_filter) if ontology_filter else None,
+        "union_csv": str(UNION_CSV),
+        "ground_truth_dir": str(GROUND_TRUTH_DIR),
         "disease_metadata": disease_metadata,
         "requests": requests,
     }
@@ -1163,19 +1528,29 @@ def _build_summary_and_results(
 
         if not parsed:
             error_text = error_map.get(custom_id, "Missing batch output for request")
+            candidate_count = len(request["benchmark_ranked_ids"]) or _safe_int(disease_info["n_models"])
             for trial in range(trial_start, trial_start + request["trials"]):
+                hit_at_k = _hit_at_k_map(
+                    selected_id=None,
+                    candidate_count=candidate_count,
+                    benchmark_topk_ids=request["benchmark_topk_ids"],
+                    valid_output=False,
+                )
                 trial_results.append({
                     "ontology": ontology,
                     "trial": trial,
                     "n_models": disease_info["n_models"],
-                    "target_topk": request["target_topk"],
-                    "target_topk_ids": request["target_topk_ids"],
+                    "benchmark_ranked_ids": request["benchmark_ranked_ids"],
+                    "benchmark_auc_by_id": request["benchmark_auc_by_id"],
+                    "benchmark_topk_ids": request["benchmark_topk_ids"],
+                    "eligible_at_k": disease_info["eligible_at_k"],
                     "candidate_model_ids": request["candidate_model_ids"],
                     "recommended_pgs_id": None,
                     "recommendation_type": None,
                     "recommendation_confidence": None,
                     "valid_output": False,
-                    "in_target_topk": False,
+                    "hit_at_k": hit_at_k,
+                    "in_target_topk": bool(hit_at_k.get("1")),
                     "rationale": None,
                     "rationale_features": [],
                     "error": error_text,
@@ -1183,19 +1558,29 @@ def _build_summary_and_results(
             continue
 
         if parsed.get("error"):
+            candidate_count = len(request["benchmark_ranked_ids"]) or _safe_int(disease_info["n_models"])
             for trial in range(trial_start, trial_start + request["trials"]):
+                hit_at_k = _hit_at_k_map(
+                    selected_id=None,
+                    candidate_count=candidate_count,
+                    benchmark_topk_ids=request["benchmark_topk_ids"],
+                    valid_output=False,
+                )
                 trial_results.append({
                     "ontology": ontology,
                     "trial": trial,
                     "n_models": disease_info["n_models"],
-                    "target_topk": request["target_topk"],
-                    "target_topk_ids": request["target_topk_ids"],
+                    "benchmark_ranked_ids": request["benchmark_ranked_ids"],
+                    "benchmark_auc_by_id": request["benchmark_auc_by_id"],
+                    "benchmark_topk_ids": request["benchmark_topk_ids"],
+                    "eligible_at_k": disease_info["eligible_at_k"],
                     "candidate_model_ids": request["candidate_model_ids"],
                     "recommended_pgs_id": None,
                     "recommendation_type": None,
                     "recommendation_confidence": None,
                     "valid_output": False,
-                    "in_target_topk": False,
+                    "hit_at_k": hit_at_k,
+                    "in_target_topk": bool(hit_at_k.get("1")),
                     "rationale": None,
                     "rationale_features": [],
                     "error": parsed["error"],
@@ -1209,19 +1594,29 @@ def _build_summary_and_results(
                 f"Expected {request['trials']} choices from batch response, "
                 f"got {len(decisions)}"
             )
+            candidate_count = len(request["benchmark_ranked_ids"]) or _safe_int(disease_info["n_models"])
             for trial in range(trial_start, trial_start + request["trials"]):
+                hit_at_k = _hit_at_k_map(
+                    selected_id=None,
+                    candidate_count=candidate_count,
+                    benchmark_topk_ids=request["benchmark_topk_ids"],
+                    valid_output=False,
+                )
                 trial_results.append({
                     "ontology": ontology,
                     "trial": trial,
                     "n_models": disease_info["n_models"],
-                    "target_topk": request["target_topk"],
-                    "target_topk_ids": request["target_topk_ids"],
+                    "benchmark_ranked_ids": request["benchmark_ranked_ids"],
+                    "benchmark_auc_by_id": request["benchmark_auc_by_id"],
+                    "benchmark_topk_ids": request["benchmark_topk_ids"],
+                    "eligible_at_k": disease_info["eligible_at_k"],
                     "candidate_model_ids": request["candidate_model_ids"],
                     "recommended_pgs_id": None,
                     "recommendation_type": None,
                     "recommendation_confidence": None,
                     "valid_output": False,
-                    "in_target_topk": False,
+                    "hit_at_k": hit_at_k,
+                    "in_target_topk": bool(hit_at_k.get("1")),
                     "rationale": None,
                     "rationale_features": [],
                     "error": trial_error,
@@ -1232,20 +1627,29 @@ def _build_summary_and_results(
             trial = trial_start + offset
             recommended_id = decision.get("best_model_id")
             valid_output = _is_valid_output(recommended_id, candidate_id_set)
-            in_target = bool(valid_output and recommended_id in set(request["target_topk_ids"]))
+            candidate_count = len(request["benchmark_ranked_ids"]) or _safe_int(disease_info["n_models"])
+            hit_at_k = _hit_at_k_map(
+                selected_id=recommended_id,
+                candidate_count=candidate_count,
+                benchmark_topk_ids=request["benchmark_topk_ids"],
+                valid_output=valid_output,
+            )
             rationale = decision.get("rationale")
             trial_results.append({
                 "ontology": ontology,
                 "trial": trial,
                 "n_models": disease_info["n_models"],
-                "target_topk": request["target_topk"],
-                "target_topk_ids": request["target_topk_ids"],
+                "benchmark_ranked_ids": request["benchmark_ranked_ids"],
+                "benchmark_auc_by_id": request["benchmark_auc_by_id"],
+                "benchmark_topk_ids": request["benchmark_topk_ids"],
+                "eligible_at_k": disease_info["eligible_at_k"],
                 "candidate_model_ids": request["candidate_model_ids"],
                 "recommended_pgs_id": recommended_id,
                 "recommendation_type": decision.get("outcome"),
                 "recommendation_confidence": decision.get("confidence"),
                 "valid_output": valid_output,
-                "in_target_topk": in_target,
+                "hit_at_k": hit_at_k,
+                "in_target_topk": bool(hit_at_k.get("1")),
                 "rationale": rationale,
                 "rationale_features": _extract_step1_rationale_features(rationale or ""),
                 "error": None,
@@ -1258,16 +1662,23 @@ def _build_summary_and_results(
         disease_trials.sort(key=lambda row: row["trial"])
         ontology_key = disease.get("ontology_key") or _normalize_ontology(ontology)
         benchmark_ranked_ids = list(disease.get("benchmark_ranked_ids") or top_k_data.get(ontology_key) or [])
+        benchmark_auc_by_id = dict(disease.get("benchmark_auc_by_id") or {})
+        benchmark_topk_ids = dict(disease.get("benchmark_topk_ids") or _benchmark_topk_ids(benchmark_ranked_ids, benchmark_auc_by_id))
         rank_map = _benchmark_rank_map(benchmark_ranked_ids)
-        hit_count = sum(1 for row in disease_trials if row["in_target_topk"])
+        hit_count = sum(1 for row in disease_trials if (row.get("hit_at_k") or {}).get("1"))
         valid_count = sum(1 for row in disease_trials if row["valid_output"])
         error_count = sum(1 for row in disease_trials if row["error"])
         trial_count = manifest["trials_per_ontology"]
         hit_rate = hit_count / trial_count
         valid_rate = valid_count / trial_count
         modal_id, modal_count = _modal_recommendation(disease_trials)
-        modal_in_target = bool(modal_id and modal_id in set(disease["target_topk_ids"]))
         modal_rank = rank_map.get(modal_id)
+        modal_hit_at_k = _hit_at_k_map(
+            selected_id=modal_id,
+            candidate_count=len(benchmark_ranked_ids) or disease["n_models"],
+            benchmark_topk_ids=benchmark_topk_ids,
+            valid_output=bool(modal_id),
+        )
         feature_counter = Counter(
             feature
             for trial in disease_trials
@@ -1280,7 +1691,12 @@ def _build_summary_and_results(
             baseline = _tiered_baseline(candidate_models)
         else:
             baseline = disease.get("baseline")
-        baseline_hit = bool(baseline and baseline.get("pgs_id") in set(disease["target_topk_ids"]))
+        baseline_hit_at_k = _hit_at_k_map(
+            selected_id=(baseline or {}).get("pgs_id"),
+            candidate_count=len(benchmark_ranked_ids) or disease["n_models"],
+            benchmark_topk_ids=benchmark_topk_ids,
+            valid_output=bool((baseline or {}).get("pgs_id")),
+        )
         baseline_with_rank = None
         if baseline:
             baseline_with_rank = dict(baseline)
@@ -1301,6 +1717,7 @@ def _build_summary_and_results(
                 "pgs_id": recommended_id,
                 "rank": recommended_rank,
                 "rank_label": recommended_rank_label,
+                "hit_at_k": trial_row["hit_at_k"],
                 "in_target_topk": trial_row["in_target_topk"],
             })
             if recommended_id:
@@ -1319,16 +1736,46 @@ def _build_summary_and_results(
             )
         ]
 
+        trial_hit_counts_at_k = {
+            str(k): sum(
+                1 for trial_row in trial_recommendations_detailed if (trial_row.get("hit_at_k") or {}).get(str(k))
+            )
+            for k in BENCHMARK_HIT_KS
+        }
+        trial_hit_rates_at_k = {
+            str(k): (
+                round(
+                    trial_hit_counts_at_k[str(k)]
+                    / sum(
+                        1
+                        for trial_row in trial_recommendations_detailed
+                        if (trial_row.get("hit_at_k") or {}).get(str(k)) is not None
+                    ),
+                    4,
+                )
+                if sum(
+                    1
+                    for trial_row in trial_recommendations_detailed
+                    if (trial_row.get("hit_at_k") or {}).get(str(k)) is not None
+                )
+                else None
+            )
+            for k in BENCHMARK_HIT_KS
+        }
+
         per_disease.append({
             "ontology": ontology,
             "n_models": disease["n_models"],
-            "target_topk": disease["target_topk"],
             "benchmark_ranked_ids": benchmark_ranked_ids,
-            "target_topk_ids": disease["target_topk_ids"],
+            "benchmark_auc_by_id": benchmark_auc_by_id,
+            "benchmark_topk_ids": benchmark_topk_ids,
+            "eligible_at_k": disease["eligible_at_k"],
             "candidate_model_ids": disease["candidate_model_ids"],
             "candidate_models_visible_to_llm": disease["candidate_models_visible_to_llm"],
             "trial_hits": hit_count,
             "trial_hit_rate": round(hit_rate, 4),
+            "trial_hit_counts_at_k": trial_hit_counts_at_k,
+            "trial_hit_rates_at_k": trial_hit_rates_at_k,
             "valid_outputs": valid_count,
             "valid_output_rate": round(valid_rate, 4),
             "errors": error_count,
@@ -1336,26 +1783,31 @@ def _build_summary_and_results(
             "modal_recommendation_count": modal_count,
             "modal_recommendation_rank": modal_rank,
             "modal_recommendation_rank_label": _rank_label(modal_rank, disease["n_models"]),
-            "modal_recommendation_in_target_topk": modal_in_target,
+            "modal_recommendation_hit_at_k": modal_hit_at_k,
+            "modal_recommendation_in_target_topk": bool(modal_hit_at_k.get("1")),
             "trial_recommendations": [row["recommended_pgs_id"] for row in disease_trials],
             "trial_recommendations_detailed": trial_recommendations_detailed,
             "recommended_model_counts": recommended_model_counts,
             "feature_mentions": dict(sorted(feature_counter.items())),
             "baseline": baseline_with_rank,
-            "baseline_in_target_topk": baseline_hit,
+            "baseline_hit_at_k": baseline_hit_at_k,
+            "baseline_in_target_topk": bool(baseline_hit_at_k.get("1")),
         })
 
     total_ontologies = len(per_disease)
     total_trials = len(trial_results)
-    trial_hits = sum(1 for row in trial_results if row["in_target_topk"])
+    trial_hit_metrics = _aggregate_trial_hit_metrics(trial_results)
+    modal_hit_metrics = _aggregate_modal_hit_metrics(per_disease)
+    baseline_hit_metrics = _aggregate_baseline_hit_metrics(per_disease)
+    trial_hits = trial_hit_metrics["1"]["hits"]
     valid_outputs = sum(1 for row in trial_results if row["valid_output"])
-    trial_hit_rate = trial_hits / total_trials if total_trials else 0.0
+    trial_hit_rate = trial_hit_metrics["1"]["accuracy"] or 0.0
     valid_output_rate = valid_outputs / total_trials if total_trials else 0.0
-    majority_vote_hits = sum(1 for row in per_disease if row["modal_recommendation_in_target_topk"])
-    majority_vote_accuracy = majority_vote_hits / total_ontologies if total_ontologies else 0.0
-    baseline_hits = sum(1 for row in per_disease if row["baseline_in_target_topk"])
+    majority_vote_hits = modal_hit_metrics["1"]["hits"]
+    majority_vote_accuracy = modal_hit_metrics["1"]["accuracy"] or 0.0
+    baseline_hits = baseline_hit_metrics["1"]["hits"]
     baseline_available = sum(1 for row in per_disease if row.get("baseline"))
-    baseline_accuracy = baseline_hits / total_ontologies if total_ontologies else 0.0
+    baseline_accuracy = baseline_hit_metrics["1"]["accuracy"] or 0.0
 
     summary = {
         "experiment": "without_domain_batch_formal",
@@ -1367,14 +1819,18 @@ def _build_summary_and_results(
         "model": manifest["model"],
         "total_ontologies": total_ontologies,
         "trials_per_ontology": manifest["trials_per_ontology"],
+        "union_csv": manifest.get("union_csv"),
+        "ground_truth_dir": manifest.get("ground_truth_dir"),
         "majority_vote_hits": majority_vote_hits,
         "majority_vote_accuracy": round(majority_vote_accuracy, 4),
+        "modal_hit_at_k": modal_hit_metrics,
         "baseline": {
             "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
             "available": baseline_available,
             "coverage": round(baseline_available / total_ontologies, 4) if total_ontologies else 0.0,
             "hits": baseline_hits,
             "accuracy": round(baseline_accuracy, 4),
+            "hit_at_k": baseline_hit_metrics,
         },
         "diagnostics": {
             "total_trials": total_trials,
@@ -1383,8 +1839,10 @@ def _build_summary_and_results(
             "valid_outputs": valid_outputs,
             "valid_output_rate": round(valid_output_rate, 4),
         },
+        "trial_hit_at_k": trial_hit_metrics,
         "per_disease": per_disease,
     }
+    _ensure_summary_hit_metrics(summary)
     return trial_results, summary
 
 
@@ -1501,10 +1959,26 @@ def _benchmark_auc_value(
     return f"{value:.4f}"
 
 
-def _in_target_topk_label(selected_id: Optional[str], row: dict[str, Any]) -> str:
+def _hit_at_k_field(field: str) -> Optional[int]:
+    match = re.fullmatch(r"Hit@(\d+)", field)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def _hit_at_k_label(selected_id: Optional[str], row: dict[str, Any], k: int) -> str:
     if not selected_id:
         return "N/A"
-    return "Yes" if selected_id in (row.get("target_topk_ids") or []) else "No"
+    candidate_count = _candidate_count(row)
+    if candidate_count < k:
+        return "N/A"
+    benchmark_topk_ids = dict(row.get("benchmark_topk_ids") or {})
+    if not benchmark_topk_ids:
+        benchmark_topk_ids = _benchmark_topk_ids(
+            list(row.get("benchmark_ranked_ids") or []),
+            dict(row.get("benchmark_auc_by_id") or {}),
+        )
+    return _hit_label(selected_id in set(benchmark_topk_ids.get(str(k)) or []))
 
 
 def _build_per_disease_doc_value(
@@ -1522,8 +1996,9 @@ def _build_per_disease_doc_value(
         return _benchmark_rank_label(selected_id, row)
     if field == "AoU benchmark AUC":
         return _benchmark_auc_value(ontology, selected_id, auc_lookup)
-    if field == "In Target_TopK":
-        return _in_target_topk_label(selected_id, row)
+    hit_k = _hit_at_k_field(field)
+    if hit_k is not None:
+        return _hit_at_k_label(selected_id, row, hit_k)
     if field == "Selection frequency":
         return selection_label
 
@@ -1531,13 +2006,13 @@ def _build_per_disease_doc_value(
     return _format_doc_value(_get_nested_field(model, field), field)
 
 
-def _target_columns(row: dict[str, Any]) -> list[tuple[str, Optional[str], str]]:
-    target_ids = list(row.get("target_topk_ids") or [])
+def _benchmark_columns(row: dict[str, Any]) -> list[tuple[str, Optional[str], str]]:
+    ranked_ids = list(row.get("benchmark_ranked_ids") or [])
     columns: list[tuple[str, Optional[str], str]] = []
-    for idx, target_id in enumerate(target_ids, start=1):
-        columns.append((f"Target #{idx}", target_id, f"Benchmark target #{idx}"))
+    for idx, benchmark_id in enumerate(ranked_ids[: max(BENCHMARK_HIT_KS)], start=1):
+        columns.append((f"Benchmark #{idx}", benchmark_id, f"Benchmark rank #{idx}"))
     if not columns:
-        columns.append(("Target #1", None, "Benchmark target #1"))
+        columns.append(("Benchmark #1", None, "Benchmark rank #1"))
     return columns
 
 
@@ -1560,10 +2035,8 @@ def _recompute_baseline_in_summary(summary: dict[str, Any]) -> dict[str, Any]:
             baseline_with_rank["rank"] = baseline_rank
             baseline_with_rank["rank_label"] = _rank_label(baseline_rank, row.get("n_models", 0))
         row["baseline"] = baseline_with_rank
-        row["baseline_in_target_topk"] = bool(
-            baseline and baseline.get("pgs_id") in set(row.get("target_topk_ids") or [])
-        )
 
+    _ensure_summary_hit_metrics(summary)
     baseline_hits = sum(1 for row in per_disease if row.get("baseline_in_target_topk"))
     baseline_available = sum(1 for row in per_disease if row.get("baseline"))
     baseline_accuracy = baseline_hits / total_ontologies if total_ontologies else 0.0
@@ -1581,8 +2054,10 @@ def _recompute_baseline_in_summary(summary: dict[str, Any]) -> dict[str, Any]:
 
 
 def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
+    _ensure_summary_hit_metrics(summary)
     auc_lookup = _load_aou_auc_lookup()
     per_disease_rows = _sort_disease_rows(summary["per_disease"])
+    output_path = _doc_path("without_domain_per_disease_comparison")
 
     lines = [
         "# Without Domain Knowledge: Per-Disease Comparison",
@@ -1593,19 +2068,31 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
         "",
         "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
         "",
-        "Each disease table includes all models in the benchmark `Target_TopK` set, listed in benchmark order as `Target #1..#K`.",
+        "Each disease table includes the benchmark top-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models).",
+        "Rows `Hit@1`..`Hit@5` use eligible-only denominators; diseases with fewer than `k` evaluated models are marked `N/A` for `Hit@k`.",
         "",
         "## High-Level Outcome",
         "",
-        (
-            f"- Without Domain Knowledge: "
-            f"`{summary['majority_vote_hits']}/{summary['total_ontologies']} = {_format_percent(summary['majority_vote_accuracy'])}`; "
-            f"`trial_hits = {summary['diagnostics']['trial_hits']}/{summary['diagnostics']['total_trials']} = {_format_percent(summary['diagnostics']['trial_hit_rate'])}`"
-        ),
-        (
-            f"- Baseline: `{summary['baseline']['hits']}/{summary['total_ontologies']} = "
-            f"{_format_percent(summary['baseline']['accuracy'])}`"
-        ),
+        *[
+            (
+                f"- Without Domain Knowledge `Hit@{k}`: "
+                f"`{summary['modal_hit_at_k'][str(k)]['hits']}/{summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{_format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
+                f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/{summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{_format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in BENCHMARK_HIT_KS
+        ],
+        *[
+            (
+                f"- Baseline `Hit@{k}`: `{summary['baseline']['hit_at_k'][str(k)]['hits']}/"
+                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']} = "
+                f"{_format_percent(summary['baseline']['hit_at_k'][str(k)]['accuracy'] or 0.0)}` "
+                f"(coverage `{summary['baseline']['hit_at_k'][str(k)]['available']}/"
+                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']}`)"
+            )
+            for k in BENCHMARK_HIT_KS
+        ],
         "",
         "## Per-Disease Tables",
         "",
@@ -1614,17 +2101,17 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
     for row in per_disease_rows:
         ontology = row["ontology"]
         models = _model_map(row)
-        target_columns = _target_columns(row)
+        benchmark_columns = _benchmark_columns(row)
         without_id = row.get("modal_recommendation")
         baseline_id = (row.get("baseline") or {}).get("pgs_id")
 
-        header = ["Field"] + [label for label, _, _ in target_columns] + ["Without Domain Knowledge", "Baseline", "Field Type"]
+        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["Without Domain Knowledge", "Baseline", "Field Type"]
         separator = ["---"] * len(header)
 
         lines.extend([
             f"### {ontology}",
             "",
-            f"Candidate pool: `{row['n_models']}` models. Benchmark `Target_TopK`: `{row['target_topk']}`.",
+            f"Candidate pool: `{row['n_models']}` models. Eligible `Hit@k`: `{_format_eligible_ks(row.get('eligible_at_k') or {})}`.",
             "",
             "",
             f"| {' | '.join(header)} |",
@@ -1633,12 +2120,12 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
 
         for field, field_type in FIELD_ROWS:
             values = [field]
-            for _, target_id, selection_label in target_columns:
+            for _, benchmark_id, selection_label in benchmark_columns:
                 values.append(
                     _build_per_disease_doc_value(
                         field=field,
                         ontology=ontology,
-                        selected_id=target_id,
+                        selected_id=benchmark_id,
                         row=row,
                         model_map=models,
                         auc_lookup=auc_lookup,
@@ -1673,19 +2160,15 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
         lines.extend(["", ""])
 
     DOCS_DIR.mkdir(parents=True, exist_ok=True)
-    WITHOUT_DOMAIN_PER_DISEASE_DOC.write_text("\n".join(lines), encoding="utf-8")
-    return WITHOUT_DOMAIN_PER_DISEASE_DOC
+    output_path.write_text("\n".join(lines), encoding="utf-8")
+    return output_path
 
 
 def _write_report(summary: dict[str, Any]) -> None:
+    _ensure_summary_hit_metrics(summary)
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
-    majority_vote_hits = summary["majority_vote_hits"]
-    majority_vote_accuracy = summary["majority_vote_accuracy"]
-    trial_hits = summary["diagnostics"]["trial_hits"]
-    trial_hit_rate = summary["diagnostics"]["trial_hit_rate"]
-    baseline_hits = summary["baseline"]["hits"]
-    baseline_accuracy = summary["baseline"]["accuracy"]
+    nrs = summary.get("nrs") or _compute_nrs_metrics(summary)
     cost = summary.get("cost") or {}
     token_usage = cost.get("token_usage") or {}
     cost_breakdown = cost.get("estimated_cost_breakdown_usd") or {}
@@ -1709,35 +2192,59 @@ def _write_report(summary: dict[str, Any]) -> None:
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
             f"{_format_currency(cost_breakdown.get('output', 0.0))})"
         ),
-        (
-            f"- **Overall Recommended Model Accuracy**: {majority_vote_hits}/{total_ontologies} = "
-            f"{_format_percent(majority_vote_accuracy)}; "
-            f"`trial_hits = {trial_hits}/{total_trials} = {_format_percent(trial_hit_rate)}`"
-        ),
-        (
-            f"- **Baseline (tiered: PGS-only AUROC, then full-model AUROC fallback)**: "
-            f"{baseline_hits}/{total_ontologies} = {_format_percent(baseline_accuracy)}"
-        ),
+        *[
+            (
+                f"- **Modal Hit@{k}**: {summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{_format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}; "
+                f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{_format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in BENCHMARK_HIT_KS
+        ],
+        *[
+            (
+                f"- **Baseline Hit@{k}**: {summary['baseline']['hit_at_k'][str(k)]['hits']}/"
+                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']} = "
+                f"{_format_percent(summary['baseline']['hit_at_k'][str(k)]['accuracy'] or 0.0)} "
+                f"(coverage {summary['baseline']['hit_at_k'][str(k)]['available']}/"
+                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']})"
+            )
+            for k in BENCHMARK_HIT_KS
+        ],
         "",
         "## Experiment Setup",
         "",
         "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_performance_landscape",
         "- **Domain Knowledge**: Disabled",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
-        "- **Success rule**: a run is successful iff the recommended `PGS ID` belongs to that disease's `Target_TopK` set",
+        "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking; diseases with fewer than `k` evaluated models are excluded from the `Hit@k` denominator",
         "- **Baseline rule**: tiered—Tier 1 uses highest PGS-only AUROC; Tier 2 falls back to highest full-model AUROC when no candidate has PGS-comparable AUROC",
+        "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
+        "",
+        "## Normalized Ranking Score (NRS)",
+        "",
+        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
+        "- Formula: `NRS = (M - r) / (M - 1)`, with `r = 1` as best and `r = M` as worst.",
+        "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+        (
+            f"- Without Domain Knowledge: `mean NRS = {_format_score(nrs['modal_mean_nrs'])}` "
+            f"({nrs['modal_count']} modal selections); "
+            f"`trial mean NRS = {_format_score(nrs['trial_mean_nrs'])}` "
+            f"({nrs['trial_count']} trials)"
+        ),
         "",
         "## Results by Disease",
         "",
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Target_TopK | Trial Hits | Without Domain Knowledge Hits Target | Without Domain Knowledge | Baseline Hits Target | Baseline Models |",
-        "|----------|----------|-------------|------------|------------------------|------------|----------------------|-----------------|",
+        "| Ontology | N Models | Eligible Ks | Trial Hit@1..5 | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | Baseline Hit@1..5 | Baseline Models |",
+        "|----------|----------|-------------|---------------|-------------------------------------|--------------------------|-------------------|-----------------|",
     ]
 
     for row in per_disease_rows:
-        modal_hit = "Yes" if row["modal_recommendation_in_target_topk"] else "No"
         recommendation_models = "<br>".join(
             f"{item['pgs_id']} (AUC rank {item['rank_label']}): x{item['count']}"
             for item in (row.get("recommended_model_counts") or [])
@@ -1750,11 +2257,12 @@ def _write_report(summary: dict[str, Any]) -> None:
             if baseline_id
             else "-"
         )
-        baseline_hit = "Yes" if row["baseline_in_target_topk"] else "No"
         lines.append(
-            f"| {row['ontology']} | {row['n_models']} | {row['target_topk']} | "
-            f"{row['trial_hits']}/{summary['trials_per_ontology']} | "
-            f"{modal_hit} | {recommendation_models} | {baseline_hit} | {baseline_text} |"
+            f"| {row['ontology']} | {row['n_models']} | {_format_eligible_ks(row.get('eligible_at_k') or {})} | "
+            f"{_format_rate_vector(row.get('trial_hit_rates_at_k') or {})} | "
+            f"{_format_hit_vector(row.get('modal_recommendation_hit_at_k') or {})} | "
+            f"{recommendation_models} | "
+            f"{_format_hit_vector(row.get('baseline_hit_at_k') or {})} | {baseline_text} |"
         )
 
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
@@ -1848,6 +2356,18 @@ def main() -> int:
     parser.add_argument("--ontologies-file", type=str, default=None, help="Path to a newline-delimited ontology filter file")
     parser.add_argument("--run-tag", type=str, default=None, help="Optional tag appended to the run directory name")
     parser.add_argument(
+        "--union-csv",
+        type=str,
+        default=str(DEFAULT_UNION_CSV),
+        help="Disease union CSV used for evaluation (default: frozen 30-disease union).",
+    )
+    parser.add_argument(
+        "--ground-truth-dir",
+        type=str,
+        default=None,
+        help="Ground-truth directory produced by generate_evaluated_pgs_list.py. Defaults to a path derived from --union-csv.",
+    )
+    parser.add_argument(
         "--refresh-cache",
         action="store_true",
         help="Ignore experiment-local prepare cache and refetch candidate metadata",
@@ -1862,6 +2382,7 @@ def main() -> int:
         os.environ["OPENAI_MODEL"] = args.model
 
     ontology_filter = _load_ontology_filter(args.ontology, args.ontologies_file)
+    _configure_benchmark_sources(union_csv=args.union_csv, ground_truth_dir=args.ground_truth_dir)
     _set_run_paths(trials=args.trials, model=args.model, run_tag=args.run_tag)
 
     try:

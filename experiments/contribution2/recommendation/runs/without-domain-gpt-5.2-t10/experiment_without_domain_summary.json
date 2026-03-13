@@ -8,19 +8,56 @@
   "model": "gpt-5.2",
   "total_ontologies": 30,
   "trials_per_ontology": 10,
-  "majority_vote_hits": 19,
-  "majority_vote_accuracy": 0.6333,
+  "majority_vote_hits": 14,
+  "majority_vote_accuracy": 0.4667,
   "baseline": {
     "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
-    "hits": 11,
-    "accuracy": 0.3667,
+    "hits": 6,
+    "accuracy": 0.2,
     "available": 28,
-    "coverage": 0.9333
+    "coverage": 0.9333,
+    "hit_at_k": {
+      "1": {
+        "hits": 6,
+        "eligible": 30,
+        "accuracy": 0.2,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "2": {
+        "hits": 10,
+        "eligible": 30,
+        "accuracy": 0.3333,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "3": {
+        "hits": 16,
+        "eligible": 30,
+        "accuracy": 0.5333,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "4": {
+        "hits": 16,
+        "eligible": 26,
+        "accuracy": 0.6154,
+        "available": 25,
+        "coverage": 0.9615
+      },
+      "5": {
+        "hits": 14,
+        "eligible": 22,
+        "accuracy": 0.6364,
+        "available": 22,
+        "coverage": 1.0
+      }
+    }
   },
   "diagnostics": {
     "total_trials": 300,
-    "trial_hits": 190,
-    "trial_hit_rate": 0.6333,
+    "trial_hits": 134,
+    "trial_hit_rate": 0.4467,
     "valid_outputs": 300,
     "valid_output_rate": 1.0
   },
@@ -261,70 +298,140 @@
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS003973",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -355,7 +462,69 @@
         "rank": 1,
         "rank_label": "1/6"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": true,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS003973"
+        ],
+        "2": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "3": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972"
+        ],
+        "4": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784"
+        ],
+        "5": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784",
+          "PGS000753"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "age-related macular degeneration",
@@ -541,8 +710,8 @@
           "validation_sample_size": "n=1,780"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 6,
+      "trial_hit_rate": 0.6,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -569,70 +738,140 @@
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS004606",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS004606",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS004606",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS004606",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS004606",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS004606",
           "rank": 1,
           "rank_label": "1/6",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -669,7 +908,69 @@
         "rank": 3,
         "rank_label": "3/6"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS004606"
+        ],
+        "2": [
+          "PGS004606",
+          "PGS002269"
+        ],
+        "3": [
+          "PGS004606",
+          "PGS002269",
+          "PGS004952"
+        ],
+        "4": [
+          "PGS004606",
+          "PGS002269",
+          "PGS004952",
+          "PGS001834"
+        ],
+        "5": [
+          "PGS004606",
+          "PGS002269",
+          "PGS004952",
+          "PGS001834",
+          "PGS002041"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 6,
+        "2": 6,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.6,
+        "2": 0.6,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "alcohol dependence",
@@ -819,70 +1120,140 @@
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS002738",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -904,7 +1275,63 @@
         "variants": 3
       },
       "baseline": null,
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS002738"
+        ],
+        "2": [
+          "PGS002738",
+          "PGS000201"
+        ],
+        "3": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202"
+        ],
+        "4": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202",
+          "PGS002739"
+        ],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": null
+      }
     },
     {
       "ontology": "ankylosing spondylitis",
@@ -1145,8 +1572,8 @@
           "validation_sample_size": "n=1,298"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -1154,7 +1581,7 @@
       "modal_recommendation_count": 10,
       "modal_recommendation_rank": 3,
       "modal_recommendation_rank_label": "3/9",
-      "modal_recommendation_in_target_topk": true,
+      "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001268",
         "PGS001268",
@@ -1173,70 +1600,140 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -1267,7 +1764,69 @@
         "rank": 3,
         "rank_label": "3/9"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS001876"
+        ],
+        "2": [
+          "PGS001876",
+          "PGS001267"
+        ],
+        "3": [
+          "PGS001876",
+          "PGS001267",
+          "PGS001268"
+        ],
+        "4": [
+          "PGS001876",
+          "PGS001267",
+          "PGS001268",
+          "PGS002089"
+        ],
+        "5": [
+          "PGS001876",
+          "PGS001267",
+          "PGS001268",
+          "PGS002089",
+          "PGS003424"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "aortic stenosis",
@@ -1528,70 +2087,140 @@
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005252",
           "rank": 8,
           "rank_label": "8/8",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         }
       ],
       "recommended_model_counts": [
@@ -1621,7 +2250,69 @@
         "rank": 8,
         "rank_label": "8/8"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005254"
+        ],
+        "2": [
+          "PGS005254",
+          "PGS005255"
+        ],
+        "3": [
+          "PGS005254",
+          "PGS005255",
+          "PGS005256"
+        ],
+        "4": [
+          "PGS005254",
+          "PGS005255",
+          "PGS005256",
+          "PGS004911"
+        ],
+        "5": [
+          "PGS005254",
+          "PGS005255",
+          "PGS005256",
+          "PGS004911",
+          "PGS004910"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0
+      }
     },
     {
       "ontology": "cervical carcinoma",
@@ -1825,70 +2516,140 @@
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001299",
           "rank": 6,
           "rank_label": "6/6",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         }
       ],
       "recommended_model_counts": [
@@ -1919,7 +2680,69 @@
         "rank": 6,
         "rank_label": "6/6"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000073"
+        ],
+        "2": [
+          "PGS000073",
+          "PGS000784"
+        ],
+        "3": [
+          "PGS000073",
+          "PGS000784",
+          "PGS003389"
+        ],
+        "4": [
+          "PGS000073",
+          "PGS000784",
+          "PGS003389",
+          "PGS005165"
+        ],
+        "5": [
+          "PGS000073",
+          "PGS000784",
+          "PGS003389",
+          "PGS005165",
+          "PGS003428"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0
+      }
     },
     {
       "ontology": "cutaneous melanoma",
@@ -2107,70 +2930,140 @@
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS003382",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -2200,7 +3093,69 @@
         "rank": 1,
         "rank_label": "1/5"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": true,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS003382"
+        ],
+        "2": [
+          "PGS003382",
+          "PGS004247"
+        ],
+        "3": [
+          "PGS003382",
+          "PGS004247",
+          "PGS000766"
+        ],
+        "4": [
+          "PGS003382",
+          "PGS004247",
+          "PGS000766",
+          "PGS003745"
+        ],
+        "5": [
+          "PGS003382",
+          "PGS004247",
+          "PGS000766",
+          "PGS003745",
+          "PGS000339"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "graves disease",
@@ -2433,8 +3388,8 @@
           "validation_sample_size": "n=94,651"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -2442,7 +3397,7 @@
       "modal_recommendation_count": 10,
       "modal_recommendation_rank": 2,
       "modal_recommendation_rank_label": "2/7",
-      "modal_recommendation_in_target_topk": true,
+      "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005265",
         "PGS005265",
@@ -2461,70 +3416,140 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -2555,7 +3580,69 @@
         "rank": 5,
         "rank_label": "5/7"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005266"
+        ],
+        "2": [
+          "PGS005266",
+          "PGS005265"
+        ],
+        "3": [
+          "PGS005266",
+          "PGS005265",
+          "PGS005264"
+        ],
+        "4": [
+          "PGS005266",
+          "PGS005265",
+          "PGS005264",
+          "PGS002023"
+        ],
+        "5": [
+          "PGS005266",
+          "PGS005265",
+          "PGS005264",
+          "PGS002023",
+          "PGS001042"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "hashimoto's thyroiditis",
@@ -2710,70 +3797,140 @@
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005270",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -2804,7 +3961,58 @@
         "rank": 3,
         "rank_label": "3/3"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005272"
+        ],
+        "2": [
+          "PGS005272",
+          "PGS005271"
+        ],
+        "3": [
+          "PGS005272",
+          "PGS005271",
+          "PGS005270"
+        ],
+        "4": [],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": false,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 10,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0,
+        "4": null,
+        "5": null
+      }
     },
     {
       "ontology": "hodgkins lymphoma",
@@ -3618,70 +4826,140 @@
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS000639",
           "rank": 1,
           "rank_label": "1/27",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -3711,7 +4989,69 @@
         "rank": 10,
         "rank_label": "10/27"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000639"
+        ],
+        "2": [
+          "PGS000639",
+          "PGS003449"
+        ],
+        "3": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638"
+        ],
+        "4": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638",
+          "PGS003454"
+        ],
+        "5": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638",
+          "PGS003454",
+          "PGS000648"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "hypertrophic cardiomyopathy",
@@ -3846,8 +5186,8 @@
           "validation_sample_size": "n=343,182"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 8,
+      "trial_hit_rate": 0.8,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -3874,70 +5214,140 @@
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS000739",
           "rank": 2,
           "rank_label": "2/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS000739",
           "rank": 2,
           "rank_label": "2/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS004911",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -3974,7 +5384,63 @@
         "rank": 2,
         "rank_label": "2/4"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS004911"
+        ],
+        "2": [
+          "PGS004911",
+          "PGS000739"
+        ],
+        "3": [
+          "PGS004911",
+          "PGS000739",
+          "PGS004910"
+        ],
+        "4": [
+          "PGS004911",
+          "PGS000739",
+          "PGS004910",
+          "PGS000778"
+        ],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 8,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.8,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": null
+      }
     },
     {
       "ontology": "hypothyroidism",
@@ -4824,70 +6290,140 @@
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -4915,7 +6451,69 @@
         "rank": 3,
         "rank_label": "3/28"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005268"
+        ],
+        "2": [
+          "PGS005268",
+          "PGS005269"
+        ],
+        "3": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218"
+        ],
+        "4": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218",
+          "PGS005267"
+        ],
+        "5": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218",
+          "PGS005267",
+          "PGS004789"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "juvenile idiopathic arthritis",
@@ -5070,70 +6668,140 @@
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS000114",
           "rank": 1,
           "rank_label": "1/4",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -5161,7 +6829,63 @@
         "rank": 4,
         "rank_label": "4/4"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000114"
+        ],
+        "2": [
+          "PGS000114",
+          "PGS000325"
+        ],
+        "3": [
+          "PGS000114",
+          "PGS000325",
+          "PGS000326"
+        ],
+        "4": [
+          "PGS000114",
+          "PGS000325",
+          "PGS000326",
+          "PGS000324"
+        ],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": true,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": null
+      }
     },
     {
       "ontology": "kidney cancer",
@@ -5590,70 +7314,140 @@
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/10",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -5683,7 +7477,69 @@
         "rank": 1,
         "rank_label": "1/10"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": true,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS004908"
+        ],
+        "2": [
+          "PGS004908",
+          "PGS000787"
+        ],
+        "3": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722"
+        ],
+        "4": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722",
+          "PGS004245"
+        ],
+        "5": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722",
+          "PGS004245",
+          "PGS000076"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "late-onset alzheimer's disease",
@@ -5915,70 +7771,140 @@
           "pgs_id": "PGS000334",
           "rank": 3,
           "rank_label": "3/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS004918",
           "rank": 4,
           "rank_label": "4/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS004918",
           "rank": 4,
           "rank_label": "4/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS004918",
           "rank": 4,
           "rank_label": "4/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS000334",
           "rank": 3,
           "rank_label": "3/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS000334",
           "rank": 3,
           "rank_label": "3/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS004918",
           "rank": 4,
           "rank_label": "4/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS000334",
           "rank": 3,
           "rank_label": "3/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS004918",
           "rank": 4,
           "rank_label": "4/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS004918",
           "rank": 4,
           "rank_label": "4/5",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -6014,7 +7940,69 @@
         "rank": 4,
         "rank_label": "4/5"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000054"
+        ],
+        "2": [
+          "PGS000054",
+          "PGS002289"
+        ],
+        "3": [
+          "PGS000054",
+          "PGS002289",
+          "PGS000334"
+        ],
+        "4": [
+          "PGS000054",
+          "PGS002289",
+          "PGS000334",
+          "PGS004918"
+        ],
+        "5": [
+          "PGS000054",
+          "PGS002289",
+          "PGS000334",
+          "PGS004918",
+          "PGS000053"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 4,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.4,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "nodular goiter",
@@ -6270,8 +8258,8 @@
           "validation_sample_size": "n=94,651"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -6279,7 +8267,7 @@
       "modal_recommendation_count": 10,
       "modal_recommendation_rank": 2,
       "modal_recommendation_rank_label": "2/7",
-      "modal_recommendation_in_target_topk": true,
+      "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005262",
         "PGS005262",
@@ -6298,70 +8286,140 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -6392,7 +8450,69 @@
         "rank": 6,
         "rank_label": "6/7"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005263"
+        ],
+        "2": [
+          "PGS005263",
+          "PGS005262"
+        ],
+        "3": [
+          "PGS005263",
+          "PGS005262",
+          "PGS005261"
+        ],
+        "4": [
+          "PGS005263",
+          "PGS005262",
+          "PGS005261",
+          "PGS002022"
+        ],
+        "5": [
+          "PGS005263",
+          "PGS005262",
+          "PGS005261",
+          "PGS002022",
+          "PGS001814"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "obesity",
@@ -6693,70 +8813,140 @@
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001298",
           "rank": 8,
           "rank_label": "8/10",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         }
       ],
       "recommended_model_counts": [
@@ -6787,7 +8977,69 @@
         "rank": 8,
         "rank_label": "8/10"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005235"
+        ],
+        "2": [
+          "PGS005235",
+          "PGS005154"
+        ],
+        "3": [
+          "PGS005235",
+          "PGS005154",
+          "PGS003959"
+        ],
+        "4": [
+          "PGS005235",
+          "PGS005154",
+          "PGS003959",
+          "PGS002033"
+        ],
+        "5": [
+          "PGS005235",
+          "PGS005154",
+          "PGS003959",
+          "PGS002033",
+          "PGS005145"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0
+      }
     },
     {
       "ontology": "obstructive sleep apnea",
@@ -7353,70 +9605,140 @@
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -7447,7 +9769,69 @@
         "rank": 2,
         "rank_label": "2/20"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005220"
+        ],
+        "2": [
+          "PGS005220",
+          "PGS005219"
+        ],
+        "3": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479"
+        ],
+        "4": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213"
+        ],
+        "5": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213",
+          "PGS003857"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "open-angle glaucoma",
@@ -7653,70 +10037,140 @@
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS004944",
           "rank": 1,
           "rank_label": "1/5",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -7746,7 +10200,69 @@
         "rank": 2,
         "rank_label": "2/5"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS004944"
+        ],
+        "2": [
+          "PGS004944",
+          "PGS001797"
+        ],
+        "3": [
+          "PGS004944",
+          "PGS001797",
+          "PGS002741"
+        ],
+        "4": [
+          "PGS004944",
+          "PGS001797",
+          "PGS002741",
+          "PGS000764"
+        ],
+        "5": [
+          "PGS004944",
+          "PGS001797",
+          "PGS002741",
+          "PGS000764",
+          "PGS000350"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "peripheral vascular disease",
@@ -7931,70 +10447,140 @@
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS002055",
           "rank": 2,
           "rank_label": "2/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001843",
           "rank": 4,
           "rank_label": "4/4",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -8031,7 +10617,63 @@
         "rank": 1,
         "rank_label": "1/4"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": true,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005217"
+        ],
+        "2": [
+          "PGS005217",
+          "PGS002055"
+        ],
+        "3": [
+          "PGS005217",
+          "PGS002055",
+          "PGS005158"
+        ],
+        "4": [
+          "PGS005217",
+          "PGS002055",
+          "PGS005158",
+          "PGS001843"
+        ],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": true,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 1,
+        "3": 1,
+        "4": 10,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.1,
+        "3": 0.1,
+        "4": 1.0,
+        "5": null
+      }
     },
     {
       "ontology": "preeclampsia",
@@ -8164,70 +10806,140 @@
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS003586",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -8247,7 +10959,58 @@
         "trait_match": 10
       },
       "baseline": null,
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS003586"
+        ],
+        "2": [
+          "PGS003586",
+          "PGS004593"
+        ],
+        "3": [
+          "PGS003586",
+          "PGS004593",
+          "PGS003587"
+        ],
+        "4": [],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": false,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": null,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": null,
+        "5": null
+      }
     },
     {
       "ontology": "prostate cancer",
@@ -11288,70 +14051,140 @@
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005237",
           "rank": 72,
           "rank_label": "72/96",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         }
       ],
       "recommended_model_counts": [
@@ -11381,7 +14214,69 @@
         "rank": 18,
         "rank_label": "18/96"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000566"
+        ],
+        "2": [
+          "PGS000566",
+          "PGS000044"
+        ],
+        "3": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292"
+        ],
+        "4": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592"
+        ],
+        "5": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592",
+          "PGS002793"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0
+      }
     },
     {
       "ontology": "pulmonary embolism",
@@ -11581,8 +14476,8 @@
           "validation_sample_size": "n=56,192"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -11590,7 +14485,7 @@
       "modal_recommendation_count": 7,
       "modal_recommendation_rank": 2,
       "modal_recommendation_rank_label": "2/7",
-      "modal_recommendation_in_target_topk": true,
+      "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001280",
         "PGS001279",
@@ -11609,70 +14504,140 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001279",
           "rank": 4,
           "rank_label": "4/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001279",
           "rank": 4,
           "rank_label": "4/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001279",
           "rank": 4,
           "rank_label": "4/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -11709,7 +14674,69 @@
         "rank": 4,
         "rank_label": "4/7"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS001278"
+        ],
+        "2": [
+          "PGS001278",
+          "PGS001280"
+        ],
+        "3": [
+          "PGS001278",
+          "PGS001280",
+          "PGS001277"
+        ],
+        "4": [
+          "PGS001278",
+          "PGS001280",
+          "PGS001277",
+          "PGS001279"
+        ],
+        "5": [
+          "PGS001278",
+          "PGS001280",
+          "PGS001277",
+          "PGS001279",
+          "PGS004530"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 7,
+        "3": 7,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.7,
+        "3": 0.7,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "renal carcinoma",
@@ -12086,70 +15113,140 @@
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS004908",
           "rank": 1,
           "rank_label": "1/8",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -12179,7 +15276,69 @@
         "rank": 1,
         "rank_label": "1/8"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": true,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS004908"
+        ],
+        "2": [
+          "PGS004908",
+          "PGS000787"
+        ],
+        "3": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722"
+        ],
+        "4": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722",
+          "PGS004245"
+        ],
+        "5": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722",
+          "PGS004245",
+          "PGS000076"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "skin carcinoma in situ",
@@ -12300,70 +15459,140 @@
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS000471",
           "rank": 1,
           "rank_label": "1/3",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -12394,7 +15623,58 @@
         "rank": 1,
         "rank_label": "1/3"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": true,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000471"
+        ],
+        "2": [
+          "PGS000471",
+          "PGS000470"
+        ],
+        "3": [
+          "PGS000471",
+          "PGS000470",
+          "PGS000469"
+        ],
+        "4": [],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": false,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": null,
+        "5": null
+      }
     },
     {
       "ontology": "sleep apnea",
@@ -12960,70 +16240,140 @@
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS005220",
           "rank": 1,
           "rank_label": "1/20",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -13052,7 +16402,69 @@
         "rank": 2,
         "rank_label": "2/20"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005220"
+        ],
+        "2": [
+          "PGS005220",
+          "PGS005219"
+        ],
+        "3": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479"
+        ],
+        "4": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213"
+        ],
+        "5": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213",
+          "PGS003857"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "testicular neoplasm",
@@ -13420,8 +16832,8 @@
           "validation_sample_size": "n=8,743"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
@@ -13429,7 +16841,7 @@
       "modal_recommendation_count": 10,
       "modal_recommendation_rank": 3,
       "modal_recommendation_rank_label": "3/14",
-      "modal_recommendation_in_target_topk": true,
+      "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS001164",
         "PGS001164",
@@ -13448,70 +16860,140 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true
+          "in_target_topk": true,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": true,
+            "5": true
+          }
         }
       ],
       "recommended_model_counts": [
@@ -13542,7 +17024,69 @@
         "rank": 3,
         "rank_label": "3/14"
       },
-      "baseline_in_target_topk": true
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000796"
+        ],
+        "2": [
+          "PGS000796",
+          "PGS000600"
+        ],
+        "3": [
+          "PGS000796",
+          "PGS000600",
+          "PGS001164"
+        ],
+        "4": [
+          "PGS000796",
+          "PGS000600",
+          "PGS001164",
+          "PGS000599"
+        ],
+        "5": [
+          "PGS000796",
+          "PGS000600",
+          "PGS001164",
+          "PGS000599",
+          "PGS000597"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 10,
+        "4": 10,
+        "5": 10
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      }
     },
     {
       "ontology": "thyroid carcinoma",
@@ -14511,70 +18055,140 @@
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001289",
           "rank": 24,
           "rank_label": "24/32",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         }
       ],
       "recommended_model_counts": [
@@ -14605,7 +18219,69 @@
         "rank": 24,
         "rank_label": "24/32"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS005260"
+        ],
+        "2": [
+          "PGS005260",
+          "PGS005274"
+        ],
+        "3": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273"
+        ],
+        "4": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273",
+          "PGS005259"
+        ],
+        "5": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273",
+          "PGS005259",
+          "PGS005258"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0
+      }
     },
     {
       "ontology": "uterine carcinoma",
@@ -15027,70 +18703,140 @@
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001795",
           "rank": 9,
           "rank_label": "9/14",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          }
         }
       ],
       "recommended_model_counts": [
@@ -15119,7 +18865,69 @@
         "rank": 10,
         "rank_label": "10/14"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000075"
+        ],
+        "2": [
+          "PGS000075",
+          "PGS000786"
+        ],
+        "3": [
+          "PGS000075",
+          "PGS000786",
+          "PGS003381"
+        ],
+        "4": [
+          "PGS000075",
+          "PGS000786",
+          "PGS003381",
+          "PGS002735"
+        ],
+        "5": [
+          "PGS000075",
+          "PGS000786",
+          "PGS003381",
+          "PGS002735",
+          "PGS004244"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.0,
+        "5": 0.0
+      }
     },
     {
       "ontology": "vitiligo",
@@ -15238,70 +19046,140 @@
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 2,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 3,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 4,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 5,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 6,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 7,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 8,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 9,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         },
         {
           "trial": 10,
           "pgs_id": "PGS001536",
           "rank": 3,
           "rank_label": "3/3",
-          "in_target_topk": false
+          "in_target_topk": false,
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": true,
+            "4": null,
+            "5": null
+          }
         }
       ],
       "recommended_model_counts": [
@@ -15331,7 +19209,58 @@
         "rank": 3,
         "rank_label": "3/3"
       },
-      "baseline_in_target_topk": false
+      "baseline_in_target_topk": false,
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS000760"
+        ],
+        "2": [
+          "PGS000760",
+          "PGS000738"
+        ],
+        "3": [
+          "PGS000760",
+          "PGS000738",
+          "PGS001536"
+        ],
+        "4": [],
+        "5": []
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": false,
+        "5": false
+      },
+      "modal_recommendation_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": true,
+        "4": null,
+        "5": null
+      },
+      "trial_hit_counts_at_k": {
+        "1": 0,
+        "2": 0,
+        "3": 10,
+        "4": 0,
+        "5": 0
+      },
+      "trial_hit_rates_at_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "3": 1.0,
+        "4": null,
+        "5": null
+      }
     }
   ],
   "cost": {
@@ -15355,5 +19284,78 @@
       "output": 0.4778
     },
     "estimated_total_cost_usd": 1.0176
+  },
+  "modal_hit_at_k": {
+    "1": {
+      "hits": 14,
+      "eligible": 30,
+      "accuracy": 0.4667
+    },
+    "2": {
+      "hits": 17,
+      "eligible": 30,
+      "accuracy": 0.5667
+    },
+    "3": {
+      "hits": 22,
+      "eligible": 30,
+      "accuracy": 0.7333
+    },
+    "4": {
+      "hits": 20,
+      "eligible": 26,
+      "accuracy": 0.7692
+    },
+    "5": {
+      "hits": 16,
+      "eligible": 22,
+      "accuracy": 0.7273
+    }
+  },
+  "trial_hit_at_k": {
+    "1": {
+      "hits": 134,
+      "eligible": 300,
+      "accuracy": 0.4467
+    },
+    "2": {
+      "hits": 164,
+      "eligible": 300,
+      "accuracy": 0.5467
+    },
+    "3": {
+      "hits": 222,
+      "eligible": 300,
+      "accuracy": 0.74
+    },
+    "4": {
+      "hits": 200,
+      "eligible": 260,
+      "accuracy": 0.7692
+    },
+    "5": {
+      "hits": 160,
+      "eligible": 220,
+      "accuracy": 0.7273
+    }
+  },
+  "nrs": {
+    "modal_mean_nrs": 0.6789614077763242,
+    "modal_count": 30,
+    "trial_mean_nrs": 0.6736280744429914,
+    "trial_count": 300
+  },
+  "hit_at_k_definition": {
+    "k_values": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "eligible_only_denominator": true,
+    "tie_aware_cutoff": true,
+    "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/top_k_pgs_per_ontology.json",
+    "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/benchmark_auc_per_ontology.json"
   }
 }

@@ -1,0 +1,1607 @@
+{
+  "cache_version": "v4",
+  "ontology": "heart failure",
+  "candidate_model_ids": [
+    "PGS005079",
+    "PGS002049",
+    "PGS005081",
+    "PGS005306",
+    "PGS005077",
+    "PGS000709",
+    "PGS004462",
+    "PGS004532",
+    "PGS001840",
+    "PGS005080",
+    "PGS002051",
+    "PGS005300",
+    "PGS005083",
+    "PGS005303",
+    "PGS001790",
+    "PGS005075",
+    "PGS005085",
+    "PGS001842",
+    "PGS003969",
+    "PGS005299",
+    "PGS005082",
+    "PGS005084",
+    "PGS005305",
+    "PGS005074",
+    "PGS005076",
+    "PGS005073",
+    "PGS005078",
+    "PGS005301",
+    "PGS005097",
+    "PGS005319",
+    "PGS004598",
+    "PGS005304",
+    "PGS005302"
+  ],
+  "total_found": 34,
+  "candidate_models": [
+    {
+      "id": "PGS000709",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "snpnet (multi-PRS)",
+      "variants_number": 183287,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetics of 35 blood and urine biomarkers in the UK Biobank.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "n=223,327",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.635,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001614",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.635
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.08,
+            "ci_lower": 1.06,
+            "ci_upper": 1.1
+          }
+        ]
+      },
+      "phenotyping_reported": "Heart failure",
+      "covariates": "Age as time scale, sex, batch, PCs(1-10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=135,300"
+    },
+    {
+      "id": "PGS001790",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 910146,
+      "ancestry_distribution": "GWAS: AFR (3%), ASN (2%), EAS (28%), EUR (65%), OTH (2%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.006981,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.006981,
+        "full_model_auc": 0.75,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009294",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.006981
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Heart Failure",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "G&H",
+        "GS:SFHS",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "UCLA"
+      ],
+      "validation_sample_size": "n=358,905"
+    },
+    {
+      "id": "PGS001840",
+      "trait_reported": "Pulmonary heart disease",
+      "trait_efo": "cor pulmonale",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 330,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009610",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0355,
+            "ci_lower": 0.0216,
+            "ci_upper": 0.0494
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Pulmonary heart disease",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,808"
+    },
+    {
+      "id": "PGS001842",
+      "trait_reported": "Congestive heart failure; nonhypertensive",
+      "trait_efo": "congestive heart failure",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 2759,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009626",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0293,
+            "ci_lower": 0.0154,
+            "ci_upper": 0.0432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Congestive heart failure; nonhypertensive",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,961"
+    },
+    {
+      "id": "PGS002049",
+      "trait_reported": "Pulmonary heart disease",
+      "trait_efo": "cor pulmonale",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 222371,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011254",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0397,
+            "ci_lower": 0.0258,
+            "ci_upper": 0.0536
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Pulmonary heart disease",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,808"
+    },
+    {
+      "id": "PGS002051",
+      "trait_reported": "Congestive heart failure; nonhypertensive",
+      "trait_efo": "congestive heart failure",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 642241,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011270",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0235,
+            "ci_lower": 0.0097,
+            "ci_upper": 0.0374
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Congestive heart failure; nonhypertensive",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,961"
+    },
+    {
+      "id": "PGS003969",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 39,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analysis and Mendelian randomization proteomics identify drug targets for heart failure.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019123",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28,
+            "ci_lower": 1.24,
+            "ci_upper": 1.31
+          }
+        ]
+      },
+      "phenotyping_reported": "Heart failure",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "HERMES",
+        "MVP"
+      ],
+      "validation_sample_size": "n=75,119"
+    },
+    {
+      "id": "PGS004462",
+      "trait_reported": "I50 (Heart failure)",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020577",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.1581499383831
+          }
+        ]
+      },
+      "phenotyping_reported": "I50 (Heart failure)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004532",
+      "trait_reported": "I50 (Heart failure)",
+      "trait_efo": "heart failure",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020647",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.267132
+          }
+        ]
+      },
+      "phenotyping_reported": "I50 (Heart failure)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004598",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Lifestyle Factors, Genetic Risk, and Cardiovascular Disease Risk among Breast Cancer Survivors: A Prospective Cohort Study in UK Biobank.",
+        "journal": "Nutrients"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020747",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, top 50% vs bottom 50% of PRS)",
+            "name_short": "Hazard ratio (HR, top 50% vs bottom 50% of PRS)",
+            "estimate": 1.4,
+            "ci_lower": 1.06,
+            "ci_upper": 1.84
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident heart failure in breast cancer survivors",
+      "covariates": "Age at diagnosis of breast cancer, race, Townsend Deprivation Index, diabetes, hypertension, antihypertensive medications, insulin treatment, lipid treatments, hormone replacement therapy, menopause, surgical treatment of breast cancer, genetic testing batches, 10 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=13,348"
+    },
+    {
+      "id": "PGS005073",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.740955816673795,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021962",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.740955816673795
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.128,
+            "ci_lower": 1.07,
+            "ci_upper": 1.19
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005074",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75176822248595,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021964",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.75176822248595
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.427,
+            "ci_lower": 1.35,
+            "ci_upper": 1.51
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005075",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.739813088960956,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021963",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.739813088960956
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.095,
+            "ci_lower": 1.04,
+            "ci_upper": 1.15
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005076",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.753249050693995,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021959",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.753249050693995
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.443,
+            "ci_lower": 1.37,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005077",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.753575892982002,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021960",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.753575892982002
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.452,
+            "ci_lower": 1.38,
+            "ci_upper": 1.53
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005078",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75253114316328,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021961",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.75253114316328
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.442,
+            "ci_lower": 1.37,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005079",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.740799126835494,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021870",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.740799126835494
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.127,
+            "ci_lower": 1.07,
+            "ci_upper": 1.19
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005080",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.753167231870001,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021872",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.753167231870001
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44,
+            "ci_lower": 1.37,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005081",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.739629867543453,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021871",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.739629867543453
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.09,
+            "ci_lower": 1.04,
+            "ci_upper": 1.15
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005082",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.750650865103669,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021867",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.750650865103669
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.39,
+            "ci_lower": 1.32,
+            "ci_upper": 1.47
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005083",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.753682708175126,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021868",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.753682708175126
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.455,
+            "ci_lower": 1.38,
+            "ci_upper": 1.54
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005084",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscs",
+      "variants_number": 1273897,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.752717828644536,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021869",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.752717828644536
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.45,
+            "ci_lower": 1.37,
+            "ci_upper": 1.53
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005085",
+      "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+      "trait_efo": "congestive heart failure",
+      "method_name": "prscsx",
+      "variants_number": 1256161,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.752798309080262,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021873",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.752798309080262
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.437,
+            "ci_lower": 1.36,
+            "ci_upper": 1.51
+          }
+        ]
+      },
+      "phenotyping_reported": "Congestive heart failure (CHF), NOS",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=31,804"
+    },
+    {
+      "id": "PGS005097",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "PRS-CSx",
+      "variants_number": 1274692,
+      "ancestry_distribution": "GWAS: AFR (6%), AMR (3%), EAS (11%), EUR (80%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Common-variant and rare-variant genetic architecture of heart failure across the allele-frequency spectrum.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2025-04-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.72,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022207",
+        "selected_validation_ancestry": "European, African unspecified",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72,
+            "ci_lower": 0.72,
+            "ci_upper": 0.73
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Brier skill score",
+            "name_short": "Brier skill score",
+            "estimate": 0.065,
+            "ci_lower": 0.063,
+            "ci_upper": 0.068
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "Age, sex, 5 genetic principal components",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "CKB",
+        "FinnGen",
+        "GBMI",
+        "HERMES",
+        "MVP",
+        "MyCode",
+        "UCLA",
+        "eMERGE"
+      ],
+      "validation_sample_size": "n=40,989"
+    },
+    {
+      "id": "PGS005299",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 923722,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.616,
+        "full_model_r2": 0.03455,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023007",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.616
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03455
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005300",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 923722,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=2,500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.612,
+        "full_model_r2": 0.03182,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023008",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.612
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03182
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005301",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 923722,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62709,
+        "full_model_r2": 0.03046,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023009",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.62709
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03046
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=5,152"
+    },
+    {
+      "id": "PGS005302",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 923722,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=1,503",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5748171,
+        "full_model_r2": 0.01618,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023010",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5748171
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01618
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=7,525"
+    },
+    {
+      "id": "PGS005303",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 1042531,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613,
+        "full_model_r2": 0.03272,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023011",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.613
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03272
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005304",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 1042531,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=2,500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.611,
+        "full_model_r2": 0.03107,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023012",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.611
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03107
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=12,677"
+    },
+    {
+      "id": "PGS005305",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 1042531,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=997",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.628,
+        "full_model_r2": 0.03192,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023013",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.628
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03192
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=5,152"
+    },
+    {
+      "id": "PGS005306",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "LDpred2",
+      "variants_number": 1042531,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic analyses across cardiovascular traits: leveraging genetic correlations to empower locus discovery and prediction in common cardiovascular diseases.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2025-12-18",
+      "samples_training": "n=1,503",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5717812,
+        "full_model_r2": 0.01529,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023014",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5717812
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01529
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Prevalent heart failure",
+      "covariates": "age, sex, four first principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "MHI"
+      ],
+      "validation_sample_size": "n=7,525"
+    },
+    {
+      "id": "PGS005319",
+      "trait_reported": "Heart failure",
+      "trait_efo": "heart failure",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic scores for cardiovascular risk factors improve estimation of clinical outcomes in CCB treatment compared to pharmacogenetic variants alone.",
+        "journal": "Pharmacogenomics J"
+      },
+      "date_release": "2025-10-06",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023066",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.14,
+            "ci_lower": 1.09,
+            "ci_upper": 1.19
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident heart failure",
+      "covariates": "sex, age at first prescription and genetic principal components 1 to 10",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=32,360"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS005083",
+    "reported_auc": 0.7537,
+    "tier": "full_model_auroc",
+    "trait_reported": "Congestive heart failure (CHF), NOS (PheCode 428.1)",
+    "method_name": "prscs",
+    "validation_sample_size": "n=31,804"
+  }
+}

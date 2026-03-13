@@ -1,0 +1,570 @@
+{
+  "cache_version": "v4",
+  "ontology": "parkinson disease",
+  "candidate_model_ids": [
+    "PGS000056",
+    "PGS004924",
+    "PGS000211",
+    "PGS000902",
+    "PGS001774",
+    "PGS000123",
+    "PGS001353",
+    "PGS000750",
+    "PGS003763",
+    "PGS000777",
+    "PGS000903"
+  ],
+  "total_found": 11,
+  "candidate_models": [
+    {
+      "id": "PGS000056",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of Polygenic Risk Score With Cognitive Decline and Motor Progression in Parkinson Disease.",
+        "journal": "JAMA Neurol"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000141",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.44,
+            "ci_lower": 1.0,
+            "ci_upper": 2.07
+          }
+        ]
+      },
+      "phenotyping_reported": "Cognitive decline (time to MMSE 4-point decrease)",
+      "covariates": "sex, age at diagnosis",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=285"
+    },
+    {
+      "id": "PGS000123",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Parkinson disease polygenic risk score is associated with Parkinson disease status and age at onset but not with alpha-synuclein cerebrospinal fluid levels.",
+        "journal": "BMC Neurol"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000397",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Association (p-value)",
+            "name_short": "Association (p-value)",
+            "estimate": 0.000182
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 4.85,
+            "ci_lower": 2.32,
+            "ci_upper": 7.39
+          }
+        ]
+      },
+      "phenotyping_reported": "Parkinson disease",
+      "covariates": "age at last assessment, sex, 2 PCs of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=786"
+    },
+    {
+      "id": "PGS000211",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A cumulative genetic risk score predicts progression in Parkinson's disease.",
+        "journal": "Mov Disord"
+      },
+      "date_release": "2020-07-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000648",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.29,
+            "ci_lower": 1.06,
+            "ci_upper": 1.56
+          }
+        ]
+      },
+      "phenotyping_reported": "Motor decline (time to Hoehn & Yahr \u2265 3)",
+      "covariates": "sex, age at diagnosis",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=336"
+    },
+    {
+      "id": "PGS000750",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 43,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Excess of singleton loss-of-function variants in Parkinson's disease contributes to genetic risk.",
+        "journal": "J Med Genet"
+      },
+      "date_release": "2021-03-22",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.703,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001904",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.703,
+            "ci_lower": 0.698,
+            "ci_upper": 0.708
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Parkinson's disease",
+      "covariates": "Sex, singleton loss of function variant count, Parkinson's disease family history.",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=486"
+    },
+    {
+      "id": "PGS000777",
+      "trait_reported": "Parkinson's disease dementia",
+      "trait_efo": "cognitive decline measurement, Parkinson disease",
+      "method_name": "Variants associated with Parkinson's disease",
+      "variants_number": 3,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: MAE (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genome-wide survival study identifies a novel synaptic locus and polygenic score for cognitive progression in Parkinson's disease.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "n=3,821",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.688,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002014",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.688,
+            "ci_lower": 0.519,
+            "ci_upper": 0.817
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Hazard's Ratio (HR, top 25% vs PHS of 0)",
+            "name_short": "Hazard's Ratio (HR, top 25% vs PHS of 0)",
+            "estimate": 3.2,
+            "ci_lower": 1.26,
+            "ci_upper": 8.11
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 2.05,
+            "ci_lower": 1.16,
+            "ci_upper": 3.61
+          }
+        ]
+      },
+      "phenotyping_reported": "Parkinson's disease dementia",
+      "covariates": "Age at Parkinson's disease onset, sex, years of education, PCs(1-10), study cohort, genetic factors (genes: GBA, APOE \u03b54)",
+      "training_development_cohorts": [
+        "BannerHealth",
+        "CamPaIGN",
+        "DATATOP",
+        "DIGPD",
+        "HBS",
+        "NET-PD",
+        "PDBP",
+        "PIB",
+        "PICNICS",
+        "PPMI",
+        "PROPARK",
+        "ParkWest",
+        "PreCEPT"
+      ],
+      "validation_sample_size": "n=404"
+    },
+    {
+      "id": "PGS000902",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 90,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: MAE (100%) | EVAL: NR (40%), MAE (60%)",
+      "publication": {
+        "title": "Identification of novel risk loci, causal insights, and heritable risk for Parkinson's disease: a meta-analysis of genome-wide association studies.",
+        "journal": "Lancet Neurol"
+      },
+      "date_release": "2021-09-17",
+      "samples_training": "n=1,473,098",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.651,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002665",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.651,
+            "ci_lower": 0.617,
+            "ci_upper": 0.684
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Parkinson's disease",
+      "covariates": "PCs(1-5), age, sex",
+      "training_development_cohorts": [
+        "23andMe",
+        "HBS",
+        "IPDGC",
+        "PDBP",
+        "PPMI",
+        "UKB"
+      ],
+      "validation_sample_size": "n=999"
+    },
+    {
+      "id": "PGS000903",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 1805,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: MAE (100%) | EVAL: EUR (33%), MAE (33%), SAS (33%)",
+      "publication": {
+        "title": "Identification of novel risk loci, causal insights, and heritable risk for Parkinson's disease: a meta-analysis of genome-wide association studies.",
+        "journal": "Lancet Neurol"
+      },
+      "date_release": "2021-09-17",
+      "samples_training": "n=1,473,098",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.692,
+        "full_model_r2": 0.054,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002664",
+        "selected_validation_ancestry": "European, NR",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.692
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.054
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 25% vs bottom 25%)",
+            "name_short": "Odds Ratio (OR, top 25% vs bottom 25%)",
+            "estimate": 6.25,
+            "ci_lower": 4.26,
+            "ci_upper": 9.28
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.709,
+            "se": 0.072
+          }
+        ]
+      },
+      "phenotyping_reported": "Parkinson's disease",
+      "covariates": "PCs(1-5), age, sex",
+      "training_development_cohorts": [
+        "23andMe",
+        "HBS",
+        "IPDGC",
+        "PDBP",
+        "PPMI",
+        "UKB"
+      ],
+      "validation_sample_size": "n=999"
+    },
+    {
+      "id": "PGS001353",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "4 Genome-wide significant SNPs, 2 Asian specific risk variants",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: ASN (100%)",
+      "publication": {
+        "title": "Polygenic Risk Scores in a Prospective Parkinson's Disease Cohort.",
+        "journal": "Mov Disord"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.63,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM005177",
+        "selected_validation_ancestry": "Asian unspecified",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.63,
+            "ci_lower": 0.6,
+            "ci_upper": 0.66
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Hazard Ratio (HR, top 33.3% vs bottom 33.3%)",
+            "name_short": "Hazard Ratio (HR, top 33.3% vs bottom 33.3%)",
+            "estimate": 1.81,
+            "ci_lower": 1.37,
+            "ci_upper": 2.39
+          },
+          {
+            "name_long": "Hazard Ratio (HR, top 33.3% vs middle 33.3%)",
+            "name_short": "Hazard Ratio (HR, top 33.3% vs middle 33.3%)",
+            "estimate": 1.35,
+            "ci_lower": 1.0,
+            "ci_upper": 1.83
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Parkinson's disease",
+      "covariates": "Age of recruitment, year of interview (1993-1995, 1996-1998), dialect group (Cantonese, Hokkien), level of education (no formal education, primary school, secondary school or higher), body mass index (<20, 20-<24, 24-<28, 28+ kg/m2)",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=25,646"
+    },
+    {
+      "id": "PGS001774",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Variants associated with Parkinson's disease",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Prediction of Parkinson's Disease Risk Based on Genetic Profile and Established Risk Factors.",
+        "journal": "Genes (Basel)"
+      },
+      "date_release": "2021-11-25",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009236",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8,
+            "ci_lower": 0.77,
+            "ci_upper": 0.84
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Parkinson's disease",
+      "covariates": "Age, gender, head injury, family history of Parkinson's disease, depression, smoking (current or ever), body mass index",
+      "training_development_cohorts": [
+        "23andMe",
+        "Ash-Jewish",
+        "CHARGE",
+        "HIHG",
+        "IPDGC",
+        "NGRC",
+        "PGPD"
+      ],
+      "validation_sample_size": "n=699"
+    },
+    {
+      "id": "PGS003763",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 44,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Physical Frailty, Genetic Predisposition, and Incident Parkinson Disease.",
+        "journal": "JAMA Neurol"
+      },
+      "date_release": "2023-08-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018563",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low tertile)",
+            "name_short": "Hazard ratio (HR, high vs low tertile)",
+            "estimate": 1.72,
+            "ci_lower": 1.54,
+            "ci_upper": 1.93
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident Parkinson Disease",
+      "covariates": "genotyping array and the first 10 principal components of ancestry",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=314,998"
+    },
+    {
+      "id": "PGS004924",
+      "trait_reported": "Parkinson's disease",
+      "trait_efo": "Parkinson disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 90,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Polygenic risk score for Parkinson's disease and olfaction among middle-aged to older women.",
+        "journal": "Parkinsonism Relat Disord"
+      },
+      "date_release": "2024-07-31",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021702",
+        "selected_validation_ancestry": "European, African unspecified, Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, top vs bottom PGS quartile)",
+            "name_short": "Odds ratio (OR, top vs bottom PGS quartile)",
+            "estimate": 3.79,
+            "ci_lower": 1.64,
+            "ci_upper": 8.73
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Parkinson's disease",
+      "covariates": "Age, race, 5 PCs, self-reported sense of smell, education, smoking status, self-reported health status, and PM2.5 and NO2 in 2006",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,482"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001774",
+    "reported_auc": 0.8,
+    "tier": "full_model_auroc",
+    "trait_reported": "Parkinson's disease",
+    "method_name": "Variants associated with Parkinson's disease",
+    "validation_sample_size": "n=699"
+  }
+}

@@ -1,0 +1,2304 @@
+{
+  "cache_version": "v4",
+  "ontology": "rheumatoid arthritis",
+  "candidate_model_ids": [
+    "PGS001268",
+    "PGS001287",
+    "PGS004049",
+    "PGS004819",
+    "PGS004133",
+    "PGS000194",
+    "PGS004118",
+    "PGS000325",
+    "PGS003422",
+    "PGS003421",
+    "PGS004163",
+    "PGS004817",
+    "PGS002088",
+    "PGS004079",
+    "PGS001310",
+    "PGS004257",
+    "PGS000342",
+    "PGS001311",
+    "PGS003424",
+    "PGS004818",
+    "PGS004064",
+    "PGS004148",
+    "PGS004820",
+    "PGS003994",
+    "PGS004094",
+    "PGS001267",
+    "PGS001876",
+    "PGS000195",
+    "PGS002745",
+    "PGS004010",
+    "PGS004326",
+    "PGS003423",
+    "PGS001875",
+    "PGS004103",
+    "PGS002089",
+    "PGS002769",
+    "PGS001309",
+    "PGS003420",
+    "PGS002260",
+    "PGS000114",
+    "PGS004873",
+    "PGS004021"
+  ],
+  "total_found": 48,
+  "candidate_models": [
+    {
+      "id": "PGS000114",
+      "trait_reported": "Juvenile Idiopathic Arthritis",
+      "trait_efo": "juvenile idiopathic arthritis",
+      "method_name": "SparSNP",
+      "variants_number": 26,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+        "journal": "Ann Rheum Dis"
+      },
+      "date_release": "2020-02-27",
+      "samples_training": "n=7,505",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.738,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000263",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.738,
+            "ci_lower": 0.705,
+            "ci_upper": 0.77
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.085,
+            "ci_lower": 1.773,
+            "ci_upper": 2.471
+          }
+        ]
+      },
+      "phenotyping_reported": "Juvenile Idiopathic Arthritis",
+      "covariates": "sex, genetic PCs 1-10",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=940"
+    },
+    {
+      "id": "PGS000194",
+      "trait_reported": "Rheumatoid arthritis (CCP-negative)",
+      "trait_efo": "ACPA-positive rheumatoid arthritis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 114,
+      "ancestry_distribution": "GWAS: EAS (12%), EUR (88%) | EVAL: EUR (67%), MAE (33%)",
+      "publication": {
+        "title": "Using genetics to prioritize diagnoses for rheumatology outpatients with inflammatory arthritis.",
+        "journal": "Sci Transl Med"
+      },
+      "date_release": "2020-06-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000571",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75,
+            "ci_lower": 0.68,
+            "ci_upper": 0.81
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arhtirits diagnosis in patient with arthritis",
+      "covariates": "G-PROB_Raneg",
+      "training_development_cohorts": [
+        "BRASS",
+        "CANADA",
+        "EIRA",
+        "Immunochip",
+        "NARAC",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=245"
+    },
+    {
+      "id": "PGS000195",
+      "trait_reported": "Rheumatoid arthritis (CCP-negative)",
+      "trait_efo": "ACPA-negative rheumatoid arthritis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 96,
+      "ancestry_distribution": "GWAS: EAS (12%), EUR (88%) | EVAL: EUR (67%), MAE (33%)",
+      "publication": {
+        "title": "Using genetics to prioritize diagnoses for rheumatology outpatients with inflammatory arthritis.",
+        "journal": "Sci Transl Med"
+      },
+      "date_release": "2020-06-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000572",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75,
+            "ci_lower": 0.68,
+            "ci_upper": 0.81
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arhtirits diagnosis in patient with arthritis",
+      "covariates": "G-PROB_Rapos",
+      "training_development_cohorts": [
+        "BRASS",
+        "CANADA",
+        "EIRA",
+        "Immunochip",
+        "NARAC",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=245"
+    },
+    {
+      "id": "PGS000325",
+      "trait_reported": "Oligoarthritis Juvenile Idiophatic Arthritis",
+      "trait_efo": "oligoarticular juvenile idiopathic arthritis",
+      "method_name": "SparSNP",
+      "variants_number": 21,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genomic risk scores for juvenile idiopathic arthritis and its subtypes.",
+        "journal": "Ann Rheum Dis"
+      },
+      "date_release": "2020-09-18",
+      "samples_training": "n=6,137",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000875",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8,
+            "ci_lower": 0.77,
+            "ci_upper": 0.84
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.93,
+            "ci_lower": 1.75,
+            "ci_upper": 2.13
+          }
+        ]
+      },
+      "phenotyping_reported": "Oligoarthritis Juvenile Idiophatic Arthritis",
+      "covariates": "sex, genetic PCs 1-10",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=3,157"
+    },
+    {
+      "id": "PGS000342",
+      "trait_reported": "Psoriatic arthritis",
+      "trait_efo": "psoriatic arthritis",
+      "method_name": "GWAS-significant variants, HLA-specific significant variants.",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Evaluation of a Genetic Risk Score for Diagnosis of Psoriatic Arthritis.",
+        "journal": "J Psoriasis Psoriatic Arthritis"
+      },
+      "date_release": "2020-11-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.562,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000971",
+        "selected_validation_ancestry": "NR",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.562,
+            "ci_lower": 0.506,
+            "ci_upper": 0.618
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriatic arthritis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=543"
+    },
+    {
+      "id": "PGS001267",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "snpnet",
+      "variants_number": 10,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.72651,
+        "r2": 0.09877,
+        "pgs_only_auc": 0.72651,
+        "pgs_only_r2": 0.09877,
+        "full_model_auc": 0.74328,
+        "full_model_r2": 0.10925,
+        "incremental_auc": 0.12994,
+        "selected_performance_id": "PPM008844",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74328,
+            "ci_lower": 0.70673,
+            "ci_upper": 0.77983
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10925
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.12994
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.09877
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.72651,
+            "ci_lower": 0.68965,
+            "ci_upper": 0.76337
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001268",
+      "trait_reported": "Ankylosing spondylitis (time-to-event)",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "snpnet",
+      "variants_number": 10,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.7346,
+        "r2": 0.10232,
+        "pgs_only_auc": 0.7346,
+        "pgs_only_r2": 0.10232,
+        "full_model_auc": 0.74878,
+        "full_model_r2": 0.115,
+        "incremental_auc": 0.12686,
+        "selected_performance_id": "PPM008849",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74878,
+            "ci_lower": 0.71314,
+            "ci_upper": 0.78442
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.115
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.12686
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.10232
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.7346,
+            "ci_lower": 0.69884,
+            "ci_upper": 0.77037
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE ankylosing spondylitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001287",
+      "trait_reported": "Psoriatic arthropathy",
+      "trait_efo": "psoriatic arthritis",
+      "method_name": "snpnet",
+      "variants_number": 36,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.67648,
+        "r2": 0.0335,
+        "pgs_only_auc": 0.67648,
+        "pgs_only_r2": 0.0335,
+        "full_model_auc": 0.72814,
+        "full_model_r2": 0.05154,
+        "incremental_auc": 0.08346,
+        "selected_performance_id": "PPM008935",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72814,
+            "ci_lower": 0.67154,
+            "ci_upper": 0.78475
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05154
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.08346
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0335
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.67648,
+            "ci_lower": 0.61155,
+            "ci_upper": 0.7414
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psoriatic arthropathy",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001309",
+      "trait_reported": "Other rheumatoid arthritis (time-to-event)",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "snpnet",
+      "variants_number": 323,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.59784,
+        "r2": 0.01495,
+        "pgs_only_auc": 0.59784,
+        "pgs_only_r2": 0.01495,
+        "full_model_auc": 0.66538,
+        "full_model_r2": 0.03893,
+        "incremental_auc": 0.03207,
+        "selected_performance_id": "PPM009043",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66538,
+            "ci_lower": 0.65101,
+            "ci_upper": 0.67976
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03893
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03207
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01495
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.59784,
+            "ci_lower": 0.582,
+            "ci_upper": 0.61368
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE other rheumatoid arthritis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001310",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "snpnet",
+      "variants_number": 175,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.60018,
+        "r2": 0.01509,
+        "pgs_only_auc": 0.60018,
+        "pgs_only_r2": 0.01509,
+        "full_model_auc": 0.66508,
+        "full_model_r2": 0.03894,
+        "incremental_auc": 0.03077,
+        "selected_performance_id": "PPM009048",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66508,
+            "ci_lower": 0.65049,
+            "ci_upper": 0.67967
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03894
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.03077
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01509
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.60018,
+            "ci_lower": 0.58428,
+            "ci_upper": 0.61607
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arthritis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001311",
+      "trait_reported": "Seropositive rheumatoid arthritis (time-to-event)",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "snpnet",
+      "variants_number": 3,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.73164,
+        "r2": 0.05847,
+        "pgs_only_auc": 0.73164,
+        "pgs_only_r2": 0.05847,
+        "full_model_auc": 0.76787,
+        "full_model_r2": 0.08412,
+        "incremental_auc": 0.0418,
+        "selected_performance_id": "PPM009050",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76787,
+            "ci_lower": 0.6839,
+            "ci_upper": 0.85184
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.08412
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0418
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05847
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.73164,
+            "ci_lower": 0.63667,
+            "ci_upper": 0.82662
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE seropositive rheumatoid arthritis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001875",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 256,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009888",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0416,
+            "ci_lower": 0.0272,
+            "ci_upper": 0.056
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arthritis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,393"
+    },
+    {
+      "id": "PGS001876",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 85,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (60%), GME (20%), SAS (20%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009896",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0797,
+            "ci_lower": 0.0653,
+            "ci_upper": 0.0941
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,262"
+    },
+    {
+      "id": "PGS002088",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 95083,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011564",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0434,
+            "ci_lower": 0.029,
+            "ci_upper": 0.0578
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arthritis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,393"
+    },
+    {
+      "id": "PGS002089",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 22026,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (60%), GME (20%), SAS (20%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011572",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0919,
+            "ci_lower": 0.0775,
+            "ci_upper": 0.1063
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,262"
+    },
+    {
+      "id": "PGS002260",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRSice-2",
+      "variants_number": 43784,
+      "ancestry_distribution": "GWAS: EAS (28%), EUR (72%) | DEV: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Polygenic risk scores are associated with radiographic progression in patients with rheumatoid arthritis.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2022-03-16",
+      "samples_training": "n=500",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012870",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "OR (top vs 2nd quintile)",
+            "name_short": "OR (top vs 2nd quintile)",
+            "estimate": 1.87,
+            "ci_lower": 1.11,
+            "ci_upper": 3.15
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Severe radiographic progression in patients with rheumatoid arthritis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "IORRA"
+      ],
+      "validation_sample_size": "n=740"
+    },
+    {
+      "id": "PGS002745",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 2575,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: EAS (25%), EUR (25%), MAE (25%), MAO (25%)",
+      "publication": {
+        "title": "Multi-ancestry genome-wide association analyses identify novel genetic mechanisms in rheumatoid arthritis.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": 0.059,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014916",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Liability R2",
+            "name_short": "Liability R2",
+            "estimate": 0.059
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arthritis",
+      "covariates": "Sex, Genotype PCs",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=3,887"
+    },
+    {
+      "id": "PGS002769",
+      "trait_reported": "Seropositive rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRS-CS",
+      "variants_number": 1083565,
+      "ancestry_distribution": "GWAS: EAS (28%), EUR (72%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014969",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.72,
+            "ci_lower": 1.61,
+            "ci_upper": 1.83
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive rheumatoid arthritis",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS003420",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "PRS-CS",
+      "variants_number": 100,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+        "journal": "J Transl Med"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7886,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017073",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7886
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003421",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+        "journal": "J Transl Med"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7876,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017074",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7876
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003422",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "PRSice-2",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+        "journal": "J Transl Med"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7876,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017075",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7876
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003423",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "lassosum",
+      "variants_number": 100,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+        "journal": "J Transl Med"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7754,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017076",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7754
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003424",
+      "trait_reported": "Ankylosing spondylitis",
+      "trait_efo": "ankylosing spondylitis",
+      "method_name": "LDpred2",
+      "variants_number": 100,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Genome-wide association study reveals ethnicity-specific SNPs associated with ankylosing spondylitis in the Taiwanese population.",
+        "journal": "J Transl Med"
+      },
+      "date_release": "2023-02-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7605,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017077",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7605
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ankylosing spondylitis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,298"
+    },
+    {
+      "id": "PGS003994",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "DBSLMM-auto",
+      "variants_number": 778205,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.65882639,
+        "full_model_r2": 0.05368529,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020019",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65882639,
+            "ci_lower": 0.61913538,
+            "ci_upper": 0.6985174
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05368529,
+            "ci_lower": 0.03020613,
+            "ci_upper": 0.08591409
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.82398785,
+            "ci_lower": 1.59169421,
+            "ci_upper": 2.09018269
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.60102523,
+            "ci_lower": 0.46479899,
+            "ci_upper": 0.73725147
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004010",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "lassosum.auto",
+      "variants_number": 27045,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66960401,
+        "full_model_r2": 0.05577793,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020054",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66960401,
+            "ci_lower": 0.63218416,
+            "ci_upper": 0.70702386
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05577793,
+            "ci_lower": 0.03219308,
+            "ci_upper": 0.08912121
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.59047186,
+            "ci_lower": 1.42931885,
+            "ci_upper": 1.76979456
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.46403074,
+            "ci_lower": 0.357198,
+            "ci_upper": 0.57086347
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004021",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "lassosum.CV",
+      "variants_number": 315740,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71102258,
+        "full_model_r2": 0.09939439,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020059",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71102258,
+            "ci_lower": 0.67560891,
+            "ci_upper": 0.74643625
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.09939439,
+            "ci_lower": 0.0673612,
+            "ci_upper": 0.13982338
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.11267236,
+            "ci_lower": 1.86259241,
+            "ci_upper": 2.39632917
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.74795367,
+            "ci_lower": 0.62196928,
+            "ci_upper": 0.87393805
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004049",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "LDpred2.CV",
+      "variants_number": 373627,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.72825804,
+        "full_model_r2": 0.12200084,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020004",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72825804,
+            "ci_lower": 0.69173398,
+            "ci_upper": 0.76478209
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12200084,
+            "ci_lower": 0.08216417,
+            "ci_upper": 0.16529108
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.36913722,
+            "ci_lower": 2.07577111,
+            "ci_upper": 2.70396438
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.86252584,
+            "ci_lower": 0.73033271,
+            "ci_upper": 0.99471898
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004064",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "megaprs.auto",
+      "variants_number": 402214,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71236886,
+        "full_model_r2": 0.09047835,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020039",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71236886,
+            "ci_lower": 0.67693105,
+            "ci_upper": 0.74780668
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.09047835,
+            "ci_lower": 0.06089994,
+            "ci_upper": 0.12628899
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.12896103,
+            "ci_lower": 1.86473669,
+            "ci_upper": 2.4306247
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.75563408,
+            "ci_lower": 0.62311986,
+            "ci_upper": 0.8881483
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004079",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "megaprs.CV",
+      "variants_number": 402214,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71931313,
+        "full_model_r2": 0.11294079,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020034",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71931313,
+            "ci_lower": 0.68214811,
+            "ci_upper": 0.75647815
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11294079,
+            "ci_lower": 0.0751487,
+            "ci_upper": 0.15730633
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.2213747,
+            "ci_lower": 1.95736288,
+            "ci_upper": 2.5209968
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.79812624,
+            "ci_lower": 0.6715981,
+            "ci_upper": 0.92465438
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004094",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 755048,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.69465886,
+        "full_model_r2": 0.07312655,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020049",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69465886,
+            "ci_lower": 0.65809177,
+            "ci_upper": 0.73122596
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.07312655,
+            "ci_lower": 0.04487877,
+            "ci_upper": 0.10829372
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.88898069,
+            "ci_lower": 1.67167849,
+            "ci_upper": 2.13453009
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.63603736,
+            "ci_lower": 0.5138282,
+            "ci_upper": 0.75824653
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004103",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRS-CS.CV",
+      "variants_number": 755048,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67898625,
+        "full_model_r2": 0.06493161,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020044",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67898625,
+            "ci_lower": 0.6419829,
+            "ci_upper": 0.71598959
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06493161,
+            "ci_lower": 0.04215202,
+            "ci_upper": 0.09455987
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.91890115,
+            "ci_lower": 1.67929657,
+            "ci_upper": 2.19269289
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.65175271,
+            "ci_lower": 0.51837499,
+            "ci_upper": 0.78513042
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004118",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "pt_clump.auto",
+      "variants_number": 91,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62336664,
+        "full_model_r2": 0.03260963,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020009",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.62336664,
+            "ci_lower": 0.58200096,
+            "ci_upper": 0.66473232
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03260963,
+            "ci_lower": 0.0140955,
+            "ci_upper": 0.05548662
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.56662791,
+            "ci_lower": 1.37347647,
+            "ci_upper": 1.78694216
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.44892548,
+            "ci_lower": 0.31734509,
+            "ci_upper": 0.58050587
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004133",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "pt_clump_nested.CV",
+      "variants_number": 155,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.60811855,
+        "full_model_r2": 0.02494274,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020014",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.60811855,
+            "ci_lower": 0.56762836,
+            "ci_upper": 0.64860873
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02494274,
+            "ci_lower": 0.01039785,
+            "ci_upper": 0.04545545
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.49068123,
+            "ci_lower": 1.30391606,
+            "ci_upper": 1.70419754
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.39923322,
+            "ci_lower": 0.26537209,
+            "ci_upper": 0.53309435
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004148",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "SBayesR-auto",
+      "variants_number": 671211,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66210805,
+        "full_model_r2": 0.04856728,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020024",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66210805,
+            "ci_lower": 0.62585476,
+            "ci_upper": 0.69836134
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04856728,
+            "ci_lower": 0.02861608,
+            "ci_upper": 0.07522105
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.74044978,
+            "ci_lower": 1.52359433,
+            "ci_upper": 1.98817059
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.55414357,
+            "ci_lower": 0.42107223,
+            "ci_upper": 0.68721491
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004163",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "UKBB-EUR.MultiPRS.CV",
+      "variants_number": 778275,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=820",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74694739,
+        "full_model_r2": 0.1375903,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020029",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74694739,
+            "ci_lower": 0.71319269,
+            "ci_upper": 0.78070209
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1375903,
+            "ci_lower": 0.09865689,
+            "ci_upper": 0.18374268
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.46183351,
+            "ci_lower": 2.16199209,
+            "ci_upper": 2.8032592
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.9009064,
+            "ci_lower": 0.77103006,
+            "ci_upper": 1.03078274
+          }
+        ]
+      },
+      "phenotyping_reported": "Seropositive RA",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004257",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "GenoBoost",
+      "variants_number": 20,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.660865982537907,
+        "full_model_r2": 0.0119079155075658,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020325",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.660865982537907
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.045614380454329
+          },
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0119079155075658
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid arthritis",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004326",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 154,
+      "ancestry_distribution": "GWAS: EAS (28%), EUR (72%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of Combined Exposure to Ambient Air Pollutants, Genetic Risk, and Incident Rheumatoid Arthritis: A Prospective Cohort Study in the UK Biobank.",
+        "journal": "Environ Health Perspect"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020440",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.22,
+            "ci_lower": 1.17,
+            "ci_upper": 1.27
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident rheumatoid arthritis",
+      "covariates": "age, sex, UK Biobank assessment center, household income, education\nlevel, smoking status, body mass index, alcohol consumption, sedentary time, physical\nactivity duration, healthy diet score, first 10 genetic principal components, and\ngenotyping batch.",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=342,973"
+    },
+    {
+      "id": "PGS004817",
+      "trait_reported": "Rheumatoid Arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRSmix",
+      "variants_number": 786048,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.008,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021042",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.008,
+            "ci_lower": 0.004,
+            "ci_upper": 0.012
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid Arthritis",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004818",
+      "trait_reported": "Rheumatoid Arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRSmix",
+      "variants_number": 6580837,
+      "ancestry_distribution": "DEV: SAS (100%) | EVAL: SAS (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=35,350",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.008,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021043",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.008,
+            "ci_lower": 0.005,
+            "ci_upper": 0.012
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid Arthritis",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "G&H"
+      ],
+      "validation_sample_size": "n=8,837"
+    },
+    {
+      "id": "PGS004819",
+      "trait_reported": "Rheumatoid Arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRSmixPlus",
+      "variants_number": 2624228,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.011,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021044",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.011,
+            "ci_lower": 0.007,
+            "ci_upper": 0.015
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid Arthritis",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004820",
+      "trait_reported": "Rheumatoid Arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "PRSmixPlus",
+      "variants_number": 6580837,
+      "ancestry_distribution": "DEV: SAS (100%) | EVAL: SAS (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=35,350",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.009,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021045",
+        "selected_validation_ancestry": "South Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.009,
+            "ci_lower": 0.005,
+            "ci_upper": 0.013
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Rheumatoid Arthritis",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "G&H"
+      ],
+      "validation_sample_size": "n=8,837"
+    },
+    {
+      "id": "PGS004873",
+      "trait_reported": "Rheumatoid arthritis",
+      "trait_efo": "rheumatoid arthritis",
+      "method_name": "megaprs.auto",
+      "variants_number": 551074,
+      "ancestry_distribution": "GWAS: EAS (81%), EUR (19%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.85,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021170",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.85,
+            "ci_lower": 0.77,
+            "ci_upper": 0.92
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.83,
+            "ci_lower": 1.14,
+            "ci_upper": 2.93
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident RA",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=7,018"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001268",
+    "reported_auc": 0.7346,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Ankylosing spondylitis (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}
