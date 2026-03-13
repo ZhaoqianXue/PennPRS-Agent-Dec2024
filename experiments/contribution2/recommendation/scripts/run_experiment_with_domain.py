@@ -109,13 +109,27 @@ def _comparison_doc_path() -> Path:
 
 
 def _default_without_domain_summary_path(model: str, trials: int, run_tag: Optional[str]) -> Path:
-    run_dir = RECOMMENDATION_RUNS / without_domain._archive_dir_name(
-        model,
-        trials,
-        run_tag=run_tag,
-        dataset_label=without_domain.ACTIVE_BENCHMARK_LABEL,
+    safe_model = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
+    base = f"without-domain-{safe_model}-t{trials}"
+    if without_domain.ACTIVE_BENCHMARK_LABEL:
+        base = f"{base}__{without_domain.ACTIVE_BENCHMARK_LABEL}"
+    safe_tag = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
+    archive_name = f"{base}__{safe_tag}" if safe_tag else base
+    run_dir = RECOMMENDATION_RUNS / archive_name
+    exact = run_dir / "experiment_without_domain_summary.json"
+    if exact.exists():
+        return exact
+
+    fallback_pattern = f"{base}__*/experiment_without_domain_summary.json"
+    fallback_candidates = sorted(
+        RECOMMENDATION_RUNS.glob(fallback_pattern),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
     )
-    return run_dir / "experiment_without_domain_summary.json"
+    if fallback_candidates:
+        return fallback_candidates[0]
+
+    return exact
 
 
 def _set_domain_artifact_paths() -> None:
