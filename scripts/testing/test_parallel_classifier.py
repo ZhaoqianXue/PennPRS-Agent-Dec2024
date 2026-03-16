@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Test the optimized parallel classifier with gpt-4.1-nano model.
+Test the optimized parallel classifier with the configured project model.
 
 Compares:
 1. Sequential classification (1 thread)
@@ -42,8 +42,9 @@ def main():
     
     # Check model configuration
     config = get_config("literature_classifier")
+    model_name = config.model
     print(f"\n📋 Configuration:")
-    print(f"   Model: {config.model}")
+    print(f"   Model: {model_name}")
     print(f"   Temperature: {config.temperature}")
     print(f"   Timeout: {config.timeout}s")
     
@@ -116,12 +117,12 @@ def main():
     print(f"{'Parallel (' + str(max_workers) + ' workers)':<35} {time_par_ms/1000:>13.2f}s {time_par_per_paper/1000:>13.2f}s {speedup:>9.1f}x")
     print("-" * 80)
     
-    # Baseline comparison (gpt-5-nano was 24.2s per paper)
-    baseline_per_paper_ms = 24242
+    # Baseline comparison (sequential using the same configured model)
+    baseline_per_paper_ms = time_seq_per_paper
     speedup_vs_baseline = baseline_per_paper_ms / time_par_per_paper if time_par_per_paper > 0 else 0
-    
-    print(f"\n📈 VS BASELINE (gpt-5-nano sequential):")
-    print(f"   Baseline: 24.2s per paper")
+
+    print(f"\n📈 VS SEQUENTIAL BASELINE ({model_name}):")
+    print(f"   Baseline: {time_seq_per_paper/1000:.2f}s per paper")
     print(f"   Optimized: {time_par_per_paper/1000:.2f}s per paper")
     print(f"   Total speedup: {speedup_vs_baseline:.1f}x faster")
     
@@ -155,8 +156,8 @@ def main():
     papers_100_optimized = time_par_per_paper * 100 / 60000  # minutes
     
     print(f"\n   For 100 papers:")
-    print(f"   - Baseline (gpt-5-nano, sequential): {papers_100_baseline:.1f} minutes")
-    print(f"   - Optimized (gpt-4.1-nano, parallel): {papers_100_optimized:.1f} minutes")
+    print(f"   - Baseline ({model_name}, sequential): {papers_100_baseline:.1f} minutes")
+    print(f"   - Optimized ({model_name}, parallel): {papers_100_optimized:.1f} minutes")
     print(f"   - Time saved: {papers_100_baseline - papers_100_optimized:.1f} minutes")
     
     print("\n" + "=" * 70)

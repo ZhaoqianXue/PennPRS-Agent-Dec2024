@@ -19,7 +19,7 @@ Nature Genetics
     - Overlap with All of US phenotypes for the phenotype space.
     - Benchmarking all PGS Catalog models on All of US, get a performance matrix.
     - `data/all_of_us/num_cases_1000.csv` is a list of traits with number of cases > 1000 in All of US. There are 1511 traits in total, which is a bit large. We have to select around 100 traits based on sample size and disease category. Some traits are parent level and some are children level. A parent level disease may have several subcategories. We can research and select about 100 traits.
-- **Contribution2: Understand how the GPT-5 use these captured PRS model features (sample size, ancestry, method, training cohort, etc.)** (Mapping Step 1)
+- **Contribution2: Understand how GPT-5.2 uses these captured PRS model features (sample size, ancestry, method, training cohort, etc.)** (Mapping Step 1)
     - If there are issues, we can correct and add domain principles [how human PRS researcher select PRS models for AD]
     - Check the initial performance from GPT. 
 - **Contribution3: LLM-based local graph around AD https://kumo.ai/research/recommendation-systems-llms-graph-transformers/ (Improving recommendation systems with LLMs and Graph Transformers)** (Mapping Step 2a)

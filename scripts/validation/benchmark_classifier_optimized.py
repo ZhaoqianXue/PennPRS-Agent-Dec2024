@@ -4,7 +4,7 @@ Optimized Classifier Performance Test
 
 This script tests various optimization strategies for the paper classifier:
 1. Rule-based classifier (no LLM)
-2. Cheaper/faster models (gpt-4o-mini)
+2. Project default model (`gpt-5.2`)
 3. Batch processing
 4. Async parallel processing
 5. Prompt size reduction
@@ -31,6 +31,8 @@ sys.path.append(str(project_root))
 
 from dotenv import load_dotenv
 load_dotenv()
+
+PROJECT_DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.2")
 
 # Configure logging (less verbose)
 logging.basicConfig(
@@ -189,7 +191,7 @@ SIMPLIFIED_SCHEMA = {
 }
 
 
-def benchmark_simplified_prompt(papers, model_name: str = "gpt-4o-mini"):
+def benchmark_simplified_prompt(papers, model_name: str = PROJECT_DEFAULT_MODEL):
     """Benchmark with simplified prompt (fewer tokens)."""
     from openai import OpenAI
     
@@ -292,7 +294,7 @@ def classify_single_paper(args):
         }
 
 
-def benchmark_parallel(papers, model_name: str = "gpt-4o-mini", max_workers: int = 3):
+def benchmark_parallel(papers, model_name: str = PROJECT_DEFAULT_MODEL, max_workers: int = 3):
     """Benchmark with parallel processing."""
     
     start = time.perf_counter()
@@ -318,7 +320,7 @@ def benchmark_parallel(papers, model_name: str = "gpt-4o-mini", max_workers: int
 # Strategy 5: Batch API (if available)
 # ============================================================================
 
-def benchmark_batch_prompt(papers, model_name: str = "gpt-4o-mini"):
+def benchmark_batch_prompt(papers, model_name: str = PROJECT_DEFAULT_MODEL):
     """
     Benchmark with batching multiple papers in a single prompt.
     This reduces API call overhead but may affect quality.
@@ -395,7 +397,8 @@ def run_all_benchmarks():
     print("\n📄 Fetching test papers...")
     papers = get_test_papers(num_papers=3)
     print(f"   Got {len(papers)} papers")
-    
+
+    project_model_name = PROJECT_DEFAULT_MODEL
     results = []
     
     # Strategy 1: Rule-based (baseline - fastest possible)
@@ -406,19 +409,19 @@ def run_all_benchmarks():
     print(f"   ⏱️ Total: {rule_result['total_ms']:.2f}ms")
     print(f"   ⏱️ Per paper: {rule_result['avg_ms_per_paper']:.2f}ms")
     
-    # Strategy 2: gpt-4o-mini (faster model)
+    # Strategy 2: Project default model
     print("\n" + "-" * 70)
-    print("2️⃣ Testing gpt-4o-mini (faster model)...")
-    gpt4o_mini_result = benchmark_model(papers, "gpt-4o-mini")
-    results.append(gpt4o_mini_result)
-    print(f"   ⏱️ Total: {gpt4o_mini_result['total_ms']:.2f}ms")
-    print(f"   ⏱️ Per paper: {gpt4o_mini_result['avg_ms_per_paper']:.2f}ms")
-    print(f"   ✅ Success rate: {gpt4o_mini_result['success_rate']*100:.1f}%")
+    print(f"2️⃣ Testing project default model ({project_model_name})...")
+    project_model_result = benchmark_model(papers, project_model_name)
+    results.append(project_model_result)
+    print(f"   ⏱️ Total: {project_model_result['total_ms']:.2f}ms")
+    print(f"   ⏱️ Per paper: {project_model_result['avg_ms_per_paper']:.2f}ms")
+    print(f"   ✅ Success rate: {project_model_result['success_rate']*100:.1f}%")
     
     # Strategy 3: Simplified prompt
     print("\n" + "-" * 70)
-    print("3️⃣ Testing Simplified Prompt + gpt-4o-mini...")
-    simplified_result = benchmark_simplified_prompt(papers, "gpt-4o-mini")
+    print(f"3️⃣ Testing Simplified Prompt + {project_model_name}...")
+    simplified_result = benchmark_simplified_prompt(papers, project_model_name)
     results.append(simplified_result)
     print(f"   ⏱️ Total: {simplified_result['total_ms']:.2f}ms")
     print(f"   ⏱️ Per paper: {simplified_result['avg_ms_per_paper']:.2f}ms")
@@ -427,7 +430,7 @@ def run_all_benchmarks():
     # Strategy 4: Parallel processing
     print("\n" + "-" * 70)
     print("4️⃣ Testing Parallel Processing (3 workers)...")
-    parallel_result = benchmark_parallel(papers, "gpt-4o-mini", max_workers=3)
+    parallel_result = benchmark_parallel(papers, project_model_name, max_workers=3)
     results.append(parallel_result)
     print(f"   ⏱️ Total: {parallel_result['total_ms']:.2f}ms")
     print(f"   ⏱️ Per paper: {parallel_result['avg_ms_per_paper']:.2f}ms (wall clock)")
@@ -436,7 +439,7 @@ def run_all_benchmarks():
     # Strategy 5: Batch processing
     print("\n" + "-" * 70)
     print("5️⃣ Testing Batch Processing (all papers in 1 call)...")
-    batch_result = benchmark_batch_prompt(papers, "gpt-4o-mini")
+    batch_result = benchmark_batch_prompt(papers, project_model_name)
     results.append(batch_result)
     print(f"   ⏱️ Total: {batch_result['total_ms']:.2f}ms")
     print(f"   ⏱️ Per paper: {batch_result['avg_ms_per_paper']:.2f}ms")
@@ -450,7 +453,7 @@ def run_all_benchmarks():
     # Sort by total time
     sorted_results = sorted(results, key=lambda x: x['total_ms'])
     
-    baseline_time = 24242  # From previous benchmark (gpt-5-nano)
+    baseline_time = project_model_result["avg_ms_per_paper"]
     
     print(f"\n{'Strategy':<45} {'Total (ms)':>12} {'Per Paper':>12} {'Speedup':>10}")
     print("-" * 85)
@@ -460,7 +463,7 @@ def run_all_benchmarks():
         print(f"{r['strategy']:<45} {r['total_ms']:>10.1f}ms {r['avg_ms_per_paper']:>10.1f}ms {speedup:>9.1f}x")
     
     print("-" * 85)
-    print(f"{'BASELINE (gpt-5-nano)':<45} {'72728.0ms':>12} {'24242.0ms':>12} {'1.0x':>10}")
+    print(f"{f'BASELINE ({project_model_name})':<45} {project_model_result['total_ms']:>10.1f}ms {baseline_time:>10.1f}ms {'1.0x':>10}")
     
     # Recommendations
     print("\n" + "=" * 70)
@@ -475,15 +478,15 @@ def run_all_benchmarks():
    - {baseline_time / fastest_llm['avg_ms_per_paper']:.1f}x faster than baseline
 
 📋 Optimization Recommendations:
-1. ✅ Switch from gpt-5-nano to gpt-4o-mini (faster model)
+1. ✅ Keep the project default model fixed at {project_model_name}
 2. ✅ Use simplified prompt (fewer input tokens)
 3. ✅ Use parallel processing for multiple papers
 4. ✅ Consider batch processing for bulk classification
 5. 🔧 For highest speed: use Rule-based pre-filter → LLM only for uncertain cases
 
 📈 Expected Performance Improvements:
-   - Current: ~24s per paper (gpt-5-nano)
-   - Optimized: ~{fastest_llm['avg_ms_per_paper']/1000:.1f}s per paper (gpt-4o-mini + optimizations)
+   - Current: ~{baseline_time/1000:.1f}s per paper ({project_model_name} standard prompt)
+   - Optimized: ~{fastest_llm['avg_ms_per_paper']/1000:.1f}s per paper ({project_model_name} + optimizations)
    - Speedup: {baseline_time / fastest_llm['avg_ms_per_paper']:.0f}x faster
    
    For 100 papers:

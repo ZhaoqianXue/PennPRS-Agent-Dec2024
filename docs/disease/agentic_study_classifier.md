@@ -55,7 +55,7 @@ A naive classifier would see "Alzheimer's disease" and classify as **Binary**. H
 │                              │                   │       ↓         ↓       │ │
 │                              │                   │   Return   ┌─────────┐  │ │
 │                              │                   │            │   LLM   │  │ │
-│                              │                   │            │ (GPT-5) │  │ │
+│                              │                   │            │ (GPT-5.2)│  │ │
 │                              └──────────────────▶│            └────┬────┘  │ │
 │                                                  │                 ↓       │ │
 │                                                  └─────────────────────────┘ │
@@ -329,7 +329,7 @@ All LLM models are configured centrally in `src/core/llm_config.py`. To change m
 class LLMConfig:
     # Agentic Study Classifier
     AGENTIC_CLASSIFIER = ModelConfig(
-        model="gpt-5-nano",      # Model name
+        model="gpt-5.2",         # Model name
         temperature=0.0,         # Deterministic output
         timeout=60,              # Max wait time (seconds)
         json_mode=True           # Structured JSON output
@@ -337,7 +337,7 @@ class LLMConfig:
     
     # Disease Workflow
     DISEASE_WORKFLOW = ModelConfig(
-        model="gpt-5-nano",
+        model="gpt-5.2",
         temperature=0.0,
         timeout=30
     )

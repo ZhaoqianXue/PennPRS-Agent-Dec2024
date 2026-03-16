@@ -31,7 +31,7 @@
 **问题**: 30%-50% 的关键数值（h², rg 矩阵）存在于表格图片中，PDF 转文本常破坏表格结构。
 **优化任务**:
 - [ ] 修改爬虫模块，支持截取论文中的 **Figures** 和 **Tables**。
-- [ ] 增加 `ChartExtractor` Agent，集成 **VLM (Vision-Language Models)** (如 GPT-5-Vision)。
+- [ ] 增加 `ChartExtractor` Agent，集成 **VLM (Vision-Language Models)** (如 `gpt-5.2`)。
 - [ ] 直接从表格图像中读取数值，而非依赖 OCR 文本。
 - [ ] **预期收益**: 大幅提升表格密集型数据（如 GWAS 汇总表）的提取成功率。
 
@@ -55,10 +55,9 @@
 - [x] 直接传入 Pydantic 模型作为 schema 定义。
 - [x] **预期收益**: 从底层根除 JSON 格式错误和 Schema 违规，降低重试成本。
 
-### [已完成] 核心提取器升级为 "GPT-5-Mini" (原计划: Reasoning Models)
-**说明**: 原计划采用推理模型 (Reasoning Models) 处理复杂提取任务，但出于成本和速度平衡考虑，暂时转向能力更强但性价比更高的 **GPT-5-Mini**。
+### [已完成] 核心提取器统一升级为 `gpt-5.2` (原计划: Reasoning Models)
+**说明**: 原计划采用推理模型 (Reasoning Models) 处理复杂提取任务，但出于成本和速度平衡考虑，当前统一使用 **`gpt-5.2`**。
 **优化任务**:
 - [x] 在 `llm_config.py` 中支持推理模型配置。
-- [x] 将核心 `LITERATURE_EXTRACTOR` 模型配置从 `gpt-5-nano` 升级为 **`gpt-5.2`**。
+- [x] 将核心 `LITERATURE_EXTRACTOR` 模型配置统一为 **`gpt-5.2`**。
 - [x] **预期收益**: 相比 Nano 显著提升复杂语境理解能力，减少幻觉，同时保持较低推理成本。
-

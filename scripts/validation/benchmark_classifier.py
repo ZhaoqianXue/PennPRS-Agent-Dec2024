@@ -30,6 +30,8 @@ sys.path.append(str(project_root))
 from dotenv import load_dotenv
 load_dotenv()
 
+PROJECT_DEFAULT_MODEL = os.getenv("OPENAI_MODEL", "gpt-5.2")
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -118,7 +120,7 @@ class InstrumentedPaperClassifier:
                 logger.warning(f"Could not import llm_config: {e}. Using default.")
                 from openai import OpenAI
                 self._client = OpenAI()
-                self._model_name = "gpt-4o-mini"
+                self._model_name = PROJECT_DEFAULT_MODEL
         return self._client
     
     @property
@@ -369,7 +371,6 @@ def run_benchmark(num_papers: int = 5, disease: str = "Alzheimer's Disease") -> 
     if summary.api_call_pct > 90:
         print(f"   🔴 API call dominates ({summary.api_call_pct:.1f}%) - Consider:")
         print(f"      - Batch processing multiple papers per API call")
-        print(f"      - Using a faster model (e.g., gpt-4o-mini)")
         print(f"      - Reducing prompt size")
     elif summary.api_call_pct > 70:
         print(f"   🟡 API call is main bottleneck ({summary.api_call_pct:.1f}%)")
