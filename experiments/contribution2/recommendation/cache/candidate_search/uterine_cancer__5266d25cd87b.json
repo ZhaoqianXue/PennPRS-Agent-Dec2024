@@ -1,0 +1,1018 @@
+{
+  "cache_version": "v4",
+  "ontology": "uterine cancer",
+  "candidate_model_ids": [
+    "PGS000542",
+    "PGS003428",
+    "PGS002735",
+    "PGS001795",
+    "PGS002300",
+    "PGS000786",
+    "PGS003389",
+    "PGS003740",
+    "PGS000541",
+    "PGS000784",
+    "PGS005165",
+    "PGS002737",
+    "PGS003381",
+    "PGS004244",
+    "PGS000073",
+    "PGS002736",
+    "PGS000075",
+    "PGS001299"
+  ],
+  "total_found": 18,
+  "candidate_models": [
+    {
+      "id": "PGS000073",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002039",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.75,
+            "se": 0.017
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.22,
+            "ci_lower": 1.09,
+            "ci_upper": 1.37
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident cervical cancer",
+      "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+      "training_development_cohorts": [
+        "TwinGene"
+      ],
+      "validation_sample_size": "n=211,795"
+    },
+    {
+      "id": "PGS000075",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 9,
+      "ancestry_distribution": "GWAS: NR (34%), EUR (66%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.755,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002041",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.755
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.749,
+            "se": 0.011
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.19,
+            "ci_lower": 1.1,
+            "ci_upper": 1.29
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident endometrial cancer",
+      "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=212,156"
+    },
+    {
+      "id": "PGS000541",
+      "trait_reported": "Malignant neoplasm of uterus",
+      "trait_efo": "uterine cancer",
+      "method_name": "GWAS Hits",
+      "variants_number": 18,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,131",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.576,
+        "full_model_r2": 0.0133,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001226",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.576,
+            "ci_lower": 0.553,
+            "ci_upper": 0.6
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0133
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.12,
+            "ci_lower": 1.17,
+            "ci_upper": 3.84
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.311,
+            "ci_lower": 1.209,
+            "ci_upper": 1.422
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.271,
+            "se": 0.0415
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of uterus",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,987"
+    },
+    {
+      "id": "PGS000542",
+      "trait_reported": "Malignant neoplasm of uterus",
+      "trait_efo": "uterine cancer",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 20,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=7,131",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.572,
+        "full_model_r2": 0.0126,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001227",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.572,
+            "ci_lower": 0.549,
+            "ci_upper": 0.596
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0126
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.6,
+            "ci_lower": 1.5,
+            "ci_upper": 4.51
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.302,
+            "ci_lower": 1.2,
+            "ci_upper": 1.413
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.264,
+            "se": 0.0416
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of uterus",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,987"
+    },
+    {
+      "id": "PGS000784",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "10 variants from Graff et al (PGS000073) with inverse variant weights",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745,
+        "full_model_r2": 0.437,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002055",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.749,
+            "se": 0.017
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.437
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.21,
+            "ci_lower": 1.07,
+            "ci_upper": 1.35
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident cervical cancer",
+      "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+      "training_development_cohorts": [
+        "NCI",
+        "Seattle",
+        "TwinGene",
+        "Umea",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=211,795"
+    },
+    {
+      "id": "PGS000786",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "9 variants from Graff et al (PGS000075) with inverse variant weights",
+      "variants_number": 9,
+      "ancestry_distribution": "GWAS: NR (34%), EUR (66%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.754,
+        "full_model_r2": 0.486,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002057",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.754
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.749,
+            "se": 0.011
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.486
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.18,
+            "ci_lower": 1.09,
+            "ci_upper": 1.27
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident endometrial cancer",
+      "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
+      "training_development_cohorts": [
+        "ANECS",
+        "B58C",
+        "CoRGI",
+        "E2C2",
+        "HCS",
+        "NBBS",
+        "NSECG",
+        "QIMR",
+        "SEARCH",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=212,156"
+    },
+    {
+      "id": "PGS001299",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "snpnet",
+      "variants_number": 24,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.55215,
+        "r2": 0.00263,
+        "pgs_only_auc": 0.55215,
+        "pgs_only_r2": 0.00263,
+        "full_model_auc": 0.76761,
+        "full_model_r2": 0.11284,
+        "incremental_auc": 0.00676,
+        "selected_performance_id": "PPM008994",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76761,
+            "ci_lower": 0.74661,
+            "ci_upper": 0.7886
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11284
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00676
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00263
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.55215,
+            "ci_lower": 0.51478,
+            "ci_upper": 0.58952
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cervical cancer",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001795",
+      "trait_reported": "Uterine cancer",
+      "trait_efo": "uterine carcinoma",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 911692,
+      "ancestry_distribution": "GWAS: EAS (15%), EUR (84%), OTH (80%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": 0.001948,
+        "pgs_only_auc": null,
+        "pgs_only_r2": 0.001948,
+        "full_model_auc": 0.66,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009299",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's R2 (covariates regressed out)",
+            "name_short": "Nagelkerke's R2 (covariates regressed out)",
+            "estimate": 0.001948
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Uterine cancer",
+      "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+      "training_development_cohorts": [
+        "BBJ",
+        "BioMe",
+        "BioVU",
+        "CCPM",
+        "CKB",
+        "EB",
+        "FinnGen",
+        "HUNT",
+        "MGBB",
+        "MGI",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=170,276"
+    },
+    {
+      "id": "PGS002300",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial cancer",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+        "journal": "Int J Cancer"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013029",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64,
+            "ci_lower": 0.61,
+            "ci_upper": 0.67
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Endometrial cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=629"
+    },
+    {
+      "id": "PGS002735",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: NR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+        "journal": "Genet Med"
+      },
+      "date_release": "2022-07-21",
+      "samples_training": "n=1,757",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.56,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014832",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.56,
+            "ci_lower": 0.54,
+            "ci_upper": 0.57
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, third vs first tertile)",
+            "name_short": "Odds ratio (OR, third vs first tertile)",
+            "estimate": 1.55,
+            "ci_lower": 1.37,
+            "ci_upper": 1.74
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Risk of endometrial cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=118,636"
+    },
+    {
+      "id": "PGS002736",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 24,
+      "ancestry_distribution": "GWAS: NR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+        "journal": "Genet Med"
+      },
+      "date_release": "2022-07-21",
+      "samples_training": "n=1,757",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.53,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014833",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.53,
+            "ci_lower": 0.52,
+            "ci_upper": 0.54
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, third vs first tertile)",
+            "name_short": "Odds ratio (OR, third vs first tertile)",
+            "estimate": 1.27,
+            "ci_lower": 1.13,
+            "ci_upper": 1.43
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Risk of endometrial cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=118,636"
+    },
+    {
+      "id": "PGS002737",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 72,
+      "ancestry_distribution": "GWAS: NR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Development and evaluation of polygenic risk scores for prediction of endometrial cancer risk in European women.",
+        "journal": "Genet Med"
+      },
+      "date_release": "2022-07-21",
+      "samples_training": "n=1,757",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.54,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014834",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.54,
+            "ci_lower": 0.52,
+            "ci_upper": 0.55
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, third vs first tertile)",
+            "name_short": "Odds ratio (OR, third vs first tertile)",
+            "estimate": 1.32,
+            "ci_lower": 1.17,
+            "ci_upper": 1.48
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Risk of endometrial cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=118,636"
+    },
+    {
+      "id": "PGS003381",
+      "trait_reported": "Uterine endometrial carcinoma",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 529365,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.761,
+        "full_model_r2": 0.11,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016256",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.761
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "uterine endometrial carcinoma",
+      "covariates": "age, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=144,479"
+    },
+    {
+      "id": "PGS003389",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 2814,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.563,
+        "full_model_r2": 0.00158,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016264",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.563
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00158
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "cervical cancer",
+      "covariates": "age, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=144,374"
+    },
+    {
+      "id": "PGS003428",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "LDpred",
+      "variants_number": 2894555,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "GWAS meta-analyses clarify genetics of cervical phenotypes and inform risk stratification for cervical cancer.",
+        "journal": "Hum Mol Genet"
+      },
+      "date_release": "2023-04-28",
+      "samples_training": "n=4,295",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.613,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017102",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.613
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.33,
+            "se": 0.069
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident cervical cancer",
+      "covariates": "age, smoking",
+      "training_development_cohorts": [
+        "EB",
+        "FinnGen",
+        "KP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=128,113"
+    },
+    {
+      "id": "PGS003740",
+      "trait_reported": "Corpus Uteri",
+      "trait_efo": "uterine corpus cancer",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+        "journal": "EBioMedicine"
+      },
+      "date_release": "2023-06-01",
+      "samples_training": "n=698",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018496",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.38,
+            "ci_lower": 1.2,
+            "ci_upper": 1.58
+          }
+        ]
+      },
+      "phenotyping_reported": "Corpus Uteri",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=372"
+    },
+    {
+      "id": "PGS004244",
+      "trait_reported": "Endometrial cancer",
+      "trait_efo": "endometrial carcinoma",
+      "method_name": "PRSice-2",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020301",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.25,
+            "ci_lower": 1.14,
+            "ci_upper": 1.36
+          }
+        ]
+      },
+      "phenotyping_reported": "Endometrial cancer",
+      "covariates": "first 10 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=133,830"
+    },
+    {
+      "id": "PGS005165",
+      "trait_reported": "Cervical cancer",
+      "trait_efo": "cervical carcinoma",
+      "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+        "journal": "PLoS Med"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.566,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022403",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.566
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.2,
+            "ci_lower": 1.06,
+            "ci_upper": 1.36
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.182
+          }
+        ]
+      },
+      "phenotyping_reported": "Cervical Cancer",
+      "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=57,359"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001299",
+    "reported_auc": 0.5522,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Cervical cancer",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

@@ -1,9 +1,9 @@
 """
-Contribution2 Experiment 2: With Domain Knowledge batch evaluation.
+Contribution2 Experiment 3: Catalog Search + Domain Knowledge batch evaluation.
 
-This runner reuses the no-domain batch workflow but enables local
+This runner reuses the search-only batch workflow but enables local
 `prs_model_domain_knowledge` retrieval for Step 1 and emits an additional
-comparison report against the archived without-domain GPT-5.2 results.
+comparison report against the archived search-only GPT-5.2 results.
 """
 
 from __future__ import annotations
@@ -439,7 +439,7 @@ def _write_per_disease_comparison_doc(
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
 
     lines = [
-        "# With Domain Knowledge vs Without Domain Knowledge: Per-Disease Comparison",
+        f"# {without_domain.DOMAIN_KNOWLEDGE_LABEL} vs {without_domain.SEARCH_ONLY_LABEL}: Per-Disease Comparison",
         "",
         "## Scope",
         "",
@@ -454,7 +454,7 @@ def _write_per_disease_comparison_doc(
         "",
         *[
             (
-                f"- With Domain Knowledge `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {without_domain.DOMAIN_KNOWLEDGE_LABEL} `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -465,7 +465,7 @@ def _write_per_disease_comparison_doc(
         ],
         *[
             (
-                f"- Without Domain Knowledge `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {without_domain.SEARCH_ONLY_LABEL} `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -476,9 +476,9 @@ def _write_per_disease_comparison_doc(
         ],
         "",
         *without_domain._percentile_hit_section_lines([
-            ("With Domain Knowledge", domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
+            (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
             (
-                "Without Domain Knowledge",
+                without_domain.SEARCH_ONLY_LABEL,
                 without_domain_summary["modal_percentile_hit"],
                 without_domain_summary["trial_percentile_hit"],
             ),
@@ -492,8 +492,8 @@ def _write_per_disease_comparison_doc(
                 "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", domain_rank_fraction),
-                ("Without Domain Knowledge", without_rank_fraction),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_rank_fraction),
+                (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
             ],
         ),
         *without_domain._rank_metric_section_lines(
@@ -505,8 +505,8 @@ def _write_per_disease_comparison_doc(
                 "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", domain_reverse_rank_fraction),
-                ("Without Domain Knowledge", without_reverse_rank_fraction),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_reverse_rank_fraction),
+                (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
             ],
         ),
         *without_domain._rank_metric_section_lines(
@@ -517,8 +517,8 @@ def _write_per_disease_comparison_doc(
                 "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", domain_nrs),
-                ("Without Domain Knowledge", without_domain_nrs),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_nrs),
+                (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
             ],
         ),
         "## Per-Disease Tables",
@@ -534,7 +534,7 @@ def _write_per_disease_comparison_doc(
         with_id = domain_row.get("modal_recommendation")
         without_id = without_row.get("modal_recommendation")
 
-        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["With Domain Knowledge", "Without Domain Knowledge", "Field Type"]
+        header = ["Field"] + [label for label, _, _ in benchmark_columns] + [without_domain.DOMAIN_KNOWLEDGE_LABEL, without_domain.SEARCH_ONLY_LABEL, "Field Type"]
         separator = ["---"] * len(header)
 
         lines.extend([
@@ -615,7 +615,7 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
 
     lines = [
-        "# Contribution2 Experiment 2: With Domain Knowledge",
+        f"# Contribution2 Experiment 3: {without_domain.DOMAIN_KNOWLEDGE_LABEL}",
         "",
         "## Summary",
         "",
@@ -637,7 +637,7 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "",
         *[
             (
-                f"- With Domain Knowledge `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {without_domain.DOMAIN_KNOWLEDGE_LABEL} `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -648,7 +648,7 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         ],
         *[
             (
-                f"- Without Domain Knowledge `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {without_domain.SEARCH_ONLY_LABEL} `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -659,9 +659,9 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         ],
         "",
         *without_domain._percentile_hit_section_lines([
-            ("With Domain Knowledge", summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
+            (without_domain.DOMAIN_KNOWLEDGE_LABEL, summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
             (
-                "Without Domain Knowledge",
+                without_domain.SEARCH_ONLY_LABEL,
                 without_domain_summary["modal_percentile_hit"],
                 without_domain_summary["trial_percentile_hit"],
             ),
@@ -675,8 +675,8 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
                 "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", rank_fraction),
-                ("Without Domain Knowledge", without_rank_fraction),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, rank_fraction),
+                (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
             ],
         ),
         *without_domain._rank_metric_section_lines(
@@ -688,8 +688,8 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
                 "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", reverse_rank_fraction),
-                ("Without Domain Knowledge", without_reverse_rank_fraction),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, reverse_rank_fraction),
+                (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
             ],
         ),
         *without_domain._rank_metric_section_lines(
@@ -700,8 +700,8 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
                 "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", nrs),
-                ("Without Domain Knowledge", without_domain_nrs),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, nrs),
+                (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
             ],
         ),
         "## Experiment Setup",
@@ -711,14 +711,14 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking using the full disease/trial denominator; if a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models",
         "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
-        "- **Without Domain Knowledge reference**: compare against the matching archived `without-domain-gpt-5.2-t10__<dataset>` run under the same disease-list / 10-trial protocol",
+        "- **Catalog Search Only reference**: compare against the matching archived `without-domain-gpt-5.2-t10__<dataset>` run under the same disease-list / 10-trial protocol",
         "",
         "## Results by Disease",
         "",
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Trial Hit@1..5 | With Domain Knowledge Hit@1..5 | With Domain Knowledge | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge |",
+        f"| Ontology | N Models | Trial Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} | {without_domain.SEARCH_ONLY_LABEL} Hit@1..5 | {without_domain.SEARCH_ONLY_LABEL} |",
         "|----------|----------|---------------|----------------------------------|-----------------------|-------------------------------------|--------------------------|",
     ]
 
@@ -756,7 +756,7 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
 
     lines = [
-        "# Contribution2 Experiment 2: With Domain Knowledge vs Without Domain Knowledge",
+        f"# Contribution2 Experiment 3: {without_domain.DOMAIN_KNOWLEDGE_LABEL} vs {without_domain.SEARCH_ONLY_LABEL}",
         "",
         "## Summary",
         "",
@@ -767,7 +767,7 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         "",
         *[
             (
-                f"- With Domain Knowledge `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {without_domain.DOMAIN_KNOWLEDGE_LABEL} `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -778,7 +778,7 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         ],
         *[
             (
-                f"- Without Domain Knowledge `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {without_domain.SEARCH_ONLY_LABEL} `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -789,9 +789,9 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         ],
         "",
         *without_domain._percentile_hit_section_lines([
-            ("With Domain Knowledge", domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
+            (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
             (
-                "Without Domain Knowledge",
+                without_domain.SEARCH_ONLY_LABEL,
                 without_domain_summary["modal_percentile_hit"],
                 without_domain_summary["trial_percentile_hit"],
             ),
@@ -805,8 +805,8 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
                 "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", domain_rank_fraction),
-                ("Without Domain Knowledge", without_rank_fraction),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_rank_fraction),
+                (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
             ],
         ),
         *without_domain._rank_metric_section_lines(
@@ -818,8 +818,8 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
                 "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", domain_reverse_rank_fraction),
-                ("Without Domain Knowledge", without_reverse_rank_fraction),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_reverse_rank_fraction),
+                (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
             ],
         ),
         *without_domain._rank_metric_section_lines(
@@ -830,14 +830,14 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
                 "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
             ],
             metrics_by_label=[
-                ("With Domain Knowledge", domain_nrs),
-                ("Without Domain Knowledge", without_domain_nrs),
+                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_nrs),
+                (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
             ],
         ),
         "",
         "## Results by Disease",
         "",
-        "| Ontology | N Models | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | With Domain Knowledge Hit@1..5 | With Domain Knowledge |",
+        f"| Ontology | N Models | {without_domain.SEARCH_ONLY_LABEL} Hit@1..5 | {without_domain.SEARCH_ONLY_LABEL} | {without_domain.DOMAIN_KNOWLEDGE_LABEL} Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} |",
         "|----------|----------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
     ]
 
@@ -936,6 +936,66 @@ def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict
     return summary
 
 
+def _submit_batch() -> dict[str, Any]:
+    if not BATCH_REQUESTS_JSONL.exists():
+        raise FileNotFoundError(f"Batch requests not found: {BATCH_REQUESTS_JSONL}")
+    if not BATCH_MANIFEST_JSON.exists():
+        raise FileNotFoundError(f"Batch manifest not found: {BATCH_MANIFEST_JSON}")
+
+    client = without_domain._client()
+    with BATCH_REQUESTS_JSONL.open("rb") as handle:
+        uploaded = client.files.create(file=handle, purpose="batch")
+
+    batch = client.batches.create(
+        input_file_id=uploaded.id,
+        endpoint="/v1/chat/completions",
+        completion_window="24h",
+        metadata={
+            "experiment": "contribution2_with_domain",
+            "manifest_file": BATCH_MANIFEST_JSON.name,
+        },
+    )
+    job = {
+        "batch_id": batch.id,
+        "input_file_id": uploaded.id,
+        "request_file": str(BATCH_REQUESTS_JSONL),
+        "manifest_file": str(BATCH_MANIFEST_JSON),
+        "status": batch.status,
+        "batch": batch.model_dump(),
+    }
+    without_domain._write_json(BATCH_JOB_JSON, job)
+    print(f"Uploaded batch input file: {uploaded.id}")
+    print(f"Created batch job: {batch.id}")
+    print(f"Status: {batch.status}")
+    print(f"Saved job metadata: {BATCH_JOB_JSON}")
+    return job
+
+
+def _status(batch_id: Optional[str]) -> dict[str, Any]:
+    if batch_id:
+        job = {"batch_id": batch_id}
+    else:
+        if not BATCH_JOB_JSON.exists():
+            raise FileNotFoundError(
+                f"Batch job file not found: {BATCH_JOB_JSON}. Run with --mode prepare-submit first."
+            )
+        job = without_domain._load_json(BATCH_JOB_JSON)
+    client = without_domain._client()
+    batch = client.batches.retrieve(job["batch_id"])
+    payload = {
+        "batch_id": batch.id,
+        "status": batch.status,
+        "input_file_id": batch.input_file_id,
+        "output_file_id": batch.output_file_id,
+        "error_file_id": batch.error_file_id,
+        "request_counts": batch.request_counts.model_dump() if batch.request_counts else None,
+        "batch": batch.model_dump(),
+    }
+    without_domain._write_json(BATCH_JOB_JSON, payload)
+    print(json.dumps(payload, indent=2))
+    return payload
+
+
 def _regenerate_baseline(
     without_domain_summary_path: Path,
     with_run_dir: Path,
@@ -1005,7 +1065,7 @@ def _quick_eval(without_domain_summary_path: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Contribution2 Experiment 2: With Domain Knowledge batch evaluation"
+        description=f"Contribution2 Experiment 3: {without_domain.DOMAIN_KNOWLEDGE_LABEL} batch evaluation"
     )
     parser.add_argument(
         "--mode",
@@ -1082,9 +1142,9 @@ def main() -> int:
                 refresh_cache=args.refresh_cache,
                 ontology_filter=ontology_filter,
             )
-            without_domain._submit_batch()
+            _submit_batch()
         elif args.mode == "status":
-            without_domain._status(batch_id=args.batch_id)
+            _status(batch_id=args.batch_id)
         elif args.mode == "collect":
             _collect(batch_id=args.batch_id, without_domain_summary_path=without_domain_summary_path)
         elif args.mode == "archive-current":

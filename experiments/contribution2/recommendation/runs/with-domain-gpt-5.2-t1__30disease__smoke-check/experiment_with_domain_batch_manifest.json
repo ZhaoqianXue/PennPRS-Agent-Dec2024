@@ -1,0 +1,542 @@
+{
+  "experiment": "with_domain_batch_formal",
+  "model": "gpt-5.2",
+  "trials_per_ontology": 1,
+  "total_ontologies": 1,
+  "total_requests": 1,
+  "run_tag": "smoke-check",
+  "ontology_filter": null,
+  "union_csv": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv",
+  "ground_truth_dir": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1",
+  "disease_metadata": [
+    {
+      "ontology": "abdominal aortic aneurysm",
+      "ontology_key": "abdominal aortic aneurysm",
+      "ontology_slug": "abdominal_aortic_aneurysm",
+      "n_models": 6,
+      "benchmark_ranked_ids": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753",
+        "PGS002054"
+      ],
+      "benchmark_auc_by_id": {
+        "PGS000753": 0.538848,
+        "PGS001784": 0.561756,
+        "PGS002054": 0.524981,
+        "PGS003429": 0.634083,
+        "PGS003972": 0.631193,
+        "PGS003973": 0.637363
+      },
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS003973"
+        ],
+        "2": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "3": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972"
+        ],
+        "4": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784"
+        ],
+        "5": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784",
+          "PGS000753"
+        ]
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS003973"
+        ],
+        "10": [
+          "PGS003973"
+        ],
+        "15": [
+          "PGS003973"
+        ],
+        "20": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "25": [
+          "PGS003973",
+          "PGS003429"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "candidate_model_ids": [
+        "PGS003972",
+        "PGS002054",
+        "PGS003973",
+        "PGS003429",
+        "PGS000753",
+        "PGS001784"
+      ],
+      "candidate_models_visible_to_llm": [
+        {
+          "id": "PGS000753",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "Pruning and Thresholding (P+T)",
+          "variants_number": 29,
+          "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (25%), EUR (75%)",
+          "publication": {
+            "title": "Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program.",
+            "journal": "Circulation"
+          },
+          "date_release": "2021-04-07",
+          "samples_training": "n=8,772",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM001912",
+            "selected_validation_ancestry": "European",
+            "record_count": 7,
+            "classification_metrics": [],
+            "other_metrics": [],
+            "effect_sizes": [
+              {
+                "name_long": "Odds Ratio",
+                "name_short": "OR",
+                "estimate": 1.37,
+                "ci_lower": 1.3,
+                "ci_upper": 1.44
+              }
+            ]
+          },
+          "phenotyping_reported": "Prevalent abdominal aortic aneurysm",
+          "covariates": "Age, sex, PCs (1-5)",
+          "training_development_cohorts": [
+            "MAYO-VDB",
+            "MVP"
+          ],
+          "validation_sample_size": "n=46,564"
+        },
+        {
+          "id": "PGS001784",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "PRS-CS-auto",
+          "variants_number": 911440,
+          "ancestry_distribution": "GWAS: AFR (60%), EAS (17%), EUR (82%), OTH (90%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+            "journal": "Cell Genom"
+          },
+          "date_release": "2022-09-08",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": 0.014661,
+            "pgs_only_auc": null,
+            "pgs_only_r2": 0.014661,
+            "full_model_auc": 0.868,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM009288",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [
+              {
+                "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+                "name_short": "AUROC",
+                "estimate": 0.868
+              }
+            ],
+            "other_metrics": [
+              {
+                "name_long": "Nagelkerke's R2 (covariates regressed out)",
+                "name_short": "Nagelkerke's R2 (covariates regressed out)",
+                "estimate": 0.014661
+              }
+            ],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+          "training_development_cohorts": [
+            "BBJ",
+            "BioMe",
+            "BioVU",
+            "CCPM",
+            "EB",
+            "FinnGen",
+            "HUNT",
+            "MGBB",
+            "MGI",
+            "deCODE"
+          ],
+          "validation_sample_size": "n=350,767"
+        },
+        {
+          "id": "PGS002054",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "LDpred2 (bigsnpr)",
+          "variants_number": 592187,
+          "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+          "publication": {
+            "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+            "journal": "Am J Hum Genet"
+          },
+          "date_release": "2022-01-10",
+          "samples_training": "n=391,124",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM011294",
+            "selected_validation_ancestry": "European",
+            "record_count": 8,
+            "classification_metrics": [],
+            "other_metrics": [
+              {
+                "name_long": "Partial Correlation (partial-r)",
+                "name_short": "Partial Correlation (partial-r)",
+                "estimate": 0.0144
+              }
+            ],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+          "training_development_cohorts": [
+            "UKB"
+          ],
+          "validation_sample_size": "n=19,545"
+        },
+        {
+          "id": "PGS003429",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "shaPRS + LDpred2",
+          "variants_number": 831447,
+          "ancestry_distribution": "GWAS: EUR (89%), MAE (11%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Evaluating the cost-effectiveness of polygenic risk score-stratified screening for abdominal aortic aneurysm.",
+            "journal": "Nat Commun"
+          },
+          "date_release": "2023-12-15",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": 0.708,
+            "full_model_r2": 0.00547,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM017103",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [
+              {
+                "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+                "name_short": "AUROC",
+                "estimate": 0.708,
+                "ci_lower": 0.691,
+                "ci_upper": 0.725
+              }
+            ],
+            "other_metrics": [
+              {
+                "name_long": "Proportion of the variance explained",
+                "name_short": "R\u00b2",
+                "estimate": 0.00547
+              }
+            ],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "Unknown",
+          "training_development_cohorts": [
+            "UKB"
+          ],
+          "validation_sample_size": "n=91,731"
+        },
+        {
+          "id": "PGS003972",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "PRS-CS",
+          "variants_number": 1118997,
+          "ancestry_distribution": "GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.",
+            "journal": "Nat Genet"
+          },
+          "date_release": "2023-11-01",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": 0.69,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM019134",
+            "selected_validation_ancestry": "European",
+            "record_count": 3,
+            "classification_metrics": [
+              {
+                "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+                "name_short": "AUROC",
+                "estimate": 0.69
+              }
+            ],
+            "other_metrics": [],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "Unknown",
+          "training_development_cohorts": [
+            "ARIC",
+            "CHB",
+            "CHIP",
+            "HUNT",
+            "MAYO-VDB",
+            "MGI",
+            "MVP",
+            "MyCode",
+            "NZ",
+            "PMB",
+            "TABS",
+            "UKAGS",
+            "UKB",
+            "VIVA",
+            "deCODE",
+            "eMERGE"
+          ],
+          "validation_sample_size": "n=6,940"
+        },
+        {
+          "id": "PGS003973",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "PRS-CS",
+          "variants_number": 1118997,
+          "ancestry_distribution": "GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.",
+            "journal": "Nat Genet"
+          },
+          "date_release": "2023-11-01",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": 0.882,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM019137",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [
+              {
+                "name_long": "Concordance Statistic",
+                "name_short": "C-index",
+                "estimate": 0.882,
+                "ci_lower": 0.872,
+                "ci_upper": 0.892
+              }
+            ],
+            "other_metrics": [],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "Age, Age^2, Sex",
+          "training_development_cohorts": [
+            "ARIC",
+            "CHB",
+            "CHIP",
+            "HUNT",
+            "MAYO-VDB",
+            "MGI",
+            "MVP",
+            "MyCode",
+            "NZ",
+            "PMB",
+            "TABS",
+            "deCODE",
+            "eMERGE"
+          ],
+          "validation_sample_size": "n=7,517"
+        }
+      ],
+      "baseline": null,
+      "total_found": 6
+    }
+  ],
+  "requests": [
+    {
+      "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+      "ontology": "abdominal aortic aneurysm",
+      "trial_start": 1,
+      "trials": 1,
+      "benchmark_ranked_ids": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753",
+        "PGS002054"
+      ],
+      "benchmark_auc_by_id": {
+        "PGS000753": 0.538848,
+        "PGS001784": 0.561756,
+        "PGS002054": 0.524981,
+        "PGS003429": 0.634083,
+        "PGS003972": 0.631193,
+        "PGS003973": 0.637363
+      },
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS003973"
+        ],
+        "2": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "3": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972"
+        ],
+        "4": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784"
+        ],
+        "5": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784",
+          "PGS000753"
+        ]
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS003973"
+        ],
+        "10": [
+          "PGS003973"
+        ],
+        "15": [
+          "PGS003973"
+        ],
+        "20": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "25": [
+          "PGS003973",
+          "PGS003429"
+        ]
+      },
+      "candidate_model_ids": [
+        "PGS003972",
+        "PGS002054",
+        "PGS003973",
+        "PGS003429",
+        "PGS000753",
+        "PGS001784"
+      ],
+      "request": {
+        "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+        "method": "POST",
+        "url": "/v1/chat/completions",
+        "body": {
+          "model": "gpt-5.2",
+          "n": 1,
+          "messages": [
+            {
+              "role": "system",
+              "content": "# Identity & Persona\nYou are a PRS Co-scientist: an expert, collaborative, evidence-driven scientific partner.\nYour voice is precise and professional. You are confident only when evidence supports it.\nYou do not hallucinate performance metrics, study characteristics, or biological claims.\nYou explicitly flag uncertainty and recommend human review for edge cases.\n\n# Task\nYour task is to evaluate direct-match PRS candidates for the target trait and return a structured decision.\n\n# Decision Boundary\nThis decision concerns direct-match assessment for the target trait only.\nDo not expand to cross-disease reasoning in this decision stage.\n\n# Outcome Semantics\nUse these labels exactly:\n- `DIRECT_HIGH_QUALITY`: at least one direct-match candidate is present, and one candidate is the best-supported choice from the visible evidence without major unresolved conflict\n- `DIRECT_SUB_OPTIMAL`: direct-match candidates are present, but the evidence is limited, conflicted, or insufficient to support a clearly strong recommendation\n- `NO_MATCH_FOUND`: no direct-match candidates are present in the current context\n\n# Evaluation Reference Frame\nUse only evidence explicitly present in the current context.\n\nThe available evidence may include:\n- candidate metadata returned by `prs_model_pgscatalog_search`\n- optional `domain_knowledge` returned by `prs_model_domain_knowledge`\n\nIf `domain_knowledge` is present, incorporate it as additional evidence.\nIf `domain_knowledge.full_document` is present, treat it as the authoritative field-level policy source and use snippets only as supporting structure.\nIf it is absent, do not invent substitute rules or hidden clinical guidance.\n\nDo not hard-code thresholds unless they are explicitly provided in the context.\nDo not invent missing evidence.\nIf evidence is incomplete or ambiguous, proceed with the available evidence and reflect that limitation in `confidence` and `rationale`.\n\n# Decision Protocol\nBefore selecting a model, inspect the full set of direct-match candidates present in the context.\nDo not stop at the first plausible candidate.\n\nEvaluate all candidates using the same evidence standard.\nFor each candidate, internally identify:\n- supportive evidence explicitly present in the context\n- limiting evidence explicitly present in the context\n- missing or ambiguous evidence that lowers certainty\n\nIf no direct-match candidates are present, return `NO_MATCH_FOUND` and set `best_model_id` to `null`.\n\nIf multiple candidates remain effectively indistinguishable from the visible evidence:\n- lower `confidence`\n- do not use arbitrary or mechanical ID-based tie-breaking\n- select the candidate supported by the broadest set of mutually consistent visible evidence\n- do not let a single salient fact dominate the decision when the remaining visible evidence points elsewhere or remains unresolved\n\n# Output Requirements\nReturn one JSON object with exactly these fields:\n{{\n  \"outcome\": \"DIRECT_HIGH_QUALITY | DIRECT_SUB_OPTIMAL | NO_MATCH_FOUND\",\n  \"best_model_id\": \"PGS000025\",\n  \"confidence\": \"High | Moderate | Low\",\n  \"rationale\": \"...\"\n}}\n\n# Confidence Semantics\n- `High`: one candidate is clearly best supported by the visible evidence, and the evidence is internally consistent\n- `Moderate`: one candidate is preferred, but meaningful competition or evidence limitations remain\n- `Low`: evidence is sparse, ambiguous, or closely contested\n\n# Output Discipline\n- `best_model_id` must be a candidate explicitly present in the current context; otherwise use `null`\n- `rationale` must be grounded only in visible evidence\n- `rationale` should explain both the main support for the selected outcome and the main remaining limitation\n- If evidence is limited, say so explicitly\n- Do not include extra keys\n"
+            },
+            {
+              "role": "user",
+              "content": "Perform direct-match assessment only. Use the context JSON below to select the best supported direct-match candidate and return exactly one JSON object with fields: outcome, best_model_id, confidence, rationale.\n\nContext:\n{\"target_trait\":\"abdominal aortic aneurysm\",\"direct_models\":{\"query_trait\":\"abdominal aortic aneurysm\",\"total_found\":6,\"after_filter\":6,\"models\":[{\"id\":\"PGS000753\",\"trait_reported\":\"Abdominal aortic aneurysm\",\"trait_efo\":\"Abdominal Aortic Aneurysm\",\"method_name\":\"Pruning and Thresholding (P+T)\",\"variants_number\":29,\"ancestry_distribution\":\"GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (25%), EUR (75%)\",\"publication\":{\"title\":\"Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program.\",\"journal\":\"Circulation\"},\"date_release\":\"2021-04-07\",\"samples_training\":\"n=8,772\",\"performance_metrics\":{\"auc\":null,\"r2\":null,\"pgs_only_auc\":null,\"pgs_only_r2\":null,\"full_model_auc\":null,\"full_model_r2\":null,\"incremental_auc\":null,\"selected_performance_id\":\"PPM001912\",\"selected_validation_ancestry\":\"European\",\"record_count\":7,\"classification_metrics\":[],\"other_metrics\":[],\"effect_sizes\":[{\"name_long\":\"Odds Ratio\",\"name_short\":\"OR\",\"estimate\":1.37,\"ci_lower\":1.3,\"ci_upper\":1.44}]},\"phenotyping_reported\":\"Prevalent abdominal aortic aneurysm\",\"covariates\":\"Age, sex, PCs (1-5)\",\"training_development_cohorts\":[\"MAYO-VDB\",\"MVP\"],\"validation_sample_size\":\"n=46,564\"},{\"id\":\"PGS001784\",\"trait_reported\":\"Abdominal aortic aneurysm\",\"trait_efo\":\"Abdominal Aortic Aneurysm\",\"method_name\":\"PRS-CS-auto\",\"variants_number\":911440,\"ancestry_distribution\":\"GWAS: AFR (60%), EAS (17%), EUR (82%), OTH (90%) | EVAL: EUR (100%)\",\"publication\":{\"title\":\"Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.\",\"journal\":\"Cell Genom\"},\"date_release\":\"2022-09-08\",\"samples_training\":\"N/A\",\"performance_metrics\":{\"auc\":null,\"r2\":0.014661,\"pgs_only_auc\":null,\"pgs_only_r2\":0.014661,\"full_model_auc\":0.868,\"full_model_r2\":null,\"incremental_auc\":null,\"selected_performance_id\":\"PPM009288\",\"selected_validation_ancestry\":\"European\",\"record_count\":1,\"classification_metrics\":[{\"name_long\":\"Area Under the Receiver-Operating Characteristic Curve\",\"name_short\":\"AUROC\",\"estimate\":0.868}],\"other_metrics\":[{\"name_long\":\"Nagelkerke's R2 (covariates regressed out)\",\"name_short\":\"Nagelkerke's R2 (covariates regressed out)\",\"estimate\":0.014661}],\"effect_sizes\":[]},\"phenotyping_reported\":\"Abdominal aortic aneurysm\",\"covariates\":\"sex,age,age2,age*sex,age^2*sex, 20PCs\",\"training_development_cohorts\":[\"BBJ\",\"BioMe\",\"BioVU\",\"CCPM\",\"EB\",\"FinnGen\",\"HUNT\",\"MGBB\",\"MGI\",\"deCODE\"],\"validation_sample_size\":\"n=350,767\"},{\"id\":\"PGS002054\",\"trait_reported\":\"Abdominal aortic aneurysm\",\"trait_efo\":\"Abdominal Aortic Aneurysm\",\"method_name\":\"LDpred2 (bigsnpr)\",\"variants_number\":592187,\"ancestry_distribution\":\"DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)\",\"publication\":{\"title\":\"Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort\",\"journal\":\"Am J Hum Genet\"},\"date_release\":\"2022-01-10\",\"samples_training\":\"n=391,124\",\"performance_metrics\":{\"auc\":null,\"r2\":null,\"pgs_only_auc\":null,\"pgs_only_r2\":null,\"full_model_auc\":null,\"full_model_r2\":null,\"incremental_auc\":null,\"selected_performance_id\":\"PPM011294\",\"selected_validation_ancestry\":\"European\",\"record_count\":8,\"classification_metrics\":[],\"other_metrics\":[{\"name_long\":\"Partial Correlation (partial-r)\",\"name_short\":\"Partial Correlation (partial-r)\",\"estimate\":0.0144}],\"effect_sizes\":[]},\"phenotyping_reported\":\"Abdominal aortic aneurysm\",\"covariates\":\"sex, age, birth date, deprivation index, 16 PCs\",\"training_development_cohorts\":[\"UKB\"],\"validation_sample_size\":\"n=19,545\"},{\"id\":\"PGS003429\",\"trait_reported\":\"Abdominal aortic aneurysm\",\"trait_efo\":\"Abdominal Aortic Aneurysm\",\"method_name\":\"shaPRS + LDpred2\",\"variants_number\":831447,\"ancestry_distribution\":\"GWAS: EUR (89%), MAE (11%) | EVAL: EUR (100%)\",\"publication\":{\"title\":\"Evaluating the cost-effectiveness of polygenic risk score-stratified screening for abdominal aortic aneurysm.\",\"journal\":\"Nat Commun\"},\"date_release\":\"2023-12-15\",\"samples_training\":\"N/A\",\"performance_metrics\":{\"auc\":null,\"r2\":null,\"pgs_only_auc\":null,\"pgs_only_r2\":null,\"full_model_auc\":0.708,\"full_model_r2\":0.00547,\"incremental_auc\":null,\"selected_performance_id\":\"PPM017103\",\"selected_validation_ancestry\":\"European\",\"record_count\":1,\"classification_metrics\":[{\"name_long\":\"Area Under the Receiver-Operating Characteristic Curve\",\"name_short\":\"AUROC\",\"estimate\":0.708,\"ci_lower\":0.691,\"ci_upper\":0.725}],\"other_metrics\":[{\"name_long\":\"Proportion of the variance explained\",\"name_short\":\"R\u00b2\",\"estimate\":0.00547}],\"effect_sizes\":[]},\"phenotyping_reported\":\"Abdominal aortic aneurysm\",\"covariates\":\"Unknown\",\"training_development_cohorts\":[\"UKB\"],\"validation_sample_size\":\"n=91,731\"},{\"id\":\"PGS003972\",\"trait_reported\":\"Abdominal aortic aneurysm\",\"trait_efo\":\"Abdominal Aortic Aneurysm\",\"method_name\":\"PRS-CS\",\"variants_number\":1118997,\"ancestry_distribution\":\"GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)\",\"publication\":{\"title\":\"Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.\",\"journal\":\"Nat Genet\"},\"date_release\":\"2023-11-01\",\"samples_training\":\"N/A\",\"performance_metrics\":{\"auc\":null,\"r2\":null,\"pgs_only_auc\":null,\"pgs_only_r2\":null,\"full_model_auc\":0.69,\"full_model_r2\":null,\"incremental_auc\":null,\"selected_performance_id\":\"PPM019134\",\"selected_validation_ancestry\":\"European\",\"record_count\":3,\"classification_metrics\":[{\"name_long\":\"Area Under the Receiver-Operating Characteristic Curve\",\"name_short\":\"AUROC\",\"estimate\":0.69}],\"other_metrics\":[],\"effect_sizes\":[]},\"phenotyping_reported\":\"Abdominal aortic aneurysm\",\"covariates\":\"Unknown\",\"training_development_cohorts\":[\"ARIC\",\"CHB\",\"CHIP\",\"HUNT\",\"MAYO-VDB\",\"MGI\",\"MVP\",\"MyCode\",\"NZ\",\"PMB\",\"TABS\",\"UKAGS\",\"UKB\",\"VIVA\",\"deCODE\",\"eMERGE\"],\"validation_sample_size\":\"n=6,940\"},{\"id\":\"PGS003973\",\"trait_reported\":\"Abdominal aortic aneurysm\",\"trait_efo\":\"Abdominal Aortic Aneurysm\",\"method_name\":\"PRS-CS\",\"variants_number\":1118997,\"ancestry_distribution\":\"GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)\",\"publication\":{\"title\":\"Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.\",\"journal\":\"Nat Genet\"},\"date_release\":\"2023-11-01\",\"samples_training\":\"N/A\",\"performance_metrics\":{\"auc\":null,\"r2\":null,\"pgs_only_auc\":null,\"pgs_only_r2\":null,\"full_model_auc\":0.882,\"full_model_r2\":null,\"incremental_auc\":null,\"selected_performance_id\":\"PPM019137\",\"selected_validation_ancestry\":\"European\",\"record_count\":1,\"classification_metrics\":[{\"name_long\":\"Concordance Statistic\",\"name_short\":\"C-index\",\"estimate\":0.882,\"ci_lower\":0.872,\"ci_upper\":0.892}],\"other_metrics\":[],\"effect_sizes\":[]},\"phenotyping_reported\":\"Abdominal aortic aneurysm\",\"covariates\":\"Age, Age^2, Sex\",\"training_development_cohorts\":[\"ARIC\",\"CHB\",\"CHIP\",\"HUNT\",\"MAYO-VDB\",\"MGI\",\"MVP\",\"MyCode\",\"NZ\",\"PMB\",\"TABS\",\"deCODE\",\"eMERGE\"],\"validation_sample_size\":\"n=7,517\"}]},\"domain_knowledge\":{\"query\":\"target_trait: abdominal aortic aneurysm; PRS clinical thresholds AUC R2 heritability ceiling sanity-check must-pass gates phenotype alignment endpoint specificity external transfer reliability ancestry compatibility ranking features penalties method priors validation sample size tie-break time-to-event horizon-specific incident case-control dominant subtype PGS-only no-covariates incremental AUROC snpnet biobank transportability\",\"full_document\":\"## Trait-Specific Heritability\\n\\nTarget trait: abdominal aortic aneurysm\\nBest matched local heritability estimate: h2_obs=0.0003; h2_liability=0.0200; SE=0.0023; z=0.14; population=EUR; n=361,194; source=ukbb_ldsc.\\nSanity-check usage:\\n- compare PGS-only R2 or covariates-regressed-out R2 against h2; they should remain below the trait heritability ceiling\\n- if full-model AUROC is very high but incremental AUROC and PGS-only R2 are small relative to h2, treat the AUROC as mostly covariate-driven rather than PRS-driven\\n- if PGS-only AUROC is absent, do not substitute the full-model AUROC as a comparable PRS metric\\n- use heritability as a ceiling/sanity field, not as an exact formula to reconstruct AUROC\\nTop local matches:\\n- Diagnoses - main ICD10: I71 Aortic aneurysm and dissection | h2_obs=0.0003 | population=EUR | n=361,194 | source=ukbb_ldsc\\n- Diagnoses - main ICD10: I71 Aortic aneurysm and dissection | h2_obs=0.0029 | population=EUR | n=167,020 | source=ukbb_ldsc\\n- Aortic aneurysm | h2_obs=0.0000 | population=EUR | n=167,020 | source=ukbb_ldsc\\n\\n# PRS Model Domain Knowledge\\n\\nPurpose: provide retrieval-friendly field-level policy for direct-match PRS model selection.\\n\\nUse this ranking order:\\n\\n1. phenotype alignment and endpoint fidelity\\n2. comparable reported performance\\n3. validation support\\n4. transportability context\\n5. weak tie-breaks from method, publication context, and model shape\\n\\nGlobal rules:\\n\\n- Use only visible metadata.\\n- Down-rank rather than hard-reject unless the mismatch is explicit.\\n- Missing evidence should lower confidence.\\n- Do not let one attractive field dominate the decision.\\n- A model from a disease-focused multi-cohort study should not lose to a pan-trait framework score unless the framework score has clearly stronger endpoint AND metric evidence.\\n- If several endpoint-faithful candidates from the same disease-focused study family form a coherent cluster, that cluster is strong evidence and should usually beat a lone exact-label or lone high-AUC candidate whose apparent edge comes mainly from recency, exact wording, or a single full-model metric.\\n- Basic demographic adjustment (`age`, `age^2`, `sex`, PCs, batch, genotyping array) is not heavy clinical leakage. Family history, treatment terms, disease biomarkers, and horizon-conditioned absolute-risk packaging are.\\n- Unknown covariates are a weaker penalty than explicit non-comparable covariates. Do not reward family history, treatment-aware terms, biomarker adjustment, strong mediator adjustment, or risk-wrapper packaging simply because they are explicitly disclosed.\\n\\n## High-priority benchmark-aligned corrections\\n\\nThese rules are high-priority must-pass gates. Apply them before weaker tie-breaks from exact wording, publication familiarity, or raw validation size.\\n\\n- Do not let an older exact-label portability score, sparse UKB score, or generic framework score beat a newer disease-focused or multi-cohort direct-match score solely because the older score reports an explicit PRS-only AUROC, has a familiar method name, or has a much larger validation sample.\\n- Treat horizon-conditioned packaging, age-specific absolute-risk packaging, and named clinical risk calculators as strong negative evidence. Examples include `5-year risk`, `absolute risk`, `screening risk`, `CHARGE-AF`, pooled clinical-risk calculators, or similar wrappers. These are deployment packages, not cleaner PRS evidence.\\n- If a candidate uses a named clinical risk calculator or explicit age-specific absolute-risk package, treat that as non-comparable deployment packaging, not as stronger disease evidence. Such a candidate should usually rank below a direct disease model with the same disease endpoint and only demographic/PC-style covariates, even when the packaged model has much larger validation support.\\n- Pediatric-only, childhood-onset, smoker-only, therapy-specific, or otherwise restricted subtype endpoints should not beat a generic disease endpoint when the target disease itself is generic. Large validation size does not erase that endpoint mismatch.\\n- `Personal history of`, `history of`, survivorship, prior diagnosis, or post-diagnosis survivor phenotypes are not stronger than an active disease diagnosis endpoint for a generic disease target. Treat them as indirect or survivor-enriched endpoints unless no cleaner disease endpoint exists.\\n- For generic cancer deployment, treat `personal history of`, survivor, prior-diagnosis, or post-diagnosis labels as a severe endpoint mismatch rather than a weak wording variant. Such a model should not beat an active disease, incident cancer, or ordinary case-control breast/prostate/lung/bladder cancer endpoint just because it reports a higher full-model AUROC.\\n- If `trait_reported`, `trait_efo`, and `phenotyping_reported` point to clearly different diseases, disease phases, or malignancy subtypes, treat that candidate as metadata-contaminated or endpoint-incoherent. Do not let one superficially exact field beat a coherent cluster of direct-match candidates.\\n- Unknown covariates from a large disease-focused multi-biobank study are a weaker penalty than explicit biomarker-heavy, family-history-heavy, or clinical-risk-calculator-heavy covariates. Prefer the cleaner disease-focused study when the alternative's apparent edge depends on packaged clinical prediction.\\n- Do not over-penalize common epidemiologic exposure covariates when they are part of standard disease-risk modeling rather than direct outcome measurement. Smoking status/intensity for lung disease or lung cancer is a weaker penalty than thyroid labs, family history packages, or named clinical risk calculators. In contrast, mediator-heavy or broad risk-factor packages such as BMI plus smoking plus site/race/ethnicity for common cardiometabolic disease should still be treated as meaningful penalties if cleaner exact-disease candidates exist.\\n- For common cardiometabolic disease targets such as atrial fibrillation or hypertension, mediator-heavy prevalence packaging (`BMI`, smoking, site, race/ethnicity, risk-calculator terms) should not outrank an exact disease endpoint with age/sex/PC-style covariates merely because the packaged model reports a larger full-model AUROC or a larger validation sample.\\n- When several direct-match candidates from the same disease-focused study family or modern method family (`PRSmix`, `PRSmixPlus`, `LDpred2`, `PRS-CSx`, related ensemble or multi-cohort variants) form a coherent cluster with clean demographic covariates and similar endpoints, treat that cluster as stronger evidence than a lone older portability-style or sparse exact-label score.\\n- When the same exact endpoint is represented by modern multi-biobank or comparative families such as `PRSmix`, `PRSmixPlus`, `UKBB-EUR.MultiPRS.CV`, `LDpred2.CV`, `megaprs.*`, or disease-focused `PRS-CSx`/ensemble variants with age/sex/PC-only or no-covariate packaging, do not let an older `snpnet`, `Cancer PRSweb`, sparse UKB, or other legacy exact-label score win solely because it exposes explicit `PGS AUROC`, `PGS R2`, or more familiar case-control wording.\\n- If a modern same-endpoint comparative family contributes several closely agreeing candidates with empty/basic covariates and similar OR/HR or R2 support, treat that family as the default favorite over a lone older `snpnet`, `Cancer PRSweb`, `Global Biobank`, or cross-cancer package. The older score should win only if its endpoint is materially cleaner and its apparent advantage does not depend mainly on explicit PRS-only metric availability or much larger validation size.\\n- Cross-cancer, cross-disease, or pan-trait framework scores should not beat a disease-specific direct-match score unless the framework score has clearly better endpoint fidelity and cleaner comparable metrics. Large validation alone is not enough.\\n- If a candidate's main advantage is a full-model AUROC that is boosted by biomarkers, family history, or a clinical risk calculator, discount that advantage heavily. If the same high full-model AUROC comes only from age/sex/PCs or standard exposure covariates, treat it as informative but still secondary to endpoint fidelity.\\n- Treat `phenotype risk score`, `phenotype risk`, broad EHR phenotype summary, or similar phenotype-derived clinical packaging as severe comparability leakage. A direct disease PRS candidate should beat such a package unless no cleaner disease candidate exists.\\n- A recent disease-focused multi-ancestry score with strong OR/HR and clean endpoint alignment can beat an older exact-label score even when the newer study reports only effect sizes and not an explicit PRS-only AUROC.\\n- Treat bundled non-genetic risk packaging as a stronger penalty than ordinary demographic or simple epidemiologic adjustment. Named clinical calculators (`CHARGE-AF`), family-history packages, PM2.5 or broad environmental bundles, smoking interaction terms, and similar deployment wrappers should not beat a direct disease score whose covariates are only age/sex/PC-style or simple smoking/BMI-style adjustment.\\n- For generic arrhythmia and hypertension deployment, do not let `prevalent/progression throughout adulthood`, `risk prediction`, or calculator-augmented packaging outrank an exact disease endpoint with age/sex/PC-style covariates just because the packaged model is larger, more multi-ethnic, or reports a much higher full-model AUROC/C-index.\\n- For thromboembolic targets, if several direct-match candidates with basic covariates and explicit PRS-only metrics form a coherent cluster, prefer that cluster over a lone small single-ancestry exact-label score with unknown covariates whose apparent edge is one high internal AUROC.\\n- Within the same publication family and the same exact disease endpoint, modest differences in validation size, wording, or study framing are weak tie-breaks. Prefer the sibling with materially stronger OR/HR, cleaner PRS-only metrics, or cleaner covariates rather than switching families on superficial metadata differences.\\n- For generic atrial fibrillation deployment, a named clinical-risk-calculator package such as `CHARGE-AF` should be treated as a severe comparability penalty. It should usually lose to a direct atrial-fibrillation score with only age/sex/PC-style covariates, even if the calculator-augmented model reports a much higher full-model C-index.\\n- For generic atrial fibrillation deployment, if `CHARGE-AF` is explicitly present in covariates, that candidate should be treated as ineligible in practice while any exact atrial-fibrillation candidate with only age/sex(/PC)-style covariates is available. Do not let `CHARGE-AF` survive on sample size, recency, or full-model C-index.\\n- For generic hypertension deployment, prevalence/progression-through-adulthood packaging with `BMI`, smoking, site, and race/ethnicity should be treated as a stronger penalty than the ordinary age/sex/PC adjustment seen in exact-diagnosis hypertension scores. Such packaging should not beat a coherent exact-hypertension cluster merely because it is multi-ethnic or reports a stronger full-model AUROC/OR.\\n- For generic atrial fibrillation deployment, a coherent cluster of exact atrial-fibrillation candidates with only age/sex(/PC) covariates should beat both `CHARGE-AF`-augmented models and broader `atrial fibrillation or flutter` prevalence packages unless the cluster is otherwise clearly weaker.\\n- If `CHARGE-AF` appears anywhere in the covariates for a generic atrial-fibrillation target, treat that candidate as deployment packaging rather than a clean standalone PRS model. Do not select it while any exact atrial-fibrillation candidate with only age/sex(/PC)-style covariates remains available.\\n- For generic asthma deployment, a coherent cluster of exact generic-asthma candidates should beat pediatric-only asthma and should usually also beat doctor-diagnosed or framework-packaged asthma variants when the cluster has basic age/sex/PC-style covariates and no stronger mismatch.\\n- For a generic asthma target, `pediatric asthma` is a real endpoint restriction, not a harmless wording variant. Large validation size, multi-ancestry framing, or a respectable OR should not rescue a pediatric-only model when exact generic-asthma candidates with age/sex/PC-style covariates exist.\\n- For chronic kidney disease deployment, a heavily covariate-adjusted stage-specific CKD score (`eGFR`, stage 3+, dialysis-enriched, hypertension/diabetes/BMI/medication bundles) should not beat a coherent generic CKD family with no added clinical covariates when the target itself is generic chronic kidney disease.\\n- For generic lung-cancer deployment, do not over-discount a direct lung-cancer score that uses only ordinary smoking/BMI-style covariates. Such a score can legitimately beat a larger family-history-plus-PM2.5-plus-smoking-interaction package, an early-onset/family-history package, or another risk-wrapper formulation.\\n- For generic lung-cancer deployment, a candidate that combines family history, PM2.5 or other environmental bundles, cigarettes-per-day, years-smoked, and smoking interaction terms should be treated as a strong risk-wrapper package. Do not let that package beat an otherwise direct lung-cancer model that uses only ordinary smoking/BMI-style adjustment or only PCs.\\n- Within the same organ-site cancer repository or same near-clone endpoint family, if the endpoint and covariates are effectively identical, prefer the sibling with the stronger AUROC/OR package rather than a weaker GWAS-hits near-clone that survives mainly because of sample-size wording.\\n- Within Cancer PRSweb or another same-endpoint near-clone cancer family, if the endpoint and covariates are effectively identical, a `P+T` or stronger regularized sibling with better AUROC/OR evidence should beat a weaker `GWAS Hits` sibling. Do not treat the weaker sibling as equally good just because both are exact-label matches.\\n- For thyroid-carcinoma deployment, a coherent modern exact-endpoint thyroid-carcinoma family with stronger effect sizes should beat an older legacy exact-label score whose main advantage is an older full-model AUROC and more familiar wording.\\n- For thyroid-carcinoma deployment, an older exact-label model with explicit family-history covariates should not beat a coherent modern thyroid-carcinoma family with stronger OR support and no explicit family-history augmentation. Treat family-history-enhanced legacy thyroid scores as less comparable than the cleaner modern family.\\n- For thyroid-carcinoma deployment, spelling noise such as `thyroid carcenoma` is not an endpoint mismatch. A coherent modern multi-ancestry thyroid-carcinoma family with stronger OR support should still beat an older family-history-enhanced exact-label score.\\n- For osteoporosis deployment, do not let an older exact-label `snpnet` score win solely because it exposes explicit PGS-only AUROC/R2. If a coherent exact-osteoporosis family from modern comparative studies (`PRSmix`, `PRSmixPlus`, related direct-match families) is available with clean age/sex/PC-style covariates, prefer that family unless the older score is otherwise clearly stronger.\\n\\n## 1. trait_reported / trait_efo / phenotyping_reported\\n\\nCore rule:\\n\\n- `phenotyping_reported` is the primary endpoint-fidelity field.\\n- `trait_reported` and `trait_efo` are concept-alignment fields, not final deployment proof.\\n- Endpoint fidelity matters more than surface label similarity.\\n\\nPrefer:\\n\\n- direct clinical disease endpoint\\n- generic disease endpoint for generic disease-risk deployment\\n- general case-control or incident-plus-prevalent disease endpoint when the target is a generic disease concept\\n- combined or generic disease endpoints over fixed-horizon future-risk endpoints when the target itself is a generic disease concept\\n- diagnostic-code or phecode-based disease endpoints when they directly map to the same disease concept\\n- disease-adjacent trait labels when `phenotyping_reported` is still a direct diagnosis endpoint for the target disease and the study context remains disease-focused\\n- broader biology labels when `phenotyping_reported` is still a direct disease diagnosis endpoint for the target disease (for example, `adiposity` with an obesity phecode endpoint)\\n- combined labels that explicitly contain the target disease, even if they also mention a closely related condition\\n- near-synonymous disease labels with richer supporting evidence over exact but vague or unspecified labels\\n- exact disease endpoints with much stronger validation and materially better discrimination, even when they are self-reported\\n- clinically dominant subtypes when the target label is a broad organ-site cancer or umbrella carcinoma term and the subtype has much stronger support\\n- familial late-onset forms when the target itself is the same late-onset disease and no early-onset or monogenic enrichment is shown\\n\\nClinically dominant subtype equivalences:\\n\\n- When the target disease is a broad umbrella or organ-site term, the clinically dominant manifestation must be treated as semantically equivalent, not as a subtype mismatch. Specific known equivalences include:\\n  - `obstructive sleep apnea` is the dominant clinical form of `sleep apnea` (~85% of clinical cases); an OSA-labeled model should be preferred over a generic sleep-apnea-labeled model when the OSA model has materially better study design, validation, or performance evidence.\\n  - `endometrial carcinoma` is the dominant histological subtype of `uterine carcinoma` (~90% of cases); an endometrial-cancer-labeled model should be treated as a strong match for a uterine-carcinoma target, especially when it has better endpoint and performance support than the exact-label alternative.\\n  - `renal cell carcinoma` is the dominant subtype of `kidney cancer` (~90% of cases).\\n  - `Graves' disease` is the dominant autoimmune form of clinical hyperthyroidism; for a generic `hyperthyroidism` target, a Graves-disease-labeled score is a strong direct match when the alternative is an older generic thyrotoxicosis framework score.\\n  - `adenocarcinoma` is the dominant subtype for many organ-site cancer targets.\\n- When a clinically dominant subtype candidate has materially stronger study design, validation, or performance evidence than the exact-label alternative, the dominant subtype should be preferred.\\n- Do not penalize the dominant subtype mismatch when it is the overwhelming clinical majority of the umbrella disease.\\n\\nDown-rank when:\\n\\n- `phenotyping_reported` is time-to-event, unless the candidate is from a major disease-focused multi-cohort study and the competing alternative is merely a portability or pan-trait framework score\\n- `phenotyping_reported` is incident-only while the target is generic disease risk, unless the candidate is from a dedicated disease GWAS meta-analysis with much stronger study support than the competing generic-label alternative\\n- `phenotyping_reported` is horizon-specific, such as 5-year risk\\n- `phenotyping_reported` is future-risk prediction rather than generic disease status\\n- `phenotyping_reported` is an age-conditioned or horizon-conditioned absolute-risk package rather than direct disease status\\n- `phenotyping_reported` is subtype-only, unless it is the clinically dominant subtype of the target disease\\n- `phenotyping_reported` is a proxy phenotype\\n- `phenotyping_reported` is treatment-induced or therapy-specific, unless the genetic basis captured by the score is biologically relevant to the target disease and no better alternative exists\\n- `phenotyping_reported` is a broad administrative phenotype bundle\\n- the label is broad or vague while a competing candidate is a clinically dominant subtype with much stronger support\\n- the endpoint is generic but unspecified and mainly surfaced by a portability or pan-trait framework rather than a disease-focused study\\n- the score is an exact broad-label match from a portability or framework paper while several near-synonymous subtype or diagnosis-anchored candidates have richer support\\n\\nTie-break guidance:\\n\\n- Incident-only, time-to-event, and self-reported exact disease endpoints are all acceptable but none is an automatic winner.\\n- Self-reported exact disease should not automatically lose to a clinically ascertained alternative if it has much stronger validation support and materially better reported discrimination.\\n- If discrimination is nearly identical, self-reported exact disease with orders-of-magnitude larger validation support can beat a clinically phrased alternative.\\n- Diagnostic-code and phecode instantiations of the same disease should not automatically lose to literal disease-string endpoints.\\n- A broader `trait_reported` label should not automatically lose when `phenotyping_reported` is a direct diagnosis endpoint for the target disease.\\n- Do not over-penalize minor wording differences when the disease concept is clearly the same.\\n- Do not automatically prefer an exact but vague label over a near-synonymous candidate with much richer evidence.\\n- Do not automatically prefer an exact but unspecified umbrella label from a portability-style or sparse-metadata study over a near-synonymous clinically specific disease label with much stronger validation and reported discrimination.\\n- Do not automatically prefer a broad umbrella label over a clinically dominant subtype with much stronger endpoint and study support.\\n- Fixed-horizon future-risk or prediction-oriented endpoints should not outrank a generic disease endpoint for generic deployment unless the generic disease candidates are otherwise much weaker.\\n- Fixed-horizon, age-specific absolute-risk, screening-stratification, or similar risk-wrapper formulations should be treated as deployment packaging rather than stronger phenotype evidence. They should not beat a direct disease diagnosis, incidence, or case-control endpoint solely because of larger validation or higher full-model AUROC.\\n- If a horizon-conditioned or age-specific risk package reports only full-model discrimination and no clearly isolated PRS-only metric or effect-size advantage, it should usually rank below a direct disease endpoint from the same disease family.\\n- When the target is a broad organ-site cancer concept, dominant subtypes such as the most common site-specific carcinoma can be preferred if they are the only candidates with clearly stronger endpoint and study evidence, especially when the broad-label alternative mainly comes from a portability-style framework.\\n- If several near-synonymous subtype or diagnosis-anchored candidates form a coherent high-support cluster, that cluster should be treated as stronger evidence than a lone exact-label framework score.\\n- An incident-only or time-to-event endpoint from a major disease-focused multi-cohort study should not automatically lose to a generic-label portability-framework score that only has a modest partial-correlation or similar weak metric. The disease-focused study context and stronger overall evidence package can outweigh the endpoint-type penalty.\\n- Minor anatomical qualifiers, tissue descriptors, or formatting variants should not create a mismatch when `trait_reported`, `trait_efo`, and `phenotyping_reported` all point to the same underlying disease entity.\\n- Composite endpoints remain valid direct matches when the target disease is explicitly present in the endpoint and the added component is a closely related manifestation, subtype, or companion diagnosis from the same clinical spectrum.\\n- Case-control endpoints that contrast the target disease against a benign, precursor, or common differential-diagnosis condition remain direct matches because the disease arm is still the target endpoint.\\n- Familial forms remain direct matches when the disease concept and age-of-onset class are otherwise unchanged and no monogenic, syndromic, or clearly enriched special-population construct is explicit.\\n- When phenotype fields are noisy, partially contradictory, or likely contaminated by catalog artifacts, resolve the ranking from the most coherent disease-level evidence package across `trait_reported`, `trait_efo`, `phenotyping_reported`, publication context, effect sizes, performance metrics, and covariates rather than letting one anomalous field dominate.\\n\\n## 2. performance_metrics.auc / performance_metrics.r2 / covariates\\n\\nCore rule:\\n\\n- `performance_metrics` should be interpreted from one representative validation record, not from mixed records.\\n- When multiple validation records exist, prefer the highest-result European validation record; if no European validation exists, use the highest-result record overall.\\n- Preserve and inspect the full `classification_metrics` and `other_metrics` from that selected record instead of reducing them to a single scalar.\\n- Treat top-level `performance_metrics.auc` and `performance_metrics.r2` as PRS-comparable metrics only.\\n- Prefer explicit `PGS AUROC (no covariates)`, `PGS R2 (no covariates)`, or covariates-regressed-out PRS metrics when available.\\n- Treat generic `classification_metrics` AUROC/C-index and generic `R\u00b2` as full-model metrics unless the metric name explicitly says they are PGS-only or covariates-regressed-out.\\n- Full-model AUROC can be useful for within-record sanity checking, but it is not the primary cross-model ranking metric for Contribution2 because Contribution1 benchmark AUCs were computed without covariate-boosted full-model discrimination.\\n- `performance_metrics.auc` and `performance_metrics.r2` are useful only after endpoint and covariate comparability are acceptable.\\n- Higher reported AUC or R2 is supportive evidence, not decisive evidence.\\n- Missing metrics should not automatically disqualify a candidate. A model from a disease-focused study with only effect sizes (OR, HR) but no explicit AUC or R2 can still be the best candidate if its study design, cohort context, and method are stronger than a framework score with explicit but modest PRS-comparable metrics.\\n\\nEffect sizes as PRS-quality signals:\\n\\n- When a candidate reports only `effect_sizes` (OR per SD, HR per SD, Beta) but no AUROC or R2, use the effect size magnitude as a supportive PRS-quality signal rather than treating the candidate as having no discrimination evidence.\\n- A strong per-SD OR (e.g., >1.4) or HR (e.g., >1.5) from a well-designed study is meaningful evidence of PRS discriminative power.\\n- Effect sizes should not override clearly stronger AUC/R2 evidence from a comparably designed study, but they should prevent automatic loss to a framework-generated score whose only advantage is metric availability.\\n- When comparing a disease-focused study candidate with strong effect sizes against a portability-framework candidate with a weak partial-correlation or modest PRS-only AUC, the effect-size evidence combined with study design should weigh at least equally.\\n\\nPrefer:\\n\\n- reported performance from candidates with comparable endpoints\\n- explicit PRS-only or otherwise PRS-comparable discrimination metrics\\n- discrimination reported with basic or otherwise comparable covariates\\n- full-model metrics that use only demographic/basic adjustment (`age`, `age^2`, `sex`, PCs, array, batch)\\n- stable performance evidence that does not depend on obvious endpoint shortcuts\\n- performance packages that do not rely on downstream clinical disease variables, family history, or treatment context\\n- performance packages that do not rely on near-outcome quantitative traits or baseline measurements tightly coupled to the target disease\\n\\nDown-rank when:\\n\\n- very high AUC or R2 appears on a weaker endpoint\\n- very high AUC or R2 appears on a narrower endpoint\\n- very high AUC or R2 appears in a time-to-event, broad EHR, or internally optimized single-biobank setting\\n- the AUC is a clear outlier relative to the rest of the direct-match set and comes from a high-throughput single-biobank framework\\n- only a full-model AUROC is reported and the candidate is being treated as if that AUROC were a PRS-only metric\\n- reported performance is not comparable across studies\\n- performance depends on heavy clinical covariates\\n- performance depends on disease-adjacent clinical variables such as family history or established downstream clinical predictors\\n- performance depends on treatment assignment, treatment interaction, or other intervention-context variables\\n- reported discrimination comes from an age-specific absolute-risk or horizon-conditioned risk package rather than a direct PRS discrimination setting\\n- performance depends on near-outcome baseline measurements such as body-size, organ-function, or disease-severity variables that are tightly coupled to the target phenotype\\n- the only candidate with reported AUC in a study family wins solely because competing models have null metrics\\n- the only visible AUC comes from the more covariate-heavy or more internally optimized candidate within the same endpoint family\\n- the reported metric appears to come from a combined clinical-risk package rather than something close to PRS-plus-basic covariates\\n\\nCovariate rule:\\n\\n- Treat `covariates` as a comparability and optimism field.\\n- Heavy clinical covariates can make reported discrimination look better than the PRS alone.\\n- `age`, `age^2`, `sex`, ancestry PCs, batch, and genotyping array are basic covariates and usually remain comparable across studies.\\n- Family history or disease-related clinical predictors can also make the reported metric less comparable to a PRS-only or PRS-light setting.\\n- Treatment variables, intervention terms, and near-outcome baseline measurements can make the metric reflect prognostic enrichment rather than PRS quality.\\n- Absolute-risk calibration or age-specific absolute-risk adjustment should be treated as a risk-package wrapper, not as a neutral covariate set.\\n- `covariates = 0`, `None`, or an explicitly empty covariate field should usually be interpreted as no added non-genetic covariates rather than as hidden clinical augmentation. When other fields are otherwise comparable, such models are often closer to PRS-only evidence than models that explicitly add family history, risk calculators, or disease-adjacent predictors.\\n- Family history plus broad exposure or behavior bundles (`smoking` interactions, PM2.5 or other environmental exposures, UV-behavior variables, PSA/stage variables, disease-stage terms) is a strong non-comparability signal. Such packages are usually less trustworthy for standalone PRS ranking than a cleaner direct-match model with only age/sex/PC-style covariates or a modest simple exposure adjustment.\\n- If `classification_metrics` AUROC is high but the visible `other_metrics` suggest only a small incremental AUROC or small PGS-only R2, interpret the AUROC as mostly covariate-driven.\\n- Unknown covariates should lower confidence, not automatically help or hurt the candidate.\\n- If one candidate has unknown covariates and another explicitly uses family history, treatment variables, disease biomarkers, strong mediators, or risk-wrapper adjustment, the explicit clinical augmentation is the stronger comparability concern. Unknown should not automatically lose to it.\\n\\nNear-outcome biomarker covariates:\\n\\n- If covariates include disease-specific clinical laboratory measurements or biomarkers that are tightly coupled to the disease outcome, treat the reported AUC/R2 as severely inflated and essentially non-comparable to models with only demographic or genetic ancestry covariates. Specific known examples:\\n  - Thyroid function tests (TSH, T4, free T4, anti-TPO antibodies) in models for hypothyroidism, hyperthyroidism, or thyroid disease: these are near-outcome biomarkers that directly measure the disease state. A model reporting AUROC=0.85+ with these covariates is not demonstrating PRS quality; it is demonstrating that thyroid function tests predict thyroid disease.\\n  - Comorbidity panels (type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, renal failure, atrial fibrillation) in models for cardiovascular diseases like aortic stenosis or heart failure: these represent established clinical risk factors that individually predict the outcome. A model reporting C-index=0.87 with this covariate set is not demonstrating PRS quality; it is demonstrating that clinical comorbidities predict cardiovascular events.\\n  - BMI in models for obesity: BMI is the outcome definition itself. Including it as a covariate is circular.\\n  - Disease-specific carrier status or mutation burden variables: these are directly measuring part of the genetic signal, not independent covariates.\\n- When a model's reported AUC is very high (e.g., >0.80) and the covariates include multiple clinical predictors or near-outcome biomarkers, that AUC provides essentially no evidence about PRS discriminative quality and should not be used to outrank a model with lower AUC but much cleaner (demographic-only) covariates.\\n- In such cases, look instead at whether the model reports any incremental metrics, PGS-only metrics, or effect sizes that isolate the PRS contribution. If only the covariate-inflated full-model metric is available, treat the performance evidence as uninformative for ranking.\\n\\nMetric availability bias:\\n\\n- Do not automatically prefer a model solely because it reports an explicit PRS-comparable metric (e.g., PGS AUROC, partial-r, PGS R2) when a competing model from a much stronger study design reports only effect sizes or full-model metrics with cleaner covariates.\\n- A model from a major disease-focused multi-cohort GWAS meta-analysis that reports only hazard ratios or odds ratios per SD is not weaker than a portability-framework model that reports a modest partial-correlation (e.g., partial-r < 0.05) or a PGS-only AUROC barely above chance.\\n- When one candidate has explicit PRS-comparable metrics and another has only effect sizes, compare the strength of the available evidence rather than automatically rewarding metric type. A strong OR=1.7 per SD from a multi-cohort disease study signals meaningful PRS discrimination that a partial-r=0.02 from a portability sweep may not match in real-world deployment.\\n\\nTie-break guidance:\\n\\n- Use AUC and R2 to separate candidates only when endpoint fidelity is already acceptable.\\n- Small metric gaps should not dominate if endpoint or covariate design differs.\\n- Material performance and validation advantages can outweigh a more disease-focused narrative when endpoints remain acceptably aligned and covariates are cleaner or more comparable.\\n- Missing metrics should lower confidence, but they do not automatically lose to inflated or non-comparable AUC.\\n- If two candidates share the same endpoint family and one reports high AUC only with much heavier covariates, do not let that AUC dominate over a cleaner but partially missing comparator.\\n- If a candidate's apparent advantage depends on family history, treatment variables, or target-adjacent baseline measurements, treat that advantage as weak unless the comparator evidence is otherwise clearly inferior.\\n- Within the same study family and same endpoint, an explicitly mediator-adjusted version should not automatically outrank an otherwise similar unadjusted version for generic deployment.\\n- If two candidates share the same exact disease endpoint family and one candidate's only visible edge is a covariate-heavy AUC built on extensive comorbidity or near-outcome adjustment, do not let that metric automatically outrank a cleaner comparator that lacks AUC but has otherwise comparable support.\\n- If a risk-wrapper or horizon-conditioned candidate's main edge is a high full-model AUROC, do not let that metric outrank a direct disease endpoint that has cleaner covariates plus either effect-size evidence or otherwise coherent disease-focused support.\\n- If one model's main advantage is an outlier AUC from a high-throughput single-biobank framework, treat that metric as weak when several cleaner direct-match competitors cluster together in endpoint and study design.\\n- If no explicit PGS-only AUROC is reported, do not silently substitute the full-model AUROC as the ranking AUC.\\n- If one candidate reports only effect sizes (OR/HR per SD) while another reports an explicit but modest PRS-comparable metric from a portability framework, the effect-size candidate should not automatically lose. Compare the overall evidence packages including study design, cohort scale, and method context.\\n- Full-model C-index or AUROC with only basic demographic covariates can still be informative; do not penalize it as if it came from biomarker-heavy or treatment-aware clinical packaging.\\n- Within the same publication family and same endpoint family, a materially stronger OR/HR can break ties even if another candidate has slightly larger validation size or a more familiar evaluation ancestry.\\n\\n### Heritability sanity check\\n\\nCore rule:\\n\\n- Use trait heritability as a ceiling and sanity field for PRS-only metrics.\\n- Do not use heritability to back-calculate an exact full-model AUROC.\\n- The main role of heritability is to check whether the visible PRS-side metrics are self-consistent and plausibly scaled.\\n\\nHow to use it:\\n\\n- Compare `PGS R2 (no covariates)` or another clearly PRS-comparable R2 against the best available local heritability estimate for the target trait.\\n- If the visible PRS-comparable R2 approaches or exceeds trait heritability, suspect metric misuse, scale mismatch, or non-comparable reporting.\\n- If full-model AUROC is very high but `incremental AUROC` is small and `PGS R2 (no covariates)` is modest relative to heritability, interpret the high AUROC as mainly covariate-driven rather than PRS-driven.\\n- If `PGS AUROC (no covariates)` is missing, lower confidence instead of promoting the candidate based on full-model AUROC alone.\\n- If a reported R2 is very high (e.g., >0.15) and the method is C+T or Clumping+Thresholding with unknown covariates, be especially skeptical: C+T-derived scores rarely capture enough genetic variance to explain >15% of trait variance for complex diseases.\\n\\nDo not over-interpret:\\n\\n- Heritability is a ceiling/sanity signal, not an exact conversion formula between R2 and AUROC.\\n- Liability-scale and observed-scale heritability may differ, so use them directionally unless the scale match is explicit.\\n\\n## 3. validation_sample_size\\n\\nCore rule:\\n\\n- `validation_sample_size` is a strong tie-break field, not a primary ranking field.\\n- `validation_sample_size` should come from the same representative validation record used for `performance_metrics`, `phenotyping_reported`, and `covariates`.\\n\\nPrefer:\\n\\n- larger validation cohorts when endpoint fidelity is similar\\n- larger validation support when reported performance is otherwise close\\n- much stronger validation support when a cleaner endpoint competes against only a tiny metric gap\\n\\nDown-rank when:\\n\\n- a candidate has a very small validation sample\\n- a large validation sample is being used to justify a weaker phenotype match\\n- a very large validation sample is being used to rescue non-comparable AUC\\n- a large validation sample comes from a pan-trait single-biobank framework while a smaller but well-powered disease-focused study cohort has cleaner endpoint evidence\\n\\nTie-break guidance:\\n\\n- Large validation size increases trust only after phenotype alignment is acceptable.\\n- A small AUC advantage from a tiny validation cohort should not automatically beat a near-tie candidate validated in a much larger cohort.\\n- Huge validation support alone should not beat a cleaner endpoint or a cleaner covariate design.\\n- Order-of-magnitude validation differences are meaningful only after checking endpoint fidelity, covariate comparability, and study archetype together.\\n- When reported discrimination is nearly tied, very large validation support can break the tie even if one candidate uses a self-reported version of the same disease endpoint.\\n- Very large validation from a portability-framework study should not automatically outweigh a moderately large validation from a disease-focused multi-cohort study.\\n- Modest validation-size differences within the same publication family are weak tie-breaks.\\n- Larger validation size should not automatically beat a near-clone candidate from the same study family if the near-clone has materially stronger effect sizes.\\n\\n## 4. training_development_cohorts / samples_training\\n\\nCore rule:\\n\\n- `training_development_cohorts` is mainly a transportability field.\\n- `samples_training` is mainly a scale field.\\n- Study archetype matters more than raw training size.\\n\\nPrefer:\\n\\n- disease-focused development\\n- consortium-style development\\n- multi-cohort development that looks externally oriented rather than internally optimized\\n- disease-specific development over broad high-throughput frameworks when endpoint evidence is otherwise similar\\n- disease-focused multi-cohort development over single-biobank portability sweeps when the latter mainly contributes generic labels rather than richer disease evidence\\n- broad multi-cohort disease studies when they look biologically and clinically targeted rather than trait-agnostic\\n- large disease-focused multi-cohort or global studies when exact-disease endpoint fidelity remains acceptable and the competing alternative is mainly a single-ancestry metric winner\\n- repeated support from multiple candidates in the same disease-focused study family when they share endpoint, ancestry, and validation context\\n\\nPan-trait framework identification and penalization:\\n\\n- Identify candidates coming from pan-trait, pan-phenome, or portability-style high-throughput frameworks. Key signature phrases in publication titles include:\\n  - \\\"Significant sparse polygenic risk scores across 813 traits\\\" (snpnet UKB framework)\\n  - \\\"Portability of 245 polygenic scores\\\" (LDpred2 UKB portability framework)\\n  - \\\"ExPRSweb\\\" or \\\"online repository with polygenic risk scores for common health-related exposures\\\" (ExPRSweb framework)\\n  - \\\"Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts\\\" (Global Biobank Meta-analysis framework)\\n  - Any title emphasizing \\\"across N traits\\\" or \\\"across N phenomes\\\" where N is large\\n- These framework-generated models have lower prior probability of being the best deployment model for any specific disease because they were not optimized for that disease endpoint.\\n- When a disease-focused alternative exists (from a dedicated GWAS, disease consortium, or disease-specific publication), the framework model should be penalized relative to the disease-focused model unless the framework model also has substantially cleaner endpoint, covariate, and metric evidence.\\n- When the only visible metric advantage of a framework model is a modest PRS-comparable metric (e.g., partial-r < 0.05, PGS AUROC < 0.60) while a disease-focused model has stronger effect sizes, larger disease-specific training, or richer multi-cohort validation, the disease-focused model should be preferred.\\n- UKB snpnet models (from the \\\"813 traits\\\" paper) have a characteristic signature: typically low variant counts (single-digit to low-thousands), `snpnet` method, UKB as sole training/dev cohort, and standardized covariates (age, sex, UKB array type, Genotype PCs). These models often rank poorly in independent external evaluations despite having complete and well-formatted PGS Catalog metadata.\\n\\nDown-rank when:\\n\\n- the candidate is mainly supported by a single-biobank pan-trait workflow\\n- the candidate comes from a portability or pan-phenome sweep with limited disease-specific evidence\\n- a very large training sample is the main reason the model looks attractive\\n- the candidate is essentially a framework score surfaced by many cohorts but not clearly optimized for the target disease endpoint\\n- the candidate comes from an ExPRSweb-style exposure or trait repository and the disease-focused context is unclear\\n\\nTie-break guidance:\\n\\n- Use `training_development_cohorts` to judge whether the model is disease-focused or generic.\\n- Use `samples_training` only as supporting evidence.\\n- Large training size cannot compensate for weaker endpoint fidelity.\\n- Within the same publication family, modest cohort-list or training-size differences are weak tie-breaks.\\n- Single-biobank portability papers should not beat disease-focused multi-cohort studies unless they also have clearly cleaner endpoint evidence and comparable metrics.\\n- When two candidates are both endpoint-faithful, do not automatically let a single-ancestry large-metric model beat a disease-focused multi-cohort or global study unless the former also has cleaner covariates and no stronger portability concerns.\\n- A coherent disease-focused multi-cohort study family with exact or near-exact endpoints can still beat a lone portability or legacy exact-label score even when the family has unknown covariates, if the competitor's main edge comes from explicit clinical augmentation or risk-wrapper packaging.\\n- If several candidates from the same study family are all endpoint-faithful and share the same validation/evaluation context, treat that repeated family pattern as corroborating evidence rather than redundancy.\\n- A disease-focused multi-cohort study with many contributing biobanks (e.g., >5 cohorts including AllofUs, BioMe, FinnGen, UKB, MVP, etc.) is strong evidence of external validation and should be preferred over single-biobank framework scores.\\n\\n## 5. method_name\\n\\nCore rule:\\n\\n- `method_name` is a weak tie-break field.\\n- Method modernity is not a quality proxy.\\n- Use literature-derived method rankings only as a weak prior after phenotype alignment, comparable performance, validation support, and transportability have already been checked.\\n\\nLiterature-derived ranking reference:\\n\\n- A March 2026 medRxiv spectral-ranking benchmark of 14 GWAS-summary-statistics single-ancestry PRS methods found `LDpred2` and `AnnoPred` to be the most consistently top-ranked methods overall.\\n- The same benchmark found `C+T`, `LDpred`, and `LDpred2-inf` to be the most consistently low-ranked methods overall.\\n- `SCT` and `lassosum2` performed strongly in the larger applied/benchmarking-paper ranking, but were less uniformly dominant across all ranking views.\\n- `DBSLMM` showed notable rank instability across ranking sources and should not be treated as a stable top-tier method prior.\\n- `PRS-CS` and `PRS-CS-auto` were not consistently top-tier in this benchmark and should not be preferred solely because they are common or modern.\\n- The paper also emphasized that most middle-ranked methods had overlapping confidence intervals and that there is no universally best method across phenotypes.\\n- This benchmark is most relevant to standard GWAS-summary-statistics single-ancestry PRS methods. It should not be overextended to methods outside that scope, such as individual-level-data penalized regression frameworks.\\n\\nWeak method prior for otherwise closely matched candidates:\\n\\n- top prior: `LDpred2`, `AnnoPred`\\n- upper-middle prior: `LDpred2-auto`, `LDpred-funct`, `lassosum2`, `SCT`\\n- source-sensitive middle prior: `SBayesR`, `lassosum`, `DBSLMM`, `PRS-CS`, `PRS-CS-auto`, `PRSCS`\\n- low prior: `LDpred2-inf`, `LDpred`, `C+T`, `Clumping and Thresholding (C+T)`\\n\\nMethod-study-design interaction:\\n\\n- A genome-wide shrinkage method (PRS-CS, PRSCS, LDpred2, LDpred2-auto) from a disease-focused multi-cohort GWAS meta-analysis should be strongly preferred over a sparse method (snpnet, C+T, GWS variants) from a pan-trait single-biobank framework, because the genome-wide shrinkage method captures more of the polygenic signal and the disease-focused context ensures endpoint relevance.\\n- `snpnet` models from pan-trait UKB frameworks (the \\\"813 traits\\\" paper) typically produce very sparse scores that may not capture enough genetic variance for complex polygenic traits. Despite complete metadata, they often generalize poorly to independent cohorts.\\n- `C+T` (Clumping and Thresholding) and similar simple thresholding methods have limited polygenic signal capture. If a C+T model reports very high R2 (e.g., R2 > 0.15 for a complex polygenic trait) with unknown covariates, treat that R2 as likely inflated or non-comparable.\\n- `Genome-wide significant variants` or `GWAS Hits` methods using small numbers of SNPs can be effective when the variants were identified in large, well-powered GWAS studies focused on the target disease, especially for diseases with strong individual-locus effects (e.g., some cancers, autoimmune diseases).\\n- Weighted PRS summation or multi-PRS methods that combine multiple component scores can capture both polygenic background and strong individual-locus effects; they should not be penalized for method complexity.\\n- `PRSCS` (case-sensitive variant of PRS-CS) from multi-ancestry disease studies should be treated equivalently to `PRS-CS` in the method ranking.\\n\\nDo not automatically prefer:\\n\\n- `snpnet`\\n- `PRS-CS`\\n- `PRS-CS-auto`\\n- `LDpred2`\\n- `LDpred2-auto`\\n- `lassosum`\\n- `lassosum2`\\n\\nDo not automatically assume:\\n\\n- denser methods are better\\n- sparser methods are worse\\n- newer methods are more portable\\n- more complex methods are more clinically credible\\n- rare-pathogenic or monogenic-leaning constructions are better for generic common-disease PRS deployment\\n\\nTie-break guidance:\\n\\n- Use `method_name` only after endpoint fidelity, comparable performance, validation support, and transportability have already been considered.\\n- If two candidates are otherwise closely matched and both fall within the paper's benchmark scope, the literature-derived prior above can be used as a mild tie-break.\\n- If a candidate wins mainly because it is `PRS-CS` or `PRS-CS-auto`, lower confidence unless non-method fields clearly support it.\\n- If a candidate wins mainly because it is `LDpred2` or `AnnoPred`, keep that advantage mild; do not let it override materially cleaner endpoint or study-design evidence from another method.\\n- If a candidate's only method advantage is being `C+T`, `LDpred`, or `LDpred2-inf`, treat that as a negative rather than a positive tie-break unless the non-method metadata are clearly stronger.\\n- If a candidate's only method advantage is being `SCT`, `lassosum2`, or `DBSLMM`, remember that the literature benchmark showed source-sensitive ordering; use extra caution instead of treating them as uniformly top-tier.\\n- If candidates are otherwise closely matched within the same study family, LD-aware shrinkage methods such as `PRS-CS`, `LDpred`, or `LDpred2` may be mildly preferred over very sparse P+T or GWAS-hit constructions.\\n- If candidates are otherwise closely matched within the same endpoint family, do not let a very sparse P+T score beat a genome-wide shrinkage score solely because of a modest AUC edge.\\n- If candidates share the same publication family, phenotype, validation cohort, and ancestry context, a modest AUC edge from an ultra-sparse construction is weak evidence against a genome-wide shrinkage score.\\n- If candidates share the same publication family, endpoint, validation size, ancestry context, and similarly missing covariates, prefer the genome-wide shrinkage score unless the sparse construction has a clearly larger, not merely modest, metric advantage.\\n- If a candidate wins mainly because the method name looks stronger, lower confidence.\\n- `snpnet` or other high-capacity penalized regression methods need extra caution when their advantage comes mainly from single-biobank optimization or unusually high internal AUC.\\n- Rare-pathogenic or clearly monogenic-leaning constructions should not automatically outrank genome-wide polygenic scores for generic common-disease risk unless the metadata show unusually strong and clean disease-level support.\\n- A `snpnet` model from a pan-trait framework paper should not beat a genome-wide shrinkage model (PRS-CS, LDpred2) from a disease-focused study, even if the snpnet model has a slightly higher reported metric, because snpnet pan-trait models tend to generalize poorly to independent cohorts.\\n\\n## 6. ancestry_distribution\\n\\nCore rule:\\n\\n- `ancestry_distribution` is a compatibility and transportability field.\\n- Multi-ancestry appearance is not automatically an advantage.\\n\\nPrefer:\\n\\n- ancestry context that is interpretable for the intended deployment\\n- evaluation ancestry that is easier to trust for the target use case\\n- multi-ancestry evaluation from disease-focused studies, as this signals broader validation\\n\\nDown-rank when:\\n\\n- the evaluation ancestry is clearly mismatched\\n- the ancestry label looks broad but the deployment relevance is unclear\\n\\nTie-break guidance:\\n\\n- Evaluation ancestry is often more informative than broad GWAS ancestry labels.\\n- Do not reward a candidate simply because the ancestry string looks more diverse.\\n- If deployment ancestry is unspecified, use this field cautiously and lower confidence rather than over-rank.\\n- Do not let mixed-ancestry evaluation beat a much stronger exact-disease candidate by itself.\\n- A single non-EUR or mixed-ancestry evaluation is not automatically more deployable than a much larger exact-disease evaluation in one ancestry.\\n- Multi-ancestry evaluation from a disease-focused multi-cohort study (e.g., AllofUs, MVP, diverse biobanks) is supportive evidence of model robustness.\\n- If deployment ancestry is unspecified, a single-ancestry non-overlapping candidate (for example, EAS-only) should not outrank otherwise comparable EUR or multi-ancestry candidates merely because it has an exact label or a higher full-model metric.\\n- Within the same study family and same endpoint family, do not automatically prefer the European candidate if a non-European candidate has materially stronger effect sizes and no other major weakness.\\n\\n## 7. publication.title / publication.journal / date_release\\n\\nCore rule:\\n\\n- These fields are weak context fields.\\n- Their main job is to identify study type, not to rank prestige.\\n\\nUse `publication.title` to detect:\\n\\n- disease-specific study\\n- cross-disease study\\n- cross-cancer study\\n- multitrait or pan-phenome study\\n- portability study\\n- risk-factor integration study\\n- related-trait rather than exact-disease study\\n- exposure-, lifestyle-, or treatment-centered study where the PRS may be an auxiliary predictor rather than the main disease-genetics object\\n\\nKey framework paper signatures to identify and penalize:\\n\\n- \\\"Significant sparse polygenic risk scores across 813 traits in UK Biobank\\\" = snpnet pan-trait UKB framework (frequently produces scores that do not generalize well to independent cohorts)\\n- \\\"Portability of 245 polygenic scores when derived from the UK Biobank\\\" = LDpred2 UKB portability framework\\n- \\\"ExPRSweb: An online repository with polygenic risk scores for common health-related exposures\\\" = ExPRSweb exposure-PRS framework\\n- \\\"Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts\\\" = Global Biobank meta-analysis framework (PRS-CS-auto)\\n- These framework papers are valuable for method benchmarking but their per-disease scores are not optimized for any specific disease and should not be preferred over disease-focused alternatives.\\n- By contrast, disease-specific comparative papers such as \\\"Evaluation of polygenic scoring methods in five biobanks...\\\" that compare several model families within one exact disease endpoint should not be penalized as pan-trait framework scores when the candidate remains a direct match and the covariate field is empty or basic.\\n\\nDo not automatically prefer:\\n\\n- a newer `date_release`\\n- a higher-profile `publication.journal`\\n- a broader or more ambitious-sounding `publication.title`\\n- portability, pan-phenome, global-biobank, or high-throughput framing when disease-specific evidence is weaker\\n- older disease-focused papers with cleaner endpoint fit over newer multi-cohort disease studies by default\\n- newer multi-cohort disease studies over older disease-focused studies by default\\n\\nTie-break guidance:\\n\\n- Use publication context to understand what kind of model is being surfaced.\\n- Titles that emphasize portability, pan-phenome breadth, many traits, or broad biobank screening often indicate framework papers rather than automatic deployment winners.\\n- Titles that emphasize external evaluation in independent biobanks or a disease-focused multi-cohort study can be supportive when the candidate remains endpoint-faithful.\\n- Global multi-ancestry disease studies are supportive when they are clearly disease-focused; they should not be dismissed simply because they are newer or in preprint form.\\n- Titles centered on exposure effects, diet, treatment response, or non-genetic prognostic framing should be treated cautiously when the goal is generic disease-risk PRS selection.\\n- If an exposure-, lifestyle-, or treatment-centered paper surfaces a PRS only as an auxiliary predictor, do not let that title framing beat a disease-genetics candidate with similarly direct phenotype support.\\n- If a paper centers on integrating disease PRSs with risk-factor PRSs, treat it as a framework-style context rather than direct evidence that its disease score is the best standalone PRS.\\n- Cross-cancer or broad evaluation framing is not automatically disqualifying if the candidate remains a dominant subtype match with stronger endpoint and study support than a broad-label alternative.\\n- Cross-cancer external evaluation is not the same as a pan-trait framework paper; if the endpoint is the exact target disease and the model was externally validated in large cohorts, do not penalize it as if it were a generic phenome sweep.\\n- Disease-focused publication framing is supportive but weak; it should not override materially stronger validation/performance from a broader evaluation study when endpoint fidelity remains acceptable.\\n- Repeated candidates from the same disease-focused study family are supportive when they remain endpoint-faithful and internally consistent.\\n- Do not let recency or journal prestige override phenotype fidelity, comparable performance, or transportability.\\n- A disease-focused GWAS meta-analysis (e.g., from a named disease consortium) should generally be preferred over a generic pan-trait framework paper from UKB, even if the meta-analysis is older or in preprint form.\\n- Prospective studies whose title or design centers on treatment assignment, modifiable risk-factor integration, or intervention interaction should not automatically be treated as the best standalone PRS source.\\n- Cost-effectiveness or screening-stratification papers can contain useful PRSs, but the paper framing itself is not proof that the score is the best standalone deployment model.\\n\\n## 8. variants_number\\n\\nCore rule:\\n\\n- `variants_number` is a model-shape field, not a quality field.\\n\\nDo not automatically assume:\\n\\n- more variants means better performance\\n- more variants means better portability\\n- fewer variants means better interpretability\\n- fewer variants means better deployment value\\n\\nTie-break guidance:\\n\\n- Use `variants_number` only as weak interpretive context.\\n- Large SNP-count differences should not drive ranking on their own.\\n- `variants_number` should never be the primary reason to select a model.\\n- Very low variant counts (single-digit to low-tens) combined with a pan-trait framework origin is a warning sign: the model may not capture enough polygenic signal for complex traits.\\n- Very high variant counts (>100K) from genome-wide shrinkage methods are expected and should not be penalized; they reflect the method's design rather than overfitting.\\n\\n## 9. Disease-family policy\\n\\nApply these family-level policies only after confirming that the candidate remains a true direct match for the target disease concept.\\n\\n- Endocrine and thyroid-spectrum diseases: treat hormone panels, thyroid-state biomarkers, autoantibodies, family history, and similar disease-state covariates as strong sources of metric inflation. When several direct-match candidates come from the same coherent disease-focused endocrine study family, prefer that family over legacy exact-label models whose main advantage is a biomarker-inflated or family-history-inflated full-model metric. Within one endocrine-focused family, unknown covariates are a confidence penalty, not an automatic loss to explicit biomarker-heavy or family-history-heavy packaging; endpoint fidelity, cleaner covariates, and stronger effect sizes matter more than modest full-model AUROC gaps. In same-family conflicts, explicit family history or biomarker augmentation is a stronger negative than unknown covariates. A disease-focused endocrine study family should usually outrank a portability-oriented common-disease score or legacy exact-label score when the latter's apparent edge comes mainly from larger validation, cleaner wording, or higher full-model AUROC rather than cleaner covariates or stronger disease-specific effect sizes.\\n- Metabolic and anthropometric diseases: a broader biology-oriented trait label can still be a direct match when `phenotyping_reported` is an exact disease diagnosis, disease phecode, or other explicit disease endpoint. Explicit diagnosis or phecode endpoints should usually beat broad weight-state, nutrition-bundle, or administrative composite phenotypes, especially when the latter come from portability-style frameworks. Prefer disease-endpoint models over broad administrative-bundle phenotypes or framework-derived time-to-event variants unless those alternatives have clearly stronger comparable PRS-only evidence. A broader biology label anchored by an explicit disease phecode should usually outrank an exact-label time-to-event framework score unless the framework score has clearly stronger comparable PRS-only evidence.\\n- Thromboembolic diseases: endpoints that explicitly include the target thrombotic event together with a closely related event remain direct matches if the target event is still clearly represented. When deployment ancestry is unspecified, do not let a single-ancestry exact-label candidate outrank otherwise comparable EUR or mixed-ancestry direct-match candidates solely on label exactness or one full-model metric.\\n- Cardiovascular and large-vessel diseases: disease-focused multi-cohort meta-analysis models with exact endpoints and only basic demographic covariates should usually be preferred over older prevalent-endpoint sparse models. In this family, `age`, `age^2`, and `sex` are basic adjustment variables, not heavy clinical leakage. Older prevalent-endpoint sparse models should not beat exact-endpoint multi-cohort families mainly on validation size, simpler packaging, or modest effect-size differences.\\n- Organ-site cancers and sex-specific neoplasms: cross-cancer external evaluation is not equivalent to a pan-trait framework when the candidate's endpoint is the exact target cancer and validation is large. Closely related organ-site labels within the same malignant disease family should be treated as direct matches. Fixed-horizon, age-specific absolute-risk, or screening-oriented cancer packages should not beat generic diagnosis endpoints on AUROC alone, and prospective or intervention-aware risk packages that rely on family history, treatment assignment, PSA/stage variables, UV-behavior bundles, or similar disease-adjacent exposure packaging should be down-ranked. Upstream epidemiologic or reproductive covariates used for cancer risk modeling are less problematic than family history, treatment variables, or disease-state biomarkers, but an older cross-cancer or screening-style package should not outrank a newer direct-match cancer score with age/sex/PC-only or no-covariate packaging when the newer score also has materially stronger OR/HR or R2 support.\\n- Musculoskeletal degenerative diseases: for site-specific osteoarthritis targets, direct site-specific osteoarthritis diagnosis or incident site-specific osteoarthritis should usually beat total-joint-replacement endpoints, broad clinical-osteoarthritis labels, or BMI/SES-packaged models unless those alternatives have clearly stronger PRS-only evidence. BMI is a meaningful mediator for osteoarthritis risk, not a reason to reward the packaged model.\\n- Hematologic malignancies: `acute` vs `chronic`, `lymphoblastic` vs `lymphocytic`, and `leukemia` vs `lymphoma` distinctions are material disease-identity differences, not weak subtype differences. A candidate whose fields mix these entities should be treated as endpoint-incoherent rather than as an acceptable direct match. Family-history-restricted or survivor-enriched leukemia scores should not beat a coherent exact-disease family.\\n- Respiratory and smoking-linked cancers/diseases: simple smoking-status adjustment can still be comparable evidence, and simple smoking/BMI adjustment can remain acceptable for generic lung-cancer deployment when the endpoint is otherwise a direct disease match. By contrast, family history plus smoking interactions, PM2.5/environment bundles, spirometry/lung-function variables, or smoker-only framing are stronger penalties. For generic asthma deployment, pediatric-only or childhood-onset asthma should usually lose to generic asthma or doctor-diagnosed asthma. For generic lung-cancer deployment, a family-history-plus-PM2.5-plus-smoking-interaction package should usually lose to a direct lung-cancer model with simpler smoking/BMI-style covariates.\\n- Immune-mediated and autoimmune diseases: if catalog metadata are noisy, partially contradictory, or obviously mixed with phenotype artifacts, do not let one anomalous field dominate. Reconstruct the ranking from the full evidence package: exact trait/efo alignment, disease-focused study context, covariate cleanliness, and effect-size or PRS-comparable performance support.\\n- Late-onset neurodegenerative diseases: familial late-onset forms remain direct matches to generic late-onset disease deployment unless a clear early-onset or monogenic mismatch is visible. Within the same study family, materially stronger effect sizes should usually outweigh slightly larger validation size or a more familiar evaluation ancestry. If two siblings share the same familial late-onset Alzheimer endpoint and the same basic `Age, sex` covariates, the materially stronger OR sibling should win even when its validation cohort is smaller.\\n- Sleep-disordered breathing diseases: prefer the clinically dominant subtype over a broader umbrella breathing-disorder label when the dominant-subtype model is at least as well supported on endpoint fidelity, validation, and performance evidence. When otherwise similar same-family candidates differ mainly by explicit mediator-adjustment labeling, do not let the adjusted label win by default for generic deployment.\",\"snippets\":[{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"High-priority benchmark-aligned corrections\",\"content\":\"These rules are high-priority must-pass gates. Apply them before weaker tie-breaks from exact wording, publication familiarity, or raw validation size.\\n\\n- Do not let an older exact-label portability score, sparse UKB score, or generic framework score beat a newer disease-focused or multi-cohort direct-match score solely because the older score reports an explicit PRS-only AUROC, has a familiar method name, or has a much larger validation sample.\\n- Treat horizon-conditioned packaging, age-specifi...\",\"relevance_score\":1.0},{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"2. performance_metrics.auc / performance_metrics.r2 / covariates\",\"content\":\"Core rule:\\n\\n- `performance_metrics` should be interpreted from one representative validation record, not from mixed records.\\n- When multiple validation records exist, prefer the highest-result European validation record; if no European validation exists, use the highest-result record overall.\\n- Preserve and inspect the full `classification_metrics` and `other_metrics` from that selected record instead of reducing them to a single scalar.\\n- Treat top-level `performance_metrics.auc` and `performan...\",\"relevance_score\":1.0},{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"5. method_name\",\"content\":\"Core rule:\\n\\n- `method_name` is a weak tie-break field.\\n- Method modernity is not a quality proxy.\\n- Use literature-derived method rankings only as a weak prior after phenotype alignment, comparable performance, validation support, and transportability have already been checked.\\n\\nLiterature-derived ranking reference:\\n\\n- A March 2026 medRxiv spectral-ranking benchmark of 14 GWAS-summary-statistics single-ancestry PRS methods found `LDpred2` and `AnnoPred` to be the most consistently top-ranked met...\",\"relevance_score\":1.0},{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"1. trait_reported / trait_efo / phenotyping_reported\",\"content\":\"Core rule:\\n\\n- `phenotyping_reported` is the primary endpoint-fidelity field.\\n- `trait_reported` and `trait_efo` are concept-alignment fields, not final deployment proof.\\n- Endpoint fidelity matters more than surface label similarity.\\n\\nPrefer:\\n\\n- direct clinical disease endpoint\\n- generic disease endpoint for generic disease-risk deployment\\n- general case-control or incident-plus-prevalent disease endpoint when the target is a generic disease concept\\n- combined or generic disease endpoints over f...\",\"relevance_score\":1.0},{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"9. Disease-family policy\",\"content\":\"Apply these family-level policies only after confirming that the candidate remains a true direct match for the target disease concept.\\n\\n- Endocrine and thyroid-spectrum diseases: treat hormone panels, thyroid-state biomarkers, autoantibodies, family history, and similar disease-state covariates as strong sources of metric inflation. When several direct-match candidates come from the same coherent disease-focused endocrine study family, prefer that family over legacy exact-label models whose main...\",\"relevance_score\":1.0},{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"4. training_development_cohorts / samples_training\",\"content\":\"Core rule:\\n\\n- `training_development_cohorts` is mainly a transportability field.\\n- `samples_training` is mainly a scale field.\\n- Study archetype matters more than raw training size.\\n\\nPrefer:\\n\\n- disease-focused development\\n- consortium-style development\\n- multi-cohort development that looks externally oriented rather than internally optimized\\n- disease-specific development over broad high-throughput frameworks when endpoint evidence is otherwise similar\\n- disease-focused multi-cohort development ...\",\"relevance_score\":1.0},{\"source\":\"prs_model_domain_knowledge.md\",\"section\":\"7. publication.title / publication.journal / date_release\",\"content\":\"Core rule:\\n\\n- These fields are weak context fields.\\n- Their main job is to identify study type, not to rank prestige.\\n\\nUse `publication.title` to detect:\\n\\n- disease-specific study\\n- cross-disease study\\n- cross-cancer study\\n- multitrait or pan-phenome study\\n- portability study\\n- risk-factor integration study\\n- related-trait rather than exact-disease study\\n- exposure-, lifestyle-, or treatment-centered study where the PRS may be an auxiliary predictor rather than the main disease-genetics object\\n\\n...\",\"relevance_score\":1.0},{\"source\":\"local_heritability_data\",\"section\":\"Trait-Specific Heritability\",\"content\":\"Target trait: abdominal aortic aneurysm\\nBest matched local heritability estimate: h2_obs=0.0003; h2_liability=0.0200; SE=0.0023; z=0.14; population=EUR; n=361,194; source=ukbb_ldsc.\\nSanity-check usage:\\n- compare PGS-only R2 or covariates-regressed-out R2 against h2; they should remain below the trait heritability ceiling\\n- if full-model AUROC is very high but incremental AUROC and PGS-only R2 are small relative to h2, treat the AUROC as mostly covariate-driven rather than PRS-driven\\n- if PGS-onl...\",\"relevance_score\":1.0}],\"source_type\":\"local\"},\"todo_recitation_path\":\"N/A\",\"todo_recitation\":\"\"}"
+            }
+          ],
+          "response_format": {
+            "type": "json_schema",
+            "json_schema": {
+              "name": "step1_decision",
+              "strict": true,
+              "schema": {
+                "properties": {
+                  "outcome": {
+                    "title": "Outcome",
+                    "type": "string"
+                  },
+                  "best_model_id": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "title": "Best Model Id"
+                  },
+                  "confidence": {
+                    "title": "Confidence",
+                    "type": "string"
+                  },
+                  "rationale": {
+                    "title": "Rationale",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "outcome",
+                  "best_model_id",
+                  "confidence",
+                  "rationale"
+                ],
+                "title": "Step1Decision",
+                "type": "object",
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "domain_knowledge": true
+}

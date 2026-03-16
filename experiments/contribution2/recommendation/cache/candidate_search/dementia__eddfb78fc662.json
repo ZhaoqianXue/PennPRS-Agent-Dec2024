@@ -1,0 +1,3526 @@
+{
+  "cache_version": "v4",
+  "ontology": "dementia",
+  "candidate_model_ids": [
+    "PGS004287",
+    "PGS004918",
+    "PGS001348",
+    "PGS004034",
+    "PGS004008",
+    "PGS004146",
+    "PGS004282",
+    "PGS001827",
+    "PGS003574",
+    "PGS004289",
+    "PGS004286",
+    "PGS004590",
+    "PGS000876",
+    "PGS002280",
+    "PGS004227",
+    "PGS003441",
+    "PGS002289",
+    "PGS001179",
+    "PGS000946",
+    "PGS000053",
+    "PGS002753",
+    "PGS003958",
+    "PGS004228",
+    "PGS004281",
+    "PGS001349",
+    "PGS004589",
+    "PGS000898",
+    "PGS000779",
+    "PGS003957",
+    "PGS004116",
+    "PGS003953",
+    "PGS001828",
+    "PGS004229",
+    "PGS004600",
+    "PGS003955",
+    "PGS004285",
+    "PGS004898",
+    "PGS000811",
+    "PGS000823",
+    "PGS002035",
+    "PGS003992",
+    "PGS004092",
+    "PGS000945",
+    "PGS004318",
+    "PGS003956",
+    "PGS000054",
+    "PGS004062",
+    "PGS004288",
+    "PGS000334",
+    "PGS004284",
+    "PGS000929",
+    "PGS004863",
+    "PGS005170",
+    "PGS002249",
+    "PGS004588",
+    "PGS000812",
+    "PGS000026",
+    "PGS002731",
+    "PGS003440",
+    "PGS001775",
+    "PGS003954",
+    "PGS000025",
+    "PGS004283"
+  ],
+  "total_found": 65,
+  "candidate_models": [
+    {
+      "id": "PGS000025",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "log-OR weighted sum of risk allele dosages",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of a Genetic Risk Score to Improve Risk Prediction for Alzheimer's Disease.",
+        "journal": "J Alzheimers Dis"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000050",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "\u0394C-index between models with and without GRS",
+            "name_short": "\u0394C-index between models with and without GRS",
+            "estimate": 0.0043,
+            "ci_lower": 0.0019,
+            "ci_upper": 0.0067
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.17,
+            "ci_lower": 1.13,
+            "ci_upper": 1.21
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident Alzheimer's disease",
+      "covariates": "age at baseline, sex, education level, APOE \u01904 status",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "validation_sample_size": "n=19,687"
+    },
+    {
+      "id": "PGS000026",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Hazard model with stepwise selection of SNP inclusion",
+      "variants_number": 33,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: NR (60%), EUR (40%)",
+      "publication": {
+        "title": "Genetic assessment of age-associated Alzheimer disease risk: Development and validation of a polygenic hazard score.",
+        "journal": "PLoS Med"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=15,795",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000053",
+        "selected_validation_ancestry": "European",
+        "record_count": 11,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "r (correlation between between binned quantiles of PHS-predicted and empirical age of AD onset)",
+            "name_short": "r (correlation between between binned quantiles of PHS-predicted and empirical age of AD onset)",
+            "estimate": 0.9
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer disease",
+      "covariates": "APOE risk alleles (e2 and e4), age, sex, genetic PCs 1-5",
+      "training_development_cohorts": [
+        "ADGC",
+        "CHARGE",
+        "EADI",
+        "GERAD"
+      ],
+      "validation_sample_size": "n=17,956"
+    },
+    {
+      "id": "PGS000053",
+      "trait_reported": "Alzheimer's disease (late onset)",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores in familial Alzheimer disease.",
+        "journal": "Neurology"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000133",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.29,
+            "ci_lower": 1.21,
+            "ci_upper": 1.37
+          }
+        ]
+      },
+      "phenotyping_reported": "Familial late-onset Alzheimer's disease (LOAD)",
+      "covariates": "Age, sex",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "validation_sample_size": "n=4,792"
+    },
+    {
+      "id": "PGS000054",
+      "trait_reported": "Alzheimer's disease (late onset)",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AMR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores in familial Alzheimer disease.",
+        "journal": "Neurology"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000135",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73,
+            "ci_lower": 1.57,
+            "ci_upper": 1.93
+          }
+        ]
+      },
+      "phenotyping_reported": "Familial late-onset Alzheimer's disease (LOAD)",
+      "covariates": "Age, sex",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "validation_sample_size": "n=3,324"
+    },
+    {
+      "id": "PGS000334",
+      "trait_reported": "Late-onset Alzheimer\u2019s disease ",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: NR (19%), EUR (81%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Risk prediction of late-onset Alzheimer's disease implies an oligogenic architecture.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-10-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.191,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000901",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.191,
+            "ci_lower": 0.131,
+            "ci_upper": 0.269
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "IGAP",
+        "UKB"
+      ],
+      "validation_sample_size": "n=3,810"
+    },
+    {
+      "id": "PGS000779",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "LASSO",
+      "variants_number": 7,
+      "ancestry_distribution": "GWAS: EUR (91%), MAO (9%) | DEV: EAS (100%) | EVAL: EAS (50%), EUR (50%)",
+      "publication": {
+        "title": "Genetic and polygenic risk score analysis for Alzheimer's disease in the Chinese population.",
+        "journal": "Alzheimers Dement (Amst)"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "n=674",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.717,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002023",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.717
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Beta (\u03b2, top 33.3% vs bottom 33.3%)",
+            "name_short": "Beta (\u03b2, top 33.3% vs bottom 33.3%)",
+            "estimate": 2.283,
+            "se": 1.021
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "Age, sex, PCs(1-5)",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "ADSP",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "IGAP",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "PGC",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "validation_sample_size": "n=2,696"
+    },
+    {
+      "id": "PGS000811",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 39,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for Alzheimer's disease are related to dementia risk in APOE \u025b4 negatives.",
+        "journal": "Alzheimers Dement (Amst)"
+      },
+      "date_release": "2021-07-02",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002140",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.22,
+            "ci_lower": 1.1,
+            "ci_upper": 1.35
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident dementia in APOE \u025b4 non-carriers",
+      "covariates": "Age at blood sampling, birth year, sex, PCs(1-10)",
+      "training_development_cohorts": [
+        "ADGC",
+        "CHARGE",
+        "EADI",
+        "GERAD",
+        "PERADES",
+        "UKB"
+      ],
+      "validation_sample_size": "n=2,052"
+    },
+    {
+      "id": "PGS000812",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 57,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for Alzheimer's disease are related to dementia risk in APOE \u025b4 negatives.",
+        "journal": "Alzheimers Dement (Amst)"
+      },
+      "date_release": "2021-07-02",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002141",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.09,
+            "ci_lower": 1.01,
+            "ci_upper": 1.19
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident dementia",
+      "covariates": "Age at blood sampling, birth year, sex, PCs(1-10)",
+      "training_development_cohorts": [
+        "ADGC",
+        "CHARGE",
+        "EADI",
+        "GERAD",
+        "PERADES"
+      ],
+      "validation_sample_size": "n=2,052"
+    },
+    {
+      "id": "PGS000823",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: NR (10%), EUR (34%), MAE (57%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "The effect of APOE and other common genetic variants on the onset of Alzheimer's disease and dementia: a community-based cohort study.",
+        "journal": "Lancet Neurol"
+      },
+      "date_release": "2021-07-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002219",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard Ratio (HR, top 33.3% vs bottom 33.3%)",
+            "name_short": "Hazard Ratio (HR, top 33.3% vs bottom 33.3%)",
+            "estimate": 1.36,
+            "ci_lower": 1.04,
+            "ci_upper": 1.76
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident all-cause dementia",
+      "covariates": "Age at enrolment, sex",
+      "training_development_cohorts": [
+        "3C",
+        "ACT",
+        "ACTS",
+        "ADC",
+        "ADGC",
+        "ADNI",
+        "AGES",
+        "ALS",
+        "ART",
+        "B58C",
+        "Bonn",
+        "CHARGE",
+        "CHS",
+        "CORIELL",
+        "DemGene",
+        "EADI",
+        "FHS",
+        "GENADA",
+        "GERAD",
+        "GSK",
+        "HNR",
+        "KORA",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "MRC",
+        "NIA-LOAD",
+        "NIMH",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "TOP",
+        "UCL-LASER",
+        "UCL-PRION",
+        "UM",
+        "UM/VU/MSSM",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=12,978"
+    },
+    {
+      "id": "PGS000876",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 31,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk and hazard scores for Alzheimer's disease prediction.",
+        "journal": "Ann Clin Transl Neurol"
+      },
+      "date_release": "2021-08-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002506",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.28,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Age at Alzheimer's disease onset",
+      "covariates": "Gender, PCs (1-3), APOE \u03b52, APOE \u03b54",
+      "training_development_cohorts": [
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHARGE",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GSK",
+        "MAYO",
+        "MIRAGE",
+        "NIA-LOAD",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "WASHU",
+        "eMERGE"
+      ],
+      "validation_sample_size": "n=9,903"
+    },
+    {
+      "id": "PGS000898",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 40,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: NR (35%), EUR (65%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common variants in Alzheimer's disease and risk stratification by polygenic risk scores.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-09-17",
+      "samples_training": "n=151,811",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002634",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.3,
+            "ci_lower": 1.18,
+            "ci_upper": 1.44
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease (clinically confirmed)",
+      "covariates": "PCs(1-4)",
+      "training_development_cohorts": [
+        "ADGC",
+        "AGES",
+        "CHARGE",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GR@ACE",
+        "IGAP",
+        "PERADES",
+        "RS",
+        "UKB"
+      ],
+      "validation_sample_size": "n=2,394"
+    },
+    {
+      "id": "PGS000929",
+      "trait_reported": "All-cause dementia (algorithmically-defined)",
+      "trait_efo": "dementia",
+      "method_name": "snpnet",
+      "variants_number": 6,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.62703,
+        "r2": 0.02346,
+        "pgs_only_auc": 0.62703,
+        "pgs_only_r2": 0.02346,
+        "full_model_auc": 0.81557,
+        "full_model_r2": 0.11649,
+        "incremental_auc": 0.02294,
+        "selected_performance_id": "PPM007476",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.81557,
+            "ci_lower": 0.79434,
+            "ci_upper": 0.8368
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11649
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02294
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02346
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.62703,
+            "ci_lower": 0.59629,
+            "ci_upper": 0.65777
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "AD all cause dementia",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS000945",
+      "trait_reported": "Dementia in Alzheimer's disease (time-to-event)",
+      "trait_efo": "dementia, Alzheimer disease",
+      "method_name": "snpnet",
+      "variants_number": 26,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.75273,
+        "r2": 0.06543,
+        "pgs_only_auc": 0.75273,
+        "pgs_only_r2": 0.06543,
+        "full_model_auc": 0.8916,
+        "full_model_r2": 0.16679,
+        "incremental_auc": 0.05458,
+        "selected_performance_id": "PPM007554",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8916,
+            "ci_lower": 0.86249,
+            "ci_upper": 0.9207
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.16679
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.05458
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.06543
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.75273,
+            "ci_lower": 0.69847,
+            "ci_upper": 0.80699
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE dementia in alzheimer's disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS000946",
+      "trait_reported": "Unspecified dementia (time-to-event)",
+      "trait_efo": "dementia",
+      "method_name": "snpnet",
+      "variants_number": 9,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.64149,
+        "r2": 0.02543,
+        "pgs_only_auc": 0.64149,
+        "pgs_only_r2": 0.02543,
+        "full_model_auc": 0.83545,
+        "full_model_r2": 0.11896,
+        "incremental_auc": 0.02339,
+        "selected_performance_id": "PPM007558",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.83545,
+            "ci_lower": 0.80839,
+            "ci_upper": 0.8625
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11896
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02339
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02543
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.64149,
+            "ci_lower": 0.59989,
+            "ci_upper": 0.68308
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE unspecified dementia",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001179",
+      "trait_reported": "Vascular dementia (time-to-event)",
+      "trait_efo": "vascular dementia",
+      "method_name": "snpnet",
+      "variants_number": 7,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.61306,
+        "r2": 0.01123,
+        "pgs_only_auc": 0.61306,
+        "pgs_only_r2": 0.01123,
+        "full_model_auc": 0.82562,
+        "full_model_r2": 0.10475,
+        "incremental_auc": 0.00707,
+        "selected_performance_id": "PPM008588",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.82562,
+            "ci_lower": 0.78593,
+            "ci_upper": 0.86531
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10475
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00707
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01123
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.61306,
+            "ci_lower": 0.55366,
+            "ci_upper": 0.67245
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE vascular dementia",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001348",
+      "trait_reported": "Alzheimer's disease (algorithmically-defined)",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "snpnet",
+      "variants_number": 15,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.72349,
+        "r2": 0.05685,
+        "pgs_only_auc": 0.72349,
+        "pgs_only_r2": 0.05685,
+        "full_model_auc": 0.8686,
+        "full_model_r2": 0.1517,
+        "incremental_auc": 0.05292,
+        "selected_performance_id": "PPM009224",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8686,
+            "ci_lower": 0.84242,
+            "ci_upper": 0.89478
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1517
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.05292
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05685
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.72349,
+            "ci_lower": 0.67813,
+            "ci_upper": 0.76886
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "AD alzheimer's disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001349",
+      "trait_reported": "Alzheimer's disease (time-to-event)",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "snpnet",
+      "variants_number": 6,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.71238,
+        "r2": 0.05271,
+        "pgs_only_auc": 0.71238,
+        "pgs_only_r2": 0.05271,
+        "full_model_auc": 0.8666,
+        "full_model_r2": 0.15418,
+        "incremental_auc": 0.04665,
+        "selected_performance_id": "PPM009228",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8666,
+            "ci_lower": 0.84246,
+            "ci_upper": 0.89075
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.15418
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04665
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05271
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.71238,
+            "ci_lower": 0.66844,
+            "ci_upper": 0.75632
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE alzheimer's disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001775",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 39,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Risk of dementia in <i>APOE</i> \u03b54 carriers is mitigated by a polygenic risk score.",
+        "journal": "Alzheimers Dement (Amst)"
+      },
+      "date_release": "2021-11-25",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022528",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low quintile)",
+            "name_short": "Hazard ratio (HR, high vs low quintile)",
+            "estimate": 1.51,
+            "ci_lower": 1.42,
+            "ci_upper": 1.67
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident dementia",
+      "covariates": "age, sex, Townsend deprivation index, educational attainment, BMI, physical activity, diet, smoking status, alcohol consumption, baseline hypertension, baseline stroke, history of dementia, depression",
+      "training_development_cohorts": [
+        "ADGC",
+        "CHARGE",
+        "EADI",
+        "GERAD",
+        "PERADES"
+      ],
+      "validation_sample_size": "n=458,181"
+    },
+    {
+      "id": "PGS001827",
+      "trait_reported": "Dementia",
+      "trait_efo": "dementia",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 33,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009509",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0455,
+            "ci_lower": 0.0315,
+            "ci_upper": 0.0595
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Dementias",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,618"
+    },
+    {
+      "id": "PGS001828",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 38,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009517",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0482,
+            "ci_lower": 0.0342,
+            "ci_upper": 0.0622
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,563"
+    },
+    {
+      "id": "PGS002035",
+      "trait_reported": "Dementia",
+      "trait_efo": "dementia",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 39752,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011147",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0425,
+            "ci_lower": 0.0285,
+            "ci_upper": 0.0564
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Dementias",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,618"
+    },
+    {
+      "id": "PGS002249",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "LD clumping",
+      "variants_number": 249273,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of Lifestyle and Genetic Risk With Incidence of Dementia.",
+        "journal": "JAMA"
+      },
+      "date_release": "2022-01-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012797",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard Ratio (HR, high vs. low genetic risk)",
+            "name_short": "Hazard Ratio (HR, high vs. low genetic risk)",
+            "estimate": 1.91,
+            "ci_lower": 1.64,
+            "ci_upper": 2.23
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident dementia",
+      "covariates": "Age, sex, education, socioeconomic status, relatedness, number of alleles, weighted lifestyle categories",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "validation_sample_size": "n=196,383"
+    },
+    {
+      "id": "PGS002280",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 83,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "New insights into the genetic etiology of Alzheimer's disease and related dementias.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2022-04-13",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012966",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard Ratio (HR; highest vs. lowest decile)",
+            "name_short": "Hazard Ratio (HR; highest vs. lowest decile)",
+            "estimate": 1.93,
+            "ci_lower": 1.75,
+            "ci_upper": 2.13
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.076,
+            "ci_lower": 1.064,
+            "ci_upper": 1.088
+          }
+        ]
+      },
+      "phenotyping_reported": "Conversion to Alzheimer disease",
+      "covariates": "Age, sex, number of APOE-\u03b54 and APOE-\u03b52 alleles and genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=17,545"
+    },
+    {
+      "id": "PGS002289",
+      "trait_reported": "Late-onset Alzheimer's disease",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "GWAS-significant variants (including APOE)",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of Genetic Variants Linked to Late-Onset Alzheimer Disease With Cognitive Test Performance by Midlife.",
+        "journal": "JAMA Netw Open"
+      },
+      "date_release": "2022-05-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012988",
+        "selected_validation_ancestry": "European",
+        "record_count": 13,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Difference in mean cognition per decacde increase in age per 1-SD higher GRS (%)",
+            "name_short": "Difference in mean cognition per decacde increase in age per 1-SD higher GRS (%)",
+            "estimate": 11.5
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Pairs matching (short-term memory and attention) no. of correct online round 1 x age interaction",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ACT",
+        "ADC",
+        "ADNI",
+        "AGES",
+        "CHS",
+        "EADI",
+        "FHS",
+        "GERAD",
+        "GSK",
+        "LOAD",
+        "MAYO",
+        "MIRAGE",
+        "OHSU",
+        "ROSMAP",
+        "RS",
+        "TGEN",
+        "UMVUMSS",
+        "UPITT",
+        "WASHU"
+      ],
+      "validation_sample_size": "n=497,087"
+    },
+    {
+      "id": "PGS002731",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Variants associated with Alzheimer\u2019s disease",
+      "variants_number": 17,
+      "ancestry_distribution": "GWAS: NR (100%) | DEV: NR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Association of APOE-Independent Alzheimer Disease Polygenic Risk Score With Brain Amyloid Deposition in Asymptomatic Older Adults.",
+        "journal": "Neurology"
+      },
+      "date_release": "2022-06-29",
+      "samples_training": "n=291",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014809",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 3.38,
+            "ci_lower": 1.02,
+            "ci_upper": 11.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Amyloid burden",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=228"
+    },
+    {
+      "id": "PGS002753",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRS-CS",
+      "variants_number": 1092011,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014953",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.64,
+            "ci_lower": 1.5,
+            "ci_upper": 1.79
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS003440",
+      "trait_reported": "Alzheimer's disease in non APOE",
+      "trait_efo": "APOE carrier status, Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Overlapping brain correlates of superior cognition among children at genetic risk for Alzheimer's disease and/or major depressive disorder.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-03-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017177",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0001,
+            "se": 0.001
+          }
+        ]
+      },
+      "phenotyping_reported": "Fluid cognition via cortical thickness in non-adoptees",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,382"
+    },
+    {
+      "id": "PGS003441",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 28,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Overlapping brain correlates of superior cognition among children at genetic risk for Alzheimer's disease and/or major depressive disorder.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-03-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017179",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.001,
+            "se": 0.001
+          }
+        ]
+      },
+      "phenotyping_reported": "Fluid cognition via cortical thickness in non-adoptees",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,382"
+    },
+    {
+      "id": "PGS003574",
+      "trait_reported": "Alzheimer's disease (late onset)",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Plink 2.0",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genetic risk scores and dementia risk across different ethnic groups in UK Biobank.",
+        "journal": "PLoS One"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018175",
+        "selected_validation_ancestry": "European, South Asian, African unspecified",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73,
+            "ci_lower": 1.69,
+            "ci_upper": 1.77
+          }
+        ]
+      },
+      "phenotyping_reported": "Dementia",
+      "covariates": "age, sex, ethnic group, PRS*ethnicity",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=378,471"
+    },
+    {
+      "id": "PGS003953",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 1937,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AMR (50%), MAE (50%)",
+      "publication": {
+        "title": "A polygenic risk score for Alzheimer's disease constructed using APOE-region variants has stronger association than APOE alleles with mild cognitive impairment in Hispanic/Latino adults in the U.S.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019090",
+        "selected_validation_ancestry": "African unspecified, Asian unspecified, European, Hispanic or Latin American, Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.13,
+            "se": 0.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Mild cognitive impairment (with Alzheimer's disease)",
+      "covariates": "two SNPs defining the APOE alleles",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=23,157"
+    },
+    {
+      "id": "PGS003954",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 81,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AMR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for Alzheimer's disease constructed using APOE-region variants has stronger association than APOE alleles with mild cognitive impairment in Hispanic/Latino adults in the U.S.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019084",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.19,
+            "ci_lower": 1.06,
+            "ci_upper": 1.33
+          }
+        ]
+      },
+      "phenotyping_reported": "Mild cognitive impairment",
+      "covariates": "age at the HCHS/SOL baseline visit, time from HCHS/SOL baseline to the SOL-INCA visit, sex, study center, 5 principal components, and APOE-\u03f54 and APOE-\u03f52 allele counts",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "validation_sample_size": "n=4,189"
+    },
+    {
+      "id": "PGS003955",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 85,
+      "ancestry_distribution": "GWAS: AFR (15%), EAS (6%), EUR (79%), GME (30%) | EVAL: AMR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for Alzheimer's disease constructed using APOE-region variants has stronger association than APOE alleles with mild cognitive impairment in Hispanic/Latino adults in the U.S.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019085",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.15,
+            "ci_lower": 1.01,
+            "ci_upper": 1.31
+          }
+        ]
+      },
+      "phenotyping_reported": "Mild cognitive impairment",
+      "covariates": "age at the HCHS/SOL baseline visit, time from HCHS/SOL baseline to the SOL-INCA visit, sex, study center, 5 principal components, and APOE-\u03f54 and APOE-\u03f52 allele counts",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,189"
+    },
+    {
+      "id": "PGS003956",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 157,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: AMR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for Alzheimer's disease constructed using APOE-region variants has stronger association than APOE alleles with mild cognitive impairment in Hispanic/Latino adults in the U.S.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019087",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.14,
+            "ci_lower": 1.02,
+            "ci_upper": 1.28
+          }
+        ]
+      },
+      "phenotyping_reported": "Mild cognitive impairment",
+      "covariates": "age at the HCHS/SOL baseline visit, time from HCHS/SOL baseline to the SOL-INCA visit, sex, study center, 5 principal components, and APOE-\u03f54 and APOE-\u03f52 allele counts",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,189"
+    },
+    {
+      "id": "PGS003957",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 12002,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AMR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for Alzheimer's disease constructed using APOE-region variants has stronger association than APOE alleles with mild cognitive impairment in Hispanic/Latino adults in the U.S.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019086",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.34,
+            "ci_lower": 1.05,
+            "ci_upper": 1.71
+          }
+        ]
+      },
+      "phenotyping_reported": "Mild cognitive impairment",
+      "covariates": "age at the HCHS/SOL baseline visit, time from HCHS/SOL baseline to the SOL-INCA visit, sex, study center, 5 principal components, and APOE-\u03f54 and APOE-\u03f52 allele counts",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,189"
+    },
+    {
+      "id": "PGS003958",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Combination of AD_Bellenguez, AD_FINNGEN, AD_Jun, AD_Kunkle_AFR, AD_Kunkle & Lake 2023",
+      "variants_number": 14109,
+      "ancestry_distribution": "GWAS: AFR (80%), EAS (10%), EUR (58%), GME (1%), MAE (41%) | EVAL: AMR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for Alzheimer's disease constructed using APOE-region variants has stronger association than APOE alleles with mild cognitive impairment in Hispanic/Latino adults in the U.S.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-10-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019089",
+        "selected_validation_ancestry": "Hispanic or Latin American",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.28,
+            "ci_lower": 1.12,
+            "ci_upper": 1.46
+          }
+        ]
+      },
+      "phenotyping_reported": "Mild cognitive impairment",
+      "covariates": "age at the HCHS/SOL baseline visit, time from HCHS/SOL baseline to the SOL\u2011INCA visit, sex, study center, 5 principal components, and APOE\u2011E4 and APOE\u2011E2 allele counts",
+      "training_development_cohorts": [
+        "FinnGen"
+      ],
+      "validation_sample_size": "n=4,189"
+    },
+    {
+      "id": "PGS003992",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "DBSLMM-auto",
+      "variants_number": 1136212,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.63150454,
+        "full_model_r2": 0.03367378,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019924",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63150454,
+            "ci_lower": 0.61718444,
+            "ci_upper": 0.64582464
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03367378,
+            "ci_lower": 0.02663668,
+            "ci_upper": 0.04154769
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.59974007,
+            "ci_lower": 1.52182949,
+            "ci_upper": 1.6816393
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.46984116,
+            "ci_lower": 0.41991323,
+            "ci_upper": 0.51976909
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004008",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "lassosum.auto",
+      "variants_number": 5663,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66293386,
+        "full_model_r2": 0.06348213,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019939",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66293386,
+            "ci_lower": 0.64863592,
+            "ci_upper": 0.6772318
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06348213,
+            "ci_lower": 0.05374272,
+            "ci_upper": 0.0761614
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73288197,
+            "ci_lower": 1.65911417,
+            "ci_upper": 1.80992965
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.5497859,
+            "ci_lower": 0.50628383,
+            "ci_upper": 0.59328798
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004034",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "LDpred2-auto",
+      "variants_number": 1046908,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67204816,
+        "full_model_r2": 0.07132141,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019930",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67204816,
+            "ci_lower": 0.65778828,
+            "ci_upper": 0.68630804
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.07132141,
+            "ci_lower": 0.06110042,
+            "ci_upper": 0.08413551
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.78882477,
+            "ci_lower": 1.71250526,
+            "ci_upper": 1.86854552
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.58155885,
+            "ci_lower": 0.53795736,
+            "ci_upper": 0.62516033
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004062",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "megaprs.auto",
+      "variants_number": 691136,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66036128,
+        "full_model_r2": 0.05663828,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019933",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66036128,
+            "ci_lower": 0.64617344,
+            "ci_upper": 0.67454912
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05663828,
+            "ci_lower": 0.04705507,
+            "ci_upper": 0.0684223
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.73895002,
+            "ci_lower": 1.66108385,
+            "ci_upper": 1.82046629
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.55328149,
+            "ci_lower": 0.50747031,
+            "ci_upper": 0.59909267
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004092",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 1109233,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66491726,
+        "full_model_r2": 0.05885554,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019936",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66491726,
+            "ci_lower": 0.65074397,
+            "ci_upper": 0.67909054
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05885554,
+            "ci_lower": 0.04942013,
+            "ci_upper": 0.07017009
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.77851724,
+            "ci_lower": 1.69732301,
+            "ci_upper": 1.86359553
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.57578,
+            "ci_lower": 0.52905231,
+            "ci_upper": 0.6225077
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004116",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "pt_clump.auto",
+      "variants_number": 58,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.60207859,
+        "full_model_r2": 0.01898452,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019921",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.60207859,
+            "ci_lower": 0.58755709,
+            "ci_upper": 0.61660009
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01898452,
+            "ci_lower": 0.01397656,
+            "ci_upper": 0.02489353
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44591952,
+            "ci_lower": 1.3726573,
+            "ci_upper": 1.52309192
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.36874546,
+            "ci_lower": 0.3167485,
+            "ci_upper": 0.42074243
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004146",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "SBayesR-auto",
+      "variants_number": 915771,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67093654,
+        "full_model_r2": 0.06986986,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019927",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67093654,
+            "ci_lower": 0.65667793,
+            "ci_upper": 0.68519515
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06986986,
+            "ci_lower": 0.05877563,
+            "ci_upper": 0.08216167
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.79244579,
+            "ci_lower": 1.71513669,
+            "ci_upper": 1.87323956
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.58358105,
+            "ci_lower": 0.53949278,
+            "ci_upper": 0.62766932
+          }
+        ]
+      },
+      "phenotyping_reported": "AD",
+      "covariates": "0",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=66,865"
+    },
+    {
+      "id": "PGS004227",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Investigating associations between blood metabolites, later life brain imaging measures, and genetic risk for Alzheimer's disease.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020218",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.061007399,
+            "ci_lower": -0.108607308,
+            "ci_upper": -0.013407489
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease biomarker (1-palmitoyl-2-palmitoleoyl-GPC (16:0/16:1)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,638"
+    },
+    {
+      "id": "PGS004228",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 8863,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Investigating associations between blood metabolites, later life brain imaging measures, and genetic risk for Alzheimer's disease.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020221",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.058082796,
+            "ci_lower": -0.106496039,
+            "ci_upper": -0.009669554
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease biomarker (docosapentaenoate (DPA; 22:5n3))",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,638"
+    },
+    {
+      "id": "PGS004229",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "PRSice-2",
+      "variants_number": 8858,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Investigating associations between blood metabolites, later life brain imaging measures, and genetic risk for Alzheimer's disease.",
+        "journal": "Alzheimers Res Ther"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020222",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.077332843,
+            "ci_lower": -0.125825807,
+            "ci_upper": -0.028839878
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease biomarker (docosapentaenoate (DPA; 22:5n3))",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,638"
+    },
+    {
+      "id": "PGS004281",
+      "trait_reported": "All-cause dementia",
+      "trait_efo": "dementia",
+      "method_name": "GenoBoost",
+      "variants_number": 110,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.818965564821918,
+        "full_model_r2": 0.0341767843321088,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020349",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.818965564821918
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0341767843321088
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.818965564821918
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "All-cause dementia",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004282",
+      "trait_reported": "All-cause dementia",
+      "trait_efo": "dementia",
+      "method_name": "GenoBoost",
+      "variants_number": 40,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.818370039793557,
+        "full_model_r2": 0.033227904739866,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020350",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.818370039793557
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.033227904739866
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.818370039793557
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "All-cause dementia",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004283",
+      "trait_reported": "All-cause dementia",
+      "trait_efo": "dementia",
+      "method_name": "GenoBoost",
+      "variants_number": 90,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.81816338026915,
+        "full_model_r2": 0.0338087996870553,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020351",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.81816338026915
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0338087996870553
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.81816338026915
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "All-cause dementia",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004284",
+      "trait_reported": "All-cause dementia",
+      "trait_efo": "dementia",
+      "method_name": "GenoBoost",
+      "variants_number": 50,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.818864171341326,
+        "full_model_r2": 0.0341516519974033,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020352",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.818864171341326
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0341516519974033
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.818864171341326
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "All-cause dementia",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004285",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "GenoBoost",
+      "variants_number": 20,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.833604804388662,
+        "full_model_r2": 0.0420988165670099,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020353",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.833604804388662
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0420988165670099
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.833604804388662
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004286",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "GenoBoost",
+      "variants_number": 10,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.832096831751059,
+        "full_model_r2": 0.0401870533697199,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020354",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.832096831751059
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0401870533697199
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.832096831751059
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004287",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "GenoBoost",
+      "variants_number": 30,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.831790820495816,
+        "full_model_r2": 0.041820587946436,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020355",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.831790820495816
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.041820587946436
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.831790820495816
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004288",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "GenoBoost",
+      "variants_number": 200,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.830039705801527,
+        "full_model_r2": 0.0383563382331158,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020356",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.830039705801527
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.0383563382331158
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.830039705801527
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004289",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "GenoBoost",
+      "variants_number": 40,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic score method boosted by non-additive models.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=269,710",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.831624672285122,
+        "full_model_r2": 0.040761373980392,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020357",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.831624672285122
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Covariate-adjusted pseudo-R2",
+            "name_short": "Covariate-adjusted pseudo-R2",
+            "estimate": 0.040761373980392
+          },
+          {
+            "name_long": "AUPRC",
+            "name_short": "AUPRC",
+            "estimate": 0.831624672285122
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "age, sex, PC1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,428"
+    },
+    {
+      "id": "PGS004318",
+      "trait_reported": "Dementia",
+      "trait_efo": "dementia",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 29,
+      "ancestry_distribution": "GWAS: NR (2%), EUR (98%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Association of laxatives use with incident dementia and modifying effect of genetic susceptibility: a population-based cohort study with propensity score matching.",
+        "journal": "BMC Geriatr"
+      },
+      "date_release": "2024-01-11",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020397",
+        "selected_validation_ancestry": "European, African unspecified, Asian unspecified, Not reported",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low PRS tertile)",
+            "name_short": "Hazard ratio (HR, high vs low PRS tertile)",
+            "estimate": 2.76,
+            "ci_lower": 2.6,
+            "ci_upper": 2.93
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Dementia",
+      "covariates": "Sex, age, ethnicity, socioeconomic status, education attainment, current employment status, smoking status, alcohol consumption, physical activity, diet, BMI, heart disease, stroke, diabetes, hypertension, depression, cholesterol levels, and constipation",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=57,688"
+    },
+    {
+      "id": "PGS004588",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 39,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Transferability of Alzheimer Disease Polygenic Risk Score Across Populations and Its Association With Alzheimer Disease-Related Phenotypes.",
+        "journal": "JAMA Netw Open"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "n=1,033",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020711",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.85,
+            "ci_lower": 1.05,
+            "ci_upper": 3.32
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease dementia",
+      "covariates": "Sex, age, education year, 4 PCs, APOE \u03b54 status",
+      "training_development_cohorts": [
+        "IGAP"
+      ],
+      "validation_sample_size": "n=379"
+    },
+    {
+      "id": "PGS004589",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 80,
+      "ancestry_distribution": "GWAS: EAS (11%), EUR (89%) | DEV: EAS (100%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Transferability of Alzheimer Disease Polygenic Risk Score Across Populations and Its Association With Alzheimer Disease-Related Phenotypes.",
+        "journal": "JAMA Netw Open"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "n=1,033",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020712",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.09,
+            "ci_lower": 1.09,
+            "ci_upper": 4.04
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease dementia",
+      "covariates": "Sex, age, education year, 4 PCs, APOE \u03b54 status",
+      "training_development_cohorts": [
+        "IGAP",
+        "NCGG"
+      ],
+      "validation_sample_size": "n=379"
+    },
+    {
+      "id": "PGS004590",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 363,
+      "ancestry_distribution": "GWAS: AFR (1%), AMR (30%), EAS (1%), EUR (97%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Multi-ancestry meta-analysis and fine-mapping in Alzheimer's disease.",
+        "journal": "Mol Psychiatry"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.68,
+        "full_model_r2": 0.0044,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020719",
+        "selected_validation_ancestry": "European, Native American, African unspecified",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.68
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0044
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alzheimer's disease",
+      "covariates": "Age, sex, 5 PCs",
+      "training_development_cohorts": [
+        "FinnGen",
+        "NCGG"
+      ],
+      "validation_sample_size": "n=368"
+    },
+    {
+      "id": "PGS004600",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 83,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Amyloid-\u03b2 and APOE genotype predict memory decline in cognitively unimpaired older individuals independently of Alzheimer's disease polygenic risk score.",
+        "journal": "BMC Neurol"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020755",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.04,
+            "se": 0.01
+          }
+        ]
+      },
+      "phenotyping_reported": "Memory function over time",
+      "covariates": "age, sex, center, education",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=276"
+    },
+    {
+      "id": "PGS004863",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 74,
+      "ancestry_distribution": "GWAS: AFR (100%), EAS (40%), EUR (99%), GME (2%) | EVAL: EAS (60%), EUR (20%), SAS (20%)",
+      "publication": {
+        "title": "Trans-ethnic genomic informed risk assessment for Alzheimer's disease: An International Hundred K+ Cohorts Consortium study.",
+        "journal": "Alzheimers Dement"
+      },
+      "date_release": "2024-04-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.746,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021098",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.746,
+            "ci_lower": 0.738,
+            "ci_upper": 0.754
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.003,
+            "ci_lower": 0.99,
+            "ci_upper": 1.007
+          }
+        ]
+      },
+      "phenotyping_reported": "Alzheimer's disease or dementia",
+      "covariates": "APOE haplotype, age, sex, 3 PCs",
+      "training_development_cohorts": [
+        "Bonn",
+        "CCHS",
+        "DemGene",
+        "EADB",
+        "EADI",
+        "GERAD",
+        "GR@ACE",
+        "NxC",
+        "PERADES",
+        "RS",
+        "UKB"
+      ],
+      "validation_sample_size": "n=229,265"
+    },
+    {
+      "id": "PGS004898",
+      "trait_reported": "Alzheimer's disease",
+      "trait_efo": "Alzheimer disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 44,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cognitive trajectories diverge by genetic risk in a preclinical longitudinal cohort.",
+        "journal": "Alzheimers Dement"
+      },
+      "date_release": "2024-05-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021281",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.07,
+            "ci_lower": -0.12,
+            "ci_upper": -0.02
+          }
+        ]
+      },
+      "phenotyping_reported": "Immediate learning",
+      "covariates": "Sex, years of education, testing practice effects",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,135"
+    },
+    {
+      "id": "PGS004918",
+      "trait_reported": "Late-onset Alzheimers disease (based on SNPs in genes involved in synaptic function)",
+      "trait_efo": "late-onset Alzheimer's disease",
+      "method_name": "Clumping and Thresholding (C+T)",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic variants in glutamate-, A\u03b2-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
+        "journal": "Neurobiol Aging"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=439",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.731,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021384",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.731
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Late-onset Alzheimer's disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ADGC",
+        "BfDR",
+        "CHARGE",
+        "EADI",
+        "GERAD"
+      ],
+      "validation_sample_size": "n=136"
+    },
+    {
+      "id": "PGS005170",
+      "trait_reported": "All-cause dementia",
+      "trait_efo": "dementia",
+      "method_name": "integrative PRS of 24 component PRSs derived from LDPRED-2, C+T, PRS-CS",
+      "variants_number": 1320229,
+      "ancestry_distribution": "GWAS: EUR (73%), MAE (27%) | DEV: EUR (100%) | EVAL: AFR (6%), AMR (6%), EAS (6%), EUR (83%)",
+      "publication": {
+        "title": "Polygenic score integrating neurodegenerative and vascular risk informs dementia risk stratification.",
+        "journal": "Alzheimers Dement"
+      },
+      "date_release": "2025-04-17",
+      "samples_training": "n=2,039",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.761,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022482",
+        "selected_validation_ancestry": "European",
+        "record_count": 18,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.761
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.25,
+            "ci_lower": 1.11,
+            "ci_upper": 1.42
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident all-cause dementia",
+      "covariates": "age at baseline, age^2, sex, the first 10 genetic principal components (PCs) of population stratification, and dosage of APOE \u03b54 and APOE \u03b52 alleles",
+      "training_development_cohorts": [
+        "3C",
+        "ACE",
+        "ADC",
+        "AEGS1",
+        "AGES",
+        "ALSPAC",
+        "ARIC",
+        "ASCOT",
+        "ASPREE",
+        "ASPS",
+        "AugUR",
+        "B58C",
+        "BBJ",
+        "BMES",
+        "BRIGHT",
+        "BioMe",
+        "Bonn",
+        "CADISP",
+        "CARDIA",
+        "CARDIOGENICS",
+        "CCHS",
+        "CFS",
+        "CHARGE",
+        "CHIP",
+        "CHOP",
+        "CHRIS",
+        "CHS",
+        "CKB",
+        "COMPASS",
+        "CROATIA-KORCULA",
+        "CTMM",
+        "Cilento",
+        "CoLaus",
+        "DCS",
+        "DGI",
+        "DIACORE",
+        "DNA_Lacunar",
+        "Danfund",
+        "DemGene",
+        "EADB",
+        "EADI",
+        "EB",
+        "EPICPotsdam",
+        "EPIC_CAD",
+        "EPOZ",
+        "ERF",
+        "EUGENDA",
+        "EXCEED",
+        "EpiHealth",
+        "FHS",
+        "FINCAVAS",
+        "FINRISK",
+        "FTC",
+        "FUSION",
+        "FVG",
+        "FamHS",
+        "Fenland",
+        "FinnGen",
+        "GCKD",
+        "GENOA",
+        "GERAD",
+        "GH70",
+        "GLACIER",
+        "GMC",
+        "GOLDN",
+        "GOMAP",
+        "GR@ACE",
+        "GRAPHIC",
+        "GRMIC",
+        "GS:SFHS",
+        "GeneRISK",
+        "GerMIFS",
+        "Glasgow",
+        "GoDARTS",
+        "HABC",
+        "HCS",
+        "HELIC",
+        "HISAYAMA",
+        "HNR",
+        "HPFS",
+        "HRS",
+        "HUNT",
+        "HVH",
+        "HYPERGEN",
+        "Health2006",
+        "Hoorn",
+        "ICH",
+        "INTERSTROKE",
+        "InCHIANTI",
+        "Inter99",
+        "JHS",
+        "JoCoOA",
+        "KCPS",
+        "KORA",
+        "LIFE-Adult",
+        "LLFS",
+        "LOLIPOP",
+        "LURIC",
+        "MANOLIS",
+        "MDC",
+        "MESA",
+        "METASTROKE",
+        "METSIM",
+        "MGI",
+        "MHI",
+        "MIGen",
+        "MVP",
+        "MrOS",
+        "MyCode",
+        "NBS",
+        "NEO",
+        "NESDA",
+        "NFBC66",
+        "NHS",
+        "NICOLA",
+        "NOMAS",
+        "NSHD",
+        "NTR",
+        "OBB",
+        "OGP",
+        "ORCADES",
+        "PAGES",
+        "PARC",
+        "PERADES",
+        "PHS",
+        "PMB",
+        "POPGEN",
+        "PREVEND",
+        "PROCARDIS",
+        "PROSPER",
+        "QFS",
+        "QIMR",
+        "RACE",
+        "RAINE",
+        "REGARDS",
+        "RISC",
+        "ROSMAP",
+        "RS",
+        "SAHLSIS",
+        "SHIP",
+        "SIFAP",
+        "SMART",
+        "SORBS",
+        "STRIP",
+        "SardiNIA",
+        "SiGN",
+        "Steno",
+        "THISEAS",
+        "TRAILS",
+        "TUM",
+        "TwinGene",
+        "TwinsUK",
+        "UHU",
+        "UKB",
+        "UKHLS",
+        "VIKING",
+        "VIS",
+        "Vejle",
+        "WGHS",
+        "WHI",
+        "WHI-GARNET",
+        "WHI-LLS",
+        "YFS",
+        "deCODE",
+        "eMERGE"
+      ],
+      "validation_sample_size": "n=2,032"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000945",
+    "reported_auc": 0.7527,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Dementia in Alzheimer's disease (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

@@ -1,0 +1,553 @@
+{
+  "cache_version": "v4",
+  "ontology": "retinopathy",
+  "candidate_model_ids": [
+    "PGS002041",
+    "PGS001013",
+    "PGS004952",
+    "PGS001834",
+    "PGS000819",
+    "PGS002027",
+    "PGS004606",
+    "PGS000862",
+    "PGS001819",
+    "PGS004607",
+    "PGS002269"
+  ],
+  "total_found": 17,
+  "candidate_models": [
+    {
+      "id": "PGS000819",
+      "trait_reported": "Diabetic retinopathy",
+      "trait_efo": "diabetic retinopathy",
+      "method_name": "LDpred",
+      "variants_number": 3537914,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (33%), EUR (33%), MAE (33%)",
+      "publication": {
+        "title": "Genome-wide polygenic risk score for retinopathy of type 2 diabetes.",
+        "journal": "Hum Mol Genet"
+      },
+      "date_release": "2021-07-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002185",
+        "selected_validation_ancestry": "European, African American or Afro-Caribbean, Hispanic or Latin American, Asian unspecified, Native American, NR",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.12,
+            "ci_lower": 1.04,
+            "ci_upper": 1.2
+          }
+        ]
+      },
+      "phenotyping_reported": "Diabetic retinopathy in individuals with type 2 diabetes",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=6,079"
+    },
+    {
+      "id": "PGS000862",
+      "trait_reported": "Diabetic Retinopathy",
+      "trait_efo": "diabetic retinopathy",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 30,
+      "ancestry_distribution": "GWAS: AFR (40%), EUR (60%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analyses highlight etiological differences underlying newly defined subtypes of diabetes",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002397",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.01,
+            "ci_lower": 0.96,
+            "ci_upper": 1.07
+          }
+        ]
+      },
+      "phenotyping_reported": "Moderate Age-Related Diabetes",
+      "covariates": "PC1-10",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=5,597"
+    },
+    {
+      "id": "PGS001013",
+      "trait_reported": "Macular degeneration",
+      "trait_efo": "macular degeneration",
+      "method_name": "snpnet",
+      "variants_number": 53,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=88,703",
+      "performance_metrics": {
+        "auc": 0.55283,
+        "r2": 0.00599,
+        "pgs_only_auc": 0.55283,
+        "pgs_only_r2": 0.00599,
+        "full_model_auc": 0.70257,
+        "full_model_r2": 0.06704,
+        "incremental_auc": 0.00573,
+        "selected_performance_id": "PPM007832",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.70257,
+            "ci_lower": 0.6826,
+            "ci_upper": 0.72253
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06704
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00573
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00599
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.55283,
+            "ci_lower": 0.52939,
+            "ci_upper": 0.57627
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Eye problems/disorders Macular degeneration",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=22,208"
+    },
+    {
+      "id": "PGS001819",
+      "trait_reported": "Diabetic retinopathy",
+      "trait_efo": "diabetic retinopathy",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 249,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009452",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0366,
+            "ci_lower": 0.0226,
+            "ci_upper": 0.0507
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Diabetic retinopathy",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,330"
+    },
+    {
+      "id": "PGS001834",
+      "trait_reported": "Macular degeneration (senile) of retina NOS",
+      "trait_efo": "age-related macular degeneration",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 157,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009564",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0175,
+            "ci_lower": 0.0034,
+            "ci_upper": 0.0315
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Macular degeneration (senile) of retina NOS",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,413"
+    },
+    {
+      "id": "PGS002027",
+      "trait_reported": "Diabetic retinopathy",
+      "trait_efo": "diabetic retinopathy",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 389029,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011090",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0451,
+            "ci_lower": 0.031,
+            "ci_upper": 0.0592
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Diabetic retinopathy",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,330"
+    },
+    {
+      "id": "PGS002041",
+      "trait_reported": "Macular degeneration (senile) of retina NOS",
+      "trait_efo": "age-related macular degeneration",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 116538,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011194",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0159,
+            "ci_lower": 0.0018,
+            "ci_upper": 0.0299
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Macular degeneration (senile) of retina NOS",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,413"
+    },
+    {
+      "id": "PGS002269",
+      "trait_reported": "Age-related macular degeneration",
+      "trait_efo": "age-related macular degeneration",
+      "method_name": "Independent variants associated with AMD",
+      "variants_number": 47,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Photoreceptor Layer Thinning Is an Early Biomarker for Age-Related Macular Degeneration: Epidemiologic and Genetic Evidence from UK Biobank OCT Data.",
+        "journal": "Ophthalmology"
+      },
+      "date_release": "2022-04-01",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012920",
+        "selected_validation_ancestry": "European, South Asian, Not reported",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": -0.21,
+            "ci_lower": -0.23,
+            "ci_upper": -0.19
+          }
+        ]
+      },
+      "phenotyping_reported": "Rentinal layer thickness (photoreceptor inner and outer segments)",
+      "covariates": "Age, age2 (to adjust for non-linear relationships with age), sex, smoking status, and the first ten principal components of genetic ancestry",
+      "training_development_cohorts": [
+        "AREDS",
+        "BDES",
+        "CWRU",
+        "Columbia",
+        "EUGENDA",
+        "Edinburgh",
+        "JHU",
+        "MMAP",
+        "Marshfield",
+        "NHS",
+        "RotES",
+        "UCSD",
+        "UWALF",
+        "Vanderbilt"
+      ],
+      "validation_sample_size": "n=44,823"
+    },
+    {
+      "id": "PGS004606",
+      "trait_reported": "Age-related macular degeneration",
+      "trait_efo": "age-related macular degeneration",
+      "method_name": "PRS-CS",
+      "variants_number": 1000946,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-02-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020767",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.76,
+            "ci_lower": 1.73,
+            "ci_upper": 1.78
+          }
+        ]
+      },
+      "phenotyping_reported": "Age-related macular degeneration",
+      "covariates": "age, sex, principal components 1-10",
+      "training_development_cohorts": [
+        "IAMDGC"
+      ],
+      "validation_sample_size": "n=163,011"
+    },
+    {
+      "id": "PGS004607",
+      "trait_reported": "Age-related macular degeneration",
+      "trait_efo": "age-related macular degeneration",
+      "method_name": "PRS-CS",
+      "variants_number": 1067520,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analyses identify distinct genetic architectures for age-related macular degeneration across ancestries.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2024-02-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.65,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020768",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.48,
+            "ci_lower": 1.34,
+            "ci_upper": 1.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Age-related macular degeneration",
+      "covariates": "age, sex, principal components 1-10",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=163,011"
+    },
+    {
+      "id": "PGS004952",
+      "trait_reported": "Age-related macular degeneration",
+      "trait_efo": "age-related macular degeneration",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 52,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
+        "journal": "Invest Ophthalmol Vis Sci"
+      },
+      "date_release": "2024-09-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8420000000000001,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021761",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 84.2
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.41,
+            "ci_lower": 1.32,
+            "ci_upper": 1.5
+          }
+        ]
+      },
+      "phenotyping_reported": "Late age-related macular degeneration (Clinical Classification)",
+      "covariates": "Age, sex, survey membership, 10 PCs",
+      "training_development_cohorts": [
+        "IAMDGC"
+      ],
+      "validation_sample_size": "n=1,232"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001013",
+    "reported_auc": 0.5528,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Macular degeneration",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=22,208"
+  }
+}

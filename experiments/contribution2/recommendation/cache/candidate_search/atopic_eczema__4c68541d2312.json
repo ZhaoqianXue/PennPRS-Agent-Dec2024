@@ -1,0 +1,310 @@
+{
+  "cache_version": "v4",
+  "ontology": "atopic eczema",
+  "candidate_model_ids": [
+    "PGS004587",
+    "PGS001773",
+    "PGS003486",
+    "PGS002755",
+    "PGS004903",
+    "PGS003459"
+  ],
+  "total_found": 6,
+  "candidate_models": [
+    {
+      "id": "PGS001773",
+      "trait_reported": "Moderate-to-severe atopic dermatitis",
+      "trait_efo": "atopic eczema",
+      "method_name": "Top 25 variants associated with moderate-to-severe atopic dermatitis within the Canadian cohorts GWAS",
+      "variants_number": 25,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Polygenic risk score for atopic dermatitis in the Canadian population.",
+        "journal": "J Allergy Clin Immunol"
+      },
+      "date_release": "2021-11-25",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.93,
+        "full_model_r2": 0.49,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009229",
+        "selected_validation_ancestry": "European, South East Asian, East Asian, South Asian, African American or Afro-Caribbean, Native American, Greater Middle Eastern (Middle Eastern, North African or Persian), Hispanic or Latin American, Not reported",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.93
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.49
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Moderate-to-severe aotpic dermatitis",
+      "covariates": "Age, sex, father's ethnicity, mother ethnicity",
+      "training_development_cohorts": [
+        "CHILD",
+        "SLSJ"
+      ],
+      "validation_sample_size": "n=676"
+    },
+    {
+      "id": "PGS002755",
+      "trait_reported": "Atopic dermatitis",
+      "trait_efo": "atopic eczema",
+      "method_name": "PRS-CS",
+      "variants_number": 1090702,
+      "ancestry_distribution": "GWAS: NR (100%), AFR (1%), AMR (2%), EAS (8%), EUR (88%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020709",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low PRS)",
+            "name_short": "Hazard ratio (HR, high vs low PRS)",
+            "estimate": 1.249,
+            "ci_lower": 1.123,
+            "ci_upper": 1.391
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident atopic dermatitis",
+      "covariates": "sex, age, Townsend index, moderate physical and household income",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=337,910"
+    },
+    {
+      "id": "PGS003459",
+      "trait_reported": "Atopic eczema or atopic disease",
+      "trait_efo": "atopic eczema, allergic disease",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 170,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Atopic polygenic risk score is associated with paradoxical eczema developing in psoriasis patients treated with biologics.",
+        "journal": "J Invest Dermatol"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.585,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017414",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.585
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.83,
+            "ci_lower": 1.17,
+            "ci_upper": 2.84
+          }
+        ]
+      },
+      "phenotyping_reported": "Paradoxical eczema in biologic-treated \npsoriasis",
+      "covariates": "PCs 1-2",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,212"
+    },
+    {
+      "id": "PGS003486",
+      "trait_reported": "Atopic eczema",
+      "trait_efo": "atopic eczema",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 71,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Atopic polygenic risk score is associated with paradoxical eczema developing in psoriasis patients treated with biologics.",
+        "journal": "J Invest Dermatol"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.567,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017412",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.567
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.89,
+            "ci_lower": 1.08,
+            "ci_upper": 3.3
+          }
+        ]
+      },
+      "phenotyping_reported": "Paradoxical eczema in biologic-treated \npsoriasis",
+      "covariates": "PCs 1-2",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,212"
+    },
+    {
+      "id": "PGS004587",
+      "trait_reported": "Atopic dermatitis",
+      "trait_efo": "atopic eczema",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Association of air pollution and genetic risks with incidence of elderly-onset atopic dermatitis: A prospective cohort study.",
+        "journal": "Ecotoxicol Environ Saf"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020707",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, high vs low PRS)",
+            "name_short": "Hazard ratio (HR, high vs low PRS)",
+            "estimate": 1.153,
+            "ci_lower": 1.037,
+            "ci_upper": 1.282
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident atopic dermatitis",
+      "covariates": "sex, age, Townsend index, moderate physical and household income",
+      "training_development_cohorts": [
+        "EB",
+        "FinnGen",
+        "UKB"
+      ],
+      "validation_sample_size": "n=337,910"
+    },
+    {
+      "id": "PGS004903",
+      "trait_reported": "Atopic dermatitis",
+      "trait_efo": "atopic eczema",
+      "method_name": "SNPs affecting protein sequence or expression of enriched genes",
+      "variants_number": 38,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrated proteomics and genomics analysis of paradoxical eczema in psoriasis patients treated with biologics.",
+        "journal": "J Allergy Clin Immunol"
+      },
+      "date_release": "2024-05-22",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021335",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Coefficient",
+            "name_short": "Coefficient",
+            "estimate": 4.77,
+            "ci_lower": 0.58,
+            "ci_upper": 8.96
+          },
+          {
+            "name_long": "p",
+            "name_short": "p",
+            "estimate": 0.026
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Paradoxical eczema in individuals with psoriasis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "23andMe",
+        "AAGC",
+        "ALSPAC",
+        "CATSS",
+        "GENEVA",
+        "GENUFAD",
+        "GERA",
+        "LifeLines",
+        "NTR",
+        "SALTY",
+        "TwinGene",
+        "UKB"
+      ],
+      "validation_sample_size": "n=3,212"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001773",
+    "reported_auc": 0.93,
+    "tier": "full_model_auroc",
+    "trait_reported": "Moderate-to-severe atopic dermatitis",
+    "method_name": "Top 25 variants associated with moderate-to-severe atopic dermatitis within the Canadian cohorts GWAS",
+    "validation_sample_size": "n=676"
+  }
+}

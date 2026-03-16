@@ -1,5 +1,5 @@
 """
-Contribution2 Experiment 1: Without Domain Knowledge batch evaluation.
+Contribution2 Experiment 2: Catalog Search Only batch evaluation.
 
 This runner converts the formal Contribution2 Step 1 experiment into an OpenAI
 Batch API workflow so the LLM decisions can be evaluated in parallel.
@@ -93,6 +93,9 @@ ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.c
 PREPARE_CACHE_VERSION = "v4"
 BENCHMARK_HIT_KS = (1, 2, 3, 4, 5)
 PERCENTILE_HIT_PCTS = (5, 10, 15, 20, 25)
+PROMPT_ONLY_LABEL = "Prompt-Only Baseline"
+SEARCH_ONLY_LABEL = "Catalog Search Only"
+DOMAIN_KNOWLEDGE_LABEL = "Catalog Search + Domain Knowledge"
 
 ACTIVE_RUN_DIR: Optional[Path] = None
 ACTIVE_RUN_TAG: Optional[str] = None
@@ -2386,11 +2389,11 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
     nrs = summary.get("nrs") or _compute_nrs_metrics(summary)
 
     lines = [
-        "# Without Domain Knowledge: Per-Disease Comparison",
+        f"# {SEARCH_ONLY_LABEL}: Per-Disease Comparison",
         "",
         "## Scope",
         "",
-        "This report is a disease-by-disease comparison built from the without-domain experiment summary and the underlying AoU benchmark matrices.",
+        f"This report is a disease-by-disease comparison built from the {SEARCH_ONLY_LABEL.lower()} experiment summary and the underlying AoU benchmark matrices.",
         "",
         "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
         "",
@@ -2401,7 +2404,7 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
         "",
         *[
             (
-                f"- Without Domain Knowledge `Hit@{k}`: "
+                f"- {SEARCH_ONLY_LABEL} `Hit@{k}`: "
                 f"`{summary['modal_hit_at_k'][str(k)]['hits']}/{summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{_format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/{summary['trial_hit_at_k'][str(k)]['eligible']} = "
@@ -2418,7 +2421,7 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
                 "- Scale: smaller is better.",
                 "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
             ],
-            metrics_by_label=[("Without Domain Knowledge", rank_fraction)],
+            metrics_by_label=[(SEARCH_ONLY_LABEL, rank_fraction)],
         ),
         *_rank_metric_section_lines(
             title="Reverse Rank Fraction ((M - r) / M)",
@@ -2428,7 +2431,7 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
                 "- Scale: `0.0` means bottom-ranked; larger is better.",
                 "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
             ],
-            metrics_by_label=[("Without Domain Knowledge", reverse_rank_fraction)],
+            metrics_by_label=[(SEARCH_ONLY_LABEL, reverse_rank_fraction)],
         ),
         *_rank_metric_section_lines(
             title="Normalized Ranking Score (NRS)",
@@ -2437,7 +2440,7 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
             scale_lines=[
                 "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
             ],
-            metrics_by_label=[("Without Domain Knowledge", nrs)],
+            metrics_by_label=[(SEARCH_ONLY_LABEL, nrs)],
         ),
         "",
         "## Per-Disease Tables",
@@ -2450,7 +2453,7 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
         benchmark_columns = _benchmark_columns(row)
         without_id = row.get("modal_recommendation")
 
-        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["Without Domain Knowledge", "Field Type"]
+        header = ["Field"] + [label for label, _, _ in benchmark_columns] + [SEARCH_ONLY_LABEL, "Field Type"]
         separator = ["---"] * len(header)
 
         lines.extend([
@@ -2511,7 +2514,7 @@ def _write_report(summary: dict[str, Any]) -> None:
     per_disease_rows = _sort_disease_rows(summary["per_disease"])
 
     lines = [
-        "# Contribution2 Experiment 1: Without Domain Knowledge",
+        f"# Contribution2 Experiment 2: {SEARCH_ONLY_LABEL}",
         "",
         "## Summary",
         "",
@@ -2533,7 +2536,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         "",
         *[
             (
-                f"- Without Domain Knowledge `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- {SEARCH_ONLY_LABEL} `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
                 f"{_format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
@@ -2544,7 +2547,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         ],
         "",
         *_percentile_hit_section_lines([
-            ("Without Domain Knowledge", summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
+            (SEARCH_ONLY_LABEL, summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
         ]),
         *_rank_metric_section_lines(
             title="Rank Fraction (r / M)",
@@ -2554,7 +2557,7 @@ def _write_report(summary: dict[str, Any]) -> None:
                 "- Scale: smaller is better.",
                 "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
             ],
-            metrics_by_label=[("Without Domain Knowledge", rank_fraction)],
+            metrics_by_label=[(SEARCH_ONLY_LABEL, rank_fraction)],
         ),
         *_rank_metric_section_lines(
             title="Reverse Rank Fraction ((M - r) / M)",
@@ -2564,7 +2567,7 @@ def _write_report(summary: dict[str, Any]) -> None:
                 "- Scale: `0.0` means bottom-ranked; larger is better.",
                 "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
             ],
-            metrics_by_label=[("Without Domain Knowledge", reverse_rank_fraction)],
+            metrics_by_label=[(SEARCH_ONLY_LABEL, reverse_rank_fraction)],
         ),
         *_rank_metric_section_lines(
             title="Normalized Ranking Score (NRS)",
@@ -2573,7 +2576,7 @@ def _write_report(summary: dict[str, Any]) -> None:
             scale_lines=[
                 "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
             ],
-            metrics_by_label=[("Without Domain Knowledge", nrs)],
+            metrics_by_label=[(SEARCH_ONLY_LABEL, nrs)],
         ),
         "",
         "## Experiment Setup",
@@ -2589,7 +2592,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Trial Hit@1..5 | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge |",
+        f"| Ontology | N Models | Trial Hit@1..5 | {SEARCH_ONLY_LABEL} Hit@1..5 | {SEARCH_ONLY_LABEL} |",
         "|----------|----------|---------------|-------------------------------------|--------------------------|",
     ]
 
@@ -2681,7 +2684,7 @@ def _collect(batch_id: Optional[str]) -> dict[str, Any]:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Contribution2 Experiment 1: Without Domain Knowledge batch evaluation")
+    parser = argparse.ArgumentParser(description=f"Contribution2 Experiment 2: {SEARCH_ONLY_LABEL} batch evaluation")
     parser.add_argument(
         "--mode",
         choices=["prepare", "prepare-submit", "status", "collect", "archive-current", "quick-eval"],

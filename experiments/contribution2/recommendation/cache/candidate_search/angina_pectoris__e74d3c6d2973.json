@@ -1,0 +1,994 @@
+{
+  "cache_version": "v4",
+  "ontology": "angina pectoris",
+  "candidate_model_ids": [
+    "PGS005048",
+    "PGS000703",
+    "PGS005049",
+    "PGS005051",
+    "PGS001261",
+    "PGS005056",
+    "PGS005052",
+    "PGS005055",
+    "PGS005050",
+    "PGS005059",
+    "PGS005054",
+    "PGS001260",
+    "PGS005057",
+    "PGS004527",
+    "PGS005047",
+    "PGS001262",
+    "PGS005058",
+    "PGS004457",
+    "PGS005053"
+  ],
+  "total_found": 19,
+  "candidate_models": [
+    {
+      "id": "PGS000703",
+      "trait_reported": "Angina",
+      "trait_efo": "angina pectoris",
+      "method_name": "snpnet (multi-PRS)",
+      "variants_number": 183692,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genetics of 35 blood and urine biomarkers in the UK Biobank.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "n=223,327",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.592624176561804,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001595",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.592624176561804
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Angina",
+      "covariates": "Age, sex, PCs(1-10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=87,413"
+    },
+    {
+      "id": "PGS001260",
+      "trait_reported": "Angina",
+      "trait_efo": "angina pectoris",
+      "method_name": "snpnet",
+      "variants_number": 2562,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.58108,
+        "r2": 0.01185,
+        "pgs_only_auc": 0.58108,
+        "pgs_only_r2": 0.01185,
+        "full_model_auc": 0.74298,
+        "full_model_r2": 0.1154,
+        "incremental_auc": 0.00783,
+        "selected_performance_id": "PPM008807",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74298,
+            "ci_lower": 0.72979,
+            "ci_upper": 0.75617
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1154
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00783
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01185
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.58108,
+            "ci_lower": 0.56544,
+            "ci_upper": 0.59672
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Angina",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001261",
+      "trait_reported": "Angina pectoris (time-to-event)",
+      "trait_efo": "angina pectoris",
+      "method_name": "snpnet",
+      "variants_number": 2524,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.58233,
+        "r2": 0.01228,
+        "pgs_only_auc": 0.58233,
+        "pgs_only_r2": 0.01228,
+        "full_model_auc": 0.74852,
+        "full_model_r2": 0.12116,
+        "incremental_auc": 0.00796,
+        "selected_performance_id": "PPM008812",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74852,
+            "ci_lower": 0.73543,
+            "ci_upper": 0.76161
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12116
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00796
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01228
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.58233,
+            "ci_lower": 0.56671,
+            "ci_upper": 0.59794
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE angina pectoris",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001262",
+      "trait_reported": "Vascular/heart problems diagnosed by doctor Angina",
+      "trait_efo": "angina pectoris",
+      "method_name": "snpnet",
+      "variants_number": 1852,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=198,364",
+      "performance_metrics": {
+        "auc": 0.58683,
+        "r2": 0.01304,
+        "pgs_only_auc": 0.58683,
+        "pgs_only_r2": 0.01304,
+        "full_model_auc": 0.80729,
+        "full_model_r2": 0.17468,
+        "incremental_auc": 0.0098,
+        "selected_performance_id": "PPM008819",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.80729,
+            "ci_lower": 0.79886,
+            "ci_upper": 0.81571
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.17468
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.0098
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01304
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.58683,
+            "ci_lower": 0.57429,
+            "ci_upper": 0.59937
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Vascular/heart problems diagnosed by doctor Angina",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=49,472"
+    },
+    {
+      "id": "PGS004457",
+      "trait_reported": "I20 (Angina pectoris)",
+      "trait_efo": "angina pectoris",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020572",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.30967614536041
+          }
+        ]
+      },
+      "phenotyping_reported": "I20 (Angina pectoris)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004527",
+      "trait_reported": "I20 (Angina pectoris)",
+      "trait_efo": "angina pectoris",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020642",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.429443
+          }
+        ]
+      },
+      "phenotyping_reported": "I20 (Angina pectoris)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS005047",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75307878214522,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021926",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.75307878214522
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.061,
+            "ci_lower": 1.01,
+            "ci_upper": 1.11
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005048",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.766875732923539,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021928",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.766875732923539
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.487,
+            "ci_lower": 1.41,
+            "ci_upper": 1.56
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005049",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.754043588437806,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021927",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.754043588437806
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.115,
+            "ci_lower": 1.07,
+            "ci_upper": 1.17
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005050",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.765078012482153,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021923",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.765078012482153
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.445,
+            "ci_lower": 1.37,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005051",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.765455879253035,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021924",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.765455879253035
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.455,
+            "ci_lower": 1.38,
+            "ci_upper": 1.53
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005052",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "ldpred",
+      "variants_number": 1286612,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.766245446279245,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021925",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.766245446279245
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.491,
+            "ci_lower": 1.42,
+            "ci_upper": 1.57
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005053",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscs",
+      "variants_number": 1273665,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.752833132215672,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021828",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.752833132215672
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.041,
+            "ci_lower": 0.99,
+            "ci_upper": 1.09
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005054",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscs",
+      "variants_number": 1273665,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.765602593839864,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021830",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.765602593839864
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.43,
+            "ci_lower": 1.36,
+            "ci_upper": 1.5
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005055",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscs",
+      "variants_number": 1273665,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.753964443410607,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021829",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.753964443410607
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.108,
+            "ci_lower": 1.06,
+            "ci_upper": 1.16
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005056",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscs",
+      "variants_number": 1273665,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.762606755683149,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021825",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.762606755683149
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.381,
+            "ci_lower": 1.32,
+            "ci_upper": 1.45
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005057",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscs",
+      "variants_number": 1273665,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.766366623403965,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021826",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.766366623403965
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.479,
+            "ci_lower": 1.41,
+            "ci_upper": 1.56
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005058",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscs",
+      "variants_number": 1273665,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.765602821128147,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021827",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.765602821128147
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.452,
+            "ci_lower": 1.38,
+            "ci_upper": 1.53
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    },
+    {
+      "id": "PGS005059",
+      "trait_reported": "Angina pectoris (PheCode 411.3)",
+      "trait_efo": "angina pectoris",
+      "method_name": "prscsx",
+      "variants_number": 1273891,
+      "ancestry_distribution": "GWAS: NR (50%), AFR (10%), AMR (4%), EUR (36%) | EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Comparison of Methods for Building Polygenic Scores for Diverse Populations.",
+        "journal": "HGG Adv"
+      },
+      "date_release": "2024-10-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.764350008110945,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021831",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.764350008110945
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.412,
+            "ci_lower": 1.35,
+            "ci_upper": 1.48
+          }
+        ]
+      },
+      "phenotyping_reported": "Angina pectoris",
+      "covariates": "age, sex, 20 PCs",
+      "training_development_cohorts": [
+        "MVP"
+      ],
+      "validation_sample_size": "n=30,750"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001262",
+    "reported_auc": 0.5868,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Vascular/heart problems diagnosed by doctor Angina",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=49,472"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "cache_version": "v4",
+  "ontology": "corneal dystrophy",
+  "candidate_model_ids": [
+    "PGS002042",
+    "PGS001835"
+  ],
+  "total_found": 2,
+  "candidate_models": [
+    {
+      "id": "PGS001835",
+      "trait_reported": "Corneal dystrophy",
+      "trait_efo": "corneal dystrophy",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 38,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EUR (50%), GME (17%), SAS (17%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009572",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0384,
+            "ci_lower": 0.0243,
+            "ci_upper": 0.0525
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Corneal dystrophy",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,321"
+    },
+    {
+      "id": "PGS002042",
+      "trait_reported": "Corneal dystrophy",
+      "trait_efo": "corneal dystrophy",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 59944,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EUR (50%), GME (17%), SAS (17%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011202",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0471,
+            "ci_lower": 0.033,
+            "ci_upper": 0.0611
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Corneal dystrophy",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,321"
+    }
+  ],
+  "baseline": null
+}

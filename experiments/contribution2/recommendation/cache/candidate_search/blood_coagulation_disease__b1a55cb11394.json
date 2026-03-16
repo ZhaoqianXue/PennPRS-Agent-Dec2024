@@ -1,0 +1,172 @@
+{
+  "cache_version": "v4",
+  "ontology": "blood coagulation disease",
+  "candidate_model_ids": [
+    "PGS001826",
+    "PGS002034",
+    "PGS001033"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS001033",
+      "trait_reported": "Other coagulation defects (time-to-event)",
+      "trait_efo": "blood coagulation disease",
+      "method_name": "snpnet",
+      "variants_number": 1,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.63402,
+        "r2": 0.05781,
+        "pgs_only_auc": 0.63402,
+        "pgs_only_r2": 0.05781,
+        "full_model_auc": 0.65623,
+        "full_model_r2": 0.05179,
+        "incremental_auc": 0.12049,
+        "selected_performance_id": "PPM007932",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65623,
+            "ci_lower": 0.61832,
+            "ci_upper": 0.69414
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05179
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.12049
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05781
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.63402,
+            "ci_lower": 0.60616,
+            "ci_upper": 0.66189
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE other coagulation defects",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001826",
+      "trait_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "trait_efo": "congenital vitamin K-dependent coagulation factors deficiency",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 45,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (75%), SAS (25%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009505",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0562,
+            "ci_lower": 0.0424,
+            "ci_upper": 0.0701
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,864"
+    },
+    {
+      "id": "PGS002034",
+      "trait_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "trait_efo": "congenital vitamin K-dependent coagulation factors deficiency",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 32552,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (75%), SAS (25%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011143",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0563,
+            "ci_lower": 0.0424,
+            "ci_upper": 0.0702
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,864"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001033",
+    "reported_auc": 0.634,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Other coagulation defects (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

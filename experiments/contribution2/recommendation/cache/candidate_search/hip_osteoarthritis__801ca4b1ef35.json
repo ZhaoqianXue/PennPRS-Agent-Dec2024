@@ -1,0 +1,355 @@
+{
+  "cache_version": "v4",
+  "ontology": "hip osteoarthritis",
+  "candidate_model_ids": [
+    "PGS000967",
+    "PGS002728",
+    "PGS002750",
+    "PGS004882",
+    "PGS004478",
+    "PGS002763",
+    "PGS004548"
+  ],
+  "total_found": 7,
+  "candidate_models": [
+    {
+      "id": "PGS000967",
+      "trait_reported": "Coxarthrosis [arthrosis of hip] (time-to-event)",
+      "trait_efo": "osteoarthritis, hip",
+      "method_name": "snpnet",
+      "variants_number": 634,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.5611,
+        "r2": 0.00628,
+        "pgs_only_auc": 0.5611,
+        "pgs_only_r2": 0.00628,
+        "full_model_auc": 0.69051,
+        "full_model_r2": 0.06247,
+        "incremental_auc": 0.00918,
+        "selected_performance_id": "PPM007662",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69051,
+            "ci_lower": 0.68108,
+            "ci_upper": 0.69995
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.06247
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00918
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00628
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.5611,
+            "ci_lower": 0.55051,
+            "ci_upper": 0.57168
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE coxarthrosis [arthrosis of hip]",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS002728",
+      "trait_reported": "Hip osteoarthritis",
+      "trait_efo": "osteoarthritis, hip",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 44,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Risk assessment for hip and knee osteoarthritis using polygenic risk scores.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2022-06-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014787",
+        "selected_validation_ancestry": "European",
+        "record_count": 18,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66,
+            "ci_lower": 0.62,
+            "ci_upper": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Total hip replacement",
+      "covariates": "Age, sex",
+      "training_development_cohorts": [
+        "EB",
+        "GARP",
+        "HUNT",
+        "LLS",
+        "MyCode",
+        "UKB",
+        "arcOGEN",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=14,926"
+    },
+    {
+      "id": "PGS002750",
+      "trait_reported": "Total hip replacement",
+      "trait_efo": "total hip arthroplasty, osteoarthritis, hip",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 37,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genomic Risk Score for Advanced Osteoarthritis in Older Adults.",
+        "journal": "Arthritis Rheumatol"
+      },
+      "date_release": "2022-09-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014940",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.23,
+            "ci_lower": 1.16,
+            "ci_upper": 1.3
+          }
+        ]
+      },
+      "phenotyping_reported": "Hip replacement",
+      "covariates": "Age, sex, body mass index, education, and index of relative socioeconomic advantage and disadvantage",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,257"
+    },
+    {
+      "id": "PGS002763",
+      "trait_reported": "Hip osteoarthritis",
+      "trait_efo": "osteoarthritis, hip",
+      "method_name": "PRS-CS",
+      "variants_number": 1052273,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014963",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.38,
+            "ci_lower": 1.31,
+            "ci_upper": 1.46
+          }
+        ]
+      },
+      "phenotyping_reported": "Hip osteoarthritis",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS004478",
+      "trait_reported": "M16 (Coxarthrosis [arthrosis of hip])",
+      "trait_efo": "osteoarthritis, hip",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020593",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.29594864200374
+          }
+        ]
+      },
+      "phenotyping_reported": "M16 (Coxarthrosis [arthrosis of hip])",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004548",
+      "trait_reported": "M16 (Coxarthrosis [arthrosis of hip])",
+      "trait_efo": "osteoarthritis, hip",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020663",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.216264
+          }
+        ]
+      },
+      "phenotyping_reported": "M16 (Coxarthrosis [arthrosis of hip])",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004882",
+      "trait_reported": "Hip osteoarthritis",
+      "trait_efo": "osteoarthritis, hip",
+      "method_name": "megaprs.auto",
+      "variants_number": 773587,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021236",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.6,
+            "ci_lower": 0.6,
+            "ci_upper": 0.6
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.4,
+            "ci_lower": 1.38,
+            "ci_upper": 1.42
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident hip osteoarthritis",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=412,090"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000967",
+    "reported_auc": 0.5611,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Coxarthrosis [arthrosis of hip] (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

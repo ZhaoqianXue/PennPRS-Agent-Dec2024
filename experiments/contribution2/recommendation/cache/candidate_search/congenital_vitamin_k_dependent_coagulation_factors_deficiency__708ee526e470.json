@@ -1,0 +1,98 @@
+{
+  "cache_version": "v4",
+  "ontology": "congenital vitamin k-dependent coagulation factors deficiency",
+  "candidate_model_ids": [
+    "PGS001826",
+    "PGS002034"
+  ],
+  "total_found": 2,
+  "candidate_models": [
+    {
+      "id": "PGS001826",
+      "trait_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "trait_efo": "congenital vitamin K-dependent coagulation factors deficiency",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 45,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (75%), SAS (25%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009505",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0562,
+            "ci_lower": 0.0424,
+            "ci_upper": 0.0701
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,864"
+    },
+    {
+      "id": "PGS002034",
+      "trait_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "trait_efo": "congenital vitamin K-dependent coagulation factors deficiency",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 32552,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (75%), SAS (25%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011143",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0563,
+            "ci_lower": 0.0424,
+            "ci_upper": 0.0702
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Congenital deficiency of other clotting factors (including factor VII)",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,864"
+    }
+  ],
+  "baseline": null
+}

@@ -1,0 +1,98 @@
+{
+  "cache_version": "v4",
+  "ontology": "iron metabolism disease",
+  "candidate_model_ids": [
+    "PGS001823",
+    "PGS002031"
+  ],
+  "total_found": 2,
+  "candidate_models": [
+    {
+      "id": "PGS001823",
+      "trait_reported": "Disorders of iron metabolism",
+      "trait_efo": "iron metabolism disease",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 654,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EAS (17%), EUR (50%), SAS (17%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009484",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1307,
+            "ci_lower": 0.117,
+            "ci_upper": 0.1444
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Disorders of iron metabolism",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,883"
+    },
+    {
+      "id": "PGS002031",
+      "trait_reported": "Disorders of iron metabolism",
+      "trait_efo": "iron metabolism disease",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 6713,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (17%), EAS (17%), EUR (50%), SAS (17%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011122",
+        "selected_validation_ancestry": "European",
+        "record_count": 6,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1355,
+            "ci_lower": 0.1219,
+            "ci_upper": 0.1492
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Disorders of iron metabolism",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,883"
+    }
+  ],
+  "baseline": null
+}

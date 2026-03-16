@@ -1,0 +1,3193 @@
+{
+  "cache_version": "v4",
+  "ontology": "ovarian neoplasm",
+  "candidate_model_ids": [
+    "PGS000564",
+    "PGS005086",
+    "PGS000548",
+    "PGS000545",
+    "PGS000552",
+    "PGS000555",
+    "PGS005087",
+    "PGS000563",
+    "PGS000793",
+    "PGS000554",
+    "PGS000082",
+    "PGS005166",
+    "PGS000068",
+    "PGS000351",
+    "PGS000547",
+    "PGS000549",
+    "PGS000551",
+    "PGS002250",
+    "PGS000048",
+    "PGS000544",
+    "PGS000556",
+    "PGS000561",
+    "PGS003385",
+    "PGS000546",
+    "PGS003394",
+    "PGS000562",
+    "PGS000158",
+    "PGS000560",
+    "PGS005089",
+    "PGS000352",
+    "PGS004249",
+    "PGS000069",
+    "PGS003754",
+    "PGS003741",
+    "PGS000550",
+    "PGS000553",
+    "PGS000558",
+    "PGS000559",
+    "PGS005088",
+    "PGS000557",
+    "PGS000724",
+    "PGS004692"
+  ],
+  "total_found": 42,
+  "candidate_models": [
+    {
+      "id": "PGS000048",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Known susceptibility loci (genome-wide significant SNPs)",
+      "variants_number": 17,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of Polygenic Risk Scores for Breast and Ovarian Cancer Risk Prediction in BRCA1 and BRCA2 Mutation Carriers.",
+        "journal": "J Natl Cancer Inst"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.628,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000113",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.628,
+            "ci_lower": 0.592,
+            "ci_upper": 0.665
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.49,
+            "ci_lower": 1.34,
+            "ci_upper": 1.65
+          }
+        ]
+      },
+      "phenotyping_reported": "Ovarian cancer in BRCA2 mutation carriers",
+      "covariates": "Country, birth year",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=8,211"
+    },
+    {
+      "id": "PGS000068",
+      "trait_reported": "Epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic risk scores for ovarian cancer risk prediction in a prospective cohort study.",
+        "journal": "J Med Genet"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.58,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000188",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.58,
+            "ci_lower": 0.55,
+            "ci_upper": 0.6
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.32,
+            "ci_lower": 1.21,
+            "ci_upper": 1.45
+          }
+        ]
+      },
+      "phenotyping_reported": "all invasive epithelial ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,095"
+    },
+    {
+      "id": "PGS000069",
+      "trait_reported": "Serous epithelial ovarian cancer",
+      "trait_efo": "ovarian serous carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic risk scores for ovarian cancer risk prediction in a prospective cohort study.",
+        "journal": "J Med Genet"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000189",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.6,
+            "ci_lower": 0.57,
+            "ci_upper": 0.63
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.43,
+            "ci_lower": 1.29,
+            "ci_upper": 1.58
+          }
+        ]
+      },
+      "phenotyping_reported": "serous epithelial ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,095"
+    },
+    {
+      "id": "PGS000082",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 36,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.656,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002048",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.656
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.655,
+            "se": 0.015
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.13,
+            "ci_lower": 1.04,
+            "ci_upper": 1.24
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident ovarian cancer",
+      "covariates": "Age at assessment, family history of breast cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), BMI*menopausal status",
+      "training_development_cohorts": [
+        "AOCS",
+        "B58C",
+        "BCFR-AU",
+        "BCFR-NY",
+        "BCFR-PA",
+        "BCFR-UTAH",
+        "BFBOCC",
+        "BMBSA",
+        "BOCC",
+        "BOCS",
+        "BRICOH",
+        "BioVU",
+        "CNIO",
+        "COH",
+        "CONSIT_TEAM",
+        "CoRGI",
+        "CopBCS",
+        "DEMOKRITOS",
+        "DFCI",
+        "DKFZ",
+        "DOVE",
+        "DPMS",
+        "EMBRACE",
+        "EPIC",
+        "FCCC",
+        "FOTS",
+        "FROC&GEOCS",
+        "G-FaST",
+        "GC-HBOC",
+        "GEMO",
+        "GOCS",
+        "Georgetown",
+        "HCSC",
+        "HEBCS",
+        "HEBON",
+        "HJOCS",
+        "HMOCS",
+        "HOCS",
+        "HOPE",
+        "HUNBOCS",
+        "HUOCS",
+        "HUVH",
+        "HeOCS",
+        "ICO",
+        "ICR",
+        "IHCC",
+        "INHERIT",
+        "IOVHBOCS",
+        "IPOBCS",
+        "KUMC",
+        "LAC-CCOC",
+        "LUHR",
+        "MALOVA",
+        "MAYO",
+        "MCGILL",
+        "MDACCS",
+        "MEC",
+        "MOCS",
+        "MOF",
+        "MSKCC",
+        "MUV",
+        "NBS",
+        "NC-BCFR",
+        "NCI",
+        "NCOCS",
+        "NECC",
+        "NHS",
+        "NJOCS",
+        "NNPIO",
+        "NOCS",
+        "NRG_ONCOLOGY",
+        "NSUHS",
+        "Nijmegen",
+        "OCGN",
+        "ODZH",
+        "OFBCR",
+        "OSUCCG",
+        "OUH",
+        "OVAL-BC",
+        "PLCO",
+        "POCS",
+        "RMH",
+        "RMH-OCS",
+        "SEARCH",
+        "SEARCH-OCS",
+        "SHMC",
+        "SWE",
+        "SWE-BRCA",
+        "Sisters",
+        "TAMPERE",
+        "TBOCS",
+        "UBNS",
+        "UC",
+        "UCIOCS",
+        "UCSF",
+        "UDP",
+        "UKCRC",
+        "UKFOCR",
+        "UKGRFOCR",
+        "UKOPS",
+        "UPENN",
+        "UPITT",
+        "VFCTG",
+        "WCPSOCCI",
+        "WCRI",
+        "WOCS",
+        "deCODE",
+        "kConFab"
+      ],
+      "validation_sample_size": "n=211,958"
+    },
+    {
+      "id": "PGS000158",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 11,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+        "journal": "Cancer Med"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000478",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Mean realative risk",
+            "name_short": "Mean realative risk",
+            "estimate": 1.12,
+            "ci_lower": 1.08,
+            "ci_upper": 1.16
+          },
+          {
+            "name_long": "Wilcoxon test (case vs. control) p-value",
+            "name_short": "Wilcoxon test (case vs. control) p-value",
+            "estimate": 0.000145
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "B58C",
+        "CoRGI",
+        "RMH-OCS",
+        "SEARCH-OCS",
+        "UKFOCR",
+        "UKOPS"
+      ],
+      "validation_sample_size": "n=7,551"
+    },
+    {
+      "id": "PGS000351",
+      "trait_reported": "Invasive epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 30,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores and breast and epithelial ovarian cancer risks for carriers of BRCA1 and BRCA2 pathogenic variants.",
+        "journal": "Genet Med"
+      },
+      "date_release": "2020-12-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001030",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.31,
+            "ci_lower": 1.24,
+            "ci_upper": 1.39
+          }
+        ]
+      },
+      "phenotyping_reported": "Ovarian cancer in BRCA1 carriers",
+      "covariates": "birth cohort, PCs(1-4) of ancestry, family history in first- and second-degree relatives",
+      "training_development_cohorts": [
+        "ABCFS",
+        "ABCTB",
+        "ACS",
+        "AOCS",
+        "ATBC",
+        "BBCC",
+        "BBCS",
+        "BCFR-AU",
+        "BCFR-NCA",
+        "BCFR-NY",
+        "BCFR-ONT",
+        "BCFR-PA",
+        "BCFR-UTAH",
+        "BFBOCC",
+        "BMBSA",
+        "BOCC",
+        "BOCS",
+        "BRICOH",
+        "BioVU",
+        "CAPS",
+        "CCFR",
+        "CGEMS",
+        "CNIO",
+        "COH",
+        "CONSIT_TEAM",
+        "CPCS",
+        "CPSII",
+        "CopBCS",
+        "DEMOKRITOS",
+        "DFBBCS",
+        "DFCI",
+        "DKFZ",
+        "DOVE",
+        "DPMS",
+        "EMBRACE",
+        "EOPCS",
+        "EPIC",
+        "EPIC-Norfolk",
+        "ESTHER",
+        "FCCC",
+        "FHCRC",
+        "FOTS",
+        "FROC&GEOCS",
+        "G-FaST",
+        "GC-HBOC",
+        "GEMO",
+        "GENICA",
+        "GESBC",
+        "GOCS",
+        "GWAS_UK2",
+        "Georgetown",
+        "HCSC",
+        "HEBCS",
+        "HEBON",
+        "HJOCS",
+        "HMOCS",
+        "HOCS",
+        "HOPE",
+        "HPFS",
+        "HUNBOCS",
+        "HUOCS",
+        "HUVH",
+        "HeOCS",
+        "ICO",
+        "IHCC",
+        "INHERIT",
+        "IOVHBOCS",
+        "IPO-Porto",
+        "IPOBCS",
+        "KORA",
+        "KUMC",
+        "LAC-CCOC",
+        "LI",
+        "LUHR",
+        "MALOVA",
+        "MARIE",
+        "MAYO",
+        "MCBCS",
+        "MCCS",
+        "MCGILL",
+        "MDACCS",
+        "MEC",
+        "MOCS",
+        "MOF",
+        "MOFFITT",
+        "MSKCC",
+        "MUV",
+        "NC-BCFR",
+        "NCI",
+        "NCOCS",
+        "NECC",
+        "NHS",
+        "NHS2",
+        "NJOCS",
+        "NNPIO",
+        "NOCS",
+        "NRG_ONCOLOGY",
+        "NSUHS",
+        "NordicDB",
+        "OCGN",
+        "OFBCR",
+        "OSUCCG",
+        "OUH",
+        "OVAL-BC",
+        "PBCS",
+        "PCMUS",
+        "PEGASUS-TIMI_54",
+        "PHS",
+        "PLCO",
+        "POCS",
+        "POSH",
+        "PPF-UNIS",
+        "Poland",
+        "ProMPT",
+        "ProtecT",
+        "QIMR",
+        "QLD",
+        "RFPCS",
+        "RS",
+        "SASBAC",
+        "SBCS",
+        "SEARCH",
+        "SHMC",
+        "STHM",
+        "SWE",
+        "SWE-BRCA",
+        "Seattle",
+        "Sisters",
+        "TAMPERE",
+        "TBOCS",
+        "TNBCC",
+        "UBNS",
+        "UC",
+        "UCIOCS",
+        "UCSF",
+        "UDP",
+        "UKFOCR",
+        "UKGPCS",
+        "UKGRFOCR",
+        "ULM",
+        "UPENN",
+        "UPITT",
+        "USC",
+        "UTAH",
+        "VFCTG",
+        "WCPSOCCI",
+        "WCRI",
+        "WOCS",
+        "WTCCC",
+        "kConFab"
+      ],
+      "validation_sample_size": "n=18,935"
+    },
+    {
+      "id": "PGS000352",
+      "trait_reported": "High grade serous ovarian cancer",
+      "trait_efo": "high grade ovarian serous adenocarcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores and breast and epithelial ovarian cancer risks for carriers of BRCA1 and BRCA2 pathogenic variants.",
+        "journal": "Genet Med"
+      },
+      "date_release": "2020-12-08",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001032",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.32,
+            "ci_lower": 1.25,
+            "ci_upper": 1.4
+          }
+        ]
+      },
+      "phenotyping_reported": "Ovarian cancer in BRCA1 carriers",
+      "covariates": "birth cohort, PCs(1-4) of ancestry, family history in first- and second-degree relatives",
+      "training_development_cohorts": [
+        "AOCS",
+        "BCFR-AU",
+        "BCFR-NY",
+        "BCFR-PA",
+        "BCFR-UTAH",
+        "BFBOCC",
+        "BMBSA",
+        "BOCC",
+        "BOCS",
+        "BRICOH",
+        "BioVU",
+        "CNIO",
+        "COH",
+        "CONSIT_TEAM",
+        "CopBCS",
+        "DEMOKRITOS",
+        "DFCI",
+        "DKFZ",
+        "DOVE",
+        "DPMS",
+        "EMBRACE",
+        "EPIC",
+        "FCCC",
+        "FOTS",
+        "FROC&GEOCS",
+        "G-FaST",
+        "GC-HBOC",
+        "GEMO",
+        "GOCS",
+        "Georgetown",
+        "HCSC",
+        "HEBCS",
+        "HEBON",
+        "HJOCS",
+        "HMOCS",
+        "HOCS",
+        "HOPE",
+        "HUNBOCS",
+        "HUOCS",
+        "HUVH",
+        "HeOCS",
+        "ICO",
+        "IHCC",
+        "INHERIT",
+        "IOVHBOCS",
+        "IPOBCS",
+        "KUMC",
+        "LAC-CCOC",
+        "LUHR",
+        "MALOVA",
+        "MAYO",
+        "MCGILL",
+        "MDACCS",
+        "MEC",
+        "MOCS",
+        "MOF",
+        "MSKCC",
+        "MUV",
+        "NC-BCFR",
+        "NCI",
+        "NCOCS",
+        "NECC",
+        "NHS",
+        "NJOCS",
+        "NNPIO",
+        "NOCS",
+        "NRG_ONCOLOGY",
+        "NSUHS",
+        "OCGN",
+        "OFBCR",
+        "OSUCCG",
+        "OUH",
+        "OVAL-BC",
+        "PICO",
+        "POCS",
+        "SEARCH",
+        "SHMC",
+        "SISTER",
+        "SWE",
+        "SWE-BRCA",
+        "TBOCS",
+        "UBNS",
+        "UC",
+        "UCIOCS",
+        "UCSF",
+        "UDP",
+        "UKFOCR",
+        "UKGRFOCR",
+        "UPENN",
+        "UPITT",
+        "VFCTG",
+        "WCPSOCCI",
+        "WCRI",
+        "WOCS",
+        "kConFab"
+      ],
+      "validation_sample_size": "n=18,935"
+    },
+    {
+      "id": "PGS000544",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "GWAS Hits",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.532,
+        "full_model_r2": 0.00239,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001229",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.532,
+            "ci_lower": 0.506,
+            "ci_upper": 0.559
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00239
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.923,
+            "ci_lower": 0.347,
+            "ci_upper": 2.45
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.12,
+            "ci_lower": 1.021,
+            "ci_upper": 1.23
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.114,
+            "se": 0.0475
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000545",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.532,
+        "full_model_r2": 0.00239,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001230",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.532,
+            "ci_lower": 0.506,
+            "ci_upper": 0.559
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00239
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.923,
+            "ci_lower": 0.347,
+            "ci_upper": 2.45
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.12,
+            "ci_lower": 1.021,
+            "ci_upper": 1.23
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.114,
+            "se": 0.0475
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000546",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "PRS-CS",
+      "variants_number": 1115189,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.526,
+        "full_model_r2": 0.00221,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001231",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.526,
+            "ci_lower": 0.498,
+            "ci_upper": 0.554
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00221
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.97,
+            "ci_lower": 0.973,
+            "ci_upper": 4.0
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.119,
+            "ci_lower": 1.017,
+            "ci_upper": 1.231
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.112,
+            "se": 0.0488
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000547",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "GWAS Hits",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.544,
+        "full_model_r2": 0.00379,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001232",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.544,
+            "ci_lower": 0.517,
+            "ci_upper": 0.573
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00379
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.922,
+            "ci_lower": 0.347,
+            "ci_upper": 2.45
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.156,
+            "ci_lower": 1.051,
+            "ci_upper": 1.27
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.145,
+            "se": 0.0482
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000548",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "lassosum",
+      "variants_number": 1441,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.538,
+        "full_model_r2": 0.00277,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001233",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.538,
+            "ci_lower": 0.512,
+            "ci_upper": 0.565
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00277
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.13,
+            "ci_lower": 0.463,
+            "ci_upper": 2.77
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.132,
+            "ci_lower": 1.03,
+            "ci_upper": 1.244
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.124,
+            "se": 0.0483
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000549",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "GWAS Hits",
+      "variants_number": 16,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.567,
+        "full_model_r2": 0.00996,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001234",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.567,
+            "ci_lower": 0.539,
+            "ci_upper": 0.595
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00996
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.76,
+            "ci_lower": 0.839,
+            "ci_upper": 3.69
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.263,
+            "ci_lower": 1.15,
+            "ci_upper": 1.387
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.234,
+            "se": 0.0479
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000550",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "PRS-CS",
+      "variants_number": 1115189,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.568,
+        "full_model_r2": 0.0113,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001235",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.568,
+            "ci_lower": 0.542,
+            "ci_upper": 0.595
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0113
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0823
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.76,
+            "ci_lower": 0.838,
+            "ci_upper": 3.7
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.286,
+            "ci_lower": 1.169,
+            "ci_upper": 1.414
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.251,
+            "se": 0.0485
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000551",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.558,
+        "full_model_r2": 0.00819,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001236",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.558,
+            "ci_lower": 0.53,
+            "ci_upper": 0.586
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00819
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.55,
+            "ci_lower": 0.71,
+            "ci_upper": 3.38
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.234,
+            "ci_lower": 1.125,
+            "ci_upper": 1.354
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.21,
+            "se": 0.0473
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000552",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "lassosum",
+      "variants_number": 41269,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.552,
+        "full_model_r2": 0.00552,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001237",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.552,
+            "ci_lower": 0.523,
+            "ci_upper": 0.58
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00552
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.97,
+            "ci_lower": 0.97,
+            "ci_upper": 3.99
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.19,
+            "ci_lower": 1.084,
+            "ci_upper": 1.308
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.174,
+            "se": 0.048
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000553",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "GWAS Hits",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.556,
+        "full_model_r2": 0.00531,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001238",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.556,
+            "ci_lower": 0.53,
+            "ci_upper": 0.584
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00531
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.76,
+            "ci_lower": 0.839,
+            "ci_upper": 3.69
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.188,
+            "ci_lower": 1.079,
+            "ci_upper": 1.308
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.172,
+            "se": 0.0491
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000554",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "PRS-CS",
+      "variants_number": 1115189,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.522,
+        "full_model_r2": 0.00193,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001239",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.522,
+            "ci_lower": 0.491,
+            "ci_upper": 0.548
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00193
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.92,
+            "ci_lower": 2.27,
+            "ci_upper": 6.79
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.11,
+            "ci_lower": 1.009,
+            "ci_upper": 1.221
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.104,
+            "se": 0.0486
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000555",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 15,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.539,
+        "full_model_r2": 0.00282,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001240",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.539,
+            "ci_lower": 0.513,
+            "ci_upper": 0.568
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00282
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.18,
+            "ci_lower": 1.11,
+            "ci_upper": 4.3
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.133,
+            "ci_lower": 1.03,
+            "ci_upper": 1.245
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.125,
+            "se": 0.0483
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000556",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "lassosum",
+      "variants_number": 486841,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.516,
+        "full_model_r2": 0.00242,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001241",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.516,
+            "ci_lower": 0.489,
+            "ci_upper": 0.544
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00242
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.4,
+            "ci_lower": 1.24,
+            "ci_upper": 4.62
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.122,
+            "ci_lower": 1.022,
+            "ci_upper": 1.233
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.116,
+            "se": 0.0478
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000557",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "PRS-CS",
+      "variants_number": 1115187,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.534,
+        "full_model_r2": 0.00348,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001242",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.534,
+            "ci_lower": 0.508,
+            "ci_upper": 0.562
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00348
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.55,
+            "ci_lower": 0.71,
+            "ci_upper": 3.38
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.149,
+            "ci_lower": 1.045,
+            "ci_upper": 1.262
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.139,
+            "se": 0.048
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000558",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "lassosum",
+      "variants_number": 1098236,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.546,
+        "full_model_r2": 0.00676,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001243",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.546,
+            "ci_lower": 0.52,
+            "ci_upper": 0.574
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00676
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.76,
+            "ci_lower": 0.839,
+            "ci_upper": 3.69
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.207,
+            "ci_lower": 1.102,
+            "ci_upper": 1.321
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.188,
+            "se": 0.0463
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000559",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "GWAS Hits",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,122",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.554,
+        "full_model_r2": 0.00516,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001244",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.554,
+            "ci_lower": 0.509,
+            "ci_upper": 0.597
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00516
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.784,
+            "ci_lower": 0.142,
+            "ci_upper": 4.32
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.183,
+            "ci_lower": 1.015,
+            "ci_upper": 1.378
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.168,
+            "se": 0.078
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=1,904"
+    },
+    {
+      "id": "PGS000560",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "GWAS Hits",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.552,
+        "full_model_r2": 0.00819,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001245",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.552,
+            "ci_lower": 0.523,
+            "ci_upper": 0.581
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00819
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0824
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.76,
+            "ci_lower": 0.839,
+            "ci_upper": 3.69
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.233,
+            "ci_lower": 1.125,
+            "ci_upper": 1.352
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.21,
+            "se": 0.047
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000561",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "PRS-CS",
+      "variants_number": 1114056,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,122",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.552,
+        "full_model_r2": 0.00517,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001246",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.552,
+            "ci_lower": 0.513,
+            "ci_upper": 0.598
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00517
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0827
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.185,
+            "ci_lower": 1.011,
+            "ci_upper": 1.39
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.17,
+            "se": 0.0812
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=1,904"
+    },
+    {
+      "id": "PGS000562",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "PRS-CS",
+      "variants_number": 1115189,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.552,
+        "full_model_r2": 0.00646,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001247",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.552,
+            "ci_lower": 0.526,
+            "ci_upper": 0.58
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00646
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.55,
+            "ci_lower": 0.708,
+            "ci_upper": 3.38
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.209,
+            "ci_lower": 1.099,
+            "ci_upper": 1.329
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.19,
+            "se": 0.0484
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000563",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 12,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.547,
+        "full_model_r2": 0.00564,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001248",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.547,
+            "ci_lower": 0.52,
+            "ci_upper": 0.574
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00564
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 0.511,
+            "ci_lower": 0.142,
+            "ci_upper": 1.84
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.192,
+            "ci_lower": 1.086,
+            "ci_upper": 1.308
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.175,
+            "se": 0.0476
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000564",
+      "trait_reported": "Malignant neoplasm of ovary",
+      "trait_efo": "ovarian neoplasm",
+      "method_name": "lassosum",
+      "variants_number": 110710,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=5,130",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.556,
+        "full_model_r2": 0.00692,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001249",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.556,
+            "ci_lower": 0.529,
+            "ci_upper": 0.583
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00692
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.76,
+            "ci_lower": 0.839,
+            "ci_upper": 3.69
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.215,
+            "ci_lower": 1.106,
+            "ci_upper": 1.336
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.195,
+            "se": 0.0481
+          }
+        ]
+      },
+      "phenotyping_reported": "Malignant neoplasm of ovary",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,196"
+    },
+    {
+      "id": "PGS000724",
+      "trait_reported": "Epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 31,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.568,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001654",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.568,
+            "ci_lower": 0.537,
+            "ci_upper": 0.598
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident epithelial ovarian cancer",
+      "covariates": "Genotyping array",
+      "training_development_cohorts": [
+        "AOCS",
+        "BCFR-AU",
+        "BCFR-NY",
+        "BCFR-PA",
+        "BCFR-UTAH",
+        "BFBOCC",
+        "BMBSA",
+        "BOCC",
+        "BOCS",
+        "BRICOH",
+        "BioVU",
+        "CNIO",
+        "COH",
+        "CONSIT_TEAM",
+        "CopBCS",
+        "DEMOKRITOS",
+        "DFCI",
+        "DKFZ",
+        "DOVE",
+        "DPMS",
+        "EMBRACE",
+        "EPIC",
+        "FCCC",
+        "FOTS",
+        "FROC&GEOCS",
+        "G-FaST",
+        "GC-HBOC",
+        "GEMO",
+        "GOCS",
+        "Georgetown",
+        "HCSC",
+        "HEBCS",
+        "HEBON",
+        "HJOCS",
+        "HMOCS",
+        "HOCS",
+        "HOPE",
+        "HUNBOCS",
+        "HUOCS",
+        "HUVH",
+        "HeOCS",
+        "ICO",
+        "IHCC",
+        "INHERIT",
+        "IOVHBOCS",
+        "IPOBCS",
+        "KUMC",
+        "LAC-CCOC",
+        "LUHR",
+        "MALOVA",
+        "MAYO",
+        "MCGILL",
+        "MDACCS",
+        "MEC",
+        "MOCS",
+        "MOF",
+        "MSKCC",
+        "MUV",
+        "NC-BCFR",
+        "NCI",
+        "NCOCS",
+        "NECC",
+        "NHS",
+        "NJOCS",
+        "NNPIO",
+        "NOCS",
+        "NRG_ONCOLOGY",
+        "NSUHS",
+        "OCGN",
+        "OFBCR",
+        "OSUCCG",
+        "OUH",
+        "OVAL-BC",
+        "PLCO",
+        "POCS",
+        "SEARCH",
+        "SHMC",
+        "SWE",
+        "SWE-BRCA",
+        "Sisters",
+        "TBOCS",
+        "UBNS",
+        "UC",
+        "UCIOCS",
+        "UCSF",
+        "UDP",
+        "UKFOCR",
+        "UKGRFOCR",
+        "UPENN",
+        "UPITT",
+        "VFCTG",
+        "WCPSOCCI",
+        "WCRI",
+        "WOCS",
+        "kConFab"
+      ],
+      "validation_sample_size": "n=400,812"
+    },
+    {
+      "id": "PGS000793",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "36 variants from Graff et al (PGS000082) with inverse variant weights",
+      "variants_number": 36,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": 0.193,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002064",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.654,
+            "se": 0.015
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.193
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.2,
+            "ci_lower": 1.1,
+            "ci_upper": 1.32
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident ovarian cancer",
+      "covariates": "Age at assessment, family history of breast cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), BMI*menopausal status",
+      "training_development_cohorts": [
+        "AOCS",
+        "B58C",
+        "BCFR-AU",
+        "BCFR-NY",
+        "BCFR-PA",
+        "BCFR-UTAH",
+        "BFBOCC",
+        "BMBSA",
+        "BOCC",
+        "BOCS",
+        "BRICOH",
+        "BioVU",
+        "CIMBA",
+        "CNIO",
+        "COH",
+        "CONSIT_TEAM",
+        "CoRGI",
+        "CopBCS",
+        "DEMOKRITOS",
+        "DFCI",
+        "DKFZ",
+        "DOVE",
+        "DPMS",
+        "EMBRACE",
+        "EPIC",
+        "FCCC",
+        "FOTS",
+        "FROC&GEOCS",
+        "G-FaST",
+        "GC-HBOC",
+        "GEMO",
+        "GOCS",
+        "Georgetown",
+        "HCSC",
+        "HEBCS",
+        "HEBON",
+        "HJOCS",
+        "HMOCS",
+        "HOCS",
+        "HOPE",
+        "HUNBOCS",
+        "HUOCS",
+        "HUVH",
+        "HeOCS",
+        "ICO",
+        "ICR",
+        "IHCC",
+        "INHERIT",
+        "IOVHBOCS",
+        "IPOBCS",
+        "KUMC",
+        "LAC-CCOC",
+        "LUHR",
+        "MALOVA",
+        "MAYO",
+        "MCGILL",
+        "MDACCS",
+        "MEC",
+        "MOCS",
+        "MOF",
+        "MSKCC",
+        "MUV",
+        "NBS",
+        "NC-BCFR",
+        "NCI",
+        "NCOCS",
+        "NECC",
+        "NHS",
+        "NJOCS",
+        "NNPIO",
+        "NOCS",
+        "NRG_ONCOLOGY",
+        "NSUHS",
+        "Nijmegen",
+        "OCGN",
+        "ODZH",
+        "OFBCR",
+        "OSUCCG",
+        "OUH",
+        "OVAL-BC",
+        "PLCO",
+        "POCS",
+        "RMH",
+        "RMH-OCS",
+        "SEARCH",
+        "SEARCH-OCS",
+        "SHMC",
+        "SWE",
+        "SWE-BRCA",
+        "Sisters",
+        "TAMPERE",
+        "TBOCS",
+        "UBNS",
+        "UC",
+        "UCIOCS",
+        "UCSF",
+        "UDP",
+        "UKCRC",
+        "UKFOCR",
+        "UKGRFOCR",
+        "UKOPS",
+        "UPENN",
+        "UPITT",
+        "VFCTG",
+        "WCPSOCCI",
+        "WCRI",
+        "WOCS",
+        "deCODE",
+        "kConFab"
+      ],
+      "validation_sample_size": "n=211,958"
+    },
+    {
+      "id": "PGS002250",
+      "trait_reported": "Epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Select and shrink for summary statistics (S4)",
+      "variants_number": 27240,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (60%)",
+      "publication": {
+        "title": "Polygenic risk modeling for prediction of epithelial ovarian cancer risk.",
+        "journal": "Eur J Hum Genet"
+      },
+      "date_release": "2022-01-24",
+      "samples_training": "n=54,990",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.624,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016271",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.624
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.49,
+            "ci_lower": 1.35,
+            "ci_upper": 1.64
+          }
+        ]
+      },
+      "phenotyping_reported": "Epithelial non-mucinous ovarian cancer in BRCA2 carriers",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "OCAC"
+      ],
+      "validation_sample_size": "n=12,337"
+    },
+    {
+      "id": "PGS003385",
+      "trait_reported": "Ovarian serous carcinoma",
+      "trait_efo": "ovarian serous carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 144810,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.717,
+        "full_model_r2": 0.0142,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016260",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.717
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0142
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "ovarian serous carcinoma",
+      "covariates": "age, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=143,259"
+    },
+    {
+      "id": "PGS003394",
+      "trait_reported": "Epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Stepwise logistic regression",
+      "variants_number": 36,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (25%), EAS (25%), EUR (50%)",
+      "publication": {
+        "title": "Polygenic risk modeling for prediction of epithelial ovarian cancer risk.",
+        "journal": "Eur J Hum Genet"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "n=31,252",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.623,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017029",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.623,
+            "ci_lower": 0.603,
+            "ci_upper": 0.642
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "10-year ovarian cancer risks",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CIMBA",
+        "OCAC"
+      ],
+      "validation_sample_size": "n=189,171"
+    },
+    {
+      "id": "PGS003741",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 28,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts.",
+        "journal": "EBioMedicine"
+      },
+      "date_release": "2023-06-01",
+      "samples_training": "n=437",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018497",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.15,
+            "ci_lower": 1.04,
+            "ci_upper": 1.28
+          }
+        ]
+      },
+      "phenotyping_reported": "Ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=501"
+    },
+    {
+      "id": "PGS003754",
+      "trait_reported": "Nonmucinous Epithelial Ovarian Cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Stepwise method",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Association of Frequent Aspirin Use With Ovarian Cancer Risk According to Genetic Susceptibility.",
+        "journal": "JAMA Netw Open"
+      },
+      "date_release": "2023-06-22",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018518",
+        "selected_validation_ancestry": "African American or Afro-Caribbean, European, Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, <median)",
+            "name_short": "Odds ratio (OR, <median)",
+            "estimate": 0.85,
+            "ci_lower": 0.7,
+            "ci_upper": 1.02
+          },
+          {
+            "name_long": "Odds ratio (OR, >=median)",
+            "name_short": "Odds ratio (OR, >=median)",
+            "estimate": 0.86,
+            "ci_lower": 0.74,
+            "ci_upper": 1.01
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Nonmucinous Epithelial Ovarian Cancer x aspirin use interaction",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "OCAC"
+      ],
+      "validation_sample_size": "n=11,135"
+    },
+    {
+      "id": "PGS004249",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "PRSice-2",
+      "variants_number": 25,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020306",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.16,
+            "ci_lower": 1.03,
+            "ci_upper": 1.31
+          }
+        ]
+      },
+      "phenotyping_reported": "Ovarian cancer",
+      "covariates": "first 10 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=133,830"
+    },
+    {
+      "id": "PGS004692",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "AnnoPred",
+      "variants_number": 6385666,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=198,165",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5298,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020877",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5298
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=22,025"
+    },
+    {
+      "id": "PGS005086",
+      "trait_reported": "Non-mucinous epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Select and Shrink using Summary Statistics (S4)",
+      "variants_number": 64518,
+      "ancestry_distribution": "GWAS: AFR (80%), EAS (3%), EUR (96%) | DEV: EUR (100%) | EVAL: EAS (50%), EUR (50%)",
+      "publication": {
+        "title": "Genome-wide association study of 398,238 women unveils seven loci associated with high-grade serous ovarian cancer.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2024-10-29",
+      "samples_training": "n=150,658",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.607,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022166",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.607,
+            "ci_lower": 0.59,
+            "ci_upper": 0.623
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.46,
+            "ci_lower": 1.37,
+            "ci_upper": 1.54
+          }
+        ]
+      },
+      "phenotyping_reported": "Epithelial ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CIMBA",
+        "FinnGen",
+        "OCAC"
+      ],
+      "validation_sample_size": "n=245,377"
+    },
+    {
+      "id": "PGS005087",
+      "trait_reported": "Non-mucinous epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Select and Shrink using Summary Statistics (S4)",
+      "variants_number": 5957,
+      "ancestry_distribution": "GWAS: AFR (80%), EAS (3%), EUR (96%) | DEV: EUR (100%) | EVAL: EAS (50%), EUR (50%)",
+      "publication": {
+        "title": "Genome-wide association study of 398,238 women unveils seven loci associated with high-grade serous ovarian cancer.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2024-10-29",
+      "samples_training": "n=150,658",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.603,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022167",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.603
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.45
+          }
+        ]
+      },
+      "phenotyping_reported": "Epithelial ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CIMBA",
+        "FinnGen",
+        "OCAC"
+      ],
+      "validation_sample_size": "n=245,377"
+    },
+    {
+      "id": "PGS005088",
+      "trait_reported": "Non-mucinous epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Select and Shrink using Summary Statistics (S4)",
+      "variants_number": 3448,
+      "ancestry_distribution": "GWAS: AFR (80%), EAS (3%), EUR (96%) | DEV: EUR (100%) | EVAL: EAS (50%), EUR (50%)",
+      "publication": {
+        "title": "Genome-wide association study of 398,238 women unveils seven loci associated with high-grade serous ovarian cancer.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2024-10-29",
+      "samples_training": "n=150,658",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.604,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022168",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.604
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.45
+          }
+        ]
+      },
+      "phenotyping_reported": "Epithelial ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CIMBA",
+        "FinnGen",
+        "OCAC"
+      ],
+      "validation_sample_size": "n=245,377"
+    },
+    {
+      "id": "PGS005089",
+      "trait_reported": "Non-mucinous epithelial ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "Select and Shrink using Summary Statistics (S4)",
+      "variants_number": 400,
+      "ancestry_distribution": "GWAS: AFR (80%), EAS (3%), EUR (96%) | DEV: EUR (100%) | EVAL: EAS (50%), EUR (50%)",
+      "publication": {
+        "title": "Genome-wide association study of 398,238 women unveils seven loci associated with high-grade serous ovarian cancer.",
+        "journal": "NPJ Genom Med"
+      },
+      "date_release": "2024-10-29",
+      "samples_training": "n=150,658",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.603,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022169",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.603
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.43,
+            "ci_lower": 1.35,
+            "ci_upper": 1.52
+          }
+        ]
+      },
+      "phenotyping_reported": "Epithelial ovarian cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CIMBA",
+        "FinnGen",
+        "OCAC"
+      ],
+      "validation_sample_size": "n=245,377"
+    },
+    {
+      "id": "PGS005166",
+      "trait_reported": "Ovarian cancer",
+      "trait_efo": "ovarian carcinoma",
+      "method_name": "PRS-CSx",
+      "variants_number": 2802,
+      "ancestry_distribution": "GWAS: EAS (42%), EUR (58%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Polygenic risk scores for pan-cancer risk prediction in the Chinese population: A population-based cohort study based on the China Kadoorie Biobank.",
+        "journal": "PLoS Med"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.579,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022404",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.579
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.25,
+            "ci_lower": 1.02,
+            "ci_upper": 1.52
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.223
+          }
+        ]
+      },
+      "phenotyping_reported": "Ovarian Cancer",
+      "covariates": "Age,Sex (if applicable),Region,Top 10 genetic ancestry principal components",
+      "training_development_cohorts": [
+        "BBJ"
+      ],
+      "validation_sample_size": "n=57,359"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS003385",
+    "reported_auc": 0.717,
+    "tier": "full_model_auroc",
+    "trait_reported": "Ovarian serous carcinoma",
+    "method_name": "lassosum",
+    "validation_sample_size": "n=143,259"
+  }
+}

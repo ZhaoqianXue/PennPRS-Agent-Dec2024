@@ -1,0 +1,172 @@
+{
+  "cache_version": "v4",
+  "ontology": "dupuytren contracture",
+  "candidate_model_ids": [
+    "PGS002092",
+    "PGS001880",
+    "PGS001254"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS001254",
+      "trait_reported": "Dupuytren's contracture",
+      "trait_efo": "Dupuytren Contracture",
+      "method_name": "snpnet",
+      "variants_number": 11,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.66457,
+        "r2": 0.02466,
+        "pgs_only_auc": 0.66457,
+        "pgs_only_r2": 0.02466,
+        "full_model_auc": 0.74126,
+        "full_model_r2": 0.05438,
+        "incremental_auc": 0.04471,
+        "selected_performance_id": "PPM008780",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74126,
+            "ci_lower": 0.69429,
+            "ci_upper": 0.78823
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05438
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04471
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02466
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.66457,
+            "ci_lower": 0.60823,
+            "ci_upper": 0.72091
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Dupuytren's contracture",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001880",
+      "trait_reported": "Contracture of palmar fascia [Dupuytren's disease]",
+      "trait_efo": "Dupuytren Contracture",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 2443,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009925",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0783,
+            "ci_lower": 0.0641,
+            "ci_upper": 0.0924
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Contracture of palmar fascia [Dupuytren's disease]",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,971"
+    },
+    {
+      "id": "PGS002092",
+      "trait_reported": "Contracture of palmar fascia [Dupuytren's disease]",
+      "trait_efo": "Dupuytren Contracture",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 484484,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011593",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0797,
+            "ci_lower": 0.0655,
+            "ci_upper": 0.0938
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Contracture of palmar fascia [Dupuytren's disease]",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,971"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001254",
+    "reported_auc": 0.6646,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Dupuytren's contracture",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

@@ -1,0 +1,1400 @@
+{
+  "cache_version": "v4",
+  "ontology": "depressive disorder",
+  "candidate_model_ids": [
+    "PGS001829",
+    "PGS002759",
+    "PGS004591",
+    "PGS000140",
+    "PGS004759",
+    "PGS003585",
+    "PGS000142",
+    "PGS004760",
+    "PGS003333",
+    "PGS003576",
+    "PGS000141",
+    "PGS003581",
+    "PGS003578",
+    "PGS000139",
+    "PGS003583",
+    "PGS003577",
+    "PGS000193",
+    "PGS000145",
+    "PGS003579",
+    "PGS003580",
+    "PGS000138",
+    "PGS003584",
+    "PGS002789",
+    "PGS002036",
+    "PGS003582",
+    "PGS002786",
+    "PGS004885",
+    "PGS000767",
+    "PGS000907",
+    "PGS003442"
+  ],
+  "total_found": 30,
+  "candidate_models": [
+    {
+      "id": "PGS000138",
+      "trait_reported": "Lifetime Major Depressive Disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "LD-clumping and  p-value thresholding (Ricopilli)",
+      "variants_number": 22274,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Minimal phenotyping yields genome-wide association signals of low specificity for major depression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5611035,
+        "full_model_r2": 0.018171054,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000430",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5611035
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.018171054
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder status",
+      "covariates": "Cohort",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=36,709"
+    },
+    {
+      "id": "PGS000139",
+      "trait_reported": "Lifetime Major Depressive Disorder (with recurrence)",
+      "trait_efo": "recurrent, major depressive disorder",
+      "method_name": "LD-clumping and  p-value thresholding (Ricopilli)",
+      "variants_number": 21980,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Minimal phenotyping yields genome-wide association signals of low specificity for major depression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5487412,
+        "full_model_r2": 0.01097163,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000431",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5487412
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01097163
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder status",
+      "covariates": "Cohort",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=36,709"
+    },
+    {
+      "id": "PGS000140",
+      "trait_reported": "Broad Depression (seen a General Practitioner for nerves, anxiety, tension or depression)",
+      "trait_efo": "seeing a general practitioner for nerves, anxiety, tension or depression, self-reported, depressive disorder",
+      "method_name": "LD-clumping and  p-value thresholding (Ricopilli)",
+      "variants_number": 24665,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Minimal phenotyping yields genome-wide association signals of low specificity for major depression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5319298,
+        "full_model_r2": 0.004810792,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000432",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5319298
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.004810792
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder status",
+      "covariates": "Cohort",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=36,709"
+    },
+    {
+      "id": "PGS000141",
+      "trait_reported": "Seen a psychiatrist for nerves, anxiety, tension or depression",
+      "trait_efo": "seeing a psychiatrist for nerves, anxiety, tension or depression, self-reported, depressive disorder",
+      "method_name": "LD-clumping and  p-value thresholding (Ricopilli)",
+      "variants_number": 22728,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Minimal phenotyping yields genome-wide association signals of low specificity for major depression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5298792,
+        "full_model_r2": 0.004380311,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000433",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5298792
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.004380311
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder status",
+      "covariates": "Cohort",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=36,709"
+    },
+    {
+      "id": "PGS000142",
+      "trait_reported": "Probable Depression (low mood or anhedonia, and seen a GP or psychiatrist for nerves, anxiety, tension or depression)",
+      "trait_efo": "seeing a general practitioner for nerves, anxiety, tension or depression, self-reported, seeing a psychiatrist for nerves, anxiety, tension or depression, self-reported, depressive disorder",
+      "method_name": "LD-clumping and  p-value thresholding (Ricopilli)",
+      "variants_number": 21908,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Minimal phenotyping yields genome-wide association signals of low specificity for major depression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5333024,
+        "full_model_r2": 0.004918643,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000434",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5333024
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.004918643
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder status",
+      "covariates": "Cohort",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=36,709"
+    },
+    {
+      "id": "PGS000145",
+      "trait_reported": "Depression (ICD-10 defined)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "LD-clumping and  p-value thresholding (Ricopilli)",
+      "variants_number": 21510,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Minimal phenotyping yields genome-wide association signals of low specificity for major depression.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5251015,
+        "full_model_r2": 0.003198656,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000437",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5251015
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.003198656
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder status",
+      "covariates": "Cohort",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=36,709"
+    },
+    {
+      "id": "PGS000193",
+      "trait_reported": "Major depression",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice",
+      "variants_number": 1138,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide gene-environment analyses of major depressive disorder and reported lifetime traumatic experiences in UK Biobank.",
+        "journal": "Mol Psychiatry"
+      },
+      "date_release": "2020-06-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.01485162,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000564",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01485162
+          },
+          {
+            "name_long": "Nagelkerke pseudo-R2 (increase when adding PRS to null model of covariates)",
+            "name_short": "Nagelkerke pseudo-R2 (increase when adding PRS to null model of covariates)",
+            "estimate": 0.00785
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.179
+          }
+        ]
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "batch, centre, genomic prinicipal components (x6)",
+      "training_development_cohorts": [
+        "PGC"
+      ],
+      "validation_sample_size": "n=92,957"
+    },
+    {
+      "id": "PGS000767",
+      "trait_reported": "Depression",
+      "trait_efo": "depressive symptom measurement, major depressive disorder",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 14,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Depression genetic risk score is associated with anhedonia-related markers across units of analysis.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.095,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001975",
+        "selected_validation_ancestry": "European, Hispanic or Latin American, African unspecified, Asian unspecified, NR",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.095
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Bilateral putamen volume",
+      "covariates": "PCs(1-2)",
+      "training_development_cohorts": [
+        "23andMe",
+        "AEGS1",
+        "AGES",
+        "ALSPAC",
+        "ARIC",
+        "ASPS",
+        "B58C",
+        "BASE",
+        "BLSA",
+        "CROATIA-KORCULA",
+        "CROATIA-SPLIT",
+        "CoLaus",
+        "DHS",
+        "EGCUT",
+        "ELSA",
+        "ERF",
+        "FTC",
+        "GERA",
+        "GOYA",
+        "GPC",
+        "HBCS",
+        "HCS",
+        "HNR",
+        "HPFS",
+        "HRS",
+        "KORA",
+        "LBC",
+        "LifeLines",
+        "MCTFR",
+        "MESA",
+        "NEO",
+        "NFBC",
+        "NHS",
+        "NTR",
+        "PGC",
+        "QIMR",
+        "RS",
+        "RUSHMAP",
+        "STR",
+        "SardiNIA",
+        "TEDS",
+        "TRAILS",
+        "TwinsUK",
+        "UKB",
+        "YFS",
+        "deCODE"
+      ],
+      "validation_sample_size": "n=73"
+    },
+    {
+      "id": "PGS000907",
+      "trait_reported": "Major depressive disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "SBayesR",
+      "variants_number": 1773528,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Understanding genetic risk factors for common side effects of antidepressant medications",
+        "journal": "Commun Med (Lond)"
+      },
+      "date_release": "2021-10-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.77,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002717",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Variance explained (Nagelkerke's R2*100)",
+            "name_short": "Variance explained (Nagelkerke's R2*100)",
+            "estimate": 0.77
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.3,
+            "ci_lower": 1.05,
+            "ci_upper": 1.6
+          }
+        ]
+      },
+      "phenotyping_reported": "Muscle pain in Fluoxetine takers",
+      "covariates": "sex, age at study enrollment, genetic PCs 1-20",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=3,670"
+    },
+    {
+      "id": "PGS001829",
+      "trait_reported": "Depression",
+      "trait_efo": "depressive disorder",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 7534,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009525",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0323,
+            "ci_lower": 0.0176,
+            "ci_upper": 0.047
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Depression",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=17,764"
+    },
+    {
+      "id": "PGS002036",
+      "trait_reported": "Depression",
+      "trait_efo": "depressive disorder",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 807338,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011155",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0556,
+            "ci_lower": 0.041,
+            "ci_upper": 0.0703
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Depression",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=17,764"
+    },
+    {
+      "id": "PGS002759",
+      "trait_reported": "Depression",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRS-CS",
+      "variants_number": 1091613,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic comparison of family history and polygenic risk across 24 common diseases.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-11-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014959",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.26,
+            "ci_lower": 1.22,
+            "ci_upper": 1.3
+          }
+        ]
+      },
+      "phenotyping_reported": "Depression",
+      "covariates": "age, sex, 10 PCs, technical covariates",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=39,444"
+    },
+    {
+      "id": "PGS002786",
+      "trait_reported": "Bipolar disorder",
+      "trait_efo": "bipolar disorder",
+      "method_name": "SDPR",
+      "variants_number": 948996,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex-specific genetic association between psychiatric disorders and cognition, behavior and brain imaging in children and adults.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2022-09-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.00251110019585597,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015078",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "partial R\u00b2",
+            "name_short": "partial R\u00b2",
+            "estimate": 0.00251110019585597
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cognitive function (pattern comparison)",
+      "covariates": "age, PCs1-3",
+      "training_development_cohorts": [
+        "PGC"
+      ],
+      "validation_sample_size": "n=2,524"
+    },
+    {
+      "id": "PGS002789",
+      "trait_reported": "Major depressive disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "SDPR",
+      "variants_number": 943784,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex-specific genetic association between psychiatric disorders and cognition, behavior and brain imaging in children and adults.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2022-09-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.00814915724559311,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015248",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "partial R\u00b2",
+            "name_short": "partial R\u00b2",
+            "estimate": 0.00814915724559311
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Psychiatric behavior (internalising)",
+      "covariates": "age, PCs1-3",
+      "training_development_cohorts": [
+        "23andMe",
+        "GS:SFHS",
+        "PGC",
+        "deCODE",
+        "iPSYCH"
+      ],
+      "validation_sample_size": "n=2,524"
+    },
+    {
+      "id": "PGS003333",
+      "trait_reported": "Major Depressive Disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 1088415,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic Liability to Depression Is Associated With Multiple Medical Conditions in the Electronic Health Record: Phenome-wide Association Study of 46,782 Individuals.",
+        "journal": "Biol Psychiatry"
+      },
+      "date_release": "2022-12-06",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.022,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016144",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke pseudo-R2",
+            "name_short": "Nagelkerke pseudo-R2",
+            "estimate": 0.022
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major Depressive Disorder",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "23andMe",
+        "PGC",
+        "UKB"
+      ],
+      "validation_sample_size": "n=34,703"
+    },
+    {
+      "id": "PGS003442",
+      "trait_reported": "Major depressive disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 8,
+      "ancestry_distribution": "GWAS: NR (45%), EUR (55%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Overlapping brain correlates of superior cognition among children at genetic risk for Alzheimer's disease and/or major depressive disorder.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-03-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017181",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0,
+            "se": 0.004
+          }
+        ]
+      },
+      "phenotyping_reported": "Fluid cognition via verage SST BOLD activation in non-adoptees",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=4,382"
+    },
+    {
+      "id": "PGS003576",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 5776312,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0241,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018205",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0241
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003577",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 5776312,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0182,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018215",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0182
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003578",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 4786322,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0257,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018275",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0257
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003579",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 4786322,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0204,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018255",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0204
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003580",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 4786322,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0254,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018265",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0254
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003581",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 4861398,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0182,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018235",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0182
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003582",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 4861398,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0109082655165838,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018249",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0109082655165838
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-20",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=10,193"
+    },
+    {
+      "id": "PGS003583",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 4861398,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0198,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018225",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0198
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003584",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 5776312,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0207,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018185",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0207
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS003585",
+      "trait_reported": "Major Depressive Disorder (Lifetime)",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSice-2",
+      "variants_number": 5776312,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), AMR (10%), ASN (20%), EAS (10%), EUR (40%)",
+      "publication": {
+        "title": "Phenotype integration improves power and preserves specificity in biobank-based genetic studies of MDD",
+        "journal": "bioRxiv"
+      },
+      "date_release": "2023-04-12",
+      "samples_training": "n=67,164",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.0176,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018195",
+        "selected_validation_ancestry": "European",
+        "record_count": 10,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0176
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=42,250"
+    },
+    {
+      "id": "PGS004591",
+      "trait_reported": "Major depressive disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 17,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: MAE (100%)",
+      "publication": {
+        "title": "Genetic susceptibility and lifestyle modify the association of long-term air pollution exposure on major depressive disorder: a prospective study in UK Biobank.",
+        "journal": "BMC Med"
+      },
+      "date_release": "2024-01-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020720",
+        "selected_validation_ancestry": "European, Asian unspecified, African unspecified, East Asian, Not reported",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Hazard ratio (HR, per IQR change in PRS)",
+            "name_short": "Hazard ratio (HR, per IQR change in PRS)",
+            "estimate": 1.1,
+            "ci_lower": 1.07,
+            "ci_upper": 1.12
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Major depressive disorder",
+      "covariates": "Age, gender, ethnicity, education level, employment status, household income, Townsend deprivation index, genotyping batch, and first 10 PCs",
+      "training_development_cohorts": [
+        "23andMe"
+      ],
+      "validation_sample_size": "n=354,897"
+    },
+    {
+      "id": "PGS004759",
+      "trait_reported": "Depression",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSmix",
+      "variants_number": 1538576,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.016,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020984",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.016,
+            "ci_lower": 0.011,
+            "ci_upper": 0.021
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Depression",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004760",
+      "trait_reported": "Depression",
+      "trait_efo": "major depressive disorder",
+      "method_name": "PRSmixPlus",
+      "variants_number": 2141267,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integrative polygenic risk score improves the prediction accuracy of complex traits and diseases.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=37,851",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.024,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020985",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Incremental R2 (Full model versus model with only covariates)",
+            "name_short": "Incremental R2 (Full model versus model with only covariates)",
+            "estimate": 0.024,
+            "ci_lower": 0.018,
+            "ci_upper": 0.03
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Depression",
+      "covariates": "age, sex, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10",
+      "training_development_cohorts": [
+        "AllofUs"
+      ],
+      "validation_sample_size": "n=9,462"
+    },
+    {
+      "id": "PGS004885",
+      "trait_reported": "Major depressive disorder",
+      "trait_efo": "major depressive disorder",
+      "method_name": "megaprs.auto",
+      "variants_number": 801544,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.62,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021256",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.62,
+            "ci_lower": 0.58,
+            "ci_upper": 0.65
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.36,
+            "ci_lower": 1.21,
+            "ci_upper": 1.53
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident MDD",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=7,018"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS004885",
+    "reported_auc": 0.62,
+    "tier": "full_model_auroc",
+    "trait_reported": "Major depressive disorder",
+    "method_name": "megaprs.auto",
+    "validation_sample_size": "n=7,018"
+  }
+}

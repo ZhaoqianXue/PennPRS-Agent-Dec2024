@@ -1,0 +1,1241 @@
+{
+  "cache_version": "v4",
+  "ontology": "squamous cell carcinoma",
+  "candidate_model_ids": [
+    "PGS000467",
+    "PGS000460",
+    "PGS000364",
+    "PGS005209",
+    "PGS000366",
+    "PGS000120",
+    "PGS003392",
+    "PGS000363",
+    "PGS000464",
+    "PGS003390",
+    "PGS000465",
+    "PGS000461",
+    "PGS000731",
+    "PGS000463",
+    "PGS000466",
+    "PGS000365",
+    "PGS000468",
+    "PGS000462"
+  ],
+  "total_found": 18,
+  "candidate_models": [
+    {
+      "id": "PGS000120",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Exploring various polygenic risk scores for skin cancer in the phenomes of the Michigan genomics initiative and the UK Biobank with a visual catalog: PRSWeb.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "n=10,234",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.59,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000340",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.59,
+            "ci_lower": 0.56,
+            "ci_upper": 0.61
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.4,
+            "ci_lower": 1.31,
+            "ci_upper": 1.5
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch, PC1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=20,468"
+    },
+    {
+      "id": "PGS000363",
+      "trait_reported": "Esophageal cancer",
+      "trait_efo": "esophageal cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1081646,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,090",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.564,
+        "full_model_r2": 0.0089,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001048",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.564,
+            "ci_lower": 0.525,
+            "ci_upper": 0.604
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0089
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.84,
+            "ci_lower": 1.07,
+            "ci_upper": 7.54
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.249,
+            "ci_lower": 1.075,
+            "ci_upper": 1.45
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.222,
+            "se": 0.0762
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of esophagus",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=2,064"
+    },
+    {
+      "id": "PGS000364",
+      "trait_reported": "Esophageal cancer",
+      "trait_efo": "esophageal cancer",
+      "method_name": "lassosum",
+      "variants_number": 2001,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,090",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.551,
+        "full_model_r2": 0.00648,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001049",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.551,
+            "ci_lower": 0.51,
+            "ci_upper": 0.588
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00648
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.81,
+            "ci_lower": 0.56,
+            "ci_upper": 5.82
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.203,
+            "ci_lower": 1.041,
+            "ci_upper": 1.391
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.185,
+            "se": 0.074
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of esophagus",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=2,064"
+    },
+    {
+      "id": "PGS000365",
+      "trait_reported": "Esophageal cancer",
+      "trait_efo": "esophageal cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1070434,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,090",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.553,
+        "full_model_r2": 0.00521,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001050",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.553,
+            "ci_lower": 0.514,
+            "ci_upper": 0.596
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00521
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0826
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.27,
+            "ci_lower": 0.329,
+            "ci_upper": 4.9
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.187,
+            "ci_lower": 1.021,
+            "ci_upper": 1.38
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.171,
+            "se": 0.0769
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of esophagus",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=2,064"
+    },
+    {
+      "id": "PGS000366",
+      "trait_reported": "Esophageal cancer",
+      "trait_efo": "esophageal cancer",
+      "method_name": "PRS-CS",
+      "variants_number": 1119238,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=2,090",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.564,
+        "full_model_r2": 0.00839,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001051",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.564,
+            "ci_lower": 0.522,
+            "ci_upper": 0.605
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00839
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.28,
+            "ci_lower": 0.332,
+            "ci_upper": 4.95
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.24,
+            "ci_lower": 1.067,
+            "ci_upper": 1.441
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.215,
+            "se": 0.0766
+          }
+        ]
+      },
+      "phenotyping_reported": "Cancer of esophagus",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=2,064"
+    },
+    {
+      "id": "PGS000460",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "lassosum",
+      "variants_number": 4279140,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=8,029",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.523,
+        "full_model_r2": 0.00155,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001145",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.523,
+            "ci_lower": 0.503,
+            "ci_upper": 0.543
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00155
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0996
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.56,
+            "ci_lower": 0.892,
+            "ci_upper": 2.74
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.096,
+            "ci_lower": 1.025,
+            "ci_upper": 1.172
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.0917,
+            "se": 0.0344
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=8,473"
+    },
+    {
+      "id": "PGS000461",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 13,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=8,029",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.599,
+        "full_model_r2": 0.0304,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001146",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.599,
+            "ci_lower": 0.579,
+            "ci_upper": 0.618
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0304
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0974
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.51,
+            "ci_lower": 2.29,
+            "ci_upper": 5.39
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.491,
+            "ci_lower": 1.395,
+            "ci_upper": 1.593
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.4,
+            "se": 0.0338
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=8,473"
+    },
+    {
+      "id": "PGS000462",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 13,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.573,
+        "full_model_r2": 0.0141,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001147",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.573,
+            "ci_lower": 0.564,
+            "ci_upper": 0.58
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0141
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.13,
+            "ci_lower": 1.74,
+            "ci_upper": 2.61
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.324,
+            "ci_lower": 1.288,
+            "ci_upper": 1.361
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.28,
+            "se": 0.014
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000463",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 7,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=8,029",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.593,
+        "full_model_r2": 0.0268,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001148",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.593,
+            "ci_lower": 0.573,
+            "ci_upper": 0.613
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0268
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0977
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.74,
+            "ci_lower": 2.46,
+            "ci_upper": 5.68
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.448,
+            "ci_lower": 1.356,
+            "ci_upper": 1.546
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.37,
+            "se": 0.0335
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=8,473"
+    },
+    {
+      "id": "PGS000464",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 14,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.575,
+        "full_model_r2": 0.0147,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001149",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.575,
+            "ci_lower": 0.567,
+            "ci_upper": 0.582
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0147
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.19,
+            "ci_lower": 1.79,
+            "ci_upper": 2.67
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.332,
+            "ci_lower": 1.296,
+            "ci_upper": 1.369
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.287,
+            "se": 0.014
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000465",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=8,029",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.589,
+        "full_model_r2": 0.0282,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001150",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.589,
+            "ci_lower": 0.57,
+            "ci_upper": 0.61
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0282
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0976
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 4.54,
+            "ci_lower": 3.07,
+            "ci_upper": 6.71
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.457,
+            "ci_lower": 1.365,
+            "ci_upper": 1.554
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.376,
+            "se": 0.033
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=8,473"
+    },
+    {
+      "id": "PGS000466",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.57,
+        "full_model_r2": 0.0146,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001151",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.57,
+            "ci_lower": 0.562,
+            "ci_upper": 0.578
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0146
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.75,
+            "ci_lower": 1.4,
+            "ci_upper": 2.18
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.283,
+            "se": 0.0138
+          },
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.327,
+            "ci_lower": 1.292,
+            "ci_upper": 1.364
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000467",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=8,029",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.583,
+        "full_model_r2": 0.0261,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001152",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.583,
+            "ci_lower": 0.564,
+            "ci_upper": 0.603
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0261
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0978
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 3.75,
+            "ci_lower": 2.49,
+            "ci_upper": 5.64
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.43,
+            "ci_lower": 1.341,
+            "ci_upper": 1.525
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.358,
+            "se": 0.0328
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=8,473"
+    },
+    {
+      "id": "PGS000468",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 9,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=61,038",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.571,
+        "full_model_r2": 0.0151,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001153",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.571,
+            "ci_lower": 0.563,
+            "ci_upper": 0.579
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0151
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0819
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.93,
+            "ci_lower": 1.56,
+            "ci_upper": 2.39
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.334,
+            "ci_lower": 1.299,
+            "ci_upper": 1.371
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.288,
+            "se": 0.0138
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=60,018"
+    },
+    {
+      "id": "PGS000731",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "RiskPipe (clumping and thresholding)",
+      "variants_number": 14,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Disease risk scores for skin cancers.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-02-23",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.605,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001671",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.605
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44,
+            "ci_lower": 1.41,
+            "ci_upper": 1.48
+          }
+        ]
+      },
+      "phenotyping_reported": "Squamous cell carcinoma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "23andMe"
+      ],
+      "validation_sample_size": "n=88,924"
+    },
+    {
+      "id": "PGS003390",
+      "trait_reported": "Head and neck squamous cell carcinoma",
+      "trait_efo": "head and neck squamous cell carcinoma",
+      "method_name": "PRS-CS",
+      "variants_number": 931477,
+      "ancestry_distribution": "GWAS: NR (9%), MAE (91%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.672,
+        "full_model_r2": 0.00561,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016265",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.672
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.00561
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "head and neck squamous cell carcinoma",
+      "covariates": "age, sex, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=270,233"
+    },
+    {
+      "id": "PGS003392",
+      "trait_reported": "Lung squamous cell carcinoma",
+      "trait_efo": "squamous cell lung carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 90,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Common germline risk variants impact somatic alterations and clinical features across cancers.",
+        "journal": "Cancer Res"
+      },
+      "date_release": "2023-01-19",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.778,
+        "full_model_r2": 0.000746,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM016267",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.778
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.000746
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "lung squamous cell carcinoma",
+      "covariates": "age, sex, top 20 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=270,054"
+    },
+    {
+      "id": "PGS005209",
+      "trait_reported": "Squamous cell carcinoma",
+      "trait_efo": "squamous cell carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 20,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk scores, radiation treatment exposures and subsequent cancer risk in childhood cancer survivors.",
+        "journal": "Nat Med"
+      },
+      "date_release": "2025-05-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022588",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.2,
+            "ci_lower": 1.0,
+            "ci_upper": 1.44
+          }
+        ]
+      },
+      "phenotyping_reported": "Risk of squamous cell carcinoma in childhood cancer survivors",
+      "covariates": "childhood cancer diagnosis, ancestry, age at childhood cancer diagnosis, radiation dose to the body region of the second cancer and chemotherapy exposure",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=11,220"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS003392",
+    "reported_auc": 0.778,
+    "tier": "full_model_auroc",
+    "trait_reported": "Lung squamous cell carcinoma",
+    "method_name": "Pruning and Thresholding (P+T)",
+    "validation_sample_size": "n=270,054"
+  }
+}
