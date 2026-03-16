@@ -4,6 +4,7 @@ selection logic without touching the frozen 30-disease benchmark union.
 
 Usage:
   python experiments/contribution2/disease_selection/configs/build_current_method_union.py
+  python experiments/contribution2/disease_selection/configs/build_current_method_union.py --require-qc1
   python experiments/contribution2/disease_selection/configs/build_current_method_union.py --min-n-models 3
 """
 
@@ -24,6 +25,8 @@ from experiments.contribution2.disease_selection.configs import select_diseases_
 
 OUTPUT_RUNS_DIR = Path(__file__).parent.parent / "runs"
 OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
+DEFAULT_REQUIRE_QC1 = False
+DEFAULT_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union__67disease"
 
 # Keep the broader canonical disease label for each merge group.
 CANONICAL_MERGE_GROUPS: dict[str, set[str]] = {
@@ -40,7 +43,11 @@ CANONICAL_MERGE_GROUPS: dict[str, set[str]] = {
 }
 
 
-def _compute_selected_raw(use_childrencode: bool, min_n_models: int) -> pd.DataFrame:
+def _compute_selected_raw(
+    use_childrencode: bool,
+    min_n_models: int,
+    require_qc1: bool = DEFAULT_REQUIRE_QC1,
+) -> pd.DataFrame:
     suffix = "childrencode" if use_childrencode else "rootcode"
     trait_col = "icd" if use_childrencode else "icd_root"
 
@@ -121,10 +128,14 @@ def _compute_selected_raw(use_childrencode: bool, min_n_models: int) -> pd.DataF
     df["c2_exception_allowlist"] = df["ontology"].apply(_qc2_exception_allow)
     df["c3_auc_ok"] = (df["mean_auc"] >= base.MIN_MEAN_AUC) & (df["top1_auc"] >= base.MIN_TOP1_AUC)
 
-    pool = df[df["c2_exception_allowlist"] | df["c1_distinguishable"]]
+    if require_qc1:
+        pool = df[df["c2_exception_allowlist"] | df["c1_distinguishable"]]
+    else:
+        pool = df.copy()
     pool = pool[~pool["ontology"].apply(_is_blacklisted)]
     selected = pool[pool["c3_auc_ok"]].copy()
     selected = selected.sort_values("mean_auc", ascending=False)
+    selected = base._apply_ontology_overlap_rules(selected, "ontology")
 
     if use_childrencode:
         selected_final = selected.reset_index(drop=True)
@@ -180,12 +191,24 @@ def _cell(value: object) -> object:
     return "-" if pd.isna(value) or value == "" else value
 
 
-def build_current_method_union(min_n_models: int) -> tuple[pd.DataFrame, pd.DataFrame]:
-    root_df = _compute_selected_raw(use_childrencode=False, min_n_models=min_n_models)
-    child_df = _compute_selected_raw(use_childrencode=True, min_n_models=min_n_models)
+def build_current_method_union(
+    min_n_models: int,
+    require_qc1: bool = DEFAULT_REQUIRE_QC1,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    root_df = _compute_selected_raw(
+        use_childrencode=False,
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+    )
+    child_df = _compute_selected_raw(
+        use_childrencode=True,
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+    )
 
     combined = pd.concat([root_df, child_df], ignore_index=True)
     combined["canonical_ontology"] = combined["ontology"].apply(_canonical_name)
+    combined = base._apply_ontology_overlap_rules(combined, "canonical_ontology")
 
     output_rows: list[dict[str, object]] = []
     detail_rows: list[dict[str, object]] = []
@@ -241,19 +264,41 @@ def build_current_method_union(min_n_models: int) -> tuple[pd.DataFrame, pd.Data
     return output_df, detail_df
 
 
-def main(min_n_models: int) -> None:
+def _output_suffix(min_n_models: int, require_qc1: bool) -> str:
+    if min_n_models == base.DEFAULT_MIN_N_MODELS and not require_qc1:
+        return "__67disease"
+    suffix_parts: list[str] = []
+    if min_n_models != base.DEFAULT_MIN_N_MODELS:
+        suffix_parts.append(f"min{min_n_models}")
+    if require_qc1:
+        suffix_parts.append("qc1required")
+    return f"__{'_'.join(suffix_parts)}" if suffix_parts else ""
+
+
+def main(min_n_models: int, require_qc1: bool = DEFAULT_REQUIRE_QC1) -> None:
     OUTPUT_RUNS_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_INTERMEDIATE_DIR.mkdir(parents=True, exist_ok=True)
 
-    root_df = _compute_selected_raw(use_childrencode=False, min_n_models=min_n_models)
-    child_df = _compute_selected_raw(use_childrencode=True, min_n_models=min_n_models)
+    root_df = _compute_selected_raw(
+        use_childrencode=False,
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+    )
+    child_df = _compute_selected_raw(
+        use_childrencode=True,
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+    )
     raw_union_count = len(set(root_df["ontology"]).union(set(child_df["ontology"])))
 
-    union_df, detail_df = build_current_method_union(min_n_models=min_n_models)
-    out_suffix = "" if min_n_models == base.DEFAULT_MIN_N_MODELS else f"_min{min_n_models}"
+    union_df, detail_df = build_current_method_union(
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+    )
+    out_suffix = _output_suffix(min_n_models=min_n_models, require_qc1=require_qc1)
     csv_dir = OUTPUT_RUNS_DIR if min_n_models == base.DEFAULT_MIN_N_MODELS else OUTPUT_INTERMEDIATE_DIR
     if min_n_models == base.DEFAULT_MIN_N_MODELS:
-        csv_path = csv_dir / "selected_diseases_contribution2_current_union__60disease.csv"
+        csv_path = csv_dir / f"{DEFAULT_CURRENT_UNION_STEM}.csv"
     else:
         csv_path = csv_dir / f"selected_diseases_contribution2_current_union{out_suffix}.csv"
     detail_csv_path = OUTPUT_INTERMEDIATE_DIR / f"selected_diseases_contribution2_current_union_details{out_suffix}.csv"
@@ -266,12 +311,14 @@ def main(min_n_models: int) -> None:
         "# Current-Method Canonical Union",
         "",
         f"- Base eligibility: `min_n_models = {min_n_models}`",
+        f"- QC1 gate: `{'enabled (pool = QC1 OR QC2 allowlist)' if require_qc1 else 'disabled (QC1 retained as diagnostic column only)'}`",
         f"- Raw current-method ontology union size (before canonical merge): `{raw_union_count}`",
         f"- Canonical merged union size: `{len(union_df)}`",
         f"- Output CSV can be used directly by `recommendation/configs/generate_evaluated_pgs_list.py`; manual `Target_TopK` annotation is no longer required.",
         "",
         "## Canonical Merge Rule",
         "",
+        "- Before canonical grouping, resolve designated parent/child or near-synonym overlap groups by model coverage, then suppress a small set of over-broad umbrella labels.",
         "- Prefer the manually specified canonical ontology label for each merge group.",
         "- If multiple rows share the canonical label, prefer larger `N With AUC`.",
         "- If still tied, prefer larger `Max`.",
@@ -306,5 +353,10 @@ if __name__ == "__main__":
         default=base.DEFAULT_MIN_N_MODELS,
         help=f"Minimum number of candidate PGS models required to enter disease selection (default: {base.DEFAULT_MIN_N_MODELS}).",
     )
+    parser.add_argument(
+        "--require-qc1",
+        action="store_true",
+        help="Require QC1 or QC2 allowlist to enter the pool. Default current union keeps QC1 as a diagnostic column only.",
+    )
     args = parser.parse_args()
-    main(min_n_models=args.min_n_models)
+    main(min_n_models=args.min_n_models, require_qc1=args.require_qc1)

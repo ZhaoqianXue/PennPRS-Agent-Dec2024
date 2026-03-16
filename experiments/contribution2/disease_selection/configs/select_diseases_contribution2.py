@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import ast
 from pathlib import Path
+from typing import Iterable
 
 import pandas as pd
 
@@ -97,7 +98,45 @@ NICHE_EXCLUSION_KEYWORDS = [
     "congenital vitamin k-dependent coagulation factors deficiency",
     "nasal cavity polyp", "prolapse of female genital organ",
     "skin carcinoma in situ", "testicular neoplasm",
+    "prostate disease",
 ]
+
+# ---------------------------------------------------------------------------
+# Parent/child and near-synonym overlap handling.
+# 1) Some overlap groups should keep whichever label has stronger model coverage
+#    (more N Models, then more evaluated AUCs, then higher Max/Mean).
+# 2) Some umbrella labels are still too broad and should be suppressed only when
+#    a more appropriate label from the same family is present.
+# ---------------------------------------------------------------------------
+MODEL_COUNT_PRIORITY_OVERLAP_GROUPS: tuple[set[str], ...] = (
+    {"acute lymphoblastic leukemia", "lymphoid leukemia"},
+    {"acute kidney injury", "kidney failure"},
+    {"age-related macular degeneration", "macular degeneration"},
+    {"breast carcinoma", "estrogen-receptor negative breast cancer", "estrogen-receptor positive breast cancer"},
+    {"coronary artery disease", "coronary atherosclerosis"},
+    {"hypertension", "essential hypertension", "increased blood pressure"},
+    {"hyperthyroidism", "graves disease", "thyrotoxicosis"},
+    {"lung cancer", "lung carcinoma"},
+    {"major depressive disorder", "depressive disorder"},
+    {"nephrolithiasis", "urolithiasis"},
+    {"nodular goiter", "multinodular goiter", "nontoxic goiter"},
+    {"ovarian carcinoma", "ovarian neoplasm", "ovarian serous carcinoma"},
+    {"pulmonary fibrosis", "idiopathic pulmonary fibrosis"},
+    {"systemic lupus erythematosus", "lupus erythematosus"},
+    {"urinary bladder cancer", "urinary bladder carcinoma"},
+    {"uterine carcinoma", "uterine cancer", "endometrial cancer", "endometrial carcinoma"},
+)
+
+ASYMMETRIC_ONTOLOGY_SUPPRESSION_RULES: dict[str, set[str]] = {
+    "basal cell carcinoma": {"keratinocyte carcinoma", "non-melanoma skin carcinoma", "skin cancer", "skin carcinoma"},
+    "coronary artery disease": {"heart disease"},
+    "dilated cardiomyopathy": {"cardiomyopathy"},
+    "heart failure": {"congestive heart failure"},
+    "hypertrophic cardiomyopathy": {"cardiomyopathy"},
+    "macular degeneration": {"retinopathy"},
+    "age-related macular degeneration": {"retinopathy"},
+    "squamous cell carcinoma": {"skin cancer"},
+}
 
 
 def _parse_pgs_ids(pgs_str: str) -> list[str]:
@@ -111,6 +150,58 @@ def _parse_pgs_ids(pgs_str: str) -> list[str]:
 
 def _normalize_ontology_name(name: str) -> str:
     return " ".join(str(name).lower().split())
+
+
+def _representative_sort_columns(df: pd.DataFrame) -> tuple[list[str], list[bool]]:
+    sort_cols = [c for c in ["n_models", "n_with_auc", "max_auc", "mean_auc", "source_rank"] if c in df.columns]
+    return sort_cols, [False] * len(sort_cols)
+
+
+def _apply_model_count_priority_overlap_groups(df: pd.DataFrame, label_col: str) -> pd.DataFrame:
+    if df.empty or label_col not in df.columns:
+        return df
+
+    normalized = df[label_col].map(_normalize_ontology_name)
+    keep_mask = pd.Series(True, index=df.index)
+    sort_cols, ascending = _representative_sort_columns(df)
+
+    for overlap_group in MODEL_COUNT_PRIORITY_OVERLAP_GROUPS:
+        mask = normalized.isin(overlap_group)
+        if mask.sum() <= 1:
+            continue
+
+        group_df = df.loc[mask].copy()
+        group_df["__normalized_label"] = normalized.loc[mask]
+        if sort_cols:
+            representative = group_df.sort_values(sort_cols, ascending=ascending).iloc[0]
+        else:
+            representative = group_df.iloc[0]
+        keep_label = representative["__normalized_label"]
+        keep_mask.loc[mask & (normalized != keep_label)] = False
+
+    return df.loc[keep_mask].copy()
+
+
+def _collect_subsumed_ontology_names(names: Iterable[str]) -> set[str]:
+    normalized_names = {_normalize_ontology_name(name) for name in names}
+    suppressed: set[str] = set()
+    for preferred, redundant_names in ASYMMETRIC_ONTOLOGY_SUPPRESSION_RULES.items():
+        if preferred in normalized_names:
+            suppressed.update(normalized_names.intersection(redundant_names))
+    return suppressed
+
+
+def _apply_ontology_overlap_rules(df: pd.DataFrame, label_col: str) -> pd.DataFrame:
+    if df.empty or label_col not in df.columns:
+        return df
+
+    df = _apply_model_count_priority_overlap_groups(df, label_col)
+    normalized = df[label_col].map(_normalize_ontology_name)
+    suppressed = _collect_subsumed_ontology_names(normalized.tolist())
+    if not suppressed:
+        return df
+
+    return df[~normalized.isin(suppressed)].copy()
 
 
 def _get_trait_auc_for_models(
@@ -179,7 +270,10 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
         mean_auc = float(pd.Series(auc_values).mean())
         median_auc = float(pd.Series(auc_values).median())
 
-        # Top-k vs Rest gaps: Tk vs Rest = Top-k - Top-(k+1)
+        # QC1 uses adjacent ranked AUC differences, not a top-k average.
+        # After sorting AUCs descending, "Tk vs Rest" means:
+        #   gap_k = AUC(rank k) - AUC(rank k+1)
+        # A disease passes QC1 if any gap among k=1..5 is large enough.
         top_vs_rest_gaps = []
         for k in range(5):
             if k + 1 < len(sorted_auc):
@@ -251,6 +345,7 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
     pool = pool[~pool["ontology"].apply(_is_blacklisted)]
     selected = pool[pool["c3_auc_ok"]].copy()
     selected = selected.sort_values("mean_auc", ascending=False)
+    selected = _apply_ontology_overlap_rules(selected, "ontology")
 
     # Rootcode: dedup by icd_root (one per root). Prefer the ontology with the
     # most evaluated AUCs; break ties by max AUC. Childrencode keeps all rows.
@@ -340,8 +435,11 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
         "## Selection Criteria",
         "",
         "### QC1: Top PRS Model Distinguishability",
-        "- **Tk vs Rest**: Top-k AUC - Top-(k+1) AUC (cliff between rank k and k+1).",
-        f"- **Threshold**: Pass if any of (T1, T2, T3, T4, T5 vs Rest) >= {MIN_TOP_VS_REST_GAP}.",
+        "- Sort all candidate PRS models for a disease by AUC in descending order.",
+        "- For each k in {1, 2, 3, 4, 5}, compute `gap_k = AUC(rank k) - AUC(rank k+1)`.",
+        f"- Pass QC1 if any `gap_k >= {MIN_TOP_VS_REST_GAP}`; this means there is a clear cliff between two adjacent ranks within the top 5.",
+        "- This is not `Top-k average - rest average`; it is always an adjacent-rank difference.",
+        "- Special case: if a disease has exactly 2 candidate models, QC1 is treated as passed.",
         "",
         "### QC2: Exception Allowlist",
         "- **Allowlist**: Ontology name is an exact curated match in EXCEPTION_ALLOWLIST_ONTOLOGIES and is force-kept even if QC1 is weak.",
@@ -351,12 +449,18 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
         "### QC3: AUC Thresholds (filtering step)",
         f"- **Mean AUC** >= {MIN_MEAN_AUC}, **Top-1 AUC** >= {MIN_TOP1_AUC}.",
         "",
+        "### QC4: Parent/Child and Near-Synonym Overlap Resolution",
+        "- For designated overlap groups, keep the label with stronger model coverage: higher `N Models`, then higher `N With AUC`, then higher `Max`, then higher `Mean`.",
+        "- For a smaller set of umbrella labels, apply asymmetric suppression when a more appropriate label from the same family is already present.",
+        "- Examples: `lymphoid leukemia` vs `acute lymphoblastic leukemia` uses model-count priority; `heart failure` suppresses `congestive heart failure`.",
+        "",
         "### Staged Logic (no intersection, no count limit)",
         f"- **Base eligibility**: At least {min_n_models} candidate PGS models with evaluated AUC.",
         "- **QC1**: Primary selection by top-model distinguishability.",
         "- **QC2**: Exception allowlist hard-add.",
         "- **QC1 + QC2**: Pool = QC1 OR QC2.",
         "- **QC3**: Filter pool by AUC thresholds."
+        + " Then resolve parent/child or near-synonym label overlaps before the source-specific dedup step."
         + (
             " Dedup by ICD root, preferring the ontology with the most evaluated AUCs and then higher max AUC."
             if not use_childrencode

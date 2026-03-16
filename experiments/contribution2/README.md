@@ -47,10 +47,10 @@ python experiments/contribution2/disease_selection/configs/build_current_method_
 | Path | Description |
 |------|-------------|
 | `disease_selection/runs/selected_diseases_contribution2_union__30disease.csv` | Frozen union benchmark (manual merge; not auto-synced to latest selection code) |
-| `disease_selection/runs/selected_diseases_contribution2_current_union__60disease.csv` | Canonicalized current-method union; directly usable by recommendation ground-truth generation without manual `Target_TopK` annotation |
+| `disease_selection/runs/selected_diseases_contribution2_current_union__67disease.csv` | Canonicalized current-method union; directly usable by recommendation ground-truth generation without manual `Target_TopK` annotation |
 | `disease_selection/runs/intermediate/selected_diseases_contribution2.csv` | Rootcode selection intermediate |
 | `disease_selection/runs/intermediate/selected_diseases_contribution2_childrencode.csv` | Childrencode selection intermediate |
-| `disease_selection/runs/intermediate/selected_diseases_contribution2_current_union_details.csv` | Audit/detail view for canonical merge decisions and source coverage |
+| `disease_selection/runs/intermediate/selected_diseases_contribution2_current_union_details__67disease.csv` | Audit/detail view for canonical merge decisions and source coverage |
 | `disease_selection/runs/disease_selection_report*.md` | Reports |
 | `disease_selection/metrics/disease_selection_full_metrics*.csv` | Full metrics |
 
@@ -66,9 +66,9 @@ Evaluate whether the Agent can select a highly ranked model under the Contributi
 # Frozen 30-disease union
 python experiments/contribution2/recommendation/configs/generate_evaluated_pgs_list.py
 
-# Current 60-disease canonical union
+# Current 67-disease canonical union
 python experiments/contribution2/recommendation/configs/generate_evaluated_pgs_list.py \
-  --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__60disease.csv
+  --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__67disease.csv
 ```
 
 Outputs:
@@ -104,9 +104,9 @@ The Markdown report also includes an experiment-cost summary computed from exact
 # Prepare requests and submit one OpenAI Batch job (frozen 30-disease union)
 python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py
 
-# Current 60-disease canonical union
+# Current 67-disease canonical union
 python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py \
-  --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__60disease.csv
+  --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__67disease.csv
 
 # Quick debug: prepare a smaller batch only
 python experiments/contribution2/recommendation/scripts/run_experiment_without_domain.py --mode prepare --limit 3 --trials 2
@@ -128,15 +128,15 @@ This arm keeps the exact same Contribution2 protocol, but enables the local cura
 - same 10 trials per disease
 - same strict no-fallback policy
 - same disease-level report format as the Without Domain Knowledge arm
-- plus one extra Markdown report comparing `With Domain Knowledge` vs the matching archived `without-domain-gpt-5.2-t10__30disease` or `without-domain-gpt-5.2-t10__60disease` run
+- plus one extra Markdown report comparing `With Domain Knowledge` vs the matching archived `without-domain-gpt-5.2-t10__30disease` or `without-domain-gpt-5.2-t10__67disease` run
 
 ```bash
 # Prepare requests and submit one OpenAI Batch job
 python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py
 
-# Current 60-disease canonical union (comparison defaults to the matching without-domain run)
+# Current 67-disease canonical union (comparison defaults to the matching without-domain run)
 python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py \
-  --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__60disease.csv
+  --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__67disease.csv
 
 # Quick debug: prepare a smaller batch only
 python experiments/contribution2/recommendation/scripts/run_experiment_with_domain.py --mode prepare --limit 3 --trials 2
@@ -152,8 +152,8 @@ Per-disease docs are written to dataset-specific filenames:
 
 - `recommendation/docs/without_domain_per_disease_comparison__30disease.md`
 - `recommendation/docs/with_vs_without_domain_per_disease_comparison__30disease.md`
-- `recommendation/docs/without_domain_per_disease_comparison__60disease.md`
-- `recommendation/docs/with_vs_without_domain_per_disease_comparison__60disease.md`
+- `recommendation/docs/without_domain_per_disease_comparison__67disease.md`
+- `recommendation/docs/with_vs_without_domain_per_disease_comparison__67disease.md`
 
 ### 4. Test N Models Input
 

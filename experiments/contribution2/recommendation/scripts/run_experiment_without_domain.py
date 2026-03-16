@@ -80,7 +80,7 @@ RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
 LOCAL_CACHE_DIR = Path(__file__).parent.parent / "cache"
 DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
-CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__60disease.csv"
+CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__67disease.csv"
 UNION_CSV = DEFAULT_UNION_CSV
 DEFAULT_GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
 GROUND_TRUTH_DIR = DEFAULT_GROUND_TRUTH_DIR
@@ -226,12 +226,18 @@ def _dataset_label_from_union_path(union_csv: Path) -> Optional[str]:
     if union_csv.resolve() == DEFAULT_UNION_CSV.resolve():
         return "30disease"
     if union_csv.resolve() == CURRENT_UNION_CSV.resolve():
-        return "60disease"
+        return "67disease"
     stem = union_csv.stem
-    if stem in {"selected_diseases_contribution2_current_union", "selected_diseases_contribution2_current_union__60disease"}:
+    if stem == "selected_diseases_contribution2_current_union":
+        return "67disease"
+    if stem == "selected_diseases_contribution2_current_union__60disease":
         return "60disease"
+    if stem == "selected_diseases_contribution2_current_union__67disease":
+        return "67disease"
     if stem.endswith("__30disease"):
         return "30disease"
+    if stem.endswith("__67disease"):
+        return "67disease"
     if stem.endswith("__60disease"):
         return "60disease"
     return _slugify(stem)
@@ -242,7 +248,11 @@ def _default_ground_truth_dir_for_union(union_csv: Path) -> Path:
         return DEFAULT_GROUND_TRUTH_DIR
     if union_csv.resolve() == CURRENT_UNION_CSV.resolve():
         return RECOMMENDATION_RUNS / "ground-truth__selected_diseases_contribution2_current_union"
-    if union_csv.stem in {"selected_diseases_contribution2_current_union", "selected_diseases_contribution2_current_union__60disease"}:
+    if union_csv.stem in {
+        "selected_diseases_contribution2_current_union",
+        "selected_diseases_contribution2_current_union__60disease",
+        "selected_diseases_contribution2_current_union__67disease",
+    }:
         return RECOMMENDATION_RUNS / "ground-truth__selected_diseases_contribution2_current_union"
     return RECOMMENDATION_RUNS / f"ground-truth__{union_csv.stem}"
 

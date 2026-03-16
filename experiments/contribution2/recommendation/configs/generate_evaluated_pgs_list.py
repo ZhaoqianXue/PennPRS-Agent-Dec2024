@@ -12,7 +12,7 @@ Outputs:
 
 Usage:
   python generate_evaluated_pgs_list.py
-  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__60disease.csv
+  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__67disease.csv
 
 Requirements:
   - experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_*.csv
@@ -39,7 +39,7 @@ CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_ic
 RECOMMENDATION_DIR = Path(__file__).parent.parent
 DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
 DEFAULT_OUTPUT_DIR = RECOMMENDATION_DIR / "runs" / "ground-truth__contribution1"
-CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__60disease.csv"
+CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__67disease.csv"
 LEGACY_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union"
 EVALUATED_JSON_NAME = "evaluated_pgs_per_ontology.json"
 RANKED_JSON_NAME = "top_k_pgs_per_ontology.json"
