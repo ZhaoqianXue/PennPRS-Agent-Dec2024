@@ -3,8 +3,11 @@
 ## Selection Criteria
 
 ### QC1: Top PRS Model Distinguishability
-- **Tk vs Rest**: Top-k AUC - Top-(k+1) AUC (cliff between rank k and k+1).
-- **Threshold**: Pass if any of (T1, T2, T3, T4, T5 vs Rest) >= 0.025.
+- Sort all candidate PRS models for a disease by AUC in descending order.
+- For each k in {1, 2, 3, 4, 5}, compute `gap_k = AUC(rank k) - AUC(rank k+1)`.
+- Pass QC1 if any `gap_k >= 0.025`; this means there is a clear cliff between two adjacent ranks within the top 5.
+- This is not `Top-k average - rest average`; it is always an adjacent-rank difference.
+- Special case: if a disease has exactly 2 candidate models, QC1 is treated as passed.
 
 ### QC2: Exception Allowlist
 - **Allowlist**: Ontology name is an exact curated match in EXCEPTION_ALLOWLIST_ONTOLOGIES and is force-kept even if QC1 is weak.
@@ -14,21 +17,29 @@
 ### QC3: AUC Thresholds (filtering step)
 - **Mean AUC** >= 0.5, **Top-1 AUC** >= 0.55.
 
+### QC4: Parent/Child and Near-Synonym Overlap Resolution
+- For designated overlap groups, keep the label with stronger model coverage: higher `N Models`, then higher `N With AUC`, then higher `Max`, then higher `Mean`.
+- For a smaller set of umbrella labels, apply asymmetric suppression when a more appropriate label from the same family is already present.
+- Examples: `lymphoid leukemia` vs `acute lymphoblastic leukemia` uses model-count priority; `heart failure` suppresses `congestive heart failure`.
+
 ### Staged Logic (no intersection, no count limit)
 - **Base eligibility**: At least 2 candidate PGS models with evaluated AUC.
 - **QC1**: Primary selection by top-model distinguishability.
 - **QC2**: Exception allowlist hard-add.
 - **QC1 + QC2**: Pool = QC1 OR QC2.
-- **QC3**: Filter pool by AUC thresholds. No dedup (each ICD children code independent).
+- **QC3**: Filter pool by AUC thresholds. Then resolve parent/child or near-synonym label overlaps before the source-specific dedup step. No dedup (each ICD children code independent).
 
 ## Selected Diseases
 
-Total selected (after QC3 and dedup): 62
+Total selected (after QC3 and dedup): 67
 
 | Ontology | ICD | N Models | Max | Mean | Median | Min | Top-1 | Top-2 | Top-3 | Top-4 | Top-5 | Top-6 | Top-7 | Top-8 | Top-9 | Top-10 | Case N | QC1 (≥0.025) | QC2 (Allowlist) |
 |----------|-----|----------|-----|------|--------|-----|-------|-------|-------|-------|-------|-------|-------|-------|--------|--------|-----|---------------------|-----------------|
+| congenital vitamin k-dependent coagulation factors deficiency | D682 | 2 | 0.7917 | 0.7879 | 0.7879 | 0.7841 | 0.7917 | 0.7841 | - | - | - | - | - | - | - | - | 425 | Yes | No |
 | hashimoto's thyroiditis | E063 | 3 | 0.7941 | 0.7431 | 0.794 | 0.6412 | 0.7941 | 0.794 | 0.6412 | - | - | - | - | - | - | - | 4403 | Yes | No |
+| corneal dystrophy | H1851 | 2 | 0.7255 | 0.7112 | 0.7112 | 0.6968 | 0.7255 | 0.6968 | - | - | - | - | - | - | - | - | 562 | Yes | No |
 | graves disease | E0500 | 7 | 0.7677 | 0.67 | 0.632 | 0.6154 | 0.7677 | 0.7535 | 0.6667 | 0.632 | 0.629 | 0.6259 | 0.6154 | - | - | - | 1249 | Yes | No |
+| dupuytren contracture | M720 | 3 | 0.6784 | 0.6623 | 0.6762 | 0.6323 | 0.6784 | 0.6762 | 0.6323 | - | - | - | - | - | - | - | 2054 | Yes | No |
 | idiopathic pulmonary fibrosis | J84112 | 2 | 0.6742 | 0.6596 | 0.6596 | 0.6449 | 0.6742 | 0.6449 | - | - | - | - | - | - | - | - | 392 | Yes | No |
 | ankylosing spondylitis | M459 | 9 | 0.7415 | 0.6443 | 0.6491 | 0.533 | 0.7415 | 0.7397 | 0.7362 | 0.7188 | 0.6491 | 0.5846 | 0.5629 | 0.533 | 0.533 | - | 595 | Yes | No |
 | age-related macular degeneration | H353131 | 6 | 0.6547 | 0.6168 | 0.6323 | 0.5195 | 0.6547 | 0.653 | 0.6512 | 0.6133 | 0.6093 | 0.5195 | - | - | - | - | 1185 | Yes | No |
@@ -36,7 +47,6 @@ Total selected (after QC3 and dedup): 62
 | thyroid carcinoma | C73 | 32 | 0.8113 | 0.6069 | 0.5889 | 0.5276 | 0.8113 | 0.8069 | 0.8016 | 0.7865 | 0.6376 | 0.6331 | 0.6299 | 0.6099 | 0.5999 | 0.597 | 1810 | Yes | No |
 | open-angle glaucoma | H401131 | 5 | 0.6405 | 0.6052 | 0.6173 | 0.5668 | 0.6405 | 0.6264 | 0.6173 | 0.5749 | 0.5668 | - | - | - | - | - | 1065 | Yes | No |
 | hypothyroidism | E039 | 28 | 0.6575 | 0.6026 | 0.6073 | 0.5538 | 0.6575 | 0.6567 | 0.6289 | 0.624 | 0.6231 | 0.6218 | 0.6216 | 0.6166 | 0.6146 | 0.6129 | 29932 | Yes | No |
-| ovarian serous carcinoma | C569 | 2 | 0.618 | 0.591 | 0.591 | 0.5641 | 0.618 | 0.5641 | - | - | - | - | - | - | - | - | 683 | Yes | No |
 | cutaneous melanoma | C439 | 5 | 0.6239 | 0.5907 | 0.5886 | 0.5663 | 0.6239 | 0.5934 | 0.5886 | 0.5812 | 0.5663 | - | - | - | - | - | 1591 | Yes | No |
 | peripheral arterial disease | I70213 | 2 | 0.6363 | 0.5881 | 0.5881 | 0.5399 | 0.6363 | 0.5399 | - | - | - | - | - | - | - | - | 789 | Yes | No |
 | abdominal aortic aneurysm | I714 | 6 | 0.6374 | 0.588 | 0.5965 | 0.525 | 0.6374 | 0.6341 | 0.6312 | 0.5618 | 0.5388 | 0.525 | - | - | - | - | 1630 | Yes | No |
@@ -47,8 +57,10 @@ Total selected (after QC3 and dedup): 62
 | obesity | E669 | 10 | 0.6311 | 0.5736 | 0.5639 | 0.5424 | 0.6311 | 0.6165 | 0.5798 | 0.5753 | 0.5667 | 0.5611 | 0.5606 | 0.5549 | 0.5479 | 0.5424 | 39152 | Yes | No |
 | alcohol dependence | F1020 | 4 | 0.6051 | 0.5695 | 0.5752 | 0.5224 | 0.6051 | 0.5762 | 0.5742 | 0.5224 | - | - | - | - | - | - | 3795 | Yes | No |
 | pulmonary embolism | I2699 | 7 | 0.5943 | 0.5666 | 0.5885 | 0.5129 | 0.5943 | 0.5916 | 0.5907 | 0.5885 | 0.5578 | 0.5306 | 0.5129 | - | - | - | 4552 | Yes | No |
+| iron metabolism disease | E8319 | 2 | 0.5661 | 0.5635 | 0.5635 | 0.5608 | 0.5661 | 0.5608 | - | - | - | - | - | - | - | - | 519 | Yes | No |
 | acute myocardial infarction | I219 | 2 | 0.5702 | 0.5535 | 0.5535 | 0.5368 | 0.5702 | 0.5368 | - | - | - | - | - | - | - | - | 731 | Yes | No |
-| multinodular goiter | E042 | 2 | 0.5575 | 0.5534 | 0.5534 | 0.5493 | 0.5575 | 0.5493 | - | - | - | - | - | - | - | - | 6466 | Yes | No |
+| nasal cavity polyp | J330 | 2 | 0.5568 | 0.5533 | 0.5533 | 0.5498 | 0.5568 | 0.5498 | - | - | - | - | - | - | - | - | 294 | Yes | No |
+| skin carcinoma in situ | D0439 | 3 | 0.601 | 0.5527 | 0.5529 | 0.5041 | 0.601 | 0.5529 | 0.5041 | - | - | - | - | - | - | - | 641 | Yes | No |
 | renal carcinoma | C649 | 8 | 0.5824 | 0.5454 | 0.5449 | 0.5197 | 0.5824 | 0.5491 | 0.5488 | 0.5456 | 0.5441 | 0.541 | 0.5325 | 0.5197 | - | - | 995 | Yes | No |
 | psoriatic arthritis | L4050 | 4 | 0.5731 | 0.5417 | 0.5417 | 0.5102 | 0.5731 | 0.5102 | - | - | - | - | - | - | - | - | 1543 | Yes | No |
 | kidney cancer | C649 | 10 | 0.5824 | 0.5394 | 0.5426 | 0.5153 | 0.5824 | 0.5491 | 0.5488 | 0.5456 | 0.5441 | 0.541 | 0.5325 | 0.5197 | 0.5153 | 0.5153 | 995 | Yes | No |
@@ -58,9 +70,10 @@ Total selected (after QC3 and dedup): 62
 | peripheral vascular disease | I739 | 4 | 0.5862 | 0.5339 | 0.5186 | 0.5123 | 0.5862 | 0.5195 | 0.5176 | 0.5123 | - | - | - | - | - | - | 8004 | Yes | No |
 | aortic stenosis | I350 | 8 | 0.6375 | 0.5298 | 0.5173 | 0.3445 | 0.6375 | 0.6233 | 0.6228 | 0.5181 | 0.5166 | 0.5021 | 0.474 | 0.3445 | - | - | 3985 | Yes | No |
 | hodgkins lymphoma | C8190 | 27 | 0.618 | 0.5275 | 0.52 | 0.4838 | 0.618 | 0.612 | 0.6014 | 0.5597 | 0.5586 | 0.554 | 0.5464 | 0.542 | 0.542 | 0.5379 | 305 | Yes | No |
+| atopic eczema | L2084 | 6 | 0.5532 | 0.5252 | 0.5278 | 0.4931 | 0.5532 | 0.551 | 0.5417 | 0.5138 | 0.4984 | 0.4931 | - | - | - | - | 980 | Yes | No |
 | sleep apnea | G4733 | 20 | 0.5784 | 0.5132 | 0.5041 | 0.4984 | 0.5784 | 0.5454 | 0.5418 | 0.5217 | 0.5167 | 0.5137 | 0.5117 | 0.5115 | 0.5069 | 0.5053 | 34474 | Yes | No |
-| uterine carcinoma | C541 | 14 | 0.612 | 0.5132 | 0.5236 | 0.4138 | 0.612 | 0.6113 | 0.597 | 0.5609 | 0.5519 | 0.5326 | 0.5263 | 0.5209 | 0.5044 | 0.4564 | 937 | Yes | No |
 | obstructive sleep apnea | G4733 | 20 | 0.5784 | 0.5132 | 0.5041 | 0.4984 | 0.5784 | 0.5454 | 0.5418 | 0.5217 | 0.5167 | 0.5137 | 0.5117 | 0.5115 | 0.5069 | 0.5053 | 34474 | Yes | No |
+| uterine carcinoma | C541 | 14 | 0.612 | 0.5132 | 0.5236 | 0.4138 | 0.612 | 0.6113 | 0.597 | 0.5609 | 0.5519 | 0.5326 | 0.5263 | 0.5209 | 0.5044 | 0.4564 | 937 | Yes | No |
 | late-onset alzheimer's disease | G301 | 5 | 0.569 | 0.5099 | 0.5144 | 0.4346 | 0.569 | 0.5203 | 0.5144 | 0.5114 | 0.4346 | - | - | - | - | - | 218 | Yes | No |
 | cervical carcinoma | C539 | 6 | 0.6925 | 0.5053 | 0.4734 | 0.3401 | 0.6925 | 0.6679 | 0.4759 | 0.4709 | 0.3846 | 0.3401 | - | - | - | - | 361 | Yes | No |
 | dilated cardiomyopathy | I420 | 8 | 0.648 | 0.6305 | 0.6284 | 0.6099 | 0.648 | 0.6463 | 0.6396 | 0.6344 | 0.6225 | 0.6224 | 0.6212 | 0.6099 | - | - | 1549 | No | Yes |
@@ -97,5 +110,5 @@ Total selected (after QC3 and dedup): 62
 | Ontologies passing QC1 (T1..T5 vs Rest >= 0.025) | 65 |
 | Ontologies on QC2 exception allowlist | 27 |
 | Ontologies passing QC3 (Mean AUC >= 0.5 & Top-1 >= 0.55) | 108 |
-| Final selected (QC1 or QC2 allowlist, after QC3) | 62 |
-| Total pool before QC3 filter | 77 |
+| Final selected (QC1 or QC2 allowlist, after QC3) | 67 |
+| Total pool before QC3 filter | 83 |

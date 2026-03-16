@@ -101,6 +101,18 @@ NICHE_EXCLUSION_KEYWORDS = [
     "prostate disease",
 ]
 
+# Specific diseases intentionally kept in the current 75-disease union even
+# though their names contain a broader blacklist keyword.
+BLACKLIST_EXEMPT_ONTOLOGIES = {
+    "atopic eczema",
+    "congenital vitamin k-dependent coagulation factors deficiency",
+    "corneal dystrophy",
+    "dupuytren contracture",
+    "iron metabolism disease",
+    "nasal cavity polyp",
+    "skin carcinoma in situ",
+}
+
 # ---------------------------------------------------------------------------
 # Parent/child and near-synonym overlap handling.
 # 1) Some overlap groups should keep whichever label has stronger model coverage
@@ -136,6 +148,12 @@ ASYMMETRIC_ONTOLOGY_SUPPRESSION_RULES: dict[str, set[str]] = {
     "macular degeneration": {"retinopathy"},
     "age-related macular degeneration": {"retinopathy"},
     "squamous cell carcinoma": {"skin cancer"},
+}
+
+# Specific disease labels intentionally preserved even when a broader family
+# label from the same ICD branch is present.
+SUPPRESSION_EXEMPT_ONTOLOGIES = {
+    "retinopathy",
 }
 
 
@@ -188,7 +206,7 @@ def _collect_subsumed_ontology_names(names: Iterable[str]) -> set[str]:
     for preferred, redundant_names in ASYMMETRIC_ONTOLOGY_SUPPRESSION_RULES.items():
         if preferred in normalized_names:
             suppressed.update(normalized_names.intersection(redundant_names))
-    return suppressed
+    return suppressed - SUPPRESSION_EXEMPT_ONTOLOGIES
 
 
 def _apply_ontology_overlap_rules(df: pd.DataFrame, label_col: str) -> pd.DataFrame:
@@ -318,7 +336,7 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
     def _qc2_exception_allow(name: str) -> bool:
         name_lower = _normalize_ontology_name(name)
         for k in NICHE_EXCLUSION_KEYWORDS:
-            if k in name_lower:
+            if k in name_lower and name_lower not in BLACKLIST_EXEMPT_ONTOLOGIES:
                 return False
         return name_lower in EXCEPTION_ALLOWLIST_ONTOLOGIES
 
@@ -338,8 +356,11 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
     # Step 3 (QC3): Filter pool by AUC thresholds
     # Step 4: Exclude blacklisted ontologies entirely (hard exclusion)
     def _is_blacklisted(name: str) -> bool:
-        name_lower = name.lower()
-        return any(k in name_lower for k in NICHE_EXCLUSION_KEYWORDS)
+        name_lower = _normalize_ontology_name(name)
+        return (
+            name_lower not in BLACKLIST_EXEMPT_ONTOLOGIES
+            and any(k in name_lower for k in NICHE_EXCLUSION_KEYWORDS)
+        )
 
     pool = df[df["c2_exception_allowlist"] | df["c1_distinguishable"]]
     pool = pool[~pool["ontology"].apply(_is_blacklisted)]

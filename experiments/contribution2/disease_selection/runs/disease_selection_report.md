@@ -3,8 +3,11 @@
 ## Selection Criteria
 
 ### QC1: Top PRS Model Distinguishability
-- **Tk vs Rest**: Top-k AUC - Top-(k+1) AUC (cliff between rank k and k+1).
-- **Threshold**: Pass if any of (T1, T2, T3, T4, T5 vs Rest) >= 0.025.
+- Sort all candidate PRS models for a disease by AUC in descending order.
+- For each k in {1, 2, 3, 4, 5}, compute `gap_k = AUC(rank k) - AUC(rank k+1)`.
+- Pass QC1 if any `gap_k >= 0.025`; this means there is a clear cliff between two adjacent ranks within the top 5.
+- This is not `Top-k average - rest average`; it is always an adjacent-rank difference.
+- Special case: if a disease has exactly 2 candidate models, QC1 is treated as passed.
 
 ### QC2: Exception Allowlist
 - **Allowlist**: Ontology name is an exact curated match in EXCEPTION_ALLOWLIST_ONTOLOGIES and is force-kept even if QC1 is weak.
@@ -14,16 +17,21 @@
 ### QC3: AUC Thresholds (filtering step)
 - **Mean AUC** >= 0.5, **Top-1 AUC** >= 0.55.
 
+### QC4: Parent/Child and Near-Synonym Overlap Resolution
+- For designated overlap groups, keep the label with stronger model coverage: higher `N Models`, then higher `N With AUC`, then higher `Max`, then higher `Mean`.
+- For a smaller set of umbrella labels, apply asymmetric suppression when a more appropriate label from the same family is already present.
+- Examples: `lymphoid leukemia` vs `acute lymphoblastic leukemia` uses model-count priority; `heart failure` suppresses `congestive heart failure`.
+
 ### Staged Logic (no intersection, no count limit)
 - **Base eligibility**: At least 2 candidate PGS models with evaluated AUC.
 - **QC1**: Primary selection by top-model distinguishability.
 - **QC2**: Exception allowlist hard-add.
 - **QC1 + QC2**: Pool = QC1 OR QC2.
-- **QC3**: Filter pool by AUC thresholds. Dedup by ICD root, preferring the ontology with the most evaluated AUCs and then higher max AUC.
+- **QC3**: Filter pool by AUC thresholds. Then resolve parent/child or near-synonym label overlaps before the source-specific dedup step. Dedup by ICD root, preferring the ontology with the most evaluated AUCs and then higher max AUC.
 
 ## Selected Diseases
 
-Total selected (after QC3 and dedup): 53
+Total selected (after QC3 and dedup): 56
 
 | Ontology | ICD | N Models | Max | Mean | Median | Min | Top-1 | Top-2 | Top-3 | Top-4 | Top-5 | Top-6 | Top-7 | Top-8 | Top-9 | Top-10 | Case N | QC1 (≥0.025) | QC2 (Allowlist) |
 |----------|-----|----------|-----|------|--------|-----|-------|-------|-------|-------|-------|-------|-------|-------|--------|--------|-----|---------------------|-----------------|
@@ -36,15 +44,18 @@ Total selected (after QC3 and dedup): 53
 | thyroid carcinoma | C73 | 32 | 0.8113 | 0.6069 | 0.5889 | 0.5276 | 0.8113 | 0.8069 | 0.8016 | 0.7865 | 0.6376 | 0.6331 | 0.6299 | 0.6099 | 0.5999 | 0.597 | 1810 | Yes | No |
 | hypothyroidism | E03 | 28 | 0.6557 | 0.6017 | 0.6059 | 0.5535 | 0.6557 | 0.6548 | 0.6274 | 0.6232 | 0.6221 | 0.6205 | 0.6202 | 0.6162 | 0.6131 | 0.6118 | 31455 | Yes | No |
 | autism spectrum disorder | F84 | 2 | 0.6014 | 0.5939 | 0.5939 | 0.5864 | 0.6014 | 0.5864 | - | - | - | - | - | - | - | - | 594 | Yes | No |
-| hyperthyroidism | E05 | 7 | 0.6211 | 0.5853 | 0.5743 | 0.5628 | 0.6211 | 0.6176 | 0.5914 | 0.5743 | 0.5665 | 0.5634 | 0.5628 | - | - | - | 3830 | Yes | No |
+| graves disease | E05 | 7 | 0.6211 | 0.5853 | 0.5743 | 0.5628 | 0.6211 | 0.6176 | 0.5914 | 0.5743 | 0.5665 | 0.5634 | 0.5628 | - | - | - | 3830 | Yes | No |
 | nicotine dependence | F17 | 2 | 0.5971 | 0.5835 | 0.5835 | 0.5699 | 0.5971 | 0.5699 | - | - | - | - | - | - | - | - | 22537 | Yes | No |
 | obesity | E66 | 10 | 0.6479 | 0.5831 | 0.5732 | 0.5469 | 0.6479 | 0.6331 | 0.5909 | 0.5833 | 0.5771 | 0.5694 | 0.5666 | 0.5605 | 0.5553 | 0.5469 | 48647 | Yes | No |
+| congenital vitamin k-dependent coagulation factors deficiency | D68 | 2 | 0.5702 | 0.5698 | 0.5698 | 0.5695 | 0.5702 | 0.5695 | - | - | - | - | - | - | - | - | 7029 | Yes | No |
 | abdominal aortic aneurysm | I71 | 6 | 0.5904 | 0.5655 | 0.5684 | 0.5287 | 0.5904 | 0.5888 | 0.5837 | 0.5532 | 0.5479 | 0.5287 | - | - | - | - | 4276 | Yes | No |
 | pulmonary embolism | I26 | 7 | 0.5909 | 0.5646 | 0.5865 | 0.5122 | 0.5909 | 0.5891 | 0.5885 | 0.5865 | 0.5558 | 0.5292 | 0.5122 | - | - | - | 4804 | Yes | No |
 | acute myocardial infarction | I21 | 2 | 0.5779 | 0.5626 | 0.5626 | 0.5474 | 0.5779 | 0.5474 | - | - | - | - | - | - | - | - | 5798 | Yes | No |
 | alcohol dependence | F10 | 4 | 0.5876 | 0.5585 | 0.5586 | 0.5291 | 0.5876 | 0.5595 | 0.5577 | 0.5291 | - | - | - | - | - | - | 10402 | Yes | No |
 | nodular goiter | E04 | 7 | 0.6694 | 0.5558 | 0.5395 | 0.4464 | 0.6694 | 0.6587 | 0.584 | 0.5395 | 0.5355 | 0.4573 | 0.4464 | - | - | - | 12899 | Yes | No |
+| skin carcinoma in situ | D04 | 3 | 0.5802 | 0.5544 | 0.5665 | 0.5165 | 0.5802 | 0.5665 | 0.5165 | - | - | - | - | - | - | - | 3035 | Yes | No |
 | peripheral arterial disease | I70 | 2 | 0.5835 | 0.5531 | 0.5531 | 0.5228 | 0.5835 | 0.5228 | - | - | - | - | - | - | - | - | 9348 | Yes | No |
+| nasal cavity polyp | J33 | 2 | 0.5557 | 0.5493 | 0.5493 | 0.5429 | 0.5557 | 0.5429 | - | - | - | - | - | - | - | - | 1496 | Yes | No |
 | juvenile idiopathic arthritis | M08 | 4 | 0.5768 | 0.5458 | 0.5416 | 0.523 | 0.5768 | 0.5517 | 0.5315 | 0.523 | - | - | - | - | - | - | 221 | Yes | No |
 | kidney cancer | C64 | 10 | 0.5841 | 0.5426 | 0.5438 | 0.5209 | 0.5841 | 0.5524 | 0.5513 | 0.5466 | 0.5456 | 0.5419 | 0.5399 | 0.5214 | 0.5214 | 0.5209 | 1376 | Yes | No |
 | acute kidney injury | N17 | 2 | 0.5562 | 0.5389 | 0.5389 | 0.5216 | 0.5562 | 0.5216 | - | - | - | - | - | - | - | - | 15238 | Yes | No |
@@ -88,5 +99,5 @@ Total selected (after QC3 and dedup): 53
 | Ontologies passing QC1 (T1..T5 vs Rest >= 0.025) | 63 |
 | Ontologies on QC2 exception allowlist | 29 |
 | Ontologies passing QC3 (Mean AUC >= 0.5 & Top-1 >= 0.55) | 96 |
-| Final selected (QC1 or QC2 allowlist, after QC3) | 53 |
-| Total pool before QC3 filter | 79 |
+| Final selected (QC1 or QC2 allowlist, after QC3) | 56 |
+| Total pool before QC3 filter | 83 |

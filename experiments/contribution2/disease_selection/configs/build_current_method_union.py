@@ -26,7 +26,7 @@ from experiments.contribution2.disease_selection.configs import select_diseases_
 OUTPUT_RUNS_DIR = Path(__file__).parent.parent / "runs"
 OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
 DEFAULT_REQUIRE_QC1 = False
-DEFAULT_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union__67disease"
+DEFAULT_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union__75disease"
 
 # Keep the broader canonical disease label for each merge group.
 CANONICAL_MERGE_GROUPS: dict[str, set[str]] = {
@@ -117,13 +117,16 @@ def _compute_selected_raw(
     def _qc2_exception_allow(name: str) -> bool:
         name_lower = base._normalize_ontology_name(name)
         for k in base.NICHE_EXCLUSION_KEYWORDS:
-            if k in name_lower:
+            if k in name_lower and name_lower not in base.BLACKLIST_EXEMPT_ONTOLOGIES:
                 return False
         return name_lower in base.EXCEPTION_ALLOWLIST_ONTOLOGIES
 
     def _is_blacklisted(name: str) -> bool:
         name_lower = base._normalize_ontology_name(name)
-        return any(k in name_lower for k in base.NICHE_EXCLUSION_KEYWORDS)
+        return (
+            name_lower not in base.BLACKLIST_EXEMPT_ONTOLOGIES
+            and any(k in name_lower for k in base.NICHE_EXCLUSION_KEYWORDS)
+        )
 
     df["c2_exception_allowlist"] = df["ontology"].apply(_qc2_exception_allow)
     df["c3_auc_ok"] = (df["mean_auc"] >= base.MIN_MEAN_AUC) & (df["top1_auc"] >= base.MIN_TOP1_AUC)
@@ -266,7 +269,7 @@ def build_current_method_union(
 
 def _output_suffix(min_n_models: int, require_qc1: bool) -> str:
     if min_n_models == base.DEFAULT_MIN_N_MODELS and not require_qc1:
-        return "__67disease"
+        return "__75disease"
     suffix_parts: list[str] = []
     if min_n_models != base.DEFAULT_MIN_N_MODELS:
         suffix_parts.append(f"min{min_n_models}")

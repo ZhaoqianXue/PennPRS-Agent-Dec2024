@@ -53,7 +53,7 @@ The current `select_diseases_contribution2.py` code has moved on from the settin
 - rootcode dedup now prefers the ontology with the most evaluated AUCs, then higher max AUC
 
 If you want a new benchmark union that matches the current code, this file must be rebuilt manually rather than assumed to match the latest rootcode/childrencode outputs.
-For the current auto-generated canonical union, use `selected_diseases_contribution2_current_union__67disease.csv`.
+For the current auto-generated canonical union, use `selected_diseases_contribution2_current_union__75disease.csv`.
 
 ## Evaluated Models Filter
 

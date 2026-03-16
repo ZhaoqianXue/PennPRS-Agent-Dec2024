@@ -12,7 +12,7 @@ Outputs:
 
 Usage:
   python generate_evaluated_pgs_list.py
-  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__67disease.csv
+  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__75disease.csv
 
 Requirements:
   - experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_*.csv
@@ -39,11 +39,30 @@ CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_ic
 RECOMMENDATION_DIR = Path(__file__).parent.parent
 DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
 DEFAULT_OUTPUT_DIR = RECOMMENDATION_DIR / "runs" / "ground-truth__contribution1"
-CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__67disease.csv"
+CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__75disease.csv"
 LEGACY_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union"
+CURRENT_UNION_STEMS = {
+    LEGACY_CURRENT_UNION_STEM,
+    "selected_diseases_contribution2_current_union__60disease",
+    "selected_diseases_contribution2_current_union__67disease",
+    "selected_diseases_contribution2_current_union__75disease",
+}
 EVALUATED_JSON_NAME = "evaluated_pgs_per_ontology.json"
 RANKED_JSON_NAME = "top_k_pgs_per_ontology.json"
 BENCHMARK_AUC_JSON_NAME = "benchmark_auc_per_ontology.json"
+
+CURRENT_UNION_CANONICAL_GROUPS: dict[str, set[str]] = {
+    "glaucoma": {"glaucoma", "open-angle glaucoma"},
+    "myocardial infarction": {"myocardial infarction", "acute myocardial infarction"},
+    "melanoma": {"melanoma", "cutaneous melanoma"},
+    "kidney cancer": {"kidney cancer", "renal carcinoma"},
+    "ovarian carcinoma": {"ovarian carcinoma", "ovarian serous carcinoma"},
+    "prostate cancer": {"prostate cancer", "prostate carcinoma"},
+    "sleep apnea": {"sleep apnea", "obstructive sleep apnea"},
+    "nodular goiter": {"nodular goiter", "multinodular goiter"},
+    "peripheral vascular disease": {"peripheral vascular disease", "peripheral arterial disease"},
+    "hyperthyroidism": {"hyperthyroidism", "graves disease"},
+}
 
 
 def _parse_pgs_ids(pgs_str: str) -> list[str]:
@@ -82,10 +101,18 @@ def _normalize_ontology(s: str) -> str:
     return (s or "").strip().lower()
 
 
+def _canonical_union_ontology(s: str) -> str:
+    normalized = _normalize_ontology(s)
+    for canonical, group in CURRENT_UNION_CANONICAL_GROUPS.items():
+        if normalized in group:
+            return canonical
+    return normalized
+
+
 def _default_output_dir_for_union(union_path: Path) -> Path:
     if union_path.resolve() == DEFAULT_UNION_CSV.resolve():
         return DEFAULT_OUTPUT_DIR
-    if union_path.resolve() == CURRENT_UNION_CSV.resolve() or union_path.stem == LEGACY_CURRENT_UNION_STEM:
+    if union_path.resolve() == CURRENT_UNION_CSV.resolve() or union_path.stem in CURRENT_UNION_STEMS:
         return RECOMMENDATION_DIR / "runs" / f"ground-truth__{LEGACY_CURRENT_UNION_STEM}"
     return RECOMMENDATION_DIR / "runs" / f"ground-truth__{union_path.stem}"
 
@@ -150,6 +177,7 @@ def main() -> None:
     ontology_to_evaluated_pgs: dict[str, list[str]] = {}
     ontology_to_top_k_pgs: dict[str, list[str]] = {}
     ontology_to_benchmark_auc: dict[str, dict[str, float]] = {}
+    missing_ontologies: list[str] = []
 
     for _, row in union_df.iterrows():
         ontology = str(row.get("Ontology", "")).strip()
@@ -170,12 +198,20 @@ def main() -> None:
 
         # Match metadata row: ontology and ICD
         icd_col = "icd" if "icd" in meta.columns else "icd_trait"
+        canonical_ontology = _canonical_union_ontology(ontology)
         if trait_col == "icd":
             matches = meta[(meta["ontology"] == ontology) & (meta[icd_col] == icd)]
+            if matches.empty:
+                matches = meta[meta[icd_col] == icd].copy()
+                matches = matches[matches["ontology"].map(_canonical_union_ontology) == canonical_ontology]
         else:
             matches = meta[(meta["ontology"] == ontology) & (meta["icd_root"] == icd)]
+            if matches.empty:
+                matches = meta[meta["icd_root"] == icd].copy()
+                matches = matches[matches["ontology"].map(_canonical_union_ontology) == canonical_ontology]
 
         if matches.empty:
+            missing_ontologies.append(ontology)
             continue
 
         mrow = matches.iloc[0]
@@ -214,6 +250,10 @@ def main() -> None:
     print(f"Wrote {len(ontology_to_evaluated_pgs)} ontologies to {output_json}")
     print(f"Wrote {len(ontology_to_top_k_pgs)} ontologies to {ranked_json}")
     print(f"Wrote {len(ontology_to_benchmark_auc)} ontologies to {benchmark_auc_json}")
+    if missing_ontologies:
+        print("Skipped ontologies with no metadata match:")
+        for ontology in sorted(set(missing_ontologies)):
+            print(f"  - {ontology}")
 
 
 if __name__ == "__main__":
