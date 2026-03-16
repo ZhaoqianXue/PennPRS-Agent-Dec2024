@@ -97,6 +97,6 @@ python experiments/contribution2/disease_selection/configs/build_current_method_
 
 | Rootcode | Childrencode |
 |----------|--------------|
-| `runs/selected_diseases_contribution2.csv` | `runs/selected_diseases_contribution2_childrencode.csv` |
+| `runs/intermediate/selected_diseases_contribution2.csv` | `runs/intermediate/selected_diseases_contribution2_childrencode.csv` |
 | `metrics/disease_selection_full_metrics.csv` | `metrics/disease_selection_full_metrics_childrencode.csv` |
 | `runs/disease_selection_report.md` | `runs/disease_selection_report_childrencode.md` |

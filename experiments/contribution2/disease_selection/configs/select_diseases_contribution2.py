@@ -6,7 +6,7 @@ Select diseases from All of Us benchmark (contribution1) based on three criteria
 2. Overall AUC not too low (mean AUC of all candidate models > threshold)
 3. Exception allowlist for broad-recognition diseases, plus niche blacklist
 
-Output: selected_diseases_contribution2.csv and selection_report.md
+Output: runs/intermediate/selected_diseases_contribution2*.csv and selection_report.md
 
 Usage:
   python select_diseases_contribution2.py           # rootcode (default)
@@ -29,6 +29,7 @@ CONTRIB2_DIR = Path(__file__).parent.parent.parent
 CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
 DISEASE_SELECTION_DIR = Path(__file__).parent.parent
 OUTPUT_RUNS_DIR = DISEASE_SELECTION_DIR / "runs"
+OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
 OUTPUT_METRICS_DIR = DISEASE_SELECTION_DIR / "metrics"
 
 # ---------------------------------------------------------------------------
@@ -302,8 +303,9 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
     # -----------------------------------------------------------------------
     out_suffix = f"_{suffix}" if use_childrencode else ""
     OUTPUT_RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_INTERMEDIATE_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_METRICS_DIR.mkdir(parents=True, exist_ok=True)
-    table_df.to_csv(OUTPUT_RUNS_DIR / f"selected_diseases_contribution2{out_suffix}.csv", index=False)
+    table_df.to_csv(OUTPUT_INTERMEDIATE_DIR / f"selected_diseases_contribution2{out_suffix}.csv", index=False)
 
     # Metrics: same schema as table (all ontologies, table columns only)
     metrics_rows = []
@@ -399,7 +401,7 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
         f"Selected {len(selected_output)} diseases (QC1 or QC2 allowlist, {code_label}, min_n_models={min_n_models}). "
         f"Outputs written to {DISEASE_SELECTION_DIR}"
     )
-    print(f"  - runs/selected_diseases_contribution2{out_suffix}.csv")
+    print(f"  - runs/intermediate/selected_diseases_contribution2{out_suffix}.csv")
     print(f"  - runs/disease_selection_report{out_suffix}.md")
     print(f"  - metrics/disease_selection_full_metrics{out_suffix}.csv")
 

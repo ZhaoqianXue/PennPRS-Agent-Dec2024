@@ -79,7 +79,8 @@ CONTRIB2_DIR = Path(__file__).parent.parent.parent
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
 LOCAL_CACHE_DIR = Path(__file__).parent.parent / "cache"
-DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
+DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
+CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__60disease.csv"
 UNION_CSV = DEFAULT_UNION_CSV
 DEFAULT_GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
 GROUND_TRUTH_DIR = DEFAULT_GROUND_TRUTH_DIR
@@ -223,16 +224,26 @@ def _slugify(text: str) -> str:
 
 def _dataset_label_from_union_path(union_csv: Path) -> Optional[str]:
     if union_csv.resolve() == DEFAULT_UNION_CSV.resolve():
-        return None
+        return "30disease"
+    if union_csv.resolve() == CURRENT_UNION_CSV.resolve():
+        return "60disease"
     stem = union_csv.stem
-    if stem == "selected_diseases_contribution2_current_union":
-        return "current-union"
+    if stem in {"selected_diseases_contribution2_current_union", "selected_diseases_contribution2_current_union__60disease"}:
+        return "60disease"
+    if stem.endswith("__30disease"):
+        return "30disease"
+    if stem.endswith("__60disease"):
+        return "60disease"
     return _slugify(stem)
 
 
 def _default_ground_truth_dir_for_union(union_csv: Path) -> Path:
     if union_csv.resolve() == DEFAULT_UNION_CSV.resolve():
         return DEFAULT_GROUND_TRUTH_DIR
+    if union_csv.resolve() == CURRENT_UNION_CSV.resolve():
+        return RECOMMENDATION_RUNS / "ground-truth__selected_diseases_contribution2_current_union"
+    if union_csv.stem in {"selected_diseases_contribution2_current_union", "selected_diseases_contribution2_current_union__60disease"}:
+        return RECOMMENDATION_RUNS / "ground-truth__selected_diseases_contribution2_current_union"
     return RECOMMENDATION_RUNS / f"ground-truth__{union_csv.stem}"
 
 
@@ -401,6 +412,22 @@ def _normalized_ranking_score(rank: Optional[int], candidate_count: Optional[int
     return (candidate_count - rank) / (candidate_count - 1)
 
 
+def _rank_fraction(rank: Optional[int], candidate_count: Optional[int]) -> Optional[float]:
+    if rank is None or candidate_count is None or candidate_count <= 0:
+        return None
+    if rank < 1 or rank > candidate_count:
+        return None
+    return rank / candidate_count
+
+
+def _reverse_rank_fraction(rank: Optional[int], candidate_count: Optional[int]) -> Optional[float]:
+    if rank is None or candidate_count is None or candidate_count <= 0:
+        return None
+    if rank < 1 or rank > candidate_count:
+        return None
+    return (candidate_count - rank) / candidate_count
+
+
 def _format_score(value: Optional[float]) -> str:
     if value is None:
         return "N/A"
@@ -546,26 +573,77 @@ def _aggregate_trial_hit_metrics(trial_results: list[dict[str, Any]]) -> dict[st
 
 
 def _compute_nrs_metrics(summary: dict[str, Any]) -> dict[str, Any]:
+    return _compute_rank_metric_summary(summary, _normalized_ranking_score)
+
+
+def _compute_rank_metric_summary(
+    summary: dict[str, Any],
+    metric_fn: Callable[[Optional[int], Optional[int]], Optional[float]],
+) -> dict[str, Any]:
     modal_scores: list[float] = []
     trial_scores: list[float] = []
+    baseline_scores: list[float] = []
 
     for row in summary.get("per_disease", []):
         candidate_count = _candidate_count(row)
-        modal_score = _normalized_ranking_score(row.get("modal_recommendation_rank"), candidate_count)
+        modal_score = metric_fn(row.get("modal_recommendation_rank"), candidate_count)
         if modal_score is not None:
             modal_scores.append(modal_score)
 
         for trial_row in row.get("trial_recommendations_detailed", []):
-            trial_score = _normalized_ranking_score(trial_row.get("rank"), candidate_count)
+            trial_score = metric_fn(trial_row.get("rank"), candidate_count)
             if trial_score is not None:
                 trial_scores.append(trial_score)
 
+        baseline = row.get("baseline") or {}
+        baseline_score = metric_fn(baseline.get("rank"), candidate_count)
+        if baseline_score is not None:
+            baseline_scores.append(baseline_score)
+
     return {
-        "modal_mean_nrs": (sum(modal_scores) / len(modal_scores)) if modal_scores else None,
+        "modal_mean": (sum(modal_scores) / len(modal_scores)) if modal_scores else None,
         "modal_count": len(modal_scores),
-        "trial_mean_nrs": (sum(trial_scores) / len(trial_scores)) if trial_scores else None,
+        "trial_mean": (sum(trial_scores) / len(trial_scores)) if trial_scores else None,
         "trial_count": len(trial_scores),
+        "baseline_mean": (sum(baseline_scores) / len(baseline_scores)) if baseline_scores else None,
+        "baseline_count": len(baseline_scores),
+        "modal_mean_nrs": (sum(modal_scores) / len(modal_scores)) if modal_scores else None,
+        "trial_mean_nrs": (sum(trial_scores) / len(trial_scores)) if trial_scores else None,
     }
+
+
+def _rank_metric_section_lines(
+    title: str,
+    metric_display: str,
+    formula_text: str,
+    scale_lines: list[str],
+    metrics_by_label: list[tuple[str, dict[str, Any]]],
+    baseline_metrics: Optional[dict[str, Any]] = None,
+) -> list[str]:
+    lines = [
+        f"## {title}",
+        "",
+        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
+        f"- Formula: `{formula_text}`",
+        *scale_lines,
+    ]
+
+    for label, metrics in metrics_by_label:
+        lines.append(
+            f"- {label}: `mean {metric_display} = {_format_score(metrics['modal_mean'])}` "
+            f"({metrics['modal_count']} modal selections); "
+            f"`trial mean {metric_display} = {_format_score(metrics['trial_mean'])}` "
+            f"({metrics['trial_count']} trials)"
+        )
+
+    if baseline_metrics and baseline_metrics.get("baseline_count"):
+        lines.append(
+            f"- Baseline: `mean {metric_display} = {_format_score(baseline_metrics['baseline_mean'])}` "
+            f"({baseline_metrics['baseline_count']} available selections)"
+        )
+
+    lines.append("")
+    return lines
 
 
 def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
@@ -2058,6 +2136,9 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
     auc_lookup = _load_aou_auc_lookup()
     per_disease_rows = _sort_disease_rows(summary["per_disease"])
     output_path = _doc_path("without_domain_per_disease_comparison")
+    rank_fraction = _compute_rank_metric_summary(summary, _rank_fraction)
+    reverse_rank_fraction = _compute_rank_metric_summary(summary, _reverse_rank_fraction)
+    nrs = summary.get("nrs") or _compute_nrs_metrics(summary)
 
     lines = [
         "# Without Domain Knowledge: Per-Disease Comparison",
@@ -2083,16 +2164,36 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
             )
             for k in BENCHMARK_HIT_KS
         ],
-        *[
-            (
-                f"- Baseline `Hit@{k}`: `{summary['baseline']['hit_at_k'][str(k)]['hits']}/"
-                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']} = "
-                f"{_format_percent(summary['baseline']['hit_at_k'][str(k)]['accuracy'] or 0.0)}` "
-                f"(coverage `{summary['baseline']['hit_at_k'][str(k)]['available']}/"
-                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']}`)"
-            )
-            for k in BENCHMARK_HIT_KS
-        ],
+        "",
+        *_rank_metric_section_lines(
+            title="Rank Fraction (r / M)",
+            metric_display="r / M",
+            formula_text="r / M",
+            scale_lines=[
+                "- Scale: smaller is better.",
+                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[("Without Domain Knowledge", rank_fraction)],
+        ),
+        *_rank_metric_section_lines(
+            title="Reverse Rank Fraction ((M - r) / M)",
+            metric_display="(M - r) / M",
+            formula_text="(M - r) / M",
+            scale_lines=[
+                "- Scale: `0.0` means bottom-ranked; larger is better.",
+                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[("Without Domain Knowledge", reverse_rank_fraction)],
+        ),
+        *_rank_metric_section_lines(
+            title="Normalized Ranking Score (NRS)",
+            metric_display="NRS",
+            formula_text="NRS = (M - r) / (M - 1)",
+            scale_lines=[
+                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+            ],
+            metrics_by_label=[("Without Domain Knowledge", nrs)],
+        ),
         "",
         "## Per-Disease Tables",
         "",
@@ -2103,9 +2204,8 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
         models = _model_map(row)
         benchmark_columns = _benchmark_columns(row)
         without_id = row.get("modal_recommendation")
-        baseline_id = (row.get("baseline") or {}).get("pgs_id")
 
-        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["Without Domain Knowledge", "Baseline", "Field Type"]
+        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["Without Domain Knowledge", "Field Type"]
         separator = ["---"] * len(header)
 
         lines.extend([
@@ -2143,17 +2243,6 @@ def _write_without_domain_per_disease_doc(summary: dict[str, Any]) -> Path:
                     selection_label=f"{row.get('modal_recommendation_count', 0)}/{summary['trials_per_ontology']} trials",
                 )
             )
-            values.append(
-                _build_per_disease_doc_value(
-                    field=field,
-                    ontology=ontology,
-                    selected_id=baseline_id,
-                    row=row,
-                    model_map=models,
-                    auc_lookup=auc_lookup,
-                    selection_label="Rule-based baseline",
-                )
-            )
             values.append("Agent Input" if field_type == "agent_input" else "Benchmark Only")
             lines.append(f"| {' | '.join(values)} |")
 
@@ -2168,6 +2257,8 @@ def _write_report(summary: dict[str, Any]) -> None:
     _ensure_summary_hit_metrics(summary)
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
+    rank_fraction = _compute_rank_metric_summary(summary, _rank_fraction)
+    reverse_rank_fraction = _compute_rank_metric_summary(summary, _reverse_rank_fraction)
     nrs = summary.get("nrs") or _compute_nrs_metrics(summary)
     cost = summary.get("cost") or {}
     token_usage = cost.get("token_usage") or {}
@@ -2192,27 +2283,50 @@ def _write_report(summary: dict[str, Any]) -> None:
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
             f"{_format_currency(cost_breakdown.get('output', 0.0))})"
         ),
+        "",
+        "## High-Level Outcome",
+        "",
         *[
             (
-                f"- **Modal Hit@{k}**: {summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- Without Domain Knowledge `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{_format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}; "
+                f"{_format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
                 f"{summary['trial_hit_at_k'][str(k)]['eligible']} = "
                 f"{_format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
             )
             for k in BENCHMARK_HIT_KS
         ],
-        *[
-            (
-                f"- **Baseline Hit@{k}**: {summary['baseline']['hit_at_k'][str(k)]['hits']}/"
-                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']} = "
-                f"{_format_percent(summary['baseline']['hit_at_k'][str(k)]['accuracy'] or 0.0)} "
-                f"(coverage {summary['baseline']['hit_at_k'][str(k)]['available']}/"
-                f"{summary['baseline']['hit_at_k'][str(k)]['eligible']})"
-            )
-            for k in BENCHMARK_HIT_KS
-        ],
+        "",
+        *_rank_metric_section_lines(
+            title="Rank Fraction (r / M)",
+            metric_display="r / M",
+            formula_text="r / M",
+            scale_lines=[
+                "- Scale: smaller is better.",
+                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[("Without Domain Knowledge", rank_fraction)],
+        ),
+        *_rank_metric_section_lines(
+            title="Reverse Rank Fraction ((M - r) / M)",
+            metric_display="(M - r) / M",
+            formula_text="(M - r) / M",
+            scale_lines=[
+                "- Scale: `0.0` means bottom-ranked; larger is better.",
+                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[("Without Domain Knowledge", reverse_rank_fraction)],
+        ),
+        *_rank_metric_section_lines(
+            title="Normalized Ranking Score (NRS)",
+            metric_display="NRS",
+            formula_text="NRS = (M - r) / (M - 1)",
+            scale_lines=[
+                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+            ],
+            metrics_by_label=[("Without Domain Knowledge", nrs)],
+        ),
         "",
         "## Experiment Setup",
         "",
@@ -2220,28 +2334,15 @@ def _write_report(summary: dict[str, Any]) -> None:
         "- **Domain Knowledge**: Disabled",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking; diseases with fewer than `k` evaluated models are excluded from the `Hit@k` denominator",
-        "- **Baseline rule**: tiered—Tier 1 uses highest PGS-only AUROC; Tier 2 falls back to highest full-model AUROC when no candidate has PGS-comparable AUROC",
         "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
-        "",
-        "## Normalized Ranking Score (NRS)",
-        "",
-        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
-        "- Formula: `NRS = (M - r) / (M - 1)`, with `r = 1` as best and `r = M` as worst.",
-        "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
-        (
-            f"- Without Domain Knowledge: `mean NRS = {_format_score(nrs['modal_mean_nrs'])}` "
-            f"({nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {_format_score(nrs['trial_mean_nrs'])}` "
-            f"({nrs['trial_count']} trials)"
-        ),
         "",
         "## Results by Disease",
         "",
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Eligible Ks | Trial Hit@1..5 | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | Baseline Hit@1..5 | Baseline Models |",
-        "|----------|----------|-------------|---------------|-------------------------------------|--------------------------|-------------------|-----------------|",
+        "| Ontology | N Models | Eligible Ks | Trial Hit@1..5 | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge |",
+        "|----------|----------|-------------|---------------|-------------------------------------|--------------------------|",
     ]
 
     for row in per_disease_rows:
@@ -2249,20 +2350,11 @@ def _write_report(summary: dict[str, Any]) -> None:
             f"{item['pgs_id']} (AUC rank {item['rank_label']}): x{item['count']}"
             for item in (row.get("recommended_model_counts") or [])
         ) or "-"
-        baseline = row.get("baseline") or {}
-        baseline_id = baseline.get("pgs_id")
-        baseline_rank_label = baseline.get("rank_label") or "-"
-        baseline_text = (
-            f"{baseline_id} (AUC rank {baseline_rank_label})"
-            if baseline_id
-            else "-"
-        )
         lines.append(
             f"| {row['ontology']} | {row['n_models']} | {_format_eligible_ks(row.get('eligible_at_k') or {})} | "
             f"{_format_rate_vector(row.get('trial_hit_rates_at_k') or {})} | "
             f"{_format_hit_vector(row.get('modal_recommendation_hit_at_k') or {})} | "
-            f"{recommendation_models} | "
-            f"{_format_hit_vector(row.get('baseline_hit_at_k') or {})} | {baseline_text} |"
+            f"{recommendation_models} |"
         )
 
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")

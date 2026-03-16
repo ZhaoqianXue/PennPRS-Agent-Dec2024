@@ -426,6 +426,14 @@ def _write_per_disease_comparison_doc(
     without_domain._ensure_summary_hit_metrics(domain_summary)
     without_domain._ensure_summary_hit_metrics(without_domain_summary)
     auc_lookup = _load_aou_auc_lookup()
+    domain_rank_fraction = without_domain._compute_rank_metric_summary(domain_summary, without_domain._rank_fraction)
+    without_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._rank_fraction)
+    domain_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
+        domain_summary, without_domain._reverse_rank_fraction
+    )
+    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
+        without_domain_summary, without_domain._reverse_rank_fraction
+    )
     domain_nrs = without_domain._compute_nrs_metrics(domain_summary)
     without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
@@ -441,7 +449,7 @@ def _write_per_disease_comparison_doc(
         "",
         "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
         "",
-        "Each disease table includes benchmark-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models), followed by the current with-domain, without-domain, and baseline selections.",
+        "Each disease table includes benchmark-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models), followed by the current with-domain and without-domain selections.",
         "Rows `Hit@1`..`Hit@5` use eligible-only denominators; diseases with fewer than `k` evaluated models are marked `N/A` for `Hit@k`.",
         "",
         "## High-Level Outcome",
@@ -468,37 +476,45 @@ def _write_per_disease_comparison_doc(
             )
             for k in without_domain.BENCHMARK_HIT_KS
         ],
-        *[
-            (
-                f"- Baseline `Hit@{k}`: `{domain_summary['baseline']['hit_at_k'][str(k)]['hits']}/"
-                f"{domain_summary['baseline']['hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(domain_summary['baseline']['hit_at_k'][str(k)]['accuracy'] or 0.0)}` "
-                f"(coverage `{domain_summary['baseline']['hit_at_k'][str(k)]['available']}/"
-                f"{domain_summary['baseline']['hit_at_k'][str(k)]['eligible']}`)"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
         "",
-        "## Normalized Ranking Score (NRS)",
-        "",
-        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
-        "- Formula: `NRS = (M - r) / (M - 1)`, with `r = 1` as best and `r = M` as worst.",
-        "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
-        (
-            f"- With Domain Knowledge: "
-            f"`mean NRS = {without_domain._format_score(domain_nrs['modal_mean_nrs'])}` "
-            f"({domain_nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {without_domain._format_score(domain_nrs['trial_mean_nrs'])}` "
-            f"({domain_nrs['trial_count']} trials)"
+        *without_domain._rank_metric_section_lines(
+            title="Rank Fraction (r / M)",
+            metric_display="r / M",
+            formula_text="r / M",
+            scale_lines=[
+                "- Scale: smaller is better.",
+                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", domain_rank_fraction),
+                ("Without Domain Knowledge", without_rank_fraction),
+            ],
         ),
-        (
-            f"- Without Domain Knowledge: "
-            f"`mean NRS = {without_domain._format_score(without_domain_nrs['modal_mean_nrs'])}` "
-            f"({without_domain_nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {without_domain._format_score(without_domain_nrs['trial_mean_nrs'])}` "
-            f"({without_domain_nrs['trial_count']} trials)"
+        *without_domain._rank_metric_section_lines(
+            title="Reverse Rank Fraction ((M - r) / M)",
+            metric_display="(M - r) / M",
+            formula_text="(M - r) / M",
+            scale_lines=[
+                "- Scale: `0.0` means bottom-ranked; larger is better.",
+                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", domain_reverse_rank_fraction),
+                ("Without Domain Knowledge", without_reverse_rank_fraction),
+            ],
         ),
-        "",
+        *without_domain._rank_metric_section_lines(
+            title="Normalized Ranking Score (NRS)",
+            metric_display="NRS",
+            formula_text="NRS = (M - r) / (M - 1)",
+            scale_lines=[
+                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", domain_nrs),
+                ("Without Domain Knowledge", without_domain_nrs),
+            ],
+        ),
         "## Per-Disease Tables",
         "",
     ]
@@ -511,9 +527,8 @@ def _write_per_disease_comparison_doc(
         benchmark_columns = without_domain._benchmark_columns(row)
         with_id = domain_row.get("modal_recommendation")
         without_id = without_row.get("modal_recommendation")
-        baseline_id = (domain_row.get("baseline") or {}).get("pgs_id")
 
-        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["With Domain Knowledge", "Without Domain Knowledge", "Baseline", "Field Type"]
+        header = ["Field"] + [label for label, _, _ in benchmark_columns] + ["With Domain Knowledge", "Without Domain Knowledge", "Field Type"]
         separator = ["---"] * len(header)
 
         lines.extend([
@@ -562,17 +577,6 @@ def _write_per_disease_comparison_doc(
                     selection_label=f"{without_row.get('modal_recommendation_count', 0)}/{without_domain_summary['trials_per_ontology']} trials",
                 )
             )
-            values.append(
-                _build_comparison_doc_value(
-                    field=field,
-                    ontology=ontology,
-                    selected_id=baseline_id,
-                    row=domain_row,
-                    model_map=models,
-                    auc_lookup=auc_lookup,
-                    selection_label="Rule-based baseline",
-                )
-            )
             values.append("Agent Input" if field_type == "agent_input" else "Benchmark Only")
             lines.append(f"| {' | '.join(values)} |")
 
@@ -590,6 +594,12 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
     total_trials = summary["diagnostics"]["total_trials"]
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
     without_domain._ensure_summary_hit_metrics(without_domain_summary)
+    rank_fraction = without_domain._compute_rank_metric_summary(summary, without_domain._rank_fraction)
+    without_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._rank_fraction)
+    reverse_rank_fraction = without_domain._compute_rank_metric_summary(summary, without_domain._reverse_rank_fraction)
+    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
+        without_domain_summary, without_domain._reverse_rank_fraction
+    )
     nrs = without_domain._compute_nrs_metrics(summary)
     without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
     cost = summary.get("cost") or {}
@@ -616,11 +626,14 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
             f"output {token_usage.get('output_tokens', 0):,} tokens = "
             f"{without_domain._format_currency(cost_breakdown.get('output', 0.0))})"
         ),
+        "",
+        "## High-Level Outcome",
+        "",
         *[
             (
-                f"- **With Domain Modal Hit@{k}**: {summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- With Domain Knowledge `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}; "
+                f"{without_domain._format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
                 f"{summary['trial_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
@@ -629,9 +642,9 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         ],
         *[
             (
-                f"- **Without Domain Modal Hit@{k}**: {without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"- Without Domain Knowledge `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
                 f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}; "
+                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
                 f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
                 f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
                 f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
@@ -639,24 +652,44 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
             for k in without_domain.BENCHMARK_HIT_KS
         ],
         "",
-        "## Normalized Ranking Score (NRS)",
-        "",
-        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
-        "- Formula: `NRS = (M - r) / (M - 1)`, with `r = 1` as best and `r = M` as worst.",
-        "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
-        (
-            f"- With Domain Knowledge: `mean NRS = {without_domain._format_score(nrs['modal_mean_nrs'])}` "
-            f"({nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {without_domain._format_score(nrs['trial_mean_nrs'])}` "
-            f"({nrs['trial_count']} trials)"
+        *without_domain._rank_metric_section_lines(
+            title="Rank Fraction (r / M)",
+            metric_display="r / M",
+            formula_text="r / M",
+            scale_lines=[
+                "- Scale: smaller is better.",
+                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", rank_fraction),
+                ("Without Domain Knowledge", without_rank_fraction),
+            ],
         ),
-        (
-            f"- Without Domain Knowledge: `mean NRS = {without_domain._format_score(without_domain_nrs['modal_mean_nrs'])}` "
-            f"({without_domain_nrs['modal_count']} modal selections); "
-            f"`trial mean NRS = {without_domain._format_score(without_domain_nrs['trial_mean_nrs'])}` "
-            f"({without_domain_nrs['trial_count']} trials)"
+        *without_domain._rank_metric_section_lines(
+            title="Reverse Rank Fraction ((M - r) / M)",
+            metric_display="(M - r) / M",
+            formula_text="(M - r) / M",
+            scale_lines=[
+                "- Scale: `0.0` means bottom-ranked; larger is better.",
+                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", reverse_rank_fraction),
+                ("Without Domain Knowledge", without_reverse_rank_fraction),
+            ],
         ),
-        "",
+        *without_domain._rank_metric_section_lines(
+            title="Normalized Ranking Score (NRS)",
+            metric_display="NRS",
+            formula_text="NRS = (M - r) / (M - 1)",
+            scale_lines=[
+                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", nrs),
+                ("Without Domain Knowledge", without_domain_nrs),
+            ],
+        ),
         "## Experiment Setup",
         "",
         "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_domain_knowledge + prs_model_performance_landscape",
@@ -664,7 +697,7 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking; diseases with fewer than `k` evaluated models are excluded from the `Hit@k` denominator",
         "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
-        "- **Without Domain Knowledge reference**: compare against `without-domain-gpt-5.2-t10` under the same 30-disease / 10-trial protocol",
+        "- **Without Domain Knowledge reference**: compare against the matching archived `without-domain-gpt-5.2-t10__<dataset>` run under the same disease-list / 10-trial protocol",
         "",
         "## Results by Disease",
         "",
@@ -694,51 +727,103 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
     without_domain._ensure_summary_hit_metrics(domain_summary)
     without_domain._ensure_summary_hit_metrics(without_domain_summary)
+    domain_rank_fraction = without_domain._compute_rank_metric_summary(domain_summary, without_domain._rank_fraction)
+    without_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._rank_fraction)
+    domain_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
+        domain_summary, without_domain._reverse_rank_fraction
+    )
+    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
+        without_domain_summary, without_domain._reverse_rank_fraction
+    )
+    domain_nrs = without_domain._compute_nrs_metrics(domain_summary)
+    without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
 
     lines = [
-        "# Contribution2 Experiment 2: With Domain Knowledge vs Without Domain Knowledge vs Baseline",
+        "# Contribution2 Experiment 2: With Domain Knowledge vs Without Domain Knowledge",
         "",
         "## Summary",
         "",
         f"- **Model**: {domain_summary['model']}",
-        (
-            f"- **With Domain Knowledge**: "
-            f"{domain_summary['modal_hit_at_k']['1']['hits']}/{domain_summary['modal_hit_at_k']['1']['eligible']} = "
-            f"{without_domain._format_percent(domain_summary['modal_hit_at_k']['1']['accuracy'] or 0.0)}; "
-            f"`trial_hits = {domain_summary['trial_hit_at_k']['1']['hits']}/{domain_summary['trial_hit_at_k']['1']['eligible']} = {without_domain._format_percent(domain_summary['trial_hit_at_k']['1']['accuracy'] or 0.0)}`"
+        f"- **Disease count**: {domain_summary['total_ontologies']}",
+        "",
+        "## High-Level Outcome",
+        "",
+        *[
+            (
+                f"- With Domain Knowledge `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
+                f"`trial_hits = {domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
+        *[
+            (
+                f"- Without Domain Knowledge `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
+                f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
+                f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
+                f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
+                f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+            )
+            for k in without_domain.BENCHMARK_HIT_KS
+        ],
+        "",
+        *without_domain._rank_metric_section_lines(
+            title="Rank Fraction (r / M)",
+            metric_display="r / M",
+            formula_text="r / M",
+            scale_lines=[
+                "- Scale: smaller is better.",
+                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", domain_rank_fraction),
+                ("Without Domain Knowledge", without_rank_fraction),
+            ],
         ),
-        (
-            f"- **Without Domain Knowledge**: "
-            f"{without_domain_summary['modal_hit_at_k']['1']['hits']}/{without_domain_summary['modal_hit_at_k']['1']['eligible']} = "
-            f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k']['1']['accuracy'] or 0.0)}; "
-            f"`trial_hits = {without_domain_summary['trial_hit_at_k']['1']['hits']}/{without_domain_summary['trial_hit_at_k']['1']['eligible']} = {without_domain._format_percent(without_domain_summary['trial_hit_at_k']['1']['accuracy'] or 0.0)}`"
+        *without_domain._rank_metric_section_lines(
+            title="Reverse Rank Fraction ((M - r) / M)",
+            metric_display="(M - r) / M",
+            formula_text="(M - r) / M",
+            scale_lines=[
+                "- Scale: `0.0` means bottom-ranked; larger is better.",
+                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", domain_reverse_rank_fraction),
+                ("Without Domain Knowledge", without_reverse_rank_fraction),
+            ],
         ),
-        (
-            f"- **Baseline**: "
-            f"{domain_summary['baseline']['hits']}/{domain_summary['total_ontologies']} = "
-            f"{without_domain._format_percent(domain_summary['baseline']['accuracy'])}"
+        *without_domain._rank_metric_section_lines(
+            title="Normalized Ranking Score (NRS)",
+            metric_display="NRS",
+            formula_text="NRS = (M - r) / (M - 1)",
+            scale_lines=[
+                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+            ],
+            metrics_by_label=[
+                ("With Domain Knowledge", domain_nrs),
+                ("Without Domain Knowledge", without_domain_nrs),
+            ],
         ),
         "",
         "## Results by Disease",
         "",
-        "| Ontology | N Models | Eligible Ks | Baseline Hit@1..5 | Baseline Models | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | With Domain Knowledge Hit@1..5 | With Domain Knowledge |",
-        "|----------|----------|-------------|-------------------|-----------------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
+        "| Ontology | N Models | Eligible Ks | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | With Domain Knowledge Hit@1..5 | With Domain Knowledge |",
+        "|----------|----------|-------------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
     ]
 
     for row in per_disease_rows:
         domain_row = domain_rows[row["ontology"]]
         without_domain_row = without_domain_rows[row["ontology"]]
-        baseline = domain_row.get("baseline") or {}
-        baseline_id = baseline.get("pgs_id")
-        baseline_rank_label = baseline.get("rank_label") or "-"
-        baseline_text = f"{baseline_id} (AUC rank {baseline_rank_label})" if baseline_id else "-"
         lines.append(
             f"| {row['ontology']} | {row['n_models']} | {without_domain._format_eligible_ks(row.get('eligible_at_k') or {})} | "
-            f"{without_domain._format_hit_vector(domain_row.get('baseline_hit_at_k') or {})} | "
-            f"{baseline_text} | "
             f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | "
             f"{_format_models(without_domain_row.get('recommended_model_counts') or [])} | "
             f"{without_domain._format_hit_vector(domain_row.get('modal_recommendation_hit_at_k') or {})} | "
@@ -854,7 +939,7 @@ def _regenerate_baseline(
     with_summary_path = with_run_dir / "experiment_with_domain_summary.json"
     if not with_summary_path.exists():
         print(f"WARNING: With-domain summary not found: {with_summary_path}")
-        print("Skipping with_vs_without_domain_per_disease_comparison.md")
+        print("Skipping comparison per-disease doc.")
         return
     with_summary = json.loads(with_summary_path.read_text(encoding="utf-8"))
     without_domain._recompute_baseline_in_summary(with_summary)

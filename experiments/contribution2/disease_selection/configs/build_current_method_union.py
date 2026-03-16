@@ -23,6 +23,7 @@ from experiments.contribution2.disease_selection.configs import select_diseases_
 
 
 OUTPUT_RUNS_DIR = Path(__file__).parent.parent / "runs"
+OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
 
 # Keep the broader canonical disease label for each merge group.
 CANONICAL_MERGE_GROUPS: dict[str, set[str]] = {
@@ -242,6 +243,7 @@ def build_current_method_union(min_n_models: int) -> tuple[pd.DataFrame, pd.Data
 
 def main(min_n_models: int) -> None:
     OUTPUT_RUNS_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT_INTERMEDIATE_DIR.mkdir(parents=True, exist_ok=True)
 
     root_df = _compute_selected_raw(use_childrencode=False, min_n_models=min_n_models)
     child_df = _compute_selected_raw(use_childrencode=True, min_n_models=min_n_models)
@@ -249,8 +251,12 @@ def main(min_n_models: int) -> None:
 
     union_df, detail_df = build_current_method_union(min_n_models=min_n_models)
     out_suffix = "" if min_n_models == base.DEFAULT_MIN_N_MODELS else f"_min{min_n_models}"
-    csv_path = OUTPUT_RUNS_DIR / f"selected_diseases_contribution2_current_union{out_suffix}.csv"
-    detail_csv_path = OUTPUT_RUNS_DIR / f"selected_diseases_contribution2_current_union_details{out_suffix}.csv"
+    csv_dir = OUTPUT_RUNS_DIR if min_n_models == base.DEFAULT_MIN_N_MODELS else OUTPUT_INTERMEDIATE_DIR
+    if min_n_models == base.DEFAULT_MIN_N_MODELS:
+        csv_path = csv_dir / "selected_diseases_contribution2_current_union__60disease.csv"
+    else:
+        csv_path = csv_dir / f"selected_diseases_contribution2_current_union{out_suffix}.csv"
+    detail_csv_path = OUTPUT_INTERMEDIATE_DIR / f"selected_diseases_contribution2_current_union_details{out_suffix}.csv"
     report_path = OUTPUT_RUNS_DIR / f"selected_diseases_contribution2_current_union_report{out_suffix}.md"
     union_df.to_csv(csv_path, index=False)
     detail_df.to_csv(detail_csv_path, index=False)

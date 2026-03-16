@@ -18,7 +18,7 @@ These counts are computed **before** any later canonical merge-map step that col
 | `min_n_models = 2` (new default) | **157** | **116** | **70** |
 | `min_n_models = 3` (legacy base eligibility) | **127** | **100** | **59** |
 
-The current on-disk benchmark file [selected_diseases_contribution2_union.csv](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union.csv) is a frozen manual 30-disease benchmark created under older selection settings and is not auto-synced to the current code.
+The current on-disk benchmark file [selected_diseases_contribution2_union__30disease.csv](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv) is a frozen manual 30-disease benchmark created under older selection settings and is not auto-synced to the current code.
 The canonicalized current-method union produced by [build_current_method_union.py](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/configs/build_current_method_union.py) further collapses these raw counts to `60` (default) and `54` (`min_n_models = 3`).
 
 ## Mode Definitions

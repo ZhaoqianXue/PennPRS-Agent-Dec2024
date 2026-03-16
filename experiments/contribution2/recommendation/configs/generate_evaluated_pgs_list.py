@@ -12,12 +12,12 @@ Outputs:
 
 Usage:
   python generate_evaluated_pgs_list.py
-  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union.csv
+  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__60disease.csv
 
 Requirements:
   - experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_*.csv
   - experiments/contribution1/result/aou_icd_260217/prs_adjauc_metadata_260217_*.csv
-  - experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union.csv
+  - experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv
 
 If Contribution1 files are missing, prints a clear message and exits.
 """
@@ -37,8 +37,10 @@ import pandas as pd
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
 CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
 RECOMMENDATION_DIR = Path(__file__).parent.parent
-DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
+DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
 DEFAULT_OUTPUT_DIR = RECOMMENDATION_DIR / "runs" / "ground-truth__contribution1"
+CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__60disease.csv"
+LEGACY_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union"
 EVALUATED_JSON_NAME = "evaluated_pgs_per_ontology.json"
 RANKED_JSON_NAME = "top_k_pgs_per_ontology.json"
 BENCHMARK_AUC_JSON_NAME = "benchmark_auc_per_ontology.json"
@@ -83,6 +85,8 @@ def _normalize_ontology(s: str) -> str:
 def _default_output_dir_for_union(union_path: Path) -> Path:
     if union_path.resolve() == DEFAULT_UNION_CSV.resolve():
         return DEFAULT_OUTPUT_DIR
+    if union_path.resolve() == CURRENT_UNION_CSV.resolve() or union_path.stem == LEGACY_CURRENT_UNION_STEM:
+        return RECOMMENDATION_DIR / "runs" / f"ground-truth__{LEGACY_CURRENT_UNION_STEM}"
     return RECOMMENDATION_DIR / "runs" / f"ground-truth__{union_path.stem}"
 
 

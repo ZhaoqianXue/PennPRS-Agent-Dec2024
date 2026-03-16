@@ -18,7 +18,7 @@ Evaluate whether the PennPRS Agent can select a single PRS model that ranks near
 
 ### Disease Set
 
-- Source: `experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union.csv`
+- Source: `experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv`
 - Size: 30 ontology-level diseases
 
 ### Benchmark Labels
@@ -88,7 +88,6 @@ This is the primary Contribution2 experiment and should be executed now.
 | Candidate pool | Evaluated PGS IDs only (`N Models`) |
 | Fallback | Disabled |
 | Trials | 10 runs per disease |
-| Baseline | Highest reported PGS-only AUROC in PGS Catalog metadata, when available |
 | LLM execution | OpenAI Batch API |
 
 ### Without Domain Knowledge protocol
@@ -136,14 +135,11 @@ This is the primary Contribution2 experiment and should be executed now.
 - `modal_recommendation_hit_at_k`
 - `candidate_models_visible_to_llm`
 - `feature_mentions`
-- `baseline`
-- `baseline_hit_at_k`
 
 ### Primary metrics
 
 - `Modal Hit@1..5`: for each disease, take the final recommended model across 10 runs and evaluate against the AoU benchmark top-`k` set
 - `Trial Hit@1..5`: the same evaluation at the individual-trial level
-- `Baseline Hit@1..5`: tiered deterministic baseline (see Naive baseline below)
 - `Normalized Ranking Score (NRS)`
 
 ### Internal diagnostics
@@ -152,15 +148,6 @@ The runner still records engineering diagnostics in JSON for debugging, but they
 
 - aggregate trial-level hit count
 - valid-output count/rate
-
-### Naive baseline (tiered)
-
-Use a tiered deterministic baseline to achieve high coverage:
-
-- **Tier 1**: Select the candidate model with the largest reported PRS-comparable `performance_metrics["auc"]` (PGS-only AUROC) among the evaluated candidate pool.
-- **Tier 2**: If no candidate has PGS-comparable AUROC, fall back to the candidate with the largest `performance_metrics["full_model_auc"]`.
-
-For each disease, evaluate the baseline recommendation with `Hit@1..5`. Coverage is still reported because the baseline may fail to produce a recommendation for some diseases.
 
 ### Cost accounting
 
@@ -266,7 +253,6 @@ Comparison output:
 ### Comparison targets
 
 - `Overall Recommended Model Accuracy`
-- `Baseline accuracy`
 - disease-level comparison against the archived Without Domain Knowledge GPT-5.2 run
 - `Win / Loss / Tie-Hit / Tie-Miss`
 

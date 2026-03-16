@@ -25,7 +25,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
-UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union.csv"
+UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
 EVALUATED_JSON = Path(__file__).parent.parent / "runs" / "evaluated_pgs_per_ontology.json"
 
 
