@@ -57,7 +57,7 @@
 
 ## Experiment Setup
 
-- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_performance_landscape
+- **Step 1 tools**: prs_model_pgscatalog_search
 - **Domain Knowledge**: Disabled
 - **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us
 - **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking using the full disease/trial denominator; if a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models

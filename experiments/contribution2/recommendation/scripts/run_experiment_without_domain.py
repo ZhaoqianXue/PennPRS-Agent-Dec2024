@@ -70,7 +70,6 @@ if eval_pgs_path.exists():
 from src.server.core.llm_config import get_config
 from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
 from src.server.core.tools.prs_model_tools import (
-    prs_model_performance_landscape,
     prs_model_pgscatalog_search,
 )
 from src.server.core.pgs_catalog_client import PGSCatalogClient
@@ -1111,7 +1110,6 @@ def _step1_context(
     ontology: str,
     candidate_models: list[Any],
     total_found: int,
-    landscape: dict[str, Any],
 ) -> dict[str, Any]:
     return {
         "target_trait": ontology,
@@ -1121,7 +1119,6 @@ def _step1_context(
             "after_filter": len(candidate_models),
             "models": [_summarize_model_for_llm(model) for model in candidate_models],
         },
-        "performance_landscape": landscape,
         "domain_knowledge": {
             "query": "",
             "snippets": [],
@@ -1437,9 +1434,6 @@ def _prepare_manifest(
         rows = rows[:limit]
 
     pgs_client = PGSCatalogClient()
-    print("Building global performance landscape...")
-    landscape = prs_model_performance_landscape(pgs_client, []).model_dump()
-    print("Global performance landscape ready.")
 
     requests: list[dict[str, Any]] = []
     disease_metadata: list[dict[str, Any]] = []
@@ -1488,7 +1482,6 @@ def _prepare_manifest(
             ontology=ontology,
             candidate_models=candidate_models,
             total_found=total_found,
-            landscape=landscape,
         )
         context_json = json.dumps(context, separators=(",", ":"), ensure_ascii=False)
         slug = _slugify(ontology)
@@ -2585,7 +2578,7 @@ def _write_report(summary: dict[str, Any]) -> None:
         "",
         "## Experiment Setup",
         "",
-        "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_performance_landscape",
+        "- **Step 1 tools**: prs_model_pgscatalog_search",
         "- **Domain Knowledge**: Disabled",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking using the full disease/trial denominator; if a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models",

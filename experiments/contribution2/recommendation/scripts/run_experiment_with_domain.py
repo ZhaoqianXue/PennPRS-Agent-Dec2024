@@ -204,7 +204,6 @@ def _step1_context(
     ontology: str,
     candidate_models: list[Any],
     total_found: int,
-    landscape: dict[str, Any],
 ) -> dict[str, Any]:
     query = _domain_query(ontology)
     domain = prs_model_domain_knowledge(query, max_snippets=8).model_dump()
@@ -216,7 +215,6 @@ def _step1_context(
             "after_filter": len(candidate_models),
             "models": [without_domain._summarize_model_for_llm(model) for model in candidate_models],
         },
-        "performance_landscape": landscape,
         "domain_knowledge": domain,
         "todo_recitation_path": "N/A",
         "todo_recitation": "",
@@ -708,7 +706,7 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         ),
         "## Experiment Setup",
         "",
-        "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_domain_knowledge + prs_model_performance_landscape",
+        "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_domain_knowledge",
         "- **Domain Knowledge**: Enabled (local curated knowledge base)",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking using the full disease/trial denominator; if a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models",

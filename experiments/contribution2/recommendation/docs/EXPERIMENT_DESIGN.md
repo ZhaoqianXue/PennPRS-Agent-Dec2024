@@ -68,7 +68,6 @@ Here, `highest-result` first prefers explicit PRS-comparable metrics from that v
 
 The selected record's top-level `performance_metrics.auc` / `performance_metrics.r2` are therefore PRS-comparable metrics when explicitly available, while `classification_metrics`, `other_metrics`, `full_model_auc`, `full_model_r2`, and `incremental_auc` remain available for sanity checking and interpretation.
 The agent-facing `performance_metrics` preserves the selected record's full `classification_metrics` and `other_metrics`, while `phenotyping_reported`, `covariates`, and `validation_sample_size` are aligned to that same selected record.
-The global `prs_model_performance_landscape` now uses the same comparable-metric semantics: a score contributes to landscape `auc` / `r2` only when an explicit PRS-comparable metric is available from its selected validation record; full-model AUROC/R² do not fill those comparable distributions.
 
 ---
 
@@ -82,7 +81,7 @@ This is the primary Contribution2 experiment and should be executed now.
 
 | Setting | Value |
 |---------|-------|
-| Tools | `prs_model_pgscatalog_search` + `prs_model_performance_landscape` |
+| Tools | `prs_model_pgscatalog_search` |
 | Domain knowledge | Disabled |
 | Cross-disease Step 2 | Disabled |
 | Candidate pool | Evaluated PGS IDs only (`N Models`) |
@@ -95,7 +94,7 @@ This is the primary Contribution2 experiment and should be executed now.
 1. Use the 30 diseases from the union CSV.
 2. For each disease, restrict Step 1 candidates to `evaluated_pgs_per_ontology.json`.
 3. Disable `prs_model_domain_knowledge`.
-4. Use the fixed Step 1 prompt and provide only candidate metadata plus `prs_model_performance_landscape` in context.
+4. Use the fixed Step 1 prompt and provide only candidate metadata in context.
 5. Disable fallback behavior:
    - no fallback Step 1 decision
    - no fallback final report
@@ -103,7 +102,6 @@ This is the primary Contribution2 experiment and should be executed now.
 6. Precompute the local Step 1 context for each disease once:
    - filtered candidate models
    - candidate metadata visible to the LLM
-   - global `prs_model_performance_landscape`
 7. Create 10 batch requests per disease and submit them through the OpenAI Batch API.
 8. For each completed batch response, extract the single recommended `PGS ID` from the Step 1 structured output.
 9. Compute benchmark rank, `Hit@1..5`, and `NRS` from the AoU ranking.
