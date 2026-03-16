@@ -7,15 +7,15 @@ This report is a disease-by-disease comparison built from the without-domain exp
 Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).
 
 Each disease table includes the benchmark top-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models).
-Rows `Hit@1`..`Hit@5` use eligible-only denominators; diseases with fewer than `k` evaluated models are marked `N/A` for `Hit@k`.
+Rows `Hit@1`..`Hit@5` are evaluated over the full disease/trial set; when a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models for that disease.
 
 ## High-Level Outcome
 
 - Without Domain Knowledge `Hit@1`: `16/60 = 26.67%`; `trial_hits = 157/600 = 26.17%`
 - Without Domain Knowledge `Hit@2`: `23/60 = 38.33%`; `trial_hits = 224/600 = 37.33%`
-- Without Domain Knowledge `Hit@3`: `24/54 = 44.44%`; `trial_hits = 231/540 = 42.78%`
-- Without Domain Knowledge `Hit@4`: `22/48 = 45.83%`; `trial_hits = 218/480 = 45.42%`
-- Without Domain Knowledge `Hit@5`: `20/43 = 46.51%`; `trial_hits = 192/430 = 44.65%`
+- Without Domain Knowledge `Hit@3`: `30/60 = 50.00%`; `trial_hits = 291/600 = 48.50%`
+- Without Domain Knowledge `Hit@4`: `34/60 = 56.67%`; `trial_hits = 338/600 = 56.33%`
+- Without Domain Knowledge `Hit@5`: `37/60 = 61.67%`; `trial_hits = 362/600 = 60.33%`
 
 ## Rank Fraction (r / M)
 
@@ -45,7 +45,7 @@ Rows `Hit@1`..`Hit@5` use eligible-only denominators; diseases with fewer than `
 
 ### hypertension
 
-Candidate pool: `258` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `258` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -87,7 +87,7 @@ Candidate pool: `258` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### breast carcinoma
 
-Candidate pool: `164` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `164` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -129,7 +129,7 @@ Candidate pool: `164` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### melanoma
 
-Candidate pool: `103` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `103` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -171,7 +171,7 @@ Candidate pool: `103` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### prostate cancer
 
-Candidate pool: `96` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `96` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -213,7 +213,7 @@ Candidate pool: `96` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### coronary artery disease
 
-Candidate pool: `85` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `85` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -255,7 +255,7 @@ Candidate pool: `85` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### asthma
 
-Candidate pool: `66` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `66` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -297,7 +297,7 @@ Candidate pool: `66` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### gout
 
-Candidate pool: `63` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `63` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -339,7 +339,7 @@ Candidate pool: `63` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### atrial fibrillation
 
-Candidate pool: `61` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `61` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -381,7 +381,7 @@ Candidate pool: `61` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### rheumatoid arthritis
 
-Candidate pool: `48` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `48` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -423,7 +423,7 @@ Candidate pool: `48` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### lung cancer
 
-Candidate pool: `35` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `35` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -465,7 +465,7 @@ Candidate pool: `35` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### myocardial infarction
 
-Candidate pool: `35` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `35` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -507,7 +507,7 @@ Candidate pool: `35` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### heart failure
 
-Candidate pool: `34` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `34` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -549,7 +549,7 @@ Candidate pool: `34` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### thyroid carcinoma
 
-Candidate pool: `32` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `32` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -591,7 +591,7 @@ Candidate pool: `32` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### psoriasis
 
-Candidate pool: `31` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `31` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -633,7 +633,7 @@ Candidate pool: `31` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### hypothyroidism
 
-Candidate pool: `28` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `28` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -675,7 +675,7 @@ Candidate pool: `28` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### hodgkins lymphoma
 
-Candidate pool: `27` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `27` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -717,7 +717,7 @@ Candidate pool: `27` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### major depressive disorder
 
-Candidate pool: `24` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `24` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -759,7 +759,7 @@ Candidate pool: `24` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### chronic kidney disease
 
-Candidate pool: `22` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `22` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -801,7 +801,7 @@ Candidate pool: `22` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### ovarian carcinoma
 
-Candidate pool: `21` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `21` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -843,7 +843,7 @@ Candidate pool: `21` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### basal cell carcinoma
 
-Candidate pool: `20` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -885,7 +885,7 @@ Candidate pool: `20` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### sleep apnea
 
-Candidate pool: `20` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -927,7 +927,7 @@ Candidate pool: `20` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### urinary bladder cancer
 
-Candidate pool: `20` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -969,7 +969,7 @@ Candidate pool: `20` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### glaucoma
 
-Candidate pool: `15` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `15` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1011,7 +1011,7 @@ Candidate pool: `15` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### uterine carcinoma
 
-Candidate pool: `14` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `14` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1053,7 +1053,7 @@ Candidate pool: `14` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### osteoporosis
 
-Candidate pool: `13` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `13` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1095,7 +1095,7 @@ Candidate pool: `13` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### testicular carcinoma
 
-Candidate pool: `13` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `13` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1137,7 +1137,7 @@ Candidate pool: `13` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### parkinson disease
 
-Candidate pool: `11` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `11` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1179,7 +1179,7 @@ Candidate pool: `11` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### systemic lupus erythematosus
 
-Candidate pool: `11` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `11` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1221,7 +1221,7 @@ Candidate pool: `11` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### chronic obstructive pulmonary disease
 
-Candidate pool: `10` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `10` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1263,7 +1263,7 @@ Candidate pool: `10` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### kidney cancer
 
-Candidate pool: `10` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `10` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1305,7 +1305,7 @@ Candidate pool: `10` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### obesity
 
-Candidate pool: `10` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `10` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1347,7 +1347,7 @@ Candidate pool: `10` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### acute lymphoblastic leukemia
 
-Candidate pool: `9` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `9` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1389,7 +1389,7 @@ Candidate pool: `9` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### ankylosing spondylitis
 
-Candidate pool: `9` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `9` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1431,7 +1431,7 @@ Candidate pool: `9` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### aortic stenosis
 
-Candidate pool: `8` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `8` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1473,7 +1473,7 @@ Candidate pool: `8` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### dilated cardiomyopathy
 
-Candidate pool: `8` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `8` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1515,7 +1515,7 @@ Candidate pool: `8` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### hyperthyroidism
 
-Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `7` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1557,7 +1557,7 @@ Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### knee osteoarthritis
 
-Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `7` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1599,7 +1599,7 @@ Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### nodular goiter
 
-Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `7` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1641,7 +1641,7 @@ Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### pulmonary embolism
 
-Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `7` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1683,7 +1683,7 @@ Candidate pool: `7` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### abdominal aortic aneurysm
 
-Candidate pool: `6` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `6` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1725,7 +1725,7 @@ Candidate pool: `6` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### age-related macular degeneration
 
-Candidate pool: `6` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `6` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1767,7 +1767,7 @@ Candidate pool: `6` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### cervical carcinoma
 
-Candidate pool: `6` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `6` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1809,7 +1809,7 @@ Candidate pool: `6` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### late-onset alzheimer's disease
 
-Candidate pool: `5` models. Eligible `Hit@k`: `1,2,3,4,5`.
+Candidate pool: `5` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Without Domain Knowledge | Field Type |
@@ -1851,7 +1851,7 @@ Candidate pool: `5` models. Eligible `Hit@k`: `1,2,3,4,5`.
 
 ### alcohol dependence
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Without Domain Knowledge | Field Type |
@@ -1863,7 +1863,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 | Hit@2 | Yes | Yes | No | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | 10/10 trials | Benchmark Only |
 | trait_reported | Alcohol use disorder | Problematic alcohol use | Problematic alcohol use | Alcohol use disorder | Alcohol use disorder | Agent Input |
 | trait_efo | alcohol dependence | alcohol dependence measurement | alcohol dependence measurement | alcohol dependence | alcohol dependence | Agent Input |
@@ -1893,7 +1893,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 
 ### atrial flutter
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Without Domain Knowledge | Field Type |
@@ -1905,7 +1905,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 | Hit@2 | Yes | Yes | No | No | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | 10/10 trials | Benchmark Only |
 | trait_reported | Atrial fibrillation and flutter | Atrial fibrillation and flutter | Atrial fibrillation and flutter (time-to-event) | Atrial flutter | Atrial flutter | Agent Input |
 | trait_efo | atrial fibrillation, atrial flutter | atrial fibrillation, atrial flutter | atrial fibrillation, atrial flutter | atrial flutter | atrial flutter | Agent Input |
@@ -1935,7 +1935,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 
 ### hypertrophic cardiomyopathy
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Without Domain Knowledge | Field Type |
@@ -1947,7 +1947,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 | Hit@2 | Yes | Yes | No | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | 10/10 trials | Benchmark Only |
 | trait_reported | Hypertrophic cardiomyopathy (MTAG) | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy (MTAG) | Agent Input |
 | trait_efo | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | Agent Input |
@@ -1977,7 +1977,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 
 ### juvenile idiopathic arthritis
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Without Domain Knowledge | Field Type |
@@ -1989,7 +1989,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 | Hit@2 | Yes | Yes | No | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | 10/10 trials | Benchmark Only |
 | trait_reported | Juvenile Idiopathic Arthritis | Oligoarthritis Juvenile Idiophatic Arthritis | Rheumatoid-factor-negative Polyarthritis (Juvenile Idiophatic Arthritis) | Enthesitis-related Juvenile Idiophatic Arthritis | Juvenile Idiopathic Arthritis | Agent Input |
 | trait_efo | juvenile idiopathic arthritis | oligoarticular juvenile idiopathic arthritis | polyarticular juvenile idiopathic arthritis, rheumatoid factor negative | enthesitis-related juvenile idiopathic arthritis | juvenile idiopathic arthritis | Agent Input |
@@ -2019,7 +2019,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 
 ### peripheral vascular disease
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Without Domain Knowledge | Field Type |
@@ -2031,7 +2031,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 | Hit@2 | Yes | Yes | No | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | 10/10 trials | Benchmark Only |
 | trait_reported | Peripheral artery disease | Peripheral vascular disease, unspecified | Peripheral artery disease | Peripheral vascular disease, unspecified | Peripheral artery disease | Agent Input |
 | trait_efo | peripheral arterial disease | peripheral vascular disease | peripheral arterial disease | peripheral vascular disease | peripheral arterial disease | Agent Input |
@@ -2061,7 +2061,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3,4`.
 
 ### psoriatic arthritis
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Without Domain Knowledge | Field Type |
@@ -2071,9 +2071,9 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2`.
 | AoU benchmark AUC | 0.5731 | 0.5102 | 0.5731 | Benchmark Only |
 | Hit@1 | Yes | No | Yes | Benchmark Only |
 | Hit@2 | Yes | Yes | Yes | Benchmark Only |
-| Hit@3 | N/A | N/A | N/A | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | 10/10 trials | Benchmark Only |
 | trait_reported | Psoriatic arthropathy | Psoriatic arthritis | Psoriatic arthropathy | Agent Input |
 | trait_efo | psoriatic arthritis | psoriatic arthritis | psoriatic arthritis | Agent Input |
@@ -2103,7 +2103,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2`.
 
 ### sarcoidosis
 
-Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3`.
+Candidate pool: `4` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Without Domain Knowledge | Field Type |
@@ -2114,8 +2114,8 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3`.
 | Hit@1 | Yes | No | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 8/10 trials | Benchmark Only |
 | trait_reported | Sarcoidosis | Sarcoidosis | Sarcoidosis (time-to-event) | Sarcoidosis | Agent Input |
 | trait_efo | skin sarcoidosis | sarcoidosis | sarcoidosis | sarcoidosis | Agent Input |
@@ -2145,7 +2145,7 @@ Candidate pool: `4` models. Eligible `Hit@k`: `1,2,3`.
 
 ### bipolar disorder
 
-Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
+Candidate pool: `3` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Without Domain Knowledge | Field Type |
@@ -2156,8 +2156,8 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 | Hit@1 | Yes | No | No | Yes | Benchmark Only |
 | Hit@2 | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 10/10 trials | Benchmark Only |
 | trait_reported | Bipolar disorder | Type 1 bipolar disorder | Type 2 bipolar disorder | Bipolar disorder | Agent Input |
 | trait_efo | bipolar disorder | bipolar I disorder | bipolar II disorder | bipolar disorder | Agent Input |
@@ -2187,7 +2187,7 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 
 ### hashimoto's thyroiditis
 
-Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
+Candidate pool: `3` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Without Domain Knowledge | Field Type |
@@ -2198,8 +2198,8 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 | Hit@1 | Yes | No | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 10/10 trials | Benchmark Only |
 | trait_reported | Lymphocytic thyroiditis | Lymphocytic thyroiditis | Lymphocytic thyroiditis | Lymphocytic thyroiditis | Agent Input |
 | trait_efo | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Hashimoto's thyroiditis | Agent Input |
@@ -2229,7 +2229,7 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 
 ### nephrolithiasis
 
-Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
+Candidate pool: `3` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Without Domain Knowledge | Field Type |
@@ -2240,8 +2240,8 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 | Hit@1 | Yes | No | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 10/10 trials | Benchmark Only |
 | trait_reported | N20 (Calculus of kidney and ureter) | N20 (Calculus of kidney and ureter) | Calculus of kidney and ureter (time-to-event) | Calculus of kidney and ureter (time-to-event) | Agent Input |
 | trait_efo | nephrolithiasis | nephrolithiasis | nephrolithiasis, ureterolithiasis | nephrolithiasis, ureterolithiasis | Agent Input |
@@ -2271,7 +2271,7 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 
 ### preeclampsia
 
-Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
+Candidate pool: `3` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Without Domain Knowledge | Field Type |
@@ -2282,8 +2282,8 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 | Hit@1 | Yes | No | No | Yes | Benchmark Only |
 | Hit@2 | Yes | Yes | No | Yes | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 10/10 trials | Benchmark Only |
 | trait_reported | Pre-eclampsia | Preeclampsia | Gestational hypertension | Pre-eclampsia | Agent Input |
 | trait_efo | preeclampsia | preeclampsia | preeclampsia | preeclampsia | Agent Input |
@@ -2313,7 +2313,7 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 
 ### vitiligo
 
-Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
+Candidate pool: `3` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Without Domain Knowledge | Field Type |
@@ -2324,8 +2324,8 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 | Hit@1 | Yes | No | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | Yes | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | N/A | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 10/10 trials | Benchmark Only |
 | trait_reported | Vitiligo | Vitiligo | Vitiligo (time-to-event) | Vitiligo (time-to-event) | Agent Input |
 | trait_efo | Vitiligo | Vitiligo | Vitiligo | Vitiligo | Agent Input |
@@ -2355,7 +2355,7 @@ Candidate pool: `3` models. Eligible `Hit@k`: `1,2,3`.
 
 ### acute kidney injury
 
-Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
+Candidate pool: `2` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Without Domain Knowledge | Field Type |
@@ -2365,9 +2365,9 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 | AoU benchmark AUC | 0.5570 | 0.5217 | 0.5570 | Benchmark Only |
 | Hit@1 | Yes | No | Yes | Benchmark Only |
 | Hit@2 | Yes | Yes | Yes | Benchmark Only |
-| Hit@3 | N/A | N/A | N/A | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | 10/10 trials | Benchmark Only |
 | trait_reported | N17 (Acute renal failure) | N17 (Acute renal failure) | N17 (Acute renal failure) | Agent Input |
 | trait_efo | acute kidney injury | acute kidney injury | acute kidney injury | Agent Input |
@@ -2397,7 +2397,7 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 
 ### autism spectrum disorder
 
-Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
+Candidate pool: `2` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Without Domain Knowledge | Field Type |
@@ -2407,9 +2407,9 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 | AoU benchmark AUC | 0.6024 | 0.5670 | 0.5670 | Benchmark Only |
 | Hit@1 | Yes | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | Yes | Benchmark Only |
-| Hit@3 | N/A | N/A | N/A | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | 10/10 trials | Benchmark Only |
 | trait_reported | Autism spectrum disorder | Autism spectrum disorder | Autism spectrum disorder | Agent Input |
 | trait_efo | autism spectrum disorder | autism spectrum disorder | autism spectrum disorder | Agent Input |
@@ -2439,7 +2439,7 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 
 ### idiopathic pulmonary fibrosis
 
-Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
+Candidate pool: `2` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Without Domain Knowledge | Field Type |
@@ -2449,9 +2449,9 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 | AoU benchmark AUC | 0.6742 | 0.6449 | 0.6449 | Benchmark Only |
 | Hit@1 | Yes | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | Yes | Benchmark Only |
-| Hit@3 | N/A | N/A | N/A | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | 10/10 trials | Benchmark Only |
 | trait_reported | Idiopathic pulmonary fibrosis | Idiopathic pulmonary fibrosis | Idiopathic pulmonary fibrosis | Agent Input |
 | trait_efo | idiopathic pulmonary fibrosis | idiopathic pulmonary fibrosis | idiopathic pulmonary fibrosis | Agent Input |
@@ -2481,7 +2481,7 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 
 ### nicotine dependence
 
-Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
+Candidate pool: `2` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Without Domain Knowledge | Field Type |
@@ -2491,9 +2491,9 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 | AoU benchmark AUC | 0.5974 | 0.5707 | 0.5974 | Benchmark Only |
 | Hit@1 | Yes | No | Yes | Benchmark Only |
 | Hit@2 | Yes | Yes | Yes | Benchmark Only |
-| Hit@3 | N/A | N/A | N/A | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | 10/10 trials | Benchmark Only |
 | trait_reported | Tobacco use disorder | Tobacco use disorder | Tobacco use disorder | Agent Input |
 | trait_efo | nicotine dependence | nicotine dependence | nicotine dependence | Agent Input |
@@ -2523,7 +2523,7 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 
 ### otosclerosis
 
-Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
+Candidate pool: `2` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.
 
 
 | Field | Benchmark #1 | Benchmark #2 | Without Domain Knowledge | Field Type |
@@ -2533,9 +2533,9 @@ Candidate pool: `2` models. Eligible `Hit@k`: `1,2`.
 | AoU benchmark AUC | 0.6377 | 0.6276 | 0.6276 | Benchmark Only |
 | Hit@1 | Yes | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | Yes | Benchmark Only |
-| Hit@3 | N/A | N/A | N/A | Benchmark Only |
-| Hit@4 | N/A | N/A | N/A | Benchmark Only |
-| Hit@5 | N/A | N/A | N/A | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | 10/10 trials | Benchmark Only |
 | trait_reported | Otosclerosis | Otosclerosis (time-to-event) | Otosclerosis (time-to-event) | Agent Input |
 | trait_efo | otosclerosis | otosclerosis | otosclerosis | Agent Input |

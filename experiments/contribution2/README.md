@@ -94,7 +94,7 @@ Formal headline metrics:
 - `Trial Hit@1..5`
 - `Normalized Ranking Score (NRS)`
 
-For `Hit@k`, diseases with fewer than `k` evaluated models are excluded from the denominator.
+For `Hit@k`, use the full disease / trial denominator. If a disease has fewer than `k` evaluated models, `Top@k` includes all available evaluated models for that disease.
 If the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`.
 
 Per-trial chosen PGS IDs are still recorded in the JSON outputs for every disease and every run.

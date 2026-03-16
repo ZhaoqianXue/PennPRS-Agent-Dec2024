@@ -450,7 +450,7 @@ def _write_per_disease_comparison_doc(
         "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
         "",
         "Each disease table includes benchmark-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models), followed by the current with-domain and without-domain selections.",
-        "Rows `Hit@1`..`Hit@5` use eligible-only denominators; diseases with fewer than `k` evaluated models are marked `N/A` for `Hit@k`.",
+        "Rows `Hit@1`..`Hit@5` are evaluated over the full disease/trial set; when a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models for that disease.",
         "",
         "## High-Level Outcome",
         "",
@@ -534,7 +534,7 @@ def _write_per_disease_comparison_doc(
         lines.extend([
             f"### {ontology}",
             "",
-            f"Candidate pool: `{row['n_models']}` models. Eligible `Hit@k`: `{without_domain._format_eligible_ks(row.get('eligible_at_k') or {})}`.",
+            f"Candidate pool: `{row['n_models']}` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.",
             "",
             "",
             f"| {' | '.join(header)} |",
@@ -695,7 +695,7 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_domain_knowledge + prs_model_performance_landscape",
         "- **Domain Knowledge**: Enabled (local curated knowledge base)",
         "- **Candidate pool**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
-        "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking; diseases with fewer than `k` evaluated models are excluded from the `Hit@k` denominator",
+        "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking using the full disease/trial denominator; if a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models",
         "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
         "- **Without Domain Knowledge reference**: compare against the matching archived `without-domain-gpt-5.2-t10__<dataset>` run under the same disease-list / 10-trial protocol",
         "",
@@ -704,14 +704,14 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        "| Ontology | N Models | Eligible Ks | Trial Hit@1..5 | With Domain Knowledge Hit@1..5 | With Domain Knowledge | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge |",
-        "|----------|----------|-------------|---------------|----------------------------------|-----------------------|-------------------------------------|--------------------------|",
+        "| Ontology | N Models | Trial Hit@1..5 | With Domain Knowledge Hit@1..5 | With Domain Knowledge | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge |",
+        "|----------|----------|---------------|----------------------------------|-----------------------|-------------------------------------|--------------------------|",
     ]
 
     for row in per_disease_rows:
         without_domain_row = without_domain_rows[row["ontology"]]
         lines.append(
-            f"| {row['ontology']} | {row['n_models']} | {without_domain._format_eligible_ks(row.get('eligible_at_k') or {})} | "
+            f"| {row['ontology']} | {row['n_models']} | "
             f"{without_domain._format_rate_vector(row.get('trial_hit_rates_at_k') or {})} | "
             f"{without_domain._format_hit_vector(row.get('modal_recommendation_hit_at_k') or {})} | {_format_models(row.get('recommended_model_counts') or [])} | "
             f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | {_format_models(without_domain_row.get('recommended_model_counts') or [])} |"
@@ -815,15 +815,15 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
         "",
         "## Results by Disease",
         "",
-        "| Ontology | N Models | Eligible Ks | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | With Domain Knowledge Hit@1..5 | With Domain Knowledge |",
-        "|----------|----------|-------------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
+        "| Ontology | N Models | Without Domain Knowledge Hit@1..5 | Without Domain Knowledge | With Domain Knowledge Hit@1..5 | With Domain Knowledge |",
+        "|----------|----------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
     ]
 
     for row in per_disease_rows:
         domain_row = domain_rows[row["ontology"]]
         without_domain_row = without_domain_rows[row["ontology"]]
         lines.append(
-            f"| {row['ontology']} | {row['n_models']} | {without_domain._format_eligible_ks(row.get('eligible_at_k') or {})} | "
+            f"| {row['ontology']} | {row['n_models']} | "
             f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | "
             f"{_format_models(without_domain_row.get('recommended_model_counts') or [])} | "
             f"{without_domain._format_hit_vector(domain_row.get('modal_recommendation_hit_at_k') or {})} | "

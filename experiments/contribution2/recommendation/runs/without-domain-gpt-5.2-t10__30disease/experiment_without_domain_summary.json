@@ -39,18 +39,18 @@
         "coverage": 0.9333
       },
       "4": {
-        "hits": 16,
-        "eligible": 26,
-        "accuracy": 0.6154,
-        "available": 25,
-        "coverage": 0.9615
+        "hits": 19,
+        "eligible": 30,
+        "accuracy": 0.6333,
+        "available": 28,
+        "coverage": 0.9333
       },
       "5": {
-        "hits": 14,
-        "eligible": 22,
-        "accuracy": 0.6364,
-        "available": 22,
-        "coverage": 1.0
+        "hits": 20,
+        "eligible": 30,
+        "accuracy": 0.6667,
+        "available": 28,
+        "coverage": 0.9333
       }
     }
   },
@@ -693,7 +693,7 @@
           "variants_number": 52,
           "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic Risk Score Analysis Supports a Joint View of Two Classification Systems for Age-Related Macular Degeneration.",
+            "title": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
             "journal": "Invest Ophthalmol Vis Sci"
           },
           "date_release": "2024-09-19",
@@ -738,7 +738,7 @@
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -794,7 +794,7 @@
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -808,7 +808,7 @@
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -822,7 +822,7 @@
           "pgs_id": "PGS004952",
           "rank": 3,
           "rank_label": "3/6",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1126,7 +1126,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1140,7 +1140,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1154,7 +1154,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1168,7 +1168,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1182,7 +1182,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1196,7 +1196,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1210,7 +1210,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1224,7 +1224,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1238,7 +1238,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -1252,7 +1252,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         }
       ],
@@ -1295,42 +1295,47 @@
           "PGS000202",
           "PGS002739"
         ],
-        "5": []
+        "5": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202",
+          "PGS002739"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
         "3": false,
         "4": false,
-        "5": null
+        "5": false
       },
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       }
     },
     {
@@ -1600,7 +1605,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1614,7 +1619,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1628,7 +1633,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1642,7 +1647,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1656,7 +1661,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1670,7 +1675,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1684,7 +1689,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1698,7 +1703,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1712,7 +1717,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -1726,7 +1731,7 @@
           "pgs_id": "PGS001268",
           "rank": 3,
           "rank_label": "3/9",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -2380,7 +2385,7 @@
             "r2": 0.437
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -3416,7 +3421,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3430,7 +3435,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3444,7 +3449,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3458,7 +3463,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3472,7 +3477,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3486,7 +3491,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3500,7 +3505,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3514,7 +3519,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3528,7 +3533,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3542,7 +3547,7 @@
           "pgs_id": "PGS005265",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -3802,8 +3807,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3816,8 +3821,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3830,8 +3835,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3844,8 +3849,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3858,8 +3863,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3872,8 +3877,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3886,8 +3891,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3900,8 +3905,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3914,8 +3919,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -3928,8 +3933,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         }
       ],
@@ -3975,43 +3980,51 @@
           "PGS005271",
           "PGS005270"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS005272",
+          "PGS005271",
+          "PGS005270"
+        ],
+        "5": [
+          "PGS005272",
+          "PGS005271",
+          "PGS005270"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "trial_hit_counts_at_k": {
         "1": 0,
         "2": 0,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       }
     },
     {
@@ -4689,7 +4702,7 @@
         },
         {
           "id": "PGS003452",
-          "trait_reported": "Waldenström macroglobulinemia",
+          "trait_reported": "Waldenstr\u00f6m macroglobulinemia",
           "trait_efo": "Waldenstrom macroglobulinemia",
           "method_name": "Genome-wide significant SNPs",
           "variants_number": 2,
@@ -5220,7 +5233,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5234,7 +5247,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5248,7 +5261,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5262,7 +5275,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5276,7 +5289,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5284,13 +5297,13 @@
           "pgs_id": "PGS000739",
           "rank": 2,
           "rank_label": "2/4",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5304,7 +5317,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5318,7 +5331,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5326,13 +5339,13 @@
           "pgs_id": "PGS000739",
           "rank": 2,
           "rank_label": "2/4",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -5346,7 +5359,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         }
       ],
@@ -5404,42 +5417,47 @@
           "PGS004910",
           "PGS000778"
         ],
-        "5": []
+        "5": [
+          "PGS004911",
+          "PGS000739",
+          "PGS004910",
+          "PGS000778"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": false,
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "trial_hit_counts_at_k": {
         "1": 8,
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.8,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       }
     },
     {
@@ -6674,7 +6692,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6688,7 +6706,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6702,7 +6720,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6716,7 +6734,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6730,7 +6748,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6744,7 +6762,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6758,7 +6776,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6772,7 +6790,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6786,7 +6804,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -6800,7 +6818,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         }
       ],
@@ -6849,42 +6867,47 @@
           "PGS000326",
           "PGS000324"
         ],
-        "5": []
+        "5": [
+          "PGS000114",
+          "PGS000325",
+          "PGS000326",
+          "PGS000324"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
         "3": false,
         "4": true,
-        "5": null
+        "5": true
       },
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       }
     },
     {
@@ -7649,7 +7672,7 @@
         },
         {
           "id": "PGS000334",
-          "trait_reported": "Late-onset Alzheimer’s disease ",
+          "trait_reported": "Late-onset Alzheimer\u2019s disease ",
           "trait_efo": "late-onset Alzheimer's disease",
           "method_name": "Clumping and Thresholding (C+T)",
           "variants_number": 22,
@@ -7664,7 +7687,7 @@
             "auc": null,
             "r2": 0.191
           },
-          "phenotyping_reported": "Late-onset Alzheimer’s disease",
+          "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
           "covariates": "Unknown",
           "training_development_cohorts": [
             "IGAP",
@@ -7722,7 +7745,7 @@
           "variants_number": 8,
           "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic variants in glutamate-, Aβ-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
+            "title": "Genetic variants in glutamate-, A\u03b2-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
             "journal": "Neurobiol Aging"
           },
           "date_release": "2024-06-12",
@@ -8286,7 +8309,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8300,7 +8323,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8314,7 +8337,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8328,7 +8351,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8342,7 +8365,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8356,7 +8379,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8370,7 +8393,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8384,7 +8407,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8398,7 +8421,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -8412,7 +8435,7 @@
           "pgs_id": "PGS005262",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -10453,7 +10476,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10467,7 +10490,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10481,7 +10504,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10495,7 +10518,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10509,7 +10532,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10523,7 +10546,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10537,7 +10560,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10551,7 +10574,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10565,7 +10588,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         },
         {
@@ -10579,7 +10602,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           }
         }
       ],
@@ -10637,42 +10660,47 @@
           "PGS005158",
           "PGS001843"
         ],
-        "5": []
+        "5": [
+          "PGS005217",
+          "PGS002055",
+          "PGS005158",
+          "PGS001843"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": false,
         "2": false,
         "3": false,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "trial_hit_counts_at_k": {
         "1": 0,
         "2": 1,
         "3": 1,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.1,
         "3": 0.1,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       }
     },
     {
@@ -10811,8 +10839,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10825,8 +10853,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10839,8 +10867,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10853,8 +10881,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10867,8 +10895,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10881,8 +10909,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10895,8 +10923,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10909,8 +10937,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10923,8 +10951,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -10937,8 +10965,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         }
       ],
@@ -10973,43 +11001,51 @@
           "PGS004593",
           "PGS003587"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS003586",
+          "PGS004593",
+          "PGS003587"
+        ],
+        "5": [
+          "PGS003586",
+          "PGS004593",
+          "PGS003587"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
         "3": false,
-        "4": null,
-        "5": null
+        "4": false,
+        "5": false
       },
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       }
     },
     {
@@ -14504,7 +14540,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -14518,7 +14554,7 @@
           "pgs_id": "PGS001279",
           "rank": 4,
           "rank_label": "4/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -14532,7 +14568,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -14546,7 +14582,7 @@
           "pgs_id": "PGS001279",
           "rank": 4,
           "rank_label": "4/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -14560,7 +14596,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -14574,7 +14610,7 @@
           "pgs_id": "PGS001279",
           "rank": 4,
           "rank_label": "4/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -14588,7 +14624,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -14602,7 +14638,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -14616,7 +14652,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -14630,7 +14666,7 @@
           "pgs_id": "PGS001280",
           "rank": 2,
           "rank_label": "2/7",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": true,
@@ -15464,8 +15500,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15478,8 +15514,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15492,8 +15528,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15506,8 +15542,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15520,8 +15556,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15534,8 +15570,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15548,8 +15584,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15562,8 +15598,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15576,8 +15612,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -15590,8 +15626,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         }
       ],
@@ -15637,43 +15673,51 @@
           "PGS000470",
           "PGS000469"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS000471",
+          "PGS000470",
+          "PGS000469"
+        ],
+        "5": [
+          "PGS000471",
+          "PGS000470",
+          "PGS000469"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       }
     },
     {
@@ -16860,7 +16904,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16874,7 +16918,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16888,7 +16932,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16902,7 +16946,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16916,7 +16960,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16930,7 +16974,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16944,7 +16988,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16958,7 +17002,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16972,7 +17016,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -16986,7 +17030,7 @@
           "pgs_id": "PGS001164",
           "rank": 3,
           "rank_label": "3/14",
-          "in_target_topk": true,
+          "in_target_topk": false,
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -17568,7 +17612,7 @@
             "r2": 0.31
           },
           "phenotyping_reported": "Incident thyroid cancer",
-          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30)",
+          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
           "training_development_cohorts": [
             "ICR",
             "NBS",
@@ -18390,7 +18434,7 @@
             "r2": 0.437
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -18418,7 +18462,7 @@
             "r2": 0.486
           },
           "phenotyping_reported": "Incident endometrial cancer",
-          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years),",
+          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
           "training_development_cohorts": [
             "ANECS",
             "B58C",
@@ -19051,8 +19095,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19065,8 +19109,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19079,8 +19123,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19093,8 +19137,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19107,8 +19151,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19121,8 +19165,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19135,8 +19179,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19149,8 +19193,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19163,8 +19207,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         },
         {
@@ -19177,8 +19221,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           }
         }
       ],
@@ -19223,43 +19267,51 @@
           "PGS000738",
           "PGS001536"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS000760",
+          "PGS000738",
+          "PGS001536"
+        ],
+        "5": [
+          "PGS000760",
+          "PGS000738",
+          "PGS001536"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "modal_recommendation_hit_at_k": {
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "trial_hit_counts_at_k": {
         "1": 0,
         "2": 0,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       }
     }
   ],
@@ -19302,14 +19354,14 @@
       "accuracy": 0.7333
     },
     "4": {
-      "hits": 20,
-      "eligible": 26,
-      "accuracy": 0.7692
+      "hits": 24,
+      "eligible": 30,
+      "accuracy": 0.8
     },
     "5": {
-      "hits": 16,
-      "eligible": 22,
-      "accuracy": 0.7273
+      "hits": 24,
+      "eligible": 30,
+      "accuracy": 0.8
     }
   },
   "trial_hit_at_k": {
@@ -19329,21 +19381,25 @@
       "accuracy": 0.74
     },
     "4": {
-      "hits": 200,
-      "eligible": 260,
-      "accuracy": 0.7692
+      "hits": 240,
+      "eligible": 300,
+      "accuracy": 0.8
     },
     "5": {
-      "hits": 160,
-      "eligible": 220,
-      "accuracy": 0.7273
+      "hits": 240,
+      "eligible": 300,
+      "accuracy": 0.8
     }
   },
   "nrs": {
-    "modal_mean_nrs": 0.6789614077763242,
+    "modal_mean": 0.6789614077763242,
     "modal_count": 30,
-    "trial_mean_nrs": 0.6736280744429914,
-    "trial_count": 300
+    "trial_mean": 0.6736280744429914,
+    "trial_count": 300,
+    "baseline_mean": 0.5689870322889686,
+    "baseline_count": 28,
+    "modal_mean_nrs": 0.6789614077763242,
+    "trial_mean_nrs": 0.6736280744429914
   },
   "hit_at_k_definition": {
     "k_values": [
@@ -19353,9 +19409,12 @@
       4,
       5
     ],
-    "eligible_only_denominator": true,
+    "eligible_only_denominator": false,
+    "k_exceeds_candidate_count_uses_all_available_models": true,
     "tie_aware_cutoff": true,
     "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/top_k_pgs_per_ontology.json",
     "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/benchmark_auc_per_ontology.json"
-  }
+  },
+  "union_csv": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv",
+  "ground_truth_dir": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1"
 }

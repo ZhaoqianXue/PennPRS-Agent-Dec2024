@@ -24,19 +24,19 @@
       "accuracy": 0.5667
     },
     "3": {
-      "hits": 34,
-      "eligible": 54,
-      "accuracy": 0.6296
-    },
-    "4": {
-      "hits": 32,
-      "eligible": 48,
+      "hits": 40,
+      "eligible": 60,
       "accuracy": 0.6667
     },
+    "4": {
+      "hits": 44,
+      "eligible": 60,
+      "accuracy": 0.7333
+    },
     "5": {
-      "hits": 29,
-      "eligible": 43,
-      "accuracy": 0.6744
+      "hits": 46,
+      "eligible": 60,
+      "accuracy": 0.7667
     }
   },
   "baseline": {
@@ -61,25 +61,25 @@
         "coverage": 0.9
       },
       "3": {
-        "hits": 15,
-        "eligible": 54,
-        "accuracy": 0.2778,
-        "available": 51,
-        "coverage": 0.9444
+        "hits": 18,
+        "eligible": 60,
+        "accuracy": 0.3,
+        "available": 54,
+        "coverage": 0.9
       },
       "4": {
-        "hits": 17,
-        "eligible": 48,
-        "accuracy": 0.3542,
-        "available": 47,
-        "coverage": 0.9792
+        "hits": 24,
+        "eligible": 60,
+        "accuracy": 0.4,
+        "available": 54,
+        "coverage": 0.9
       },
       "5": {
-        "hits": 16,
-        "eligible": 43,
-        "accuracy": 0.3721,
-        "available": 43,
-        "coverage": 1.0
+        "hits": 27,
+        "eligible": 60,
+        "accuracy": 0.45,
+        "available": 54,
+        "coverage": 0.9
       }
     }
   },
@@ -102,19 +102,19 @@
       "accuracy": 0.5633
     },
     "3": {
-      "hits": 341,
-      "eligible": 540,
-      "accuracy": 0.6315
+      "hits": 401,
+      "eligible": 600,
+      "accuracy": 0.6683
     },
     "4": {
-      "hits": 325,
-      "eligible": 480,
-      "accuracy": 0.6771
+      "hits": 445,
+      "eligible": 600,
+      "accuracy": 0.7417
     },
     "5": {
-      "hits": 295,
-      "eligible": 430,
-      "accuracy": 0.686
+      "hits": 465,
+      "eligible": 600,
+      "accuracy": 0.775
     }
   },
   "per_disease": [
@@ -734,16 +734,25 @@
           "PGS004561",
           "PGS004491"
         ],
-        "3": [],
-        "4": [],
-        "5": []
+        "3": [
+          "PGS004561",
+          "PGS004491"
+        ],
+        "4": [
+          "PGS004561",
+          "PGS004491"
+        ],
+        "5": [
+          "PGS004561",
+          "PGS004491"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
-        "3": false,
-        "4": false,
-        "5": false
+        "3": true,
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS004561",
@@ -838,16 +847,16 @@
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
-        "3": 0,
-        "4": 0,
-        "5": 0
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -859,9 +868,9 @@
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -885,9 +894,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -899,9 +908,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -913,9 +922,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -927,9 +936,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -941,9 +950,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -955,9 +964,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -969,9 +978,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -983,9 +992,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -997,9 +1006,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -1011,9 +1020,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -1039,9 +1048,9 @@
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": false,
+        "4": false,
+        "5": false
       },
       "baseline_in_target_topk": false
     },
@@ -2546,14 +2555,19 @@
           "PGS000202",
           "PGS002739"
         ],
-        "5": []
+        "5": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202",
+          "PGS002739"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "candidate_model_ids": [
         "PGS002739",
@@ -2769,14 +2783,14 @@
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -2790,7 +2804,7 @@
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -2816,7 +2830,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2830,7 +2844,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2844,7 +2858,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2858,7 +2872,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2872,7 +2886,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2886,7 +2900,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2900,7 +2914,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2914,7 +2928,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2928,7 +2942,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -2942,7 +2956,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         }
@@ -2969,7 +2983,7 @@
         "2": false,
         "3": false,
         "4": false,
-        "5": null
+        "5": false
       },
       "baseline_in_target_topk": false
     },
@@ -11414,14 +11428,19 @@
           "PGS001339",
           "PGS001263"
         ],
-        "5": []
+        "5": [
+          "PGS002050",
+          "PGS001841",
+          "PGS001339",
+          "PGS001263"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "candidate_model_ids": [
         "PGS001841",
@@ -11656,14 +11675,14 @@
         "2": 0,
         "3": 0,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.0,
         "3": 0.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -11677,7 +11696,7 @@
         "2": false,
         "3": false,
         "4": true,
-        "5": null
+        "5": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
@@ -11703,7 +11722,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11717,7 +11736,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11731,7 +11750,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11745,7 +11764,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11759,7 +11778,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11773,7 +11792,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11787,7 +11806,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11801,7 +11820,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11815,7 +11834,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         },
@@ -11829,7 +11848,7 @@
             "2": false,
             "3": false,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": false
         }
@@ -11868,7 +11887,7 @@
         "2": false,
         "3": false,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -11891,16 +11910,25 @@
           "PGS002790",
           "PGS000327"
         ],
-        "3": [],
-        "4": [],
-        "5": []
+        "3": [
+          "PGS002790",
+          "PGS000327"
+        ],
+        "4": [
+          "PGS002790",
+          "PGS000327"
+        ],
+        "5": [
+          "PGS002790",
+          "PGS000327"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
-        "3": false,
-        "4": false,
-        "5": false
+        "3": true,
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS002790",
@@ -12011,16 +12039,16 @@
       "trial_hit_counts_at_k": {
         "1": 0,
         "2": 10,
-        "3": 0,
-        "4": 0,
-        "5": 0
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 1.0,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -12032,9 +12060,9 @@
       "modal_recommendation_hit_at_k": {
         "1": false,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
@@ -12058,9 +12086,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12072,9 +12100,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12086,9 +12114,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12100,9 +12128,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12114,9 +12142,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12128,9 +12156,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12142,9 +12170,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12156,9 +12184,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12170,9 +12198,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -12184,9 +12212,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         }
@@ -12213,9 +12241,9 @@
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": false,
+        "4": false,
+        "5": false
       },
       "baseline_in_target_topk": false
     },
@@ -13935,15 +13963,23 @@
           "PGS002787",
           "PGS002788"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS002786",
+          "PGS002787",
+          "PGS002788"
+        ],
+        "5": [
+          "PGS002786",
+          "PGS002787",
+          "PGS002788"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS002787",
@@ -14081,15 +14117,15 @@
         "1": 10,
         "2": 10,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -14102,8 +14138,8 @@
         "1": true,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -14128,8 +14164,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14142,8 +14178,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14156,8 +14192,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14170,8 +14206,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14184,8 +14220,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14198,8 +14234,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14212,8 +14248,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14226,8 +14262,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14240,8 +14276,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -14254,8 +14290,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -14282,8 +14318,8 @@
         "1": false,
         "2": false,
         "3": false,
-        "4": null,
-        "5": null
+        "4": false,
+        "5": false
       },
       "baseline_in_target_topk": false
     },
@@ -40939,15 +40975,23 @@
           "PGS005271",
           "PGS005270"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS005272",
+          "PGS005271",
+          "PGS005270"
+        ],
+        "5": [
+          "PGS005272",
+          "PGS005271",
+          "PGS005270"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS005272",
@@ -41151,15 +41195,15 @@
         "1": 0,
         "2": 9,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.9,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -41172,8 +41216,8 @@
         "1": false,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
@@ -41198,8 +41242,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41212,8 +41256,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41226,8 +41270,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41240,8 +41284,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41254,8 +41298,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41268,8 +41312,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41282,8 +41326,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41296,8 +41340,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41310,8 +41354,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -41324,8 +41368,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         }
@@ -41368,8 +41412,8 @@
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -60259,14 +60303,19 @@
           "PGS004910",
           "PGS000778"
         ],
-        "5": []
+        "5": [
+          "PGS004911",
+          "PGS000739",
+          "PGS004910",
+          "PGS000778"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "candidate_model_ids": [
         "PGS000778",
@@ -60515,14 +60564,14 @@
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -60536,7 +60585,7 @@
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -60562,7 +60611,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60576,7 +60625,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60590,7 +60639,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60604,7 +60653,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60618,7 +60667,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60632,7 +60681,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60646,7 +60695,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60660,7 +60709,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60674,7 +60723,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -60688,7 +60737,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         }
@@ -60726,7 +60775,7 @@
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -62487,16 +62536,25 @@
           "PGS004695",
           "PGS001791"
         ],
-        "3": [],
-        "4": [],
-        "5": []
+        "3": [
+          "PGS004695",
+          "PGS001791"
+        ],
+        "4": [
+          "PGS004695",
+          "PGS001791"
+        ],
+        "5": [
+          "PGS004695",
+          "PGS001791"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
-        "3": false,
-        "4": false,
-        "5": false
+        "3": true,
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS004695",
@@ -62608,16 +62666,16 @@
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
-        "3": 0,
-        "4": 0,
-        "5": 0
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -62629,9 +62687,9 @@
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -62655,9 +62713,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62669,9 +62727,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62683,9 +62741,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62697,9 +62755,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62711,9 +62769,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62725,9 +62783,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62739,9 +62797,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62753,9 +62811,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62767,9 +62825,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -62781,9 +62839,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -62817,9 +62875,9 @@
       "baseline_hit_at_k": {
         "1": false,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -62857,14 +62915,19 @@
           "PGS000326",
           "PGS000324"
         ],
-        "5": []
+        "5": [
+          "PGS000114",
+          "PGS000325",
+          "PGS000326",
+          "PGS000324"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "candidate_model_ids": [
         "PGS000326",
@@ -63093,14 +63156,14 @@
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -63114,7 +63177,7 @@
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -63140,7 +63203,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63154,7 +63217,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63168,7 +63231,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63182,7 +63245,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63196,7 +63259,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63210,7 +63273,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63224,7 +63287,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63238,7 +63301,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63252,7 +63315,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -63266,7 +63329,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         }
@@ -63304,7 +63367,7 @@
         "2": false,
         "3": false,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -78734,15 +78797,23 @@
           "PGS004493",
           "PGS001250"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS004563",
+          "PGS004493",
+          "PGS001250"
+        ],
+        "5": [
+          "PGS004563",
+          "PGS004493",
+          "PGS001250"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS001250",
@@ -78905,15 +78976,15 @@
         "1": 10,
         "2": 10,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -78926,8 +78997,8 @@
         "1": true,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -78952,8 +79023,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -78966,8 +79037,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -78980,8 +79051,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -78994,8 +79065,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79008,8 +79079,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79022,8 +79093,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79036,8 +79107,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79050,8 +79121,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79064,8 +79135,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79078,8 +79149,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -79115,8 +79186,8 @@
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -79139,16 +79210,25 @@
           "PGS002037",
           "PGS001830"
         ],
-        "3": [],
-        "4": [],
-        "5": []
+        "3": [
+          "PGS002037",
+          "PGS001830"
+        ],
+        "4": [
+          "PGS002037",
+          "PGS001830"
+        ],
+        "5": [
+          "PGS002037",
+          "PGS001830"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
-        "3": false,
-        "4": false,
-        "5": false
+        "3": true,
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS002037",
@@ -79247,16 +79327,16 @@
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
-        "3": 0,
-        "4": 0,
-        "5": 0
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -79268,9 +79348,9 @@
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -79294,9 +79374,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79308,9 +79388,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79322,9 +79402,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79336,9 +79416,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79350,9 +79430,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79364,9 +79444,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79378,9 +79458,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79392,9 +79472,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79406,9 +79486,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -79420,9 +79500,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -79448,9 +79528,9 @@
       "baseline_hit_at_k": {
         "1": false,
         "2": false,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": false,
+        "4": false,
+        "5": false
       },
       "baseline_in_target_topk": false
     },
@@ -81797,16 +81877,25 @@
           "PGS002046",
           "PGS001255"
         ],
-        "3": [],
-        "4": [],
-        "5": []
+        "3": [
+          "PGS002046",
+          "PGS001255"
+        ],
+        "4": [
+          "PGS002046",
+          "PGS001255"
+        ],
+        "5": [
+          "PGS002046",
+          "PGS001255"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
-        "3": false,
-        "4": false,
-        "5": false
+        "3": true,
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS002046",
@@ -81928,16 +82017,16 @@
       "trial_hit_counts_at_k": {
         "1": 4,
         "2": 10,
-        "3": 0,
-        "4": 0,
-        "5": 0
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.4,
         "2": 1.0,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -81949,9 +82038,9 @@
       "modal_recommendation_hit_at_k": {
         "1": false,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
@@ -81975,9 +82064,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -81989,9 +82078,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -82003,9 +82092,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -82017,9 +82106,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -82031,9 +82120,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -82045,9 +82134,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -82059,9 +82148,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -82073,9 +82162,9 @@
           "hit_at_k": {
             "1": false,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -82087,9 +82176,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -82101,9 +82190,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -82146,9 +82235,9 @@
       "baseline_hit_at_k": {
         "1": false,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -84923,14 +85012,19 @@
           "PGS005158",
           "PGS001843"
         ],
-        "5": []
+        "5": [
+          "PGS005217",
+          "PGS002055",
+          "PGS005158",
+          "PGS001843"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
         "4": true,
-        "5": false
+        "5": true
       },
       "candidate_model_ids": [
         "PGS005217",
@@ -85163,14 +85257,14 @@
         "2": 10,
         "3": 10,
         "4": 10,
-        "5": 0
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
-        "5": null
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -85184,7 +85278,7 @@
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -85210,7 +85304,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85224,7 +85318,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85238,7 +85332,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85252,7 +85346,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85266,7 +85360,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85280,7 +85374,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85294,7 +85388,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85308,7 +85402,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85322,7 +85416,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85336,7 +85430,7 @@
             "2": true,
             "3": true,
             "4": true,
-            "5": null
+            "5": true
           },
           "in_target_topk": true
         }
@@ -85374,7 +85468,7 @@
         "2": true,
         "3": true,
         "4": true,
-        "5": null
+        "5": true
       },
       "baseline_in_target_topk": true
     },
@@ -85404,15 +85498,23 @@
           "PGS004593",
           "PGS003587"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS003586",
+          "PGS004593",
+          "PGS003587"
+        ],
+        "5": [
+          "PGS003586",
+          "PGS004593",
+          "PGS003587"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS003586",
@@ -85568,15 +85670,15 @@
         "1": 10,
         "2": 10,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -85589,8 +85691,8 @@
         "1": true,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -85615,8 +85717,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85629,8 +85731,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85643,8 +85745,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85657,8 +85759,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85671,8 +85773,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85685,8 +85787,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85699,8 +85801,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85713,8 +85815,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85727,8 +85829,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -85741,8 +85843,8 @@
             "1": true,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -85769,8 +85871,8 @@
         "1": false,
         "2": false,
         "3": false,
-        "4": null,
-        "5": null
+        "4": false,
+        "5": false
       },
       "baseline_in_target_topk": false
     },
@@ -93770,16 +93872,25 @@
           "PGS001287",
           "PGS000342"
         ],
-        "3": [],
-        "4": [],
-        "5": []
+        "3": [
+          "PGS001287",
+          "PGS000342"
+        ],
+        "4": [
+          "PGS001287",
+          "PGS000342"
+        ],
+        "5": [
+          "PGS001287",
+          "PGS000342"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
-        "3": false,
-        "4": false,
-        "5": false
+        "3": true,
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS000342",
@@ -93899,16 +94010,16 @@
       "trial_hit_counts_at_k": {
         "1": 10,
         "2": 10,
-        "3": 0,
-        "4": 0,
-        "5": 0
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 1.0,
         "2": 1.0,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -93920,9 +94031,9 @@
       "modal_recommendation_hit_at_k": {
         "1": true,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
@@ -93946,9 +94057,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -93960,9 +94071,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -93974,9 +94085,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -93988,9 +94099,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -94002,9 +94113,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -94016,9 +94127,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -94030,9 +94141,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -94044,9 +94155,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -94058,9 +94169,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         },
@@ -94072,9 +94183,9 @@
           "hit_at_k": {
             "1": true,
             "2": true,
-            "3": null,
-            "4": null,
-            "5": null
+            "3": true,
+            "4": true,
+            "5": true
           },
           "in_target_topk": true
         }
@@ -94111,9 +94222,9 @@
       "baseline_hit_at_k": {
         "1": true,
         "2": true,
-        "3": null,
-        "4": null,
-        "5": null
+        "3": true,
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": true
     },
@@ -97464,15 +97575,23 @@
           "PGS000922",
           "PGS000923"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS001872",
+          "PGS000922",
+          "PGS000923"
+        ],
+        "5": [
+          "PGS001872",
+          "PGS000922",
+          "PGS000923"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS000923",
@@ -97662,15 +97781,15 @@
         "1": 0,
         "2": 10,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 1.0,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -97683,8 +97802,8 @@
         "1": false,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
@@ -97709,8 +97828,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97723,8 +97842,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97737,8 +97856,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97751,8 +97870,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97765,8 +97884,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97779,8 +97898,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97793,8 +97912,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97807,8 +97926,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97821,8 +97940,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -97835,8 +97954,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         }
@@ -97874,8 +97993,8 @@
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": false
     },
@@ -106287,15 +106406,23 @@
           "PGS000738",
           "PGS001536"
         ],
-        "4": [],
-        "5": []
+        "4": [
+          "PGS000760",
+          "PGS000738",
+          "PGS001536"
+        ],
+        "5": [
+          "PGS000760",
+          "PGS000738",
+          "PGS001536"
+        ]
       },
       "eligible_at_k": {
         "1": true,
         "2": true,
         "3": true,
-        "4": false,
-        "5": false
+        "4": true,
+        "5": true
       },
       "candidate_model_ids": [
         "PGS000738",
@@ -106470,15 +106597,15 @@
         "1": 0,
         "2": 8,
         "3": 10,
-        "4": 0,
-        "5": 0
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.8,
         "3": 1.0,
-        "4": null,
-        "5": null
+        "4": 1.0,
+        "5": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
@@ -106491,8 +106618,8 @@
         "1": false,
         "2": true,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
@@ -106517,8 +106644,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106531,8 +106658,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106545,8 +106672,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106559,8 +106686,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106573,8 +106700,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106587,8 +106714,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106601,8 +106728,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106615,8 +106742,8 @@
             "1": false,
             "2": true,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106629,8 +106756,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         },
@@ -106643,8 +106770,8 @@
             "1": false,
             "2": false,
             "3": true,
-            "4": null,
-            "5": null
+            "4": true,
+            "5": true
           },
           "in_target_topk": false
         }
@@ -106688,17 +106815,21 @@
         "1": false,
         "2": false,
         "3": true,
-        "4": null,
-        "5": null
+        "4": true,
+        "5": true
       },
       "baseline_in_target_topk": false
     }
   ],
   "nrs": {
-    "modal_mean_nrs": 0.7529249843963092,
+    "modal_mean": 0.7529249843963092,
     "modal_count": 60,
-    "trial_mean_nrs": 0.7577951812610222,
-    "trial_count": 600
+    "trial_mean": 0.7577951812610222,
+    "trial_count": 600,
+    "baseline_mean": 0.43209182444936106,
+    "baseline_count": 54,
+    "modal_mean_nrs": 0.7529249843963092,
+    "trial_mean_nrs": 0.7577951812610222
   },
   "hit_at_k_definition": {
     "k_values": [
@@ -106708,7 +106839,8 @@
       4,
       5
     ],
-    "eligible_only_denominator": true,
+    "eligible_only_denominator": false,
+    "k_exceeds_candidate_count_uses_all_available_models": true,
     "tie_aware_cutoff": true,
     "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
     "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"

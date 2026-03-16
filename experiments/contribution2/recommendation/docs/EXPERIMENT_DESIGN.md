@@ -115,7 +115,7 @@ This is the primary Contribution2 experiment and should be executed now.
 - `benchmark_ranked_ids`
 - `benchmark_auc_by_id`
 - `benchmark_topk_ids`
-- `eligible_at_k`
+- `eligible_at_k` (legacy field; now `Hit@1..5` are defined for the full disease/trial set whenever benchmark candidates exist)
 - `candidate_model_ids`
 - `recommended_pgs_id`
 - `recommendation_type`
@@ -138,8 +138,9 @@ This is the primary Contribution2 experiment and should be executed now.
 
 ### Primary metrics
 
-- `Modal Hit@1..5`: for each disease, take the final recommended model across 10 runs and evaluate against the AoU benchmark top-`k` set
-- `Trial Hit@1..5`: the same evaluation at the individual-trial level
+- `Modal Hit@1..5`: for each disease, take the final recommended model across 10 runs and evaluate against the AoU benchmark top-`k` set using the full disease denominator
+- `Trial Hit@1..5`: the same evaluation at the individual-trial level using the full trial denominator
+- If a disease has fewer than `k` evaluated models, `Top@k` is defined as all available benchmark-ranked models for that disease
 - `Normalized Ranking Score (NRS)`
 
 ### Internal diagnostics
