@@ -93,6 +93,7 @@ CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrenc
 ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
 PREPARE_CACHE_VERSION = "v4"
 BENCHMARK_HIT_KS = (1, 2, 3, 4, 5)
+PERCENTILE_HIT_PCTS = (5, 10, 15, 20, 25)
 
 ACTIVE_RUN_DIR: Optional[Path] = None
 ACTIVE_RUN_TAG: Optional[str] = None
@@ -497,6 +498,31 @@ def _benchmark_topk_ids(rank_order: list[str], auc_by_id: Optional[dict[str, flo
     return topk
 
 
+def _percentile_cutoff_rank(candidate_count: int, percentile: int) -> int:
+    if candidate_count <= 0:
+        return 0
+    return max(1, (candidate_count * percentile + 99) // 100)
+
+
+def _benchmark_top_percent_ids(
+    rank_order: list[str],
+    auc_by_id: Optional[dict[str, float]] = None,
+) -> dict[str, list[str]]:
+    rank_order = [pgs_id for pgs_id in rank_order or [] if pgs_id]
+    auc_by_id = auc_by_id or {}
+    top_percent: dict[str, list[str]] = {}
+    for percentile in PERCENTILE_HIT_PCTS:
+        key = str(percentile)
+        cutoff_rank = _percentile_cutoff_rank(len(rank_order), percentile)
+        if cutoff_rank <= 0:
+            top_percent[key] = []
+        elif auc_by_id:
+            top_percent[key] = _top_ids_with_ties(rank_order, auc_by_id, cutoff_rank)
+        else:
+            top_percent[key] = rank_order[:cutoff_rank]
+    return top_percent
+
+
 def _hit_at_k_map(
     selected_id: Optional[str],
     candidate_count: int,
@@ -510,6 +536,24 @@ def _hit_at_k_map(
             hits[key] = None
         else:
             hits[key] = bool(valid_output and selected_id and selected_id in set(benchmark_topk_ids.get(key) or []))
+    return hits
+
+
+def _percentile_hit_map(
+    selected_id: Optional[str],
+    candidate_count: int,
+    benchmark_top_percent_ids: dict[str, list[str]],
+    valid_output: bool = True,
+) -> dict[str, Optional[bool]]:
+    hits: dict[str, Optional[bool]] = {}
+    for percentile in PERCENTILE_HIT_PCTS:
+        key = str(percentile)
+        if candidate_count <= 0:
+            hits[key] = None
+        else:
+            hits[key] = bool(
+                valid_output and selected_id and selected_id in set(benchmark_top_percent_ids.get(key) or [])
+            )
     return hits
 
 
@@ -581,6 +625,44 @@ def _aggregate_trial_hit_metrics(trial_results: list[dict[str, Any]]) -> dict[st
     for k in BENCHMARK_HIT_KS:
         key = str(k)
         hits = sum(1 for row in trial_results if (row.get("hit_at_k") or {}).get(key))
+        metrics[key] = _hit_rate_payload(hits, total_rows)
+    return metrics
+
+
+def _aggregate_modal_percentile_hit_metrics(per_disease: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    metrics: dict[str, dict[str, Any]] = {}
+    total_rows = len(per_disease)
+    for percentile in PERCENTILE_HIT_PCTS:
+        key = str(percentile)
+        hits = sum(1 for row in per_disease if (row.get("modal_recommendation_percentile_hit") or {}).get(key))
+        metrics[key] = _hit_rate_payload(hits, total_rows)
+    return metrics
+
+
+def _aggregate_baseline_percentile_hit_metrics(per_disease: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    metrics: dict[str, dict[str, Any]] = {}
+    total_rows = len(per_disease)
+    for percentile in PERCENTILE_HIT_PCTS:
+        key = str(percentile)
+        hits = sum(1 for row in per_disease if (row.get("baseline_percentile_hit") or {}).get(key))
+        available = sum(
+            1
+            for row in per_disease
+            if (row.get("baseline") or {}).get("pgs_id")
+        )
+        payload = _hit_rate_payload(hits, total_rows)
+        payload["available"] = available
+        payload["coverage"] = round(available / total_rows, 4) if total_rows else None
+        metrics[key] = payload
+    return metrics
+
+
+def _aggregate_trial_percentile_hit_metrics(trial_results: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    metrics: dict[str, dict[str, Any]] = {}
+    total_rows = len(trial_results)
+    for percentile in PERCENTILE_HIT_PCTS:
+        key = str(percentile)
+        hits = sum(1 for row in trial_results if (row.get("percentile_hit") or {}).get(key))
         metrics[key] = _hit_rate_payload(hits, total_rows)
     return metrics
 
@@ -659,6 +741,37 @@ def _rank_metric_section_lines(
     return lines
 
 
+def _percentile_hit_section_lines(
+    metrics_by_label: list[tuple[str, dict[str, dict[str, Any]], dict[str, dict[str, Any]]]],
+) -> list[str]:
+    lines = [
+        "## Percentile Hit",
+        "",
+        "- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.",
+        "- Percentiles evaluated: `q ∈ {5, 10, 15, 20, 25}`.",
+        "- For each percentile threshold, define the tie-aware cutoff rank as `c_q = max(1, ceil(q/100 * M))`.",
+        "- A selection counts as `Top q% Hit` if its AoU benchmark rank satisfies `r <= c_q`.",
+        "- Denominator: fixed total disease count for modal selections and fixed total trial count for trial selections.",
+        "- Tie handling: if the AoU benchmark AUC is tied at cutoff rank `c_q`, all tied models count as `Top q%`.",
+        "",
+    ]
+
+    for label, modal_metrics, trial_metrics in metrics_by_label:
+        for percentile in PERCENTILE_HIT_PCTS:
+            key = str(percentile)
+            modal_payload = modal_metrics[key]
+            trial_payload = trial_metrics[key]
+            lines.append(
+                f"- {label} `Top {percentile}% Hit`: "
+                f"`{modal_payload['hits']}/{modal_payload['eligible']} = "
+                f"{_format_percent(modal_payload['accuracy'] or 0.0)}`; "
+                f"`trial_hits = {trial_payload['hits']}/{trial_payload['eligible']} = "
+                f"{_format_percent(trial_payload['accuracy'] or 0.0)}`"
+            )
+    lines.append("")
+    return lines
+
+
 def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
     per_disease = summary.get("per_disease") or []
     diagnostics = summary.setdefault("diagnostics", {})
@@ -669,7 +782,9 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
         ranked_ids = list(row.get("benchmark_ranked_ids") or [])
         auc_by_id = dict(row.get("benchmark_auc_by_id") or {})
         benchmark_topk_ids = _benchmark_topk_ids(ranked_ids, auc_by_id)
+        benchmark_top_percent_ids = _benchmark_top_percent_ids(ranked_ids, auc_by_id)
         row["benchmark_topk_ids"] = benchmark_topk_ids
+        row["benchmark_top_percent_ids"] = benchmark_top_percent_ids
         row["eligible_at_k"] = _eligible_at_k_map(candidate_count)
 
         modal_hit_at_k = _hit_at_k_map(
@@ -678,7 +793,14 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
             benchmark_topk_ids=benchmark_topk_ids,
             valid_output=bool(row.get("modal_recommendation")),
         )
+        modal_percentile_hit = _percentile_hit_map(
+            selected_id=row.get("modal_recommendation"),
+            candidate_count=candidate_count,
+            benchmark_top_percent_ids=benchmark_top_percent_ids,
+            valid_output=bool(row.get("modal_recommendation")),
+        )
         row["modal_recommendation_hit_at_k"] = modal_hit_at_k
+        row["modal_recommendation_percentile_hit"] = modal_percentile_hit
         row["modal_recommendation_in_target_topk"] = bool(modal_hit_at_k.get("1"))
 
         baseline = row.get("baseline") or {}
@@ -688,7 +810,14 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
             benchmark_topk_ids=benchmark_topk_ids,
             valid_output=bool(baseline.get("pgs_id")),
         )
+        baseline_percentile_hit = _percentile_hit_map(
+            selected_id=baseline.get("pgs_id"),
+            candidate_count=candidate_count,
+            benchmark_top_percent_ids=benchmark_top_percent_ids,
+            valid_output=bool(baseline.get("pgs_id")),
+        )
         row["baseline_hit_at_k"] = baseline_hit_at_k
+        row["baseline_percentile_hit"] = baseline_percentile_hit
         row["baseline_in_target_topk"] = bool(baseline_hit_at_k.get("1"))
 
         trial_details = row.get("trial_recommendations_detailed") or []
@@ -698,6 +827,12 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
                 selected_id=selected_id,
                 candidate_count=candidate_count,
                 benchmark_topk_ids=benchmark_topk_ids,
+                valid_output=bool(selected_id),
+            )
+            trial_row["percentile_hit"] = _percentile_hit_map(
+                selected_id=selected_id,
+                candidate_count=candidate_count,
+                benchmark_top_percent_ids=benchmark_top_percent_ids,
                 valid_output=bool(selected_id),
             )
             trial_row["in_target_topk"] = bool((trial_row.get("hit_at_k") or {}).get("1"))
@@ -716,6 +851,20 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
             )
             for k in BENCHMARK_HIT_KS
         }
+        row["trial_percentile_hit_counts"] = {
+            str(percentile): sum(
+                1 for trial_row in trial_details if (trial_row.get("percentile_hit") or {}).get(str(percentile))
+            )
+            for percentile in PERCENTILE_HIT_PCTS
+        }
+        row["trial_percentile_hit_rates"] = {
+            str(percentile): (
+                round(row["trial_percentile_hit_counts"][str(percentile)] / len(trial_details), 4)
+                if trial_details
+                else None
+            )
+            for percentile in PERCENTILE_HIT_PCTS
+        }
         row["trial_hits"] = _safe_int((row.get("trial_hit_counts_at_k") or {}).get("1"))
         row["trial_hit_rate"] = (row.get("trial_hit_rates_at_k") or {}).get("1")
 
@@ -726,10 +875,20 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
         for trial_row in (row.get("trial_recommendations_detailed") or [])
     ])
     baseline_hit_metrics = _aggregate_baseline_hit_metrics(per_disease)
+    modal_percentile_hit_metrics = _aggregate_modal_percentile_hit_metrics(per_disease)
+    trial_percentile_hit_metrics = _aggregate_trial_percentile_hit_metrics([
+        trial_row
+        for row in per_disease
+        for trial_row in (row.get("trial_recommendations_detailed") or [])
+    ])
+    baseline_percentile_hit_metrics = _aggregate_baseline_percentile_hit_metrics(per_disease)
 
     summary["modal_hit_at_k"] = modal_hit_metrics
     summary["trial_hit_at_k"] = trial_hit_metrics
+    summary["modal_percentile_hit"] = modal_percentile_hit_metrics
+    summary["trial_percentile_hit"] = trial_percentile_hit_metrics
     baseline_summary["hit_at_k"] = baseline_hit_metrics
+    baseline_summary["percentile_hit"] = baseline_percentile_hit_metrics
 
     hit1_modal = modal_hit_metrics.get("1") or {}
     hit1_trial = trial_hit_metrics.get("1") or {}
@@ -748,6 +907,14 @@ def _ensure_summary_hit_metrics(summary: dict[str, Any]) -> dict[str, Any]:
         "k_values": list(BENCHMARK_HIT_KS),
         "eligible_only_denominator": False,
         "k_exceeds_candidate_count_uses_all_available_models": True,
+        "tie_aware_cutoff": True,
+        "ranked_benchmark_source": str(BENCHMARK_RANKED_JSON),
+        "benchmark_auc_source": str(BENCHMARK_AUC_JSON),
+    }
+    summary["percentile_hit_definition"] = {
+        "percentiles": list(PERCENTILE_HIT_PCTS),
+        "cutoff_formula": "c_q = max(1, ceil(q/100 * M))",
+        "fixed_denominator": True,
         "tie_aware_cutoff": True,
         "ranked_benchmark_source": str(BENCHMARK_RANKED_JSON),
         "benchmark_auc_source": str(BENCHMARK_AUC_JSON),
@@ -1284,6 +1451,7 @@ def _prepare_manifest(
         target_ranked_ids = list(top_k_data[key])
         benchmark_auc_by_id = dict(benchmark_auc_data.get(key) or {})
         benchmark_topk_ids = _benchmark_topk_ids(target_ranked_ids, benchmark_auc_by_id)
+        benchmark_top_percent_ids = _benchmark_top_percent_ids(target_ranked_ids, benchmark_auc_by_id)
         candidate_model_ids = list(evaluated_data[key])
         candidate_id_set = set(candidate_model_ids)
 
@@ -1333,6 +1501,7 @@ def _prepare_manifest(
             "benchmark_ranked_ids": target_ranked_ids,
             "benchmark_auc_by_id": benchmark_auc_by_id,
             "benchmark_topk_ids": benchmark_topk_ids,
+            "benchmark_top_percent_ids": benchmark_top_percent_ids,
             "eligible_at_k": _eligible_at_k_map(len(target_ranked_ids) or n_models),
             "candidate_model_ids": candidate_model_ids,
             "candidate_models_visible_to_llm": candidate_model_summaries,
@@ -1351,6 +1520,7 @@ def _prepare_manifest(
                 "benchmark_ranked_ids": target_ranked_ids,
                 "benchmark_auc_by_id": benchmark_auc_by_id,
                 "benchmark_topk_ids": benchmark_topk_ids,
+                "benchmark_top_percent_ids": benchmark_top_percent_ids,
                 "candidate_model_ids": candidate_model_ids,
                 "request": _build_batch_request(
                     custom_id=custom_id,
@@ -1597,6 +1767,10 @@ def _build_summary_and_results(
         disease_info = disease_index[ontology]
         parsed = parsed_outputs.get(custom_id)
         trial_start = request["trial_start"]
+        request_top_percent_ids = request.get("benchmark_top_percent_ids") or _benchmark_top_percent_ids(
+            request["benchmark_ranked_ids"],
+            request.get("benchmark_auc_by_id") or {},
+        )
 
         if not parsed:
             error_text = error_map.get(custom_id, "Missing batch output for request")
@@ -1608,6 +1782,12 @@ def _build_summary_and_results(
                     benchmark_topk_ids=request["benchmark_topk_ids"],
                     valid_output=False,
                 )
+                percentile_hit = _percentile_hit_map(
+                    selected_id=None,
+                    candidate_count=candidate_count,
+                    benchmark_top_percent_ids=request_top_percent_ids,
+                    valid_output=False,
+                )
                 trial_results.append({
                     "ontology": ontology,
                     "trial": trial,
@@ -1615,6 +1795,7 @@ def _build_summary_and_results(
                     "benchmark_ranked_ids": request["benchmark_ranked_ids"],
                     "benchmark_auc_by_id": request["benchmark_auc_by_id"],
                     "benchmark_topk_ids": request["benchmark_topk_ids"],
+                    "benchmark_top_percent_ids": request_top_percent_ids,
                     "eligible_at_k": disease_info["eligible_at_k"],
                     "candidate_model_ids": request["candidate_model_ids"],
                     "recommended_pgs_id": None,
@@ -1622,6 +1803,7 @@ def _build_summary_and_results(
                     "recommendation_confidence": None,
                     "valid_output": False,
                     "hit_at_k": hit_at_k,
+                    "percentile_hit": percentile_hit,
                     "in_target_topk": bool(hit_at_k.get("1")),
                     "rationale": None,
                     "rationale_features": [],
@@ -1638,6 +1820,12 @@ def _build_summary_and_results(
                     benchmark_topk_ids=request["benchmark_topk_ids"],
                     valid_output=False,
                 )
+                percentile_hit = _percentile_hit_map(
+                    selected_id=None,
+                    candidate_count=candidate_count,
+                    benchmark_top_percent_ids=request_top_percent_ids,
+                    valid_output=False,
+                )
                 trial_results.append({
                     "ontology": ontology,
                     "trial": trial,
@@ -1645,6 +1833,7 @@ def _build_summary_and_results(
                     "benchmark_ranked_ids": request["benchmark_ranked_ids"],
                     "benchmark_auc_by_id": request["benchmark_auc_by_id"],
                     "benchmark_topk_ids": request["benchmark_topk_ids"],
+                    "benchmark_top_percent_ids": request_top_percent_ids,
                     "eligible_at_k": disease_info["eligible_at_k"],
                     "candidate_model_ids": request["candidate_model_ids"],
                     "recommended_pgs_id": None,
@@ -1652,6 +1841,7 @@ def _build_summary_and_results(
                     "recommendation_confidence": None,
                     "valid_output": False,
                     "hit_at_k": hit_at_k,
+                    "percentile_hit": percentile_hit,
                     "in_target_topk": bool(hit_at_k.get("1")),
                     "rationale": None,
                     "rationale_features": [],
@@ -1674,6 +1864,12 @@ def _build_summary_and_results(
                     benchmark_topk_ids=request["benchmark_topk_ids"],
                     valid_output=False,
                 )
+                percentile_hit = _percentile_hit_map(
+                    selected_id=None,
+                    candidate_count=candidate_count,
+                    benchmark_top_percent_ids=request_top_percent_ids,
+                    valid_output=False,
+                )
                 trial_results.append({
                     "ontology": ontology,
                     "trial": trial,
@@ -1681,6 +1877,7 @@ def _build_summary_and_results(
                     "benchmark_ranked_ids": request["benchmark_ranked_ids"],
                     "benchmark_auc_by_id": request["benchmark_auc_by_id"],
                     "benchmark_topk_ids": request["benchmark_topk_ids"],
+                    "benchmark_top_percent_ids": request_top_percent_ids,
                     "eligible_at_k": disease_info["eligible_at_k"],
                     "candidate_model_ids": request["candidate_model_ids"],
                     "recommended_pgs_id": None,
@@ -1688,6 +1885,7 @@ def _build_summary_and_results(
                     "recommendation_confidence": None,
                     "valid_output": False,
                     "hit_at_k": hit_at_k,
+                    "percentile_hit": percentile_hit,
                     "in_target_topk": bool(hit_at_k.get("1")),
                     "rationale": None,
                     "rationale_features": [],
@@ -1706,6 +1904,12 @@ def _build_summary_and_results(
                 benchmark_topk_ids=request["benchmark_topk_ids"],
                 valid_output=valid_output,
             )
+            percentile_hit = _percentile_hit_map(
+                selected_id=recommended_id,
+                candidate_count=candidate_count,
+                benchmark_top_percent_ids=request_top_percent_ids,
+                valid_output=valid_output,
+            )
             rationale = decision.get("rationale")
             trial_results.append({
                 "ontology": ontology,
@@ -1714,6 +1918,7 @@ def _build_summary_and_results(
                 "benchmark_ranked_ids": request["benchmark_ranked_ids"],
                 "benchmark_auc_by_id": request["benchmark_auc_by_id"],
                 "benchmark_topk_ids": request["benchmark_topk_ids"],
+                "benchmark_top_percent_ids": request_top_percent_ids,
                 "eligible_at_k": disease_info["eligible_at_k"],
                 "candidate_model_ids": request["candidate_model_ids"],
                 "recommended_pgs_id": recommended_id,
@@ -1721,6 +1926,7 @@ def _build_summary_and_results(
                 "recommendation_confidence": decision.get("confidence"),
                 "valid_output": valid_output,
                 "hit_at_k": hit_at_k,
+                "percentile_hit": percentile_hit,
                 "in_target_topk": bool(hit_at_k.get("1")),
                 "rationale": rationale,
                 "rationale_features": _extract_step1_rationale_features(rationale or ""),
@@ -1736,6 +1942,9 @@ def _build_summary_and_results(
         benchmark_ranked_ids = list(disease.get("benchmark_ranked_ids") or top_k_data.get(ontology_key) or [])
         benchmark_auc_by_id = dict(disease.get("benchmark_auc_by_id") or {})
         benchmark_topk_ids = dict(disease.get("benchmark_topk_ids") or _benchmark_topk_ids(benchmark_ranked_ids, benchmark_auc_by_id))
+        benchmark_top_percent_ids = dict(
+            disease.get("benchmark_top_percent_ids") or _benchmark_top_percent_ids(benchmark_ranked_ids, benchmark_auc_by_id)
+        )
         rank_map = _benchmark_rank_map(benchmark_ranked_ids)
         hit_count = sum(1 for row in disease_trials if (row.get("hit_at_k") or {}).get("1"))
         valid_count = sum(1 for row in disease_trials if row["valid_output"])
@@ -1749,6 +1958,12 @@ def _build_summary_and_results(
             selected_id=modal_id,
             candidate_count=len(benchmark_ranked_ids) or disease["n_models"],
             benchmark_topk_ids=benchmark_topk_ids,
+            valid_output=bool(modal_id),
+        )
+        modal_percentile_hit = _percentile_hit_map(
+            selected_id=modal_id,
+            candidate_count=len(benchmark_ranked_ids) or disease["n_models"],
+            benchmark_top_percent_ids=benchmark_top_percent_ids,
             valid_output=bool(modal_id),
         )
         feature_counter = Counter(
@@ -1767,6 +1982,12 @@ def _build_summary_and_results(
             selected_id=(baseline or {}).get("pgs_id"),
             candidate_count=len(benchmark_ranked_ids) or disease["n_models"],
             benchmark_topk_ids=benchmark_topk_ids,
+            valid_output=bool((baseline or {}).get("pgs_id")),
+        )
+        baseline_percentile_hit = _percentile_hit_map(
+            selected_id=(baseline or {}).get("pgs_id"),
+            candidate_count=len(benchmark_ranked_ids) or disease["n_models"],
+            benchmark_top_percent_ids=benchmark_top_percent_ids,
             valid_output=bool((baseline or {}).get("pgs_id")),
         )
         baseline_with_rank = None
@@ -1790,6 +2011,7 @@ def _build_summary_and_results(
                 "rank": recommended_rank,
                 "rank_label": recommended_rank_label,
                 "hit_at_k": trial_row["hit_at_k"],
+                "percentile_hit": trial_row.get("percentile_hit"),
                 "in_target_topk": trial_row["in_target_topk"],
             })
             if recommended_id:
@@ -1834,6 +2056,34 @@ def _build_summary_and_results(
             )
             for k in BENCHMARK_HIT_KS
         }
+        trial_percentile_hit_counts = {
+            str(percentile): sum(
+                1
+                for trial_row in trial_recommendations_detailed
+                if (trial_row.get("percentile_hit") or {}).get(str(percentile))
+            )
+            for percentile in PERCENTILE_HIT_PCTS
+        }
+        trial_percentile_hit_rates = {
+            str(percentile): (
+                round(
+                    trial_percentile_hit_counts[str(percentile)]
+                    / sum(
+                        1
+                        for trial_row in trial_recommendations_detailed
+                        if (trial_row.get("percentile_hit") or {}).get(str(percentile)) is not None
+                    ),
+                    4,
+                )
+                if sum(
+                    1
+                    for trial_row in trial_recommendations_detailed
+                    if (trial_row.get("percentile_hit") or {}).get(str(percentile)) is not None
+                )
+                else None
+            )
+            for percentile in PERCENTILE_HIT_PCTS
+        }
 
         per_disease.append({
             "ontology": ontology,
@@ -1841,6 +2091,7 @@ def _build_summary_and_results(
             "benchmark_ranked_ids": benchmark_ranked_ids,
             "benchmark_auc_by_id": benchmark_auc_by_id,
             "benchmark_topk_ids": benchmark_topk_ids,
+            "benchmark_top_percent_ids": benchmark_top_percent_ids,
             "eligible_at_k": disease["eligible_at_k"],
             "candidate_model_ids": disease["candidate_model_ids"],
             "candidate_models_visible_to_llm": disease["candidate_models_visible_to_llm"],
@@ -1848,6 +2099,8 @@ def _build_summary_and_results(
             "trial_hit_rate": round(hit_rate, 4),
             "trial_hit_counts_at_k": trial_hit_counts_at_k,
             "trial_hit_rates_at_k": trial_hit_rates_at_k,
+            "trial_percentile_hit_counts": trial_percentile_hit_counts,
+            "trial_percentile_hit_rates": trial_percentile_hit_rates,
             "valid_outputs": valid_count,
             "valid_output_rate": round(valid_rate, 4),
             "errors": error_count,
@@ -1856,6 +2109,7 @@ def _build_summary_and_results(
             "modal_recommendation_rank": modal_rank,
             "modal_recommendation_rank_label": _rank_label(modal_rank, disease["n_models"]),
             "modal_recommendation_hit_at_k": modal_hit_at_k,
+            "modal_recommendation_percentile_hit": modal_percentile_hit,
             "modal_recommendation_in_target_topk": bool(modal_hit_at_k.get("1")),
             "trial_recommendations": [row["recommended_pgs_id"] for row in disease_trials],
             "trial_recommendations_detailed": trial_recommendations_detailed,
@@ -1863,6 +2117,7 @@ def _build_summary_and_results(
             "feature_mentions": dict(sorted(feature_counter.items())),
             "baseline": baseline_with_rank,
             "baseline_hit_at_k": baseline_hit_at_k,
+            "baseline_percentile_hit": baseline_percentile_hit,
             "baseline_in_target_topk": bool(baseline_hit_at_k.get("1")),
         })
 
@@ -1871,6 +2126,9 @@ def _build_summary_and_results(
     trial_hit_metrics = _aggregate_trial_hit_metrics(trial_results)
     modal_hit_metrics = _aggregate_modal_hit_metrics(per_disease)
     baseline_hit_metrics = _aggregate_baseline_hit_metrics(per_disease)
+    trial_percentile_hit_metrics = _aggregate_trial_percentile_hit_metrics(trial_results)
+    modal_percentile_hit_metrics = _aggregate_modal_percentile_hit_metrics(per_disease)
+    baseline_percentile_hit_metrics = _aggregate_baseline_percentile_hit_metrics(per_disease)
     trial_hits = trial_hit_metrics["1"]["hits"]
     valid_outputs = sum(1 for row in trial_results if row["valid_output"])
     trial_hit_rate = trial_hit_metrics["1"]["accuracy"] or 0.0
@@ -1896,6 +2154,7 @@ def _build_summary_and_results(
         "majority_vote_hits": majority_vote_hits,
         "majority_vote_accuracy": round(majority_vote_accuracy, 4),
         "modal_hit_at_k": modal_hit_metrics,
+        "modal_percentile_hit": modal_percentile_hit_metrics,
         "baseline": {
             "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
             "available": baseline_available,
@@ -1903,6 +2162,7 @@ def _build_summary_and_results(
             "hits": baseline_hits,
             "accuracy": round(baseline_accuracy, 4),
             "hit_at_k": baseline_hit_metrics,
+            "percentile_hit": baseline_percentile_hit_metrics,
         },
         "diagnostics": {
             "total_trials": total_trials,
@@ -1912,6 +2172,7 @@ def _build_summary_and_results(
             "valid_output_rate": round(valid_output_rate, 4),
         },
         "trial_hit_at_k": trial_hit_metrics,
+        "trial_percentile_hit": trial_percentile_hit_metrics,
         "per_disease": per_disease,
     }
     _ensure_summary_hit_metrics(summary)
@@ -2289,6 +2550,9 @@ def _write_report(summary: dict[str, Any]) -> None:
             for k in BENCHMARK_HIT_KS
         ],
         "",
+        *_percentile_hit_section_lines([
+            ("Without Domain Knowledge", summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
+        ]),
         *_rank_metric_section_lines(
             title="Rank Fraction (r / M)",
             metric_display="r / M",

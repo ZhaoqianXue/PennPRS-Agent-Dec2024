@@ -477,6 +477,14 @@ def _write_per_disease_comparison_doc(
             for k in without_domain.BENCHMARK_HIT_KS
         ],
         "",
+        *without_domain._percentile_hit_section_lines([
+            ("With Domain Knowledge", domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
+            (
+                "Without Domain Knowledge",
+                without_domain_summary["modal_percentile_hit"],
+                without_domain_summary["trial_percentile_hit"],
+            ),
+        ]),
         *without_domain._rank_metric_section_lines(
             title="Rank Fraction (r / M)",
             metric_display="r / M",
@@ -652,6 +660,14 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
             for k in without_domain.BENCHMARK_HIT_KS
         ],
         "",
+        *without_domain._percentile_hit_section_lines([
+            ("With Domain Knowledge", summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
+            (
+                "Without Domain Knowledge",
+                without_domain_summary["modal_percentile_hit"],
+                without_domain_summary["trial_percentile_hit"],
+            ),
+        ]),
         *without_domain._rank_metric_section_lines(
             title="Rank Fraction (r / M)",
             metric_display="r / M",
@@ -774,6 +790,14 @@ def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summ
             for k in without_domain.BENCHMARK_HIT_KS
         ],
         "",
+        *without_domain._percentile_hit_section_lines([
+            ("With Domain Knowledge", domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
+            (
+                "Without Domain Knowledge",
+                without_domain_summary["modal_percentile_hit"],
+                without_domain_summary["trial_percentile_hit"],
+            ),
+        ]),
         *without_domain._rank_metric_section_lines(
             title="Rank Fraction (r / M)",
             metric_display="r / M",

@@ -52,6 +52,43 @@
         "available": 28,
         "coverage": 0.9333
       }
+    },
+    "percentile_hit": {
+      "5": {
+        "hits": 6,
+        "eligible": 30,
+        "accuracy": 0.2,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "10": {
+        "hits": 9,
+        "eligible": 30,
+        "accuracy": 0.3,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "15": {
+        "hits": 9,
+        "eligible": 30,
+        "accuracy": 0.3,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "20": {
+        "hits": 11,
+        "eligible": 30,
+        "accuracy": 0.3667,
+        "available": 28,
+        "coverage": 0.9333
+      },
+      "25": {
+        "hits": 13,
+        "eligible": 30,
+        "accuracy": 0.4333,
+        "available": 28,
+        "coverage": 0.9333
+      }
     }
   },
   "diagnostics": {
@@ -305,6 +342,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -319,6 +363,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -333,6 +384,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -347,6 +405,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -361,6 +426,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -375,6 +447,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -389,6 +468,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -403,6 +489,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -417,6 +510,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -431,6 +531,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -524,6 +631,53 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS003973"
+        ],
+        "10": [
+          "PGS003973"
+        ],
+        "15": [
+          "PGS003973"
+        ],
+        "20": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "25": [
+          "PGS003973",
+          "PGS003429"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -745,6 +899,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -759,6 +920,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -773,6 +941,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -787,6 +962,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -801,6 +983,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -815,6 +1004,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -829,6 +1025,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -843,6 +1046,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -857,6 +1067,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -871,6 +1088,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -970,6 +1194,53 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS004606"
+        ],
+        "10": [
+          "PGS004606"
+        ],
+        "15": [
+          "PGS004606"
+        ],
+        "20": [
+          "PGS004606",
+          "PGS002269"
+        ],
+        "25": [
+          "PGS004606",
+          "PGS002269"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 6,
+        "10": 6,
+        "15": 6,
+        "20": 6,
+        "25": 6
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.6,
+        "10": 0.6,
+        "15": 0.6,
+        "20": 0.6,
+        "25": 0.6
       }
     },
     {
@@ -1127,6 +1398,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1141,6 +1419,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1155,6 +1440,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1169,6 +1461,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1183,6 +1482,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1197,6 +1503,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1211,6 +1524,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1225,6 +1545,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1239,6 +1566,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -1253,6 +1587,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -1336,6 +1677,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS002738"
+        ],
+        "10": [
+          "PGS002738"
+        ],
+        "15": [
+          "PGS002738"
+        ],
+        "20": [
+          "PGS002738"
+        ],
+        "25": [
+          "PGS002738"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -1612,6 +1998,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1626,6 +2019,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1640,6 +2040,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1654,6 +2061,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1668,6 +2082,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1682,6 +2103,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1696,6 +2124,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1710,6 +2145,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1724,6 +2166,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         },
         {
@@ -1738,6 +2187,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": true
           }
         }
       ],
@@ -1831,6 +2287,55 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS001876"
+        ],
+        "10": [
+          "PGS001876"
+        ],
+        "15": [
+          "PGS001876",
+          "PGS001267"
+        ],
+        "20": [
+          "PGS001876",
+          "PGS001267"
+        ],
+        "25": [
+          "PGS001876",
+          "PGS001267",
+          "PGS001268"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 1.0
       }
     },
     {
@@ -2099,6 +2604,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2113,6 +2625,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2127,6 +2646,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2141,6 +2667,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2155,6 +2688,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2169,6 +2709,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2183,6 +2730,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2197,6 +2751,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2211,6 +2772,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2225,6 +2793,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -2317,6 +2892,54 @@
         "3": 0.0,
         "4": 0.0,
         "5": 0.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005254"
+        ],
+        "10": [
+          "PGS005254"
+        ],
+        "15": [
+          "PGS005254",
+          "PGS005255"
+        ],
+        "20": [
+          "PGS005254",
+          "PGS005255"
+        ],
+        "25": [
+          "PGS005254",
+          "PGS005255"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -2528,6 +3151,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2542,6 +3172,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2556,6 +3193,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2570,6 +3214,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2584,6 +3235,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2598,6 +3256,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2612,6 +3277,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2626,6 +3298,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2640,6 +3319,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -2654,6 +3340,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -2747,6 +3440,53 @@
         "3": 0.0,
         "4": 0.0,
         "5": 0.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000073"
+        ],
+        "10": [
+          "PGS000073"
+        ],
+        "15": [
+          "PGS000073"
+        ],
+        "20": [
+          "PGS000073",
+          "PGS000784"
+        ],
+        "25": [
+          "PGS000073",
+          "PGS000784"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -2942,6 +3682,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -2956,6 +3703,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -2970,6 +3724,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -2984,6 +3745,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -2998,6 +3766,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3012,6 +3787,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3026,6 +3808,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3040,6 +3829,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3054,6 +3850,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3068,6 +3871,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -3160,6 +3970,52 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS003382"
+        ],
+        "10": [
+          "PGS003382"
+        ],
+        "15": [
+          "PGS003382"
+        ],
+        "20": [
+          "PGS003382"
+        ],
+        "25": [
+          "PGS003382",
+          "PGS004247"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -3428,6 +4284,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3442,6 +4305,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3456,6 +4326,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3470,6 +4347,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3484,6 +4368,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3498,6 +4389,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3512,6 +4410,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3526,6 +4431,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3540,6 +4452,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -3554,6 +4473,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -3647,6 +4573,54 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005266"
+        ],
+        "10": [
+          "PGS005266"
+        ],
+        "15": [
+          "PGS005266",
+          "PGS005265"
+        ],
+        "20": [
+          "PGS005266",
+          "PGS005265"
+        ],
+        "25": [
+          "PGS005266",
+          "PGS005265"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -3809,6 +4783,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3823,6 +4804,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3837,6 +4825,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3851,6 +4846,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3865,6 +4867,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3879,6 +4888,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3893,6 +4909,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3907,6 +4930,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3921,6 +4951,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -3935,6 +4972,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -4025,6 +5069,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005272"
+        ],
+        "10": [
+          "PGS005272"
+        ],
+        "15": [
+          "PGS005272"
+        ],
+        "20": [
+          "PGS005272"
+        ],
+        "25": [
+          "PGS005272"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -4846,6 +5935,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4860,6 +5956,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4874,6 +5977,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4888,6 +5998,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4902,6 +6019,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4916,6 +6040,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4930,6 +6061,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4944,6 +6082,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4958,6 +6103,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -4972,6 +6124,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -5064,6 +6223,69 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000639",
+          "PGS003449"
+        ],
+        "10": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638"
+        ],
+        "15": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638",
+          "PGS003454",
+          "PGS000648"
+        ],
+        "20": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638",
+          "PGS003454",
+          "PGS000648",
+          "PGS000649"
+        ],
+        "25": [
+          "PGS000639",
+          "PGS003449",
+          "PGS000638",
+          "PGS003454",
+          "PGS000648",
+          "PGS000649",
+          "PGS002303"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -5234,6 +6456,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5248,6 +6477,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5262,6 +6498,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5276,6 +6519,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5290,6 +6540,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5304,6 +6561,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -5318,6 +6582,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5332,6 +6603,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -5346,6 +6624,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -5360,6 +6645,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -5458,6 +6750,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS004911"
+        ],
+        "10": [
+          "PGS004911"
+        ],
+        "15": [
+          "PGS004911"
+        ],
+        "20": [
+          "PGS004911"
+        ],
+        "25": [
+          "PGS004911"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 8,
+        "10": 8,
+        "15": 8,
+        "20": 8,
+        "25": 8
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.8,
+        "10": 0.8,
+        "15": 0.8,
+        "20": 0.8,
+        "25": 0.8
       }
     },
     {
@@ -6315,6 +7652,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6329,6 +7673,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6343,6 +7694,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6357,6 +7715,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6371,6 +7736,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6385,6 +7757,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6399,6 +7778,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6413,6 +7799,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6427,6 +7820,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6441,6 +7841,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -6531,6 +7938,69 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005268",
+          "PGS005269"
+        ],
+        "10": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218"
+        ],
+        "15": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218",
+          "PGS005267",
+          "PGS004789"
+        ],
+        "20": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218",
+          "PGS005267",
+          "PGS004789",
+          "PGS004790"
+        ],
+        "25": [
+          "PGS005268",
+          "PGS005269",
+          "PGS005218",
+          "PGS005267",
+          "PGS004789",
+          "PGS004790",
+          "PGS002336"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -6693,6 +8163,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6707,6 +8184,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6721,6 +8205,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6735,6 +8226,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6749,6 +8247,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6763,6 +8268,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6777,6 +8289,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6791,6 +8310,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6805,6 +8331,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -6819,6 +8352,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -6908,6 +8448,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000114"
+        ],
+        "10": [
+          "PGS000114"
+        ],
+        "15": [
+          "PGS000114"
+        ],
+        "20": [
+          "PGS000114"
+        ],
+        "25": [
+          "PGS000114"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -7344,6 +8929,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7358,6 +8950,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7372,6 +8971,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7386,6 +8992,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7400,6 +9013,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7414,6 +9034,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7428,6 +9055,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7442,6 +9076,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7456,6 +9097,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -7470,6 +9118,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -7562,6 +9217,55 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS004908"
+        ],
+        "10": [
+          "PGS004908"
+        ],
+        "15": [
+          "PGS004908",
+          "PGS000787"
+        ],
+        "20": [
+          "PGS004908",
+          "PGS000787"
+        ],
+        "25": [
+          "PGS004908",
+          "PGS000787",
+          "PGS000722"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -7801,6 +9505,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7815,6 +9526,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7829,6 +9547,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7843,6 +9568,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7857,6 +9589,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7871,6 +9610,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7885,6 +9631,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7899,6 +9652,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7913,6 +9673,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -7927,6 +9694,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -8025,6 +9799,52 @@
         "3": 0.4,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000054"
+        ],
+        "10": [
+          "PGS000054"
+        ],
+        "15": [
+          "PGS000054"
+        ],
+        "20": [
+          "PGS000054"
+        ],
+        "25": [
+          "PGS000054",
+          "PGS002289"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -8316,6 +10136,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8330,6 +10157,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8344,6 +10178,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8358,6 +10199,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8372,6 +10220,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8386,6 +10241,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8400,6 +10262,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8414,6 +10283,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8428,6 +10304,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -8442,6 +10325,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -8535,6 +10425,54 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005263"
+        ],
+        "10": [
+          "PGS005263"
+        ],
+        "15": [
+          "PGS005263",
+          "PGS005262"
+        ],
+        "20": [
+          "PGS005263",
+          "PGS005262"
+        ],
+        "25": [
+          "PGS005263",
+          "PGS005262"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -8843,6 +10781,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8857,6 +10802,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8871,6 +10823,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8885,6 +10844,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8899,6 +10865,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8913,6 +10886,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8927,6 +10907,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8941,6 +10928,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8955,6 +10949,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -8969,6 +10970,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -9062,6 +11070,55 @@
         "3": 0.0,
         "4": 0.0,
         "5": 0.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005235"
+        ],
+        "10": [
+          "PGS005235"
+        ],
+        "15": [
+          "PGS005235",
+          "PGS005154"
+        ],
+        "20": [
+          "PGS005235",
+          "PGS005154"
+        ],
+        "25": [
+          "PGS005235",
+          "PGS005154",
+          "PGS003959"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -9635,6 +11692,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9649,6 +11713,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9663,6 +11734,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9677,6 +11755,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9691,6 +11776,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9705,6 +11797,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9719,6 +11818,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9733,6 +11839,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9747,6 +11860,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -9761,6 +11881,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -9854,6 +11981,61 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005220"
+        ],
+        "10": [
+          "PGS005220",
+          "PGS005219"
+        ],
+        "15": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479"
+        ],
+        "20": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213"
+        ],
+        "25": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213",
+          "PGS003857"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -10067,6 +12249,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10081,6 +12270,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10095,6 +12291,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10109,6 +12312,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10123,6 +12333,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10137,6 +12354,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10151,6 +12375,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10165,6 +12396,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10179,6 +12417,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10193,6 +12438,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -10285,6 +12537,52 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS004944"
+        ],
+        "10": [
+          "PGS004944"
+        ],
+        "15": [
+          "PGS004944"
+        ],
+        "20": [
+          "PGS004944"
+        ],
+        "25": [
+          "PGS004944",
+          "PGS001797"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -10477,6 +12775,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10491,6 +12796,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10505,6 +12817,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10519,6 +12838,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10533,6 +12859,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10547,6 +12880,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10561,6 +12901,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10575,6 +12922,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10589,6 +12943,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -10603,6 +12964,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -10701,6 +13069,51 @@
         "3": 0.1,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005217"
+        ],
+        "10": [
+          "PGS005217"
+        ],
+        "15": [
+          "PGS005217"
+        ],
+        "20": [
+          "PGS005217"
+        ],
+        "25": [
+          "PGS005217"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -10841,6 +13254,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10855,6 +13275,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10869,6 +13296,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10883,6 +13317,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10897,6 +13338,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10911,6 +13359,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10925,6 +13380,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10939,6 +13401,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10953,6 +13422,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -10967,6 +13443,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -11046,6 +13529,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS003586"
+        ],
+        "10": [
+          "PGS003586"
+        ],
+        "15": [
+          "PGS003586"
+        ],
+        "20": [
+          "PGS003586"
+        ],
+        "25": [
+          "PGS003586"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -14094,6 +16622,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14108,6 +16643,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14122,6 +16664,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14136,6 +16685,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14150,6 +16706,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14164,6 +16727,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14178,6 +16748,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14192,6 +16769,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14206,6 +16790,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14220,6 +16811,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -14312,6 +16910,119 @@
         "3": 0.0,
         "4": 0.0,
         "5": 0.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592",
+          "PGS002793"
+        ],
+        "10": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592",
+          "PGS002793",
+          "PGS000576",
+          "PGS004872",
+          "PGS001805",
+          "PGS004001",
+          "PGS002016"
+        ],
+        "15": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592",
+          "PGS002793",
+          "PGS000576",
+          "PGS004872",
+          "PGS001805",
+          "PGS004001",
+          "PGS002016",
+          "PGS000719",
+          "PGS004581",
+          "PGS005239",
+          "PGS003383",
+          "PGS004816"
+        ],
+        "20": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592",
+          "PGS002793",
+          "PGS000576",
+          "PGS004872",
+          "PGS001805",
+          "PGS004001",
+          "PGS002016",
+          "PGS000719",
+          "PGS004581",
+          "PGS005239",
+          "PGS003383",
+          "PGS004816",
+          "PGS004815",
+          "PGS005205",
+          "PGS001291",
+          "PGS000574"
+        ],
+        "25": [
+          "PGS000566",
+          "PGS000044",
+          "PGS001292",
+          "PGS000592",
+          "PGS002793",
+          "PGS000576",
+          "PGS004872",
+          "PGS001805",
+          "PGS004001",
+          "PGS002016",
+          "PGS000719",
+          "PGS004581",
+          "PGS005239",
+          "PGS003383",
+          "PGS004816",
+          "PGS004815",
+          "PGS005205",
+          "PGS001291",
+          "PGS000574",
+          "PGS000575",
+          "PGS002797",
+          "PGS004601",
+          "PGS000583",
+          "PGS000587"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -14547,6 +17258,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -14561,6 +17279,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14575,6 +17300,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -14589,6 +17321,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14603,6 +17342,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -14617,6 +17363,13 @@
             "3": false,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -14631,6 +17384,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -14645,6 +17405,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -14659,6 +17426,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -14673,6 +17447,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -14772,6 +17553,54 @@
         "3": 0.7,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS001278"
+        ],
+        "10": [
+          "PGS001278"
+        ],
+        "15": [
+          "PGS001278",
+          "PGS001280"
+        ],
+        "20": [
+          "PGS001278",
+          "PGS001280"
+        ],
+        "25": [
+          "PGS001278",
+          "PGS001280"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 7,
+        "20": 7,
+        "25": 7
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.7,
+        "20": 0.7,
+        "25": 0.7
       }
     },
     {
@@ -15156,6 +17985,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15170,6 +18006,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15184,6 +18027,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15198,6 +18048,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15212,6 +18069,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15226,6 +18090,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15240,6 +18111,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15254,6 +18132,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15268,6 +18153,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15282,6 +18174,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -15374,6 +18273,54 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS004908"
+        ],
+        "10": [
+          "PGS004908"
+        ],
+        "15": [
+          "PGS004908",
+          "PGS000787"
+        ],
+        "20": [
+          "PGS004908",
+          "PGS000787"
+        ],
+        "25": [
+          "PGS004908",
+          "PGS000787"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -15502,6 +18449,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15516,6 +18470,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15530,6 +18491,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15544,6 +18512,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15558,6 +18533,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15572,6 +18554,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15586,6 +18575,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15600,6 +18596,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15614,6 +18617,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -15628,6 +18638,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -15718,6 +18735,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000471"
+        ],
+        "10": [
+          "PGS000471"
+        ],
+        "15": [
+          "PGS000471"
+        ],
+        "20": [
+          "PGS000471"
+        ],
+        "25": [
+          "PGS000471"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -16291,6 +19353,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16305,6 +19374,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16319,6 +19395,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16333,6 +19416,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16347,6 +19437,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16361,6 +19458,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16375,6 +19479,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16389,6 +19500,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16403,6 +19521,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16417,6 +19542,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -16508,6 +19640,61 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005220"
+        ],
+        "10": [
+          "PGS005220",
+          "PGS005219"
+        ],
+        "15": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479"
+        ],
+        "20": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213"
+        ],
+        "25": [
+          "PGS005220",
+          "PGS005219",
+          "PGS003479",
+          "PGS003213",
+          "PGS003857"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -16911,6 +20098,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16925,6 +20119,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16939,6 +20140,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16953,6 +20161,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16967,6 +20182,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16981,6 +20203,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -16995,6 +20224,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -17009,6 +20245,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -17023,6 +20266,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         },
         {
@@ -17037,6 +20287,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": true,
+            "25": true
           }
         }
       ],
@@ -17130,6 +20387,58 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000796"
+        ],
+        "10": [
+          "PGS000796",
+          "PGS000600"
+        ],
+        "15": [
+          "PGS000796",
+          "PGS000600"
+        ],
+        "20": [
+          "PGS000796",
+          "PGS000600",
+          "PGS001164"
+        ],
+        "25": [
+          "PGS000796",
+          "PGS000600",
+          "PGS001164",
+          "PGS000599"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": true,
+        "25": true
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": true,
+        "25": true
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 10,
+        "25": 10
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 1.0,
+        "25": 1.0
       }
     },
     {
@@ -18106,6 +21415,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18120,6 +21436,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18134,6 +21457,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18148,6 +21478,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18162,6 +21499,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18176,6 +21520,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18190,6 +21541,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18204,6 +21562,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18218,6 +21583,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18232,6 +21604,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -18325,6 +21704,72 @@
         "3": 0.0,
         "4": 0.0,
         "5": 0.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS005260",
+          "PGS005274"
+        ],
+        "10": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273",
+          "PGS005259"
+        ],
+        "15": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273",
+          "PGS005259",
+          "PGS005258"
+        ],
+        "20": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273",
+          "PGS005259",
+          "PGS005258",
+          "PGS001799",
+          "PGS001794"
+        ],
+        "25": [
+          "PGS005260",
+          "PGS005274",
+          "PGS005273",
+          "PGS005259",
+          "PGS005258",
+          "PGS001799",
+          "PGS001794",
+          "PGS004954"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -18754,6 +22199,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18768,6 +22220,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18782,6 +22241,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18796,6 +22262,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18810,6 +22283,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18824,6 +22304,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18838,6 +22325,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18852,6 +22346,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18866,6 +22367,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -18880,6 +22388,13 @@
             "3": false,
             "4": false,
             "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -18971,6 +22486,59 @@
         "3": 0.0,
         "4": 0.0,
         "5": 0.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000075"
+        ],
+        "10": [
+          "PGS000075",
+          "PGS000786"
+        ],
+        "15": [
+          "PGS000075",
+          "PGS000786",
+          "PGS003381"
+        ],
+        "20": [
+          "PGS000075",
+          "PGS000786",
+          "PGS003381"
+        ],
+        "25": [
+          "PGS000075",
+          "PGS000786",
+          "PGS003381",
+          "PGS002735"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     },
     {
@@ -19097,6 +22665,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19111,6 +22686,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19125,6 +22707,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19139,6 +22728,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19153,6 +22749,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19167,6 +22770,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19181,6 +22791,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19195,6 +22812,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19209,6 +22833,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         },
         {
@@ -19223,6 +22854,13 @@
             "3": true,
             "4": true,
             "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           }
         }
       ],
@@ -19312,6 +22950,51 @@
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS000760"
+        ],
+        "10": [
+          "PGS000760"
+        ],
+        "15": [
+          "PGS000760"
+        ],
+        "20": [
+          "PGS000760"
+        ],
+        "25": [
+          "PGS000760"
+        ]
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "trial_percentile_hit_counts": {
+        "5": 0,
+        "10": 0,
+        "15": 0,
+        "20": 0,
+        "25": 0
+      },
+      "trial_percentile_hit_rates": {
+        "5": 0.0,
+        "10": 0.0,
+        "15": 0.0,
+        "20": 0.0,
+        "25": 0.0
       }
     }
   ],
@@ -19416,5 +23099,73 @@
     "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/benchmark_auc_per_ontology.json"
   },
   "union_csv": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv",
-  "ground_truth_dir": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1"
+  "ground_truth_dir": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1",
+  "modal_percentile_hit": {
+    "5": {
+      "hits": 14,
+      "eligible": 30,
+      "accuracy": 0.4667
+    },
+    "10": {
+      "hits": 15,
+      "eligible": 30,
+      "accuracy": 0.5
+    },
+    "15": {
+      "hits": 18,
+      "eligible": 30,
+      "accuracy": 0.6
+    },
+    "20": {
+      "hits": 19,
+      "eligible": 30,
+      "accuracy": 0.6333
+    },
+    "25": {
+      "hits": 20,
+      "eligible": 30,
+      "accuracy": 0.6667
+    }
+  },
+  "trial_percentile_hit": {
+    "5": {
+      "hits": 134,
+      "eligible": 300,
+      "accuracy": 0.4467
+    },
+    "10": {
+      "hits": 144,
+      "eligible": 300,
+      "accuracy": 0.48
+    },
+    "15": {
+      "hits": 171,
+      "eligible": 300,
+      "accuracy": 0.57
+    },
+    "20": {
+      "hits": 181,
+      "eligible": 300,
+      "accuracy": 0.6033
+    },
+    "25": {
+      "hits": 191,
+      "eligible": 300,
+      "accuracy": 0.6367
+    }
+  },
+  "percentile_hit_definition": {
+    "percentiles": [
+      5,
+      10,
+      15,
+      20,
+      25
+    ],
+    "cutoff_formula": "c_q = max(1, ceil(q/100 * M))",
+    "fixed_denominator": true,
+    "tie_aware_cutoff": true,
+    "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/top_k_pgs_per_ontology.json",
+    "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/benchmark_auc_per_ontology.json"
+  }
 }

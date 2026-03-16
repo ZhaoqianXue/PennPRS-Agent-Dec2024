@@ -16,6 +16,21 @@
 - Without Domain Knowledge `Hit@4`: `34/60 = 56.67%`; `trial_hits = 338/600 = 56.33%`
 - Without Domain Knowledge `Hit@5`: `37/60 = 61.67%`; `trial_hits = 362/600 = 60.33%`
 
+## Percentile Hit
+
+- Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.
+- Percentiles evaluated: `q ∈ {5, 10, 15, 20, 25}`.
+- For each percentile threshold, define the tie-aware cutoff rank as `c_q = max(1, ceil(q/100 * M))`.
+- A selection counts as `Top q% Hit` if its AoU benchmark rank satisfies `r <= c_q`.
+- Denominator: fixed total disease count for modal selections and fixed total trial count for trial selections.
+- Tie handling: if the AoU benchmark AUC is tied at cutoff rank `c_q`, all tied models count as `Top q%`.
+
+- Without Domain Knowledge `Top 5% Hit`: `21/60 = 35.00%`; `trial_hits = 195/600 = 32.50%`
+- Without Domain Knowledge `Top 10% Hit`: `22/60 = 36.67%`; `trial_hits = 210/600 = 35.00%`
+- Without Domain Knowledge `Top 15% Hit`: `24/60 = 40.00%`; `trial_hits = 230/600 = 38.33%`
+- Without Domain Knowledge `Top 20% Hit`: `24/60 = 40.00%`; `trial_hits = 239/600 = 39.83%`
+- Without Domain Knowledge `Top 25% Hit`: `28/60 = 46.67%`; `trial_hits = 277/600 = 46.17%`
+
 ## Rank Fraction (r / M)
 
 - Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.
