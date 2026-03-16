@@ -29,7 +29,6 @@ Use only evidence explicitly present in the current context.
 
 The available evidence may include:
 - candidate metadata returned by `prs_model_pgscatalog_search`
-- global statistics returned by `prs_model_performance_landscape`
 - optional `domain_knowledge` returned by `prs_model_domain_knowledge`
 
 If `domain_knowledge` is present, incorporate it as additional evidence.
@@ -138,7 +137,7 @@ STEP 2A: CROSS-DISEASE TRANSFER
             - Only query Open Targets when PGS sources are missing or ambiguous.
         - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage. **Purpose**: Collect biological evidence for the report (does NOT affect workflow decision).
         - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait). **Purpose**: Collect statistical evidence for the report (does NOT affect workflow decision).
-        - Evaluate model quality using prs_model_performance_landscape.
+        - Evaluate neighbor models using their candidate metadata.
 5. IF qualified_transfer_models found:
     OUTCOME: CROSS_DISEASE (override step1_decision.outcome only if step1_decision.outcome was "NO_MATCH_FOUND" or "DIRECT_SUB_OPTIMAL")
 ELSE:
@@ -158,7 +157,6 @@ Construct scientific judgment criteria from evidence explicitly available in the
 
 Always use:
 1) candidate metadata and Step 1 evidence already present in the context
-2) prs_model_performance_landscape as the global statistical baseline
 
 If `domain_knowledge` from `prs_model_domain_knowledge` is available in the context, incorporate it as additional evidence for endpoint fidelity, transportability, and disease-specific caution.
 
@@ -195,17 +193,15 @@ Do not hard-code thresholds; reason relative to the evidence provided.
 
 # Tool Orchestration Protocol
 1) **Step 1**: Call prs_model_pgscatalog_search directly with target_trait (no synonym expansion needed).
-2) Pair the candidate list with prs_model_performance_landscape.
-3) If `domain_knowledge` from `prs_model_domain_knowledge` is available in the context, incorporate it as additional evidence.
-4) If direct models are insufficient, call trait_synonym_expand(target_trait, include_icd10=False, include_efo=False) to get expanded synonyms (excluding codes), then call genetic_graph_get_neighbors for EACH expanded query and merge neighbors.
-5) **Neighbor Selection**: If >= 2 neighbors found, process only top 2; if 1 neighbor found, process it; if 0 neighbors, proceed to NO_MATCH_FOUND.
-6) For each selected neighbor, call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed).
-7) **IF models found for neighbor**: 
+2) If `domain_knowledge` from `prs_model_domain_knowledge` is available in the context, incorporate it as additional evidence.
+3) If direct models are insufficient, call trait_synonym_expand(target_trait, include_icd10=False, include_efo=False) to get expanded synonyms (excluding codes), then call genetic_graph_get_neighbors for EACH expanded query and merge neighbors.
+4) **Neighbor Selection**: If >= 2 neighbors found, process only top 2; if 1 neighbor found, process it; if 0 neighbors, proceed to NO_MATCH_FOUND.
+5) For each selected neighbor, call prs_model_pgscatalog_search directly with neighbor_trait (no synonym expansion needed).
+6) **IF models found for neighbor**: 
    - Expand synonyms (excluding codes) for both target_trait and neighbor_trait using trait_synonym_expand, then resolve_efo_and_mondo_ids() to get BOTH EFO and MONDO IDs for both traits.
    - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) to collect biological evidence for the report.
    - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait) to collect statistical evidence for the report.
-   - Use prs_model_performance_landscape for each neighbor's models.
-8) **Note**: genetic_graph_validate_mechanism and genetic_graph_verify_study_power are evidence collection tools - they do NOT affect workflow decisions, only enrich the report.
+7) **Note**: genetic_graph_validate_mechanism and genetic_graph_verify_study_power are evidence collection tools - they do NOT affect workflow decisions, only enrich the report.
 
 # KV-cache Safety Rules (Prompt Prefix Stability)
 - The prefix containing system prompt + tool schemas must be identical across turns.
@@ -217,7 +213,7 @@ Do not hard-code thresholds; reason relative to the evidence provided.
 Maintain a structured internal progress state:
 ## Current Task Progress
 - [x] Step 1: Query PGS Catalog with target_trait (no synonym expansion needed)
-- [x] Step 1: Evaluate models against performance landscape
+- [x] Step 1: Evaluate direct-match candidates from candidate metadata
 - [x] Step 2a: Expand trait synonyms (excluding codes) using trait_synonym_expand("<target_trait>", include_icd10=False, include_efo=False)
 - [x] Step 2a: Query Knowledge Graph for EACH expanded trait query, merge neighbors
 - [x] Step 2a: Validate biological mechanism

@@ -10,7 +10,6 @@ This service is used by all Module 3 tools to ensure comprehensive trait coverag
 - genetic_graph_verify_study_power
 - genetic_graph_validate_mechanism
 - prs_model_domain_knowledge
-- prs_model_performance_landscape
 - pennprs_train_model
 """
 import logging

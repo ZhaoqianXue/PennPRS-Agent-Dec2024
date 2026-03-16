@@ -16,7 +16,6 @@ from src.server.modules.disease.recommendation_agent import recommend_models
 from src.server.core.pgs_catalog_client import PGSCatalogClient
 from src.server.core.tools.prs_model_tools import (
     prs_model_pgscatalog_search,
-    prs_model_performance_landscape,
     prs_model_domain_knowledge
 )
 from src.server.core.agent_artifacts import stable_json_dumps
@@ -51,31 +50,18 @@ def debug_t2d_search():
             if hasattr(model, 'performance_metrics') and model.performance_metrics:
                 print(f"     Performance: {model.performance_metrics}")
     
-    # Step 2: Get performance landscape
+    # Step 2: Get domain knowledge
     print(f"\n{'='*80}")
-    print("Step 2: Getting performance landscape...")
-    landscape = prs_model_performance_landscape(pgs_client, pgs_result.models)
-    print(f"Performance Landscape:")
-    landscape_dict = landscape.model_dump()
-    print(f"  - Models with AUC: {landscape_dict.get('models_with_auc', 'N/A')}")
-    print(f"  - Models with R2: {landscape_dict.get('models_with_r2', 'N/A')}")
-    if 'auc_stats' in landscape_dict and landscape_dict['auc_stats']:
-        print(f"  - AUC stats: {landscape_dict['auc_stats']}")
-    if 'r2_stats' in landscape_dict and landscape_dict['r2_stats']:
-        print(f"  - R2 stats: {landscape_dict['r2_stats']}")
-    
-    # Step 3: Get domain knowledge
-    print(f"\n{'='*80}")
-    print("Step 3: Getting domain knowledge...")
+    print("Step 2: Getting domain knowledge...")
     knowledge = prs_model_domain_knowledge(f"{target_trait} PRS clinical thresholds AUC R2")
     print(f"Domain Knowledge:")
-    print(f"  - Knowledge items: {len(knowledge.knowledge_items)}")
-    if knowledge.knowledge_items:
-        print(f"  - First item: {knowledge.knowledge_items[0][:200]}...")
+    print(f"  - Snippets: {len(knowledge.snippets)}")
+    if knowledge.snippets:
+        print(f"  - First snippet: {knowledge.snippets[0].content[:200]}...")
     
-    # Step 4: Build Step 1 context
+    # Step 3: Build Step 1 context
     print(f"\n{'='*80}")
-    print("Step 4: Building Step 1 context...")
+    print("Step 3: Building Step 1 context...")
     
     from src.server.modules.disease.recommendation_agent import (
         _summarize_search_result_for_llm,
@@ -97,7 +83,6 @@ def debug_t2d_search():
         "target_trait": target_trait,
         "direct_models": direct_models_inline,
         "direct_models_artifact": direct_models_artifact.model_dump() if direct_models_artifact else None,
-        "performance_landscape": landscape.model_dump(),
         "domain_knowledge": knowledge.model_dump(),
     }
     
@@ -113,9 +98,9 @@ def debug_t2d_search():
         if 'top_models' in step1_context['direct_models']:
             print(f"  - Top models count: {len(step1_context['direct_models']['top_models'])}")
     
-    # Step 5: Call Step 1 chain
+    # Step 4: Call Step 1 chain
     print(f"\n{'='*80}")
-    print("Step 5: Calling Step 1 decision chain...")
+    print("Step 4: Calling Step 1 decision chain...")
     
     from src.server.modules.disease.recommendation_agent import _build_step1_chain
     
@@ -154,9 +139,9 @@ def debug_t2d_search():
         import traceback
         traceback.print_exc()
     
-    # Step 6: Full recommendation
+    # Step 5: Full recommendation
     print(f"\n{'='*80}")
-    print("Step 6: Running full recommendation workflow...")
+    print("Step 5: Running full recommendation workflow...")
     
     try:
         report = recommend_models(target_trait, request_id="debug_t2d")

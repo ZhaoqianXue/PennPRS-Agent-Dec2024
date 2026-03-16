@@ -6,7 +6,6 @@ Tests sop.md L352-622 output schema specifications.
 import pytest
 from src.server.core.tool_schemas import (
     PGSSearchResult, PGSModelSummary,
-    PerformanceLandscape, MetricDistribution,
     NeighborResult, RankedNeighbor,
     StudyPowerResult, CorrelationProvenance,
     MechanismValidation, SharedGene,
@@ -87,25 +86,6 @@ class TestPRSModelSchemas:
         assert result.total_found == 10
         assert result.after_filter == 5
         assert len(result.models) == 1
-
-    def test_performance_landscape_schema(self):
-        """Test PerformanceLandscape can be instantiated."""
-        dist = MetricDistribution(
-            min=0.5, max=0.85, median=0.7, p25=0.65, p75=0.78, missing_count=2
-        )
-        landscape = PerformanceLandscape(
-            total_models=10,
-            ancestry={"EUR": 10},
-            sample_size=dist,
-            auc=dist,
-            r2=dist,
-            variants=dist,
-            training_development_cohorts={"UKB": 3},
-            prs_methods={"LDpred2": 10}
-        )
-        assert landscape.total_models == 10
-        assert landscape.auc.median == 0.7
-
 
 class TestGeneticGraphSchemas:
     """Test Genetic Graph Tool schemas."""

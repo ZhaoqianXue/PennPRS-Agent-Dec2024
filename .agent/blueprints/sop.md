@@ -42,7 +42,7 @@ This paper makes the following contributions:
     - **Nature**: Data engineering and computational evaluation. This contribution is independent of the AI Agent and serves as the **gold-standard ground truth** for validating C2 and C3.
 - **C2: LLM-Based PRS Model Selection** (Core Project Value = Step 1)
     - **Claim**: PennPRS Agent, powered by GPT-5.2 with domain-specific tool calling, can select the best-performing PRS model from the full pool of PGS Catalog candidates, matching or exceeding naive selection baselines.
-    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame from evidence explicitly present in context, and outputs a ranked recommendation. `prs_model_performance_landscape` is always provided; `prs_model_domain_knowledge` is injected as optional additional evidence. Contribution2 uses a controlled Step 1 ablation that keeps the Step 1 prompt fixed and toggles only whether `prs_model_domain_knowledge` is present in context, while logging structured artifacts for feature attribution analysis.
+    - **Approach**: The Agent ingests model metadata (`[Agent + UI]` fields: sample size, ancestry, method, training cohort, performance metrics, etc.), constructs an Evaluation Reference Frame from evidence explicitly present in context, and outputs a ranked recommendation. `prs_model_domain_knowledge` is injected as optional additional evidence. Contribution2 uses a controlled Step 1 ablation that keeps the Step 1 prompt fixed and toggles only whether `prs_model_domain_knowledge` is present in context, while logging structured artifacts for feature attribution analysis.
     - **Validation**: C1's Performance Matrix serves as ground truth. We evaluate both default and ablation settings against the benchmark-optimal model for each disease, and quantify agreement/feature shifts.
 - **C3: LLM-Based Local Graph for Cross-Disease Model Transfer** (Methodological Innovation = Step 2a)
     - **Claim**: For diseases without existing PRS models, PennPRS Agent leverages an LLM-based local knowledge graph to discover genetically related diseases and recommend their PRS models as effective substitutes.
@@ -161,16 +161,14 @@ Step 1: Direct Match Assessment
            │
            ├──[No models found]──► Proceed to Step 2a
            ▼
-    prs_model_performance_landscape(candidates) ──┐
-    prs_model_domain_knowledge(query) [optional] ─┤
-           │                                       │
-           ▼                                       │
+    prs_model_domain_knowledge(query) [optional] ─┐
+           │                                      │
+           ▼                                      │
     ┌─────────────────────────────────────────────────────────────────┐
     │              LLM QUALITY EVALUATION (Evaluation Reference Frame)│
     │                                                                  │
     │  Agent combines:                                                 │
     │    - Candidate metadata (always)                                 │
-    │    - Market Statistics (from performance_landscape)              │
     │    - Clinical Consensus (from domain_knowledge, if available)    │
     │                                                                  │
     │         ├──[HIGH_QUALITY]──► Generate Report (Direct)            │
@@ -245,7 +243,7 @@ Step 2a: Cross-Disease Transfer
     │  genetic_graph_verify_study_power(target, neighbor)              │
     │    ──► Statistical evidence (sample sizes, cohorts)              │
     │                                                                  │
-    │  prs_model_performance_landscape(neighbor_models)                │
+    │  candidate metadata for neighbor models                          │
     │    ──► Quality evaluation of neighbor models                     │
     │                                                                  │
     └──────────────────────────────────────────────────────────────────┘
@@ -282,8 +280,6 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
         - *Purpose*: To retrieve all available PRS models associated with a specific trait and return comprehensive metadata fields, providing the full raw data required for downstream filtering and evaluation.
     - **`prs_model_domain_knowledge`**: Retrieves snippets from a **curated local PRS knowledge base** focused on Step 1 model selection rules, endpoint integrity, transportability heuristics, and method priors.
         - *Purpose*: To inject stable, high-signal PRS selection guidance into the LLM context without relying on live web search. The curated local knowledge base is intentionally compact so the Agent receives consistent selection rules and avoids unbounded context pollution.
-    - **`prs_model_performance_landscape`**: Calculates statistical distributions across all retrieved candidate models.
-        - *Purpose*: To provide a holistic performance landscape for the entire pool of retrieved models, enabling the LLM Agent to statistically distinguish and select candidates based on their standing within the global distribution.
 
 - **Genetic Graph Tools**:
     <!-- For traversing Knowledge Graphs ($h^2$, $r_g$) and providing scientific validation. -->
@@ -317,7 +313,7 @@ The agent's capabilities are organized into **three external Tool Sets** (Action
 
 - **Reasoning & Persona (System Prompt)**: The cognitive core of the agent, implemented as a structured system prompt that:
     - **Encodes the Sequential Workflow**: Instructs the LLM to navigate Step 1 (Direct Match Assessment) → Step 2 (Augmented Recommendation) decision logic autonomously.
-    - **Constructs the Evaluation Reference Frame**: Uses evidence explicitly present in context. Candidate metadata and `prs_model_performance_landscape` are always available; `prs_model_domain_knowledge` is incorporated only when injected as optional additional evidence.
+    - **Constructs the Evaluation Reference Frame**: Uses evidence explicitly present in context. Candidate metadata are always available; `prs_model_domain_knowledge` is incorporated only when injected as optional additional evidence.
     - **Maintains Co-Scientist Persona**: Ensures all responses are reasoned, evidence-backed, and reflect the specialized scientific partner voice.
     - **Manages Attention via Recitation**: Uses structured scratchpad/todo tracking to push critical objectives into the LLM's recent attention span.
 
@@ -407,7 +403,7 @@ Based on `src/server/core/pgs_catalog_client.py` and `pgscatalog/PGS_Catalog/res
 
 #### Agent Context Injection
 
-The structured metadata fields above provide the foundational evidence for evaluation. The agent utilizes **JIT Context Loading** to dynamically construct a **Scientific Reasoning Context**—transforming lightweight model references into a rigorous evaluation frame by fetching candidate metadata, performance landscapes, and optional domain knowledge to guide scientific judgment.
+The structured metadata fields above provide the foundational evidence for evaluation. The agent utilizes **JIT Context Loading** to dynamically construct a **Scientific Reasoning Context**—transforming lightweight model references into a rigorous evaluation frame by fetching candidate metadata and optional domain knowledge to guide scientific judgment.
 
 **Target Classification**: The `[Agent + UI]` fields in the table above are serialized into the LLM context for scientific reasoning, whereas `[UI Only]` fields are passed exclusively to the frontend for comprehensive model detail presentation to minimize agent context noise.
 
@@ -417,7 +413,7 @@ The structured metadata fields above provide the foundational evidence for evalu
    - Representative-record selection prefers PRS-comparable metrics first (`PGS AUROC (no covariates)`, `PGS R2 (no covariates)`, or covariates-regressed-out PRS R²). If no PRS-comparable metric exists, full-model metrics are used only to choose the representative record, not to redefine the top-level PRS-comparable `performance_metrics.auc`.
    - The selected record keeps full `classification_metrics` and `other_metrics` instead of compressing them away.
 2. **No AUC/R² pre-filtering**: All models from retrieval are included (aligned with C1 for consistency).
-3. **Combined context injection**: The filtered search results and `prs_model_performance_landscape` results are always returned to the LLM. `prs_model_domain_knowledge` is injected simultaneously only when enabled for that run.
+3. **Combined context injection**: The filtered search results are always returned to the LLM. `prs_model_domain_knowledge` is injected simultaneously only when enabled for that run.
 4. **LLM Decision**: The Agent makes a determination of **High-Quality Match / Sub-optimal Match / No Match**.
 
 **Open Question**: For different Traits, should we implement different filtering standards, or trust that the LLM has this capability? (To be determined during implementation.)
@@ -425,7 +421,7 @@ The structured metadata fields above provide the foundational evidence for evalu
 **Pain Point (Trait/Disease-Conditioned Thresholding)**:
 - Empirically, **the AUC gain curve is highly disease-specific**: different diseases exhibit dramatically different AUC improvements as GWAS sample size increases (and similarly for other variables such as `variants_number`, PRS method, and ancestry composition).
 - Example evidence: see Fig. 3 in [Wang et al., 2020, *Nature Communications*](https://www.nature.com/articles/s41467-020-16483-3), where the projected AUC-vs-sample-size trajectories differ substantially across cancer types (different slopes, saturation points, and apparent ceilings).
-- Implication for the Agent: **a single global heuristic threshold (e.g., fixed AUC cutoff or fixed N cutoff) is brittle** and may over-filter valid models for some diseases while under-filtering for others. The evaluation reference frame must allow **disease-conditioned interpretation** using `prs_model_performance_landscape` plus any additional evidence explicitly present in context, including `prs_model_domain_knowledge` when enabled, rather than hard-coded universal cutoffs.
+- Implication for the Agent: **a single global heuristic threshold (e.g., fixed AUC cutoff or fixed N cutoff) is brittle** and may over-filter valid models for some diseases while under-filtering for others. The evaluation reference frame must allow **disease-conditioned interpretation** using candidate metadata plus any additional evidence explicitly present in context, including `prs_model_domain_knowledge` when enabled, rather than hard-coded universal cutoffs.
 
 #### Implementation Status
 
@@ -681,55 +677,6 @@ class KnowledgeSnippet:
     relevance_score: float
 ```
 
-###### `prs_model_performance_landscape`
-
-| Attribute | Specification |
-|:---|:---|
-| **Input** | `candidate_models: list[PGSModelSummary]` — Candidate models from `prs_model_pgscatalog_search` (passed for workflow ergonomics) |
-| **Output** | `PerformanceLandscape` — **Global** statistical reference frame (restricted fields) |
-| **Data Source** | PGS Catalog REST API: `/rest/score/all` (metadata) + `/rest/performance/all` (AUC/R²) |
-| **Dependency** | None (pure computation) |
-| **Token Budget** | ~200 tokens (compact statistical summary) |
-
-```python
-# Output Schema
-class PerformanceLandscape:
-    total_models: int
-
-    # IMPORTANT: Landscape must be restricted to the following 7 categories only:
-    # 1) Ancestry
-    # 2) Sample Size
-    # 3) AUC
-    # 4) R²
-    # 5) Variants (SNPs)
-    # 6) Training/Development Cohorts
-    # 7) PRS Methods
-
-    ancestry: dict[str, int]                     # counts by ancestry code (best-effort parse)
-    sample_size: MetricDistribution              # training sample size distribution
-    auc: MetricDistribution                      # PRS-comparable AUROC distribution
-    r2: MetricDistribution                       # PRS-comparable R² distribution
-    variants: MetricDistribution                 # variants_number distribution
-    training_development_cohorts: dict[str, int] # counts by cohort short name
-    prs_methods: dict[str, int]                  # counts by PRS method
-
-# Aggregation Note (Global Reference):
-# - The global landscape is computed across ALL scores in `/rest/score/all`.
-# - AUC/R² are aggregated per PGS id using the same representative-record rule as candidate summaries.
-# - Prefer explicit PRS-comparable metrics (`PGS AUROC (no covariates)`, `PGS R2 (no covariates)`,
-#   or covariates-regressed-out PRS R²) from that selected validation record.
-# - If a score reports only full-model AUROC/R², keep those for sanity checking in candidate metadata,
-#   but count the comparable landscape AUC/R² as missing.
-
-class MetricDistribution:
-    min: float
-    max: float
-    median: float
-    p25: float
-    p75: float
-    missing_count: int
-```
-
 ##### 2. Genetic Graph Tools
 
 ###### `genetic_graph_get_neighbors`
@@ -889,7 +836,6 @@ class TrainingConfig:
 
 - **Implemented**:
     - `prs_model_pgscatalog_search`: Wrapped via `PGSCatalogClient` (Module 1). No AUC/R² filter; returns all models from retrieval. `[Agent + UI]` fields. Optional `evaluated_pgs_whitelist` for Contribution2: when set (via `PENNPRS_CONTRIB2_EVALUATED_PGS_JSON`), only models in the All of Us evaluated set (N Models) are returned.
-    - `prs_model_performance_landscape`: `src/server/core/tools/prs_model_tools.py` - Pure computation tool for statistical distributions.
     - `prs_model_domain_knowledge`: `src/server/core/tools/prs_model_tools.py` - Intended implementation for Contribution2 Step 1. Retrieves from the curated local Markdown knowledge base `src/server/core/knowledge/prs_model_domain_knowledge.md` and augments it with trait-specific local heritability summaries from `data/heritability/*`.
     - `genetic_graph_get_neighbors`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_prioritized_neighbors_v2()`.
     - `genetic_graph_verify_study_power`: `src/server/core/tools/genetic_graph_tools.py` - Uses `KnowledgeGraphService.get_edge_provenance()`.
@@ -932,8 +878,7 @@ Instead of hard-coded heuristic tiers, we leverage the **Large Language Model** 
 - **Mechanism**: The Agent receives structured metadata (`[Agent + UI]` fields from Module 1) in its context window.
 - **Evaluation Reference Frame**: The Agent constructs a scientific judgment framework using:
     1. **Candidate metadata + validation evidence** from `prs_model_pgscatalog_search`: What does the model explicitly report about phenotype alignment, performance, ancestry, method, and study design?
-    2. **Market Statistics** via `prs_model_performance_landscape`: How does this model compare to the distribution of all available models?
-    3. **Optional Clinical Consensus** via `prs_model_domain_knowledge`: When provided, what additional endpoint-integrity, transportability, or disease-specific cautions should be applied?
+    2. **Optional Clinical Consensus** via `prs_model_domain_knowledge`: When provided, what additional endpoint-integrity, transportability, or disease-specific cautions should be applied?
 - **Evolution Note**: Initial metadata-based judgments may be limited. Optional **Tool-Driven JIT Context Loading** through `prs_model_domain_knowledge` enables the **Co-scientist Expert Scrutiny** phase for Step 1 decisions without changing the core Step 1 prompt.
 
 #### Sequential Workflow Encoding
@@ -943,7 +888,7 @@ The prompt must encode the following decision logic from the Objective section (
 ```
 STEP 1: DIRECT MATCH ASSESSMENT
 1. Call prs_model_pgscatalog_search directly with target_trait (no synonym expansion needed)
-2. Evaluate models using candidate metadata and prs_model_performance_landscape
+2. Evaluate models using candidate metadata
 3. If enabled for the run, inject prs_model_domain_knowledge as additional Step 1 evidence
 4. For Contribution2 analysis, support a controlled ablation mode where the Step 1 prompt stays fixed and only the presence/absence of `prs_model_domain_knowledge` in context is toggled; log Step 1 decisions as structured artifacts.
 IF direct_models_exist AND quality >= HIGH_THRESHOLD:
@@ -984,7 +929,7 @@ ELSE:
                - Do not cache trait→ID mappings to avoid stale external ontology updates; rely on deterministic scoring and explicit ambiguity handling.
        - Call genetic_graph_validate_mechanism with EFO and MONDO IDs (if available) - the tool will automatically try both and merge results to maximize coverage. **Purpose**: Collect biological evidence for the report (does NOT affect workflow decision).
        - Call genetic_graph_verify_study_power(source_trait=target_trait, target_trait=neighbor_trait). **Purpose**: Collect statistical evidence for the report (does NOT affect workflow decision).
-       - Evaluate model quality using prs_model_performance_landscape
+       - Evaluate model quality using candidate metadata
 4. IF qualified_transfer_models found:
     OUTCOME: CROSS_DISEASE
 ELSE:
@@ -1014,13 +959,13 @@ Following the "Attention Manipulation via Recitation" principle, the agent maint
 ```markdown
 ## Current Task Progress
 - [x] Step 1: Query PGS Catalog for "Type 2 Diabetes" (target trait)
-- [x] Step 1: Evaluate 5 models against performance landscape
+- [x] Step 1: Evaluate 5 direct-match candidate models
 - [x] Step 1 Decision: SUB-OPTIMAL match (best AUC=0.65, below clinical threshold)
 - [x] Step 2a: Query Knowledge Graph for genetically correlated traits
 - [x] Step 2a: Found related trait: "Obesity"
 - [x] Step 2a: Validated biological mechanism for "Obesity" (shared FTO pathway)
 - [x] Step 2a: Query PGS Catalog for "Obesity" → 8 models found
-- [ ] Step 2a: Evaluate "Obesity" models against performance landscape
+- [ ] Step 2a: Evaluate "Obesity" models from candidate metadata
 - [ ] Step 2a Decision: Recommend cross-disease model OR report no match
 - [ ] On-Demand: Offer "Train New Model" option in final report
 ...
@@ -1046,7 +991,7 @@ The report structure varies by `recommendation_type`. Note that the "Train New M
   // Step 1 Evidence (DIRECT_HIGH_QUALITY, DIRECT_SUB_OPTIMAL)
   "direct_match_evidence": {
     "models_evaluated": 5,
-    "performance_metrics": {...},       // From prs_model_performance_landscape
+    "performance_metrics": {...},       // From selected direct-model metadata
     "clinical_benchmarks": [...]        // From prs_model_domain_knowledge
   },
   

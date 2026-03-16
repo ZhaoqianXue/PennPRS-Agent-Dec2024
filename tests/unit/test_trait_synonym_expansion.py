@@ -145,32 +145,30 @@ class TestRecommendationAgentSynonymIntegration:
                                 # Mock other dependencies
                                 with patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge') as mock_knowledge:
                                     mock_knowledge.return_value = Mock(model_dump=lambda: {})
-                                    with patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape') as mock_landscape:
-                                        mock_landscape.return_value = Mock(model_dump=lambda: {})
-                                        with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
-                                            mock_chain.return_value.invoke.return_value = Mock(
-                                                outcome="NO_MATCH_FOUND",
-                                                best_model_id=None,
-                                                confidence="Low",
-                                                rationale="No models found"
-                                            )
-                                            
-                                            try:
-                                                recommend_models("Breast cancer")
-                                            except Exception:
-                                                pass  # Expected to fail at some point, but we're testing the flow
-                                            
-                                            # Verify synonym expansion was called
-                                            assert mock_expand.called
-                                            # Check that it was called with the correct trait
-                                            call_args_list = mock_expand.call_args_list
-                                            assert len(call_args_list) > 0
-                                            # The first call should be with "Breast cancer"
-                                            first_call_trait = call_args_list[0][0][0]
-                                            assert first_call_trait == "Breast cancer"
+                                    with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
+                                        mock_chain.return_value.invoke.return_value = Mock(
+                                            outcome="NO_MATCH_FOUND",
+                                            best_model_id=None,
+                                            confidence="Low",
+                                            rationale="No models found"
+                                        )
+                                        
+                                        try:
+                                            recommend_models("Breast cancer")
+                                        except Exception:
+                                            pass  # Expected to fail at some point, but we're testing the flow
+                                        
+                                        # Verify synonym expansion was called
+                                        assert mock_expand.called
+                                        # Check that it was called with the correct trait
+                                        call_args_list = mock_expand.call_args_list
+                                        assert len(call_args_list) > 0
+                                        # The first call should be with "Breast cancer"
+                                        first_call_trait = call_args_list[0][0][0]
+                                        assert first_call_trait == "Breast cancer"
     
-    def test_pgs_search_called_for_each_expanded_query(self, mock_clients, mock_synonym_result):
-        """Test that prs_model_pgscatalog_search is called for each expanded query."""
+    def test_pgs_search_called_directly_with_original_query(self, mock_clients, mock_synonym_result):
+        """Test that prs_model_pgscatalog_search is called once with the original query."""
         from src.server.modules.disease.recommendation_agent import recommend_models
         from src.server.core.tool_schemas import PGSSearchResult, PGSModelSummary
         
@@ -197,24 +195,20 @@ class TestRecommendationAgentSynonymIntegration:
                             
                             with patch('src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search', side_effect=track_pgs_call) as mock_pgs_search:
                                 with patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge'):
-                                    with patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape'):
-                                        with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
-                                            mock_chain.return_value.invoke.return_value = Mock(
-                                                outcome="NO_MATCH_FOUND",
-                                                best_model_id=None,
-                                                confidence="Low",
-                                                rationale="No models found"
-                                            )
-                                            
-                                            try:
-                                                recommend_models("Breast cancer")
-                                            except Exception:
-                                                pass
-                                            
-                                            # Verify PGS search was called for each expanded query
-                                            assert len(pgs_calls) == len(mock_synonym_result.expanded_queries)
-                                            for expanded_query in mock_synonym_result.expanded_queries:
-                                                assert expanded_query in pgs_calls
+                                    with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
+                                        mock_chain.return_value.invoke.return_value = Mock(
+                                            outcome="NO_MATCH_FOUND",
+                                            best_model_id=None,
+                                            confidence="Low",
+                                            rationale="No models found"
+                                        )
+                                        
+                                        try:
+                                            recommend_models("Breast cancer")
+                                        except Exception:
+                                            pass
+                                        
+                                        assert pgs_calls == ["Breast cancer"]
     
     def test_results_merged_and_deduplicated(self, mock_clients, mock_synonym_result):
         """Test that results from multiple queries are merged and deduplicated."""
@@ -299,25 +293,24 @@ class TestRecommendationAgentSynonymIntegration:
             
             with patch('src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search', side_effect=mock_pgs_search):
                 with patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge'):
-                    with patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape'):
-                        with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
-                            mock_chain.return_value.invoke.return_value = Mock(
-                                outcome="NO_MATCH_FOUND",
-                                best_model_id=None,
-                                confidence="Low",
-                                rationale="No models found"
-                            )
-                            
-                            try:
-                                result = recommend_models("Breast cancer")
-                            except Exception as e:
-                                # Check if we got to the point where models were merged
-                                # by checking if the error is from later in the flow
-                                pass
-                            
-                            # The actual merging happens in recommend_models, but we can verify
-                            # the logic by checking that mock_pgs_search was called correctly
-                            pass  # Test passes if no assertion errors
+                    with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
+                        mock_chain.return_value.invoke.return_value = Mock(
+                            outcome="NO_MATCH_FOUND",
+                            best_model_id=None,
+                            confidence="Low",
+                            rationale="No models found"
+                        )
+                        
+                        try:
+                            result = recommend_models("Breast cancer")
+                        except Exception as e:
+                            # Check if we got to the point where models were merged
+                            # by checking if the error is from later in the flow
+                            pass
+                        
+                        # The actual merging happens in recommend_models, but we can verify
+                        # the logic by checking that mock_pgs_search was called correctly
+                        pass  # Test passes if no assertion errors
 
 
 class TestSynonymExpansionFallback:
@@ -349,25 +342,24 @@ class TestSynonymExpansionFallback:
                 mock_pgs_search.return_value = mock_pgs_result
                 
                 with patch('src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge'):
-                    with patch('src.server.modules.disease.recommendation_agent.prs_model_performance_landscape'):
-                        with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
-                            mock_chain.return_value.invoke.return_value = Mock(
-                                outcome="NO_MATCH_FOUND",
-                                best_model_id=None,
-                                confidence="Low",
-                                rationale="No models found"
-                            )
-                            
-                            try:
-                                recommend_models("Breast cancer")
-                            except Exception:
-                                pass
-                            
-                            # Verify PGS search was still called with original query
-                            assert mock_pgs_search.called
-                            # Should be called at least once with original query
-                            call_args = [call[0][1] for call in mock_pgs_search.call_args_list]
-                            assert "Breast cancer" in call_args
+                    with patch('src.server.modules.disease.recommendation_agent._build_step1_chain') as mock_chain:
+                        mock_chain.return_value.invoke.return_value = Mock(
+                            outcome="NO_MATCH_FOUND",
+                            best_model_id=None,
+                            confidence="Low",
+                            rationale="No models found"
+                        )
+                        
+                        try:
+                            recommend_models("Breast cancer")
+                        except Exception:
+                            pass
+                        
+                        # Verify PGS search was still called with original query
+                        assert mock_pgs_search.called
+                        # Should be called at least once with original query
+                        call_args = [call[0][1] for call in mock_pgs_search.call_args_list]
+                        assert "Breast cancer" in call_args
 
 
 if __name__ == "__main__":

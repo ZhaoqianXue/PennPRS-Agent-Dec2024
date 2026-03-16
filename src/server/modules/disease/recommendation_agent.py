@@ -33,7 +33,6 @@ from src.server.core.agent_artifacts import get_artifacts_dir
 from src.server.core.state import search_progress
 from src.server.core.tools.prs_model_tools import (
     prs_model_pgscatalog_search,
-    prs_model_performance_landscape,
     prs_model_domain_knowledge
 )
 from src.server.core.tools.genetic_graph_tools import (
@@ -337,6 +336,16 @@ def _best_model_stats(models: List[Any]) -> Dict[str, Any]:
             best_auc = auc_val
             best_id = getattr(m, "id", None)
     return {"best_model_id": best_id, "best_model_auc": best_auc}
+
+
+def _direct_model_performance_metrics(models: List[Any], model_id: Optional[str]) -> Dict[str, Any]:
+    if not model_id:
+        return {}
+    for model in models or []:
+        if getattr(model, "id", None) == model_id:
+            metrics = getattr(model, "performance_metrics", None) or {}
+            return dict(metrics)
+    return {}
 
 
 def _is_valid_disease_id(disease_id: str) -> bool:
@@ -746,7 +755,7 @@ def recommend_models(
         title="Current Task Progress",
         items=[
             ("Step 1: Query PGS Catalog for target trait", False),
-            ("Step 1: Evaluate models against performance landscape", False),
+            ("Step 1: Evaluate direct-match candidates", False),
             ("Step 2a: Query Knowledge Graph for related traits", False),
             ("Step 2a: Validate biological mechanism", False),
             ("Step 2a: Evaluate related-trait models", False),
@@ -809,8 +818,7 @@ def recommend_models(
             source_type="missing"
         )
 
-    landscape = prs_model_performance_landscape(pgs_client, pgs_result.models)
-    todo.set_done("Step 1: Evaluate models against performance landscape")
+    todo.set_done("Step 1: Evaluate direct-match candidates")
     todo.write()
 
     # Update progress: Step 3 started
@@ -834,7 +842,6 @@ def recommend_models(
         "target_trait": target_trait,
         "direct_models": direct_models_inline,
         "direct_models_artifact": direct_models_artifact.model_dump() if direct_models_artifact else None,
-        "performance_landscape": landscape.model_dump(),
         "domain_knowledge": knowledge.model_dump(),
         "todo_recitation_path": str(todo_path),
         "todo_recitation": todo.render()
@@ -1407,7 +1414,9 @@ def recommend_models(
                     )
                     fallback_direct_match_evidence = DirectMatchEvidence(
                         models_evaluated=len(pgs_result.models),
-                        performance_metrics=landscape.model_dump() if landscape else {},
+                        performance_metrics=_direct_model_performance_metrics(
+                            pgs_result.models, step1_decision.best_model_id
+                        ),
                         clinical_benchmarks=[]
                     )
             elif step1_decision.outcome == "DIRECT_SUB_OPTIMAL":
@@ -1421,7 +1430,9 @@ def recommend_models(
                     )
                     fallback_direct_match_evidence = DirectMatchEvidence(
                         models_evaluated=len(pgs_result.models),
-                        performance_metrics=landscape.model_dump() if landscape else {},
+                        performance_metrics=_direct_model_performance_metrics(
+                            pgs_result.models, step1_decision.best_model_id
+                        ),
                         clinical_benchmarks=[]
                     )
             # If step1_decision.outcome is "NO_MATCH_FOUND", keep fallback_recommendation_type as "NO_MATCH_FOUND"

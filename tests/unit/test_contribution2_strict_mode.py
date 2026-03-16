@@ -44,7 +44,6 @@ def _one_model_result() -> PGSSearchResult:
 def test_strict_llm_only_raises_when_step1_chain_fails():
     with patch("src.server.modules.disease.recommendation_agent.PGSCatalogClient", return_value=Mock()), \
          patch("src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search", return_value=_one_model_result()), \
-         patch("src.server.modules.disease.recommendation_agent.prs_model_performance_landscape", return_value=Mock(model_dump=lambda: {})), \
          patch("src.server.modules.disease.recommendation_agent._build_step1_chain") as mock_step1_chain:
 
         mock_step1_chain.return_value.invoke.side_effect = ValueError("step1 exploded")
@@ -65,7 +64,6 @@ def test_strict_llm_only_raises_when_step1_chain_fails():
 def test_strict_llm_only_raises_when_report_generation_fails():
     with patch("src.server.modules.disease.recommendation_agent.PGSCatalogClient", return_value=Mock()), \
          patch("src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search", return_value=_one_model_result()), \
-         patch("src.server.modules.disease.recommendation_agent.prs_model_performance_landscape", return_value=Mock(model_dump=lambda: {})), \
          patch("src.server.modules.disease.recommendation_agent._build_step1_chain") as mock_step1_chain, \
          patch("src.server.modules.disease.recommendation_agent._build_report_chain") as mock_report_chain:
 

@@ -59,7 +59,6 @@ def test_recommendation_agent_uses_local_graph_selected_neighbors():
          patch("src.server.modules.disease.recommendation_agent.PheWASClient", return_value=Mock()), \
          patch("src.server.modules.disease.recommendation_agent.KnowledgeGraphService", return_value=Mock()), \
          patch("src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge", return_value=Mock(model_dump=lambda: {})), \
-         patch("src.server.modules.disease.recommendation_agent.prs_model_performance_landscape", return_value=Mock(model_dump=lambda: {})), \
          patch("src.server.modules.disease.recommendation_agent.trait_synonym_expand", return_value=Mock(expanded_queries=["Test Trait"])), \
          patch("src.server.modules.disease.recommendation_agent.genetic_graph_get_neighbors", return_value=_make_neighbors()), \
          patch("src.server.modules.disease.recommendation_agent.resolve_efo_and_mondo_ids", return_value=("EFO_1", "MONDO_1")), \
@@ -110,7 +109,6 @@ def test_step1_disable_domain_knowledge_skips_tool_call():
     }
     with patch.dict(os.environ, env, clear=False), \
          patch("src.server.modules.disease.recommendation_agent.prs_model_domain_knowledge") as mock_domain_tool, \
-         patch("src.server.modules.disease.recommendation_agent.prs_model_performance_landscape", return_value=Mock(model_dump=lambda: {})), \
          patch("src.server.modules.disease.recommendation_agent._build_step1_chain") as mock_step1_chain, \
          patch("src.server.modules.disease.recommendation_agent._build_report_chain") as mock_report_chain, \
          patch("src.server.modules.disease.recommendation_agent.prs_model_pgscatalog_search", return_value=PGSSearchResult(

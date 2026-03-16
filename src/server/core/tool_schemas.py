@@ -87,39 +87,6 @@ class DomainKnowledgeResult(BaseModel):
     source_type: str = Field("local", description="'local' or 'web'")
 
 
-
-class MetricDistribution(BaseModel):
-    """Statistical distribution for a numeric metric."""
-    min: float
-    max: float
-    median: float
-    p25: float
-    p75: float
-    missing_count: int
-
-
-class PerformanceLandscape(BaseModel):
-    """
-    Result from prs_model_performance_landscape tool.
-    Implements sop.md L436-462 output specification.
-    Token Budget: ~200 tokens.
-    """
-    total_models: int
-    ancestry: Dict[str, int] = Field(default_factory=dict, description="Counts by ancestry code (best-effort parse)")
-    sample_size: MetricDistribution
-    auc: MetricDistribution = Field(
-        ...,
-        description="Distribution of PRS-comparable AUROC values when explicitly reported; scores with only full-model AUROC count as missing."
-    )
-    r2: MetricDistribution = Field(
-        ...,
-        description="Distribution of PRS-comparable R² values when explicitly reported; scores with only full-model R² count as missing."
-    )
-    variants: MetricDistribution
-    training_development_cohorts: Dict[str, int] = Field(default_factory=dict, description="Counts by cohort short name")
-    prs_methods: Dict[str, int] = Field(default_factory=dict, description="Counts by PRS method name")
-
-
 # --- Genetic Graph Tools Schemas ---
 
 class RankedNeighbor(BaseModel):

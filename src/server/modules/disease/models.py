@@ -51,7 +51,7 @@ class PrimaryRecommendation(BaseModel):
 
 class DirectMatchEvidence(BaseModel):
     models_evaluated: int = Field(..., description="Number of models assessed")
-    performance_metrics: Dict[str, Any] = Field(default_factory=dict, description="Global performance landscape")
+    performance_metrics: Dict[str, Any] = Field(default_factory=dict, description="Direct-model performance evidence")
     clinical_benchmarks: List[str] = Field(default_factory=list, description="Clinical benchmarks or guidelines")
 
 
