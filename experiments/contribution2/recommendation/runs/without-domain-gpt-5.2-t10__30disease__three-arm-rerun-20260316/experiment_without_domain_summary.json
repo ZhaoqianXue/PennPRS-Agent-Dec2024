@@ -467,7 +467,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.00547
               }
             ],
@@ -1114,7 +1114,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.21,
                 "ci_lower": -0.23,
                 "ci_upper": -0.19
@@ -1247,7 +1247,7 @@
           "variants_number": 52,
           "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
+            "title": "Genetic Risk Score Analysis Supports a Joint View of Two Classification Systems for Age-Related Macular Degeneration.",
             "journal": "Invest Ophthalmol Vis Sci"
           },
           "date_release": "2024-09-19",
@@ -1708,15 +1708,15 @@
             "classification_metrics": [],
             "other_metrics": [
               {
-                "name_long": "\u0394R-squared (vs. covariates alone)",
-                "name_short": "\u0394R-squared (vs. covariates alone)",
+                "name_long": "ΔR-squared (vs. covariates alone)",
+                "name_short": "ΔR-squared (vs. covariates alone)",
                 "estimate": 0.01192
               }
             ],
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.099,
                 "se": 0.01
               }
@@ -1756,15 +1756,15 @@
             "classification_metrics": [],
             "other_metrics": [
               {
-                "name_long": "\u0394R-squared (vs. covariates alone)",
-                "name_short": "\u0394R-squared (vs. covariates alone)",
+                "name_long": "ΔR-squared (vs. covariates alone)",
+                "name_short": "ΔR-squared (vs. covariates alone)",
                 "estimate": 0.00456
               }
             ],
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.043,
                 "se": 0.019
               }
@@ -1814,7 +1814,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 3.17,
                 "se": 1.87
               }
@@ -1865,7 +1865,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.17,
                 "se": 0.03
               }
@@ -2320,7 +2320,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.10925
               },
               {
@@ -2386,7 +2386,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.115
               },
               {
@@ -3187,7 +3187,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.247,
                 "se": 0.095
               }
@@ -3240,7 +3240,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.031
               },
               {
@@ -3306,7 +3306,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.048
               },
               {
@@ -3958,7 +3958,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
           "training_development_cohorts": [
             "TwinGene"
           ],
@@ -4004,7 +4004,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.437
               }
             ],
@@ -4019,7 +4019,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -4065,7 +4065,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.11284
               },
               {
@@ -4129,7 +4129,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.00158
               }
             ],
@@ -4233,7 +4233,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.182
               }
             ]
@@ -4801,7 +4801,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.0261
               }
             ],
@@ -5337,7 +5337,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.05914
               },
               {
@@ -5403,7 +5403,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.0566
               },
               {
@@ -5559,7 +5559,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.008
               }
             ]
@@ -5623,7 +5623,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.485557892551506
               }
             ]
@@ -5687,7 +5687,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.433940209108075
               }
             ]
@@ -6138,7 +6138,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.037
               }
             ]
@@ -6201,7 +6201,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.437661585839951
               }
             ]
@@ -6265,7 +6265,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.348528828383883
               }
             ]
@@ -6854,8 +6854,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.013
               },
               {
@@ -6881,7 +6881,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.262,
                 "se": 0.122
               }
@@ -6929,8 +6929,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0193
               },
               {
@@ -6956,7 +6956,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.32,
                 "se": 0.124
               }
@@ -7004,8 +7004,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0276
               },
               {
@@ -7031,7 +7031,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.39,
                 "se": 0.126
               }
@@ -7079,8 +7079,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0109
               },
               {
@@ -7106,7 +7106,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.256,
                 "se": 0.125
               }
@@ -7154,8 +7154,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00682
               },
               {
@@ -7181,7 +7181,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.191,
                 "se": 0.034
               }
@@ -7229,8 +7229,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0087
               },
               {
@@ -7256,7 +7256,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.214,
                 "se": 0.0337
               }
@@ -7304,8 +7304,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00282
               },
               {
@@ -7331,7 +7331,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.125,
                 "se": 0.061
               }
@@ -7379,8 +7379,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00349
               },
               {
@@ -7406,7 +7406,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.139,
                 "se": 0.0606
               }
@@ -7454,8 +7454,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0973
               },
               {
@@ -7481,7 +7481,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.744,
                 "se": 0.131
               }
@@ -7529,8 +7529,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0689
               },
               {
@@ -7556,7 +7556,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.628,
                 "se": 0.0685
               }
@@ -7604,8 +7604,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.102
               },
               {
@@ -7631,7 +7631,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.753,
                 "se": 0.13
               }
@@ -7679,8 +7679,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0665
               },
               {
@@ -7706,7 +7706,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.615,
                 "se": 0.0681
               }
@@ -7754,8 +7754,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0205
               },
               {
@@ -7781,7 +7781,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.313,
                 "se": 0.113
               }
@@ -7829,8 +7829,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0145
               },
               {
@@ -7856,7 +7856,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.278,
                 "se": 0.121
               }
@@ -7909,7 +7909,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.227
               }
             ],
@@ -8277,7 +8277,7 @@
         },
         {
           "id": "PGS003452",
-          "trait_reported": "Waldenstr\u00f6m macroglobulinemia",
+          "trait_reported": "Waldenström macroglobulinemia",
           "trait_efo": "Waldenstrom macroglobulinemia",
           "method_name": "Genome-wide significant SNPs",
           "variants_number": 2,
@@ -8953,7 +8953,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.247,
                 "se": 0.095
               }
@@ -9006,7 +9006,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.031
               },
               {
@@ -9072,7 +9072,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.048
               },
               {
@@ -9771,7 +9771,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.14978
               },
               {
@@ -9837,7 +9837,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.15134
               },
               {
@@ -10630,7 +10630,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.133
               }
             ]
@@ -10696,7 +10696,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.505665539081399
               }
             ]
@@ -10762,7 +10762,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.502048680634994
               }
             ]
@@ -10826,7 +10826,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.037
               }
             ]
@@ -10889,7 +10889,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.437661585839951
               }
             ]
@@ -10953,7 +10953,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.348528828383883
               }
             ]
@@ -12192,8 +12192,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00398
               },
               {
@@ -12219,7 +12219,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.143,
                 "se": 0.0426
               }
@@ -12267,8 +12267,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00398
               },
               {
@@ -12294,7 +12294,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.143,
                 "se": 0.0426
               }
@@ -12426,7 +12426,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.366
               }
             ],
@@ -13175,7 +13175,7 @@
         },
         {
           "id": "PGS000334",
-          "trait_reported": "Late-onset Alzheimer\u2019s disease ",
+          "trait_reported": "Late-onset Alzheimer’s disease ",
           "trait_efo": "late-onset Alzheimer's disease",
           "method_name": "Clumping and Thresholding (C+T)",
           "variants_number": 22,
@@ -13201,7 +13201,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.191,
                 "ci_lower": 0.131,
                 "ci_upper": 0.269
@@ -13209,7 +13209,7 @@
             ],
             "effect_sizes": []
           },
-          "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
+          "phenotyping_reported": "Late-onset Alzheimer’s disease",
           "covariates": "Unknown",
           "training_development_cohorts": [
             "IGAP",
@@ -13284,7 +13284,7 @@
           "variants_number": 8,
           "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic variants in glutamate-, A\u03b2-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
+            "title": "Genetic variants in glutamate-, Aβ-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
             "journal": "Neurobiol Aging"
           },
           "date_release": "2024-06-12",
@@ -13853,7 +13853,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.047
               }
             ]
@@ -13919,7 +13919,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.342444736541657
               }
             ]
@@ -13985,7 +13985,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.308952736001074
               }
             ]
@@ -14049,7 +14049,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.438588918302023
               }
             ]
@@ -14111,7 +14111,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.401096723418125
               }
             ]
@@ -14583,7 +14583,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.01814
               },
               {
@@ -14727,7 +14727,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.0192
               }
             ],
@@ -14767,7 +14767,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.149,
                 "se": 0.028
               }
@@ -14889,7 +14889,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 1.60817500694587
               }
             ]
@@ -14930,7 +14930,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 1.76187749677908
               }
             ]
@@ -15481,7 +15481,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0174,
                 "se": 0.016
               }
@@ -15538,7 +15538,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.00225,
                 "se": 0.0161
               }
@@ -15595,7 +15595,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0252,
                 "se": 0.0162
               }
@@ -15652,7 +15652,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0258,
                 "se": 0.016
               }
@@ -15709,7 +15709,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0154,
                 "se": 0.0161
               }
@@ -15766,7 +15766,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0517,
                 "se": 0.0162
               }
@@ -15823,7 +15823,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0708,
                 "se": 0.0162
               }
@@ -15880,7 +15880,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0595,
                 "se": 0.0162
               }
@@ -15937,7 +15937,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0135,
                 "se": 0.016
               }
@@ -15994,7 +15994,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.101,
                 "se": 0.0162
               }
@@ -16051,7 +16051,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.00364,
                 "se": 0.0214
               }
@@ -16108,7 +16108,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0331,
                 "se": 0.0215
               }
@@ -16166,7 +16166,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.00819,
                 "se": 0.0214
               }
@@ -16223,7 +16223,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0207,
                 "se": 0.0211
               }
@@ -16280,7 +16280,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.00286,
                 "se": 0.0214
               }
@@ -16322,7 +16322,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.038,
                 "se": 0.093
               }
@@ -16370,7 +16370,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.014,
                 "se": 0.017
               }
@@ -16420,7 +16420,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.066,
                 "se": 0.017
               }
@@ -19506,8 +19506,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0271
               },
               {
@@ -19533,7 +19533,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.361,
                 "se": 0.0363
               }
@@ -19581,8 +19581,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0245
               },
               {
@@ -19608,7 +19608,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.332,
                 "se": 0.0352
               }
@@ -19656,8 +19656,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0379
               },
               {
@@ -19683,7 +19683,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.409,
                 "se": 0.0354
               }
@@ -19731,8 +19731,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0281
               },
               {
@@ -19758,7 +19758,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.355,
                 "se": 0.035
               }
@@ -19806,8 +19806,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0543
               },
               {
@@ -19833,7 +19833,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.496,
                 "se": 0.036
               }
@@ -19881,8 +19881,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0453
               },
               {
@@ -19908,7 +19908,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.452,
                 "se": 0.0359
               }
@@ -19956,8 +19956,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0583
               },
               {
@@ -19983,7 +19983,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.513,
                 "se": 0.0363
               }
@@ -20031,8 +20031,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0418
               },
               {
@@ -20058,7 +20058,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.43,
                 "se": 0.0358
               }
@@ -20106,8 +20106,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0497
               },
               {
@@ -20133,7 +20133,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.472,
                 "se": 0.0355
               }
@@ -20181,8 +20181,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.039
               },
               {
@@ -20208,7 +20208,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.41,
                 "se": 0.0352
               }
@@ -20256,8 +20256,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0456
               },
               {
@@ -20283,7 +20283,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.456,
                 "se": 0.0359
               }
@@ -20331,8 +20331,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0358
               },
               {
@@ -20358,7 +20358,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.398,
                 "se": 0.0353
               }
@@ -20406,8 +20406,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0678
               },
               {
@@ -20433,7 +20433,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.563,
                 "se": 0.0366
               }
@@ -20481,8 +20481,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0565
               },
               {
@@ -20508,7 +20508,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.557,
                 "se": 0.0192
               }
@@ -20556,8 +20556,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0675
               },
               {
@@ -20583,7 +20583,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.558,
                 "se": 0.0364
               }
@@ -20631,8 +20631,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0568
               },
               {
@@ -20658,7 +20658,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.559,
                 "se": 0.0192
               }
@@ -20706,8 +20706,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.071
               },
               {
@@ -20733,7 +20733,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.582,
                 "se": 0.0371
               }
@@ -20781,8 +20781,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0776
               },
               {
@@ -20808,7 +20808,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.671,
                 "se": 0.0201
               }
@@ -20856,8 +20856,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0874
               },
               {
@@ -20883,7 +20883,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.657,
                 "se": 0.038
               }
@@ -20931,8 +20931,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.1
               },
               {
@@ -20958,7 +20958,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.776,
                 "se": 0.0206
               }
@@ -21006,8 +21006,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0837
               },
               {
@@ -21033,7 +21033,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.645,
                 "se": 0.0378
               }
@@ -21081,8 +21081,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0837
               },
               {
@@ -21108,7 +21108,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.702,
                 "se": 0.0203
               }
@@ -21156,8 +21156,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0861
               },
               {
@@ -21183,7 +21183,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.645,
                 "se": 0.0375
               }
@@ -21231,8 +21231,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0943
               },
               {
@@ -21258,7 +21258,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.755,
                 "se": 0.0206
               }
@@ -21306,8 +21306,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0532
               },
               {
@@ -21333,7 +21333,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.489,
                 "se": 0.0356
               }
@@ -21381,8 +21381,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0395
               },
               {
@@ -21408,7 +21408,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.416,
                 "se": 0.0353
               }
@@ -21456,8 +21456,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.051
               },
               {
@@ -21483,7 +21483,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.475,
                 "se": 0.0359
               }
@@ -21531,8 +21531,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0408
               },
               {
@@ -21558,7 +21558,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.43,
                 "se": 0.0357
               }
@@ -22113,7 +22113,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.51
               }
             ],
@@ -22355,7 +22355,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.29589
               },
               {
@@ -22421,7 +22421,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.01155
               },
               {
@@ -23234,7 +23234,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.0798
               }
             ],
@@ -23584,7 +23584,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.107886,
                 "ci_lower": 0.10250031,
                 "ci_upper": 0.11315488
@@ -23600,7 +23600,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.70211713,
                 "ci_lower": 0.68367445,
                 "ci_upper": 0.7205598
@@ -23650,7 +23650,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.10955344,
                 "ci_lower": 0.10434197,
                 "ci_upper": 0.1151718
@@ -23666,7 +23666,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.71106465,
                 "ci_lower": 0.69252182,
                 "ci_upper": 0.72960748
@@ -23716,7 +23716,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.11538263,
                 "ci_lower": 0.11020074,
                 "ci_upper": 0.12097632
@@ -23732,7 +23732,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.73090514,
                 "ci_lower": 0.71229634,
                 "ci_upper": 0.74951394
@@ -23782,7 +23782,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.12024169,
                 "ci_lower": 0.1150319,
                 "ci_upper": 0.12575818
@@ -23798,7 +23798,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.74781517,
                 "ci_lower": 0.72913674,
                 "ci_upper": 0.76649361
@@ -23848,7 +23848,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.1166208,
                 "ci_lower": 0.11151327,
                 "ci_upper": 0.1224519
@@ -23864,7 +23864,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.73391851,
                 "ci_lower": 0.71532344,
                 "ci_upper": 0.75251358
@@ -23914,7 +23914,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.1166704,
                 "ci_lower": 0.11154524,
                 "ci_upper": 0.12247006
@@ -23930,7 +23930,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.72893722,
                 "ci_lower": 0.71046467,
                 "ci_upper": 0.74740976
@@ -23980,7 +23980,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.11337255,
                 "ci_lower": 0.10797044,
                 "ci_upper": 0.11887705
@@ -23996,7 +23996,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.72005404,
                 "ci_lower": 0.70156954,
                 "ci_upper": 0.73853853
@@ -24046,7 +24046,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.11357666,
                 "ci_lower": 0.10818829,
                 "ci_upper": 0.11891045
@@ -24062,7 +24062,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.72042161,
                 "ci_lower": 0.70194216,
                 "ci_upper": 0.73890106
@@ -24112,7 +24112,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.07079919,
                 "ci_lower": 0.06025191,
                 "ci_upper": 0.08141476
@@ -24128,7 +24128,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.56032052,
                 "ci_lower": 0.51838281,
                 "ci_upper": 0.60225822
@@ -24178,7 +24178,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.08013494,
                 "ci_lower": 0.07594604,
                 "ci_upper": 0.0849066
@@ -24194,7 +24194,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.6035726,
                 "ci_lower": 0.58533427,
                 "ci_upper": 0.62181093
@@ -24244,7 +24244,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.12126993,
                 "ci_lower": 0.11622782,
                 "ci_upper": 0.12684792
@@ -24260,7 +24260,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.74626937,
                 "ci_lower": 0.72769869,
                 "ci_upper": 0.76484005
@@ -24310,7 +24310,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.12803272,
                 "ci_lower": 0.12275071,
                 "ci_upper": 0.13385339
@@ -24326,7 +24326,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.77294139,
                 "ci_lower": 0.75418521,
                 "ci_upper": 0.79169757
@@ -24722,7 +24722,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.565
               }
             ]
@@ -25448,7 +25448,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.03998
               },
               {
@@ -25514,7 +25514,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.03366
               },
               {
@@ -25580,7 +25580,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.01763
               },
               {
@@ -25646,7 +25646,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.04057
               },
               {
@@ -26498,7 +26498,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.366
               }
             ],
@@ -27148,8 +27148,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00141
               },
               {
@@ -27175,7 +27175,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0865,
                 "se": 0.0437
               }
@@ -27223,8 +27223,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0154
               },
               {
@@ -27250,7 +27250,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.269,
                 "se": 0.0407
               }
@@ -27298,8 +27298,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0255
               },
               {
@@ -27325,7 +27325,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.337,
                 "se": 0.0393
               }
@@ -27834,7 +27834,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0174,
                 "se": 0.016
               }
@@ -27891,7 +27891,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.00225,
                 "se": 0.0161
               }
@@ -27948,7 +27948,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0252,
                 "se": 0.0162
               }
@@ -28005,7 +28005,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0258,
                 "se": 0.016
               }
@@ -28062,7 +28062,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0154,
                 "se": 0.0161
               }
@@ -28119,7 +28119,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0517,
                 "se": 0.0162
               }
@@ -28176,7 +28176,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0708,
                 "se": 0.0162
               }
@@ -28233,7 +28233,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0595,
                 "se": 0.0162
               }
@@ -28290,7 +28290,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0135,
                 "se": 0.016
               }
@@ -28347,7 +28347,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.101,
                 "se": 0.0162
               }
@@ -28404,7 +28404,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.00364,
                 "se": 0.0214
               }
@@ -28461,7 +28461,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.0331,
                 "se": 0.0215
               }
@@ -28519,7 +28519,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": -0.00819,
                 "se": 0.0214
               }
@@ -28576,7 +28576,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.0207,
                 "se": 0.0211
               }
@@ -28633,7 +28633,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.00286,
                 "se": 0.0214
               }
@@ -28675,7 +28675,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.038,
                 "se": 0.093
               }
@@ -28723,7 +28723,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.014,
                 "se": 0.017
               }
@@ -28773,7 +28773,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.066,
                 "se": 0.017
               }
@@ -29349,8 +29349,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0543
               },
               {
@@ -29376,7 +29376,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.538,
                 "se": 0.129
               }
@@ -29424,8 +29424,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0475
               },
               {
@@ -29451,7 +29451,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.519,
                 "se": 0.139
               }
@@ -29499,8 +29499,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0487
               },
               {
@@ -29526,7 +29526,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.511,
                 "se": 0.128
               }
@@ -29574,8 +29574,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0447
               },
               {
@@ -29601,7 +29601,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.494,
                 "se": 0.133
               }
@@ -29649,8 +29649,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0473
               },
               {
@@ -29676,7 +29676,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.487,
                 "se": 0.122
               }
@@ -29724,8 +29724,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.046
               },
               {
@@ -29751,7 +29751,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.482,
                 "se": 0.125
               }
@@ -29799,8 +29799,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0258
               },
               {
@@ -29819,7 +29819,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.363,
                 "se": 0.122
               }
@@ -29867,8 +29867,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0839
               },
               {
@@ -29894,7 +29894,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.72,
                 "se": 0.0993
               }
@@ -29942,8 +29942,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.044
               },
               {
@@ -29969,7 +29969,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.485,
                 "se": 0.126
               }
@@ -30022,8 +30022,8 @@
                 "estimate": 0.0793
               },
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0882
               },
               {
@@ -30044,7 +30044,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.745,
                 "se": 0.101
               }
@@ -30097,7 +30097,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.605
               }
             ],
@@ -30165,7 +30165,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.1291
               },
               {
@@ -30798,7 +30798,7 @@
             ]
           },
           "phenotyping_reported": "Incident thyroid cancer",
-          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
+          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30)",
           "training_development_cohorts": [],
           "validation_sample_size": "n=391,189"
         },
@@ -31016,8 +31016,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0041
               },
               {
@@ -31043,7 +31043,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.149,
                 "se": 0.052
               }
@@ -31091,8 +31091,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0107
               },
               {
@@ -31118,7 +31118,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.239,
                 "se": 0.0515
               }
@@ -31166,8 +31166,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0114
               },
               {
@@ -31193,7 +31193,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.244,
                 "se": 0.0509
               }
@@ -31241,8 +31241,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00247
               },
               {
@@ -31261,7 +31261,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.114,
                 "se": 0.0517
               },
@@ -31316,8 +31316,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0393
               },
               {
@@ -31343,7 +31343,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.469,
                 "se": 0.0536
               }
@@ -31391,8 +31391,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0478
               },
               {
@@ -31418,7 +31418,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.501,
                 "se": 0.0806
               }
@@ -31466,8 +31466,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0365
               },
               {
@@ -31493,7 +31493,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.45,
                 "se": 0.0532
               }
@@ -31541,8 +31541,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0447
               },
               {
@@ -31568,7 +31568,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.476,
                 "se": 0.0783
               }
@@ -31616,8 +31616,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.00228
               },
               {
@@ -31643,7 +31643,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.112,
                 "se": 0.053
               }
@@ -31691,8 +31691,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0151
               },
               {
@@ -31718,7 +31718,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.274,
                 "se": 0.0492
               }
@@ -31766,8 +31766,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R\u00b2",
-                "name_short": "Nagelkerke's Pseudo-R\u00b2",
+                "name_long": "Nagelkerke's Pseudo-R²",
+                "name_short": "Nagelkerke's Pseudo-R²",
                 "estimate": 0.0205
               },
               {
@@ -31793,7 +31793,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.325,
                 "se": 0.0507
               }
@@ -31846,7 +31846,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.31
               }
             ],
@@ -31861,7 +31861,7 @@
             ]
           },
           "phenotyping_reported": "Incident thyroid cancer",
-          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
+          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30)",
           "training_development_cohorts": [
             "ICR",
             "NBS",
@@ -31907,7 +31907,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.016
               },
               {
@@ -32404,7 +32404,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.016
               }
             ]
@@ -32473,7 +32473,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.71142253524162
               }
             ]
@@ -32542,7 +32542,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.673041992501825
               }
             ]
@@ -32607,7 +32607,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.438588918302023
               }
             ]
@@ -32669,7 +32669,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.401096723418125
               }
             ]
@@ -33169,7 +33169,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
           "training_development_cohorts": [
             "TwinGene"
           ],
@@ -33224,7 +33224,7 @@
             ]
           },
           "phenotyping_reported": "Incident endometrial cancer",
-          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
+          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years),",
           "training_development_cohorts": [],
           "validation_sample_size": "n=212,156"
         },
@@ -33268,7 +33268,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.437
               }
             ],
@@ -33283,7 +33283,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -33333,7 +33333,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.486
               }
             ],
@@ -33348,7 +33348,7 @@
             ]
           },
           "phenotyping_reported": "Incident endometrial cancer",
-          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
+          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years),",
           "training_development_cohorts": [
             "ANECS",
             "B58C",
@@ -33399,7 +33399,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.11284
               },
               {
@@ -33667,7 +33667,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.11
               }
             ],
@@ -33712,7 +33712,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.00158
               }
             ],
@@ -33857,7 +33857,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.182
               }
             ]
@@ -34282,15 +34282,15 @@
             "classification_metrics": [],
             "other_metrics": [
               {
-                "name_long": "pseudo R\u00b2",
-                "name_short": "pseudo R\u00b2",
+                "name_long": "pseudo R²",
+                "name_short": "pseudo R²",
                 "estimate": 0.038569956
               }
             ],
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "\u03b2",
+                "name_short": "β",
                 "estimate": 0.694777831
               }
             ]
@@ -34385,7 +34385,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R\u00b2",
+                "name_short": "R²",
                 "estimate": 0.01686
               },
               {

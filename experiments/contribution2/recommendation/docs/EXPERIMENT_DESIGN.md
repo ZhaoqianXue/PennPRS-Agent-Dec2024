@@ -71,6 +71,60 @@ The agent-facing `performance_metrics` preserves the selected record's full `cla
 
 ---
 
+## Experiment 0: Prompt-Only Baseline
+
+### Scope
+
+This is the lowest-information ablation arm. It isolates the contribution of the LLM's parametric knowledge when no structured metadata is available.
+
+### Setup
+
+| Setting | Value |
+|---------|-------|
+| Tools | None |
+| Candidate visibility | PGS IDs only (no trait, method, performance, or other metadata) |
+| Domain knowledge | Disabled |
+| Cross-disease Step 2 | Disabled |
+| Candidate pool | Evaluated PGS IDs only (`N Models`) — same set as other arms |
+| Fallback | Disabled |
+| Trials | 10 runs per disease |
+| LLM execution | OpenAI Batch API |
+
+### Prompt-Only protocol
+
+1. Use the same diseases and evaluated candidate pool as the other arms.
+2. For each disease, provide the candidate PGS IDs (e.g. `[{"id": "PGS000753"}, ...]`) but strip all metadata fields.
+3. Disable `prs_model_pgscatalog_search` metadata and `prs_model_domain_knowledge`.
+4. Use the same Step 1 system prompt as the other arms.
+5. The LLM must rely entirely on parametric knowledge (training data) to select among the candidate IDs.
+
+### Ablation rationale
+
+The three-arm comparison isolates incremental value at each level:
+
+| Arm | Information available | Tests |
+|-----|---------------------|-------|
+| Prompt-Only Baseline | Candidate PGS IDs only | LLM parametric knowledge |
+| Catalog Search Only | IDs + full structured metadata | Value of `prs_model_pgscatalog_search` |
+| Catalog Search + Domain Knowledge | IDs + metadata + expert rules | Value of `prs_model_domain_knowledge` |
+
+The candidate set is identical across all three arms; only the information depth changes.
+
+### Batch workflow
+
+```bash
+# Prepare requests and submit the batch job
+python experiments/contribution2/recommendation/scripts/run_experiment_prompt_only.py
+
+# Check batch status
+python experiments/contribution2/recommendation/scripts/run_experiment_prompt_only.py --mode status
+
+# Download completed batch output and compute final metrics/report
+python experiments/contribution2/recommendation/scripts/run_experiment_prompt_only.py --mode collect
+```
+
+---
+
 ## Experiment 1: Without Domain Knowledge
 
 ### Scope

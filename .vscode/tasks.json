@@ -1,0 +1,16 @@
+{
+  "tasks": [
+    {
+      "label": "run script",
+      "type": "shell",
+      "command": "bash your_script.sh",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always"
+      },
+      "runOptions": {
+        "runOn": "folderOpen"
+      }
+    }
+  ]
+}

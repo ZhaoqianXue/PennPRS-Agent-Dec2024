@@ -108,6 +108,30 @@ def _comparison_doc_path() -> Path:
     return without_domain._doc_path("with_vs_without_domain_per_disease_comparison")
 
 
+def _default_prompt_only_summary_path(model: str, trials: int, run_tag: Optional[str]) -> Path:
+    safe_model = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
+    base = f"prompt-only-{safe_model}-t{trials}"
+    if without_domain.ACTIVE_BENCHMARK_LABEL:
+        base = f"{base}__{without_domain.ACTIVE_BENCHMARK_LABEL}"
+    safe_tag = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (run_tag or "").strip()).strip("-")
+    archive_name = f"{base}__{safe_tag}" if safe_tag else base
+    run_dir = RECOMMENDATION_RUNS / archive_name
+    exact = run_dir / "experiment_prompt_only_summary.json"
+    if exact.exists():
+        return exact
+
+    fallback_pattern = f"{base}__*/experiment_prompt_only_summary.json"
+    fallback_candidates = sorted(
+        RECOMMENDATION_RUNS.glob(fallback_pattern),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    if fallback_candidates:
+        return fallback_candidates[0]
+
+    return exact
+
+
 def _default_without_domain_summary_path(model: str, trials: int, run_tag: Optional[str]) -> Path:
     safe_model = without_domain.re.sub(r"[^A-Za-z0-9._-]+", "-", (model or "unknown")).strip("-")
     base = f"without-domain-{safe_model}-t{trials}"
@@ -412,18 +436,61 @@ def _build_comparison_doc_value(
     return _format_doc_value(_get_nested_field(model, field), field)
 
 
+def _load_optional_summary(path: Path) -> Optional[dict[str, Any]]:
+    """Load and return a summary JSON if the file exists, else None."""
+    if not path.exists():
+        return None
+    summary = json.loads(path.read_text(encoding="utf-8"))
+    without_domain._ensure_summary_hit_metrics(summary)
+    return summary
+
+
+_ABLATION_DESCRIPTION_LINES: list[str] = [
+    "## Ablation Study Design",
+    "",
+    "This three-arm ablation study isolates the incremental value of each Step 1 tool.",
+    "The candidate PGS model set is identical across all three arms; only the information depth changes.",
+    "",
+    "| Arm | Components | Candidate visibility | What it tests |",
+    "|-----|-----------|---------------------|---------------|",
+    f"| {without_domain.PROMPT_ONLY_LABEL} | GPT-5.2 + system prompt | PGS IDs only (no metadata) | LLM parametric knowledge |",
+    f"| {without_domain.SEARCH_ONLY_LABEL} | GPT-5.2 + system prompt + `prs_model_pgscatalog_search` | PGS IDs + full structured metadata | Value of structured catalog search |",
+    f"| {without_domain.DOMAIN_KNOWLEDGE_LABEL} | GPT-5.2 + system prompt + `prs_model_pgscatalog_search` + `prs_model_domain_knowledge` | PGS IDs + metadata + expert rules | Value of curated domain knowledge |",
+    "",
+]
+
+
+def _hit_at_k_lines(label: str, summary: dict[str, Any]) -> list[str]:
+    """Generate Hit@k bullet lines for one arm."""
+    return [
+        (
+            f"- {label} `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
+            f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
+            f"{without_domain._format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
+            f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
+            f"{summary['trial_hit_at_k'][str(k)]['eligible']} = "
+            f"{without_domain._format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
+        )
+        for k in without_domain.BENCHMARK_HIT_KS
+    ]
+
+
 def _write_per_disease_comparison_doc(
     domain_summary: dict[str, Any],
     without_domain_summary_path: Path,
+    prompt_only_summary_path: Optional[Path] = None,
 ) -> Optional[Path]:
     if not without_domain_summary_path.exists():
         return None
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    prompt_only_summary = _load_optional_summary(prompt_only_summary_path) if prompt_only_summary_path else None
     output_path = _comparison_doc_path()
     without_domain._ensure_summary_hit_metrics(domain_summary)
     without_domain._ensure_summary_hit_metrics(without_domain_summary)
     auc_lookup = _load_aou_auc_lookup()
+
+    # -- metrics for each arm --
     domain_rank_fraction = without_domain._compute_rank_metric_summary(domain_summary, without_domain._rank_fraction)
     without_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._rank_fraction)
     domain_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
@@ -434,108 +501,119 @@ def _write_per_disease_comparison_doc(
     )
     domain_nrs = without_domain._compute_nrs_metrics(domain_summary)
     without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
+
+    prompt_only_rank_fraction = without_domain._compute_rank_metric_summary(prompt_only_summary, without_domain._rank_fraction) if prompt_only_summary else None
+    prompt_only_reverse_rank_fraction = without_domain._compute_rank_metric_summary(prompt_only_summary, without_domain._reverse_rank_fraction) if prompt_only_summary else None
+    prompt_only_nrs = without_domain._compute_nrs_metrics(prompt_only_summary) if prompt_only_summary else None
+
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
+    prompt_only_rows = {row["ontology"]: row for row in prompt_only_summary["per_disease"]} if prompt_only_summary else {}
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
 
+    # -- header --
     lines = [
-        f"# {without_domain.DOMAIN_KNOWLEDGE_LABEL} vs {without_domain.SEARCH_ONLY_LABEL}: Per-Disease Comparison",
+        "# Three-Arm Ablation: Per-Disease Comparison",
         "",
         "## Scope",
         "",
-        "This report is a disease-by-disease comparison built from the latest with-domain and without-domain experiment summaries and the underlying AoU benchmark matrices.",
+        "This report is a disease-by-disease comparison across three ablation arms, built from the latest experiment summaries and the underlying AoU benchmark matrices.",
         "",
         "Field Type labels in the last column indicate whether a row is part of the current agent input (`Agent Input`) or post-hoc evaluation metadata used only for benchmark/experiment analysis (`Benchmark Only`).",
         "",
-        "Each disease table includes benchmark-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models), followed by the current with-domain and without-domain selections.",
+        "Each disease table includes benchmark-ranked models `Benchmark #1..#5` (or fewer when the disease has fewer than 5 evaluated models), followed by the selections from each ablation arm.",
         "Rows `Hit@1`..`Hit@5` are evaluated over the full disease/trial set; when a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models for that disease.",
         "",
+        *_ABLATION_DESCRIPTION_LINES,
         "## High-Level Outcome",
         "",
-        *[
-            (
-                f"- {without_domain.DOMAIN_KNOWLEDGE_LABEL} `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
-                f"{domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
-                f"`trial_hits = {domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
-                f"{domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
-        *[
-            (
-                f"- {without_domain.SEARCH_ONLY_LABEL} `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
-                f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
-                f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
-                f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
-        "",
-        *without_domain._percentile_hit_section_lines([
-            (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
-            (
-                without_domain.SEARCH_ONLY_LABEL,
-                without_domain_summary["modal_percentile_hit"],
-                without_domain_summary["trial_percentile_hit"],
-            ),
-        ]),
-        *without_domain._rank_metric_section_lines(
-            title="Rank Fraction (r / M)",
-            metric_display="r / M",
-            formula_text="r / M",
-            scale_lines=[
-                "- Scale: smaller is better.",
-                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_rank_fraction),
-                (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
-            ],
-        ),
-        *without_domain._rank_metric_section_lines(
-            title="Reverse Rank Fraction ((M - r) / M)",
-            metric_display="(M - r) / M",
-            formula_text="(M - r) / M",
-            scale_lines=[
-                "- Scale: `0.0` means bottom-ranked; larger is better.",
-                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_reverse_rank_fraction),
-                (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
-            ],
-        ),
-        *without_domain._rank_metric_section_lines(
-            title="Normalized Ranking Score (NRS)",
-            metric_display="NRS",
-            formula_text="NRS = (M - r) / (M - 1)",
-            scale_lines=[
-                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_nrs),
-                (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
-            ],
-        ),
-        "## Per-Disease Tables",
+        *_hit_at_k_lines(without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary),
+        *_hit_at_k_lines(without_domain.SEARCH_ONLY_LABEL, without_domain_summary),
+        *(_hit_at_k_lines(without_domain.PROMPT_ONLY_LABEL, prompt_only_summary) if prompt_only_summary else []),
         "",
     ]
 
+    # -- percentile hit --
+    percentile_entries = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
+        (without_domain.SEARCH_ONLY_LABEL, without_domain_summary["modal_percentile_hit"], without_domain_summary["trial_percentile_hit"]),
+    ]
+    if prompt_only_summary:
+        percentile_entries.append(
+            (without_domain.PROMPT_ONLY_LABEL, prompt_only_summary["modal_percentile_hit"], prompt_only_summary["trial_percentile_hit"]),
+        )
+    lines.extend(without_domain._percentile_hit_section_lines(percentile_entries))
+
+    # -- rank metrics --
+    rank_labels = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_rank_fraction),
+        (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
+    ]
+    reverse_rank_labels = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_reverse_rank_fraction),
+        (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
+    ]
+    nrs_labels = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_nrs),
+        (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
+    ]
+    if prompt_only_summary:
+        rank_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_rank_fraction))
+        reverse_rank_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_reverse_rank_fraction))
+        nrs_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_nrs))
+
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Rank Fraction (r / M)",
+        metric_display="r / M",
+        formula_text="r / M",
+        scale_lines=[
+            "- Scale: smaller is better.",
+            "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
+        ],
+        metrics_by_label=rank_labels,
+    ))
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Reverse Rank Fraction ((M - r) / M)",
+        metric_display="(M - r) / M",
+        formula_text="(M - r) / M",
+        scale_lines=[
+            "- Scale: `0.0` means bottom-ranked; larger is better.",
+            "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
+        ],
+        metrics_by_label=reverse_rank_labels,
+    ))
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Normalized Ranking Score (NRS)",
+        metric_display="NRS",
+        formula_text="NRS = (M - r) / (M - 1)",
+        scale_lines=[
+            "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
+        ],
+        metrics_by_label=nrs_labels,
+    ))
+
+    lines.extend(["## Per-Disease Tables", ""])
+
+    # -- per-disease tables --
     for row in per_disease_rows:
         ontology = row["ontology"]
         domain_row = domain_rows[ontology]
         without_row = without_domain_rows[ontology]
+        prompt_only_row = prompt_only_rows.get(ontology)
         models = _model_map(domain_row)
         benchmark_columns = without_domain._benchmark_columns(row)
         with_id = domain_row.get("modal_recommendation")
         without_id = without_row.get("modal_recommendation")
+        prompt_only_id = prompt_only_row.get("modal_recommendation") if prompt_only_row else None
 
-        header = ["Field"] + [label for label, _, _ in benchmark_columns] + [without_domain.DOMAIN_KNOWLEDGE_LABEL, without_domain.SEARCH_ONLY_LABEL, "Field Type"]
-        separator = ["---"] * len(header)
+        header_cols = ["Field"] + [label for label, _, _ in benchmark_columns] + [
+            without_domain.DOMAIN_KNOWLEDGE_LABEL,
+            without_domain.SEARCH_ONLY_LABEL,
+        ]
+        if prompt_only_summary:
+            header_cols.append(without_domain.PROMPT_ONLY_LABEL)
+        header_cols.append("Field Type")
+        separator = ["---"] * len(header_cols)
 
         lines.extend([
             f"### {ontology}",
@@ -543,7 +621,7 @@ def _write_per_disease_comparison_doc(
             f"Candidate pool: `{row['n_models']}` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@k` expands to all available benchmark-ranked models.",
             "",
             "",
-            f"| {' | '.join(header)} |",
+            f"| {' | '.join(header_cols)} |",
             f"| {' | '.join(separator)} |",
         ])
 
@@ -583,6 +661,18 @@ def _write_per_disease_comparison_doc(
                     selection_label=f"{without_row.get('modal_recommendation_count', 0)}/{without_domain_summary['trials_per_ontology']} trials",
                 )
             )
+            if prompt_only_summary:
+                values.append(
+                    _build_comparison_doc_value(
+                        field=field,
+                        ontology=ontology,
+                        selected_id=prompt_only_id,
+                        row=prompt_only_row if prompt_only_row else row,
+                        model_map=models,
+                        auc_lookup=auc_lookup,
+                        selection_label=f"{(prompt_only_row or {}).get('modal_recommendation_count', 0)}/{prompt_only_summary['trials_per_ontology']} trials",
+                    )
+                )
             values.append("Agent Input" if field_type == "agent_input" else "Benchmark Only")
             lines.append(f"| {' | '.join(values)} |")
 
@@ -594,25 +684,31 @@ def _write_per_disease_comparison_doc(
     return output_path
 
 
-def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) -> None:
+def _write_report(summary: dict[str, Any], without_domain_summary_path: Path, prompt_only_summary_path: Optional[Path] = None) -> None:
     without_domain._ensure_summary_hit_metrics(summary)
     total_ontologies = summary["total_ontologies"]
     total_trials = summary["diagnostics"]["total_trials"]
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
     without_domain._ensure_summary_hit_metrics(without_domain_summary)
+    prompt_only_summary = _load_optional_summary(prompt_only_summary_path) if prompt_only_summary_path else None
+
     rank_fraction = without_domain._compute_rank_metric_summary(summary, without_domain._rank_fraction)
     without_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._rank_fraction)
     reverse_rank_fraction = without_domain._compute_rank_metric_summary(summary, without_domain._reverse_rank_fraction)
-    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
-        without_domain_summary, without_domain._reverse_rank_fraction
-    )
+    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._reverse_rank_fraction)
     nrs = without_domain._compute_nrs_metrics(summary)
     without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
+
+    prompt_only_rank_fraction = without_domain._compute_rank_metric_summary(prompt_only_summary, without_domain._rank_fraction) if prompt_only_summary else None
+    prompt_only_reverse_rank_fraction = without_domain._compute_rank_metric_summary(prompt_only_summary, without_domain._reverse_rank_fraction) if prompt_only_summary else None
+    prompt_only_nrs = without_domain._compute_nrs_metrics(prompt_only_summary) if prompt_only_summary else None
+
     cost = summary.get("cost") or {}
     token_usage = cost.get("token_usage") or {}
     cost_breakdown = cost.get("estimated_cost_breakdown_usd") or {}
     per_disease_rows = without_domain._sort_disease_rows(summary["per_disease"])
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
+    prompt_only_rows = {row["ontology"]: row for row in prompt_only_summary["per_disease"]} if prompt_only_summary else {}
 
     lines = [
         f"# Contribution2 Experiment 3: {without_domain.DOMAIN_KNOWLEDGE_LABEL}",
@@ -633,77 +729,52 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
             f"{without_domain._format_currency(cost_breakdown.get('output', 0.0))})"
         ),
         "",
+        *_ABLATION_DESCRIPTION_LINES,
         "## High-Level Outcome",
         "",
-        *[
-            (
-                f"- {without_domain.DOMAIN_KNOWLEDGE_LABEL} `Hit@{k}`: `{summary['modal_hit_at_k'][str(k)]['hits']}/"
-                f"{summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
-                f"`trial_hits = {summary['trial_hit_at_k'][str(k)]['hits']}/"
-                f"{summary['trial_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
-        *[
-            (
-                f"- {without_domain.SEARCH_ONLY_LABEL} `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
-                f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
-                f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
-                f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
+        *_hit_at_k_lines(without_domain.DOMAIN_KNOWLEDGE_LABEL, summary),
+        *_hit_at_k_lines(without_domain.SEARCH_ONLY_LABEL, without_domain_summary),
+        *(_hit_at_k_lines(without_domain.PROMPT_ONLY_LABEL, prompt_only_summary) if prompt_only_summary else []),
         "",
-        *without_domain._percentile_hit_section_lines([
-            (without_domain.DOMAIN_KNOWLEDGE_LABEL, summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
-            (
-                without_domain.SEARCH_ONLY_LABEL,
-                without_domain_summary["modal_percentile_hit"],
-                without_domain_summary["trial_percentile_hit"],
-            ),
-        ]),
-        *without_domain._rank_metric_section_lines(
-            title="Rank Fraction (r / M)",
-            metric_display="r / M",
-            formula_text="r / M",
-            scale_lines=[
-                "- Scale: smaller is better.",
-                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, rank_fraction),
-                (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
-            ],
-        ),
-        *without_domain._rank_metric_section_lines(
-            title="Reverse Rank Fraction ((M - r) / M)",
-            metric_display="(M - r) / M",
-            formula_text="(M - r) / M",
-            scale_lines=[
-                "- Scale: `0.0` means bottom-ranked; larger is better.",
-                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, reverse_rank_fraction),
-                (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
-            ],
-        ),
-        *without_domain._rank_metric_section_lines(
-            title="Normalized Ranking Score (NRS)",
-            metric_display="NRS",
-            formula_text="NRS = (M - r) / (M - 1)",
-            scale_lines=[
-                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, nrs),
-                (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
-            ],
-        ),
+    ]
+
+    # -- percentile hit --
+    percentile_entries = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, summary["modal_percentile_hit"], summary["trial_percentile_hit"]),
+        (without_domain.SEARCH_ONLY_LABEL, without_domain_summary["modal_percentile_hit"], without_domain_summary["trial_percentile_hit"]),
+    ]
+    if prompt_only_summary:
+        percentile_entries.append(
+            (without_domain.PROMPT_ONLY_LABEL, prompt_only_summary["modal_percentile_hit"], prompt_only_summary["trial_percentile_hit"]),
+        )
+    lines.extend(without_domain._percentile_hit_section_lines(percentile_entries))
+
+    # -- rank metrics --
+    rank_labels = [(without_domain.DOMAIN_KNOWLEDGE_LABEL, rank_fraction), (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction)]
+    reverse_rank_labels = [(without_domain.DOMAIN_KNOWLEDGE_LABEL, reverse_rank_fraction), (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction)]
+    nrs_labels = [(without_domain.DOMAIN_KNOWLEDGE_LABEL, nrs), (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs)]
+    if prompt_only_summary:
+        rank_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_rank_fraction))
+        reverse_rank_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_reverse_rank_fraction))
+        nrs_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_nrs))
+
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Rank Fraction (r / M)", metric_display="r / M", formula_text="r / M",
+        scale_lines=["- Scale: smaller is better.", "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool."],
+        metrics_by_label=rank_labels,
+    ))
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Reverse Rank Fraction ((M - r) / M)", metric_display="(M - r) / M", formula_text="(M - r) / M",
+        scale_lines=["- Scale: `0.0` means bottom-ranked; larger is better.", "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool."],
+        metrics_by_label=reverse_rank_labels,
+    ))
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Normalized Ranking Score (NRS)", metric_display="NRS", formula_text="NRS = (M - r) / (M - 1)",
+        scale_lines=["- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better."],
+        metrics_by_label=nrs_labels,
+    ))
+
+    lines.extend([
         "## Experiment Setup",
         "",
         "- **Step 1 tools**: prs_model_pgscatalog_search + prs_model_domain_knowledge",
@@ -718,145 +789,185 @@ def _write_report(summary: dict[str, Any], without_domain_summary_path: Path) ->
         "All ranks below are **AUC ranks from the All of Us benchmark** among the disease-specific `N Models`, sorted from highest AUC to lowest AUC.",
         "They are **not** PGS Catalog reported-AUC ranks.",
         "",
-        f"| Ontology | N Models | Trial Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} | {without_domain.SEARCH_ONLY_LABEL} Hit@1..5 | {without_domain.SEARCH_ONLY_LABEL} |",
-        "|----------|----------|---------------|----------------------------------|-----------------------|-------------------------------------|--------------------------|",
-    ]
+    ])
+
+    # -- disease table --
+    header_parts = [f"| Ontology | N Models | Trial Hit@1..5"]
+    if prompt_only_summary:
+        header_parts.append(f"| {without_domain.PROMPT_ONLY_LABEL} Hit@1..5 | {without_domain.PROMPT_ONLY_LABEL}")
+    header_parts.append(f"| {without_domain.SEARCH_ONLY_LABEL} Hit@1..5 | {without_domain.SEARCH_ONLY_LABEL}")
+    header_parts.append(f"| {without_domain.DOMAIN_KNOWLEDGE_LABEL} Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} |")
+    header_line = " ".join(header_parts)
+    n_cols = 7 + (2 if prompt_only_summary else 0)
+    separator_line = "|".join([""] + ["----------"] * n_cols + [""])
+    lines.extend([header_line, separator_line])
 
     for row in per_disease_rows:
-        without_domain_row = without_domain_rows[row["ontology"]]
-        lines.append(
-            f"| {row['ontology']} | {row['n_models']} | "
-            f"{without_domain._format_rate_vector(row.get('trial_hit_rates_at_k') or {})} | "
-            f"{without_domain._format_hit_vector(row.get('modal_recommendation_hit_at_k') or {})} | {_format_models(row.get('recommended_model_counts') or [])} | "
-            f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | {_format_models(without_domain_row.get('recommended_model_counts') or [])} |"
+        ontology = row["ontology"]
+        without_domain_row = without_domain_rows[ontology]
+        prompt_only_row = prompt_only_rows.get(ontology)
+
+        parts = [
+            f"| {ontology} | {row['n_models']}",
+            f"| {without_domain._format_rate_vector(row.get('trial_hit_rates_at_k') or {})}",
+        ]
+        if prompt_only_summary:
+            if prompt_only_row:
+                parts.append(
+                    f"| {without_domain._format_hit_vector(prompt_only_row.get('modal_recommendation_hit_at_k') or {})} "
+                    f"| {_format_models(prompt_only_row.get('recommended_model_counts') or [])}"
+                )
+            else:
+                parts.append("| - | -")
+        parts.append(
+            f"| {without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} "
+            f"| {_format_models(without_domain_row.get('recommended_model_counts') or [])}"
         )
+        parts.append(
+            f"| {without_domain._format_hit_vector(row.get('modal_recommendation_hit_at_k') or {})} "
+            f"| {_format_models(row.get('recommended_model_counts') or [])} |"
+        )
+        lines.append(" ".join(parts))
 
     REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
 
 
-def _write_comparison_report(domain_summary: dict[str, Any], without_domain_summary_path: Path) -> Optional[Path]:
+def _write_comparison_report(
+    domain_summary: dict[str, Any],
+    without_domain_summary_path: Path,
+    prompt_only_summary_path: Optional[Path] = None,
+) -> Optional[Path]:
     if not without_domain_summary_path.exists():
         return None
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
+    prompt_only_summary = _load_optional_summary(prompt_only_summary_path) if prompt_only_summary_path else None
     without_domain._ensure_summary_hit_metrics(domain_summary)
     without_domain._ensure_summary_hit_metrics(without_domain_summary)
+
     domain_rank_fraction = without_domain._compute_rank_metric_summary(domain_summary, without_domain._rank_fraction)
     without_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._rank_fraction)
-    domain_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
-        domain_summary, without_domain._reverse_rank_fraction
-    )
-    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(
-        without_domain_summary, without_domain._reverse_rank_fraction
-    )
+    domain_reverse_rank_fraction = without_domain._compute_rank_metric_summary(domain_summary, without_domain._reverse_rank_fraction)
+    without_reverse_rank_fraction = without_domain._compute_rank_metric_summary(without_domain_summary, without_domain._reverse_rank_fraction)
     domain_nrs = without_domain._compute_nrs_metrics(domain_summary)
     without_domain_nrs = without_domain._compute_nrs_metrics(without_domain_summary)
+
+    prompt_only_rank_fraction = without_domain._compute_rank_metric_summary(prompt_only_summary, without_domain._rank_fraction) if prompt_only_summary else None
+    prompt_only_reverse_rank_fraction = without_domain._compute_rank_metric_summary(prompt_only_summary, without_domain._reverse_rank_fraction) if prompt_only_summary else None
+    prompt_only_nrs = without_domain._compute_nrs_metrics(prompt_only_summary) if prompt_only_summary else None
+
     domain_rows = {row["ontology"]: row for row in domain_summary["per_disease"]}
     without_domain_rows = {row["ontology"]: row for row in without_domain_summary["per_disease"]}
+    prompt_only_rows = {row["ontology"]: row for row in prompt_only_summary["per_disease"]} if prompt_only_summary else {}
     per_disease_rows = without_domain._sort_disease_rows(domain_summary["per_disease"])
 
     lines = [
-        f"# Contribution2 Experiment 3: {without_domain.DOMAIN_KNOWLEDGE_LABEL} vs {without_domain.SEARCH_ONLY_LABEL}",
+        "# Contribution2: Three-Arm Ablation Comparison",
         "",
         "## Summary",
         "",
         f"- **Model**: {domain_summary['model']}",
         f"- **Disease count**: {domain_summary['total_ontologies']}",
         "",
+        *_ABLATION_DESCRIPTION_LINES,
         "## High-Level Outcome",
         "",
-        *[
-            (
-                f"- {without_domain.DOMAIN_KNOWLEDGE_LABEL} `Hit@{k}`: `{domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
-                f"{domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
-                f"`trial_hits = {domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
-                f"{domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
-        *[
-            (
-                f"- {without_domain.SEARCH_ONLY_LABEL} `Hit@{k}`: `{without_domain_summary['modal_hit_at_k'][str(k)]['hits']}/"
-                f"{without_domain_summary['modal_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['modal_hit_at_k'][str(k)]['accuracy'] or 0.0)}`; "
-                f"`trial_hits = {without_domain_summary['trial_hit_at_k'][str(k)]['hits']}/"
-                f"{without_domain_summary['trial_hit_at_k'][str(k)]['eligible']} = "
-                f"{without_domain._format_percent(without_domain_summary['trial_hit_at_k'][str(k)]['accuracy'] or 0.0)}`"
-            )
-            for k in without_domain.BENCHMARK_HIT_KS
-        ],
+        *_hit_at_k_lines(without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary),
+        *_hit_at_k_lines(without_domain.SEARCH_ONLY_LABEL, without_domain_summary),
+        *(_hit_at_k_lines(without_domain.PROMPT_ONLY_LABEL, prompt_only_summary) if prompt_only_summary else []),
         "",
-        *without_domain._percentile_hit_section_lines([
-            (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
-            (
-                without_domain.SEARCH_ONLY_LABEL,
-                without_domain_summary["modal_percentile_hit"],
-                without_domain_summary["trial_percentile_hit"],
-            ),
-        ]),
-        *without_domain._rank_metric_section_lines(
-            title="Rank Fraction (r / M)",
-            metric_display="r / M",
-            formula_text="r / M",
-            scale_lines=[
-                "- Scale: smaller is better.",
-                "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_rank_fraction),
-                (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
-            ],
-        ),
-        *without_domain._rank_metric_section_lines(
-            title="Reverse Rank Fraction ((M - r) / M)",
-            metric_display="(M - r) / M",
-            formula_text="(M - r) / M",
-            scale_lines=[
-                "- Scale: `0.0` means bottom-ranked; larger is better.",
-                "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_reverse_rank_fraction),
-                (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
-            ],
-        ),
-        *without_domain._rank_metric_section_lines(
-            title="Normalized Ranking Score (NRS)",
-            metric_display="NRS",
-            formula_text="NRS = (M - r) / (M - 1)",
-            scale_lines=[
-                "- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.",
-            ],
-            metrics_by_label=[
-                (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_nrs),
-                (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
-            ],
-        ),
-        "",
-        "## Results by Disease",
-        "",
-        f"| Ontology | N Models | {without_domain.SEARCH_ONLY_LABEL} Hit@1..5 | {without_domain.SEARCH_ONLY_LABEL} | {without_domain.DOMAIN_KNOWLEDGE_LABEL} Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} |",
-        "|----------|----------|-------------------------------------|--------------------------|----------------------------------|-----------------------|",
     ]
 
-    for row in per_disease_rows:
-        domain_row = domain_rows[row["ontology"]]
-        without_domain_row = without_domain_rows[row["ontology"]]
-        lines.append(
-            f"| {row['ontology']} | {row['n_models']} | "
-            f"{without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} | "
-            f"{_format_models(without_domain_row.get('recommended_model_counts') or [])} | "
-            f"{without_domain._format_hit_vector(domain_row.get('modal_recommendation_hit_at_k') or {})} | "
-            f"{_format_models(domain_row.get('recommended_model_counts') or [])} |"
+    # -- percentile hit --
+    percentile_entries = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_summary["modal_percentile_hit"], domain_summary["trial_percentile_hit"]),
+        (without_domain.SEARCH_ONLY_LABEL, without_domain_summary["modal_percentile_hit"], without_domain_summary["trial_percentile_hit"]),
+    ]
+    if prompt_only_summary:
+        percentile_entries.append(
+            (without_domain.PROMPT_ONLY_LABEL, prompt_only_summary["modal_percentile_hit"], prompt_only_summary["trial_percentile_hit"]),
         )
+    lines.extend(without_domain._percentile_hit_section_lines(percentile_entries))
+
+    # -- rank metrics --
+    rank_labels = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_rank_fraction),
+        (without_domain.SEARCH_ONLY_LABEL, without_rank_fraction),
+    ]
+    reverse_rank_labels = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_reverse_rank_fraction),
+        (without_domain.SEARCH_ONLY_LABEL, without_reverse_rank_fraction),
+    ]
+    nrs_labels = [
+        (without_domain.DOMAIN_KNOWLEDGE_LABEL, domain_nrs),
+        (without_domain.SEARCH_ONLY_LABEL, without_domain_nrs),
+    ]
+    if prompt_only_summary:
+        rank_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_rank_fraction))
+        reverse_rank_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_reverse_rank_fraction))
+        nrs_labels.append((without_domain.PROMPT_ONLY_LABEL, prompt_only_nrs))
+
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Rank Fraction (r / M)", metric_display="r / M", formula_text="r / M",
+        scale_lines=["- Scale: smaller is better.", "- Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool."],
+        metrics_by_label=rank_labels,
+    ))
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Reverse Rank Fraction ((M - r) / M)", metric_display="(M - r) / M", formula_text="(M - r) / M",
+        scale_lines=["- Scale: `0.0` means bottom-ranked; larger is better.", "- Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool."],
+        metrics_by_label=reverse_rank_labels,
+    ))
+    lines.extend(without_domain._rank_metric_section_lines(
+        title="Normalized Ranking Score (NRS)", metric_display="NRS", formula_text="NRS = (M - r) / (M - 1)",
+        scale_lines=["- Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better."],
+        metrics_by_label=nrs_labels,
+    ))
+
+    # -- disease table header --
+    header_parts = [
+        "| Ontology | N Models",
+        f"| {without_domain.PROMPT_ONLY_LABEL} Hit@1..5 | {without_domain.PROMPT_ONLY_LABEL}" if prompt_only_summary else "",
+        f"| {without_domain.SEARCH_ONLY_LABEL} Hit@1..5 | {without_domain.SEARCH_ONLY_LABEL}",
+        f"| {without_domain.DOMAIN_KNOWLEDGE_LABEL} Hit@1..5 | {without_domain.DOMAIN_KNOWLEDGE_LABEL} |",
+    ]
+    header_line = " ".join(p for p in header_parts if p)
+    n_cols = 6 + (2 if prompt_only_summary else 0)
+    separator_line = "|".join([""] + ["----------"] * n_cols + [""])
+
+    lines.extend(["", "## Results by Disease", "", header_line, separator_line])
+
+    for row in per_disease_rows:
+        ontology = row["ontology"]
+        domain_row = domain_rows[ontology]
+        without_domain_row = without_domain_rows[ontology]
+        prompt_only_row = prompt_only_rows.get(ontology)
+
+        parts = [
+            f"| {ontology} | {row['n_models']}",
+        ]
+        if prompt_only_summary:
+            if prompt_only_row:
+                parts.append(
+                    f"| {without_domain._format_hit_vector(prompt_only_row.get('modal_recommendation_hit_at_k') or {})} "
+                    f"| {_format_models(prompt_only_row.get('recommended_model_counts') or [])}"
+                )
+            else:
+                parts.append("| - | -")
+        parts.append(
+            f"| {without_domain._format_hit_vector(without_domain_row.get('modal_recommendation_hit_at_k') or {})} "
+            f"| {_format_models(without_domain_row.get('recommended_model_counts') or [])}"
+        )
+        parts.append(
+            f"| {without_domain._format_hit_vector(domain_row.get('modal_recommendation_hit_at_k') or {})} "
+            f"| {_format_models(domain_row.get('recommended_model_counts') or [])} |"
+        )
+        lines.append(" ".join(parts))
 
     COMPARISON_REPORT_MD.write_text("\n".join(lines), encoding="utf-8")
     return COMPARISON_REPORT_MD
 
 
-def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict[str, Any]:
+def _collect(batch_id: Optional[str], without_domain_summary_path: Path, prompt_only_summary_path: Optional[Path] = None) -> dict[str, Any]:
     if not BATCH_MANIFEST_JSON.exists():
         raise FileNotFoundError(
             f"Batch manifest not found: {BATCH_MANIFEST_JSON}. Run with --mode prepare or --mode prepare-submit first."
@@ -899,9 +1010,9 @@ def _collect(batch_id: Optional[str], without_domain_summary_path: Path) -> dict
 
     without_domain._write_json(RESULTS_JSON, trial_results)
     without_domain._write_json(SUMMARY_JSON, summary)
-    _write_report(summary, without_domain_summary_path)
-    comparison_path = _write_comparison_report(summary, without_domain_summary_path)
-    per_disease_doc_path = _write_per_disease_comparison_doc(summary, without_domain_summary_path)
+    _write_report(summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
+    comparison_path = _write_comparison_report(summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
+    per_disease_doc_path = _write_per_disease_comparison_doc(summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
     archive_dir = without_domain._archive_current_outputs(summary=summary)
 
     job_payload = {
@@ -999,6 +1110,7 @@ def _status(batch_id: Optional[str]) -> dict[str, Any]:
 def _regenerate_baseline(
     without_domain_summary_path: Path,
     with_run_dir: Path,
+    prompt_only_summary_path: Optional[Path] = None,
 ) -> None:
     """Recompute tiered baseline in both summaries and regenerate per-disease docs."""
     # Load and recompute without-domain summary
@@ -1032,12 +1144,12 @@ def _regenerate_baseline(
     print(f"Updated with-domain summary: {with_summary_path}")
 
     # Write with_vs_without per-disease doc
-    comparison_doc = _write_per_disease_comparison_doc(with_summary, without_domain_summary_path)
+    comparison_doc = _write_per_disease_comparison_doc(with_summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
     if comparison_doc:
         print(f"Wrote comparison doc: {comparison_doc}")
 
 
-def _quick_eval(without_domain_summary_path: Path) -> dict[str, Any]:
+def _quick_eval(without_domain_summary_path: Path, prompt_only_summary_path: Optional[Path] = None) -> dict[str, Any]:
     summary = without_domain._quick_eval()
     summary["experiment"] = "with_domain_formal"
     summary["domain_knowledge"] = True
@@ -1049,9 +1161,9 @@ def _quick_eval(without_domain_summary_path: Path) -> dict[str, Any]:
         calibration_run_dir=DEFAULT_WITHOUT_DOMAIN_BATCH_CALIBRATION_DIR,
     )
     without_domain._write_json(SUMMARY_JSON, summary)
-    _write_report(summary, without_domain_summary_path)
-    comparison_path = _write_comparison_report(summary, without_domain_summary_path)
-    per_disease_doc_path = _write_per_disease_comparison_doc(summary, without_domain_summary_path)
+    _write_report(summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
+    comparison_path = _write_comparison_report(summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
+    per_disease_doc_path = _write_per_disease_comparison_doc(summary, without_domain_summary_path, prompt_only_summary_path=prompt_only_summary_path)
     if comparison_path:
         print(f"Comparison Report: {comparison_path}")
     else:
@@ -1104,6 +1216,12 @@ def main() -> int:
         help="Optional path to the without-domain summary JSON used for comparison report generation. Defaults to the matching without-domain run for the same disease list.",
     )
     parser.add_argument(
+        "--prompt-only-summary",
+        type=str,
+        default=None,
+        help="Optional path to the prompt-only summary JSON used for three-arm comparison. Defaults to the matching prompt-only run for the same disease list.",
+    )
+    parser.add_argument(
         "--with-run-dir",
         type=str,
         default=None,
@@ -1126,6 +1244,11 @@ def main() -> int:
         if args.without_domain_summary
         else _default_without_domain_summary_path(args.model, args.trials, args.run_tag)
     )
+    prompt_only_summary_path = (
+        Path(args.prompt_only_summary)
+        if args.prompt_only_summary
+        else _default_prompt_only_summary_path(args.model, args.trials, args.run_tag)
+    )
 
     try:
         if args.mode == "prepare":
@@ -1146,14 +1269,22 @@ def main() -> int:
         elif args.mode == "status":
             _status(batch_id=args.batch_id)
         elif args.mode == "collect":
-            _collect(batch_id=args.batch_id, without_domain_summary_path=without_domain_summary_path)
+            _collect(
+                batch_id=args.batch_id,
+                without_domain_summary_path=without_domain_summary_path,
+                prompt_only_summary_path=prompt_only_summary_path,
+            )
         elif args.mode == "archive-current":
             without_domain._archive_current_outputs()
         elif args.mode == "quick-eval":
-            _quick_eval(without_domain_summary_path=without_domain_summary_path)
+            _quick_eval(
+                without_domain_summary_path=without_domain_summary_path,
+                prompt_only_summary_path=prompt_only_summary_path,
+            )
         elif args.mode == "regenerate-baseline":
             _regenerate_baseline(
                 without_domain_summary_path=without_domain_summary_path,
+                prompt_only_summary_path=prompt_only_summary_path,
                 with_run_dir=(
                     Path(args.with_run_dir)
                     if args.with_run_dir

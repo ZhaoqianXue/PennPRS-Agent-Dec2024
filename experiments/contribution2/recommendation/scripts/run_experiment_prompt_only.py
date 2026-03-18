@@ -1,9 +1,10 @@
 """
 Contribution2 Experiment 1: Prompt-Only Baseline batch evaluation.
 
-This runner reuses the search-only batch workflow but hides direct-match
-retrieval context from the LLM so Step 1 sees only the target trait plus the
-fixed system prompt.
+This runner reuses the search-only batch workflow but strips all metadata from
+direct-match candidates so Step 1 sees only candidate PGS IDs (no trait,
+method, performance, or other fields) plus the fixed system prompt.  The LLM
+must rely on parametric knowledge to choose among the candidates.
 """
 
 from __future__ import annotations
@@ -120,14 +121,13 @@ def _step1_context(
     candidate_models: list[Any],
     total_found: int,
 ) -> dict[str, Any]:
-    del candidate_models, total_found
     return {
         "target_trait": ontology,
         "direct_models": {
             "query_trait": ontology,
-            "total_found": 0,
-            "after_filter": 0,
-            "models": [],
+            "total_found": total_found,
+            "after_filter": len(candidate_models),
+            "models": [{"id": getattr(m, "id", None)} for m in candidate_models],
         },
         "domain_knowledge": {
             "query": "",
@@ -361,9 +361,9 @@ def _write_report(summary: dict[str, Any]) -> None:
         "",
         "## Experiment Setup",
         "",
-        "- **Step 1 tools**: none",
+        "- **Step 1 tools**: none (candidate PGS IDs visible, all metadata stripped)",
         "- **Domain Knowledge**: Disabled",
-        "- **Candidate pool visibility to LLM**: hidden",
+        "- **Candidate pool visibility to LLM**: ID-only (no trait, method, performance, or other metadata)",
         "- **Candidate pool for evaluation**: restricted to disease-specific `N Models` that were successfully evaluated in Contribution1 on All of Us",
         "- **Success rule**: report `Hit@k` for `k = 1..5` against the AoU benchmark ranking using the full disease/trial denominator; if a disease has fewer than `k` evaluated models, `Top@k` includes all available benchmark-ranked models",
         "- **Benchmark tie handling**: if the AoU benchmark AUC is tied at the `k`-th cutoff, all tied models count as `Top@k`",
