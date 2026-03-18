@@ -5,10 +5,10 @@ Purpose: provide retrieval-friendly field-level policy for direct-match PRS mode
 Use this ranking order:
 
 1. phenotype alignment and endpoint fidelity
-2. comparable reported performance
-3. validation support
-4. transportability context
-5. weak tie-breaks from method, publication context, and model shape
+2. method family and model structure (method_name, variants_number)
+3. comparable reported performance (effect sizes, PRS-comparable metrics)
+4. transportability context (ancestry, training cohorts, study archetype)
+5. weak tie-breaks from publication context, date, validation sample size
 
 Global rules:
 
@@ -43,25 +43,14 @@ These rules are high-priority must-pass gates. Apply them before weaker tie-brea
 - Treat `phenotype risk score`, `phenotype risk`, broad EHR phenotype summary, or similar phenotype-derived clinical packaging as severe comparability leakage. A direct disease PRS candidate should beat such a package unless no cleaner disease candidate exists.
 - A recent disease-focused multi-ancestry score with strong OR/HR and clean endpoint alignment can beat an older exact-label score even when the newer study reports only effect sizes and not an explicit PRS-only AUROC.
 - Treat bundled non-genetic risk packaging as a stronger penalty than ordinary demographic or simple epidemiologic adjustment. Named clinical calculators (`CHARGE-AF`), family-history packages, PM2.5 or broad environmental bundles, smoking interaction terms, and similar deployment wrappers should not beat a direct disease score whose covariates are only age/sex/PC-style or simple smoking/BMI-style adjustment.
-- For generic arrhythmia and hypertension deployment, do not let `prevalent/progression throughout adulthood`, `risk prediction`, or calculator-augmented packaging outrank an exact disease endpoint with age/sex/PC-style covariates just because the packaged model is larger, more multi-ethnic, or reports a much higher full-model AUROC/C-index.
+- For any disease target, do not let `prevalent/progression throughout adulthood`, `risk prediction`, or calculator-augmented packaging outrank an exact disease endpoint with age/sex/PC-style covariates just because the packaged model is larger, more multi-ethnic, or reports a much higher full-model AUROC/C-index.
 - For thromboembolic targets, if several direct-match candidates with basic covariates and explicit PRS-only metrics form a coherent cluster, prefer that cluster over a lone small single-ancestry exact-label score with unknown covariates whose apparent edge is one high internal AUROC.
 - Within the same publication family and the same exact disease endpoint, modest differences in validation size, wording, or study framing are weak tie-breaks. Prefer the sibling with materially stronger OR/HR, cleaner PRS-only metrics, or cleaner covariates rather than switching families on superficial metadata differences.
-- For generic atrial fibrillation deployment, a named clinical-risk-calculator package such as `CHARGE-AF` should be treated as a severe comparability penalty. It should usually lose to a direct atrial-fibrillation score with only age/sex/PC-style covariates, even if the calculator-augmented model reports a much higher full-model C-index.
-- For generic atrial fibrillation deployment, if `CHARGE-AF` is explicitly present in covariates, that candidate should be treated as ineligible in practice while any exact atrial-fibrillation candidate with only age/sex(/PC)-style covariates is available. Do not let `CHARGE-AF` survive on sample size, recency, or full-model C-index.
-- For generic hypertension deployment, prevalence/progression-through-adulthood packaging with `BMI`, smoking, site, and race/ethnicity should be treated as a stronger penalty than the ordinary age/sex/PC adjustment seen in exact-diagnosis hypertension scores. Such packaging should not beat a coherent exact-hypertension cluster merely because it is multi-ethnic or reports a stronger full-model AUROC/OR.
-- For generic atrial fibrillation deployment, a coherent cluster of exact atrial-fibrillation candidates with only age/sex(/PC) covariates should beat both `CHARGE-AF`-augmented models and broader `atrial fibrillation or flutter` prevalence packages unless the cluster is otherwise clearly weaker.
-- If `CHARGE-AF` appears anywhere in the covariates for a generic atrial-fibrillation target, treat that candidate as deployment packaging rather than a clean standalone PRS model. Do not select it while any exact atrial-fibrillation candidate with only age/sex(/PC)-style covariates remains available.
-- For generic asthma deployment, a coherent cluster of exact generic-asthma candidates should beat pediatric-only asthma and should usually also beat doctor-diagnosed or framework-packaged asthma variants when the cluster has basic age/sex/PC-style covariates and no stronger mismatch.
-- For a generic asthma target, `pediatric asthma` is a real endpoint restriction, not a harmless wording variant. Large validation size, multi-ancestry framing, or a respectable OR should not rescue a pediatric-only model when exact generic-asthma candidates with age/sex/PC-style covariates exist.
-- For chronic kidney disease deployment, a heavily covariate-adjusted stage-specific CKD score (`eGFR`, stage 3+, dialysis-enriched, hypertension/diabetes/BMI/medication bundles) should not beat a coherent generic CKD family with no added clinical covariates when the target itself is generic chronic kidney disease.
-- For generic lung-cancer deployment, do not over-discount a direct lung-cancer score that uses only ordinary smoking/BMI-style covariates. Such a score can legitimately beat a larger family-history-plus-PM2.5-plus-smoking-interaction package, an early-onset/family-history package, or another risk-wrapper formulation.
-- For generic lung-cancer deployment, a candidate that combines family history, PM2.5 or other environmental bundles, cigarettes-per-day, years-smoked, and smoking interaction terms should be treated as a strong risk-wrapper package. Do not let that package beat an otherwise direct lung-cancer model that uses only ordinary smoking/BMI-style adjustment or only PCs.
+- If a named clinical risk calculator (e.g., CHARGE-AF, Framingham, QRISK, pooled cohort equations) appears in covariates, treat that candidate as deployment packaging rather than a clean standalone PRS model. Do not select it while any exact-disease candidate with only age/sex(/PC)-style covariates remains available, regardless of sample size, recency, or full-model metric advantage.
 - Within the same organ-site cancer repository or same near-clone endpoint family, if the endpoint and covariates are effectively identical, prefer the sibling with the stronger AUROC/OR package rather than a weaker GWAS-hits near-clone that survives mainly because of sample-size wording.
-- Within Cancer PRSweb or another same-endpoint near-clone cancer family, if the endpoint and covariates are effectively identical, a `P+T` or stronger regularized sibling with better AUROC/OR evidence should beat a weaker `GWAS Hits` sibling. Do not treat the weaker sibling as equally good just because both are exact-label matches.
-- For thyroid-carcinoma deployment, a coherent modern exact-endpoint thyroid-carcinoma family with stronger effect sizes should beat an older legacy exact-label score whose main advantage is an older full-model AUROC and more familiar wording.
-- For thyroid-carcinoma deployment, an older exact-label model with explicit family-history covariates should not beat a coherent modern thyroid-carcinoma family with stronger OR support and no explicit family-history augmentation. Treat family-history-enhanced legacy thyroid scores as less comparable than the cleaner modern family.
-- For thyroid-carcinoma deployment, spelling noise such as `thyroid carcenoma` is not an endpoint mismatch. A coherent modern multi-ancestry thyroid-carcinoma family with stronger OR support should still beat an older family-history-enhanced exact-label score.
-- For osteoporosis deployment, do not let an older exact-label `snpnet` score win solely because it exposes explicit PGS-only AUROC/R2. If a coherent exact-osteoporosis family from modern comparative studies (`PRSmix`, `PRSmixPlus`, related direct-match families) is available with clean age/sex/PC-style covariates, prefer that family unless the older score is otherwise clearly stronger.
+- Within same-endpoint near-clone families, if the endpoint and covariates are effectively identical, a stronger regularized sibling with better AUROC/OR evidence should beat a weaker sparse sibling. Do not treat the weaker sibling as equally good just because both are exact-label matches.
+- Spelling noise, minor formatting variants, or trivial wording differences should not create endpoint mismatches when `trait_reported`, `trait_efo`, and `phenotyping_reported` all point to the same disease entity.
+- For any disease target, do not let an older exact-label sparse or framework score win solely because it exposes explicit PGS-only AUROC/R2. If a coherent exact-disease family from modern comparative studies is available with clean age/sex/PC-style covariates, prefer that family unless the older score is otherwise clearly stronger.
 
 ## 1. trait_reported / trait_efo / phenotyping_reported
 
@@ -85,6 +74,14 @@ Prefer:
 - exact disease endpoints with much stronger validation and materially better discrimination, even when they are self-reported
 - clinically dominant subtypes when the target label is a broad organ-site cancer or umbrella carcinoma term and the subtype has much stronger support
 - familial late-onset forms when the target itself is the same late-onset disease and no early-onset or monogenic enrichment is shown
+
+MTAG and multi-trait analysis guidance:
+
+- MTAG (Multi-Trait Analysis of GWAS) is a **legitimate power-boosting technique** that combines GWAS summary statistics across genetically correlated traits to increase effective sample size. MTAG is NOT a negative endpoint signal.
+- Models with `(MTAG)` or `Multi-trait` in `trait_reported` that still target the same disease should be treated as **enhanced versions** of the base disease endpoint, not as endpoint mismatches or cross-trait contamination.
+- In AoU benchmark data, Exact+MTAG/Multi-trait models have the best mean normalized rank (0.27) across all trait match categories — significantly better than plain Exact match (0.49).
+- Do NOT penalize MTAG labeling as endpoint ambiguity. When choosing between an MTAG variant and a non-MTAG variant of the same disease model from the same publication family, the MTAG variant should be **mildly preferred** because it leverages additional genetic information.
+- Example: for dilated cardiomyopathy, `Dilated cardiomyopathy (MTAG)` is a stronger model than `Dilated cardiomyopathy` from the same study family — the MTAG version incorporates correlated trait information to boost power.
 
 Clinically dominant subtype equivalences:
 
@@ -119,6 +116,7 @@ Tie-break guidance:
 - If discrimination is nearly identical, self-reported exact disease with orders-of-magnitude larger validation support can beat a clinically phrased alternative.
 - Diagnostic-code and phecode instantiations of the same disease should not automatically lose to literal disease-string endpoints.
 - A broader `trait_reported` label should not automatically lose when `phenotyping_reported` is a direct diagnosis endpoint for the target disease.
+- Exact trait match provides only a **marginal advantage** over partial/subtype match (mean benchmark rank 0.49 vs 0.54). Do NOT select an exact-label model over a structurally superior model (better method tier, more variants, stronger study design) solely because of label exactness — this "exact-label trap" was a contributing error in 3/19 failure diseases.
 - Do not over-penalize minor wording differences when the disease concept is clearly the same.
 - Do not automatically prefer an exact but vague label over a near-synonymous candidate with much richer evidence.
 - Do not automatically prefer an exact but unspecified umbrella label from a portability-style or sparse-metadata study over a near-synonymous clinically specific disease label with much stronger validation and reported discrimination.
@@ -147,13 +145,17 @@ Core rule:
 - Treat generic `classification_metrics` AUROC/C-index and generic `R²` as full-model metrics unless the metric name explicitly says they are PGS-only or covariates-regressed-out.
 - Full-model AUROC can be useful for within-record sanity checking, but it is not the primary cross-model ranking metric for Contribution2 because Contribution1 benchmark AUCs were computed without covariate-boosted full-model discrimination.
 - `performance_metrics.auc` and `performance_metrics.r2` are useful only after endpoint and covariate comparability are acceptable.
+- `performance_metrics.r2` (when available as PRS-only R²) has the **second strongest field correlation** with benchmark performance (rho=0.29, after method_name). Prefer models reporting PRS-only R² over those with only full-model metrics.
 - Higher reported AUC or R2 is supportive evidence, not decisive evidence.
 - Missing metrics should not automatically disqualify a candidate. A model from a disease-focused study with only effect sizes (OR, HR) but no explicit AUC or R2 can still be the best candidate if its study design, cohort context, and method are stronger than a framework score with explicit but modest PRS-comparable metrics.
 
 Effect sizes as PRS-quality signals:
 
 - When a candidate reports only `effect_sizes` (OR per SD, HR per SD, Beta) but no AUROC or R2, use the effect size magnitude as a supportive PRS-quality signal rather than treating the candidate as having no discrimination evidence.
-- A strong per-SD OR (e.g., >1.4) or HR (e.g., >1.5) from a well-designed study is meaningful evidence of PRS discriminative power.
+- OR per SD has **strong correlation** with benchmark performance (rho=-0.44, p<0.0001, n=903) — stronger than reported AUC (rho=-0.14). HR per SD also correlates meaningfully (rho=-0.22, p=0.002, n=190).
+- Benchmark-calibrated OR thresholds: OR≥1.5 → mean rank 0.39 (good); OR 1.3-1.5 → mean rank 0.50 (neutral); OR 1.1-1.3 → mean rank 0.68 (weak); OR<1.1 → mean rank 0.80 (poor).
+- Benchmark-calibrated HR thresholds: HR≥1.5 → mean rank 0.42 (good); HR 1.2-1.5 → mean rank 0.53 (neutral); HR<1.2 → mean rank 0.60 (weak).
+- A strong per-SD OR (≥1.5) or HR (≥1.5) from a well-designed study is **meaningful evidence** of PRS discriminative power and should be weighted more heavily than validation sample size or record count.
 - Effect sizes should not override clearly stronger AUC/R2 evidence from a comparably designed study, but they should prevent automatic loss to a framework-generated score whose only advantage is metric availability.
 - When comparing a disease-focused study candidate with strong effect sizes against a portability-framework candidate with a weak partial-correlation or modest PRS-only AUC, the effect-size evidence combined with study design should weigh at least equally.
 
@@ -175,7 +177,7 @@ Down-rank when:
 - the AUC is a clear outlier relative to the rest of the direct-match set and comes from a high-throughput single-biobank framework
 - only a full-model AUROC is reported and the candidate is being treated as if that AUROC were a PRS-only metric
 - reported performance is not comparable across studies
-- performance depends on heavy clinical covariates
+- performance depends on heavy clinical covariates (cross-field finding: models with heavy covariates AND no reported PGS-only AUC have mean benchmark rank 0.64 — the worst-performing combination)
 - performance depends on disease-adjacent clinical variables such as family history or established downstream clinical predictors
 - performance depends on treatment assignment, treatment interaction, or other intervention-context variables
 - reported discrimination comes from an age-specific absolute-risk or horizon-conditioned risk package rather than a direct PRS discrimination setting
@@ -187,7 +189,7 @@ Down-rank when:
 Covariate rule:
 
 - Treat `covariates` as a comparability and optimism field.
-- Heavy clinical covariates can make reported discrimination look better than the PRS alone.
+- Heavy clinical covariates can make reported discrimination look better than the PRS alone. Benchmark-calibrated inflation magnitudes (mean discrepancy between reported AUC and actual AoU benchmark AUC): basic covariates = 0.09, moderate covariates = 0.12, heavy clinical covariates = 0.21, lifestyle/exposure covariates = 0.23. A reported AUC from a heavy-covariate model overstates real-world PRS performance by ~0.2 on average.
 - `age`, `age^2`, `sex`, ancestry PCs, batch, and genotyping array are basic covariates and usually remain comparable across studies.
 - Family history or disease-related clinical predictors can also make the reported metric less comparable to a PRS-only or PRS-light setting.
 - Treatment variables, intervention terms, and near-outcome baseline measurements can make the metric reflect prognostic enrichment rather than PRS quality.
@@ -231,6 +233,24 @@ Tie-break guidance:
 - Full-model C-index or AUROC with only basic demographic covariates can still be informative; do not penalize it as if it came from biomarker-heavy or treatment-aware clinical packaging.
 - Within the same publication family and same endpoint family, a materially stronger OR/HR can break ties even if another candidate has slightly larger validation size or a more familiar evaluation ancestry.
 
+### Fallback guidance when ALL candidates lack PGS-only AUC
+
+When no candidate in the pool reports a PGS-only or PRS-comparable AUC (all candidates report only full-model metrics or no AUC at all), the agent cannot use AUC to differentiate. In this scenario:
+
+- Do NOT fall back to validation sample size or publication narrative as the primary differentiator — these are weak signals (validation rho=0.13).
+- Instead, use the following fallback ranking order:
+  1. **Method family tier** (S/A/B/C/D from Section 5) — this is the strongest structural signal.
+  2. **Variant count** — higher variant count within the same method family is a positive signal.
+  3. **Effect size magnitude** (OR/HR per SD) — a strong OR (>1.5) or HR (>1.5) signals meaningful PRS discriminative power even without AUC.
+  4. **Full-model R²** — while inflated, full_model_r2 has stronger correlation with benchmark (rho=-0.32) than full_model_auc (rho=-0.24) and can differentiate when all candidates have it.
+  5. **Small full-model AUC differences** between candidates with similar covariates are essentially noise. A 0.03 full-model AUC gap (e.g., 0.70 vs 0.67) should not drive the decision. Look for structural differences instead.
+
+### performance_metrics.record_count
+
+- `record_count` (the number of records in the validation/evaluation sample) has **zero correlation** with AoU benchmark performance (rho=-0.03). In failure analysis, record count was over-valued in 8/19 failure diseases — the agent selected models with larger record counts that performed poorly.
+- Do NOT use record_count as a differentiator. A model validated on 100K records is NOT inherently better than one validated on 10K records.
+- Record count is often redundant with `validation_sample_size` and carries the same near-zero predictive value.
+
 ### Heritability sanity check
 
 Core rule:
@@ -256,39 +276,33 @@ Do not over-interpret:
 
 Core rule:
 
-- `validation_sample_size` is a strong tie-break field, not a primary ranking field.
+- `validation_sample_size` is a **very weak signal** (rho=0.13 with AoU benchmark rank — near noise). It should be treated as a **last-resort tie-break**, not a meaningful differentiator.
+- In failure analysis, validation size **drove the wrong decision** in 9/19 failure diseases. The agent's failed selections had LARGER median validation (49K) than successful selections (28K), confirming that large validation size does not predict better real-world performance.
 - `validation_sample_size` should come from the same representative validation record used for `performance_metrics`, `phenotyping_reported`, and `covariates`.
-
-Prefer:
-
-- larger validation cohorts when endpoint fidelity is similar
-- larger validation support when reported performance is otherwise close
-- much stronger validation support when a cleaner endpoint competes against only a tiny metric gap
+- **Never select a model primarily because it has the largest validation sample.** A model with n=50K validation is NOT inherently better than one with n=5K.
 
 Down-rank when:
 
-- a candidate has a very small validation sample
 - a large validation sample is being used to justify a weaker phenotype match
 - a very large validation sample is being used to rescue non-comparable AUC
 - a large validation sample comes from a pan-trait single-biobank framework while a smaller but well-powered disease-focused study cohort has cleaner endpoint evidence
+- a large validation sample is the agent's primary justification for selection — this is almost always a mistake
 
 Tie-break guidance:
 
-- Large validation size increases trust only after phenotype alignment is acceptable.
-- A small AUC advantage from a tiny validation cohort should not automatically beat a near-tie candidate validated in a much larger cohort.
-- Huge validation support alone should not beat a cleaner endpoint or a cleaner covariate design.
-- Order-of-magnitude validation differences are meaningful only after checking endpoint fidelity, covariate comparability, and study archetype together.
-- When reported discrimination is nearly tied, very large validation support can break the tie even if one candidate uses a self-reported version of the same disease endpoint.
+- Only use validation size as a tie-break when ALL other signals (endpoint, method, variants, performance, study design) are genuinely indistinguishable.
+- Large validation size increases trust only after phenotype alignment is acceptable, and even then only minimally.
+- Huge validation support alone should not beat a cleaner endpoint, a better method family, more variants, or a cleaner covariate design.
 - Very large validation from a portability-framework study should not automatically outweigh a moderately large validation from a disease-focused multi-cohort study.
-- Modest validation-size differences within the same publication family are weak tie-breaks.
-- Larger validation size should not automatically beat a near-clone candidate from the same study family if the near-clone has materially stronger effect sizes.
+- Modest validation-size differences within the same publication family are essentially meaningless.
+- Larger validation size should not beat a candidate with materially stronger method tier, variant count, or effect sizes.
 
 ## 4. training_development_cohorts / samples_training
 
 Core rule:
 
-- `training_development_cohorts` is mainly a transportability field.
-- `samples_training` is mainly a scale field.
+- `training_development_cohorts` is mainly a transportability field. The number of training cohorts has only a **marginal** effect on benchmark performance (4+ cohorts mean rank 0.49 vs single cohort 0.51). Do NOT over-weight cohort count as a primary differentiator — study archetype (disease-focused vs framework) matters far more than cohort count.
+- `samples_training` has **zero correlation** with AoU benchmark performance (rho=0.002). Larger training samples do NOT predict better real-world performance. Do not use training sample size as a differentiator.
 - Study archetype matters more than raw training size.
 
 Prefer:
@@ -304,16 +318,16 @@ Prefer:
 
 Pan-trait framework identification and penalization:
 
+- **Framework models underperform disease-focused models systematically.** Across 1,822 models in 75 diseases, pan-trait/framework study archetype models have mean benchmark rank 0.575 vs disease-focused models at 0.516. In failure analysis, 7/19 all-failure diseases were caused by the agent selecting a framework score over a disease-focused alternative. This is a frequent and costly error pattern.
 - Identify candidates coming from pan-trait, pan-phenome, or portability-style high-throughput frameworks. Key signature phrases in publication titles include:
   - "Significant sparse polygenic risk scores across 813 traits" (snpnet UKB framework)
   - "Portability of 245 polygenic scores" (LDpred2 UKB portability framework)
   - "ExPRSweb" or "online repository with polygenic risk scores for common health-related exposures" (ExPRSweb framework)
   - "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts" (Global Biobank Meta-analysis framework)
   - Any title emphasizing "across N traits" or "across N phenomes" where N is large
-- These framework-generated models have lower prior probability of being the best deployment model for any specific disease because they were not optimized for that disease endpoint.
-- When a disease-focused alternative exists (from a dedicated GWAS, disease consortium, or disease-specific publication), the framework model should be penalized relative to the disease-focused model unless the framework model also has substantially cleaner endpoint, covariate, and metric evidence.
+- **Decision rule: When a disease-focused alternative exists with acceptable endpoint fidelity, do NOT select a framework model.** The framework model should only win if it has clearly superior endpoint fidelity AND method tier AND metric evidence — not just one of these. A framework model's complete metadata, large sample size, or modest metric advantage is NOT sufficient to override a disease-focused alternative.
 - When the only visible metric advantage of a framework model is a modest PRS-comparable metric (e.g., partial-r < 0.05, PGS AUROC < 0.60) while a disease-focused model has stronger effect sizes, larger disease-specific training, or richer multi-cohort validation, the disease-focused model should be preferred.
-- UKB snpnet models (from the "813 traits" paper) have a characteristic signature: typically low variant counts (single-digit to low-thousands), `snpnet` method, UKB as sole training/dev cohort, and standardized covariates (age, sex, UKB array type, Genotype PCs). These models often rank poorly in independent external evaluations despite having complete and well-formatted PGS Catalog metadata.
+- UKB snpnet models (from the "813 traits" paper) have a characteristic signature: typically low variant counts (single-digit to low-thousands), `snpnet` method, UKB as sole training/dev cohort, and standardized covariates (age, sex, UKB array type, Genotype PCs). These models rank C-tier (mean rank 0.56) in independent external evaluations despite having complete and well-formatted PGS Catalog metadata. Do not let snpnet framework completeness of metadata mislead you into selecting them over disease-focused alternatives.
 
 Down-rank when:
 
@@ -326,7 +340,7 @@ Down-rank when:
 Tie-break guidance:
 
 - Use `training_development_cohorts` to judge whether the model is disease-focused or generic.
-- Use `samples_training` only as supporting evidence.
+- Use `samples_training` only as supporting evidence — it has zero benchmark correlation and should never drive a decision.
 - Large training size cannot compensate for weaker endpoint fidelity.
 - Within the same publication family, modest cohort-list or training-size differences are weak tie-breaks.
 - Single-biobank portability papers should not beat disease-focused multi-cohort studies unless they also have clearly cleaner endpoint evidence and comparable metrics.
@@ -339,70 +353,50 @@ Tie-break guidance:
 
 Core rule:
 
-- `method_name` is a weak tie-break field.
-- Method modernity is not a quality proxy.
-- Use literature-derived method rankings only as a weak prior after phenotype alignment, comparable performance, validation support, and transportability have already been checked.
+- `method_name` is a **strong structural signal** — the strongest single predictor of real-world benchmark performance (|rho|=0.42 with AoU benchmark rank across 1822 models). When the agent selects a model from the same method family as the benchmark #1, success rate approaches 100%; when it selects a different family, success rate drops to 5%.
+- Method family should be used as a **primary differentiator** after endpoint fidelity, not merely as a weak tie-break.
+- Method modernity alone is not a quality proxy, but the benchmark-calibrated tier below reflects real-world external validation performance.
 
-Literature-derived ranking reference:
+Benchmark-calibrated method family tiers (based on mean normalized rank across 75 diseases in AoU benchmark):
 
-- A March 2026 medRxiv spectral-ranking benchmark of 14 GWAS-summary-statistics single-ancestry PRS methods found `LDpred2` and `AnnoPred` to be the most consistently top-ranked methods overall.
-- The same benchmark found `C+T`, `LDpred`, and `LDpred2-inf` to be the most consistently low-ranked methods overall.
-- `SCT` and `lassosum2` performed strongly in the larger applied/benchmarking-paper ranking, but were less uniformly dominant across all ranking views.
-- `DBSLMM` showed notable rank instability across ranking sources and should not be treated as a stable top-tier method prior.
-- `PRS-CS` and `PRS-CS-auto` were not consistently top-tier in this benchmark and should not be preferred solely because they are common or modern.
-- The paper also emphasized that most middle-ranked methods had overlapping confidence intervals and that there is no universally best method across phenotypes.
-- This benchmark is most relevant to standard GWAS-summary-statistics single-ancestry PRS methods. It should not be overextended to methods outside that scope, such as individual-level-data penalized regression frameworks.
+- **S-tier** (mean rank <0.30, strongly prefer): `PRSmix`, `PRSmixPlus`, `PRSsum` (family mean=0.16, n=51); `MegaPRS` / `megaprs.auto` / `megaprs.CV` (mean=0.29, n=39); `MultiPRS` / `UKBB-EUR.MultiPRS.CV` (mean=0.25, n=10); `Meta-PRS` / `MetaGRS` / ensemble methods (mean=0.26, n=4); `CT-SLEB` (mean=0.21, n=3)
+- **A-tier** (mean rank 0.30-0.45, prefer): `SBayesR` / `SBayesR-auto` (mean=0.40, n=24); `LDpred2` / `LDpred2-auto` / `LDpred2.CV` / `LDpred2 (bigsnpr)` (mean=0.44, n=133); `PRS-CSx` / `prscsx` (mean=0.50, n=60 — upgraded to A-tier because PRS-CSx is the multi-ancestry extension of PRS-CS with methodological advantages in diverse-ancestry contexts)
+- **B-tier** (mean rank 0.45-0.55, neutral): `LDpred` / `ldpred` legacy (mean=0.41, n=50); `PRS-CS` / `PRS-CS-auto` / `PRSCS` / `prscs` (mean=0.49, n=239); `LASSO` / penalized regression (mean=0.48, n=84); `BOLT-LMM` (mean=0.44, n=9); `GenoBoost` (mean=0.45, n=46); `PolyFun-pred` (mean=0.41, n=6); `SDPR` (mean=0.50, n=8); `RFDiseasemetaPRS` (mean=0.50, n=29)
+- **C-tier** (mean rank 0.55-0.60, down-rank): `PRSice` / `PRSice-2` (mean=0.53, n=37); `Lassosum` / `lassosum` / `lassosum2` (mean=0.55, n=104); `snpnet` / `SnpNet` (mean=0.56, n=120); `GWAS Hits` / `Genome-wide significant variants` / `Genome-wide significant SNPs` (mean=0.58, n=390)
+- **D-tier** (mean rank >0.60, strongly down-rank): `Pruning and Thresholding (P+T)` / `Clumping and Thresholding (C+T)` / `maxCT` / `SCT` (mean=0.60, n=242); `DBSLMM` / `DBSLMM-auto` (mean=0.64, n=28); `PLINK` (mean=0.71, n=17); `SparSNP` (mean=0.80, n=10)
 
-Weak method prior for otherwise closely matched candidates:
+Key head-to-head comparisons:
 
-- top prior: `LDpred2`, `AnnoPred`
-- upper-middle prior: `LDpred2-auto`, `LDpred-funct`, `lassosum2`, `SCT`
-- source-sensitive middle prior: `SBayesR`, `lassosum`, `DBSLMM`, `PRS-CS`, `PRS-CS-auto`, `PRSCS`
-- low prior: `LDpred2-inf`, `LDpred`, `C+T`, `Clumping and Thresholding (C+T)`
+- **PRS-CSx vs PRS-CS**: PRS-CSx should be preferred over PRS-CS when both are available for the same disease endpoint, as PRS-CSx leverages multi-ancestry GWAS data for improved cross-population transferability.
+- **LDpred2 vs LDpred (legacy)**: LDpred2 should be preferred over LDpred legacy. LDpred2 is the methodological successor with improved computational framework and shrinkage estimation.
+- **PRSmix/Plus vs all others**: PRSmix/Plus family models aggregate multiple component PRSs and consistently achieve the best real-world benchmark performance (mean rank 0.16). When available, they should be strongly preferred.
+- **Genome-wide shrinkage (A/B-tier) vs sparse methods (C/D-tier)**: A genome-wide shrinkage method from a disease-focused study should be strongly preferred over a sparse method from a pan-trait framework. The performance gap is large (B-tier ~0.49 vs D-tier ~0.60).
 
 Method-study-design interaction:
 
-- A genome-wide shrinkage method (PRS-CS, PRSCS, LDpred2, LDpred2-auto) from a disease-focused multi-cohort GWAS meta-analysis should be strongly preferred over a sparse method (snpnet, C+T, GWS variants) from a pan-trait single-biobank framework, because the genome-wide shrinkage method captures more of the polygenic signal and the disease-focused context ensures endpoint relevance.
-- `snpnet` models from pan-trait UKB frameworks (the "813 traits" paper) typically produce very sparse scores that may not capture enough genetic variance for complex polygenic traits. Despite complete metadata, they often generalize poorly to independent cohorts.
-- `C+T` (Clumping and Thresholding) and similar simple thresholding methods have limited polygenic signal capture. If a C+T model reports very high R2 (e.g., R2 > 0.15 for a complex polygenic trait) with unknown covariates, treat that R2 as likely inflated or non-comparable.
-- `Genome-wide significant variants` or `GWAS Hits` methods using small numbers of SNPs can be effective when the variants were identified in large, well-powered GWAS studies focused on the target disease, especially for diseases with strong individual-locus effects (e.g., some cancers, autoimmune diseases).
+- A genome-wide shrinkage method (PRS-CS, PRSCS, LDpred2, LDpred2-auto, PRS-CSx) from a disease-focused multi-cohort GWAS meta-analysis should be strongly preferred over a sparse method (snpnet, C+T, GWS variants) from a pan-trait single-biobank framework, because the genome-wide shrinkage method captures more of the polygenic signal and the disease-focused context ensures endpoint relevance.
+- `snpnet` models from pan-trait UKB frameworks (the "813 traits" paper) typically produce very sparse scores that may not capture enough genetic variance for complex polygenic traits. Despite complete metadata, they often generalize poorly to independent cohorts (mean rank 0.56, C-tier).
+- `C+T` (Clumping and Thresholding) and similar simple thresholding methods have limited polygenic signal capture (D-tier, mean rank 0.60). If a C+T model reports very high R2 (e.g., R2 > 0.15 for a complex polygenic trait) with unknown covariates, treat that R2 as likely inflated or non-comparable.
+- `Genome-wide significant variants` or `GWAS Hits` methods using small numbers of SNPs are C-tier (mean rank 0.58) but can be effective when the variants were identified in large, well-powered GWAS studies focused on the target disease, especially for diseases with strong individual-locus effects (e.g., some cancers, autoimmune diseases).
 - Weighted PRS summation or multi-PRS methods that combine multiple component scores can capture both polygenic background and strong individual-locus effects; they should not be penalized for method complexity.
 - `PRSCS` (case-sensitive variant of PRS-CS) from multi-ancestry disease studies should be treated equivalently to `PRS-CS` in the method ranking.
 
-Do not automatically prefer:
-
-- `snpnet`
-- `PRS-CS`
-- `PRS-CS-auto`
-- `LDpred2`
-- `LDpred2-auto`
-- `lassosum`
-- `lassosum2`
-
 Do not automatically assume:
 
-- denser methods are better
-- sparser methods are worse
+- sparser methods are worse in ALL cases — for diseases with strong individual-locus effects, GWAS-hits methods can perform well
 - newer methods are more portable
 - more complex methods are more clinically credible
 - rare-pathogenic or monogenic-leaning constructions are better for generic common-disease PRS deployment
 
 Tie-break guidance:
 
-- Use `method_name` only after endpoint fidelity, comparable performance, validation support, and transportability have already been considered.
-- If two candidates are otherwise closely matched and both fall within the paper's benchmark scope, the literature-derived prior above can be used as a mild tie-break.
-- If a candidate wins mainly because it is `PRS-CS` or `PRS-CS-auto`, lower confidence unless non-method fields clearly support it.
-- If a candidate wins mainly because it is `LDpred2` or `AnnoPred`, keep that advantage mild; do not let it override materially cleaner endpoint or study-design evidence from another method.
-- If a candidate's only method advantage is being `C+T`, `LDpred`, or `LDpred2-inf`, treat that as a negative rather than a positive tie-break unless the non-method metadata are clearly stronger.
-- If a candidate's only method advantage is being `SCT`, `lassosum2`, or `DBSLMM`, remember that the literature benchmark showed source-sensitive ordering; use extra caution instead of treating them as uniformly top-tier.
-- If candidates are otherwise closely matched within the same study family, LD-aware shrinkage methods such as `PRS-CS`, `LDpred`, or `LDpred2` may be mildly preferred over very sparse P+T or GWAS-hit constructions.
-- If candidates are otherwise closely matched within the same endpoint family, do not let a very sparse P+T score beat a genome-wide shrinkage score solely because of a modest AUC edge.
-- If candidates share the same publication family, phenotype, validation cohort, and ancestry context, a modest AUC edge from an ultra-sparse construction is weak evidence against a genome-wide shrinkage score.
-- If candidates share the same publication family, endpoint, validation size, ancestry context, and similarly missing covariates, prefer the genome-wide shrinkage score unless the sparse construction has a clearly larger, not merely modest, metric advantage.
-- If a candidate wins mainly because the method name looks stronger, lower confidence.
-- `snpnet` or other high-capacity penalized regression methods need extra caution when their advantage comes mainly from single-biobank optimization or unusually high internal AUC.
-- Rare-pathogenic or clearly monogenic-leaning constructions should not automatically outrank genome-wide polygenic scores for generic common-disease risk unless the metadata show unusually strong and clean disease-level support.
+- Use the benchmark-calibrated tier system above as a **primary differentiator** after endpoint fidelity has been established, not merely as a weak tie-break.
+- If two candidates share the same endpoint and one uses an S/A-tier method while the other uses a C/D-tier method, the S/A-tier method should be strongly preferred unless the C/D-tier candidate has overwhelmingly stronger evidence on all other dimensions.
+- Within the same tier, method alone should not drive selection — use other fields (variants, performance, study design) to differentiate.
+- If candidates are otherwise closely matched within the same study family, prefer the higher-tier method.
+- If candidates share the same publication family and endpoint, prefer the genome-wide shrinkage score over a sparse construction unless the sparse construction has a clearly larger metric advantage.
 - A `snpnet` model from a pan-trait framework paper should not beat a genome-wide shrinkage model (PRS-CS, LDpred2) from a disease-focused study, even if the snpnet model has a slightly higher reported metric, because snpnet pan-trait models tend to generalize poorly to independent cohorts.
+- Rare-pathogenic or clearly monogenic-leaning constructions should not automatically outrank genome-wide polygenic scores for generic common-disease risk unless the metadata show unusually strong and clean disease-level support.
 
 ## 6. ancestry_distribution
 
@@ -410,6 +404,7 @@ Core rule:
 
 - `ancestry_distribution` is a compatibility and transportability field.
 - Multi-ancestry appearance is not automatically an advantage.
+- Benchmark-calibrated evaluation ancestry data: Multi-ancestry eval mean rank 0.50 (best), EUR eval mean rank 0.51, Non-EUR eval mean rank 0.60 (significantly worse). Models evaluated only in non-EUR ancestry contexts perform materially worse in AoU benchmark. GWAS ancestry: Multi-ancestry mean 0.50, EUR-only mean 0.52, Other/Non-EUR mean 0.63.
 
 Prefer:
 
@@ -457,7 +452,7 @@ Key framework paper signatures to identify and penalize:
 - "Portability of 245 polygenic scores when derived from the UK Biobank" = LDpred2 UKB portability framework
 - "ExPRSweb: An online repository with polygenic risk scores for common health-related exposures" = ExPRSweb exposure-PRS framework
 - "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts" = Global Biobank meta-analysis framework (PRS-CS-auto)
-- These framework papers are valuable for method benchmarking but their per-disease scores are not optimized for any specific disease and should not be preferred over disease-focused alternatives.
+- These framework papers are valuable for method benchmarking but their per-disease scores are not optimized for any specific disease and should not be preferred over disease-focused alternatives. Framework models were the wrong choice in 7/19 all-failure diseases — this is the single most common agent error pattern. When you see a framework paper signature, actively search for a disease-focused alternative before selecting it.
 - By contrast, disease-specific comparative papers such as "Evaluation of polygenic scoring methods in five biobanks..." that compare several model families within one exact disease endpoint should not be penalized as pan-trait framework scores when the candidate remains a direct match and the covariate field is empty or basic.
 
 Do not automatically prefer:
@@ -491,22 +486,30 @@ Tie-break guidance:
 
 Core rule:
 
-- `variants_number` is a model-shape field, not a quality field.
+- `variants_number` is a **moderate-to-strong structural signal** (|rho|=0.27 with AoU benchmark rank, third strongest field after method_name and r2). In 69% of diseases, more variants correlate with better benchmark rank. Successfully selected models (Hit@1) have median 640K variants vs failure selections median 2,575 — a 250x gap.
+- `variants_number` should be used as a **meaningful differentiator**, especially when comparing models within the same method family or across method families.
+- Variant count must always be interpreted in the context of method — a GWAS-hits model with 50 variants is structurally different from a genome-wide shrinkage model with 1M variants.
 
-Do not automatically assume:
+Benchmark-calibrated variant count guidance:
 
-- more variants means better performance
-- more variants means better portability
-- fewer variants means better interpretability
-- fewer variants means better deployment value
+- **>500K variants** (genome-wide shrinkage): mean benchmark rank 0.42 — this is a positive signal for methods like PRS-CS, LDpred2, PRS-CSx, MegaPRS, SBayesR.
+- **100K-500K variants**: mean rank 0.44 — still a positive range for shrinkage methods.
+- **10K-100K variants**: mean rank 0.53 — neutral.
+- **1K-10K variants**: mean rank 0.56 — weak; often from sparse penalized methods or older approaches.
+- **100-1K variants**: mean rank 0.63 — down-rank; typically sparse P+T or limited SNP selections.
+- **<100 variants** (GWAS hits): mean rank 0.59 — down-rank for polygenic traits; can still work for diseases with strong individual-locus effects.
 
-Tie-break guidance:
+Within-method variant count comparison:
 
-- Use `variants_number` only as weak interpretive context.
-- Large SNP-count differences should not drive ranking on their own.
-- `variants_number` should never be the primary reason to select a model.
-- Very low variant counts (single-digit to low-tens) combined with a pan-trait framework origin is a warning sign: the model may not capture enough polygenic signal for complex traits.
+- For the **same method family**, prefer the model with MORE variants. Example: PRS-CSx with 1.27M variants should beat PRS-CS with 383K variants when both target the same disease — the additional variants capture more polygenic signal.
+- For **same-publication siblings** using the same method, a 1.5x or greater variant count difference favoring one sibling is a meaningful structural signal.
+- When a >5x variant count gap exists between the agent's selection and the benchmark top model, this is almost always a sign of a wrong choice (observed in 8/19 failure diseases).
+
+Exceptions:
+
+- For diseases with strong individual-locus effects (e.g., some cancers, autoimmune diseases, macular degeneration), GWAS-hits models with few variants can be competitive. In 31% of diseases, the variant count signal is weak or reversed.
 - Very high variant counts (>100K) from genome-wide shrinkage methods are expected and should not be penalized; they reflect the method's design rather than overfitting.
+- Very low variant counts (single-digit to low-tens) combined with a pan-trait framework origin is a strong warning sign: the model likely does not capture enough polygenic signal for complex traits.
 
 ## 9. Disease-family policy
 

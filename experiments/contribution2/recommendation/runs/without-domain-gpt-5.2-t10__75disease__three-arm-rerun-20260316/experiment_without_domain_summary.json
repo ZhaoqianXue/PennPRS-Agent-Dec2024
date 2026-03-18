@@ -138744,8 +138744,8 @@
     "eligible_only_denominator": false,
     "k_exceeds_candidate_count_uses_all_available_models": true,
     "tie_aware_cutoff": true,
-    "ranked_benchmark_source": "experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
-    "benchmark_auc_source": "experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"
+    "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
+    "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"
   },
   "percentile_hit_definition": {
     "percentiles": [
@@ -138758,8 +138758,8 @@
     "cutoff_formula": "c_q = max(1, ceil(q/100 * M))",
     "fixed_denominator": true,
     "tie_aware_cutoff": true,
-    "ranked_benchmark_source": "experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
-    "benchmark_auc_source": "experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"
+    "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
+    "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"
   },
   "cost": {
     "model_pricing_key": "gpt-5.2",
