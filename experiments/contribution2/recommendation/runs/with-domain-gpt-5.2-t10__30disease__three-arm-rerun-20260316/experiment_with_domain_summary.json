@@ -1,9 +1,9 @@
 {
-  "experiment": "with_domain_batch_formal",
+  "experiment": "with_domain_formal",
   "domain_knowledge": true,
   "strict_llm_only": true,
   "cross_disease_enabled": false,
-  "batch_mode": true,
+  "batch_mode": false,
   "run_tag": "three-arm-rerun-20260316",
   "model": "gpt-5.2",
   "total_ontologies": 30,
@@ -19,24 +19,24 @@
       "accuracy": 0.5667
     },
     "2": {
-      "hits": 22,
+      "hits": 23,
       "eligible": 30,
-      "accuracy": 0.7333
+      "accuracy": 0.7667
     },
     "3": {
-      "hits": 25,
-      "eligible": 30,
-      "accuracy": 0.8333
-    },
-    "4": {
       "hits": 26,
       "eligible": 30,
       "accuracy": 0.8667
     },
-    "5": {
+    "4": {
       "hits": 27,
       "eligible": 30,
       "accuracy": 0.9
+    },
+    "5": {
+      "hits": 28,
+      "eligible": 30,
+      "accuracy": 0.9333
     }
   },
   "modal_percentile_hit": {
@@ -51,19 +51,19 @@
       "accuracy": 0.6333
     },
     "15": {
-      "hits": 23,
+      "hits": 24,
       "eligible": 30,
-      "accuracy": 0.7667
+      "accuracy": 0.8
     },
     "20": {
-      "hits": 23,
+      "hits": 24,
       "eligible": 30,
-      "accuracy": 0.7667
+      "accuracy": 0.8
     },
     "25": {
-      "hits": 23,
+      "hits": 24,
       "eligible": 30,
-      "accuracy": 0.7667
+      "accuracy": 0.8
     }
   },
   "baseline": {
@@ -149,63 +149,63 @@
   },
   "diagnostics": {
     "total_trials": 300,
-    "trial_hits": 172,
-    "trial_hit_rate": 0.5733,
+    "trial_hits": 169,
+    "trial_hit_rate": 0.5633,
     "valid_outputs": 300,
     "valid_output_rate": 1.0
   },
   "trial_hit_at_k": {
     "1": {
-      "hits": 172,
+      "hits": 169,
       "eligible": 300,
-      "accuracy": 0.5733
+      "accuracy": 0.5633
     },
     "2": {
-      "hits": 216,
+      "hits": 223,
       "eligible": 300,
-      "accuracy": 0.72
+      "accuracy": 0.7433
     },
     "3": {
-      "hits": 245,
+      "hits": 256,
       "eligible": 300,
-      "accuracy": 0.8167
+      "accuracy": 0.8533
     },
     "4": {
-      "hits": 261,
+      "hits": 268,
       "eligible": 300,
-      "accuracy": 0.87
+      "accuracy": 0.8933
     },
     "5": {
-      "hits": 273,
+      "hits": 278,
       "eligible": 300,
-      "accuracy": 0.91
+      "accuracy": 0.9267
     }
   },
   "trial_percentile_hit": {
     "5": {
-      "hits": 172,
+      "hits": 169,
       "eligible": 300,
-      "accuracy": 0.5733
+      "accuracy": 0.5633
     },
     "10": {
-      "hits": 188,
+      "hits": 189,
       "eligible": 300,
-      "accuracy": 0.6267
+      "accuracy": 0.63
     },
     "15": {
-      "hits": 224,
+      "hits": 233,
       "eligible": 300,
-      "accuracy": 0.7467
+      "accuracy": 0.7767
     },
     "20": {
-      "hits": 224,
+      "hits": 233,
       "eligible": 300,
-      "accuracy": 0.7467
+      "accuracy": 0.7767
     },
     "25": {
-      "hits": 224,
+      "hits": 233,
       "eligible": 300,
-      "accuracy": 0.7467
+      "accuracy": 0.7767
     }
   },
   "per_disease": [
@@ -467,7 +467,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.00547
               }
             ],
@@ -879,13 +879,12 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 10,
-        "heritability": 1,
-        "method": 3,
-        "r2": 7,
+        "covariates": 9,
+        "method": 6,
+        "r2": 5,
         "sample_size": 10,
         "trait_match": 10,
-        "variants": 4
+        "variants": 2
       },
       "baseline": {
         "pgs_id": "PGS003973",
@@ -1109,7 +1108,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.21,
                 "ci_lower": -0.23,
                 "ci_upper": -0.19
@@ -1242,7 +1241,7 @@
           "variants_number": 52,
           "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic Risk Score Analysis Supports a Joint View of Two Classification Systems for Age-Related Macular Degeneration.",
+            "title": "Genetic Risk Score Analysis Supports a Joint View of Two\u00a0Classification Systems for Age-Related Macular Degeneration.",
             "journal": "Invest Ophthalmol Vis Sci"
           },
           "date_release": "2024-09-19",
@@ -1569,7 +1568,7 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 10,
         "auc": 10,
         "covariates": 10,
         "r2": 5,
@@ -1701,15 +1700,15 @@
             "classification_metrics": [],
             "other_metrics": [
               {
-                "name_long": "ΔR-squared (vs. covariates alone)",
-                "name_short": "ΔR-squared (vs. covariates alone)",
+                "name_long": "\u0394R-squared (vs. covariates alone)",
+                "name_short": "\u0394R-squared (vs. covariates alone)",
                 "estimate": 0.01192
               }
             ],
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.099,
                 "se": 0.01
               }
@@ -1749,15 +1748,15 @@
             "classification_metrics": [],
             "other_metrics": [
               {
-                "name_long": "ΔR-squared (vs. covariates alone)",
-                "name_short": "ΔR-squared (vs. covariates alone)",
+                "name_long": "\u0394R-squared (vs. covariates alone)",
+                "name_short": "\u0394R-squared (vs. covariates alone)",
                 "estimate": 0.00456
               }
             ],
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.043,
                 "se": 0.019
               }
@@ -1807,7 +1806,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 3.17,
                 "se": 1.87
               }
@@ -1858,7 +1857,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.17,
                 "se": 0.03
               }
@@ -2162,11 +2161,10 @@
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "heritability": 2,
-        "method": 1,
         "r2": 10,
         "sample_size": 10,
-        "trait_match": 10
+        "trait_match": 10,
+        "variants": 1
       },
       "baseline": null,
       "baseline_hit_at_k": {
@@ -2313,7 +2311,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.10925
               },
               {
@@ -2379,7 +2377,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.115
               },
               {
@@ -2697,15 +2695,15 @@
         "1": 0,
         "2": 7,
         "3": 7,
-        "4": 10,
-        "5": 10
+        "4": 9,
+        "5": 9
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
         "2": 0.7,
         "3": 0.7,
-        "4": 1.0,
-        "5": 1.0
+        "4": 0.9,
+        "5": 0.9
       },
       "trial_percentile_hit_counts": {
         "5": 0,
@@ -2744,36 +2742,36 @@
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
+        "PGS001267",
         "PGS002089",
-        "PGS001267",
         "PGS002089",
-        "PGS001267",
-        "PGS002089",
-        "PGS001267",
-        "PGS001267",
-        "PGS001267",
+        "PGS003420",
         "PGS001267",
         "PGS001267"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS002089",
-          "rank": 4,
-          "rank_label": "4/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
+            "2": true,
+            "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
@@ -2800,22 +2798,22 @@
         },
         {
           "trial": 3,
-          "pgs_id": "PGS002089",
-          "rank": 4,
-          "rank_label": "4/9",
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
+            "2": true,
+            "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
@@ -2842,6 +2840,27 @@
         },
         {
           "trial": 5,
+          "pgs_id": "PGS001267",
+          "rank": 2,
+          "rank_label": "2/9",
+          "hit_at_k": {
+            "1": false,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": true,
+            "20": true,
+            "25": true
+          },
+          "in_target_topk": false
+        },
+        {
+          "trial": 6,
           "pgs_id": "PGS002089",
           "rank": 4,
           "rank_label": "4/9",
@@ -2862,65 +2881,44 @@
           "in_target_topk": false
         },
         {
-          "trial": 6,
-          "pgs_id": "PGS001267",
-          "rank": 2,
-          "rank_label": "2/9",
-          "hit_at_k": {
-            "1": false,
-            "2": true,
-            "3": true,
-            "4": true,
-            "5": true
-          },
-          "percentile_hit": {
-            "5": false,
-            "10": false,
-            "15": true,
-            "20": true,
-            "25": true
-          },
-          "in_target_topk": false
-        },
-        {
           "trial": 7,
-          "pgs_id": "PGS001267",
-          "rank": 2,
-          "rank_label": "2/9",
+          "pgs_id": "PGS002089",
+          "rank": 4,
+          "rank_label": "4/9",
           "hit_at_k": {
             "1": false,
-            "2": true,
-            "3": true,
+            "2": false,
+            "3": false,
             "4": true,
             "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": true,
-            "20": true,
-            "25": true
+            "15": false,
+            "20": false,
+            "25": false
           },
           "in_target_topk": false
         },
         {
           "trial": 8,
-          "pgs_id": "PGS001267",
-          "rank": 2,
-          "rank_label": "2/9",
+          "pgs_id": "PGS003420",
+          "rank": 7,
+          "rank_label": "7/9",
           "hit_at_k": {
             "1": false,
-            "2": true,
-            "3": true,
-            "4": true,
-            "5": true
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": true,
-            "20": true,
-            "25": true
+            "15": false,
+            "20": false,
+            "25": false
           },
           "in_target_topk": false
         },
@@ -2976,19 +2974,25 @@
         },
         {
           "pgs_id": "PGS002089",
-          "count": 3,
+          "count": 2,
           "rank": 4,
           "rank_label": "4/9"
+        },
+        {
+          "pgs_id": "PGS003420",
+          "count": 1,
+          "rank": 7,
+          "rank_label": "7/9"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "heritability": 2,
+        "heritability": 4,
         "method": 10,
-        "r2": 9,
-        "sample_size": 10,
+        "r2": 10,
+        "sample_size": 7,
         "trait_match": 10,
         "variants": 10
       },
@@ -3187,7 +3191,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.247,
                 "se": 0.095
               }
@@ -3240,7 +3244,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.031
               },
               {
@@ -3306,7 +3310,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.048
               },
               {
@@ -3794,12 +3798,13 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 7,
         "auc": 10,
         "covariates": 10,
+        "method": 1,
         "r2": 10,
-        "sample_size": 7,
-        "trait_match": 8
+        "sample_size": 5,
+        "trait_match": 10
       },
       "baseline": {
         "pgs_id": "PGS005252",
@@ -3957,7 +3962,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
           "training_development_cohorts": [
             "TwinGene"
           ],
@@ -4003,7 +4008,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.437
               }
             ],
@@ -4018,7 +4023,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -4064,7 +4069,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.11284
               },
               {
@@ -4128,7 +4133,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.00158
               }
             ],
@@ -4232,7 +4237,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.182
               }
             ]
@@ -4530,14 +4535,14 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 6,
-        "auc": 10,
-        "covariates": 9,
+        "ancestry": 7,
+        "auc": 9,
+        "covariates": 10,
         "method": 9,
-        "r2": 4,
-        "sample_size": 6,
+        "r2": 3,
+        "sample_size": 4,
         "trait_match": 10,
-        "variants": 6
+        "variants": 8
       },
       "baseline": {
         "pgs_id": "PGS001299",
@@ -4788,7 +4793,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.0261
               }
             ],
@@ -4884,41 +4889,41 @@
           "validation_sample_size": "n=133,830"
         }
       ],
-      "trial_hits": 9,
-      "trial_hit_rate": 0.9,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "trial_hit_counts_at_k": {
-        "1": 9,
-        "2": 9,
+        "1": 10,
+        "2": 10,
         "3": 10,
         "4": 10,
         "5": 10
       },
       "trial_hit_rates_at_k": {
-        "1": 0.9,
-        "2": 0.9,
+        "1": 1.0,
+        "2": 1.0,
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
       },
       "trial_percentile_hit_counts": {
-        "5": 9,
-        "10": 9,
-        "15": 9,
-        "20": 9,
-        "25": 9
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
       },
       "trial_percentile_hit_rates": {
-        "5": 0.9,
-        "10": 0.9,
-        "15": 0.9,
-        "20": 0.9,
-        "25": 0.9
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS003382",
-      "modal_recommendation_count": 9,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/5",
       "modal_recommendation_hit_at_k": {
@@ -4937,7 +4942,7 @@
       },
       "modal_recommendation_in_target_topk": true,
       "trial_recommendations": [
-        "PGS000766",
+        "PGS003382",
         "PGS003382",
         "PGS003382",
         "PGS003382",
@@ -4951,24 +4956,24 @@
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS000766",
-          "rank": 3,
-          "rank_label": "3/5",
+          "pgs_id": "PGS003382",
+          "rank": 1,
+          "rank_label": "1/5",
           "hit_at_k": {
-            "1": false,
-            "2": false,
+            "1": true,
+            "2": true,
             "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": false,
-            "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           },
-          "in_target_topk": false
+          "in_target_topk": true
         },
         {
           "trial": 2,
@@ -5163,25 +5168,18 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS003382",
-          "count": 9,
+          "count": 10,
           "rank": 1,
           "rank_label": "1/5"
-        },
-        {
-          "pgs_id": "PGS000766",
-          "count": 1,
-          "rank": 3,
-          "rank_label": "3/5"
         }
       ],
       "feature_mentions": {
         "ancestry": 7,
         "auc": 10,
         "covariates": 10,
-        "r2": 8,
+        "r2": 10,
         "sample_size": 10,
-        "trait_match": 10,
-        "variants": 2
+        "trait_match": 10
       },
       "baseline": {
         "pgs_id": "PGS003382",
@@ -5330,7 +5328,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.05914
               },
               {
@@ -5396,7 +5394,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.0566
               },
               {
@@ -5552,7 +5550,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.008
               }
             ]
@@ -5616,7 +5614,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.485557892551506
               }
             ]
@@ -5680,7 +5678,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.433940209108075
               }
             ]
@@ -5992,11 +5990,11 @@
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "method": 5,
-        "r2": 10,
-        "sample_size": 6,
+        "method": 1,
+        "r2": 8,
+        "sample_size": 9,
         "trait_match": 10,
-        "variants": 3
+        "variants": 2
       },
       "baseline": {
         "pgs_id": "PGS001042",
@@ -6131,7 +6129,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.037
               }
             ]
@@ -6194,7 +6192,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.437661585839951
               }
             ]
@@ -6258,7 +6256,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.348528828383883
               }
             ]
@@ -6285,14 +6283,14 @@
       "trial_hit_rate": 0.0,
       "trial_hit_counts_at_k": {
         "1": 0,
-        "2": 7,
+        "2": 10,
         "3": 10,
         "4": 10,
         "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
-        "2": 0.7,
+        "2": 1.0,
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
@@ -6315,7 +6313,7 @@
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS005271",
-      "modal_recommendation_count": 7,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 2,
       "modal_recommendation_rank_label": "2/3",
       "modal_recommendation_hit_at_k": {
@@ -6334,26 +6332,26 @@
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
-        "PGS005270",
         "PGS005271",
         "PGS005271",
         "PGS005271",
         "PGS005271",
         "PGS005271",
         "PGS005271",
-        "PGS005270",
         "PGS005271",
-        "PGS005270"
+        "PGS005271",
+        "PGS005271",
+        "PGS005271"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
           "hit_at_k": {
             "1": false,
-            "2": false,
+            "2": true,
             "3": true,
             "4": true,
             "5": true
@@ -6495,12 +6493,12 @@
         },
         {
           "trial": 8,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
           "hit_at_k": {
             "1": false,
-            "2": false,
+            "2": true,
             "3": true,
             "4": true,
             "5": true
@@ -6537,12 +6535,12 @@
         },
         {
           "trial": 10,
-          "pgs_id": "PGS005270",
-          "rank": 3,
-          "rank_label": "3/3",
+          "pgs_id": "PGS005271",
+          "rank": 2,
+          "rank_label": "2/3",
           "hit_at_k": {
             "1": false,
-            "2": false,
+            "2": true,
             "3": true,
             "4": true,
             "5": true
@@ -6560,23 +6558,17 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS005271",
-          "count": 7,
+          "count": 10,
           "rank": 2,
           "rank_label": "2/3"
-        },
-        {
-          "pgs_id": "PGS005270",
-          "count": 3,
-          "rank": 3,
-          "rank_label": "3/3"
         }
       ],
       "feature_mentions": {
-        "ancestry": 10,
+        "ancestry": 8,
         "auc": 10,
         "covariates": 10,
-        "method": 3,
-        "r2": 6,
+        "method": 2,
+        "r2": 4,
         "sample_size": 10,
         "trait_match": 10
       },
@@ -6854,8 +6846,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.013
               },
               {
@@ -6881,7 +6873,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.262,
                 "se": 0.122
               }
@@ -6929,8 +6921,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0193
               },
               {
@@ -6956,7 +6948,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.32,
                 "se": 0.124
               }
@@ -7004,8 +6996,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0276
               },
               {
@@ -7031,7 +7023,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.39,
                 "se": 0.126
               }
@@ -7079,8 +7071,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0109
               },
               {
@@ -7106,7 +7098,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.256,
                 "se": 0.125
               }
@@ -7154,8 +7146,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00682
               },
               {
@@ -7181,7 +7173,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.191,
                 "se": 0.034
               }
@@ -7229,8 +7221,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0087
               },
               {
@@ -7256,7 +7248,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.214,
                 "se": 0.0337
               }
@@ -7304,8 +7296,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00282
               },
               {
@@ -7331,7 +7323,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.125,
                 "se": 0.061
               }
@@ -7379,8 +7371,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00349
               },
               {
@@ -7406,7 +7398,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.139,
                 "se": 0.0606
               }
@@ -7454,8 +7446,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0973
               },
               {
@@ -7481,7 +7473,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.744,
                 "se": 0.131
               }
@@ -7529,8 +7521,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0689
               },
               {
@@ -7556,7 +7548,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.628,
                 "se": 0.0685
               }
@@ -7604,8 +7596,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.102
               },
               {
@@ -7631,7 +7623,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.753,
                 "se": 0.13
               }
@@ -7679,8 +7671,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0665
               },
               {
@@ -7706,7 +7698,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.615,
                 "se": 0.0681
               }
@@ -7754,8 +7746,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0205
               },
               {
@@ -7781,7 +7773,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.313,
                 "se": 0.113
               }
@@ -7829,8 +7821,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0145
               },
               {
@@ -7856,7 +7848,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.278,
                 "se": 0.121
               }
@@ -7909,7 +7901,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.227
               }
             ],
@@ -8277,7 +8269,7 @@
         },
         {
           "id": "PGS003452",
-          "trait_reported": "Waldenström macroglobulinemia",
+          "trait_reported": "Waldenstr\u00f6m macroglobulinemia",
           "trait_efo": "Waldenstrom macroglobulinemia",
           "method_name": "Genome-wide significant SNPs",
           "variants_number": 2,
@@ -8769,10 +8761,10 @@
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "method": 7,
+        "method": 1,
         "r2": 9,
         "sample_size": 10,
-        "trait_match": 6,
+        "trait_match": 9,
         "variants": 10
       },
       "baseline": {
@@ -8954,7 +8946,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.247,
                 "se": 0.095
               }
@@ -9007,7 +8999,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.031
               },
               {
@@ -9073,7 +9065,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.048
               },
               {
@@ -9391,13 +9383,13 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 8,
+        "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "method": 1,
+        "method": 6,
         "r2": 10,
-        "sample_size": 7,
-        "trait_match": 9,
+        "sample_size": 9,
+        "trait_match": 10,
         "variants": 10
       },
       "baseline": {
@@ -9772,7 +9764,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.14978
               },
               {
@@ -9838,7 +9830,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.15134
               },
               {
@@ -10631,7 +10623,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.133
               }
             ]
@@ -10697,7 +10689,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.505665539081399
               }
             ]
@@ -10763,7 +10755,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.502048680634994
               }
             ]
@@ -10827,7 +10819,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.037
               }
             ]
@@ -10890,7 +10882,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.437661585839951
               }
             ]
@@ -10954,7 +10946,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.348528828383883
               }
             ]
@@ -10977,41 +10969,41 @@
           "validation_sample_size": "n=94,651"
         }
       ],
-      "trial_hits": 4,
-      "trial_hit_rate": 0.4,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "trial_hit_counts_at_k": {
-        "1": 4,
-        "2": 4,
-        "3": 10,
-        "4": 10,
-        "5": 10
+        "1": 0,
+        "2": 0,
+        "3": 9,
+        "4": 9,
+        "5": 9
       },
       "trial_hit_rates_at_k": {
-        "1": 0.4,
-        "2": 0.4,
-        "3": 1.0,
-        "4": 1.0,
-        "5": 1.0
+        "1": 0.0,
+        "2": 0.0,
+        "3": 0.9,
+        "4": 0.9,
+        "5": 0.9
       },
       "trial_percentile_hit_counts": {
-        "5": 4,
-        "10": 10,
-        "15": 10,
-        "20": 10,
-        "25": 10
+        "5": 0,
+        "10": 9,
+        "15": 9,
+        "20": 9,
+        "25": 9
       },
       "trial_percentile_hit_rates": {
-        "5": 0.4,
-        "10": 1.0,
-        "15": 1.0,
-        "20": 1.0,
-        "25": 1.0
+        "5": 0.0,
+        "10": 0.9,
+        "15": 0.9,
+        "20": 0.9,
+        "25": 0.9
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS005218",
-      "modal_recommendation_count": 6,
+      "modal_recommendation_count": 9,
       "modal_recommendation_rank": 3,
       "modal_recommendation_rank_label": "3/28",
       "modal_recommendation_hit_at_k": {
@@ -11030,59 +11022,59 @@
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
-        "PGS005268",
-        "PGS005268",
-        "PGS005218",
-        "PGS005268",
         "PGS005218",
         "PGS005218",
         "PGS005218",
-        "PGS005268",
         "PGS005218",
+        "PGS005218",
+        "PGS005218",
+        "PGS005218",
+        "PGS005218",
+        "PGS002766",
         "PGS005218"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS005268",
-          "rank": 1,
-          "rank_label": "1/28",
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
           "hit_at_k": {
-            "1": true,
-            "2": true,
+            "1": false,
+            "2": false,
             "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": true,
+            "5": false,
             "10": true,
             "15": true,
             "20": true,
             "25": true
           },
-          "in_target_topk": true
+          "in_target_topk": false
         },
         {
           "trial": 2,
-          "pgs_id": "PGS005268",
-          "rank": 1,
-          "rank_label": "1/28",
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
           "hit_at_k": {
-            "1": true,
-            "2": true,
+            "1": false,
+            "2": false,
             "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": true,
+            "5": false,
             "10": true,
             "15": true,
             "20": true,
             "25": true
           },
-          "in_target_topk": true
+          "in_target_topk": false
         },
         {
           "trial": 3,
@@ -11107,24 +11099,24 @@
         },
         {
           "trial": 4,
-          "pgs_id": "PGS005268",
-          "rank": 1,
-          "rank_label": "1/28",
+          "pgs_id": "PGS005218",
+          "rank": 3,
+          "rank_label": "3/28",
           "hit_at_k": {
-            "1": true,
-            "2": true,
+            "1": false,
+            "2": false,
             "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": true,
+            "5": false,
             "10": true,
             "15": true,
             "20": true,
             "25": true
           },
-          "in_target_topk": true
+          "in_target_topk": false
         },
         {
           "trial": 5,
@@ -11191,27 +11183,6 @@
         },
         {
           "trial": 8,
-          "pgs_id": "PGS005268",
-          "rank": 1,
-          "rank_label": "1/28",
-          "hit_at_k": {
-            "1": true,
-            "2": true,
-            "3": true,
-            "4": true,
-            "5": true
-          },
-          "percentile_hit": {
-            "5": true,
-            "10": true,
-            "15": true,
-            "20": true,
-            "25": true
-          },
-          "in_target_topk": true
-        },
-        {
-          "trial": 9,
           "pgs_id": "PGS005218",
           "rank": 3,
           "rank_label": "3/28",
@@ -11228,6 +11199,27 @@
             "15": true,
             "20": true,
             "25": true
+          },
+          "in_target_topk": false
+        },
+        {
+          "trial": 9,
+          "pgs_id": "PGS002766",
+          "rank": 18,
+          "rank_label": "18/28",
+          "hit_at_k": {
+            "1": false,
+            "2": false,
+            "3": false,
+            "4": false,
+            "5": false
+          },
+          "percentile_hit": {
+            "5": false,
+            "10": false,
+            "15": false,
+            "20": false,
+            "25": false
           },
           "in_target_topk": false
         },
@@ -11256,26 +11248,26 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS005218",
-          "count": 6,
+          "count": 9,
           "rank": 3,
           "rank_label": "3/28"
         },
         {
-          "pgs_id": "PGS005268",
-          "count": 4,
-          "rank": 1,
-          "rank_label": "1/28"
+          "pgs_id": "PGS002766",
+          "count": 1,
+          "rank": 18,
+          "rank_label": "18/28"
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 7,
         "auc": 10,
         "covariates": 10,
-        "method": 3,
-        "r2": 5,
-        "sample_size": 8,
-        "trait_match": 6,
-        "variants": 4
+        "method": 4,
+        "r2": 4,
+        "sample_size": 10,
+        "trait_match": 10,
+        "variants": 5
       },
       "baseline": {
         "pgs_id": "PGS001181",
@@ -11876,8 +11868,9 @@
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "r2": 6,
-        "sample_size": 2,
+        "method": 3,
+        "r2": 4,
+        "sample_size": 3,
         "trait_match": 10,
         "variants": 4
       },
@@ -12200,8 +12193,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00398
               },
               {
@@ -12227,7 +12220,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.143,
                 "se": 0.0426
               }
@@ -12275,8 +12268,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00398
               },
               {
@@ -12302,7 +12295,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.143,
                 "se": 0.0426
               }
@@ -12434,7 +12427,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.366
               }
             ],
@@ -12952,10 +12945,9 @@
         "ancestry": 9,
         "auc": 10,
         "covariates": 10,
-        "r2": 7,
-        "sample_size": 6,
-        "trait_match": 4,
-        "variants": 1
+        "r2": 3,
+        "sample_size": 9,
+        "trait_match": 3
       },
       "baseline": {
         "pgs_id": "PGS004908",
@@ -13184,7 +13176,7 @@
         },
         {
           "id": "PGS000334",
-          "trait_reported": "Late-onset Alzheimer’s disease ",
+          "trait_reported": "Late-onset Alzheimer\u2019s disease ",
           "trait_efo": "late-onset Alzheimer's disease",
           "method_name": "Clumping and Thresholding (C+T)",
           "variants_number": 22,
@@ -13210,7 +13202,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.191,
                 "ci_lower": 0.131,
                 "ci_upper": 0.269
@@ -13218,7 +13210,7 @@
             ],
             "effect_sizes": []
           },
-          "phenotyping_reported": "Late-onset Alzheimer’s disease",
+          "phenotyping_reported": "Late-onset Alzheimer\u2019s disease",
           "covariates": "Unknown",
           "training_development_cohorts": [
             "IGAP",
@@ -13293,7 +13285,7 @@
           "variants_number": 8,
           "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
           "publication": {
-            "title": "Genetic variants in glutamate-, Aβ-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
+            "title": "Genetic variants in glutamate-, A\u03b2-, and tau-related pathways determine polygenic risk for Alzheimer's disease.",
             "journal": "Neurobiol Aging"
           },
           "date_release": "2024-06-12",
@@ -13331,41 +13323,41 @@
           "validation_sample_size": "n=136"
         }
       ],
-      "trial_hits": 8,
-      "trial_hit_rate": 0.8,
+      "trial_hits": 10,
+      "trial_hit_rate": 1.0,
       "trial_hit_counts_at_k": {
-        "1": 8,
-        "2": 8,
-        "3": 8,
-        "4": 8,
+        "1": 10,
+        "2": 10,
+        "3": 10,
+        "4": 10,
         "5": 10
       },
       "trial_hit_rates_at_k": {
-        "1": 0.8,
-        "2": 0.8,
-        "3": 0.8,
-        "4": 0.8,
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
         "5": 1.0
       },
       "trial_percentile_hit_counts": {
-        "5": 8,
-        "10": 8,
-        "15": 8,
-        "20": 8,
-        "25": 8
+        "5": 10,
+        "10": 10,
+        "15": 10,
+        "20": 10,
+        "25": 10
       },
       "trial_percentile_hit_rates": {
-        "5": 0.8,
-        "10": 0.8,
-        "15": 0.8,
-        "20": 0.8,
-        "25": 0.8
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS000054",
-      "modal_recommendation_count": 8,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/5",
       "modal_recommendation_hit_at_k": {
@@ -13386,10 +13378,10 @@
       "trial_recommendations": [
         "PGS000054",
         "PGS000054",
-        "PGS000053",
         "PGS000054",
         "PGS000054",
-        "PGS000053",
+        "PGS000054",
+        "PGS000054",
         "PGS000054",
         "PGS000054",
         "PGS000054",
@@ -13440,24 +13432,24 @@
         },
         {
           "trial": 3,
-          "pgs_id": "PGS000053",
-          "rank": 5,
-          "rank_label": "5/5",
+          "pgs_id": "PGS000054",
+          "rank": 1,
+          "rank_label": "1/5",
           "hit_at_k": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": false,
-            "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           },
-          "in_target_topk": false
+          "in_target_topk": true
         },
         {
           "trial": 4,
@@ -13503,24 +13495,24 @@
         },
         {
           "trial": 6,
-          "pgs_id": "PGS000053",
-          "rank": 5,
-          "rank_label": "5/5",
+          "pgs_id": "PGS000054",
+          "rank": 1,
+          "rank_label": "1/5",
           "hit_at_k": {
-            "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": false,
-            "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
           },
-          "in_target_topk": false
+          "in_target_topk": true
         },
         {
           "trial": 7,
@@ -13610,27 +13602,20 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS000054",
-          "count": 8,
+          "count": 10,
           "rank": 1,
           "rank_label": "1/5"
-        },
-        {
-          "pgs_id": "PGS000053",
-          "count": 2,
-          "rank": 5,
-          "rank_label": "5/5"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
-        "auc": 10,
+        "auc": 9,
         "covariates": 10,
-        "heritability": 5,
-        "method": 1,
+        "heritability": 6,
+        "method": 2,
         "r2": 10,
         "sample_size": 8,
-        "trait_match": 10,
-        "variants": 2
+        "trait_match": 10
       },
       "baseline": {
         "pgs_id": "PGS004918",
@@ -13869,7 +13854,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.047
               }
             ]
@@ -13935,7 +13920,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.342444736541657
               }
             ]
@@ -14001,7 +13986,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.308952736001074
               }
             ]
@@ -14065,7 +14050,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.438588918302023
               }
             ]
@@ -14127,7 +14112,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.401096723418125
               }
             ]
@@ -14433,13 +14418,12 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 10,
+        "ancestry": 9,
         "auc": 10,
         "covariates": 10,
-        "method": 2,
-        "r2": 2,
+        "r2": 3,
         "sample_size": 8,
-        "trait_match": 6,
+        "trait_match": 8,
         "variants": 1
       },
       "baseline": {
@@ -14599,7 +14583,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.01814
               },
               {
@@ -14743,7 +14727,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.0192
               }
             ],
@@ -14783,7 +14767,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.149,
                 "se": 0.028
               }
@@ -14905,7 +14889,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 1.60817500694587
               }
             ]
@@ -14946,7 +14930,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 1.76187749677908
               }
             ]
@@ -15287,14 +15271,14 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 5,
         "auc": 10,
-        "covariates": 8,
-        "method": 10,
+        "covariates": 9,
+        "method": 9,
         "r2": 10,
         "sample_size": 8,
         "trait_match": 10,
-        "variants": 10
+        "variants": 9
       },
       "baseline": {
         "pgs_id": "PGS001298",
@@ -15497,7 +15481,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0174,
                 "se": 0.016
               }
@@ -15554,7 +15538,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.00225,
                 "se": 0.0161
               }
@@ -15611,7 +15595,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0252,
                 "se": 0.0162
               }
@@ -15668,7 +15652,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0258,
                 "se": 0.016
               }
@@ -15725,7 +15709,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0154,
                 "se": 0.0161
               }
@@ -15782,7 +15766,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0517,
                 "se": 0.0162
               }
@@ -15839,7 +15823,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0708,
                 "se": 0.0162
               }
@@ -15896,7 +15880,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0595,
                 "se": 0.0162
               }
@@ -15953,7 +15937,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0135,
                 "se": 0.016
               }
@@ -16010,7 +15994,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.101,
                 "se": 0.0162
               }
@@ -16067,7 +16051,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.00364,
                 "se": 0.0214
               }
@@ -16124,7 +16108,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0331,
                 "se": 0.0215
               }
@@ -16182,7 +16166,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.00819,
                 "se": 0.0214
               }
@@ -16239,7 +16223,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0207,
                 "se": 0.0211
               }
@@ -16296,7 +16280,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.00286,
                 "se": 0.0214
               }
@@ -16338,7 +16322,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.038,
                 "se": 0.093
               }
@@ -16386,7 +16370,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.014,
                 "se": 0.017
               }
@@ -16436,7 +16420,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.066,
                 "se": 0.017
               }
@@ -16837,13 +16821,14 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 10,
-        "method": 6,
-        "sample_size": 10,
-        "trait_match": 7,
-        "variants": 7
+        "covariates": 7,
+        "method": 2,
+        "r2": 1,
+        "sample_size": 9,
+        "trait_match": 8,
+        "variants": 4
       },
       "baseline": {
         "pgs_id": "PGS005219",
@@ -17494,12 +17479,11 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 10,
-        "method": 1,
-        "r2": 7,
+        "covariates": 8,
+        "heritability": 1,
+        "r2": 10,
         "sample_size": 10,
-        "trait_match": 10,
-        "variants": 2
+        "trait_match": 9
       },
       "baseline": {
         "pgs_id": "PGS001797",
@@ -18102,14 +18086,13 @@
       ],
       "feature_mentions": {
         "ancestry": 10,
-        "auc": 7,
-        "covariates": 10,
-        "heritability": 1,
-        "method": 3,
-        "r2": 7,
+        "auc": 6,
+        "covariates": 9,
+        "method": 1,
+        "r2": 6,
         "sample_size": 10,
-        "trait_match": 7,
-        "variants": 2
+        "trait_match": 8,
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS005217",
@@ -18633,9 +18616,10 @@
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
-        "covariates": 7,
+        "covariates": 10,
+        "method": 1,
         "r2": 10,
-        "sample_size": 9,
+        "sample_size": 7,
         "trait_match": 10
       },
       "baseline": null,
@@ -19514,8 +19498,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0271
               },
               {
@@ -19541,7 +19525,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.361,
                 "se": 0.0363
               }
@@ -19589,8 +19573,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0245
               },
               {
@@ -19616,7 +19600,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.332,
                 "se": 0.0352
               }
@@ -19664,8 +19648,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0379
               },
               {
@@ -19691,7 +19675,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.409,
                 "se": 0.0354
               }
@@ -19739,8 +19723,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0281
               },
               {
@@ -19766,7 +19750,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.355,
                 "se": 0.035
               }
@@ -19814,8 +19798,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0543
               },
               {
@@ -19841,7 +19825,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.496,
                 "se": 0.036
               }
@@ -19889,8 +19873,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0453
               },
               {
@@ -19916,7 +19900,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.452,
                 "se": 0.0359
               }
@@ -19964,8 +19948,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0583
               },
               {
@@ -19991,7 +19975,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.513,
                 "se": 0.0363
               }
@@ -20039,8 +20023,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0418
               },
               {
@@ -20066,7 +20050,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.43,
                 "se": 0.0358
               }
@@ -20114,8 +20098,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0497
               },
               {
@@ -20141,7 +20125,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.472,
                 "se": 0.0355
               }
@@ -20189,8 +20173,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.039
               },
               {
@@ -20216,7 +20200,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.41,
                 "se": 0.0352
               }
@@ -20264,8 +20248,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0456
               },
               {
@@ -20291,7 +20275,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.456,
                 "se": 0.0359
               }
@@ -20339,8 +20323,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0358
               },
               {
@@ -20366,7 +20350,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.398,
                 "se": 0.0353
               }
@@ -20414,8 +20398,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0678
               },
               {
@@ -20441,7 +20425,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.563,
                 "se": 0.0366
               }
@@ -20489,8 +20473,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0565
               },
               {
@@ -20516,7 +20500,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.557,
                 "se": 0.0192
               }
@@ -20564,8 +20548,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0675
               },
               {
@@ -20591,7 +20575,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.558,
                 "se": 0.0364
               }
@@ -20639,8 +20623,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0568
               },
               {
@@ -20666,7 +20650,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.559,
                 "se": 0.0192
               }
@@ -20714,8 +20698,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.071
               },
               {
@@ -20741,7 +20725,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.582,
                 "se": 0.0371
               }
@@ -20789,8 +20773,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0776
               },
               {
@@ -20816,7 +20800,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.671,
                 "se": 0.0201
               }
@@ -20864,8 +20848,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0874
               },
               {
@@ -20891,7 +20875,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.657,
                 "se": 0.038
               }
@@ -20939,8 +20923,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.1
               },
               {
@@ -20966,7 +20950,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.776,
                 "se": 0.0206
               }
@@ -21014,8 +20998,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0837
               },
               {
@@ -21041,7 +21025,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.645,
                 "se": 0.0378
               }
@@ -21089,8 +21073,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0837
               },
               {
@@ -21116,7 +21100,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.702,
                 "se": 0.0203
               }
@@ -21164,8 +21148,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0861
               },
               {
@@ -21191,7 +21175,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.645,
                 "se": 0.0375
               }
@@ -21239,8 +21223,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0943
               },
               {
@@ -21266,7 +21250,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.755,
                 "se": 0.0206
               }
@@ -21314,8 +21298,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0532
               },
               {
@@ -21341,7 +21325,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.489,
                 "se": 0.0356
               }
@@ -21389,8 +21373,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0395
               },
               {
@@ -21416,7 +21400,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.416,
                 "se": 0.0353
               }
@@ -21464,8 +21448,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.051
               },
               {
@@ -21491,7 +21475,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.475,
                 "se": 0.0359
               }
@@ -21539,8 +21523,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0408
               },
               {
@@ -21566,7 +21550,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.43,
                 "se": 0.0357
               }
@@ -22121,7 +22105,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.51
               }
             ],
@@ -22363,7 +22347,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.29589
               },
               {
@@ -22429,7 +22413,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.01155
               },
               {
@@ -23242,7 +23226,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.0798
               }
             ],
@@ -23592,7 +23576,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.107886,
                 "ci_lower": 0.10250031,
                 "ci_upper": 0.11315488
@@ -23608,7 +23592,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.70211713,
                 "ci_lower": 0.68367445,
                 "ci_upper": 0.7205598
@@ -23658,7 +23642,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.10955344,
                 "ci_lower": 0.10434197,
                 "ci_upper": 0.1151718
@@ -23674,7 +23658,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.71106465,
                 "ci_lower": 0.69252182,
                 "ci_upper": 0.72960748
@@ -23724,7 +23708,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.11538263,
                 "ci_lower": 0.11020074,
                 "ci_upper": 0.12097632
@@ -23740,7 +23724,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.73090514,
                 "ci_lower": 0.71229634,
                 "ci_upper": 0.74951394
@@ -23790,7 +23774,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.12024169,
                 "ci_lower": 0.1150319,
                 "ci_upper": 0.12575818
@@ -23806,7 +23790,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.74781517,
                 "ci_lower": 0.72913674,
                 "ci_upper": 0.76649361
@@ -23856,7 +23840,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.1166208,
                 "ci_lower": 0.11151327,
                 "ci_upper": 0.1224519
@@ -23872,7 +23856,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.73391851,
                 "ci_lower": 0.71532344,
                 "ci_upper": 0.75251358
@@ -23922,7 +23906,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.1166704,
                 "ci_lower": 0.11154524,
                 "ci_upper": 0.12247006
@@ -23938,7 +23922,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.72893722,
                 "ci_lower": 0.71046467,
                 "ci_upper": 0.74740976
@@ -23988,7 +23972,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.11337255,
                 "ci_lower": 0.10797044,
                 "ci_upper": 0.11887705
@@ -24004,7 +23988,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.72005404,
                 "ci_lower": 0.70156954,
                 "ci_upper": 0.73853853
@@ -24054,7 +24038,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.11357666,
                 "ci_lower": 0.10818829,
                 "ci_upper": 0.11891045
@@ -24070,7 +24054,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.72042161,
                 "ci_lower": 0.70194216,
                 "ci_upper": 0.73890106
@@ -24120,7 +24104,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.07079919,
                 "ci_lower": 0.06025191,
                 "ci_upper": 0.08141476
@@ -24136,7 +24120,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.56032052,
                 "ci_lower": 0.51838281,
                 "ci_upper": 0.60225822
@@ -24186,7 +24170,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.08013494,
                 "ci_lower": 0.07594604,
                 "ci_upper": 0.0849066
@@ -24202,7 +24186,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.6035726,
                 "ci_lower": 0.58533427,
                 "ci_upper": 0.62181093
@@ -24252,7 +24236,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.12126993,
                 "ci_lower": 0.11622782,
                 "ci_upper": 0.12684792
@@ -24268,7 +24252,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.74626937,
                 "ci_lower": 0.72769869,
                 "ci_upper": 0.76484005
@@ -24318,7 +24302,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.12803272,
                 "ci_lower": 0.12275071,
                 "ci_upper": 0.13385339
@@ -24334,7 +24318,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.77294139,
                 "ci_lower": 0.75418521,
                 "ci_upper": 0.79169757
@@ -24730,7 +24714,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.565
               }
             ]
@@ -25035,24 +25019,24 @@
       "trial_percentile_hit_counts": {
         "5": 0,
         "10": 0,
-        "15": 0,
-        "20": 0,
-        "25": 0
+        "15": 1,
+        "20": 1,
+        "25": 1
       },
       "trial_percentile_hit_rates": {
         "5": 0.0,
         "10": 0.0,
-        "15": 0.0,
-        "20": 0.0,
-        "25": 0.0
+        "15": 0.1,
+        "20": 0.1,
+        "25": 0.1
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS004155",
-      "modal_recommendation_count": 5,
-      "modal_recommendation_rank": 30,
-      "modal_recommendation_rank_label": "30/96",
+      "modal_recommendation": "PGS005238",
+      "modal_recommendation_count": 4,
+      "modal_recommendation_rank": 51,
+      "modal_recommendation_rank_label": "51/96",
       "modal_recommendation_hit_at_k": {
         "1": false,
         "2": false,
@@ -25070,15 +25054,15 @@
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
         "PGS005238",
-        "PGS005238",
-        "PGS005238",
         "PGS004155",
         "PGS004155",
+        "PGS000582",
+        "PGS005238",
+        "PGS003383",
+        "PGS005238",
         "PGS003415",
         "PGS004155",
-        "PGS005238",
-        "PGS004155",
-        "PGS004155"
+        "PGS005238"
       ],
       "trial_recommendations_detailed": [
         {
@@ -25104,9 +25088,9 @@
         },
         {
           "trial": 2,
-          "pgs_id": "PGS005238",
-          "rank": 51,
-          "rank_label": "51/96",
+          "pgs_id": "PGS004155",
+          "rank": 30,
+          "rank_label": "30/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25125,9 +25109,9 @@
         },
         {
           "trial": 3,
-          "pgs_id": "PGS005238",
-          "rank": 51,
-          "rank_label": "51/96",
+          "pgs_id": "PGS004155",
+          "rank": 30,
+          "rank_label": "30/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25146,9 +25130,9 @@
         },
         {
           "trial": 4,
-          "pgs_id": "PGS004155",
-          "rank": 30,
-          "rank_label": "30/96",
+          "pgs_id": "PGS000582",
+          "rank": 92,
+          "rank_label": "92/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25167,9 +25151,9 @@
         },
         {
           "trial": 5,
-          "pgs_id": "PGS004155",
-          "rank": 30,
-          "rank_label": "30/96",
+          "pgs_id": "PGS005238",
+          "rank": 51,
+          "rank_label": "51/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25188,9 +25172,9 @@
         },
         {
           "trial": 6,
-          "pgs_id": "PGS003415",
-          "rank": 79,
-          "rank_label": "79/96",
+          "pgs_id": "PGS003383",
+          "rank": 14,
+          "rank_label": "14/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25201,17 +25185,17 @@
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
         {
           "trial": 7,
-          "pgs_id": "PGS004155",
-          "rank": 30,
-          "rank_label": "30/96",
+          "pgs_id": "PGS005238",
+          "rank": 51,
+          "rank_label": "51/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25230,9 +25214,9 @@
         },
         {
           "trial": 8,
-          "pgs_id": "PGS005238",
-          "rank": 51,
-          "rank_label": "51/96",
+          "pgs_id": "PGS003415",
+          "rank": 79,
+          "rank_label": "79/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25272,9 +25256,9 @@
         },
         {
           "trial": 10,
-          "pgs_id": "PGS004155",
-          "rank": 30,
-          "rank_label": "30/96",
+          "pgs_id": "PGS005238",
+          "rank": 51,
+          "rank_label": "51/96",
           "hit_at_k": {
             "1": false,
             "2": false,
@@ -25294,33 +25278,45 @@
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS004155",
-          "count": 5,
-          "rank": 30,
-          "rank_label": "30/96"
-        },
-        {
           "pgs_id": "PGS005238",
           "count": 4,
           "rank": 51,
           "rank_label": "51/96"
         },
         {
+          "pgs_id": "PGS004155",
+          "count": 3,
+          "rank": 30,
+          "rank_label": "30/96"
+        },
+        {
+          "pgs_id": "PGS003383",
+          "count": 1,
+          "rank": 14,
+          "rank_label": "14/96"
+        },
+        {
           "pgs_id": "PGS003415",
           "count": 1,
           "rank": 79,
           "rank_label": "79/96"
+        },
+        {
+          "pgs_id": "PGS000582",
+          "count": 1,
+          "rank": 92,
+          "rank_label": "92/96"
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 9,
-        "method": 6,
-        "r2": 5,
+        "covariates": 10,
+        "method": 4,
+        "r2": 3,
         "sample_size": 10,
-        "trait_match": 7,
-        "variants": 4
+        "trait_match": 5,
+        "variants": 2
       },
       "baseline": {
         "pgs_id": "PGS001291",
@@ -25469,7 +25465,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.03998
               },
               {
@@ -25535,7 +25531,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.03366
               },
               {
@@ -25601,7 +25597,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.01763
               },
               {
@@ -25667,7 +25663,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.04057
               },
               {
@@ -25833,78 +25829,78 @@
       "trial_hit_rate": 0.0,
       "trial_hit_counts_at_k": {
         "1": 0,
-        "2": 0,
-        "3": 0,
-        "4": 3,
-        "5": 3
+        "2": 6,
+        "3": 10,
+        "4": 10,
+        "5": 10
       },
       "trial_hit_rates_at_k": {
         "1": 0.0,
-        "2": 0.0,
-        "3": 0.0,
-        "4": 0.3,
-        "5": 0.3
+        "2": 0.6,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
       },
       "trial_percentile_hit_counts": {
         "5": 0,
         "10": 0,
-        "15": 0,
-        "20": 0,
-        "25": 0
+        "15": 6,
+        "20": 6,
+        "25": 6
       },
       "trial_percentile_hit_rates": {
         "5": 0.0,
         "10": 0.0,
-        "15": 0.0,
-        "20": 0.0,
-        "25": 0.0
+        "15": 0.6,
+        "20": 0.6,
+        "25": 0.6
       },
       "valid_outputs": 10,
       "valid_output_rate": 1.0,
       "errors": 0,
-      "modal_recommendation": "PGS003861",
-      "modal_recommendation_count": 7,
-      "modal_recommendation_rank": 7,
-      "modal_recommendation_rank_label": "7/7",
+      "modal_recommendation": "PGS001280",
+      "modal_recommendation_count": 6,
+      "modal_recommendation_rank": 2,
+      "modal_recommendation_rank_label": "2/7",
       "modal_recommendation_hit_at_k": {
         "1": false,
-        "2": false,
-        "3": false,
-        "4": false,
-        "5": false
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
       },
       "modal_recommendation_percentile_hit": {
         "5": false,
         "10": false,
-        "15": false,
-        "20": false,
-        "25": false
+        "15": true,
+        "20": true,
+        "25": true
       },
       "modal_recommendation_in_target_topk": false,
       "trial_recommendations": [
-        "PGS003861",
-        "PGS003861",
-        "PGS003861",
-        "PGS003861",
-        "PGS003861",
-        "PGS001279",
-        "PGS003861",
-        "PGS003861",
-        "PGS001279",
-        "PGS001279"
+        "PGS001277",
+        "PGS001277",
+        "PGS001277",
+        "PGS001277",
+        "PGS001280",
+        "PGS001280",
+        "PGS001280",
+        "PGS001280",
+        "PGS001280",
+        "PGS001280"
       ],
       "trial_recommendations_detailed": [
         {
           "trial": 1,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001277",
+          "rank": 3,
+          "rank_label": "3/7",
           "hit_at_k": {
             "1": false,
             "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
@@ -25917,15 +25913,15 @@
         },
         {
           "trial": 2,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001277",
+          "rank": 3,
+          "rank_label": "3/7",
           "hit_at_k": {
             "1": false,
             "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
@@ -25938,15 +25934,15 @@
         },
         {
           "trial": 3,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001277",
+          "rank": 3,
+          "rank_label": "3/7",
           "hit_at_k": {
             "1": false,
             "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
@@ -25959,15 +25955,15 @@
         },
         {
           "trial": 4,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001277",
+          "rank": 3,
+          "rank_label": "3/7",
           "hit_at_k": {
             "1": false,
             "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
@@ -25980,153 +25976,153 @@
         },
         {
           "trial": 5,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001280",
+          "rank": 2,
+          "rank_label": "2/7",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
         {
           "trial": 6,
-          "pgs_id": "PGS001279",
-          "rank": 4,
-          "rank_label": "4/7",
+          "pgs_id": "PGS001280",
+          "rank": 2,
+          "rank_label": "2/7",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
+            "2": true,
+            "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
         {
           "trial": 7,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001280",
+          "rank": 2,
+          "rank_label": "2/7",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
         {
           "trial": 8,
-          "pgs_id": "PGS003861",
-          "rank": 7,
-          "rank_label": "7/7",
+          "pgs_id": "PGS001280",
+          "rank": 2,
+          "rank_label": "2/7",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
-            "4": false,
-            "5": false
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
         {
           "trial": 9,
-          "pgs_id": "PGS001279",
-          "rank": 4,
-          "rank_label": "4/7",
+          "pgs_id": "PGS001280",
+          "rank": 2,
+          "rank_label": "2/7",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
+            "2": true,
+            "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         },
         {
           "trial": 10,
-          "pgs_id": "PGS001279",
-          "rank": 4,
-          "rank_label": "4/7",
+          "pgs_id": "PGS001280",
+          "rank": 2,
+          "rank_label": "2/7",
           "hit_at_k": {
             "1": false,
-            "2": false,
-            "3": false,
+            "2": true,
+            "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
             "5": false,
             "10": false,
-            "15": false,
-            "20": false,
-            "25": false
+            "15": true,
+            "20": true,
+            "25": true
           },
           "in_target_topk": false
         }
       ],
       "recommended_model_counts": [
         {
-          "pgs_id": "PGS003861",
-          "count": 7,
-          "rank": 7,
-          "rank_label": "7/7"
+          "pgs_id": "PGS001280",
+          "count": 6,
+          "rank": 2,
+          "rank_label": "2/7"
         },
         {
-          "pgs_id": "PGS001279",
-          "count": 3,
-          "rank": 4,
-          "rank_label": "4/7"
+          "pgs_id": "PGS001277",
+          "count": 4,
+          "rank": 3,
+          "rank_label": "3/7"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "heritability": 2,
+        "heritability": 7,
         "method": 10,
         "r2": 10,
-        "sample_size": 2,
+        "sample_size": 1,
         "trait_match": 10,
         "variants": 10
       },
@@ -26526,7 +26522,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.366
               }
             ],
@@ -27041,12 +27037,12 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 9,
+        "ancestry": 10,
         "auc": 10,
-        "covariates": 10,
-        "r2": 2,
-        "sample_size": 9,
-        "trait_match": 8
+        "covariates": 9,
+        "r2": 3,
+        "sample_size": 10,
+        "trait_match": 6
       },
       "baseline": {
         "pgs_id": "PGS004908",
@@ -27176,8 +27172,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00141
               },
               {
@@ -27203,7 +27199,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0865,
                 "se": 0.0437
               }
@@ -27251,8 +27247,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0154
               },
               {
@@ -27278,7 +27274,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.269,
                 "se": 0.0407
               }
@@ -27326,8 +27322,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0255
               },
               {
@@ -27353,7 +27349,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.337,
                 "se": 0.0393
               }
@@ -27655,12 +27651,11 @@
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "heritability": 2,
-        "method": 6,
+        "method": 4,
         "r2": 10,
-        "sample_size": 8,
+        "sample_size": 9,
         "trait_match": 10,
-        "variants": 3
+        "variants": 1
       },
       "baseline": {
         "pgs_id": "PGS000471",
@@ -27863,7 +27858,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0174,
                 "se": 0.016
               }
@@ -27920,7 +27915,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.00225,
                 "se": 0.0161
               }
@@ -27977,7 +27972,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0252,
                 "se": 0.0162
               }
@@ -28034,7 +28029,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0258,
                 "se": 0.016
               }
@@ -28091,7 +28086,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0154,
                 "se": 0.0161
               }
@@ -28148,7 +28143,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0517,
                 "se": 0.0162
               }
@@ -28205,7 +28200,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0708,
                 "se": 0.0162
               }
@@ -28262,7 +28257,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0595,
                 "se": 0.0162
               }
@@ -28319,7 +28314,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0135,
                 "se": 0.016
               }
@@ -28376,7 +28371,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.101,
                 "se": 0.0162
               }
@@ -28433,7 +28428,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.00364,
                 "se": 0.0214
               }
@@ -28490,7 +28485,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.0331,
                 "se": 0.0215
               }
@@ -28548,7 +28543,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": -0.00819,
                 "se": 0.0214
               }
@@ -28605,7 +28600,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.0207,
                 "se": 0.0211
               }
@@ -28662,7 +28657,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.00286,
                 "se": 0.0214
               }
@@ -28704,7 +28699,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.038,
                 "se": 0.093
               }
@@ -28752,7 +28747,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.014,
                 "se": 0.017
               }
@@ -28802,7 +28797,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.066,
                 "se": 0.017
               }
@@ -28918,31 +28913,31 @@
           "validation_sample_size": "n=21,975"
         }
       ],
-      "trial_hits": 10,
-      "trial_hit_rate": 1.0,
+      "trial_hits": 9,
+      "trial_hit_rate": 0.9,
       "trial_hit_counts_at_k": {
-        "1": 10,
+        "1": 9,
         "2": 10,
         "3": 10,
         "4": 10,
         "5": 10
       },
       "trial_hit_rates_at_k": {
-        "1": 1.0,
+        "1": 0.9,
         "2": 1.0,
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
       },
       "trial_percentile_hit_counts": {
-        "5": 10,
+        "5": 9,
         "10": 10,
         "15": 10,
         "20": 10,
         "25": 10
       },
       "trial_percentile_hit_rates": {
-        "5": 1.0,
+        "5": 0.9,
         "10": 1.0,
         "15": 1.0,
         "20": 1.0,
@@ -28952,7 +28947,7 @@
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS005220",
-      "modal_recommendation_count": 10,
+      "modal_recommendation_count": 9,
       "modal_recommendation_rank": 1,
       "modal_recommendation_rank_label": "1/20",
       "modal_recommendation_hit_at_k": {
@@ -28973,7 +28968,7 @@
       "trial_recommendations": [
         "PGS005220",
         "PGS005220",
-        "PGS005220",
+        "PGS005219",
         "PGS005220",
         "PGS005220",
         "PGS005220",
@@ -29027,24 +29022,24 @@
         },
         {
           "trial": 3,
-          "pgs_id": "PGS005220",
-          "rank": 1,
-          "rank_label": "1/20",
+          "pgs_id": "PGS005219",
+          "rank": 2,
+          "rank_label": "2/20",
           "hit_at_k": {
-            "1": true,
+            "1": false,
             "2": true,
             "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": true,
+            "5": false,
             "10": true,
             "15": true,
             "20": true,
             "25": true
           },
-          "in_target_topk": true
+          "in_target_topk": false
         },
         {
           "trial": 4,
@@ -29197,20 +29192,24 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS005220",
-          "count": 10,
+          "count": 9,
           "rank": 1,
           "rank_label": "1/20"
+        },
+        {
+          "pgs_id": "PGS005219",
+          "count": 1,
+          "rank": 2,
+          "rank_label": "2/20"
         }
       ],
       "feature_mentions": {
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "method": 1,
-        "r2": 1,
-        "sample_size": 10,
-        "trait_match": 10,
-        "variants": 5
+        "sample_size": 9,
+        "trait_match": 4,
+        "variants": 2
       },
       "baseline": {
         "pgs_id": "PGS005219",
@@ -29380,8 +29379,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0543
               },
               {
@@ -29407,7 +29406,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.538,
                 "se": 0.129
               }
@@ -29455,8 +29454,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0475
               },
               {
@@ -29482,7 +29481,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.519,
                 "se": 0.139
               }
@@ -29530,8 +29529,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0487
               },
               {
@@ -29557,7 +29556,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.511,
                 "se": 0.128
               }
@@ -29605,8 +29604,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0447
               },
               {
@@ -29632,7 +29631,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.494,
                 "se": 0.133
               }
@@ -29680,8 +29679,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0473
               },
               {
@@ -29707,7 +29706,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.487,
                 "se": 0.122
               }
@@ -29755,8 +29754,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.046
               },
               {
@@ -29782,7 +29781,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.482,
                 "se": 0.125
               }
@@ -29830,8 +29829,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0258
               },
               {
@@ -29850,7 +29849,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.363,
                 "se": 0.122
               }
@@ -29898,8 +29897,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0839
               },
               {
@@ -29925,7 +29924,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.72,
                 "se": 0.0993
               }
@@ -29973,8 +29972,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.044
               },
               {
@@ -30000,7 +29999,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.485,
                 "se": 0.126
               }
@@ -30053,8 +30052,8 @@
                 "estimate": 0.0793
               },
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0882
               },
               {
@@ -30075,7 +30074,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.745,
                 "se": 0.101
               }
@@ -30128,7 +30127,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.605
               }
             ],
@@ -30196,7 +30195,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.1291
               },
               {
@@ -30555,14 +30554,14 @@
         }
       ],
       "feature_mentions": {
-        "ancestry": 10,
+        "ancestry": 8,
         "auc": 10,
         "covariates": 10,
-        "method": 9,
-        "r2": 8,
-        "sample_size": 6,
-        "trait_match": 10,
-        "variants": 9
+        "method": 6,
+        "r2": 9,
+        "sample_size": 7,
+        "trait_match": 7,
+        "variants": 8
       },
       "baseline": {
         "pgs_id": "PGS001164",
@@ -30817,7 +30816,7 @@
             ]
           },
           "phenotyping_reported": "Incident thyroid cancer",
-          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30)",
+          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
           "training_development_cohorts": [],
           "validation_sample_size": "n=391,189"
         },
@@ -31035,8 +31034,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0041
               },
               {
@@ -31062,7 +31061,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.149,
                 "se": 0.052
               }
@@ -31110,8 +31109,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0107
               },
               {
@@ -31137,7 +31136,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.239,
                 "se": 0.0515
               }
@@ -31185,8 +31184,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0114
               },
               {
@@ -31212,7 +31211,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.244,
                 "se": 0.0509
               }
@@ -31260,8 +31259,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00247
               },
               {
@@ -31280,7 +31279,7 @@
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.114,
                 "se": 0.0517
               },
@@ -31335,8 +31334,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0393
               },
               {
@@ -31362,7 +31361,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.469,
                 "se": 0.0536
               }
@@ -31410,8 +31409,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0478
               },
               {
@@ -31437,7 +31436,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.501,
                 "se": 0.0806
               }
@@ -31485,8 +31484,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0365
               },
               {
@@ -31512,7 +31511,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.45,
                 "se": 0.0532
               }
@@ -31560,8 +31559,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0447
               },
               {
@@ -31587,7 +31586,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.476,
                 "se": 0.0783
               }
@@ -31635,8 +31634,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.00228
               },
               {
@@ -31662,7 +31661,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.112,
                 "se": 0.053
               }
@@ -31710,8 +31709,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0151
               },
               {
@@ -31737,7 +31736,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.274,
                 "se": 0.0492
               }
@@ -31785,8 +31784,8 @@
             ],
             "other_metrics": [
               {
-                "name_long": "Nagelkerke's Pseudo-R²",
-                "name_short": "Nagelkerke's Pseudo-R²",
+                "name_long": "Nagelkerke's Pseudo-R\u00b2",
+                "name_short": "Nagelkerke's Pseudo-R\u00b2",
                 "estimate": 0.0205
               },
               {
@@ -31812,7 +31811,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.325,
                 "se": 0.0507
               }
@@ -31865,7 +31864,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.31
               }
             ],
@@ -31880,7 +31879,7 @@
             ]
           },
           "phenotyping_reported": "Incident thyroid cancer",
-          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30)",
+          "covariates": "Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25\u2264BMI<30, BMI\u226530)",
           "training_development_cohorts": [
             "ICR",
             "NBS",
@@ -31926,7 +31925,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.016
               },
               {
@@ -32423,7 +32422,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.016
               }
             ]
@@ -32492,7 +32491,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.71142253524162
               }
             ]
@@ -32561,7 +32560,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.673041992501825
               }
             ]
@@ -32626,7 +32625,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.438588918302023
               }
             ]
@@ -32688,7 +32687,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.401096723418125
               }
             ]
@@ -32997,10 +32996,10 @@
         "ancestry": 10,
         "auc": 10,
         "covariates": 10,
-        "method": 2,
-        "sample_size": 9,
-        "trait_match": 10,
-        "variants": 3
+        "method": 1,
+        "sample_size": 10,
+        "trait_match": 9,
+        "variants": 2
       },
       "baseline": {
         "pgs_id": "PGS001289",
@@ -33188,7 +33187,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
           "training_development_cohorts": [
             "TwinGene"
           ],
@@ -33243,7 +33242,7 @@
             ]
           },
           "phenotyping_reported": "Incident endometrial cancer",
-          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years),",
+          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
           "training_development_cohorts": [],
           "validation_sample_size": "n=212,156"
         },
@@ -33287,7 +33286,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.437
               }
             ],
@@ -33302,7 +33301,7 @@
             ]
           },
           "phenotyping_reported": "Incident cervical cancer",
-          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years), cigarette pack-years",
+          "covariates": "Age at assessment, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years), cigarette pack-years",
           "training_development_cohorts": [
             "NCI",
             "Seattle",
@@ -33352,7 +33351,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.486
               }
             ],
@@ -33367,7 +33366,7 @@
             ]
           },
           "phenotyping_reported": "Incident endometrial cancer",
-          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( ≥1 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  ≥20 years),",
+          "covariates": "Age at assessment, family history of cancer, genotyping array, PCs(1-15), parity ( \u22651 live birth vs. none), age at menarche, body mass index, Menopausal status (pre-menopausal vs. post-menopausal vs. unknown or hysterectomy), ever used hormone replacement therapy, oral contraceptive use (never used (0) vs. <20 years vs.  \u226520 years),",
           "training_development_cohorts": [
             "ANECS",
             "B58C",
@@ -33418,7 +33417,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.11284
               },
               {
@@ -33686,7 +33685,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.11
               }
             ],
@@ -33731,7 +33730,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.00158
               }
             ],
@@ -33876,7 +33875,7 @@
               },
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.182
               }
             ]
@@ -33889,32 +33888,32 @@
           "validation_sample_size": "n=57,359"
         }
       ],
-      "trial_hits": 1,
-      "trial_hit_rate": 0.1,
+      "trial_hits": 0,
+      "trial_hit_rate": 0.0,
       "trial_hit_counts_at_k": {
-        "1": 1,
-        "2": 1,
+        "1": 0,
+        "2": 0,
         "3": 10,
         "4": 10,
         "5": 10
       },
       "trial_hit_rates_at_k": {
-        "1": 0.1,
-        "2": 0.1,
+        "1": 0.0,
+        "2": 0.0,
         "3": 1.0,
         "4": 1.0,
         "5": 1.0
       },
       "trial_percentile_hit_counts": {
-        "5": 1,
-        "10": 1,
+        "5": 0,
+        "10": 0,
         "15": 10,
         "20": 10,
         "25": 10
       },
       "trial_percentile_hit_rates": {
-        "5": 0.1,
-        "10": 0.1,
+        "5": 0.0,
+        "10": 0.0,
         "15": 1.0,
         "20": 1.0,
         "25": 1.0
@@ -33923,7 +33922,7 @@
       "valid_output_rate": 1.0,
       "errors": 0,
       "modal_recommendation": "PGS003381",
-      "modal_recommendation_count": 9,
+      "modal_recommendation_count": 10,
       "modal_recommendation_rank": 3,
       "modal_recommendation_rank_label": "3/14",
       "modal_recommendation_hit_at_k": {
@@ -33947,7 +33946,7 @@
         "PGS003381",
         "PGS003381",
         "PGS003381",
-        "PGS000075",
+        "PGS003381",
         "PGS003381",
         "PGS003381",
         "PGS003381",
@@ -34061,24 +34060,24 @@
         },
         {
           "trial": 6,
-          "pgs_id": "PGS000075",
-          "rank": 1,
-          "rank_label": "1/14",
+          "pgs_id": "PGS003381",
+          "rank": 3,
+          "rank_label": "3/14",
           "hit_at_k": {
-            "1": true,
-            "2": true,
+            "1": false,
+            "2": false,
             "3": true,
             "4": true,
             "5": true
           },
           "percentile_hit": {
-            "5": true,
-            "10": true,
+            "5": false,
+            "10": false,
             "15": true,
             "20": true,
             "25": true
           },
-          "in_target_topk": true
+          "in_target_topk": false
         },
         {
           "trial": 7,
@@ -34168,26 +34167,20 @@
       "recommended_model_counts": [
         {
           "pgs_id": "PGS003381",
-          "count": 9,
+          "count": 10,
           "rank": 3,
           "rank_label": "3/14"
-        },
-        {
-          "pgs_id": "PGS000075",
-          "count": 1,
-          "rank": 1,
-          "rank_label": "1/14"
         }
       ],
       "feature_mentions": {
-        "ancestry": 8,
+        "ancestry": 3,
         "auc": 10,
         "covariates": 10,
-        "method": 2,
+        "method": 3,
         "r2": 9,
-        "sample_size": 5,
-        "trait_match": 9,
-        "variants": 3
+        "sample_size": 4,
+        "trait_match": 4,
+        "variants": 2
       },
       "baseline": {
         "pgs_id": "PGS001299",
@@ -34309,15 +34302,15 @@
             "classification_metrics": [],
             "other_metrics": [
               {
-                "name_long": "pseudo R²",
-                "name_short": "pseudo R²",
+                "name_long": "pseudo R\u00b2",
+                "name_short": "pseudo R\u00b2",
                 "estimate": 0.038569956
               }
             ],
             "effect_sizes": [
               {
                 "name_long": "Beta",
-                "name_short": "β",
+                "name_short": "\u03b2",
                 "estimate": 0.694777831
               }
             ]
@@ -34412,7 +34405,7 @@
             "other_metrics": [
               {
                 "name_long": "Proportion of the variance explained",
-                "name_short": "R²",
+                "name_short": "R\u00b2",
                 "estimate": 0.01686
               },
               {
@@ -34729,12 +34722,12 @@
       ],
       "feature_mentions": {
         "ancestry": 10,
-        "auc": 6,
+        "auc": 8,
         "covariates": 8,
-        "heritability": 3,
+        "heritability": 5,
         "method": 10,
-        "r2": 9,
-        "sample_size": 4,
+        "r2": 10,
+        "sample_size": 1,
         "trait_match": 10,
         "variants": 10
       },
@@ -34766,14 +34759,14 @@
     }
   ],
   "nrs": {
-    "modal_mean": 0.831948720230006,
+    "modal_mean": 0.8522796894971454,
     "modal_count": 30,
-    "trial_mean": 0.8178995496737436,
+    "trial_mean": 0.8453794676067224,
     "trial_count": 300,
     "baseline_mean": 0.5603891486910849,
     "baseline_count": 28,
-    "modal_mean_nrs": 0.831948720230006,
-    "trial_mean_nrs": 0.8178995496737436
+    "modal_mean_nrs": 0.8522796894971454,
+    "trial_mean_nrs": 0.8453794676067224
   },
   "hit_at_k_definition": {
     "k_values": [
@@ -34803,26 +34796,35 @@
     "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/top_k_pgs_per_ontology.json",
     "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__contribution1/benchmark_auc_per_ontology.json"
   },
+  "execution_mode": "quick_eval_chat_completions",
   "cost": {
     "model_pricing_key": "gpt-5.2",
     "token_usage": {
-      "input_tokens": 1219312,
-      "cached_input_tokens": 269440,
-      "uncached_input_tokens": 949872,
-      "output_tokens": 90672,
-      "total_tokens": 1309984
+      "input_tokens": 1269800,
+      "cached_input_tokens": 0,
+      "uncached_input_tokens": 1269800,
+      "output_tokens": 87515,
+      "total_tokens": 1357315
     },
     "pricing_per_million_tokens_usd": {
-      "input": 0.875,
-      "cached_input": 0.0875,
-      "output": 7.0
+      "input": 1.75,
+      "cached_input": 0.175,
+      "output": 14.0
     },
-    "method": "exact_batch_usage_times_official_batch_tier_prices",
+    "method": "estimated_quick_eval_tokens_from_request_response_content",
+    "calibration_source_run_dir": null,
     "estimated_cost_breakdown_usd": {
-      "uncached_input": 0.8311,
-      "cached_input": 0.0236,
-      "output": 0.6347
+      "uncached_input": 2.2222,
+      "cached_input": 0.0,
+      "output": 1.2252
     },
-    "estimated_total_cost_usd": 1.4894
+    "estimated_total_cost_usd": 3.4474,
+    "estimation_notes": {
+      "raw_input_tokens_from_tokenized_requests": 1269800,
+      "raw_output_tokens_from_reconstructed_decisions": 87515,
+      "input_calibration_ratio": 1.0,
+      "output_calibration_ratio": 1.0,
+      "cached_input_share": 0.0
+    }
   }
 }
