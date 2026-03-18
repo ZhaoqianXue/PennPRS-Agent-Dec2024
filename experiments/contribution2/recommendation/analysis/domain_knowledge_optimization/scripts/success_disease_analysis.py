@@ -23,7 +23,7 @@ import scipy.stats as ss
 # Paths
 # ---------------------------------------------------------------------------
 BASE = Path(__file__).resolve().parents[3]  # experiments/contribution2/recommendation
-RUN_DIR = BASE / "runs" / "with-domain-gpt-5.2-t10__75disease__three-arm-rerun-20260316"
+RUN_DIR = BASE / "runs" / "with-domain-gpt-5.2-t10__75disease__updated-domain-knowledge-20260318"
 SUMMARY_JSON = RUN_DIR / "experiment_with_domain_summary.json"
 RESULTS_JSON = RUN_DIR / "experiment_with_domain_results.json"
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
