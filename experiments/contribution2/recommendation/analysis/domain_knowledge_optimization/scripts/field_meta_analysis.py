@@ -28,6 +28,8 @@ import scipy.stats as ss
 BASE = Path(__file__).resolve().parents[3]  # experiments/contribution2/recommendation
 RUN_DIR = BASE / "runs" / "with-domain-gpt-5.2-t10__75disease__updated-domain-knowledge-20260318"
 SUMMARY_JSON = RUN_DIR / "experiment_with_domain_summary.json"
+CS_RUN_DIR = BASE / "runs" / "without-domain-gpt-5.2-t10__75disease__three-arm-rerun-20260316"
+CS_SUMMARY_JSON = CS_RUN_DIR / "experiment_without_domain_summary.json"
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 OUTPUT_MD = OUTPUT_DIR / "field_meta_analysis_report.md"
 RESULTS_JSON = RUN_DIR / "experiment_with_domain_results.json"
@@ -1156,6 +1158,179 @@ def analyze_cross_field(rows):
 
 
 # ---------------------------------------------------------------------------
+# Regression field pattern analysis
+# ---------------------------------------------------------------------------
+
+def load_regression_set(dk_summary):
+    """Identify diseases where DK rank > CS rank (regressions)."""
+    with open(CS_SUMMARY_JSON) as f:
+        cs_summary = json.load(f)
+    cs_by_ont = {dd["ontology"]: dd for dd in cs_summary["per_disease"]}
+
+    regression_ontologies = set()
+    improvement_ontologies = set()
+    nochange_ontologies = set()
+
+    for dd in dk_summary["per_disease"]:
+        ont = dd["ontology"]
+        dk_ranked = dd["benchmark_ranked_ids"]
+        dk_modal = dd["modal_recommendation"]
+        dk_rank = dk_ranked.index(dk_modal) + 1 if dk_modal in dk_ranked else None
+
+        cs_entry = cs_by_ont.get(ont)
+        if not cs_entry:
+            continue
+        cs_ranked = cs_entry["benchmark_ranked_ids"]
+        cs_modal = cs_entry["modal_recommendation"]
+        cs_rank = cs_ranked.index(cs_modal) + 1 if cs_modal in cs_ranked else None
+
+        if dk_rank and cs_rank:
+            if dk_rank > cs_rank:
+                regression_ontologies.add(ont)
+            elif dk_rank < cs_rank:
+                improvement_ontologies.add(ont)
+            else:
+                nochange_ontologies.add(ont)
+
+    return regression_ontologies, improvement_ontologies, nochange_ontologies
+
+
+def analyze_regression_field_patterns(rows, regression_ontologies, improvement_ontologies):
+    """For each field, compute Spearman correlation with benchmark rank separately
+    for regression vs non-regression diseases."""
+    lines = ["## Regression vs Non-Regression Field Pattern Analysis", ""]
+    lines.append(f"Comparing field-rank correlations in {len(regression_ontologies)} regression diseases ")
+    lines.append(f"vs {len(improvement_ontologies)} improvement diseases to identify fields that behave")
+    lines.append("differently when DK causes regressions.")
+    lines.append("")
+
+    # Group rows by ontology
+    by_disease = defaultdict(list)
+    for r in rows:
+        by_disease[r["ontology"]].append(r)
+
+    def _get_field(model, path):
+        parts = path.split(".")
+        obj = model
+        for p in parts:
+            obj = obj.get(p) if isinstance(obj, dict) else None
+            if obj is None:
+                return None
+        return obj
+
+    fields_to_analyze = [
+        ("variants_number", lambda m: m.get("variants_number")),
+        ("full_model_auc", lambda m: _get_field(m, "performance_metrics.full_model_auc")),
+        ("auc", lambda m: _get_field(m, "performance_metrics.auc")),
+        ("validation_sample_size", lambda m: parse_sample_size(m.get("validation_sample_size"))),
+        ("samples_training", lambda m: parse_sample_size(m.get("samples_training"))),
+        ("record_count", lambda m: _get_field(m, "performance_metrics.record_count")),
+        ("date_release_year", lambda m: int(m.get("date_release", "0000")[:4]) if m.get("date_release") else None),
+        ("n_cohorts", lambda m: len(m.get("training_development_cohorts") or [])),
+    ]
+
+    lines.append("| Field | Regression diseases (median rho) | Improvement diseases (median rho) | Difference | Interpretation |")
+    lines.append("|-------|----------------------------------|-----------------------------------|------------|----------------|")
+
+    for field_name, extract_fn in fields_to_analyze:
+        reg_rhos = []
+        imp_rhos = []
+        for ont, disease_rows in by_disease.items():
+            if len(disease_rows) < 5:
+                continue
+            vals = [extract_fn(r["model"]) for r in disease_rows]
+            nrs = [r["norm_rank"] for r in disease_rows]
+            rho, p, n = spearman(vals, nrs)
+            if rho is None:
+                continue
+            if ont in regression_ontologies:
+                reg_rhos.append(rho)
+            elif ont in improvement_ontologies:
+                imp_rhos.append(rho)
+
+        reg_med = median_safe(reg_rhos) if reg_rhos else None
+        imp_med = median_safe(imp_rhos) if imp_rhos else None
+        diff = (reg_med - imp_med) if (reg_med is not None and imp_med is not None) else None
+
+        if diff is not None:
+            if abs(diff) > 0.15:
+                interp = "Significantly different behavior"
+            elif abs(diff) > 0.05:
+                interp = "Moderately different"
+            else:
+                interp = "Similar behavior"
+        else:
+            interp = "Insufficient data"
+
+        lines.append(f"| {field_name} | {fmt(reg_med)} (n={len(reg_rhos)}) | "
+                     f"{fmt(imp_med)} (n={len(imp_rhos)}) | {fmt(diff)} | {interp} |")
+
+    lines.append("")
+
+    # Method family comparison: regression vs improvement
+    lines.append("### Method Families: DK Selection in Regression vs Improvement Diseases")
+    lines.append("")
+    lines.append("What method families does DK select in regression diseases vs improvement diseases?")
+    lines.append("")
+
+    # Need DK summary to get modal selections
+    with open(SUMMARY_JSON) as f:
+        dk_summary = json.load(f)
+    with open(CS_SUMMARY_JSON) as f:
+        cs_summary = json.load(f)
+    cs_by_ont = {dd["ontology"]: dd for dd in cs_summary["per_disease"]}
+
+    reg_dk_methods = Counter()
+    reg_cs_methods = Counter()
+    imp_dk_methods = Counter()
+    imp_cs_methods = Counter()
+
+    for dd in dk_summary["per_disease"]:
+        ont = dd["ontology"]
+        model_map = {m["id"]: m for m in dd["candidate_models_visible_to_llm"]}
+        dk_model = model_map.get(dd["modal_recommendation"], {})
+        dk_fam = get_method_family(dk_model.get("method_name", ""))
+
+        cs_entry = cs_by_ont.get(ont)
+        if not cs_entry:
+            continue
+        cs_model_map = {m["id"]: m for m in cs_entry["candidate_models_visible_to_llm"]}
+        cs_model = cs_model_map.get(cs_entry["modal_recommendation"], {})
+        cs_fam = get_method_family(cs_model.get("method_name", ""))
+
+        if ont in regression_ontologies:
+            reg_dk_methods[dk_fam] += 1
+            reg_cs_methods[cs_fam] += 1
+        elif ont in improvement_ontologies:
+            imp_dk_methods[dk_fam] += 1
+            imp_cs_methods[cs_fam] += 1
+
+    all_fams = set(reg_dk_methods.keys()) | set(reg_cs_methods.keys()) | set(imp_dk_methods.keys()) | set(imp_cs_methods.keys())
+
+    lines.append("| Method Family | Regression: DK | Regression: CS | Improvement: DK | Improvement: CS |")
+    lines.append("|---------------|---------------|---------------|-----------------|-----------------|")
+    for fam in sorted(all_fams, key=lambda f: -(reg_dk_methods[f] + imp_dk_methods[f])):
+        lines.append(f"| {fam} | {reg_dk_methods[fam]} | {reg_cs_methods[fam]} | "
+                     f"{imp_dk_methods[fam]} | {imp_cs_methods[fam]} |")
+    lines.append("")
+
+    lines.append("**Key Observations:**")
+    lines.append("")
+    # Find method families where DK switches away from CS in regressions
+    for fam in all_fams:
+        if reg_cs_methods[fam] > reg_dk_methods[fam] and reg_cs_methods[fam] >= 2:
+            lines.append(f"- DK switches AWAY from **{fam}** in regressions: CS selected {reg_cs_methods[fam]}x, "
+                         f"DK selected {reg_dk_methods[fam]}x")
+    for fam in all_fams:
+        if reg_dk_methods[fam] > reg_cs_methods[fam] and reg_dk_methods[fam] >= 2:
+            lines.append(f"- DK switches TOWARD **{fam}** in regressions: CS selected {reg_cs_methods[fam]}x, "
+                         f"DK selected {reg_dk_methods[fam]}x")
+    lines.append("")
+
+    return lines
+
+
+# ---------------------------------------------------------------------------
 # Executive summary
 # ---------------------------------------------------------------------------
 
@@ -1345,6 +1520,23 @@ def main():
     # Cross-field analysis
     print("Analyzing cross-field interactions...")
     report.extend(analyze_cross_field(rows))
+
+    # Regression field pattern analysis
+    print("Analyzing regression vs improvement field patterns...")
+    regression_onts, improvement_onts, nochange_onts = load_regression_set(summary)
+    report.extend(analyze_regression_field_patterns(rows, regression_onts, improvement_onts))
+
+    # Add regression summary to report
+    report.append("## Regression Analysis Summary")
+    report.append("")
+    report.append(f"Of 75 diseases: {len(regression_onts)} regressions (DK rank > CS rank), "
+                  f"{len(improvement_onts)} improvements, {len(nochange_onts)} no change.")
+    report.append("")
+    report.append("The regression field pattern analysis above identifies which fields behave differently")
+    report.append("in diseases where DK causes regressions vs improvements. Fields with significantly")
+    report.append("different Spearman correlations between the two groups indicate areas where DK rules")
+    report.append("may be overcorrecting or misapplying domain knowledge.")
+    report.append("")
 
     # Write output
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

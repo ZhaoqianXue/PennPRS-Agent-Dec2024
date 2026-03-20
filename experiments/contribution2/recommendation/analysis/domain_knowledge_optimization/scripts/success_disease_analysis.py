@@ -26,6 +26,9 @@ BASE = Path(__file__).resolve().parents[3]  # experiments/contribution2/recommen
 RUN_DIR = BASE / "runs" / "with-domain-gpt-5.2-t10__75disease__updated-domain-knowledge-20260318"
 SUMMARY_JSON = RUN_DIR / "experiment_with_domain_summary.json"
 RESULTS_JSON = RUN_DIR / "experiment_with_domain_results.json"
+CS_RUN_DIR = BASE / "runs" / "without-domain-gpt-5.2-t10__75disease__three-arm-rerun-20260316"
+CS_SUMMARY_JSON = CS_RUN_DIR / "experiment_without_domain_summary.json"
+
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 OUTPUT_MD = OUTPUT_DIR / "success_disease_analysis_report.md"
 
@@ -167,6 +170,11 @@ def main():
     with open(RESULTS_JSON) as f:
         results = json.load(f)
 
+    # Load CS data for DK vs CS comparison
+    with open(CS_SUMMARY_JSON) as f:
+        cs_summary = json.load(f)
+    cs_by_ont = {dd["ontology"]: dd for dd in cs_summary["per_disease"]}
+
     trial_by_disease = defaultdict(list)
     for t in results:
         trial_by_disease[t["ontology"]].append(t)
@@ -256,6 +264,88 @@ def main():
             f"{'Yes' if d['hit5'] else 'No'} |"
         )
     lines.append("")
+
+    # -----------------------------------------------------------------------
+    # Section 1b: DK vs CS Comparison for success diseases
+    # -----------------------------------------------------------------------
+    lines.append("### 1b. DK vs CS Comparison for Success Diseases")
+    lines.append("")
+    lines.append("Compare Domain Knowledge (DK) modal rank vs Catalog Search Only (CS) modal rank")
+    lines.append("for each success disease to understand DK's contribution.")
+    lines.append("")
+
+    # Classify each success disease
+    dk_improved = []
+    dk_same = []
+    dk_worse_but_hit = []
+    dk_no_cs_data = []
+
+    for d in disease_details:
+        ont = d["ontology"]
+        dk_rank = d["rank"]
+        cs_entry = cs_by_ont.get(ont)
+        if not cs_entry:
+            dk_no_cs_data.append(d)
+            continue
+        cs_ranked = cs_entry["benchmark_ranked_ids"]
+        cs_modal = cs_entry["modal_recommendation"]
+        cs_rank = cs_ranked.index(cs_modal) + 1 if cs_modal in cs_ranked else None
+
+        d["cs_rank"] = cs_rank
+        d["cs_modal"] = cs_modal
+        d["rank_delta"] = dk_rank - cs_rank if (dk_rank and cs_rank) else None
+
+        if dk_rank and cs_rank:
+            if dk_rank < cs_rank:
+                dk_improved.append(d)
+            elif dk_rank == cs_rank or d["modal"] == cs_modal:
+                dk_same.append(d)
+            else:
+                dk_worse_but_hit.append(d)
+        else:
+            dk_no_cs_data.append(d)
+
+    lines.append(f"- **DK improved over CS**: {len(dk_improved)} diseases ({len(dk_improved)/len(successes)*100:.0f}%)")
+    lines.append(f"- **DK same as CS**: {len(dk_same)} diseases ({len(dk_same)/len(successes)*100:.0f}%)")
+    lines.append(f"- **DK worse but still hit**: {len(dk_worse_but_hit)} diseases ({len(dk_worse_but_hit)/len(successes)*100:.0f}%)")
+    if dk_no_cs_data:
+        lines.append(f"- **No CS data**: {len(dk_no_cs_data)} diseases")
+    lines.append("")
+
+    lines.append("| Disease | N Models | CS Rank | DK Rank | Δ Rank | Category |")
+    lines.append("|---------|----------|---------|---------|--------|----------|")
+    for category, label in [(dk_improved, "DK improved"), (dk_same, "DK same"),
+                            (dk_worse_but_hit, "DK worse (still hit)")]:
+        for d in sorted(category, key=lambda x: x.get("rank_delta") or 0):
+            delta = d.get("rank_delta")
+            delta_str = f"{delta:+d}" if delta is not None else "N/A"
+            cs_r = d.get("cs_rank")
+            cs_str = f"{cs_r}/{d['n_models']}" if cs_r else "N/A"
+            lines.append(f"| {d['ontology']} | {d['n_models']} | {cs_str} | "
+                         f"{d['rank']}/{d['n_models']} | {delta_str} | {label} |")
+    lines.append("")
+
+    # Summary stats
+    all_deltas = [d["rank_delta"] for d in dk_improved + dk_same + dk_worse_but_hit if d.get("rank_delta") is not None]
+    if all_deltas:
+        lines.append(f"**Rank delta summary** (negative = DK better): median={median_safe(all_deltas):.0f}, "
+                     f"mean={mean_safe(all_deltas):.1f}, min={min(all_deltas)}, max={max(all_deltas)}")
+        lines.append("")
+
+    # Field pattern differences between DK-improved and DK-worse groups
+    if dk_improved and dk_worse_but_hit:
+        lines.append("### 1c. Field Patterns: DK-Improved vs DK-Worse (Still Hit)")
+        lines.append("")
+        lines.append("Method families selected in each group:")
+        lines.append("")
+        imp_methods = Counter(get_method_family(d["agent_model"].get("method_name", "")) for d in dk_improved)
+        worse_methods = Counter(get_method_family(d["agent_model"].get("method_name", "")) for d in dk_worse_but_hit)
+        all_fams = set(imp_methods.keys()) | set(worse_methods.keys())
+        lines.append("| Method Family | DK-Improved | DK-Worse |")
+        lines.append("|---------------|-------------|----------|")
+        for fam in sorted(all_fams, key=lambda f: -(imp_methods[f] + worse_methods[f])):
+            lines.append(f"| {fam} | {imp_methods[fam]} | {worse_methods[fam]} |")
+        lines.append("")
 
     # -----------------------------------------------------------------------
     # Section 2: What fields distinguish agent's successful picks?
@@ -448,8 +538,9 @@ def main():
             if re.search(pat, combined):
                 failure_cite_count[name] += 1
 
+    n_failures = len(failures)
     lines.append("| Rationale Theme | Success (N/" + str(len(successes)) + ") | "
-                 "Failure (N/19) | Success Rate | Interpretation |")
+                 f"Failure (N/{n_failures}) | Success Rate | Interpretation |")
     lines.append("|-----------------|-------------|-------------|--------------|----------------|")
     for name, _ in rationale_patterns:
         sc = success_cite_count.get(name, 0)
@@ -458,7 +549,7 @@ def main():
         rate = sc / total * 100 if total > 0 else 0
         # Interpretation
         s_pct = sc / len(successes) * 100
-        f_pct = fc / 19 * 100
+        f_pct = fc / n_failures * 100
         if s_pct > f_pct + 15:
             interp = "More in success → likely helpful"
         elif f_pct > s_pct + 15:

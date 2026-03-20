@@ -30,6 +30,10 @@ BASE = Path(__file__).resolve().parents[3]  # experiments/contribution2/recommen
 RUN_DIR = BASE / "runs" / "with-domain-gpt-5.2-t10__75disease__updated-domain-knowledge-20260318"
 SUMMARY_JSON = RUN_DIR / "experiment_with_domain_summary.json"
 RESULTS_JSON = RUN_DIR / "experiment_with_domain_results.json"
+CS_RUN_DIR = BASE / "runs" / "without-domain-gpt-5.2-t10__75disease__three-arm-rerun-20260316"
+CS_SUMMARY_JSON = CS_RUN_DIR / "experiment_without_domain_summary.json"
+CS_RESULTS_JSON = CS_RUN_DIR / "experiment_without_domain_results.json"
+
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "output"
 OUTPUT_MD = OUTPUT_DIR / "failure_case_analysis_report.md"
 
@@ -75,6 +79,7 @@ ERROR_TYPES = [
     "Covariate comparability ignored",
     "Reported performance mismatch",
     "Publication/recency bias",
+    "DK-induced regression",
 ]
 
 
@@ -752,9 +757,6 @@ def precise_error_classification(summary, results):
 
 def analyze_dk_rule_mapping(summary, results):
     lines = ["## Domain Knowledge Rule → Failure Mapping", ""]
-    lines.append("Extracts which domain knowledge rules/concepts the agent cited in its rationale")
-    lines.append("for the 19 failure diseases, and whether those rules **helped** or **misled** the agent.")
-    lines.append("")
 
     rule_patterns = [
         ("endpoint fidelity", r"endpoint\s+fidelity|phenotyping_reported|endpoint\s+alignment"),
@@ -784,6 +786,10 @@ def analyze_dk_rule_mapping(summary, results):
         if all_no:
             failures.append(dd)
 
+    lines.append("Extracts which domain knowledge rules/concepts the agent cited in its rationale")
+    lines.append(f"for the {len(failures)} failure diseases, and whether those rules **helped** or **misled** the agent.")
+    lines.append("")
+
     trial_by_disease = defaultdict(list)
     for t in results:
         trial_by_disease[t["ontology"]].append(t)
@@ -803,7 +809,7 @@ def analyze_dk_rule_mapping(summary, results):
 
     lines.append("### Rules Most Frequently Cited in Failure Rationales")
     lines.append("")
-    lines.append("| Domain Knowledge Rule/Concept | Cited in N/19 Failures | Example Diseases | Likely Role |")
+    lines.append(f"| Domain Knowledge Rule/Concept | Cited in N/{len(failures)} Failures | Example Diseases | Likely Role |")
     lines.append("|-------------------------------|----------------------|------------------|-------------|")
 
     likely_misleading = {
@@ -865,7 +871,7 @@ def analyze_dk_rule_mapping(summary, results):
 
     for rule_name, analysis in misleading_analysis:
         if rule_name in rule_cite_count:
-            lines.append(f"**{rule_name}** (cited in {rule_cite_count[rule_name]}/19 failures):")
+            lines.append(f"**{rule_name}** (cited in {rule_cite_count[rule_name]}/{len(failures)} failures):")
             lines.append("")
             lines.append(analysis)
             lines.append("")
@@ -1069,6 +1075,128 @@ def deep_root_cause_analysis(summary, results):
 
 
 # ---------------------------------------------------------------------------
+# Enhancement 7: Regression failure analysis (CS succeeded, DK failed)
+# ---------------------------------------------------------------------------
+
+def build_regression_failure_section(regression_failures, summary, results,
+                                      cs_by_ont, cs_trial_by_disease):
+    """Analyze diseases where CS had at least one hit but DK lost all hits."""
+    lines = ["## Regression Failure Analysis (CS Hit → DK Miss)", ""]
+    lines.append(f"**{len(regression_failures)}** diseases where Catalog Search Only achieved at least one Hit@1..5")
+    lines.append("but Catalog Search + Domain Knowledge lost ALL hits. This means the domain knowledge")
+    lines.append("actively steered the agent away from a correct selection.")
+    lines.append("")
+
+    trial_by_disease = defaultdict(list)
+    for t in results:
+        trial_by_disease[t["ontology"]].append(t)
+
+    for norm_rank, dd, cs_dd in regression_failures:
+        ont = dd["ontology"]
+        M = dd["n_models"]
+        ranked = dd["benchmark_ranked_ids"]
+        auc_map = dd["benchmark_auc_by_id"]
+        dk_modal = dd["modal_recommendation"]
+        dk_rank = ranked.index(dk_modal) + 1 if dk_modal in ranked else None
+
+        cs_modal = cs_dd["modal_recommendation"]
+        cs_ranked = cs_dd["benchmark_ranked_ids"]
+        cs_rank = cs_ranked.index(cs_modal) + 1 if cs_modal in cs_ranked else None
+        cs_hits = cs_dd.get("modal_recommendation_hit_at_k", {})
+        cs_best_hit = None
+        for k in range(1, 6):
+            if cs_hits.get(str(k), False):
+                cs_best_hit = k
+                break
+
+        model_map = {m["id"]: m for m in dd["candidate_models_visible_to_llm"]}
+        dk_model = model_map.get(dk_modal, {})
+        cs_model = model_map.get(cs_modal, {})
+        bench1 = model_map.get(ranked[0], {}) if ranked else {}
+
+        lines.append(f"### {ont} — REGRESSION")
+        lines.append("")
+        lines.append(f"**CS correctly selected**: {cs_modal} (rank {cs_rank}/{M}, Hit@{cs_best_hit})")
+        lines.append(f"**DK incorrectly selected**: {dk_modal} (rank {dk_rank}/{M}, no hits)")
+        lines.append(f"**Rank degradation**: +{dk_rank - cs_rank}")
+        lines.append("")
+
+        # Key field comparison: CS pick vs DK pick vs Bench #1
+        key_fields = [
+            ("id", "id"), ("method_name", "method_name"),
+            ("trait_reported", "trait_reported"), ("phenotyping_reported", "phenotyping_reported"),
+            ("variants_number", "variants_number"),
+            ("training_development_cohorts", "training_development_cohorts"),
+            ("validation_sample_size", "validation_sample_size"),
+            ("covariates", "covariates"),
+            ("full_model_auc", "performance_metrics.full_model_auc"),
+            ("effect_sizes", "performance_metrics.effect_sizes"),
+            ("publication", "publication.title"),
+            ("date_release", "date_release"),
+        ]
+
+        lines.append(f"| Field | CS: {cs_modal} (rank {cs_rank}) | DK: {dk_modal} (rank {dk_rank}) | Bench #1: {ranked[0] if ranked else '?'} |")
+        lines.append(f"| --- | --- | --- | --- |")
+
+        for label, path in key_fields:
+            cs_val = get_field(cs_model, path)
+            dk_val = get_field(dk_model, path)
+            bench_val = get_field(bench1, path)
+            lines.append(f"| {label} | {fmt_value(cs_val)} | {fmt_value(dk_val)} | {fmt_value(bench_val)} |")
+
+        cs_auc = auc_map.get(cs_modal, 0)
+        dk_auc = auc_map.get(dk_modal, 0)
+        bench_auc = auc_map.get(ranked[0], 0) if ranked else 0
+        lines.append(f"| **AoU benchmark AUC** | **{cs_auc:.4f}** | **{dk_auc:.4f}** | **{bench_auc:.4f}** |")
+        lines.append("")
+
+        # DK rationale excerpt
+        dk_trials = trial_by_disease.get(ont, [])
+        if dk_trials:
+            lines.append("**DK rationale (trial 1, excerpt):**")
+            lines.append("")
+            lines.append(f"> {dk_trials[0].get('rationale', '')[:1500]}")
+            lines.append("")
+
+        # CS rationale excerpt
+        cs_trials = cs_trial_by_disease.get(ont, [])
+        if cs_trials:
+            lines.append("**CS rationale (trial 1, excerpt):**")
+            lines.append("")
+            lines.append(f"> {cs_trials[0].get('rationale', '')[:1500]}")
+            lines.append("")
+
+        # Root cause: what DK rules appear in DK rationale but not CS rationale?
+        dk_combined = " ".join(t.get("rationale", "") for t in dk_trials).lower()
+        cs_combined = " ".join(t.get("rationale", "") for t in cs_trials).lower()
+
+        rule_patterns = [
+            ("endpoint fidelity", r"endpoint\s+fidelity|endpoint\s+alignment"),
+            ("covariate comparability", r"covariate|comparability"),
+            ("framework penalty", r"framework|pan-trait"),
+            ("disease-focused preference", r"disease.focused|disease.specific"),
+            ("method preference", r"tier|method.*rank|method.*prefer"),
+            ("variant count", r"variant|snp count"),
+            ("MTAG caution", r"mtag"),
+        ]
+
+        dk_only_rules = []
+        for rule_name, pattern in rule_patterns:
+            if re.search(pattern, dk_combined) and not re.search(pattern, cs_combined):
+                dk_only_rules.append(rule_name)
+
+        if dk_only_rules:
+            lines.append(f"**DK-specific reasoning (not in CS)**: {', '.join(dk_only_rules)}")
+        else:
+            lines.append("**DK-specific reasoning**: Same themes as CS (DK applied existing reasoning differently)")
+        lines.append("")
+        lines.append("---")
+        lines.append("")
+
+    return lines
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -1079,12 +1207,23 @@ def main():
     with open(RESULTS_JSON) as f:
         results = json.load(f)
 
+    # Load CS data for regression analysis
+    print("Loading CS data...")
+    with open(CS_SUMMARY_JSON) as f:
+        cs_summary = json.load(f)
+    with open(CS_RESULTS_JSON) as f:
+        cs_results = json.load(f)
+    cs_by_ont = {dd["ontology"]: dd for dd in cs_summary["per_disease"]}
+    cs_trial_by_disease = defaultdict(list)
+    for t in cs_results:
+        cs_trial_by_disease[t["ontology"]].append(t)
+
     # Build model lookup per disease
     all_errors = {}
     report = []
     report.append("# Failure Case Analysis Report")
     report.append("")
-    report.append("Deep-dive analysis of 19 diseases where the Catalog Search + Domain Knowledge arm")
+    report.append("Deep-dive analysis of diseases where the Catalog Search + Domain Knowledge arm")
     report.append("failed to select any model within the AoU benchmark top-5 (all Hit@1..5 = No).")
     report.append("")
     report.append("Goal: identify **general** (disease-agnostic) failure patterns to improve domain knowledge.")
@@ -1106,20 +1245,55 @@ def main():
     # Sort by severity (worst first)
     failures.sort(key=lambda x: -x[0])
 
+    # Classify into pure failures vs regression failures
+    pure_failures = []
+    regression_failures = []
+    for norm_rank, dd in failures:
+        ont = dd["ontology"]
+        cs_dd = cs_by_ont.get(ont)
+        cs_any_hit = False
+        cs_rank_str = "?"
+        if cs_dd:
+            cs_hits = cs_dd.get("modal_recommendation_hit_at_k", {})
+            cs_any_hit = any(cs_hits.get(str(k), False) for k in range(1, 6))
+            cs_modal = cs_dd["modal_recommendation"]
+            cs_ranked = cs_dd["benchmark_ranked_ids"]
+            cs_rank = cs_ranked.index(cs_modal) + 1 if cs_modal in cs_ranked else None
+            cs_rank_str = f"{cs_rank}/{dd['n_models']}" if cs_rank else "?"
+        if cs_any_hit:
+            regression_failures.append((norm_rank, dd, cs_dd))
+        else:
+            pure_failures.append((norm_rank, dd, cs_dd))
+
     # Executive summary
     report.append("## Executive Summary")
     report.append("")
     report.append(f"**Total failure diseases**: {len(failures)}/75")
+    report.append(f"- **Pure failures** (CS also failed): {len(pure_failures)}")
+    report.append(f"- **Regression failures** (CS had at least one hit, DK lost all): {len(regression_failures)}")
     report.append("")
-    report.append("| Severity | Disease | N Models | Selected Model | Rank | Norm Rank |")
-    report.append("|----------|---------|----------|---------------|------|-----------|")
+    report.append("| Severity | Disease | N Models | Selected Model | Rank | Norm Rank | Regression? | CS Rank |")
+    report.append("|----------|---------|----------|---------------|------|-----------|-------------|---------|")
     for norm_rank, dd in failures:
         tier = severity_tier(norm_rank)
         modal = dd["modal_recommendation"]
         M = dd["n_models"]
         ranked = dd["benchmark_ranked_ids"]
         rank = ranked.index(modal) + 1 if modal in ranked else "?"
-        report.append(f"| {tier} | {dd['ontology']} | {M} | {modal} | {rank}/{M} | {norm_rank:.2f} |")
+        # Check if regression
+        ont = dd["ontology"]
+        cs_dd = cs_by_ont.get(ont)
+        is_regression = False
+        cs_rank_label = "?"
+        if cs_dd:
+            cs_hits = cs_dd.get("modal_recommendation_hit_at_k", {})
+            is_regression = any(cs_hits.get(str(k), False) for k in range(1, 6))
+            cs_m = cs_dd["modal_recommendation"]
+            cs_r = cs_dd["benchmark_ranked_ids"]
+            cs_rk = cs_r.index(cs_m) + 1 if cs_m in cs_r else None
+            cs_rank_label = f"{cs_rk}/{M}" if cs_rk else "?"
+        reg_str = "**YES**" if is_regression else "No"
+        report.append(f"| {tier} | {dd['ontology']} | {M} | {modal} | {rank}/{M} | {norm_rank:.2f} | {reg_str} | {cs_rank_label} |")
     report.append("")
 
     # Per-disease deep dives
@@ -1155,6 +1329,12 @@ def main():
     # Enhancement 6: Deep root cause analysis
     print("Deep root cause analysis (top 5 egregious)...")
     report.extend(deep_root_cause_analysis(summary, results))
+
+    # Enhancement 7: Regression failure analysis
+    if regression_failures:
+        print("Regression failure analysis...")
+        report.extend(build_regression_failure_section(regression_failures, summary, results,
+                                                       cs_by_ont, cs_trial_by_disease))
 
     # Write output
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)

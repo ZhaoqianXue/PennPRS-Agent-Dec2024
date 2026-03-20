@@ -1,0 +1,53 @@
+{
+  "batch_id": "batch_69ba58e18718819087b911bc7143a03f",
+  "status": "in_progress",
+  "input_file_id": "file-449v3JhsmywizWUkD51w6s",
+  "output_file_id": null,
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 20,
+    "failed": 0,
+    "total": 60
+  },
+  "batch": {
+    "id": "batch_69ba58e18718819087b911bc7143a03f",
+    "completion_window": "24h",
+    "created_at": 1773820129,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-449v3JhsmywizWUkD51w6s",
+    "object": "batch",
+    "status": "in_progress",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": null,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1773906529,
+    "failed_at": null,
+    "finalizing_at": null,
+    "in_progress_at": 1773820190,
+    "metadata": {
+      "experiment": "contribution2_with_domain",
+      "manifest_file": "experiment_with_domain_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": null,
+    "request_counts": {
+      "completed": 20,
+      "failed": 0,
+      "total": 60
+    },
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    }
+  }
+}
