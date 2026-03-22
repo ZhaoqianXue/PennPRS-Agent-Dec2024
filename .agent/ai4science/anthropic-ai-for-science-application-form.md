@@ -24,8 +24,6 @@ This program provides free API credits for our standard model suite. Applicants 
 
 _Please enter academic emails and credentials where possible_
 
-Sign in to Google to save your progress. Learn more
-
 \* Indicates required question
 
 ---
@@ -97,7 +95,7 @@ Assistant Professor of Biostatistics
 
 **Answer**
 
-Learned about this program through a colleague in my department.
+I learned about this program through a colleague in my department.
 
 
 
@@ -113,9 +111,7 @@ Learned about this program through a colleague in my department.
 
 **Answer**
 
-PennPRS Agent: Evidence-Guided AI Co-Scientist for Polygenic Risk Score Recommendation in Precision Medicine
-
-
+PennGenetic Agent: A Evidence-Guided AI Co-Scientist for Genetic Risk Prediction and Discovery in Precision Medicine
 
 
 ---
@@ -157,9 +153,9 @@ Your answer
 
 **Answer**
 
-This project is led by Jin Jin, Ph.D., Assistant Professor of Biostatistics at the University of Pennsylvania Perelman School of Medicine. Dr. Jin is an NIH K99/R00-funded statistical geneticist whose research centers on multi-ancestry disease risk prediction and translating large-scale human genetics into clinically relevant prediction tools. Her group developed and maintains PennPRS, the first cloud computing platform for privacy-preserving PRS model training and application, which has publicly released pre-trained models for over 8,000 phenotypes across multiple ancestry groups. She has published multi-ancestry PRS methods in Nature Genetics and Nature Communications, and leads the scientific direction of this project, including study design, benchmark construction, and statistical validation.
+This project is led by Jin Jin, Ph.D., Assistant Professor of Biostatistics at the Perelman School of Medicine, and Bingxin Zhao, Ph.D., Assistant Professor of Statistics and Data Science at the Wharton School (with a secondary appointment in the Department of Medicine), both at the University of Pennsylvania. Dr. Jin is an NIH K99/R00-funded statistical geneticist whose research centers on multi-ancestry disease risk prediction. Her group developed and maintains PennPRS, the first cloud computing platform for privacy-preserving PRS model training, with publicly released pre-trained models for over 8,000 phenotypes across multiple ancestry groups, and has published multi-ancestry PRS methods in Nature Genetics and Nature Communications. Dr. Zhao develops statistical and AI methods integrating multimodal data (imaging, genomics, and knowledge graphs) for science and medicine, is the winner of the inaugural UK Biobank Scientific Impact Awards, and brings expertise in agentic AI for scientific research systems and cross-disease genetic architecture. Together, they lead the scientific direction of this project, including study design, benchmark construction, and statistical validation.
 
-The team’s AI/ML and engineering capability is led by Zhaoqian Xue, Research Assistant at the University of Pennsylvania and lead LLM systems engineer for the PennPRS Agent. Xue is responsible for agent architecture, context engineering, tool-integrated workflows, evaluation pipelines, and experiment automation. Together, the team combines deep expertise in statistical genetics and PRS methodology with hands-on LLM engineering, enabling both rigorous scientific evaluation and production-grade development of domain-specialized AI workflows for genetic risk prediction.
+The team's AI/ML and engineering capability is led by Zhaoqian Xue, Research Assistant at the University of Pennsylvania and lead LLM systems engineer for PennGenetic Agent. Xue is responsible for agent architecture, context engineering, tool-integrated workflows, evaluation pipelines, and experiment automation. Together, the team combines deep expertise in statistical genetics, multimodal data integration, and PRS methodology with hands-on LLM engineering, enabling both rigorous scientific evaluation and production-grade development of domain-specialized AI workflows for genetic risk prediction.
 
 
 
@@ -172,6 +168,7 @@ The team’s AI/ML and engineering capability is led by Zhaoqian Xue, Research A
 **Answer**
 
 - **Jin Jin** — Assistant Professor of Biostatistics (PI). NIH K99/R00-funded statistical geneticist and developer of PennPRS, MUSSEL, and MRLE; leads scientific direction, study design, benchmark construction, statistical validation, and integration of PRS methodology with clinically relevant risk prediction.
+- **Bingxin Zhao** — Assistant Professor of Statistics and Data Science, Wharton School, University of Pennsylvania (secondary appointment in the Department of Medicine, Perelman School of Medicine). Winner of the inaugural UK Biobank Scientific Impact Awards; develops statistical and AI methods integrating multimodal data (imaging, genomics, knowledge graphs) for science and medicine; contributes expertise in agentic AI for scientific research systems and cross-disease genetic architecture.
 - **Zhaoqian Xue** — Research Assistant, University of Pennsylvania (Jin Jin Lab). Lead LLM systems engineer for this project, responsible for agent architecture, prompt/context engineering, tool orchestration, evaluation and benchmarking infrastructure, experiment automation, and end-to-end engineering of Claude-assisted research workflows.
 
 
@@ -185,7 +182,8 @@ The team’s AI/ML and engineering capability is led by Zhaoqian Xue, Research A
 **Answer**
 
 - **Jin Jin** — Lab / personal site: https://jin93.github.io/ ; Google Scholar: https://scholar.google.com/citations?user=mm7KQPYAAAAJ&hl=en ; Penn DBEI faculty profile: https://dbei.med.upenn.edu/staff/jin-jin-phd/
-- **Zhaoqian Xue** — Google Scholar: https://scholar.google.com/citations?user=HG63crgAAAAJ&hl=en ; LinkedIn: https://www.linkedin.com/in/zhaoqian-xue-531982211?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3Boh7xJhk3RI61NA5PQKkyDw%3D%3D
+- **Bingxin Zhao** — Wharton faculty page: https://statistics.wharton.upenn.edu/profile/bxzhao/ ; Google Scholar: https://scholar.google.com/citations?user=AX_RE7EAAAAJ&hl=en ; Personal site: https://www.bingxinzhao.com/
+- **Zhaoqian Xue** — Google Scholar: https://scholar.google.com/citations?user=HG63crgAAAAJ&hl=en ; LinkedIn: https://www.linkedin.com/in/zhaoqian-xue-531982211/
 
 
 
@@ -206,11 +204,13 @@ The team’s AI/ML and engineering capability is led by Zhaoqian Xue, Research A
 
 **Answer**
 
-Polygenic risk scores (PRS) are among the most promising tools for realizing the vision of genomic medicine—using an individual's genetic information to predict disease risk, enable earlier intervention, and guide prevention for complex conditions such as cardiovascular disease, cancers, diabetes, and neurodegenerative disorders. Thousands of PRS models now exist (the PGS Catalog hosts over 5,000), yet a critical translational bottleneck persists: for most diseases, determining which published model is actually best suited for a given population still requires labor-intensive expert review of heterogeneous metadata, ancestry composition, and performance benchmarks. This process does not scale to the breadth of diseases and populations that stand to benefit, leaving many—especially those involving underserved ancestries—without adequate genetic risk prediction tools.
+Human genetics has entered an era of extraordinary productivity. Large-scale genetic studies have produced an enormous wealth of tools and evidence: thousands of genome-wide association studies (GWAS) identifying disease-associated variants, polygenic risk score (PRS) models for predicting individual risk, Mendelian randomization analyses illuminating causal genetic relationships across risk factors and diseases, and cross-disease genetic correlation maps revealing shared biological architecture. Yet a critical translational bottleneck persists: this genetic knowledge is fragmented across databases, publications, and formats, and navigating, evaluating, and applying it still requires deep domain expertise that most researchers and clinicians do not have. The gap between what human genetics has discovered and what most scientists can practically use remains vast.
 
-Our project, PennPRS Agent, addresses this bottleneck by developing an AI co-scientist that can reliably select the best available PRS model across a large and diverse set of diseases. The central scientific question is whether an LLM, equipped with structured genetic evidence and domain context, can match expert-level judgment in recommending high-quality PRS models—and, when direct models are unavailable, identify scientifically plausible alternatives through shared genetic architecture across diseases. Rather than replacing human expertise, this system amplifies it: enabling expert-level decisions at a scale and speed far beyond what manual review can achieve.
+Our project, PennGenetic Agent, addresses this bottleneck by building an AI co-scientist with deep genetic domain expertise. The agent is capable of helping researchers interpret GWAS findings, evaluate genetic risk prediction models, reason about causal genetic relationships between risk factors and diseases, identify implicated biological pathways, and translate complex genetic evidence into actionable scientific insights. Our agent synthesizes structured genetic evidence, domain knowledge, and biomedical ontologies to produce expert-level analyses at a scale and consistency far beyond manual review.
 
-Expected outcomes include: (1) the first systematic benchmark of PGS Catalog models evaluated on a unified, large-scale cohort (All of Us); (2) an AI-driven recommendation workflow validated against this benchmark across 75+ diseases; (3) empirical evaluation of how domain knowledge and structured evidence improve recommendation quality; and (4) integration with PennPRS, our cloud computing platform for PRS training, to provide end-to-end support when published models are insufficient.
+As a flagship demonstration of this platform, we are developing and validating a PRS model recommendation agent, which is a concrete, high-impact task where the challenge is acute: the PGS Catalog hosts over 5,000 PRS models, yet for most diseases, determining which model is best suited for a given population requires synthesizing heterogeneous metadata, ancestry composition, performance benchmarks, and cross-disease genetic architecture. The central scientific question is whether an LLM, equipped with structured genetic evidence and domain context, can match expert-level judgment in recommending high-quality PRS models. When direct models are unavailable, identify scientifically plausible alternatives through shared genetic architecture.
+
+Expected outcomes include: (1) the first systematic benchmark of PGS Catalog models evaluated on a unified, large-scale cohort (All of Us); (2) an AI-driven recommendation workflow validated against this benchmark across 100+ diseases; (3) empirical evaluation of how domain knowledge and structured evidence improve recommendation quality; and (4) integration with PennPRS, our cloud computing platform for PRS training, to provide end-to-end support when published models are insufficient. This modular architecture is designed to extend to causal genetic inference, GWAS interpretation, cross-ancestry risk assessment, and genetic education for clinicians and non-specialist researchers.
 
 Timeline: We are in the core evaluation phase. By Q2 2026, we will complete the benchmark and recommendation evaluation. By Q3 2026, we will finalize the integrated workflow and submit the manuscript to Nature Genetics.
 
@@ -224,7 +224,7 @@ Timeline: We are in the core evaluation phase. By Q2 2026, we will complete the 
 
 **Answer**
 
-Claude functions as a scientific reasoning partner—not merely a data analysis tool—that accelerates the full arc of our research workflow. Specifically, Claude performs three core tasks: (1) Evidence synthesis: integrating heterogeneous PRS model metadata, benchmark results, disease ontology mappings, and genetic correlation data to evaluate and rank candidate models for each disease. (2) Cross-disease reasoning: when direct models are unavailable or insufficient, Claude leverages genetic architecture evidence to identify related diseases whose PRS models may transfer, producing biologically grounded justifications. (3) Scientific reporting: generating structured recommendation reports and manuscript-ready analyses across the full disease benchmark. Claude's extended context window and multi-step reasoning capabilities are uniquely well-suited for this work, as each recommendation requires synthesizing dozens of model-level features and cross-disease evidence within a single coherent reasoning chain. In practice, Claude drives the recommendation pipeline end to end, allowing the team to scale evaluation across 75+ diseases where manual expert review would be limited to a handful.
+Claude serves as the reasoning engine for PennGenetic Agent, a modular platform where each module addresses a distinct genetic analysis task, ranging from risk prediction model selection to causal genetic inference to GWAS interpretation. Across all modules, Claude functions as a domain expert that synthesizes structured genetic evidence, biomedical ontologies, and cross-disease genetic architecture to produce transparent, reproducible scientific analyses. In our current PRS model recommendation module, Claude performs three core tasks: (1) Evidence synthesis: integrating heterogeneous PRS model metadata, benchmark results, disease ontology mappings, and genetic correlation data to evaluate and rank candidate models for each disease. (2) Cross-disease reasoning: when direct models are unavailable or insufficient, Claude leverages genetic architecture evidence (including shared genetic correlations and causal genetic relationships) to identify related diseases whose PRS models may transfer, producing biologically grounded justifications. (3) Scientific reporting: generating structured recommendation reports and manuscript-ready analyses across the full disease benchmark. Claude's extended context window and multi-step reasoning capabilities are uniquely well-suited for this work, as each analysis requires synthesizing dozens of model-level features and cross-disease evidence within a single coherent reasoning chain. In practice, Claude drives the recommendation pipeline end to end, allowing the team to scale evaluation across 100+ diseases where manual expert review would be limited to a handful.
 
 
 
@@ -236,7 +236,7 @@ Claude functions as a scientific reasoning partner—not merely a data analysis 
 
 **Answer**
 
-Claude compresses work that would otherwise require months of manual expert review into a scalable, consistent workflow. Today, selecting the best PRS model for a single disease requires a domain expert to review dozens of candidate models across heterogeneous metadata—a process that takes hours per disease and does not scale. Claude enables us to perform this evaluation across 75+ diseases systematically, surface evidence gaps that manual review would miss, and produce structured outputs ready for scientific analysis. Compared with conventional spreadsheet-based comparison or literature review, Claude provides a qualitative leap in both throughput and consistency, accelerating manuscript-ready analyses on a timeline that would be infeasible with existing methods.
+Claude compresses work that would otherwise require months of manual expert review into a scalable, consistent workflow. Navigating the genetic risk prediction landscape, which involves evaluating candidate models, interpreting cross-disease genetic evidence, and synthesizing fragmented metadata, currently demands specialized expertise and hours of work per disease, a process that does not scale. Claude enables us to perform this evaluation across 100+ diseases systematically, surface evidence gaps that manual review would miss, and produce structured outputs ready for scientific analysis. Compared with conventional spreadsheet-based comparison or literature review, Claude provides a qualitative leap in both throughput and consistency, accelerating manuscript-ready analyses on a timeline that would be infeasible with existing methods.
 
 
 
@@ -252,7 +252,7 @@ Claude compresses work that would otherwise require months of manual expert revi
 
 **Answer**
 
-If successful, this research would directly advance the translation of human genetics into preventive medicine—one of the most impactful applications of AI in the life sciences. By establishing the first validated, AI-driven framework for PRS model selection across a broad disease landscape, this work would improve how researchers and clinicians identify the best genetic risk prediction tools for complex diseases including cardiovascular disease, cancers, and diabetes. It would also systematically reveal where existing PRS models are weak or missing, particularly for underserved ancestries and understudied diseases, directing future methodological effort where it is most needed and helping to make genomic risk prediction a more equitable and routine component of healthcare.
+If successful, this research would directly advance the translation of human genetics into preventive medicine: one of the most impactful applications of AI in the life sciences. By establishing an AI co-scientist with deep genetic expertise, this work would make the vast and growing body of genetic knowledge (from GWAS findings to causal genetic evidence to risk prediction models) navigable and actionable for researchers and clinicians working on complex diseases including cardiovascular disease, cancers, diabetes, and brain disorders. This lowers the barrier for non-specialists to leverage genomic discoveries in their research and clinical practice. It would also systematically reveal where genetic evidence and prediction tools are weak or missing, particularly for underserved ancestries and understudied diseases, directing future scientific effort where it is most needed and helping to make genomic medicine a more equitable and routine component of healthcare.
 
 
 
@@ -264,7 +264,7 @@ If successful, this research would directly advance the translation of human gen
 
 **Answer**
 
-Yes. Beyond pure scientific discovery, this work could function as a decision-support and research-infrastructure layer for biobanks, academic medical centers, and population health studies by helping investigators more consistently identify suitable PRS models, recognize when published models are weak or missing, and move more efficiently toward follow-up validation or model training. Because it is built on public genetic resources and a deployable PennPRS workflow, it also has a clear path to scale as a low-marginal-cost platform for more transparent, accessible, and equitable use of genomic risk prediction, especially for diseases and populations that are currently underserved.
+Yes. Beyond scientific discovery, PennGenetic Agent could serve as a genetic expertise layer for biobanks, academic medical centers, and population health studies, helping investigators who are not genetics specialists to navigate risk prediction tools, interpret GWAS and causal genetic findings, and identify actionable insights for their diseases and populations of interest. This functions as genetic education and decision support at scale, lowering the barrier to genomic medicine for a broad scientific and clinical community. Because it is built on public genetic resources and integrates with PennPRS, it has a clear path to scale as a low-marginal-cost platform for more transparent, accessible, and equitable use of genetic knowledge, especially for underserved diseases and populations.
 
 
 
@@ -276,7 +276,7 @@ Yes. Beyond pure scientific discovery, this work could function as a decision-su
 
 **Answer**
 
-We will measure success by whether Claude's recommendations consistently identify the best-performing PRS models across a large benchmark of diseases, as evaluated against empirical performance in the All of Us cohort. Specific objectives include: (1) recommendation accuracy—whether Claude's top-ranked model matches or closely approximates the empirically best model across the benchmark disease set; (2) consistency—whether repeated runs produce stable, reproducible recommendations; (3) output quality—low rates of invalid, unsupported, or non-interpretable outputs; and (4) research efficiency—whether Claude measurably reduces the time required to synthesize fragmented genetic evidence into transparent reports and manuscript-ready analyses, allowing us to scale reproducible evaluation to substantially more diseases and populations within the same project timeline.
+We will measure success by whether Claude's recommendations consistently identify the best-performing genetic risk prediction models across a large benchmark of diseases, as evaluated against empirical performance in the All of Us cohort. Specific objectives include: (1) recommendation accuracy—whether Claude's top-ranked model matches or closely approximates the empirically best model across the benchmark disease set; (2) consistency—whether repeated runs produce stable, reproducible recommendations; (3) output quality—low rates of invalid, unsupported, or non-interpretable outputs; and (4) research efficiency—whether Claude measurably reduces the time required to synthesize fragmented genetic evidence into transparent reports and manuscript-ready analyses, allowing us to scale reproducible evaluation to substantially more diseases and populations within the same project timeline.
 
 
 
@@ -292,7 +292,7 @@ We will measure success by whether Claude's recommendations consistently identif
 
 **Answer**
 
-We anticipate needing approximately $10,000–$15,000 in API credits. The majority will support large-scale Claude-assisted evaluation across 75+ diseases with multiple recommendation configurations, including repeated benchmark runs, ablation analyses comparing different evidence and context conditions, and generation of transparent research reports. A smaller portion will support Claude-assisted scientific writing and manuscript preparation for submission to Nature Genetics. This level of support would allow us to validate and iterate on the recommendation workflow at a scale and depth that would be difficult to achieve within a typical academic budget, accelerating the development of a reproducible and scalable resource for genetic risk prediction.
+We anticipate needing approximately $10,000–$15,000 in API credits. The majority will support large-scale Claude-assisted evaluation across 100+ diseases with multiple recommendation configurations, including repeated benchmark runs, ablation analyses comparing different evidence and context conditions, and generation of transparent research reports. A portion will support exploration of additional genetic analysis modules (GWAS interpretation, cross-ancestry assessment, genetic education). A smaller portion will support Claude-assisted scientific writing and manuscript preparation for submission to Nature Genetics. This level of support would allow us to validate and iterate on the platform at a scale and depth that would be difficult to achieve within a typical academic budget, accelerating the development of a reproducible and scalable resource for genetic risk prediction and discovery.
 
 
 
