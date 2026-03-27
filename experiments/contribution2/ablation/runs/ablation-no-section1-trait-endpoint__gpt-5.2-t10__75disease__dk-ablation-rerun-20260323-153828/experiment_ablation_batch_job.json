@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69c196f48f8081908851e48a810ea7d0",
+  "status": "completed",
+  "input_file_id": "file-5Pmnwzwf5Bvo2rikLH9sm4",
+  "output_file_id": "file-G8KCJBLj6K6tJGWKkxv7wk",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 150,
+    "failed": 0,
+    "total": 150
+  },
+  "batch": {
+    "id": "batch_69c196f48f8081908851e48a810ea7d0",
+    "completion_window": "24h",
+    "created_at": 1774294772,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-5Pmnwzwf5Bvo2rikLH9sm4",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1774295113,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774381172,
+    "failed_at": null,
+    "finalizing_at": 1774295098,
+    "in_progress_at": 1774294834,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section1-trait-endpoint",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-G8KCJBLj6K6tJGWKkxv7wk",
+    "request_counts": {
+      "completed": 150,
+      "failed": 0,
+      "total": 150
+    },
+    "usage": {
+      "input_tokens": 2941188,
+      "input_tokens_details": {
+        "cached_tokens": 936832
+      },
+      "output_tokens": 214508,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 3155696
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section1-trait-endpoint__gpt-5.2-t10__75disease__dk-ablation-rerun-20260323-153828/experiment_ablation_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section1-trait-endpoint__gpt-5.2-t10__75disease__dk-ablation-rerun-20260323-153828/experiment_without_domain_batch_output.jsonl",
+  "error_jsonl_file": null
+}

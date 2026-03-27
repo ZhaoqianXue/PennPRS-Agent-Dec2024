@@ -1,0 +1,65 @@
+[
+  {
+    "variant_id": "no-section1-trait-endpoint",
+    "removed_section_heading": "## 1. trait_reported / trait_efo / phenotyping_reported",
+    "removed_line_range": "L35-L117",
+    "output_file": "no-section1-trait-endpoint.md",
+    "source_chars": 48836,
+    "variant_chars": 37774,
+    "chars_removed": 11062
+  },
+  {
+    "variant_id": "no-section2-performance-covariates",
+    "removed_section_heading": "## 2. performance_metrics.auc / performance_metrics.r2 / covariates",
+    "removed_line_range": "L118-L232",
+    "output_file": "no-section2-performance-covariates.md",
+    "source_chars": 48836,
+    "variant_chars": 35968,
+    "chars_removed": 12868
+  },
+  {
+    "variant_id": "no-section3-validation-sample-size",
+    "removed_section_heading": "## 3. validation_sample_size",
+    "removed_line_range": "L233-L257",
+    "output_file": "no-section3-validation-sample-size.md",
+    "source_chars": 48836,
+    "variant_chars": 46729,
+    "chars_removed": 2107
+  },
+  {
+    "variant_id": "no-section4-training-cohorts-ancestry",
+    "removed_section_heading": "## 4. training_development_cohorts / samples_training / ancestry_distribution",
+    "removed_line_range": "L258-L318",
+    "output_file": "no-section4-training-cohorts-ancestry.md",
+    "source_chars": 48836,
+    "variant_chars": 42223,
+    "chars_removed": 6613
+  },
+  {
+    "variant_id": "no-section5-method-name",
+    "removed_section_heading": "## 5. method_name",
+    "removed_line_range": "L319-L365",
+    "output_file": "no-section5-method-name.md",
+    "source_chars": 48836,
+    "variant_chars": 43787,
+    "chars_removed": 5049
+  },
+  {
+    "variant_id": "no-section6-publication",
+    "removed_section_heading": "## 6. publication.title / publication.journal / date_release",
+    "removed_line_range": "L366-L413",
+    "output_file": "no-section6-publication.md",
+    "source_chars": 48836,
+    "variant_chars": 44689,
+    "chars_removed": 4147
+  },
+  {
+    "variant_id": "no-section7-variants-number",
+    "removed_section_heading": "## 7. variants_number",
+    "removed_line_range": "L414-L430",
+    "output_file": "no-section7-variants-number.md",
+    "source_chars": 48836,
+    "variant_chars": 47607,
+    "chars_removed": 1229
+  }
+]

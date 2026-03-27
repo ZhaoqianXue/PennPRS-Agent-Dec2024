@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69c19d7f83a88190bf0660fbf849555d",
+  "status": "completed",
+  "input_file_id": "file-X4M8rqutV1k6tZNvvMTmw3",
+  "output_file_id": "file-8wuggH5ZMq9SucgudLRvqE",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 150,
+    "failed": 0,
+    "total": 150
+  },
+  "batch": {
+    "id": "batch_69c19d7f83a88190bf0660fbf849555d",
+    "completion_window": "24h",
+    "created_at": 1774296447,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-X4M8rqutV1k6tZNvvMTmw3",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1774296888,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774382847,
+    "failed_at": null,
+    "finalizing_at": 1774296865,
+    "in_progress_at": 1774296448,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section4-training-cohorts-ancestry",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-8wuggH5ZMq9SucgudLRvqE",
+    "request_counts": {
+      "completed": 150,
+      "failed": 0,
+      "total": 150
+    },
+    "usage": {
+      "input_tokens": 2993440,
+      "input_tokens_details": {
+        "cached_tokens": 1072896
+      },
+      "output_tokens": 211150,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 3204590
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section4-training-cohorts-ancestry__gpt-5.2-t10__75disease__dk-ablation-rerun-20260323-160536/experiment_ablation_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section4-training-cohorts-ancestry__gpt-5.2-t10__75disease__dk-ablation-rerun-20260323-160536/experiment_without_domain_batch_output.jsonl",
+  "error_jsonl_file": null
+}

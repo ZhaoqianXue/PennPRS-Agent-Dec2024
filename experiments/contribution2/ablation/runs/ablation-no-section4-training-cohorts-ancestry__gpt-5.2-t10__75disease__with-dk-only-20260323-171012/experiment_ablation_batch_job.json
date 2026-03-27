@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69c1b2c0d85c8190874545265e4cb76f",
+  "status": "completed",
+  "input_file_id": "file-CGptvjzbKzS6txJmerNsVS",
+  "output_file_id": "file-MgsrVpVpWykgH9s8V69huW",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 150,
+    "failed": 0,
+    "total": 150
+  },
+  "batch": {
+    "id": "batch_69c1b2c0d85c8190874545265e4cb76f",
+    "completion_window": "24h",
+    "created_at": 1774301888,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-CGptvjzbKzS6txJmerNsVS",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1774302048,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774388288,
+    "failed_at": null,
+    "finalizing_at": 1774302024,
+    "in_progress_at": 1774301889,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section4-training-cohorts-ancestry",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-MgsrVpVpWykgH9s8V69huW",
+    "request_counts": {
+      "completed": 150,
+      "failed": 0,
+      "total": 150
+    },
+    "usage": {
+      "input_tokens": 2942140,
+      "input_tokens_details": {
+        "cached_tokens": 1276416
+      },
+      "output_tokens": 212907,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 3155047
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section4-training-cohorts-ancestry__gpt-5.2-t10__75disease__with-dk-only-20260323-171012/experiment_ablation_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section4-training-cohorts-ancestry__gpt-5.2-t10__75disease__with-dk-only-20260323-171012/experiment_without_domain_batch_output.jsonl",
+  "error_jsonl_file": null
+}

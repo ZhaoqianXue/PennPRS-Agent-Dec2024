@@ -6,10 +6,10 @@ Generate figures for Catalog Search vs Catalog Search + Domain Knowledge compari
         where the disease has fewer than 40 candidate models.
 Y-axis: Disease (one row per disease), ordered by Results by Disease.
 Color:  AOU AUC (continuous colormap).
-Icons:  Mark every selection across all trials:
-        - ○ Catalog Search Only (number = selection count)
-        - △ Catalog Search + Domain Knowledge (number = selection count)
-        -         Both methods: show both icons side by side in same cell
+Icons:  One ○ and one △ per disease row (not per cell):
+    - X-position = mean benchmark rank of that method's selections (weighted by repeats).
+    - Number next to each marker = mean benchmark rank (x-axis value), not trial count.
+    - If both means tie, △ is drawn left of ○.
 
 2. NRS scatter: Horizontal scatter plot.
    X-axis: Normalized Ranking Score (NRS, 0-1).
@@ -42,7 +42,7 @@ RECOMMENDATION_DIR = PROJECT_ROOT / "experiments" / "contribution2" / "recommend
 DEFAULT_WITH_SUMMARY = (
     RECOMMENDATION_DIR
     / "runs"
-    / "with-domain-gpt-5.2-t10__75disease__latest-domain-knowledge-v4"
+    / "with-domain-gpt-5.2-t10__75disease__with-dk-only-20260323-171012"
     / "experiment_with_domain_summary.json"
 )
 DEFAULT_WITHOUT_SUMMARY = (
@@ -56,7 +56,7 @@ OUTPUT_STEM = "figure_top10_auc_heatmap"
 OUTPUT_STEM_NRS = "figure_nrs_comparison"
 TOP_K = 40
 
-# Icon mapping: circle = CS only, triangle = DK only; both = show both icons in same cell
+# Legend labels: circle = CS, triangle = DK (one marker per method per row at mean rank)
 ICON_CS_ONLY = ("o", "Catalog Search Only")
 ICON_DK_ONLY = ("^", "Catalog Search + Domain Knowledge")
 
@@ -116,10 +116,10 @@ def _display_name(ontology: str) -> str:
 def _build_heatmap_data(
     with_summary: dict[str, Any],
     without_summary: dict[str, Any],
-) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, list[str]]:
+) -> tuple[pd.DataFrame, pd.DataFrame, list[str]]:
     """
-    Build AUC matrix, icon matrix, and count matrix.
-    Returns: (auc_frame, icon_frame, count_frame, disease_order)
+    Build AUC matrix and per-row mean-rank markers for overlay.
+    Returns: (auc_frame, row_markers_df, disease_order)
     """
     with_entries = {e["ontology"]: e for e in with_summary["per_disease"]}
     without_entries = {e["ontology"]: e for e in without_summary["per_disease"]}
@@ -136,8 +136,7 @@ def _build_heatmap_data(
     disease_order = [_display_name(row["ontology"]) for row in sorted_rows]
 
     auc_rows: list[dict[str, Any]] = []
-    # Each cell stores list of (icon, count): e.g. [("o","5")] or [("^","3")] or [("o","2"),("^","9")]
-    icon_count_rows: list[dict[str, Any]] = []
+    row_marker_rows: list[dict[str, Any]] = []
 
     for row in sorted_rows:
         ontology = row["ontology"]
@@ -151,44 +150,63 @@ def _build_heatmap_data(
         dk_trials = [str(x) for x in (with_entry.get("trial_recommendations") or [])]
 
         auc_row: dict[str, Any] = {"Disease": _display_name(ontology)}
-        icon_count_row: dict[str, Any] = {"Disease": _display_name(ontology)}
 
         for rank in range(1, TOP_K + 1):
             col = f"Rank {rank}"
             if rank > n_models:
                 auc_row[col] = np.nan
-                icon_count_row[col] = []
             else:
                 pgs_id = ranked_ids[rank - 1] if rank <= len(ranked_ids) else None
                 if pgs_id:
                     auc_row[col] = auc_by_id.get(pgs_id, np.nan)
-                    cs_count = cs_trials.count(pgs_id)
-                    dk_count = dk_trials.count(pgs_id)
-                    items: list[tuple[str, str]] = []
-                    if cs_count > 0:
-                        items.append((ICON_CS_ONLY[0], str(cs_count)))
-                    if dk_count > 0:
-                        items.append((ICON_DK_ONLY[0], str(dk_count)))
-                    icon_count_row[col] = items
                 else:
                     auc_row[col] = np.nan
-                    icon_count_row[col] = []
+
+        # One circle / triangle per row: mean rank of selections (frequency-weighted via repeated ids)
+        rank_by_id: dict[str, int] = {}
+        for ridx, pid in enumerate(ranked_ids, start=1):
+            if pid:
+                rank_by_id[str(pid)] = ridx
+        cs_ranks = [rank_by_id[t] for t in cs_trials if t in rank_by_id]
+        dk_ranks = [rank_by_id[t] for t in dk_trials if t in rank_by_id]
+        mean_cs = float(np.mean(cs_ranks)) if cs_ranks else np.nan
+        mean_dk = float(np.mean(dk_ranks)) if dk_ranks else np.nan
+        row_marker_rows.append(
+            {
+                "Disease": _display_name(ontology),
+                "mean_cs_rank": mean_cs,
+                "mean_dk_rank": mean_dk,
+                "n_cs": len(cs_ranks),
+                "n_dk": len(dk_ranks),
+            }
+        )
 
         auc_rows.append(auc_row)
-        icon_count_rows.append(icon_count_row)
 
     auc_frame = pd.DataFrame(auc_rows).set_index("Disease")
-    icon_count_df = pd.DataFrame(
-        {c: [r[c] for r in icon_count_rows] for c in [f"Rank {k}" for k in range(1, TOP_K + 1)]},
-        index=[r["Disease"] for r in icon_count_rows],
-    )
+    row_markers_df = pd.DataFrame(row_marker_rows).set_index("Disease")
 
-    return auc_frame, icon_count_df, disease_order
+    return auc_frame, row_markers_df, disease_order
+
+
+def _mean_rank_to_x(mean_rank: float) -> float:
+    """Map mean benchmark rank (1-based) to seaborn heatmap x coordinate (cell center)."""
+    return (mean_rank - 1.0) + 0.5
+
+
+def _format_mean_rank_label(mean_rank: float) -> str:
+    """Human-readable label for mean rank (1..TOP_K) next to markers."""
+    if np.isnan(mean_rank):
+        return ""
+    r = float(mean_rank)
+    if abs(r - round(r)) < 1e-5:
+        return str(int(round(r)))
+    return f"{r:.1f}"
 
 
 def _plot_heatmap(
     auc_frame: pd.DataFrame,
-    icon_count_df: pd.DataFrame,
+    row_markers_df: pd.DataFrame,
     disease_order: list[str],
     output_dir: Path,
     formats: list[str],
@@ -265,47 +283,60 @@ def _plot_heatmap(
             cax.set_yticks(cbar_ticks)
             cax.set_yticklabels([f"{t:.2f}" for t in cbar_ticks])
 
-    # Overlay icons at cell centers, with count text to the right
-    # For "both" case: show circle and triangle side by side in same cell
+    # One ○ and one △ per row at mean selection rank; tie -> △ left, ○ right
     ICON_EDGE_WIDTH = 1.2
     COUNT_OFFSET = 0.15
-    MARKER_TO_NAME = {"o": "o", "^": "^"}
+    TIE_X_OFFSET = 0.14
 
     for i, disease in enumerate(auc_frame.index):
-        for j, col in enumerate(auc_frame.columns):
-            items = icon_count_df.loc[disease, col]
-            if not isinstance(items, list) or not items:
-                continue
-            n = len(items)
-            # Position: 1 item at center; 2 items side by side (wider spacing to avoid overlap)
-            if n == 1:
-                x_positions = [j + 0.5]
-            else:
-                x_positions = [j + 0.25, j + 0.75]
-            for (icon, count), x_pos in zip(items, x_positions):
-                marker_name = MARKER_TO_NAME.get(icon, icon)
-                ax.scatter(
-                    x_pos,
-                    i + 0.5,
-                    marker=marker_name,
-                    s=55,
-                    c=ICON_COLOR,
-                    edgecolors=ICON_EDGE,
-                    linewidths=ICON_EDGE_WIDTH,
-                    zorder=5,
-                )
-                ax.text(
-                    x_pos + COUNT_OFFSET,
-                    i + 0.5,
-                    count,
-                    ha="left",
-                    va="center",
-                    fontsize=7,
-                    color="black",
-                    fontweight="bold",
-                    zorder=6,
-                    path_effects=[pe.withStroke(linewidth=2.5, foreground="white")],
-                )
+        row = row_markers_df.loc[disease]
+        mean_cs = float(row["mean_cs_rank"]) if pd.notna(row["mean_cs_rank"]) else np.nan
+        mean_dk = float(row["mean_dk_rank"]) if pd.notna(row["mean_dk_rank"]) else np.nan
+        n_cs = int(row["n_cs"])
+        n_dk = int(row["n_dk"])
+
+        tie = (
+            not np.isnan(mean_cs)
+            and not np.isnan(mean_dk)
+            and abs(mean_cs - mean_dk) < 1e-6
+        )
+        x_cs = _mean_rank_to_x(mean_cs) if not np.isnan(mean_cs) else np.nan
+        x_dk = _mean_rank_to_x(mean_dk) if not np.isnan(mean_dk) else np.nan
+        if tie:
+            x_dk -= TIE_X_OFFSET
+            x_cs += TIE_X_OFFSET
+
+        y = i + 0.5
+
+        def _draw_marker(x: float, marker: str, n_sel: int, mean_rank: float) -> None:
+            if np.isnan(x) or n_sel <= 0 or np.isnan(mean_rank):
+                return
+            ax.scatter(
+                x,
+                y,
+                marker=marker,
+                s=55,
+                c=ICON_COLOR,
+                edgecolors=ICON_EDGE,
+                linewidths=ICON_EDGE_WIDTH,
+                zorder=5,
+            )
+            ax.text(
+                x + COUNT_OFFSET,
+                y,
+                _format_mean_rank_label(mean_rank),
+                ha="left",
+                va="center",
+                fontsize=7,
+                color="black",
+                fontweight="bold",
+                zorder=6,
+                path_effects=[pe.withStroke(linewidth=2.5, foreground="white")],
+            )
+
+        # Draw DK (triangle) first so it stays visually behind if overlapping; tie: △ left
+        _draw_marker(x_dk, ICON_DK_ONLY[0], n_dk, mean_dk)
+        _draw_marker(x_cs, ICON_CS_ONLY[0], n_cs, mean_cs)
 
     ax.set_xlabel("Top 40 PRS models (AOU benchmark rank)", fontsize=14)
     ax.set_ylabel("Disease", fontsize=14)
@@ -455,10 +486,10 @@ def main() -> None:
     without_summary = _load_summary(args.without_summary)
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
-    auc_frame, icon_count_df, disease_order = _build_heatmap_data(with_summary, without_summary)
+    auc_frame, row_markers_df, disease_order = _build_heatmap_data(with_summary, without_summary)
     output_paths = _plot_heatmap(
         auc_frame=auc_frame,
-        icon_count_df=icon_count_df,
+        row_markers_df=row_markers_df,
         disease_order=disease_order,
         output_dir=args.output_dir,
         formats=args.formats,

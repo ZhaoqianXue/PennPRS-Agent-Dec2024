@@ -1,0 +1,48 @@
+{
+  "batch_id": "batch_69c0f9d05d248190aa21e651948b1cea",
+  "input_file_id": "file-9g9ra8r4W6urBrtc1tnLzA",
+  "request_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section9-disease-family__gpt-5.2-t10__75disease__paired-current-dk-20260323/experiment_ablation_batch_requests.jsonl",
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section9-disease-family__gpt-5.2-t10__75disease__paired-current-dk-20260323/experiment_ablation_batch_manifest.json",
+  "status": "validating",
+  "batch": {
+    "id": "batch_69c0f9d05d248190aa21e651948b1cea",
+    "completion_window": "24h",
+    "created_at": 1774254544,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-9g9ra8r4W6urBrtc1tnLzA",
+    "object": "batch",
+    "status": "validating",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": null,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774340944,
+    "failed_at": null,
+    "finalizing_at": null,
+    "in_progress_at": null,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section9-disease-family",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": null,
+    "output_file_id": null,
+    "request_counts": {
+      "completed": 0,
+      "failed": 0,
+      "total": 0
+    },
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69c1a635473c819094f10a8d34053808",
+  "status": "completed",
+  "input_file_id": "file-Wuedz55CV1yUwaCsLLsJ1V",
+  "output_file_id": "file-Y3Vbnw5EqiGsiaeBfxgdbw",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 150,
+    "failed": 0,
+    "total": 150
+  },
+  "batch": {
+    "id": "batch_69c1a635473c819094f10a8d34053808",
+    "completion_window": "24h",
+    "created_at": 1774298677,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-Wuedz55CV1yUwaCsLLsJ1V",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1774298909,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774385077,
+    "failed_at": null,
+    "finalizing_at": 1774298899,
+    "in_progress_at": 1774298680,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section5-method-name",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-Y3Vbnw5EqiGsiaeBfxgdbw",
+    "request_counts": {
+      "completed": 150,
+      "failed": 0,
+      "total": 150
+    },
+    "usage": {
+      "input_tokens": 3023760,
+      "input_tokens_details": {
+        "cached_tokens": 1647872
+      },
+      "output_tokens": 213136,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 3236896
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section5-method-name__gpt-5.2-t10__75disease__dk-ablation-rerun-20260323-164231/experiment_ablation_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section5-method-name__gpt-5.2-t10__75disease__dk-ablation-rerun-20260323-164231/experiment_without_domain_batch_output.jsonl",
+  "error_jsonl_file": null
+}

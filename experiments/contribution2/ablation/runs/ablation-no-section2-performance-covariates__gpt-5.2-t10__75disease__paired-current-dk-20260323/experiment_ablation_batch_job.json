@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69c0f54679688190837d94f95bd8232c",
+  "status": "completed",
+  "input_file_id": "file-QuGgHqspCY9vnyDRb9nR9b",
+  "output_file_id": "file-1rKQRhTt1e8xo2WFvbkuTD",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 150,
+    "failed": 0,
+    "total": 150
+  },
+  "batch": {
+    "id": "batch_69c0f54679688190837d94f95bd8232c",
+    "completion_window": "24h",
+    "created_at": 1774253382,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-QuGgHqspCY9vnyDRb9nR9b",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1774253693,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774339782,
+    "failed_at": null,
+    "finalizing_at": 1774253671,
+    "in_progress_at": 1774253383,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section2-performance-covariates",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-1rKQRhTt1e8xo2WFvbkuTD",
+    "request_counts": {
+      "completed": 150,
+      "failed": 0,
+      "total": 150
+    },
+    "usage": {
+      "input_tokens": 3418942,
+      "input_tokens_details": {
+        "cached_tokens": 1649664
+      },
+      "output_tokens": 212993,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 3631935
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section2-performance-covariates__gpt-5.2-t10__75disease__paired-current-dk-20260323/experiment_ablation_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section2-performance-covariates__gpt-5.2-t10__75disease__paired-current-dk-20260323/experiment_without_domain_batch_output.jsonl",
+  "error_jsonl_file": null
+}

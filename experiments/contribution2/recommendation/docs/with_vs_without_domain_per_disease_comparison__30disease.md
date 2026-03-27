@@ -22,11 +22,11 @@ The candidate PGS model set is identical across all three arms; only the informa
 
 ## High-Level Outcome
 
-- Catalog Search + Domain Knowledge `Hit@1`: `17/30 = 56.67%`; `trial_hits = 165/300 = 55.00%`
-- Catalog Search + Domain Knowledge `Hit@2`: `21/30 = 70.00%`; `trial_hits = 214/300 = 71.33%`
-- Catalog Search + Domain Knowledge `Hit@3`: `24/30 = 80.00%`; `trial_hits = 240/300 = 80.00%`
-- Catalog Search + Domain Knowledge `Hit@4`: `27/30 = 90.00%`; `trial_hits = 261/300 = 87.00%`
-- Catalog Search + Domain Knowledge `Hit@5`: `28/30 = 93.33%`; `trial_hits = 271/300 = 90.33%`
+- Catalog Search + Domain Knowledge `Hit@1`: `13/30 = 43.33%`; `trial_hits = 135/300 = 45.00%`
+- Catalog Search + Domain Knowledge `Hit@2`: `18/30 = 60.00%`; `trial_hits = 186/300 = 62.00%`
+- Catalog Search + Domain Knowledge `Hit@3`: `21/30 = 70.00%`; `trial_hits = 217/300 = 72.33%`
+- Catalog Search + Domain Knowledge `Hit@4`: `24/30 = 80.00%`; `trial_hits = 237/300 = 79.00%`
+- Catalog Search + Domain Knowledge `Hit@5`: `26/30 = 86.67%`; `trial_hits = 256/300 = 85.33%`
 - Catalog Search Only `Hit@1`: `14/30 = 46.67%`; `trial_hits = 140/300 = 46.67%`
 - Catalog Search Only `Hit@2`: `18/30 = 60.00%`; `trial_hits = 181/300 = 60.33%`
 - Catalog Search Only `Hit@3`: `24/30 = 80.00%`; `trial_hits = 237/300 = 79.00%`
@@ -47,11 +47,11 @@ The candidate PGS model set is identical across all three arms; only the informa
 - Denominator: fixed total disease count for modal selections and fixed total trial count for trial selections.
 - Tie handling: if the AoU benchmark AUC is tied at cutoff rank `c_q`, all tied models count as `Top q%`.
 
-- Catalog Search + Domain Knowledge `Top 5% Hit`: `17/30 = 56.67%`; `trial_hits = 165/300 = 55.00%`
-- Catalog Search + Domain Knowledge `Top 10% Hit`: `19/30 = 63.33%`; `trial_hits = 178/300 = 59.33%`
-- Catalog Search + Domain Knowledge `Top 15% Hit`: `22/30 = 73.33%`; `trial_hits = 211/300 = 70.33%`
-- Catalog Search + Domain Knowledge `Top 20% Hit`: `22/30 = 73.33%`; `trial_hits = 213/300 = 71.00%`
-- Catalog Search + Domain Knowledge `Top 25% Hit`: `22/30 = 73.33%`; `trial_hits = 218/300 = 72.67%`
+- Catalog Search + Domain Knowledge `Top 5% Hit`: `13/30 = 43.33%`; `trial_hits = 135/300 = 45.00%`
+- Catalog Search + Domain Knowledge `Top 10% Hit`: `15/30 = 50.00%`; `trial_hits = 156/300 = 52.00%`
+- Catalog Search + Domain Knowledge `Top 15% Hit`: `18/30 = 60.00%`; `trial_hits = 188/300 = 62.67%`
+- Catalog Search + Domain Knowledge `Top 20% Hit`: `18/30 = 60.00%`; `trial_hits = 188/300 = 62.67%`
+- Catalog Search + Domain Knowledge `Top 25% Hit`: `18/30 = 60.00%`; `trial_hits = 189/300 = 63.00%`
 - Catalog Search Only `Top 5% Hit`: `14/30 = 46.67%`; `trial_hits = 140/300 = 46.67%`
 - Catalog Search Only `Top 10% Hit`: `15/30 = 50.00%`; `trial_hits = 153/300 = 51.00%`
 - Catalog Search Only `Top 15% Hit`: `18/30 = 60.00%`; `trial_hits = 183/300 = 61.00%`
@@ -69,7 +69,7 @@ The candidate PGS model set is identical across all three arms; only the informa
 - Formula: `r / M`
 - Scale: smaller is better.
 - Interpretation: `r / M = 0.20` means the selected model is ranked in the top 20% of the disease-specific candidate pool.
-- Catalog Search + Domain Knowledge: `mean r / M = 0.2935` (30 modal selections); `trial mean r / M = 0.3038` (300 trials)
+- Catalog Search + Domain Knowledge: `mean r / M = 0.3738` (30 modal selections); `trial mean r / M = 0.3723` (298 trials)
 - Catalog Search Only: `mean r / M = 0.3873` (30 modal selections); `trial mean r / M = 0.3883` (300 trials)
 - Prompt-Only Baseline: `mean r / M = 0.6901` (30 modal selections); `trial mean r / M = 0.6886` (300 trials)
 
@@ -79,7 +79,7 @@ The candidate PGS model set is identical across all three arms; only the informa
 - Formula: `(M - r) / M`
 - Scale: `0.0` means bottom-ranked; larger is better.
 - Interpretation: values closer to `1.0` mean the selected model is closer to the top of the disease-specific candidate pool.
-- Catalog Search + Domain Knowledge: `mean (M - r) / M = 0.7065` (30 modal selections); `trial mean (M - r) / M = 0.6962` (300 trials)
+- Catalog Search + Domain Knowledge: `mean (M - r) / M = 0.6262` (30 modal selections); `trial mean (M - r) / M = 0.6277` (298 trials)
 - Catalog Search Only: `mean (M - r) / M = 0.6127` (30 modal selections); `trial mean (M - r) / M = 0.6117` (300 trials)
 - Prompt-Only Baseline: `mean (M - r) / M = 0.3099` (30 modal selections); `trial mean (M - r) / M = 0.3114` (300 trials)
 
@@ -88,7 +88,7 @@ The candidate PGS model set is identical across all three arms; only the informa
 - Inputs: `M` = number of candidate PRS models for the disease; `r` = AoU benchmark rank of the selected model among those `M` candidates.
 - Formula: `NRS = (M - r) / (M - 1)`
 - Scale: `NRS = 1.0` means top-ranked; `NRS = 0.0` means bottom-ranked; larger is better.
-- Catalog Search + Domain Knowledge: `mean NRS = 0.8403` (30 modal selections); `trial mean NRS = 0.8289` (300 trials)
+- Catalog Search + Domain Knowledge: `mean NRS = 0.7487` (30 modal selections); `trial mean NRS = 0.7502` (298 trials)
 - Catalog Search Only: `mean NRS = 0.7256` (30 modal selections); `trial mean NRS = 0.7253` (300 trials)
 - Prompt-Only Baseline: `mean NRS = 0.3715` (30 modal selections); `trial mean NRS = 0.3735` (300 trials)
 
@@ -101,30 +101,30 @@ Candidate pool: `96` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS000566 | PGS000044 | PGS001292 | PGS000592 | PGS002793 | PGS004155 | PGS005238 | PGS000030 | Agent Input |
-| AoU benchmark rank | 1/95 | 2/95 | 3/95 | 4/95 | 5/95 | 30/95 | 51/95 | 29/95 | Benchmark Only |
-| AoU benchmark AUC | 0.6550 | 0.6295 | 0.6041 | 0.5748 | 0.5665 | 0.5492 | 0.5402 | 0.5495 | Benchmark Only |
+| Selected PGS ID | PGS000566 | PGS000044 | PGS001292 | PGS000592 | PGS002793 | PGS004042 | PGS005238 | PGS000030 | Agent Input |
+| AoU benchmark rank | 1/95 | 2/95 | 3/95 | 4/95 | 5/95 | 43/95 | 51/95 | 29/95 | Benchmark Only |
+| AoU benchmark AUC | 0.6550 | 0.6295 | 0.6041 | 0.5748 | 0.5665 | 0.5422 | 0.5402 | 0.5495 | Benchmark Only |
 | Hit@1 | Yes | No | No | No | No | No | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | No | No | No | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | No | No | No | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | No | No | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | No | No | No | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 10/10 trials | 8/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 5/10 trials | 10/10 trials | 8/10 trials | Benchmark Only |
 | trait_reported | Prostate cancer | Prostate cancer | Family history of prostate cancer | Prostate cancer | Prostate cancer | Prostate cancer | Prostate carcinoma | Prostate cancer | Agent Input |
 | trait_efo | prostate carcinoma | prostate carcinoma | family history of prostate cancer | prostate carcinoma | prostate carcinoma | prostate carcinoma | prostate carcinoma | prostate carcinoma | Agent Input |
 | phenotyping_reported | Cancer of prostate | Elevated serum prostate-specific antigen (PSA) levels | Prostate cancer (FH) | Cancer of prostate | Prostate cancer risk | Prostate cancer | 5-year incident prostate cancer | Prostate cancer metastasis or death | Agent Input |
-| method_name | PRS-CS | Known susceptibility loci (genome-wide significant SNPs) | snpnet | lassosum | Genome-wide significant SNPs | UKBB-EUR.MultiPRS.CV | LDpred2 | Genome-wide significant variants | Agent Input |
-| performance_metrics.selected_performance_id | PPM001251 | PPM000104 | PPM008960 | PPM001277 | PPM015450 | PPM019534 | PPM022696 | PPM013019 | Agent Input |
+| method_name | PRS-CS | Known susceptibility loci (genome-wide significant SNPs) | snpnet | lassosum | Genome-wide significant SNPs | LDpred2.CV | LDpred2 | Genome-wide significant variants | Agent Input |
+| performance_metrics.selected_performance_id | PPM001251 | PPM000104 | PPM008960 | PPM001277 | PPM015450 | PPM019510 | PPM022696 | PPM013019 | Agent Input |
 | performance_metrics.selected_validation_ancestry | European | European | European | European | East Asian | European | European | European | Agent Input |
 | performance_metrics.record_count | 1 | 2 | 5 | 1 | 1 | 6 | 10 | 16 | Agent Input |
 | performance_metrics.auc | N/A | N/A | 0.5487 | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | 0.0055 | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.full_model_auc | 0.5910 | N/A | 0.5657 | 0.6160 | N/A | 0.7049 | 0.7890 | 0.6300 | Agent Input |
-| performance_metrics.full_model_r2 | 0.0245 | N/A | 0.0115 | 0.0408 | N/A | 0.1280 | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | 0.5910 | N/A | 0.5657 | 0.6160 | N/A | 0.6994 | 0.7890 | 0.6300 | Agent Input |
+| performance_metrics.full_model_r2 | 0.0245 | N/A | 0.0115 | 0.0408 | N/A | 0.1202 | N/A | N/A | Agent Input |
 | performance_metrics.incremental_auc | N/A | N/A | 0.0170 | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.591, 'ci_lower': 0.573, 'ci_upper': 0.609} | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.56572, 'ci_lower': 0.5538, 'ci_upper': 0.57764} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.616, 'ci_lower': 0.598, 'ci_upper': 0.635} | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.7049161, 'ci_lower': 0.70043717, 'ci_upper': 0.70939503} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.789, 'ci_lower': 0.782, 'ci_upper': 0.796} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.63} | Agent Input |
-| performance_metrics.other_metrics | {'name_long': "Nagelkerke's Pseudo-R²", 'name_short': "Nagelkerke's Pseudo-R²", 'estimate': 0.0245} {'name_long': 'Brier score', 'name_short': 'Brier score', 'estimate': 0.152} {'name_long': 'Odds Ratio (OR, top 1% vs. Rest)', 'name_short': 'Odds Ratio (OR, top 1% vs. Rest)', 'estimate': 2.85, 'ci_lower': 1.76, 'ci_upper': 4.62} | {'name_long': 'OR (per 1-point increase in PRS)', 'name_short': 'OR (per 1-point increase in PRS)', 'estimate': 1.23, 'ci_lower': 1.1, 'ci_upper': 1.37} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.01155} {'name_long': 'Incremental AUROC (full-covars)', 'name_short': 'Incremental AUROC (full-covars)', 'estimate': 0.01702} {'name_long': 'PGS R2 (no covariates)', 'name_short': 'PGS R2 (no covariates)', 'estimate': 0.00547} {'name_long': 'PGS AUROC (no covariates)', 'name_short': 'PGS AUROC (no covariates)', 'estimate': 0.54869, 'ci_lower': 0.53677, 'ci_upper': 0.56062} | {'name_long': "Nagelkerke's Pseudo-R²", 'name_short': "Nagelkerke's Pseudo-R²", 'estimate': 0.0408} {'name_long': 'Brier score', 'name_short': 'Brier score', 'estimate': 0.15} {'name_long': 'Odds Ratio (OR, top 1% vs. Rest)', 'name_short': 'Odds Ratio (OR, top 1% vs. Rest)', 'estimate': 2.55, 'ci_lower': 1.55, 'ci_upper': 4.2} | {'name_long': 'Odds Ratio (OR, top vs average percentile)', 'name_short': 'Odds Ratio (OR, top vs average percentile)', 'estimate': 2.87, 'ci_lower': 1.29, 'ci_upper': 6.4} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.12803272, 'ci_lower': 0.12275071, 'ci_upper': 0.13385339} | N/A | N/A | Agent Input |
-| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.393, 'ci_lower': 1.3, 'ci_upper': 1.493} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.332, 'se': 0.0352} | N/A | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.537, 'ci_lower': 1.433, 'ci_upper': 1.648} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.43, 'se': 0.0357} | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 2.16612832, 'ci_lower': 2.12587867, 'ci_upper': 2.20714003} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.77294139, 'ci_lower': 0.75418521, 'ci_upper': 0.79169757} | N/A | N/A | Agent Input |
+| performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.591, 'ci_lower': 0.573, 'ci_upper': 0.609} | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.56572, 'ci_lower': 0.5538, 'ci_upper': 0.57764} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.616, 'ci_lower': 0.598, 'ci_upper': 0.635} | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.69943718, 'ci_lower': 0.69492796, 'ci_upper': 0.7039464} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.789, 'ci_lower': 0.782, 'ci_upper': 0.796} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.63} | Agent Input |
+| performance_metrics.other_metrics | {'name_long': "Nagelkerke's Pseudo-R²", 'name_short': "Nagelkerke's Pseudo-R²", 'estimate': 0.0245} {'name_long': 'Brier score', 'name_short': 'Brier score', 'estimate': 0.152} {'name_long': 'Odds Ratio (OR, top 1% vs. Rest)', 'name_short': 'Odds Ratio (OR, top 1% vs. Rest)', 'estimate': 2.85, 'ci_lower': 1.76, 'ci_upper': 4.62} | {'name_long': 'OR (per 1-point increase in PRS)', 'name_short': 'OR (per 1-point increase in PRS)', 'estimate': 1.23, 'ci_lower': 1.1, 'ci_upper': 1.37} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.01155} {'name_long': 'Incremental AUROC (full-covars)', 'name_short': 'Incremental AUROC (full-covars)', 'estimate': 0.01702} {'name_long': 'PGS R2 (no covariates)', 'name_short': 'PGS R2 (no covariates)', 'estimate': 0.00547} {'name_long': 'PGS AUROC (no covariates)', 'name_short': 'PGS AUROC (no covariates)', 'estimate': 0.54869, 'ci_lower': 0.53677, 'ci_upper': 0.56062} | {'name_long': "Nagelkerke's Pseudo-R²", 'name_short': "Nagelkerke's Pseudo-R²", 'estimate': 0.0408} {'name_long': 'Brier score', 'name_short': 'Brier score', 'estimate': 0.15} {'name_long': 'Odds Ratio (OR, top 1% vs. Rest)', 'name_short': 'Odds Ratio (OR, top 1% vs. Rest)', 'estimate': 2.55, 'ci_lower': 1.55, 'ci_upper': 4.2} | {'name_long': 'Odds Ratio (OR, top vs average percentile)', 'name_short': 'Odds Ratio (OR, top vs average percentile)', 'estimate': 2.87, 'ci_lower': 1.29, 'ci_upper': 6.4} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.12024169, 'ci_lower': 0.1150319, 'ci_upper': 0.12575818} | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.393, 'ci_lower': 1.3, 'ci_upper': 1.493} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.332, 'se': 0.0352} | N/A | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.537, 'ci_lower': 1.433, 'ci_upper': 1.648} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.43, 'se': 0.0357} | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 2.11237979, 'ci_lower': 2.07329005, 'ci_upper': 2.15220653} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.74781517, 'ci_lower': 0.72913674, 'ci_upper': 0.76649361} | N/A | N/A | Agent Input |
 | validation_sample_size | n=5,607 | n=17,012 | n=24,905 | n=5,607 | n=1,190 | n=171,474 | n=184,010 | n=1,991 | Agent Input |
 | samples_training | n=5,650 | N/A | n=269,704 | n=5,650 | n=109,323 | n=9,671 | n=10,000 | N/A | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EAS (5%), EUR (95%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: NR (2%), AFR (2%), AMR (40%), EAS (1%), EUR (92%), MAE (3%) / DEV: AFR (3%), EAS (1%), EUR (96%) / EVAL: EAS (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (67%), SAS (33%) | GWAS: AFR (9%), AMR (3%), EAS (12%), EUR (76%) / DEV: EUR (100%) / EVAL: AFR (20%), EUR (60%), SAS (20%) | GWAS: EUR (100%) / EVAL: NR (10%), AFR (10%), EUR (70%), MAE (10%) | Agent Input |
@@ -132,7 +132,7 @@ Candidate pool: `96` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 | publication.title | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Reducing overdiagnosis by polygenic risk-stratified screening: findings from the Finnish section of the ERSPC. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Application of European-specific polygenic risk scores for predicting prostate cancer risk in different ancestry populations. | Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning. | Polygenic risk scores for prostate cancer: Comparative evaluations in UK and Australian cohorts. | Association analyses of more than 140,000 men identify 63 new prostate cancer susceptibility loci. | Agent Input |
 | publication.journal | Am J Hum Genet | Br J Cancer | PLoS Genet | Am J Hum Genet | Prostate | Am J Hum Genet | HGG Adv | Nat Genet | Agent Input |
 | date_release | 2020-12-15 | 2019-12-18 | 2021-10-21 | 2020-12-15 | 2022-09-29 | 2023-12-19 | 2025-10-06 | 2019-10-14 | Agent Input |
-| variants_number | 1111494 | 66 | 602 | 1334 | 82 | 1139693 | 964607 | 147 | Agent Input |
+| variants_number | 1111494 | 66 | 602 | 1334 | 82 | 1045276 | 964607 | 147 | Agent Input |
 | covariates | age, sex, batch PCs 1-4 | cancer stage, Gleason score | age, sex, UKB array type, Genotype PCs | age, sex, batch PCs 1-4 | disease diagnostic age or age at recruitment, subgroups and 10 principal components | 0 | Age-specific absolute risk adjusted by PGS relative risk | Unknown | Agent Input |
 
 
@@ -143,39 +143,39 @@ Candidate pool: `32` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS005260 | PGS005274 | PGS005273 | PGS005259 | PGS005258 | PGS005259 | PGS000208 | PGS000087 | Agent Input |
-| AoU benchmark rank | 1/32 | 2/32 | 3/32 | 4/32 | 5/32 | 4/32 | 16/32 | 19/32 | Benchmark Only |
-| AoU benchmark AUC | 0.8113 | 0.8069 | 0.8016 | 0.7865 | 0.6376 | 0.7865 | 0.5890 | 0.5868 | Benchmark Only |
+| Selected PGS ID | PGS005260 | PGS005274 | PGS005273 | PGS005259 | PGS005258 | PGS000630 | PGS000208 | PGS000087 | Agent Input |
+| AoU benchmark rank | 1/32 | 2/32 | 3/32 | 4/32 | 5/32 | 14/32 | 16/32 | 19/32 | Benchmark Only |
+| AoU benchmark AUC | 0.8113 | 0.8069 | 0.8016 | 0.7865 | 0.6376 | 0.5895 | 0.5890 | 0.5868 | Benchmark Only |
 | Hit@1 | Yes | No | No | No | No | No | No | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | No | No | No | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | No | No | No | No | Benchmark Only |
-| Hit@4 | Yes | Yes | Yes | Yes | No | Yes | No | No | Benchmark Only |
-| Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | No | No | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | No | No | No | No | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | No | No | No | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 6/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
-| trait_reported | Thyroid carcenoma | Thyroid carcenoma vs benign nodular goiter | Thyroid carcenoma vs benign nodular goiter | Thyroid carcenoma | Thyroid carcenoma | Thyroid carcenoma | Thyroid cancer | Thyroid cancer | Agent Input |
+| trait_reported | Thyroid carcenoma | Thyroid carcenoma vs benign nodular goiter | Thyroid carcenoma vs benign nodular goiter | Thyroid carcenoma | Thyroid carcenoma | Thyroid cancer | Thyroid cancer | Thyroid cancer | Agent Input |
 | trait_efo | thyroid carcinoma | benign, thyroid carcinoma, nodular goiter | benign, thyroid carcinoma, nodular goiter | thyroid carcinoma | thyroid carcinoma | thyroid carcinoma | thyroid carcinoma | thyroid carcinoma | Agent Input |
-| phenotyping_reported | thyroid carcenoma | thyroid carcenoma vs benign nodular goiter | thyroid carcenoma vs benign nodular goiter | thyroid carcenoma | thyroid carcenoma | thyroid carcenoma | Thyroid cancer | Incident thyroid cancer | Agent Input |
-| method_name | PRSCS | PRSCS | PRSCS | PRSCS | Pruning and Thresholding (P+T) | PRSCS | Genome-wide significant variants | Genome-wide significant variants | Agent Input |
-| performance_metrics.selected_performance_id | PPM022743 | PPM022757 | PPM022756 | PPM022742 | PPM022741 | PPM022742 | PPM000632 | PPM002052 | Agent Input |
-| performance_metrics.selected_validation_ancestry | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | European | European | Agent Input |
-| performance_metrics.record_count | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 2 | Agent Input |
+| phenotyping_reported | thyroid carcenoma | thyroid carcenoma vs benign nodular goiter | thyroid carcenoma vs benign nodular goiter | thyroid carcenoma | thyroid carcenoma | Thyroid cancer | Thyroid cancer | Incident thyroid cancer | Agent Input |
+| method_name | PRSCS | PRSCS | PRSCS | PRSCS | Pruning and Thresholding (P+T) | GWAS Hits | Genome-wide significant variants | Genome-wide significant variants | Agent Input |
+| performance_metrics.selected_performance_id | PPM022743 | PPM022757 | PPM022756 | PPM022742 | PPM022741 | PPM001315 | PPM000632 | PPM002052 | Agent Input |
+| performance_metrics.selected_validation_ancestry | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | African American or Afro-Caribbean, Hispanic or Latin American, European | European | European | European | Agent Input |
+| performance_metrics.record_count | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 2 | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.full_model_auc | 0.6845 | 0.6135 | 0.6174 | 0.6953 | 0.6862 | 0.6953 | 0.7510 | 0.6790 | Agent Input |
-| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
+| performance_metrics.full_model_auc | 0.6845 | 0.6135 | 0.6174 | 0.6953 | 0.6862 | 0.6260 | 0.7510 | 0.6790 | Agent Input |
+| performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | 0.0393 | N/A | N/A | Agent Input |
 | performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.684522760200784} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.613489463745261} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.617388005401901} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.695254013741303} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.686161285410893} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.695254013741303} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.751, 'ci_lower': 0.736, 'ci_upper': 0.768} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.679} {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.666, 'se': 0.023} | Agent Input |
-| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.96019114706853} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.673041992501825} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.49346171423604} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.401096723418125} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.55051776688383} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.438588918302023} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 2.03688674186851} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.71142253524162} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.02} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.016} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 2.03688674186851} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.71142253524162} | N/A | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.57, 'ci_lower': 1.36, 'ci_upper': 1.82} | Agent Input |
-| validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=94,651 | n=94,651 | n=94,651 | n=130,279 | n=391,189 | Agent Input |
-| samples_training | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | Agent Input |
-| training_development_cohorts | AllofUs BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | AllofUs BioMe BioVU HUNT MGBB MGI NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB HUNT MGBB MGI NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT KCPS LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT KCPS LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT KCPS LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | NBS UKB | N/A | Agent Input |
-| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Assessing thyroid cancer risk using polygenic risk scores. | Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts. | Agent Input |
-| publication.journal | medRxiv | medRxiv | medRxiv | medRxiv | medRxiv | medRxiv | Proc Natl Acad Sci U S A | Nat Commun | Agent Input |
-| date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2020-07-01 | 2020-02-12 | Agent Input |
-| variants_number | 1085170 | 1084965 | 1085164 | 1085173 | 84 | 1085173 | 10 | 12 | Agent Input |
-| covariates | Unknown | Unknown | Unknown | Unknown | Unknown | Unknown | gender, birth year, family history of disease (1st or 2nd degree relative) | Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30) | Agent Input |
+| performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.684522760200784} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.613489463745261} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.617388005401901} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.695254013741303} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.686161285410893} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.626, 'ci_lower': 0.597, 'ci_upper': 0.655} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.751, 'ci_lower': 0.736, 'ci_upper': 0.768} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.679} {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.666, 'se': 0.023} | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | {'name_long': "Nagelkerke's Pseudo-R²", 'name_short': "Nagelkerke's Pseudo-R²", 'estimate': 0.0393} {'name_long': 'Brier score', 'name_short': 'Brier score', 'estimate': 0.0811} {'name_long': 'Odds Ratio (OR, top 1% vs. Rest)', 'name_short': 'Odds Ratio (OR, top 1% vs. Rest)', 'estimate': 3.53, 'ci_lower': 1.87, 'ci_upper': 6.66} | N/A | N/A | Agent Input |
+| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.96019114706853} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.673041992501825} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.49346171423604} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.401096723418125} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.55051776688383} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.438588918302023} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 2.03688674186851} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.71142253524162} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.02} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.016} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.598, 'ci_lower': 1.439, 'ci_upper': 1.775} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.469, 'se': 0.0536} | N/A | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.57, 'ci_lower': 1.36, 'ci_upper': 1.82} | Agent Input |
+| validation_sample_size | n=94,651 | n=94,651 | n=94,651 | n=94,651 | n=94,651 | n=4,270 | n=130,279 | n=391,189 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | N/A | n=4,481 | N/A | N/A | Agent Input |
+| ancestry_distribution | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: NR (100%) / EVAL: MAE (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (50%), MAE (50%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | Agent Input |
+| training_development_cohorts | AllofUs BioMe BioVU FinnGen HUNT LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | AllofUs BioMe BioVU HUNT MGBB MGI NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB HUNT MGBB MGI NSGHI PMB UKB | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT KCPS LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | AllofUs BBJ BioMe BioVU CKB EXCEED FinnGen HUNT KCPS LATVIANBIOBANK MGBB MGI MVP NSGHI PMB QSKIN UKB deCODE | MGI | NBS UKB | N/A | Agent Input |
+| publication.title | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Global multi-ancestry genetic study elucidates genes and biological pathways associated with thyroid cancer and benign thyroid diseases | Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks. | Assessing thyroid cancer risk using polygenic risk scores. | Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts. | Agent Input |
+| publication.journal | medRxiv | medRxiv | medRxiv | medRxiv | medRxiv | Am J Hum Genet | Proc Natl Acad Sci U S A | Nat Commun | Agent Input |
+| date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2020-12-15 | 2020-07-01 | 2020-02-12 | Agent Input |
+| variants_number | 1085170 | 1084965 | 1085164 | 1085173 | 84 | 10 | 10 | 12 | Agent Input |
+| covariates | Unknown | Unknown | Unknown | Unknown | Unknown | age, sex, batch PCs 1-4 | gender, birth year, family history of disease (1st or 2nd degree relative) | Age at assessment, sex,, genotyping array, PCs(1-15), body mass index (BMI <25 vs. 25≤BMI<30, BMI≥30) | Agent Input |
 
 
 ### hypothyroidism
@@ -193,7 +193,7 @@ Candidate pool: `28` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 | Hit@3 | Yes | Yes | Yes | No | No | Yes | Yes | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | No | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 7/10 trials | 10/10 trials | 9/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 10/10 trials | 9/10 trials | Benchmark Only |
 | trait_reported | Hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Hypothyroidism | Agent Input |
 | trait_efo | hypothyroidism | hypothyroidism | hypothyroidism | hypothyroidism | hypothyroidism | hypothyroidism | hypothyroidism | hypothyroidism | Agent Input |
 | phenotyping_reported | hypothyroidism | hypothyroidism | Incident hypothyroidism | hypothyroidism | Hypothyroidism | Incident hypothyroidism | Incident hypothyroidism | anti-PD-L1 induced hypothyroidism in cancer patients | Agent Input |
@@ -269,20 +269,20 @@ Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS005220 | PGS005219 | PGS003479 | PGS003213 | PGS003857 | PGS005220 | PGS005220 | PGS003204 | Agent Input |
-| AoU benchmark rank | 1/20 | 2/20 | 3/20 | 4/20 | 5/20 | 1/20 | 1/20 | 17/20 | Benchmark Only |
-| AoU benchmark AUC | 0.5784 | 0.5454 | 0.5418 | 0.5217 | 0.5167 | 0.5784 | 0.5784 | 0.5006 | Benchmark Only |
-| Hit@1 | Yes | No | No | No | No | Yes | Yes | No | Benchmark Only |
+| Selected PGS ID | PGS005220 | PGS005219 | PGS003479 | PGS003213 | PGS003857 | PGS005219 | PGS005220 | PGS003204 | Agent Input |
+| AoU benchmark rank | 1/20 | 2/20 | 3/20 | 4/20 | 5/20 | 2/20 | 1/20 | 17/20 | Benchmark Only |
+| AoU benchmark AUC | 0.5784 | 0.5454 | 0.5418 | 0.5217 | 0.5167 | 0.5454 | 0.5784 | 0.5006 | Benchmark Only |
+| Hit@1 | Yes | No | No | No | No | No | Yes | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | No | Yes | Yes | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | No | Yes | Yes | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | No | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 7/10 trials | 10/10 trials | Benchmark Only |
-| trait_reported | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (AdjustedBMI) | Obstructive sleep apnea | Sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Sleep apnea | Agent Input |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 6/10 trials | 7/10 trials | 10/10 trials | Benchmark Only |
+| trait_reported | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (AdjustedBMI) | Obstructive sleep apnea | Sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea (AdjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Sleep apnea | Agent Input |
 | trait_efo | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | sleep apnea | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | sleep apnea | Agent Input |
 | phenotyping_reported | Obstructive sleep apnea | Obstructive sleep apnea | DBP | Sleep Apnea | BMI adjusted obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Sleep Apnea | Agent Input |
 | method_name | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | LDpred2 | PRS-CS | Genome-wide significant SNPs | weighted PRSsummation PRS-CSs | weighted PRSsummation PRS-CSs | lassosum | Agent Input |
-| performance_metrics.selected_performance_id | PPM022620 | PPM022619 | PPM017318 | PPM015955 | PPM018710 | PPM022620 | PPM022620 | PPM015959 | Agent Input |
+| performance_metrics.selected_performance_id | PPM022620 | PPM022619 | PPM017318 | PPM015955 | PPM018710 | PPM022619 | PPM022620 | PPM015959 | Agent Input |
 | performance_metrics.selected_validation_ancestry | European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American | European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American | Hispanic or Latin American | European | African unspecified, Asian unspecified, European, Hispanic or Latin American, Not reported | European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American | European, African American or Afro-Caribbean, East Asian, Hispanic or Latin American | European | Agent Input |
 | performance_metrics.record_count | 1 | 1 | 34 | 1 | 2 | 1 | 1 | 1 | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
@@ -292,7 +292,7 @@ Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 | performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.79} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.79} | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.527, 'ci_lower': 0.517, 'ci_upper': 0.536} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.77, 'ci_lower': 0.75, 'ci_upper': 0.78} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.79} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.79} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.49, 'ci_lower': 0.482, 'ci_upper': 0.499} | Agent Input |
 | performance_metrics.other_metrics | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.53, 'ci_lower': 1.39, 'ci_upper': 1.68} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.98, 'ci_lower': 1.74, 'ci_upper': 2.24} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.038, 'se': 0.093} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.106, 'ci_lower': 1.071, 'ci_upper': 1.142} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.101, 'se': 0.0162} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.014, 'se': 0.017} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.53, 'ci_lower': 1.39, 'ci_upper': 1.68} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.53, 'ci_lower': 1.39, 'ci_upper': 1.68} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 0.983, 'ci_lower': 0.952, 'ci_upper': 1.014} {'name_long': 'Beta', 'name_short': 'β', 'estimate': -0.0174, 'se': 0.016} | Agent Input |
+| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.53, 'ci_lower': 1.39, 'ci_upper': 1.68} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.98, 'ci_lower': 1.74, 'ci_upper': 2.24} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.038, 'se': 0.093} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.106, 'ci_lower': 1.071, 'ci_upper': 1.142} {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.101, 'se': 0.0162} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.014, 'se': 0.017} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.98, 'ci_lower': 1.74, 'ci_upper': 2.24} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.53, 'ci_lower': 1.39, 'ci_upper': 1.68} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 0.983, 'ci_lower': 0.952, 'ci_upper': 1.014} {'name_long': 'Beta', 'name_short': 'β', 'estimate': -0.0174, 'se': 0.016} | Agent Input |
 | validation_sample_size | n=21,975 | n=21,975 | n=1,115 | n=21,354 | n=40,193 | n=21,975 | n=21,975 | n=21,354 | Agent Input |
 | samples_training | N/A | N/A | N/A | n=21,209 | N/A | N/A | N/A | n=21,209 | Agent Input |
 | ancestry_distribution | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: EUR (100%) / EVAL: AMR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: AFR (19%), AMR (8%), ASN (1%), EUR (72%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: NR (10%), AFR (12%), AMR (5%), ASN (90%), EUR (82%) / EVAL: MAE (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
@@ -300,7 +300,7 @@ Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 | publication.title | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Genetic determinants of cardiometabolic and pulmonary phenotypes and obstructive sleep apnoea in HCHS/SOL. | ExPRSweb: An online repository with polygenic risk scores for common health-related exposures. | Genome-wide association study of obstructive sleep apnoea in the Million Veteran Program uncovers genetic heterogeneity by sex. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | Polygenic scores for obstructive sleep apnoea reveal pathways contributing to cardiovascular disease. | ExPRSweb: An online repository with polygenic risk scores for common health-related exposures. | Agent Input |
 | publication.journal | EBioMedicine | EBioMedicine | EBioMedicine | Am J Hum Genet | EBioMedicine | EBioMedicine | EBioMedicine | Am J Hum Genet | Agent Input |
 | date_release | 2025-06-16 | 2025-06-16 | 2023-03-24 | 2022-11-23 | 2023-09-01 | 2025-06-16 | 2025-06-16 | 2022-11-23 | Agent Input |
-| variants_number | 984184 | 982740 | 836839 | 1111194 | 18 | 984184 | 984184 | 4360 | Agent Input |
+| variants_number | 984184 | 982740 | 836839 | 1111194 | 18 | 982740 | 984184 | 4360 | Agent Input |
 | covariates | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | Age, sex, center, 5 genetic PCs, Hispanic/Latino background, BMI | SEX,AGE,Batch,PC1,PC2,PC3,PC4 | BMI, age, sex, genetic batch, PCs 1-10 | age, sex, self-reported race/ethnicity , BMI and 11PCs | age, sex, self-reported race/ethnicity , BMI and 11PCs | SEX,AGE,Batch,PC1,PC2,PC3,PC4 | Agent Input |
 
 
@@ -319,7 +319,7 @@ Candidate pool: `20` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 | Hit@3 | Yes | Yes | Yes | No | No | Yes | Yes | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | No | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 7/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
 | trait_reported | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (AdjustedBMI) | Obstructive sleep apnea | Sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea (UnadjustedBMI) | Obstructive sleep apnea (UnadjustedBMI) | Sleep apnea | Agent Input |
 | trait_efo | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | sleep apnea | obstructive sleep apnea | obstructive sleep apnea | obstructive sleep apnea | sleep apnea | Agent Input |
 | phenotyping_reported | Obstructive sleep apnea | Obstructive sleep apnea | DBP | Sleep Apnea | BMI adjusted obstructive sleep apnea | Obstructive sleep apnea | Obstructive sleep apnea | Sleep Apnea | Agent Input |
@@ -403,7 +403,7 @@ Candidate pool: `14` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 | Hit@3 | Yes | Yes | Yes | No | No | Yes | No | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | No | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | No | No | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 9/10 trials | 10/10 trials | 7/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 10/10 trials | 7/10 trials | Benchmark Only |
 | trait_reported | Endometrial cancer | Endometrial cancer | Uterine endometrial carcinoma | Endometrial cancer | Endometrial cancer | Uterine endometrial carcinoma | Uterine cancer | Cervical cancer | Agent Input |
 | trait_efo | endometrial carcinoma | endometrial carcinoma | endometrial carcinoma | endometrial carcinoma | endometrial carcinoma | endometrial carcinoma | uterine carcinoma | cervical carcinoma | Agent Input |
 | phenotyping_reported | Incident endometrial cancer | Incident endometrial cancer | uterine endometrial carcinoma | Risk of endometrial cancer | Endometrial cancer | uterine endometrial carcinoma | Uterine cancer | Incident cervical cancer | Agent Input |
@@ -479,39 +479,39 @@ Candidate pool: `10` models. `Hit@1..5` are all defined; if `N Models < k`, `Top
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS005235 | PGS005154 | PGS003959 | PGS002033 | PGS005145 | PGS005235 | PGS001298 | PGS001298 | Agent Input |
-| AoU benchmark rank | 1/10 | 2/10 | 3/10 | 4/10 | 5/10 | 1/10 | 8/10 | 8/10 | Benchmark Only |
-| AoU benchmark AUC | 0.6311 | 0.6165 | 0.5798 | 0.5753 | 0.5667 | 0.6311 | 0.5549 | 0.5549 | Benchmark Only |
-| Hit@1 | Yes | No | No | No | No | Yes | No | No | Benchmark Only |
-| Hit@2 | Yes | Yes | No | No | No | Yes | No | No | Benchmark Only |
-| Hit@3 | Yes | Yes | Yes | No | No | Yes | No | No | Benchmark Only |
+| Selected PGS ID | PGS005235 | PGS005154 | PGS003959 | PGS002033 | PGS005145 | PGS002033 | PGS001298 | PGS001298 | Agent Input |
+| AoU benchmark rank | 1/10 | 2/10 | 3/10 | 4/10 | 5/10 | 4/10 | 8/10 | 8/10 | Benchmark Only |
+| AoU benchmark AUC | 0.6311 | 0.6165 | 0.5798 | 0.5753 | 0.5667 | 0.5753 | 0.5549 | 0.5549 | Benchmark Only |
+| Hit@1 | Yes | No | No | No | No | No | No | No | Benchmark Only |
+| Hit@2 | Yes | Yes | No | No | No | No | No | No | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | No | No | No | No | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | No | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | No | No | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 9/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
-| trait_reported | Adiposity | Obesity | Obesity | Overweight, obesity and other hyperalimentation | Obesity | Adiposity | Obesity (time-to-event) | Obesity (time-to-event) | Agent Input |
-| trait_efo | obesity | obesity | obesity | obesity, overweight body mass index status, overnutrition | obesity | obesity | obesity | obesity | Agent Input |
-| phenotyping_reported | Obesity (phecode: 278.1) | Obesity | Obesity | Overweight, obesity and other hyperalimentation | Obesity | Obesity (phecode: 278.1) | TTE obesity | TTE obesity | Agent Input |
-| method_name | LDpred2-auto | CT-SLEB | Genome-wide significant SNPs | LDpred2 (bigsnpr) | PRS-CS | LDpred2-auto | snpnet | snpnet | Agent Input |
-| performance_metrics.selected_performance_id | PPM022667 | PPM022374 | PPM019107 | PPM011135 | PPM022365 | PPM022667 | PPM008991 | PPM008991 | Agent Input |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 6/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
+| trait_reported | Adiposity | Obesity | Obesity | Overweight, obesity and other hyperalimentation | Obesity | Overweight, obesity and other hyperalimentation | Obesity (time-to-event) | Obesity (time-to-event) | Agent Input |
+| trait_efo | obesity | obesity | obesity | obesity, overweight body mass index status, overnutrition | obesity | obesity, overweight body mass index status, overnutrition | obesity | obesity | Agent Input |
+| phenotyping_reported | Obesity (phecode: 278.1) | Obesity | Obesity | Overweight, obesity and other hyperalimentation | Obesity | Overweight, obesity and other hyperalimentation | TTE obesity | TTE obesity | Agent Input |
+| method_name | LDpred2-auto | CT-SLEB | Genome-wide significant SNPs | LDpred2 (bigsnpr) | PRS-CS | LDpred2 (bigsnpr) | snpnet | snpnet | Agent Input |
+| performance_metrics.selected_performance_id | PPM022667 | PPM022374 | PPM019107 | PPM011135 | PPM022365 | PPM011135 | PPM008991 | PPM008991 | Agent Input |
 | performance_metrics.selected_validation_ancestry | European | East Asian | European, Not reported | European | East Asian | European | European | European | Agent Input |
-| performance_metrics.record_count | 2 | 1 | 7 | 8 | 1 | 2 | 5 | 5 | Agent Input |
+| performance_metrics.record_count | 2 | 1 | 7 | 8 | 1 | 8 | 5 | 5 | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | N/A | N/A | N/A | 0.5757 | 0.5757 | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | N/A | 0.0115 | 0.0115 | Agent Input |
 | performance_metrics.full_model_auc | N/A | N/A | N/A | N/A | N/A | N/A | 0.5956 | 0.5956 | Agent Input |
 | performance_metrics.full_model_r2 | N/A | N/A | N/A | N/A | N/A | N/A | 0.0181 | 0.0181 | Agent Input |
 | performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | 0.0336 | 0.0336 | Agent Input |
 | performance_metrics.classification_metrics | N/A | N/A | N/A | N/A | N/A | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.59555, 'ci_lower': 0.58697, 'ci_upper': 0.60413} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.59555, 'ci_lower': 0.58697, 'ci_upper': 0.60413} | Agent Input |
-| performance_metrics.other_metrics | N/A | N/A | N/A | {'name_long': 'Partial Correlation (partial-r)', 'name_short': 'Partial Correlation (partial-r)', 'estimate': 0.0789, 'ci_lower': 0.0651, 'ci_upper': 0.0927} | N/A | N/A | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.01814} {'name_long': 'Incremental AUROC (full-covars)', 'name_short': 'Incremental AUROC (full-covars)', 'estimate': 0.03355} {'name_long': 'PGS R2 (no covariates)', 'name_short': 'PGS R2 (no covariates)', 'estimate': 0.01146} {'name_long': 'PGS AUROC (no covariates)', 'name_short': 'PGS AUROC (no covariates)', 'estimate': 0.57573, 'ci_lower': 0.56713, 'ci_upper': 0.58434} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.01814} {'name_long': 'Incremental AUROC (full-covars)', 'name_short': 'Incremental AUROC (full-covars)', 'estimate': 0.03355} {'name_long': 'PGS R2 (no covariates)', 'name_short': 'PGS R2 (no covariates)', 'estimate': 0.01146} {'name_long': 'PGS AUROC (no covariates)', 'name_short': 'PGS AUROC (no covariates)', 'estimate': 0.57573, 'ci_lower': 0.56713, 'ci_upper': 0.58434} | Agent Input |
-| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.9704649488977} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 1.76187749677908} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.149, 'se': 0.028} | N/A | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 1.60817500694587} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.9704649488977} | N/A | N/A | Agent Input |
-| validation_sample_size | n=100,960 | n=58,688 | n=27,429 | n=20,000 | n=58,688 | n=100,960 | n=67,425 | n=67,425 | Agent Input |
-| samples_training | N/A | N/A | N/A | n=391,124 | N/A | N/A | n=269,704 | n=269,704 | Agent Input |
-| ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EAS (19%), EUR (81%) / EVAL: EAS (100%) | GWAS: NR (33%), EUR (67%) / EVAL: MAE (100%) | DEV: EUR (100%) / EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%) | GWAS: EAS (100%) / EVAL: EAS (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
-| training_development_cohorts | EGG GIANT UKB | BBJ | N/A | UKB | BBJ | EGG GIANT UKB | UKB | UKB | Agent Input |
-| publication.title | Modeling the genomic architecture of adiposity and anthropometrics across the lifespan. | Assessment of polygenic risk score performance in East Asian populations for ten common diseases. | The sulfur microbial diet and increased risk of obesity: Findings from a population-based prospective cohort study. | Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort | Assessment of polygenic risk score performance in East Asian populations for ten common diseases. | Modeling the genomic architecture of adiposity and anthropometrics across the lifespan. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
-| publication.journal | Nat Commun | Commun Biol | Clin Nutr | Am J Hum Genet | Commun Biol | Nat Commun | PLoS Genet | PLoS Genet | Agent Input |
-| date_release | 2025-10-06 | 2025-03-17 | 2023-10-17 | 2022-01-10 | 2025-03-17 | 2025-10-06 | 2021-10-21 | 2021-10-21 | Agent Input |
-| variants_number | 709828 | 443124 | 940 | 846292 | 908466 | 709828 | 9227 | 9227 | Agent Input |
-| covariates | age, sex, batch, and the first 10 genetic principal components | age, sex | Age, sex, race, centres, education, Townsend deprivation index, household income, smoking, alcohol consumption, physical activity, sleep pattern, energy intake, and BMI, WC or BF% at baseline | sex, age, birth date, deprivation index, 16 PCs | age, sex | age, sex, batch, and the first 10 genetic principal components | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
+| performance_metrics.other_metrics | N/A | N/A | N/A | {'name_long': 'Partial Correlation (partial-r)', 'name_short': 'Partial Correlation (partial-r)', 'estimate': 0.0789, 'ci_lower': 0.0651, 'ci_upper': 0.0927} | N/A | {'name_long': 'Partial Correlation (partial-r)', 'name_short': 'Partial Correlation (partial-r)', 'estimate': 0.0789, 'ci_lower': 0.0651, 'ci_upper': 0.0927} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.01814} {'name_long': 'Incremental AUROC (full-covars)', 'name_short': 'Incremental AUROC (full-covars)', 'estimate': 0.03355} {'name_long': 'PGS R2 (no covariates)', 'name_short': 'PGS R2 (no covariates)', 'estimate': 0.01146} {'name_long': 'PGS AUROC (no covariates)', 'name_short': 'PGS AUROC (no covariates)', 'estimate': 0.57573, 'ci_lower': 0.56713, 'ci_upper': 0.58434} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.01814} {'name_long': 'Incremental AUROC (full-covars)', 'name_short': 'Incremental AUROC (full-covars)', 'estimate': 0.03355} {'name_long': 'PGS R2 (no covariates)', 'name_short': 'PGS R2 (no covariates)', 'estimate': 0.01146} {'name_long': 'PGS AUROC (no covariates)', 'name_short': 'PGS AUROC (no covariates)', 'estimate': 0.57573, 'ci_lower': 0.56713, 'ci_upper': 0.58434} | Agent Input |
+| performance_metrics.effect_sizes | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.9704649488977} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 1.76187749677908} | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 0.149, 'se': 0.028} | N/A | {'name_long': 'Beta', 'name_short': 'β', 'estimate': 1.60817500694587} | N/A | N/A | N/A | Agent Input |
+| validation_sample_size | n=100,960 | n=58,688 | n=27,429 | n=20,000 | n=58,688 | n=20,000 | n=67,425 | n=67,425 | Agent Input |
+| samples_training | N/A | N/A | N/A | n=391,124 | N/A | n=391,124 | n=269,704 | n=269,704 | Agent Input |
+| ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EAS (19%), EUR (81%) / EVAL: EAS (100%) | GWAS: NR (33%), EUR (67%) / EVAL: MAE (100%) | DEV: EUR (100%) / EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%) | GWAS: EAS (100%) / EVAL: EAS (100%) | DEV: EUR (100%) / EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | DEV: EUR (100%) / EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%) | Agent Input |
+| training_development_cohorts | EGG GIANT UKB | BBJ | N/A | UKB | BBJ | UKB | UKB | UKB | Agent Input |
+| publication.title | Modeling the genomic architecture of adiposity and anthropometrics across the lifespan. | Assessment of polygenic risk score performance in East Asian populations for ten common diseases. | The sulfur microbial diet and increased risk of obesity: Findings from a population-based prospective cohort study. | Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort | Assessment of polygenic risk score performance in East Asian populations for ten common diseases. | Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Significant sparse polygenic risk scores across 813 traits in UK Biobank. | Agent Input |
+| publication.journal | Nat Commun | Commun Biol | Clin Nutr | Am J Hum Genet | Commun Biol | Am J Hum Genet | PLoS Genet | PLoS Genet | Agent Input |
+| date_release | 2025-10-06 | 2025-03-17 | 2023-10-17 | 2022-01-10 | 2025-03-17 | 2022-01-10 | 2021-10-21 | 2021-10-21 | Agent Input |
+| variants_number | 709828 | 443124 | 940 | 846292 | 908466 | 846292 | 9227 | 9227 | Agent Input |
+| covariates | age, sex, batch, and the first 10 genetic principal components | age, sex | Age, sex, race, centres, education, Townsend deprivation index, household income, smoking, alcohol consumption, physical activity, sleep pattern, energy intake, and BMI, WC or BF% at baseline | sex, age, birth date, deprivation index, 16 PCs | age, sex | sex, age, birth date, deprivation index, 16 PCs | age, sex, UKB array type, Genotype PCs | age, sex, UKB array type, Genotype PCs | Agent Input |
 
 
 ### ankylosing spondylitis
@@ -529,7 +529,7 @@ Candidate pool: `9` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 | Hit@3 | Yes | Yes | Yes | No | No | No | Yes | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | Yes | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 10/10 trials | 9/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 7/10 trials | 10/10 trials | 9/10 trials | Benchmark Only |
 | trait_reported | Ankylosing spondylitis | Ankylosing spondylitis | Ankylosing spondylitis (time-to-event) | Ankylosing spondylitis | Ankylosing spondylitis | Ankylosing spondylitis | Ankylosing spondylitis (time-to-event) | Ankylosing spondylitis | Agent Input |
 | trait_efo | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | ankylosing spondylitis | Agent Input |
 | phenotyping_reported | Ankylosing spondylitis | Ankylosing spondylitis | TTE ankylosing spondylitis | Ankylosing spondylitis | Ankylosing spondylitis | Ankylosing spondylitis | TTE ankylosing spondylitis | Ankylosing spondylitis | Agent Input |
@@ -563,39 +563,39 @@ Candidate pool: `8` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS005254 | PGS005255 | PGS005256 | PGS004911 | PGS004910 | PGS005254 | PGS005252 | PGS000739 | Agent Input |
-| AoU benchmark rank | 1/8 | 2/8 | 3/8 | 4/8 | 5/8 | 1/8 | 8/8 | 7/8 | Benchmark Only |
-| AoU benchmark AUC | 0.6375 | 0.6233 | 0.6228 | 0.5181 | 0.5166 | 0.6375 | 0.3445 | 0.4740 | Benchmark Only |
-| Hit@1 | Yes | No | No | No | No | Yes | No | No | Benchmark Only |
-| Hit@2 | Yes | Yes | No | No | No | Yes | No | No | Benchmark Only |
-| Hit@3 | Yes | Yes | Yes | No | No | Yes | No | No | Benchmark Only |
-| Hit@4 | Yes | Yes | Yes | Yes | No | Yes | No | No | Benchmark Only |
-| Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | No | No | Benchmark Only |
+| Selected PGS ID | PGS005254 | PGS005255 | PGS005256 | PGS004911 | PGS004910 | PGS005252 | PGS005252 | PGS000739 | Agent Input |
+| AoU benchmark rank | 1/8 | 2/8 | 3/8 | 4/8 | 5/8 | 8/8 | 8/8 | 7/8 | Benchmark Only |
+| AoU benchmark AUC | 0.6375 | 0.6233 | 0.6228 | 0.5181 | 0.5166 | 0.3445 | 0.3445 | 0.4740 | Benchmark Only |
+| Hit@1 | Yes | No | No | No | No | No | No | No | Benchmark Only |
+| Hit@2 | Yes | Yes | No | No | No | No | No | No | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | No | No | No | No | No | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | No | No | No | No | Benchmark Only |
+| Hit@5 | Yes | Yes | Yes | Yes | Yes | No | No | No | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
 | trait_reported | Aortic stenosis | Mean pressure gradient | Peak aortic velocity | Hypertrophic cardiomyopathy (MTAG) | Hypertrophic cardiomyopathy | Aortic stenosis | Aortic stenosis | Hypertrophic cardiomyopathy | Agent Input |
 | trait_efo | aortic stenosis | aortic stenosis, aortic measurement | aortic stenosis, aortic measurement | hypertrophic cardiomyopathy | hypertrophic cardiomyopathy | aortic stenosis | aortic stenosis | hypertrophic cardiomyopathy | Agent Input |
-| phenotyping_reported | incident aortic stenosis | incident aortic stenosis | incident aortic stenosis | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | incident aortic stenosis | Incident aortic stenosis cases | Hypertrophic cardiomyopathy | Agent Input |
-| method_name | PRS-CS | PRS-CS | PRS-CS | PRS-CS | PRS-CS | PRS-CS | LDPred2 | Genome-wide significant variants | Agent Input |
-| performance_metrics.selected_performance_id | PPM022737 | PPM022738 | PPM022739 | PPM021367 | PPM021366 | PPM022737 | PPM022733 | PPM018531 | Agent Input |
+| phenotyping_reported | incident aortic stenosis | incident aortic stenosis | incident aortic stenosis | Hypertrophic cardiomyopathy | Hypertrophic cardiomyopathy | Incident aortic stenosis cases | Incident aortic stenosis cases | Hypertrophic cardiomyopathy | Agent Input |
+| method_name | PRS-CS | PRS-CS | PRS-CS | PRS-CS | PRS-CS | LDPred2 | LDPred2 | Genome-wide significant variants | Agent Input |
+| performance_metrics.selected_performance_id | PPM022737 | PPM022738 | PPM022739 | PPM021367 | PPM021366 | PPM022733 | PPM022733 | PPM018531 | Agent Input |
 | performance_metrics.selected_validation_ancestry | European | European | European | European | European | European | European | European | Agent Input |
-| performance_metrics.record_count | 1 | 1 | 1 | 1 | 1 | 1 | 3 | 8 | Agent Input |
+| performance_metrics.record_count | 1 | 1 | 1 | 1 | 1 | 3 | 3 | 8 | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.full_model_auc | N/A | N/A | N/A | 0.8000 | 0.7300 | N/A | 0.8700 | 0.8210 | Agent Input |
+| performance_metrics.full_model_auc | N/A | N/A | N/A | 0.8000 | 0.7300 | 0.8700 | 0.8700 | 0.8210 | Agent Input |
 | performance_metrics.full_model_r2 | N/A | N/A | N/A | 0.0480 | 0.0310 | N/A | N/A | N/A | Agent Input |
 | performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.classification_metrics | N/A | N/A | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.8} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.73} | N/A | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.87} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.821, 'ci_lower': 0.772, 'ci_upper': 0.871} | Agent Input |
+| performance_metrics.classification_metrics | N/A | N/A | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.8} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.73} | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.87} | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.87} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.821, 'ci_lower': 0.772, 'ci_upper': 0.871} | Agent Input |
 | performance_metrics.other_metrics | N/A | N/A | N/A | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.048} {'name_long': 'Odds ratio (OR, high vs median tertile)', 'name_short': 'Odds ratio (OR, high vs median tertile)', 'estimate': 5.9} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.031} {'name_long': 'Odds ratio (OR, high vs median tertile)', 'name_short': 'Odds ratio (OR, high vs median tertile)', 'estimate': 5.5} | N/A | N/A | N/A | Agent Input |
-| performance_metrics.effect_sizes | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.64, 'ci_lower': 1.5, 'ci_upper': 1.78} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.53, 'ci_lower': 1.4, 'ci_upper': 1.66} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.53, 'ci_lower': 1.41, 'ci_upper': 1.67} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 2.34} {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.33} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.97} {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.26} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.64, 'ci_lower': 1.5, 'ci_upper': 1.78} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.92} | N/A | Agent Input |
-| validation_sample_size | n=244,450 | n=244,450 | n=244,450 | n=343,182 | n=343,182 | n=244,450 | n=446,895 | n=184,511 | Agent Input |
-| samples_training | n=205,483 | n=98,645 | n=96,385 | N/A | N/A | n=205,483 | n=47,691 | n=47,737 | Agent Input |
+| performance_metrics.effect_sizes | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.64, 'ci_lower': 1.5, 'ci_upper': 1.78} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.53, 'ci_lower': 1.4, 'ci_upper': 1.66} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.53, 'ci_lower': 1.41, 'ci_upper': 1.67} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 2.34} {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.33} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.97} {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.26} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.92} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.92} | N/A | Agent Input |
+| validation_sample_size | n=244,450 | n=244,450 | n=244,450 | n=343,182 | n=343,182 | n=446,895 | n=446,895 | n=184,511 | Agent Input |
+| samples_training | n=205,483 | n=98,645 | n=96,385 | N/A | N/A | n=47,691 | n=47,691 | n=47,737 | Agent Input |
 | ancestry_distribution | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: NR (2%), AFR (3%), EAS (80%), EUR (90%), OTH (60%), SAS (4%) / DEV: MAE (100%) / EVAL: EUR (40%), MAE (60%) | Agent Input |
-| training_development_cohorts | N/A | N/A | N/A | BRRD GEL HCMR RBH-CRB | BRRD GEL HCMR RBH-CRB | N/A | MGBB | BRRD HCMR UKB | Agent Input |
-| publication.title | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction. | Common genetic variants and modifiable risk factors underpin hypertrophic cardiomyopathy susceptibility and expressivity. | Agent Input |
+| training_development_cohorts | N/A | N/A | N/A | BRRD GEL HCMR RBH-CRB | BRRD GEL HCMR RBH-CRB | MGBB | MGBB | BRRD HCMR UKB | Agent Input |
+| publication.title | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Multitrait analyses identify genetic variants associated with aortic valve function and aortic stenosis risk. | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Evaluation of polygenic scores for hypertrophic cardiomyopathy in the general population and across clinical settings. | Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction. | Genomic and transcriptomic analyses of aortic stenosis enhance therapeutic target discovery and disease prediction. | Common genetic variants and modifiable risk factors underpin hypertrophic cardiomyopathy susceptibility and expressivity. | Agent Input |
 | publication.journal | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Nat Genet | Agent Input |
 | date_release | 2026-01-19 | 2026-01-19 | 2026-01-19 | 2025-02-26 | 2025-02-26 | 2026-01-19 | 2026-01-19 | 2021-02-23 | Agent Input |
-| variants_number | 1110912 | 1111632 | 1111632 | 374114 | 374190 | 1110912 | 1119377 | 27 | Agent Input |
-| covariates | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | age, age^2, sex, PC1-10 | age, age^2, sex, PC1-10 | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | age, sex, genetic ancestry principal components 1-5, type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, body mass index, current smoking, renal failure. | Clinical risk factors (obesity, HTN, AF, CAD), HCM-ACMG rare variant carrier status, age, sex, genotyping array, and PCs 1-5 | Agent Input |
+| variants_number | 1110912 | 1111632 | 1111632 | 374114 | 374190 | 1119377 | 1119377 | 27 | Agent Input |
+| covariates | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | self-reported sex, age at DNA collection, age2 at DNA collection, and the first five principal components of genetic ancestry. | age, age^2, sex, PC1-10 | age, age^2, sex, PC1-10 | age, sex, genetic ancestry principal components 1-5, type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, body mass index, current smoking, renal failure. | age, sex, genetic ancestry principal components 1-5, type 2 diabetes, hypertension, coronary artery disease, hyperlipidemia, body mass index, current smoking, renal failure. | Clinical risk factors (obesity, HTN, AF, CAD), HCM-ACMG rare variant carrier status, age, sex, genotyping array, and PCs 1-5 | Agent Input |
 
 
 ### renal carcinoma
@@ -739,7 +739,7 @@ Candidate pool: `7` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 | Hit@3 | Yes | Yes | Yes | No | No | No | Yes | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | Yes | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 4/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 5/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
 | trait_reported | previously: Blood clot in the leg (DVT) or lung | PE (time-to-event) | PE +/- DVT | previously: Blood clot in the lung | I26 (Pulmonary embolism) | previously: Blood clot in the lung | PE (time-to-event) | PE +/- DVT | Agent Input |
 | trait_efo | pulmonary embolism, deep vein thrombosis | pulmonary embolism | pulmonary embolism, deep vein thrombosis | pulmonary embolism, deep vein thrombosis | pulmonary embolism | pulmonary embolism, deep vein thrombosis | pulmonary embolism | pulmonary embolism, deep vein thrombosis | Agent Input |
 | phenotyping_reported | Blood clot in the leg (DVT) or lung | TTE PE | PE +/- DVT | Blood clot in the lung | I26 (Pulmonary embolism) | Blood clot in the lung | TTE PE | PE +/- DVT | Agent Input |
@@ -773,39 +773,39 @@ Candidate pool: `6` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS003973 | PGS003429 | PGS003972 | PGS001784 | PGS000753 | PGS003972 | PGS003973 | PGS000753 | Agent Input |
-| AoU benchmark rank | 1/6 | 2/6 | 3/6 | 4/6 | 5/6 | 3/6 | 1/6 | 5/6 | Benchmark Only |
-| AoU benchmark AUC | 0.6374 | 0.6341 | 0.6312 | 0.5618 | 0.5388 | 0.6312 | 0.6374 | 0.5388 | Benchmark Only |
+| Selected PGS ID | PGS003973 | PGS003429 | PGS003972 | PGS001784 | PGS000753 | PGS000753 | PGS003973 | PGS000753 | Agent Input |
+| AoU benchmark rank | 1/6 | 2/6 | 3/6 | 4/6 | 5/6 | 5/6 | 1/6 | 5/6 | Benchmark Only |
+| AoU benchmark AUC | 0.6374 | 0.6341 | 0.6312 | 0.5618 | 0.5388 | 0.5388 | 0.6374 | 0.5388 | Benchmark Only |
 | Hit@1 | Yes | No | No | No | No | No | Yes | No | Benchmark Only |
 | Hit@2 | Yes | Yes | No | No | No | No | Yes | No | Benchmark Only |
-| Hit@3 | Yes | Yes | Yes | No | No | Yes | Yes | No | Benchmark Only |
-| Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | No | Benchmark Only |
+| Hit@3 | Yes | Yes | Yes | No | No | No | Yes | No | Benchmark Only |
+| Hit@4 | Yes | Yes | Yes | Yes | No | No | Yes | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 10/10 trials | 8/10 trials | 10/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 9/10 trials | 8/10 trials | 10/10 trials | Benchmark Only |
 | trait_reported | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Agent Input |
 | trait_efo | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Abdominal Aortic Aneurysm | Agent Input |
-| phenotyping_reported | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Prevalent abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Prevalent abdominal aortic aneurysm | Agent Input |
-| method_name | PRS-CS | shaPRS + LDpred2 | PRS-CS | PRS-CS-auto | Pruning and Thresholding (P+T) | PRS-CS | PRS-CS | Pruning and Thresholding (P+T) | Agent Input |
-| performance_metrics.selected_performance_id | PPM019137 | PPM017103 | PPM019134 | PPM009288 | PPM001912 | PPM019134 | PPM019137 | PPM001912 | Agent Input |
+| phenotyping_reported | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Abdominal aortic aneurysm | Prevalent abdominal aortic aneurysm | Prevalent abdominal aortic aneurysm | Abdominal aortic aneurysm | Prevalent abdominal aortic aneurysm | Agent Input |
+| method_name | PRS-CS | shaPRS + LDpred2 | PRS-CS | PRS-CS-auto | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | PRS-CS | Pruning and Thresholding (P+T) | Agent Input |
+| performance_metrics.selected_performance_id | PPM019137 | PPM017103 | PPM019134 | PPM009288 | PPM001912 | PPM001912 | PPM019137 | PPM001912 | Agent Input |
 | performance_metrics.selected_validation_ancestry | European | European | European | European | European | European | European | European | Agent Input |
-| performance_metrics.record_count | 1 | 1 | 3 | 1 | 7 | 3 | 1 | 7 | Agent Input |
+| performance_metrics.record_count | 1 | 1 | 3 | 1 | 7 | 7 | 1 | 7 | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | 0.0147 | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.full_model_auc | 0.8820 | 0.7080 | 0.6900 | 0.8680 | N/A | 0.6900 | 0.8820 | N/A | Agent Input |
+| performance_metrics.full_model_auc | 0.8820 | 0.7080 | 0.6900 | 0.8680 | N/A | N/A | 0.8820 | N/A | Agent Input |
 | performance_metrics.full_model_r2 | N/A | 0.0055 | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.classification_metrics | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.882, 'ci_lower': 0.872, 'ci_upper': 0.892} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.708, 'ci_lower': 0.691, 'ci_upper': 0.725} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.69} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.868} | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.69} | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.882, 'ci_lower': 0.872, 'ci_upper': 0.892} | N/A | Agent Input |
+| performance_metrics.classification_metrics | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.882, 'ci_lower': 0.872, 'ci_upper': 0.892} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.708, 'ci_lower': 0.691, 'ci_upper': 0.725} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.69} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.868} | N/A | N/A | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.882, 'ci_lower': 0.872, 'ci_upper': 0.892} | N/A | Agent Input |
 | performance_metrics.other_metrics | N/A | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.00547} | N/A | {'name_long': "Nagelkerke's R2 (covariates regressed out)", 'name_short': "Nagelkerke's R2 (covariates regressed out)", 'estimate': 0.014661} | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.37, 'ci_lower': 1.3, 'ci_upper': 1.44} | N/A | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.37, 'ci_lower': 1.3, 'ci_upper': 1.44} | Agent Input |
-| validation_sample_size | n=7,517 | n=91,731 | n=6,940 | n=350,767 | n=46,564 | n=6,940 | n=7,517 | n=46,564 | Agent Input |
-| samples_training | N/A | N/A | N/A | N/A | n=8,772 | N/A | N/A | n=8,772 | Agent Input |
-| ancestry_distribution | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: EUR (89%), MAE (11%) / EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: AFR (60%), EAS (17%), EUR (82%), OTH (90%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: AFR (25%), EUR (75%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: AFR (25%), EUR (75%) | Agent Input |
-| training_development_cohorts | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | UKB | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS UKAGS UKB VIVA deCODE eMERGE | BBJ BioMe BioVU CCPM EB FinnGen HUNT MGBB MGI deCODE | MAYO-VDB MVP | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS UKAGS UKB VIVA deCODE eMERGE | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | MAYO-VDB MVP | Agent Input |
-| publication.title | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Evaluating the cost-effectiveness of polygenic risk score-stratified screening for abdominal aortic aneurysm. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts. | Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program. | Agent Input |
-| publication.journal | Nat Genet | Nat Commun | Nat Genet | Cell Genom | Circulation | Nat Genet | Nat Genet | Circulation | Agent Input |
-| date_release | 2023-11-01 | 2023-12-15 | 2023-11-01 | 2022-09-08 | 2021-04-07 | 2023-11-01 | 2023-11-01 | 2021-04-07 | Agent Input |
-| variants_number | 1118997 | 831447 | 1118997 | 911440 | 29 | 1118997 | 1118997 | 29 | Agent Input |
-| covariates | Age, Age^2, Sex | Unknown | Unknown | sex,age,age2,age*sex,age^2*sex, 20PCs | Age, sex, PCs (1-5) | Unknown | Age, Age^2, Sex | Age, sex, PCs (1-5) | Agent Input |
+| performance_metrics.effect_sizes | N/A | N/A | N/A | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.37, 'ci_lower': 1.3, 'ci_upper': 1.44} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.37, 'ci_lower': 1.3, 'ci_upper': 1.44} | N/A | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.37, 'ci_lower': 1.3, 'ci_upper': 1.44} | Agent Input |
+| validation_sample_size | n=7,517 | n=91,731 | n=6,940 | n=350,767 | n=46,564 | n=46,564 | n=7,517 | n=46,564 | Agent Input |
+| samples_training | N/A | N/A | N/A | N/A | n=8,772 | n=8,772 | N/A | n=8,772 | Agent Input |
+| ancestry_distribution | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: EUR (89%), MAE (11%) / EVAL: EUR (100%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: AFR (60%), EAS (17%), EUR (82%), OTH (90%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: AFR (25%), EUR (75%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: AFR (25%), EUR (75%) | GWAS: AFR (8%), EUR (92%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: AFR (25%), EUR (75%) | Agent Input |
+| training_development_cohorts | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | UKB | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS UKAGS UKB VIVA deCODE eMERGE | BBJ BioMe BioVU CCPM EB FinnGen HUNT MGBB MGI deCODE | MAYO-VDB MVP | MAYO-VDB MVP | ARIC CHB CHIP HUNT MAYO-VDB MGI MVP MyCode NZ PMB TABS deCODE eMERGE | MAYO-VDB MVP | Agent Input |
+| publication.title | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Evaluating the cost-effectiveness of polygenic risk score-stratified screening for abdominal aortic aneurysm. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts. | Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program. | Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program. | Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target. | Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program. | Agent Input |
+| publication.journal | Nat Genet | Nat Commun | Nat Genet | Cell Genom | Circulation | Circulation | Nat Genet | Circulation | Agent Input |
+| date_release | 2023-11-01 | 2023-12-15 | 2023-11-01 | 2022-09-08 | 2021-04-07 | 2021-04-07 | 2023-11-01 | 2021-04-07 | Agent Input |
+| variants_number | 1118997 | 831447 | 1118997 | 911440 | 29 | 29 | 1118997 | 29 | Agent Input |
+| covariates | Age, Age^2, Sex | Unknown | Unknown | sex,age,age2,age*sex,age^2*sex, 20PCs | Age, sex, PCs (1-5) | Age, sex, PCs (1-5) | Age, Age^2, Sex | Age, sex, PCs (1-5) | Agent Input |
 
 
 ### age-related macular degeneration
@@ -899,39 +899,39 @@ Candidate pool: `5` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 
 | Field | Benchmark #1 | Benchmark #2 | Benchmark #3 | Benchmark #4 | Benchmark #5 | Catalog Search + Domain Knowledge | Catalog Search Only | Prompt-Only Baseline | Field Type |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Selected PGS ID | PGS003382 | PGS004247 | PGS000766 | PGS003745 | PGS000339 | PGS003382 | PGS003382 | PGS000339 | Agent Input |
-| AoU benchmark rank | 1/5 | 2/5 | 3/5 | 4/5 | 5/5 | 1/5 | 1/5 | 5/5 | Benchmark Only |
-| AoU benchmark AUC | 0.6239 | 0.5934 | 0.5886 | 0.5812 | 0.5663 | 0.6239 | 0.6239 | 0.5663 | Benchmark Only |
-| Hit@1 | Yes | No | No | No | No | Yes | Yes | No | Benchmark Only |
-| Hit@2 | Yes | Yes | No | No | No | Yes | Yes | No | Benchmark Only |
+| Selected PGS ID | PGS003382 | PGS004247 | PGS000766 | PGS003745 | PGS000339 | PGS000766 | PGS003382 | PGS000339 | Agent Input |
+| AoU benchmark rank | 1/5 | 2/5 | 3/5 | 4/5 | 5/5 | 3/5 | 1/5 | 5/5 | Benchmark Only |
+| AoU benchmark AUC | 0.6239 | 0.5934 | 0.5886 | 0.5812 | 0.5663 | 0.5886 | 0.6239 | 0.5663 | Benchmark Only |
+| Hit@1 | Yes | No | No | No | No | No | Yes | No | Benchmark Only |
+| Hit@2 | Yes | Yes | No | No | No | No | Yes | No | Benchmark Only |
 | Hit@3 | Yes | Yes | Yes | No | No | Yes | Yes | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 9/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
-| trait_reported | Skin cutaneous melanoma | Melanoma | Cutaneous melanoma | Skin Melanoma | Cutaneous melanoma | Skin cutaneous melanoma | Skin cutaneous melanoma | Cutaneous melanoma | Agent Input |
+| trait_reported | Skin cutaneous melanoma | Melanoma | Cutaneous melanoma | Skin Melanoma | Cutaneous melanoma | Cutaneous melanoma | Skin cutaneous melanoma | Cutaneous melanoma | Agent Input |
 | trait_efo | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | cutaneous melanoma | Agent Input |
-| phenotyping_reported | skin cutaneous melanoma | Melanoma | Incident cutaneous melanoma | Skin Melanoma | Cutaneous melanoma in multiplex melanoma families | skin cutaneous melanoma | skin cutaneous melanoma | Cutaneous melanoma in multiplex melanoma families | Agent Input |
-| method_name | Pruning and Thresholding (P+T) | PRSice-2 | Variants associated with melanoma | Genome-wide significant SNPs | Clumping and Thresholding (C+T) | Pruning and Thresholding (P+T) | Pruning and Thresholding (P+T) | Clumping and Thresholding (C+T) | Agent Input |
-| performance_metrics.selected_performance_id | PPM016257 | PPM020304 | PPM001962 | PPM018501 | PPM000921 | PPM016257 | PPM016257 | PPM000921 | Agent Input |
+| phenotyping_reported | skin cutaneous melanoma | Melanoma | Incident cutaneous melanoma | Skin Melanoma | Cutaneous melanoma in multiplex melanoma families | Incident cutaneous melanoma | skin cutaneous melanoma | Cutaneous melanoma in multiplex melanoma families | Agent Input |
+| method_name | Pruning and Thresholding (P+T) | PRSice-2 | Variants associated with melanoma | Genome-wide significant SNPs | Clumping and Thresholding (C+T) | Variants associated with melanoma | Pruning and Thresholding (P+T) | Clumping and Thresholding (C+T) | Agent Input |
+| performance_metrics.selected_performance_id | PPM016257 | PPM020304 | PPM001962 | PPM018501 | PPM000921 | PPM001962 | PPM016257 | PPM000921 | Agent Input |
 | performance_metrics.selected_validation_ancestry | European | European | European | European | European | European | European | European | Agent Input |
-| performance_metrics.record_count | 1 | 2 | 7 | 1 | 2 | 1 | 1 | 2 | Agent Input |
+| performance_metrics.record_count | 1 | 2 | 7 | 1 | 2 | 7 | 1 | 2 | Agent Input |
 | performance_metrics.auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
 | performance_metrics.r2 | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.full_model_auc | 0.6820 | N/A | 0.6430 | N/A | N/A | 0.6820 | 0.6820 | N/A | Agent Input |
-| performance_metrics.full_model_r2 | 0.0261 | N/A | N/A | N/A | N/A | 0.0261 | 0.0261 | N/A | Agent Input |
+| performance_metrics.full_model_auc | 0.6820 | N/A | 0.6430 | N/A | N/A | 0.6430 | 0.6820 | N/A | Agent Input |
+| performance_metrics.full_model_r2 | 0.0261 | N/A | N/A | N/A | N/A | N/A | 0.0261 | N/A | Agent Input |
 | performance_metrics.incremental_auc | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A | Agent Input |
-| performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.682} | N/A | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.643, 'ci_lower': 0.584, 'ci_upper': 0.702} | N/A | N/A | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.682} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.682} | N/A | Agent Input |
-| performance_metrics.other_metrics | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.0261} | N/A | N/A | N/A | {'name_long': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'name_short': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'estimate': 0.505, 'se': 0.036} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.0261} | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.0261} | {'name_long': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'name_short': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'estimate': 0.505, 'se': 0.036} | Agent Input |
-| performance_metrics.effect_sizes | N/A | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.78, 'ci_lower': 1.62, 'ci_upper': 1.96} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.46, 'ci_lower': 1.2, 'ci_upper': 1.77} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.49, 'ci_lower': 1.34, 'ci_upper': 1.66} | N/A | N/A | N/A | N/A | Agent Input |
-| validation_sample_size | n=273,786 | n=133,830 | n=12,712 | n=448 | n=3,066 | n=273,786 | n=273,786 | n=3,066 | Agent Input |
+| performance_metrics.classification_metrics | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.682} | N/A | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.643, 'ci_lower': 0.584, 'ci_upper': 0.702} | N/A | N/A | {'name_long': 'Concordance Statistic', 'name_short': 'C-index', 'estimate': 0.643, 'ci_lower': 0.584, 'ci_upper': 0.702} | {'name_long': 'Area Under the Receiver-Operating Characteristic Curve', 'name_short': 'AUROC', 'estimate': 0.682} | N/A | Agent Input |
+| performance_metrics.other_metrics | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.0261} | N/A | N/A | N/A | {'name_long': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'name_short': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'estimate': 0.505, 'se': 0.036} | N/A | {'name_long': 'Proportion of the variance explained', 'name_short': 'R²', 'estimate': 0.0261} | {'name_long': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'name_short': 'Difference of PRS (deltaPRS; melanoma family cases vs. unrelated controls)', 'estimate': 0.505, 'se': 0.036} | Agent Input |
+| performance_metrics.effect_sizes | N/A | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.78, 'ci_lower': 1.62, 'ci_upper': 1.96} | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.46, 'ci_lower': 1.2, 'ci_upper': 1.77} | {'name_long': 'Odds Ratio', 'name_short': 'OR', 'estimate': 1.49, 'ci_lower': 1.34, 'ci_upper': 1.66} | N/A | {'name_long': 'Hazard Ratio', 'name_short': 'HR', 'estimate': 1.46, 'ci_lower': 1.2, 'ci_upper': 1.77} | N/A | N/A | Agent Input |
+| validation_sample_size | n=273,786 | n=133,830 | n=12,712 | n=448 | n=3,066 | n=12,712 | n=273,786 | n=3,066 | Agent Input |
 | samples_training | N/A | N/A | N/A | n=1,402 | n=3,666 | N/A | N/A | n=3,666 | Agent Input |
 | ancestry_distribution | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / EVAL: EUR (100%) | GWAS: EUR (100%) / DEV: EUR (100%) / EVAL: EUR (100%) | Agent Input |
-| training_development_cohorts | N/A | N/A | 23andMe AMFS CPSII DEMOKRITOS Essen-Heidelberg GenoMEL HPFS LMC MDACCS MELARISK MIA NHS PAH PLCO Q-MEGA SEARCH UKB WAMHS | UKB | BATS MIA PAH | N/A | N/A | BATS MIA PAH | Agent Input |
-| publication.title | Common germline risk variants impact somatic alterations and clinical features across cancers. | Potential utility of risk stratification for multicancer screening with liquid biopsy tests. | Genomic Risk Score for Melanoma in a Prospective Study of Older Individuals. | Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts. | Multiplex melanoma families are enriched for polygenic risk. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Multiplex melanoma families are enriched for polygenic risk. | Agent Input |
-| publication.journal | Cancer Res | NPJ Precis Oncol | J Natl Cancer Inst | EBioMedicine | Hum Mol Genet | Cancer Res | Cancer Res | Hum Mol Genet | Agent Input |
-| date_release | 2023-01-19 | 2023-12-15 | 2021-05-28 | 2023-06-01 | 2020-11-05 | 2023-01-19 | 2023-01-19 | 2020-11-05 | Agent Input |
-| variants_number | 672 | 65 | 56 | 57 | 22 | 672 | 672 | 22 | Agent Input |
-| covariates | age, sex, top 20 genetic principal components | first 10 genetic principal components | Sex, melanoma family history, treatment (aspirin/placebo), age at enrolment, PRS*treatment | Unknown | PCs (1-10) | age, sex, top 20 genetic principal components | age, sex, top 20 genetic principal components | PCs (1-10) | Agent Input |
+| training_development_cohorts | N/A | N/A | 23andMe AMFS CPSII DEMOKRITOS Essen-Heidelberg GenoMEL HPFS LMC MDACCS MELARISK MIA NHS PAH PLCO Q-MEGA SEARCH UKB WAMHS | UKB | BATS MIA PAH | 23andMe AMFS CPSII DEMOKRITOS Essen-Heidelberg GenoMEL HPFS LMC MDACCS MELARISK MIA NHS PAH PLCO Q-MEGA SEARCH UKB WAMHS | N/A | BATS MIA PAH | Agent Input |
+| publication.title | Common germline risk variants impact somatic alterations and clinical features across cancers. | Potential utility of risk stratification for multicancer screening with liquid biopsy tests. | Genomic Risk Score for Melanoma in a Prospective Study of Older Individuals. | Prognostic evaluation of polygenic risk score underlying pan-cancer analysis: evidence from two large-scale cohorts. | Multiplex melanoma families are enriched for polygenic risk. | Genomic Risk Score for Melanoma in a Prospective Study of Older Individuals. | Common germline risk variants impact somatic alterations and clinical features across cancers. | Multiplex melanoma families are enriched for polygenic risk. | Agent Input |
+| publication.journal | Cancer Res | NPJ Precis Oncol | J Natl Cancer Inst | EBioMedicine | Hum Mol Genet | J Natl Cancer Inst | Cancer Res | Hum Mol Genet | Agent Input |
+| date_release | 2023-01-19 | 2023-12-15 | 2021-05-28 | 2023-06-01 | 2020-11-05 | 2021-05-28 | 2023-01-19 | 2020-11-05 | Agent Input |
+| variants_number | 672 | 65 | 56 | 57 | 22 | 56 | 672 | 22 | Agent Input |
+| covariates | age, sex, top 20 genetic principal components | first 10 genetic principal components | Sex, melanoma family history, treatment (aspirin/placebo), age at enrolment, PRS*treatment | Unknown | PCs (1-10) | Sex, melanoma family history, treatment (aspirin/placebo), age at enrolment, PRS*treatment | age, sex, top 20 genetic principal components | PCs (1-10) | Agent Input |
 
 
 ### late-onset alzheimer's disease
@@ -991,7 +991,7 @@ Candidate pool: `5` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 | Hit@3 | Yes | Yes | Yes | No | No | Yes | Yes | No | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | No | Yes | Yes | No | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 6/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | Benchmark rank #4 | Benchmark rank #5 | 9/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
 | trait_reported | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary-open angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma | Agent Input |
 | trait_efo | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | open-angle glaucoma | Agent Input |
 | phenotyping_reported | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma | Primary open-angle glaucoma | Primary-open angle glaucoma | Primary open-angle glaucoma | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma (self-reported) | Primary open-angle glaucoma | Agent Input |
@@ -1327,7 +1327,7 @@ Candidate pool: `3` models. `Hit@1..5` are all defined; if `N Models < k`, `Top@
 | Hit@3 | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Hit@4 | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
 | Hit@5 | Yes | Yes | Yes | Yes | Yes | Yes | Benchmark Only |
-| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 10/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
+| Selection frequency | Benchmark rank #1 | Benchmark rank #2 | Benchmark rank #3 | 9/10 trials | 10/10 trials | 10/10 trials | Benchmark Only |
 | trait_reported | Vitiligo | Vitiligo | Vitiligo (time-to-event) | Vitiligo | Vitiligo (time-to-event) | Vitiligo | Agent Input |
 | trait_efo | Vitiligo | Vitiligo | Vitiligo | Vitiligo | Vitiligo | Vitiligo | Agent Input |
 | phenotyping_reported | anti-PD-L1 induced hypothyroidism in cancer patients | Red hair | TTE vitiligo | Red hair | TTE vitiligo | Red hair | Agent Input |

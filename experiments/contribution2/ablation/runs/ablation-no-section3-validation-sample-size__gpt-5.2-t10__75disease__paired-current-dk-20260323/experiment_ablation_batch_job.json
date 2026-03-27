@@ -1,0 +1,56 @@
+{
+  "batch_id": "batch_69c0f56dd4a4819093884a34b4bef94f",
+  "status": "completed",
+  "input_file_id": "file-7rqm4c3nqxURFZr1e3hupo",
+  "output_file_id": "file-Vx3erPDRjbBrzcLWi3yaMg",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 150,
+    "failed": 0,
+    "total": 150
+  },
+  "batch": {
+    "id": "batch_69c0f56dd4a4819093884a34b4bef94f",
+    "completion_window": "24h",
+    "created_at": 1774253421,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-7rqm4c3nqxURFZr1e3hupo",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1774253728,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1774339821,
+    "failed_at": null,
+    "finalizing_at": 1774253719,
+    "in_progress_at": 1774253423,
+    "metadata": {
+      "experiment": "contribution2_ablation_no-section3-validation-sample-size",
+      "manifest_file": "experiment_ablation_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-Vx3erPDRjbBrzcLWi3yaMg",
+    "request_counts": {
+      "completed": 150,
+      "failed": 0,
+      "total": 150
+    },
+    "usage": {
+      "input_tokens": 3920092,
+      "input_tokens_details": {
+        "cached_tokens": 766976
+      },
+      "output_tokens": 217082,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 4137174
+    }
+  },
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section3-validation-sample-size__gpt-5.2-t10__75disease__paired-current-dk-20260323/experiment_ablation_batch_manifest.json",
+  "output_jsonl_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/ablation/runs/ablation-no-section3-validation-sample-size__gpt-5.2-t10__75disease__paired-current-dk-20260323/experiment_without_domain_batch_output.jsonl",
+  "error_jsonl_file": null
+}
