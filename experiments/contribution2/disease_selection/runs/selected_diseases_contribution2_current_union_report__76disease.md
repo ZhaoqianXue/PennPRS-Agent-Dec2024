@@ -2,8 +2,8 @@
 
 - Base eligibility: `min_n_models = 2`
 - QC1 gate: `disabled (QC1 retained as diagnostic column only)`
-- Raw current-method ontology union size (before canonical merge): `83`
-- Canonical merged union size: `75`
+- Raw current-method ontology union size (before canonical merge): `85`
+- Canonical merged union size: `76`
 - Output CSV can be used directly by `recommendation/configs/generate_evaluated_pgs_list.py`; manual `Target_TopK` annotation is no longer required.
 
 ## Canonical Merge Rule
@@ -16,11 +16,12 @@
 
 ## Collapsed Groups
 
-Groups collapsed: `7`
+Groups collapsed: `8`
 
 | Canonical Ontology | Representative Ontology | Lookup Source | Source Coverage | Merged Ontologies | N With AUC | Max |
 |--------------------|-------------------------|---------------|-----------------|-------------------|------------|-----|
 | glaucoma | glaucoma | childrencode | both | glaucoma; open-angle glaucoma | 15 | 0.6258 |
+| hyperthyroidism | hyperthyroidism | rootcode | both | graves disease; hyperthyroidism | 7 | 0.6211 |
 | kidney cancer | kidney cancer | rootcode | both | kidney cancer; renal carcinoma | 10 | 0.5841 |
 | melanoma | melanoma | childrencode | both | cutaneous melanoma; melanoma | 103 | 0.6239 |
 | myocardial infarction | myocardial infarction | childrencode | both | acute myocardial infarction; myocardial infarction | 35 | 0.6044 |

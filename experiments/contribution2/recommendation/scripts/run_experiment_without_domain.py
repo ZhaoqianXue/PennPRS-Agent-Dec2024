@@ -38,6 +38,24 @@ import tiktoken
 
 # Ensure project root in path (contribution2/recommendation/scripts -> repo root)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent.parent
+CURRENT_UNION_STEM_PREFIX = "selected_diseases_contribution2_current_union"
+
+
+def _resolve_current_union_csv() -> Path:
+    runs_dir = PROJECT_ROOT / "experiments" / "contribution2" / "disease_selection" / "runs"
+    exact = runs_dir / f"{CURRENT_UNION_STEM_PREFIX}.csv"
+    if exact.exists():
+        return exact
+
+    candidates = sorted(
+        runs_dir.glob(f"{CURRENT_UNION_STEM_PREFIX}__*disease.csv"),
+        key=lambda path: path.stat().st_mtime,
+        reverse=True,
+    )
+    if candidates:
+        return candidates[0]
+
+    return runs_dir / f"{CURRENT_UNION_STEM_PREFIX}__75disease.csv"
 
 # Load .env (OPENAI_API_KEY, OPENAI_MODEL, etc.) for online calls
 try:
@@ -79,7 +97,7 @@ RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
 LOCAL_CACHE_DIR = Path(__file__).parent.parent / "cache"
 DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
-CURRENT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_current_union__75disease.csv"
+CURRENT_UNION_CSV = _resolve_current_union_csv()
 UNION_CSV = DEFAULT_UNION_CSV
 DEFAULT_GROUND_TRUTH_DIR = RECOMMENDATION_RUNS / "ground-truth__contribution1"
 GROUND_TRUTH_DIR = DEFAULT_GROUND_TRUTH_DIR
@@ -228,25 +246,12 @@ def _slugify(text: str) -> str:
 def _dataset_label_from_union_path(union_csv: Path) -> Optional[str]:
     if union_csv.resolve() == DEFAULT_UNION_CSV.resolve():
         return "30disease"
-    if union_csv.resolve() == CURRENT_UNION_CSV.resolve():
-        return "75disease"
     stem = union_csv.stem
-    if stem == "selected_diseases_contribution2_current_union":
-        return "75disease"
-    if stem == "selected_diseases_contribution2_current_union__60disease":
-        return "60disease"
-    if stem == "selected_diseases_contribution2_current_union__67disease":
-        return "67disease"
-    if stem == "selected_diseases_contribution2_current_union__75disease":
-        return "75disease"
-    if stem.endswith("__30disease"):
-        return "30disease"
-    if stem.endswith("__67disease"):
-        return "67disease"
-    if stem.endswith("__75disease"):
-        return "75disease"
-    if stem.endswith("__60disease"):
-        return "60disease"
+    disease_count_match = re.search(r"__(\d+)disease$", stem)
+    if disease_count_match:
+        return f"{disease_count_match.group(1)}disease"
+    if stem == CURRENT_UNION_STEM_PREFIX:
+        return "current-union"
     return _slugify(stem)
 
 
@@ -255,12 +260,9 @@ def _default_ground_truth_dir_for_union(union_csv: Path) -> Path:
         return DEFAULT_GROUND_TRUTH_DIR
     if union_csv.resolve() == CURRENT_UNION_CSV.resolve():
         return RECOMMENDATION_RUNS / "ground-truth__selected_diseases_contribution2_current_union"
-    if union_csv.stem in {
-        "selected_diseases_contribution2_current_union",
-        "selected_diseases_contribution2_current_union__60disease",
-        "selected_diseases_contribution2_current_union__67disease",
-        "selected_diseases_contribution2_current_union__75disease",
-    }:
+    if union_csv.stem == CURRENT_UNION_STEM_PREFIX or (
+        union_csv.stem.startswith(f"{CURRENT_UNION_STEM_PREFIX}__") and union_csv.stem.endswith("disease")
+    ):
         return RECOMMENDATION_RUNS / "ground-truth__selected_diseases_contribution2_current_union"
     return RECOMMENDATION_RUNS / f"ground-truth__{union_csv.stem}"
 

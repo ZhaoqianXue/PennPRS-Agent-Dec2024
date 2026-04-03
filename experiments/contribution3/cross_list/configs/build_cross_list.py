@@ -5,19 +5,20 @@ Reverse-engineering approach: using C1's rootcode cross-disease AUC matrix to
 identify diseases that benefit from PRS model transfer.
 
 Terminology:
-  - input_disease: the disease needing transfer (user query). Lacks good self PRS models.
-    - Type A: input_disease IS in C1's AUC matrix (has cross-disease AUC ground truth)
-    - Type B: input_disease is NOT in C1's AUC matrix (no AUC ground truth)
-  - output_disease: the disease whose PRS models are recommended for the input_disease
-    (cross-disease PRS output)
+  - target_trait: the trait needing transfer (user query)
+    - Type A: target_trait has NO self benchmark score
+    - Type B: target_trait HAS a self benchmark score
+  - cross_trait: the trait whose PRS models are recommended for the target_trait
+    (cross-trait PRS output)
 
-Selection criterion (Type A only):
-  At least one non-self PGS model (with known source ontology) has AUC > best self AUC.
+Selection criterion:
+  Type A (no self score): require at least one non-self PGS model with known source ontology.
+  Type B (has self score): require cross AUC > best self AUC.
   When self AUC exists: require (cross AUC - self best AUC) > 0.025 for retained cross models.
   The top retained cross model must also have AUC > 0.55.
-  Input diseases with self best AUC > 0.60 are excluded (self PRS already strong).
+  Target traits with self best AUC > 0.60 are excluded (self PRS already strong).
 
-Type A input diseases are restricted to the same set as Contribution2 main analysis:
+Target traits here are restricted to the same set as Contribution2 main analysis:
   ICD root rows with include_in_analysis == 1 in prs_adjauc_metadata_260217_rootcode.csv
   (case_count >= 200 in Contribution1 QC).
 
@@ -27,8 +28,9 @@ Outputs generated here:
   - binary -> binary cross list (existing disease-to-disease transfer)
   - binary -> continuous cross list (new disease-to-measurement transfer)
 
-Cross-list workflow (see report): Type A inputs = Beats Self ∪ Without Self AUC; then
-map output diseases; then Cross-Disease Transfer; then Type B.
+Cross-list workflow (see report): partition screened inputs into Type A/Type B by
+self-score availability, retain qualifying cross-list target traits, then map cross
+traits and perform Cross-Trait Transfer.
 
 Usage:
   python build_cross_list.py
@@ -71,13 +73,6 @@ CONTRIB1_PREPROCESS_DIR = (
     / "contribution1"
     / "disease_preprocess"
 )
-AOU_DATA_DIR = CROSS_LIST_DIR.parent.parent.parent / "data" / "all_of_us"
-
-# ICD chapters considered as disease (for Type B filtering)
-DISEASE_ICD_CHAPTERS = {
-    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-}
-
 # Type A: skip targets where best self AUC is already above this (cross-transfer not prioritized)
 TYPE_A_MAX_SELF_BEST_AUC = 0.60
 
@@ -116,6 +111,27 @@ def _col_to_pgs_id(col: str) -> str:
 
 def _pgs_id_to_col(pgs_id: str) -> str:
     return f"{pgs_id}_hmPOS_GRCh38"
+
+
+def _input_type_from_has_self(has_self_score: bool) -> str:
+    return "B" if has_self_score else "A"
+
+
+def _display_or_dash(value: object) -> str:
+    if value is None:
+        return "-"
+    if isinstance(value, float) and pd.isna(value):
+        return "-"
+    text = str(value).strip()
+    return text if text and text.lower() != "nan" else "-"
+
+
+def _display_positive_count_or_dash(value: object) -> str:
+    try:
+        count = int(value)
+    except (TypeError, ValueError):
+        return "-"
+    return str(count) if count > 0 else "-"
 
 
 def load_rootcode_auc_matrix() -> pd.DataFrame:
@@ -386,7 +402,7 @@ def _get_self_auc_info(
 
 
 # ---------------------------------------------------------------------------
-# Type A: Input diseases IN C1 AUC matrix
+# Benchmarked binary inputs in the C1 AUC matrix
 # ---------------------------------------------------------------------------
 
 def build_type_a_cross_list(
@@ -394,11 +410,10 @@ def build_type_a_cross_list(
     allowed_input_icds: set[str],
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Build cross list for Type A input diseases.
+    Build cross list for benchmarked binary target traits.
 
-    Type A = input disease IS in C1's AUC matrix.
-    For each input disease, find non-self PGS models (with KNOWN source ontology)
-    that have AUC > self best AUC, and trace them to their output_disease.
+    For each binary target trait, find non-self PGS models (with KNOWN source ontology)
+    that have AUC > self best AUC, and trace them to their mapped cross trait.
     """
     n_matrix_traits = len(matrix.index)
     n_skipped = sum(1 for t in matrix.index if str(t).strip() not in allowed_input_icds)
@@ -483,6 +498,7 @@ def build_type_a_cross_list(
             })
 
         cross_models.sort(key=lambda x: x["cross_auc"], reverse=True)
+        raw_cross_models = list(cross_models)
 
         if has_self_auc and self_best_auc is not None:
             cross_models = [
@@ -499,7 +515,7 @@ def build_type_a_cross_list(
                 auc_improvement = round(cm["cross_auc"] - self_best_auc, 6)
 
             rows.append({
-                "input_type": "A",
+                "input_type": _input_type_from_has_self(has_self_auc),
                 "input_icd": input_icd,
                 "input_ontology": input_ontology_str,
                 "input_description": input_desc,
@@ -518,6 +534,10 @@ def build_type_a_cross_list(
         top_cross_auc = cross_models[0]["cross_auc"] if cross_models else None
         top_cross_pgs = cross_models[0]["output_pgs_id"] if cross_models else None
         top_output_disease = cross_models[0]["output_disease"] if cross_models else None
+        raw_n_cross = len(raw_cross_models)
+        raw_top_cross_auc = raw_cross_models[0]["cross_auc"] if raw_cross_models else None
+        raw_top_cross_pgs = raw_cross_models[0]["output_pgs_id"] if raw_cross_models else None
+        raw_top_output_disease = raw_cross_models[0]["output_disease"] if raw_cross_models else None
 
         unique_output_diseases = set()
         for cm in cross_models:
@@ -525,7 +545,7 @@ def build_type_a_cross_list(
                 unique_output_diseases.add(ont)
 
         summary_rows.append({
-            "input_type": "A",
+            "input_type": _input_type_from_has_self(has_self_auc),
             "input_icd": input_icd,
             "input_ontology": input_ontology_str,
             "input_description": input_desc,
@@ -533,6 +553,7 @@ def build_type_a_cross_list(
             "self_n_models": len(self_pgs_ids),
             "self_best_auc": round(self_best_auc, 6) if self_best_auc is not None else None,
             "n_cross_models_beating_self": n_cross,
+            "raw_n_cross_models": raw_n_cross,
             "n_unique_output_diseases": len(unique_output_diseases),
             "top_cross_auc": top_cross_auc,
             "top_cross_pgs": top_cross_pgs,
@@ -540,6 +561,11 @@ def build_type_a_cross_list(
                 top_cross_pgs, top_output_disease, pgs_ontology_to_icd
             ),
             "top_output_disease": top_output_disease,
+            "raw_top_cross_auc": raw_top_cross_auc,
+            "raw_top_output_icd": format_top_output_icd(
+                raw_top_cross_pgs, raw_top_output_disease, pgs_ontology_to_icd
+            ),
+            "raw_top_output_disease": raw_top_output_disease,
             "top_auc_improvement": (
                 round(top_cross_auc - self_best_auc, 6)
                 if top_cross_auc is not None and self_best_auc is not None
@@ -644,6 +670,7 @@ def build_type_a_binary_to_continuous_cross_list(
                 x["output_pgs_id"],
             )
         )
+        raw_cross_models = list(cross_models)
 
         if has_self_auc and self_best_auc is not None:
             cross_models = [
@@ -659,7 +686,7 @@ def build_type_a_binary_to_continuous_cross_list(
                 auc_improvement = round(cm["cross_auc"] - self_best_auc, 6)
 
             rows.append({
-                "input_type": "A",
+                "input_type": _input_type_from_has_self(has_self_auc),
                 "input_icd": input_icd,
                 "input_ontology": input_ontology_str,
                 "input_description": input_desc,
@@ -681,10 +708,18 @@ def build_type_a_binary_to_continuous_cross_list(
         top_output_loinc = cross_models[0]["output_loinc"] if cross_models else None
         top_output_ontology = cross_models[0]["output_ontology"] if cross_models else None
         top_output_description = cross_models[0]["output_description"] if cross_models else None
+        raw_n_cross = len(raw_cross_models)
+        raw_top_cross_auc = raw_cross_models[0]["cross_auc"] if raw_cross_models else None
+        raw_top_cross_pgs = raw_cross_models[0]["output_pgs_id"] if raw_cross_models else None
+        raw_top_output_loinc = raw_cross_models[0]["output_loinc"] if raw_cross_models else None
+        raw_top_output_ontology = raw_cross_models[0]["output_ontology"] if raw_cross_models else None
+        raw_top_output_description = (
+            raw_cross_models[0]["output_description"] if raw_cross_models else None
+        )
         unique_output_traits = {cm["output_loinc"] for cm in cross_models}
 
         summary_rows.append({
-            "input_type": "A",
+            "input_type": _input_type_from_has_self(has_self_auc),
             "input_icd": input_icd,
             "input_ontology": input_ontology_str,
             "input_description": input_desc,
@@ -692,12 +727,18 @@ def build_type_a_binary_to_continuous_cross_list(
             "self_n_models": len(self_pgs_ids),
             "self_best_auc": round(self_best_auc, 6) if self_best_auc is not None else None,
             "n_cross_models_beating_self": n_cross,
+            "raw_n_cross_models": raw_n_cross,
             "n_unique_output_traits": len(unique_output_traits),
             "top_cross_auc": top_cross_auc,
             "top_cross_pgs": top_cross_pgs,
             "top_output_loinc": top_output_loinc,
             "top_output_ontology": top_output_ontology,
             "top_output_description": top_output_description,
+            "raw_top_cross_auc": raw_top_cross_auc,
+            "raw_top_cross_pgs": raw_top_cross_pgs,
+            "raw_top_output_loinc": raw_top_output_loinc,
+            "raw_top_output_ontology": raw_top_output_ontology,
+            "raw_top_output_description": raw_top_output_description,
             "top_auc_improvement": (
                 round(top_cross_auc - self_best_auc, 6)
                 if top_cross_auc is not None and self_best_auc is not None
@@ -801,6 +842,7 @@ def build_type_a_continuous_to_binary_cross_list(
                 x["output_pgs_id"],
             )
         )
+        raw_cross_models = list(cross_models)
 
         if has_self_score and self_best_score is not None:
             cross_models = [
@@ -824,7 +866,7 @@ def build_type_a_continuous_to_binary_cross_list(
                 )
 
             rows.append({
-                "input_type": "A",
+                "input_type": _input_type_from_has_self(has_self_score),
                 "input_loinc": input_loinc,
                 "input_ontology": input_ontology,
                 "input_description": input_description,
@@ -854,12 +896,26 @@ def build_type_a_continuous_to_binary_cross_list(
         top_output_description = (
             cross_models[0]["output_description"] if cross_models else None
         )
+        raw_n_cross = len(raw_cross_models)
+        raw_top_cross_score = (
+            raw_cross_models[0]["cross_incremental_r2"] if raw_cross_models else None
+        )
+        raw_top_cross_pgs = (
+            raw_cross_models[0]["output_pgs_id"] if raw_cross_models else None
+        )
+        raw_top_output_icd = raw_cross_models[0]["output_icd"] if raw_cross_models else None
+        raw_top_output_ontology = (
+            raw_cross_models[0]["output_ontology"] if raw_cross_models else None
+        )
+        raw_top_output_description = (
+            raw_cross_models[0]["output_description"] if raw_cross_models else None
+        )
         unique_output_diseases = {
             (cm["output_icd"], cm["output_ontology"]) for cm in cross_models
         }
 
         summary_rows.append({
-            "input_type": "A",
+            "input_type": _input_type_from_has_self(has_self_score),
             "input_loinc": input_loinc,
             "input_ontology": input_ontology,
             "input_description": input_description,
@@ -869,12 +925,18 @@ def build_type_a_continuous_to_binary_cross_list(
                 round(self_best_score, 6) if self_best_score is not None else None
             ),
             "n_cross_models_beating_self": n_cross,
+            "raw_n_cross_models": raw_n_cross,
             "n_unique_output_diseases": len(unique_output_diseases),
             "top_cross_incremental_r2": top_cross_score,
             "top_cross_pgs": top_cross_pgs,
             "top_output_icd": top_output_icd,
             "top_output_disease": top_output_ontology,
             "top_output_description": top_output_description,
+            "raw_top_cross_incremental_r2": raw_top_cross_score,
+            "raw_top_cross_pgs": raw_top_cross_pgs,
+            "raw_top_output_icd": raw_top_output_icd,
+            "raw_top_output_disease": raw_top_output_ontology,
+            "raw_top_output_description": raw_top_output_description,
             "top_incremental_r2_improvement": (
                 round(top_cross_score - self_best_score, 6)
                 if top_cross_score is not None and self_best_score is not None
@@ -980,6 +1042,7 @@ def build_type_a_continuous_to_continuous_cross_list(
                 x["output_pgs_id"],
             )
         )
+        raw_cross_models = list(cross_models)
 
         if has_self_score and self_best_score is not None:
             cross_models = [
@@ -1003,7 +1066,7 @@ def build_type_a_continuous_to_continuous_cross_list(
                 )
 
             rows.append({
-                "input_type": "A",
+                "input_type": _input_type_from_has_self(has_self_score),
                 "input_loinc": input_loinc,
                 "input_ontology": input_ontology,
                 "input_description": input_description,
@@ -1033,10 +1096,26 @@ def build_type_a_continuous_to_continuous_cross_list(
         top_output_description = (
             cross_models[0]["output_description"] if cross_models else None
         )
+        raw_n_cross = len(raw_cross_models)
+        raw_top_cross_score = (
+            raw_cross_models[0]["cross_incremental_r2"] if raw_cross_models else None
+        )
+        raw_top_cross_pgs = (
+            raw_cross_models[0]["output_pgs_id"] if raw_cross_models else None
+        )
+        raw_top_output_loinc = (
+            raw_cross_models[0]["output_loinc"] if raw_cross_models else None
+        )
+        raw_top_output_ontology = (
+            raw_cross_models[0]["output_ontology"] if raw_cross_models else None
+        )
+        raw_top_output_description = (
+            raw_cross_models[0]["output_description"] if raw_cross_models else None
+        )
         unique_output_traits = {cm["output_loinc"] for cm in cross_models}
 
         summary_rows.append({
-            "input_type": "A",
+            "input_type": _input_type_from_has_self(has_self_score),
             "input_loinc": input_loinc,
             "input_ontology": input_ontology,
             "input_description": input_description,
@@ -1046,12 +1125,18 @@ def build_type_a_continuous_to_continuous_cross_list(
                 round(self_best_score, 6) if self_best_score is not None else None
             ),
             "n_cross_models_beating_self": n_cross,
+            "raw_n_cross_models": raw_n_cross,
             "n_unique_output_traits": len(unique_output_traits),
             "top_cross_incremental_r2": top_cross_score,
             "top_cross_pgs": top_cross_pgs,
             "top_output_loinc": top_output_loinc,
             "top_output_trait": top_output_ontology,
             "top_output_description": top_output_description,
+            "raw_top_cross_incremental_r2": raw_top_cross_score,
+            "raw_top_cross_pgs": raw_top_cross_pgs,
+            "raw_top_output_loinc": raw_top_output_loinc,
+            "raw_top_output_trait": raw_top_output_ontology,
+            "raw_top_output_description": raw_top_output_description,
             "top_incremental_r2_improvement": (
                 round(top_cross_score - self_best_score, 6)
                 if top_cross_score is not None and self_best_score is not None
@@ -1070,90 +1155,56 @@ def build_type_a_continuous_to_continuous_cross_list(
 
 
 # ---------------------------------------------------------------------------
-# Type B: Input diseases NOT in C1 AUC matrix
-# ---------------------------------------------------------------------------
-
-def build_type_b_disease_list(c1_icds: set[str]) -> pd.DataFrame:
-    """
-    Identify Type B input diseases: binary diseases from All of Us
-    (num_cases > 1000) that are NOT in C1's AUC matrix.
-
-    These diseases may need cross-disease transfer but we have no
-    ground truth AUC to verify. Listed for mechanism coverage analysis.
-    """
-    aou_path = AOU_DATA_DIR / "num_cases_1000.csv"
-    if not aou_path.exists():
-        print(f"AoU data not found: {aou_path}")
-        return pd.DataFrame()
-
-    aou = pd.read_csv(aou_path)
-    aou["icd_clean"] = aou["icd_children"].str.replace(".", "", regex=False)
-
-    # Filter to disease chapters and not in C1
-    type_b = aou[
-        (~aou["icd_clean"].isin(c1_icds))
-        & (aou["icd_clean"].str[0].isin(DISEASE_ICD_CHAPTERS))
-    ].copy()
-
-    type_b = type_b.sort_values("num_cases", ascending=False)
-
-    return pd.DataFrame({
-        "input_type": "B",
-        "input_icd": type_b["icd_clean"].values,
-        "input_icd_root": type_b["icd_root"].values,
-        "input_description": type_b["trait_name"].str.strip().values,
-        "num_cases": type_b["num_cases"].values,
-        "num_controls": type_b["num_controls"].values,
-        "note": "Not in C1 AUC matrix; no cross-disease AUC ground truth",
-    })
-
-
-# ---------------------------------------------------------------------------
 # Report
 # ---------------------------------------------------------------------------
 
 def generate_report(
     summary_a: pd.DataFrame,
-    type_b: pd.DataFrame,
     label: str,
     output_kind: str = "binary",
 ) -> str:
     if output_kind == "binary":
         title = f"# Contribution3: Cross List Report ({label})"
-        output_reference = "disease-level mapping"
         output_mapping_text = (
-            "- **Output disease**: Disease whose PRS models are recommended for the "
-            "input disease (from PGS ontology mapping)"
+            "- **Cross trait**: Trait whose PRS models are recommended for the "
+            "target trait (binary trait resolved from PGS ontology mapping)"
         )
         workflow_step = (
-            "2. **Determine output diseases** — for each Type A input, link to output "
-            "trait(s) via retained cross PGS → ontology "
-            "(see **Top Output Disease** and `cross_list_detail_*.csv`)."
+            "**Determine cross traits** — for each retained target trait, link to "
+            "retained cross PGS → ontology "
+            "(see **Top Cross Trait** and `cross_list_detail_*.csv`)."
         )
         top_output_code_col = "top_output_icd"
         top_output_name_col = "top_output_disease"
-        top_output_code_label = "Output ICD"
-        top_output_name_label = "Top Output Disease"
+        raw_top_output_code_col = "raw_top_output_icd"
+        raw_top_output_name_col = "raw_top_output_disease"
+        target_code_label = "Target ICD"
+        target_name_label = "Target Trait"
+        top_output_code_label = "Cross Trait ICD"
+        top_output_name_label = "Top Cross Trait"
         n_unique_output_col = "n_unique_output_diseases"
-        n_unique_output_label = "N Output Diseases"
+        n_unique_output_label = "N Unique Cross Traits"
     elif output_kind == "continuous":
         title = f"# Contribution3: Binary-to-Continuous Cross List Report ({label})"
-        output_reference = "measurement-level mapping"
         output_mapping_text = (
-            "- **Output continuous trait**: Measurement trait whose PRS models are "
-            "recommended for the input disease (from LOINC metadata mapping)"
+            "- **Cross trait**: Trait whose PRS models are recommended for the "
+            "target trait (continuous trait resolved from LOINC metadata mapping)"
         )
         workflow_step = (
-            "2. **Determine output traits** — for each Type A input, link to retained "
-            "cross PGS → LOINC trait metadata "
-            "(see **Top Output Trait** and `cross_list_detail_*.csv`)."
+            "**Determine cross traits** — for each retained target trait, link to "
+            "retained cross PGS → LOINC trait metadata "
+            "(see **Top Cross Trait** and `cross_list_detail_*.csv`)."
         )
         top_output_code_col = "top_output_loinc"
         top_output_name_col = "top_output_ontology"
-        top_output_code_label = "Output LOINC"
-        top_output_name_label = "Top Output Trait"
+        raw_top_output_code_col = "raw_top_output_loinc"
+        raw_top_output_name_col = "raw_top_output_ontology"
+        target_code_label = "Target ICD"
+        target_name_label = "Target Trait"
+        top_output_code_label = "Cross Trait LOINC"
+        top_output_name_label = "Top Cross Trait"
         n_unique_output_col = "n_unique_output_traits"
-        n_unique_output_label = "N Output Traits"
+        n_unique_output_label = "N Unique Cross Traits"
     else:
         raise ValueError(f"Unsupported output_kind: {output_kind}")
 
@@ -1162,30 +1213,28 @@ def generate_report(
         "",
         "## Terminology",
         "",
-        "- **Input disease**: Disease needing transfer (user query, lacks good self PRS models)",
-        "  - **Type A (matrix)**: In C1's AUC matrix (has ground truth for verification)",
-        "    - Restricted to **main analysis** ICDs: `include_in_analysis == 1` in `prs_adjauc_metadata` (aligned with C2)",
-        "  - **Type A cross-list inputs** (for downstream Cross-Disease Transfer): **only** the union of:",
-        "    1. **Cross-Disease PRS Beats Self** — has self AUC and a qualifying cross model;",
-        "    2. **Input Diseases Without Self AUC** — no self AUC and at least one qualifying cross model.",
-        "    Diseases in **Self Models Already Optimal** and **Without Self AUC But No Qualifying Cross** are **not** Type A cross-list inputs (listed for reference).",
-        "  - **Type B**: NOT in C1's AUC matrix (no ground truth); processed **after** Type A cross-list transfer is finalized",
+        "- **Target trait**: Trait being predicted / transferred into",
+        "  - Restricted to **main analysis** ICDs: `include_in_analysis == 1` in `prs_adjauc_metadata` (aligned with C2)",
+        "  - **Type A**: target traits **without self AUC**",
+        "  - **Type B**: target traits **with self AUC**",
+        "  - All target traits in this report are in C1's AUC matrix, so benchmark validation is available.",
         output_mapping_text,
         "- PGS models with unknown source ontology are **excluded**",
         "",
         "## Cross-list workflow",
         "",
-        "1. **Define Type A input diseases** — use **Cross-Disease PRS Beats Self** ∪ **Input Diseases Without Self AUC** (tables below).",
-        workflow_step,
-        "3. **Cross-Disease Transfer** — adjust and validate transfer policy using these input–output pairs.",
-        "4. **Type B** — after step 3, handle input diseases not in C1's matrix (no AUC ground truth).",
+        "1. **Partition screened target traits** into Type A (without self AUC) and Type B (with self AUC).",
+        "2. **Retain cross-list target traits** — Type A target traits need at least one qualifying cross model; Type B target traits need a cross model that beats self.",
+        f"3. {workflow_step}",
+        "4. **Cross-Trait Transfer** — adjust and validate transfer policy using these target-trait / cross-trait pairs.",
         "",
-        "## Selection Criterion (Type A)",
+        "## Selection Criterion",
         "",
-        "- At least one non-self PGS model (known source) has cross AUC > best self AUC",
+        "- Type A (without self AUC): require at least one non-self PGS model with a known mapped cross trait",
+        "- Type B (with self AUC): require at least one non-self PGS model with cross AUC > best self AUC",
         f"- When self AUC exists: require **cross AUC − self best AUC > {TYPE_A_MIN_IMPROVEMENT}** per retained model",
-        f"- Require **Top Cross AUC > {TYPE_A_MIN_TOP_CROSS_AUC}** for the input disease to enter the cross-list",
-        f"- Exclude input diseases with **self best AUC > {TYPE_A_MAX_SELF_BEST_AUC}** (strong self PRS)",
+        f"- Require **Top Cross AUC > {TYPE_A_MIN_TOP_CROSS_AUC}** for the target trait to enter the cross-list",
+        f"- Exclude target traits with **self best AUC > {TYPE_A_MAX_SELF_BEST_AUC}** (strong self PRS)",
         "",
     ]
 
@@ -1205,54 +1254,32 @@ def generate_report(
         (summary_a["has_self_auc"] & (summary_a["n_cross_models_beating_self"] == 0)).sum()
     )
 
+    type_a_total = no_self_with_cross + no_self_no_cross
+    type_b_total = has_self
     cross_list_input_n = with_cross_has_self + no_self_with_cross
 
     lines.extend([
-        "## Type A Summary",
+        "## Type A / Type B Summary",
         "",
         "| Metric | Count |",
         "|--------|-------|",
-        f"| **Type A cross-list input diseases** (Beats Self ∪ Without Self AUC) | **{cross_list_input_n}** |",
-        f"|   — Cross-Disease PRS Beats Self | {with_cross_has_self} |",
-        f"|   — Input Diseases Without Self AUC | {no_self_with_cross} |",
-        f"| Total Type A rows in matrix filter (incl. Self optimal) | {total_a} |",
-        f"| With self AUC | {has_self} |",
-        f"| Without self AUC but no qualifying cross | {no_self_no_cross} |",
-        f"| Self optimal (reference only; not cross-list inputs) | {self_optimal} |",
-        f"| Any cross candidates (incl. no-self) | {with_cross_any} |",
+        f"| **Cross-list target traits** (retained Type A ∪ retained Type B) | **{cross_list_input_n}** |",
+        f"| — Retained Type A (Without Self AUC + qualifying cross) | {no_self_with_cross} |",
+        f"| — Retained Type B (With Self AUC + cross beats self) | {with_cross_has_self} |",
+        f"| Total screened rows in matrix filter | {total_a} |",
+        f"| Type A total (Without Self AUC) | {type_a_total} |",
+        f"| — Type A without qualifying cross | {no_self_no_cross} |",
+        f"| Type B total (With Self AUC) | {type_b_total} |",
+        f"| — Type B self optimal | {self_optimal} |",
+        f"| Any cross candidates (Type A + Type B) | {with_cross_any} |",
         "",
-        f"*Partition (all screened traits):* `Without self + qualifying cross` ({no_self_with_cross}) + "
-        f"`Without self + no qualifying cross` ({no_self_no_cross}) + "
-        f"`Cross beats self` ({with_cross_has_self}) + `Self optimal` ({self_optimal}) = **{total_a}**. "
-        f"*Cross-list inputs* = {with_cross_has_self} + {no_self_with_cross} = **{cross_list_input_n}**.",
+        f"*Partition:* `Type A retained` ({no_self_with_cross}) + "
+        f"`Type A no qualifying cross` ({no_self_no_cross}) + "
+        f"`Type B beats self` ({with_cross_has_self}) + `Type B self optimal` ({self_optimal}) = **{total_a}**. "
+        f"*Cross-list target traits* = {no_self_with_cross} + {with_cross_has_self} = **{cross_list_input_n}**.",
         "",
     ])
 
-    # Cross beats self table
-    beating = summary_a[
-        summary_a["has_self_auc"] & (summary_a["n_cross_models_beating_self"] > 0)
-    ].sort_values("top_auc_improvement", ascending=False)
-
-    lines.extend([
-        "## Type A: Cross-Disease PRS Beats Self",
-        "",
-        "*Included in **Type A cross-list input diseases**.*",
-        "",
-        f"Total: {len(beating)} diseases",
-        "",
-        f"| Input ICD | Input Ontology | Self Best AUC | Top Cross AUC | Improvement | {top_output_code_label} | {top_output_name_label} | N Cross | {n_unique_output_label} |",
-        "|-----------|----------------|---------------|---------------|-------------|----------------|--------------------|---------|------------------|",
-    ])
-    for _, r in beating.iterrows():
-        output_code = str(r.get(top_output_code_col, "") or "")[:40]
-        lines.append(
-            f"| {r['input_icd']} | {r['input_ontology'][:40]} | "
-            f"{r['self_best_auc']} | {r['top_cross_auc']} | "
-            f"+{r['top_auc_improvement']:.4f} | {output_code} | {str(r[top_output_name_col])[:40]} | "
-            f"{r['n_cross_models_beating_self']} | {r[n_unique_output_col]} |"
-        )
-
-    # No self AUC
     no_self_df = summary_a[
         (~summary_a["has_self_auc"])
         & (summary_a["n_cross_models_beating_self"] > 0)
@@ -1260,14 +1287,14 @@ def generate_report(
     if len(no_self_df) > 0:
         lines.extend([
             "",
-            "## Type A: Input Diseases Without Self AUC",
+            "## Type A: Target Traits Without Self AUC",
             "",
-            "*Included in **Type A cross-list input diseases**.*",
+            "*Included in the retained cross-list target traits.*",
             "",
-            f"Total: {len(no_self_df)} diseases",
+            f"Total: {len(no_self_df)} target traits",
             "",
-            f"| Input ICD | Input Ontology | Top Cross AUC | {top_output_code_label} | {top_output_name_label} | N Cross |",
-            "|-----------|----------------|---------------|----------------|--------------------|---------|",
+            f"| {target_code_label} | {target_name_label} | Top Cross AUC | {top_output_code_label} | {top_output_name_label} | N Cross Models |",
+            "|-----------|--------------|---------------|-----------------|-----------------|----------------|",
         ])
         for _, r in no_self_df.iterrows():
             output_code = str(r.get(top_output_code_col, "") or "")[:40]
@@ -1286,64 +1313,64 @@ def generate_report(
             "",
             "## Type A: Without Self AUC But No Qualifying Cross",
             "",
-            "*Not included in **Type A cross-list input diseases** under current rules; reference only.*",
+            "*Not included in the retained cross-list target traits under current rules; best available cross-trait evidence shown for reference.*",
             "",
-            f"Total: {len(no_self_no_cross_df)} diseases",
+            f"Total: {len(no_self_no_cross_df)} target traits",
             "",
-            "| Input ICD | Input Ontology | Self Best AUC | Top Cross AUC | N Cross |",
-            "|-----------|----------------|---------------|---------------|---------|",
+            f"| {target_code_label} | {target_name_label} | Top Available Cross AUC | {top_output_code_label} | {top_output_name_label} | Available N Cross Models |",
+            "|-----------|--------------|-------------------------|-----------------|-----------------|--------------------------|",
         ])
         for _, r in no_self_no_cross_df.iterrows():
+            output_code = _display_or_dash(r.get(raw_top_output_code_col))
             lines.append(
                 f"| {r['input_icd']} | {str(r['input_ontology'])[:40]} | "
-                f"{r['self_best_auc']} | {r['top_cross_auc']} | "
-                f"{r['n_cross_models_beating_self']} |"
+                f"{_display_or_dash(r.get('raw_top_cross_auc'))} | {output_code[:40]} | "
+                f"{_display_or_dash(r.get(raw_top_output_name_col))[:40]} | "
+                f"{_display_positive_count_or_dash(r.get('raw_n_cross_models'))} |"
             )
 
-    # Self optimal
+    beating = summary_a[
+        summary_a["has_self_auc"] & (summary_a["n_cross_models_beating_self"] > 0)
+    ].sort_values("top_auc_improvement", ascending=False)
+    lines.extend([
+        "",
+        "## Type B: Cross-Trait PRS Beats Self",
+        "",
+        "*Included in the retained cross-list target traits.*",
+        "",
+        f"Total: {len(beating)} target traits",
+        "",
+        f"| {target_code_label} | {target_name_label} | Self Best AUC | Top Cross AUC | Improvement | {top_output_code_label} | {top_output_name_label} | N Cross Models | {n_unique_output_label} |",
+        "|-----------|--------------|---------------|---------------|-------------|-----------------|-----------------|----------------|----------------|",
+    ])
+    for _, r in beating.iterrows():
+        output_code = str(r.get(top_output_code_col, "") or "")[:40]
+        lines.append(
+            f"| {r['input_icd']} | {r['input_ontology'][:40]} | "
+            f"{r['self_best_auc']} | {r['top_cross_auc']} | "
+            f"+{r['top_auc_improvement']:.4f} | {output_code} | {str(r[top_output_name_col])[:40]} | "
+            f"{r['n_cross_models_beating_self']} | {r[n_unique_output_col]} |"
+        )
+
     no_beating = summary_a[
         summary_a["has_self_auc"] & (summary_a["n_cross_models_beating_self"] == 0)
     ].sort_values("self_best_auc", ascending=False)
     lines.extend([
         "",
-        "## Type A: Self Models Already Optimal",
+        "## Type B: Self Models Already Optimal",
         "",
-        "*Not included in **Type A cross-list input diseases** (self PRS sufficient under current rules; reference only).",
+        "*Not included in the retained cross-list target traits (self PRS sufficient under current rules; reference only).*",
         "",
-        f"Total: {len(no_beating)} diseases",
+        f"Total: {len(no_beating)} target traits",
         "",
-        "| Input ICD | Input Ontology | Self Best AUC | Self N Models |",
-        "|-----------|----------------|---------------|---------------|",
+        f"| {target_code_label} | {target_name_label} | Self Best AUC | Self N Models |",
+        "|-----------|--------------|---------------|---------------|",
     ])
     for _, r in no_beating.iterrows():
         lines.append(
             f"| {r['input_icd']} | {r['input_ontology'][:50]} | "
             f"{r['self_best_auc']} | {r['self_n_models']} |"
         )
-
-    # Type B
-    lines.extend([
-        "",
-        f"## Type B: Input Diseases NOT in C1 (n={len(type_b)})",
-        "",
-        "*Process **after** Type A cross-list transfer (steps 1–3) is finalized.*",
-        "",
-        "These binary diseases (ICD chapters A-N) have >1000 cases in All of Us",
-        f"but are not in C1's AUC matrix. No ground truth available for {output_reference}.",
-        "",
-    ])
-    if not type_b.empty:
-        lines.extend([
-            "| Input ICD | Description | Cases | Controls |",
-            "|-----------|-------------|-------|----------|",
-        ])
-        for _, r in type_b.head(50).iterrows():
-            lines.append(
-                f"| {r['input_icd']} | {str(r['input_description'])[:50]} | "
-                f"{r['num_cases']} | {r['num_controls']} |"
-            )
-        if len(type_b) > 50:
-            lines.append(f"| ... | ({len(type_b) - 50} more) | | |")
 
     return "\n".join(lines)
 
@@ -1357,30 +1384,45 @@ def generate_continuous_to_binary_report(
         "",
         "## Terminology",
         "",
-        "- **Input continuous trait**: Measurement trait needing transfer support",
-        "  - **Type A (matrix)**: In C1's LOINC incremental-R2 matrix (has ground truth for verification)",
-        "  - Continuous inputs here are restricted to `include_in_analysis == 1` in `prs_incrementalr2_metadata`",
-        "- **Output disease**: Binary disease whose PRS models are recommended for the input continuous trait",
+        "- **Target trait**: Trait being predicted / transferred into",
+        "  - Continuous target traits here are restricted to `include_in_analysis == 1` in `prs_incrementalr2_metadata`",
+        "  - **Type A**: target traits **without self incremental R2**",
+        "  - **Type B**: target traits **with self incremental R2**",
+        "- **Cross trait**: Trait whose PRS models are recommended for the target trait (binary trait resolved from rootcode disease metadata)",
         "- PGS models with unknown source ontology are **excluded**",
         "",
         "## Cross-list workflow",
         "",
-        "1. **Define Type A input traits** — use **Cross-Disease PRS Beats Self** only.",
-        "2. **Determine output diseases** — for each continuous input, link retained cross PGS → rootcode disease metadata.",
-        "3. **Cross-Trait Transfer** — evaluate whether disease PRS models can usefully transfer to the continuous trait.",
+        "1. **Partition screened target traits** into Type A (without self incremental R2) and Type B (with self incremental R2).",
+        "2. **Retain cross-list target traits** — Type A target traits need at least one qualifying cross model; Type B target traits need a cross model that beats self.",
+        "3. **Determine cross traits** — for each retained continuous target trait, link retained cross PGS → rootcode disease metadata.",
+        "4. **Cross-Trait Transfer** — evaluate whether disease PRS models can usefully transfer to the continuous trait.",
         "",
-        "## Selection Criterion (Type A)",
+        "## Selection Criterion",
         "",
-        "- At least one non-self disease PGS model has cross incremental R2 > best self incremental R2",
+        "- Type A (without self incremental R2): require at least one non-self disease PGS model",
+        "- Type B (with self incremental R2): require at least one non-self disease PGS model with cross incremental R2 > best self incremental R2",
         f"- When self incremental R2 exists: require **cross incremental R2 − self best incremental R2 > {CONTINUOUS_TYPE_A_MIN_IMPROVEMENT}** per retained model",
-        f"- Require **Top Cross incremental R2 > {CONTINUOUS_TYPE_A_MIN_TOP_CROSS_INCREMENTAL_R2}** for the input trait to enter the cross-list",
-        f"- Exclude input traits with **self best incremental R2 > {CONTINUOUS_TYPE_A_MAX_SELF_BEST_INCREMENTAL_R2}** (strong self PRS)",
+        f"- Require **Top Cross incremental R2 > {CONTINUOUS_TYPE_A_MIN_TOP_CROSS_INCREMENTAL_R2}** for the target trait to enter the cross-list",
+        f"- Exclude target traits with **self best incremental R2 > {CONTINUOUS_TYPE_A_MAX_SELF_BEST_INCREMENTAL_R2}** (strong self PRS)",
         "",
     ]
 
     total_a = len(summary_a)
     has_self = int(summary_a["has_self_incremental_r2"].sum())
     no_self = total_a - has_self
+    no_self_with_cross = int(
+        (
+            (summary_a["n_cross_models_beating_self"] > 0)
+            & (~summary_a["has_self_incremental_r2"])
+        ).sum()
+    )
+    no_self_no_cross = int(
+        (
+            (summary_a["n_cross_models_beating_self"] == 0)
+            & (~summary_a["has_self_incremental_r2"])
+        ).sum()
+    )
     with_cross_has_self = int(
         (
             (summary_a["n_cross_models_beating_self"] > 0)
@@ -1394,20 +1436,71 @@ def generate_continuous_to_binary_report(
             & (summary_a["n_cross_models_beating_self"] == 0)
         ).sum()
     )
+    cross_list_input_n = no_self_with_cross + with_cross_has_self
 
     lines.extend([
-        "## Type A Summary",
+        "## Type A / Type B Summary",
         "",
         "| Metric | Count |",
         "|--------|-------|",
-        f"| **Type A cross-list input traits** (Cross beats self) | **{with_cross_has_self}** |",
-        f"| Total Type A rows in matrix filter (incl. Self optimal) | {total_a} |",
-        f"| With self incremental R2 | {has_self} |",
-        f"| Without self incremental R2 | {no_self} |",
-        f"| Self optimal (reference only; not cross-list inputs) | {self_optimal} |",
+        f"| **Cross-list target traits** (retained Type A ∪ retained Type B) | **{cross_list_input_n}** |",
+        f"| — Retained Type A (Without Self incremental R2 + qualifying cross) | {no_self_with_cross} |",
+        f"| — Retained Type B (With Self incremental R2 + cross beats self) | {with_cross_has_self} |",
+        f"| Total screened rows in matrix filter | {total_a} |",
+        f"| Type A total (Without Self incremental R2) | {no_self} |",
+        f"| — Type A without qualifying cross | {no_self_no_cross} |",
+        f"| Type B total (With Self incremental R2) | {has_self} |",
+        f"| — Type B self optimal | {self_optimal} |",
         f"| Any cross candidates | {with_cross_any} |",
         "",
     ])
+
+    no_self_df = summary_a[
+        (~summary_a["has_self_incremental_r2"])
+        & (summary_a["n_cross_models_beating_self"] > 0)
+    ].sort_values("top_cross_incremental_r2", ascending=False)
+    if len(no_self_df) > 0:
+        lines.extend([
+            "## Type A: Target Traits Without Self Incremental R2",
+            "",
+            "*Included in the retained cross-list target traits.*",
+            "",
+            f"Total: {len(no_self_df)} target traits",
+            "",
+            "| Target LOINC | Target Trait | Top Cross Incremental R2 | Cross Trait ICD | Top Cross Trait | N Cross Models |",
+            "|--------------|--------------|--------------------------|-----------------|-----------------|----------------|",
+        ])
+        for _, r in no_self_df.iterrows():
+            lines.append(
+                f"| {r['input_loinc']} | {str(r['input_ontology'])[:40]} | "
+                f"{r['top_cross_incremental_r2']} | {str(r['top_output_icd'])[:40]} | "
+                f"{str(r['top_output_disease'])[:40]} | {r['n_cross_models_beating_self']} |"
+            )
+
+    no_self_no_cross_df = summary_a[
+        (~summary_a["has_self_incremental_r2"])
+        & (summary_a["n_cross_models_beating_self"] == 0)
+    ].sort_values("input_loinc")
+    if len(no_self_no_cross_df) > 0:
+        lines.extend([
+            "",
+            "## Type A: Without Self Incremental R2 But No Qualifying Cross",
+            "",
+            "*Not included in the retained cross-list target traits under current rules; best available cross-trait evidence shown for reference.*",
+            "",
+            f"Total: {len(no_self_no_cross_df)} target traits",
+            "",
+            "| Target LOINC | Target Trait | Top Available Cross Incremental R2 | Cross Trait ICD | Top Cross Trait | Available N Cross Models |",
+            "|--------------|--------------|------------------------------------|-----------------|-----------------|--------------------------|",
+        ])
+        for _, r in no_self_no_cross_df.iterrows():
+            lines.append(
+                f"| {r['input_loinc']} | {str(r['input_ontology'])[:40]} | "
+                f"{_display_or_dash(r.get('raw_top_cross_incremental_r2'))} | "
+                f"{_display_or_dash(r.get('raw_top_output_icd'))[:40]} | "
+                f"{_display_or_dash(r.get('raw_top_output_disease'))[:40]} | "
+                f"{_display_positive_count_or_dash(r.get('raw_n_cross_models'))} |"
+            )
 
     beating = summary_a[
         summary_a["has_self_incremental_r2"]
@@ -1415,14 +1508,15 @@ def generate_continuous_to_binary_report(
     ].sort_values("top_incremental_r2_improvement", ascending=False)
 
     lines.extend([
-        "## Type A: Disease PRS Beats Self",
         "",
-        "*Included in **Type A cross-list input traits**.*",
+        "## Type B: Cross-Trait PRS Beats Self",
         "",
-        f"Total: {len(beating)} traits",
+        "*Included in the retained cross-list target traits.*",
         "",
-        "| Input LOINC | Input Trait | Self Best Incremental R2 | Top Cross Incremental R2 | Improvement | Output ICD | Top Output Disease | N Cross | N Output Diseases |",
-        "|-------------|-------------|--------------------------|--------------------------|-------------|------------|--------------------|---------|-------------------|",
+        f"Total: {len(beating)} target traits",
+        "",
+        "| Target LOINC | Target Trait | Self Best Incremental R2 | Top Cross Incremental R2 | Improvement | Cross Trait ICD | Top Cross Trait | N Cross Models | N Unique Cross Traits |",
+        "|--------------|--------------|--------------------------|--------------------------|-------------|-----------------|-----------------|----------------|-------------------------|",
     ])
     for _, r in beating.iterrows():
         lines.append(
@@ -1439,14 +1533,14 @@ def generate_continuous_to_binary_report(
     ].sort_values("self_best_incremental_r2", ascending=False)
     lines.extend([
         "",
-        "## Type A: Self Models Already Optimal",
+        "## Type B: Self Models Already Optimal",
         "",
-        "*Not included in **Type A cross-list input traits** (self PRS sufficient under current rules; reference only).*",
+        "*Not included in the retained cross-list target traits (self PRS sufficient under current rules; reference only).*",
         "",
-        f"Total: {len(no_beating)} traits",
+        f"Total: {len(no_beating)} target traits",
         "",
-        "| Input LOINC | Input Trait | Self Best Incremental R2 | Self N Models |",
-        "|-------------|-------------|--------------------------|---------------|",
+        "| Target LOINC | Target Trait | Self Best Incremental R2 | Self N Models |",
+        "|--------------|--------------|--------------------------|---------------|",
     ])
     for _, r in no_beating.iterrows():
         lines.append(
@@ -1466,30 +1560,45 @@ def generate_continuous_to_continuous_report(
         "",
         "## Terminology",
         "",
-        "- **Input continuous trait**: Measurement trait needing transfer support",
-        "  - **Type A (matrix)**: In C1's LOINC incremental-R2 matrix (has ground truth for verification)",
-        "  - Continuous inputs here are restricted to `include_in_analysis == 1` in `prs_incrementalr2_metadata`",
-        "- **Output continuous trait**: Measurement trait whose PRS models are recommended for the input continuous trait",
+        "- **Target trait**: Trait being predicted / transferred into",
+        "  - Continuous target traits here are restricted to `include_in_analysis == 1` in `prs_incrementalr2_metadata`",
+        "  - **Type A**: target traits **without self incremental R2**",
+        "  - **Type B**: target traits **with self incremental R2**",
+        "- **Cross trait**: Trait whose PRS models are recommended for the target trait (continuous trait resolved from LOINC metadata mapping)",
         "- PGS models with unknown source ontology are **excluded**",
         "",
         "## Cross-list workflow",
         "",
-        "1. **Define Type A input traits** — use **Cross-Disease PRS Beats Self** only.",
-        "2. **Determine output traits** — for each continuous input, link retained cross PGS → LOINC trait metadata.",
-        "3. **Cross-Trait Transfer** — evaluate whether continuous-trait PRS models can usefully transfer to the input continuous trait.",
+        "1. **Partition screened target traits** into Type A (without self incremental R2) and Type B (with self incremental R2).",
+        "2. **Retain cross-list target traits** — Type A target traits need at least one qualifying cross model; Type B target traits need a cross model that beats self.",
+        "3. **Determine cross traits** — for each retained continuous target trait, link retained cross PGS → LOINC trait metadata.",
+        "4. **Cross-Trait Transfer** — evaluate whether continuous-trait PRS models can usefully transfer to the target trait.",
         "",
-        "## Selection Criterion (Type A)",
+        "## Selection Criterion",
         "",
-        "- At least one non-self continuous-trait PGS model has cross incremental R2 > best self incremental R2",
+        "- Type A (without self incremental R2): require at least one non-self continuous-trait PGS model",
+        "- Type B (with self incremental R2): require at least one non-self continuous-trait PGS model with cross incremental R2 > best self incremental R2",
         f"- When self incremental R2 exists: require **cross incremental R2 − self best incremental R2 > {CONTINUOUS_TYPE_A_MIN_IMPROVEMENT}** per retained model",
-        f"- Require **Top Cross incremental R2 > {CONTINUOUS_TYPE_A_MIN_TOP_CROSS_INCREMENTAL_R2}** for the input trait to enter the cross-list",
-        f"- Exclude input traits with **self best incremental R2 > {CONTINUOUS_TYPE_A_MAX_SELF_BEST_INCREMENTAL_R2}** (strong self PRS)",
+        f"- Require **Top Cross incremental R2 > {CONTINUOUS_TYPE_A_MIN_TOP_CROSS_INCREMENTAL_R2}** for the target trait to enter the cross-list",
+        f"- Exclude target traits with **self best incremental R2 > {CONTINUOUS_TYPE_A_MAX_SELF_BEST_INCREMENTAL_R2}** (strong self PRS)",
         "",
     ]
 
     total_a = len(summary_a)
     has_self = int(summary_a["has_self_incremental_r2"].sum())
     no_self = total_a - has_self
+    no_self_with_cross = int(
+        (
+            (summary_a["n_cross_models_beating_self"] > 0)
+            & (~summary_a["has_self_incremental_r2"])
+        ).sum()
+    )
+    no_self_no_cross = int(
+        (
+            (summary_a["n_cross_models_beating_self"] == 0)
+            & (~summary_a["has_self_incremental_r2"])
+        ).sum()
+    )
     with_cross_has_self = int(
         (
             (summary_a["n_cross_models_beating_self"] > 0)
@@ -1503,20 +1612,71 @@ def generate_continuous_to_continuous_report(
             & (summary_a["n_cross_models_beating_self"] == 0)
         ).sum()
     )
+    cross_list_input_n = no_self_with_cross + with_cross_has_self
 
     lines.extend([
-        "## Type A Summary",
+        "## Type A / Type B Summary",
         "",
         "| Metric | Count |",
         "|--------|-------|",
-        f"| **Type A cross-list input traits** (Cross beats self) | **{with_cross_has_self}** |",
-        f"| Total Type A rows in matrix filter (incl. Self optimal) | {total_a} |",
-        f"| With self incremental R2 | {has_self} |",
-        f"| Without self incremental R2 | {no_self} |",
-        f"| Self optimal (reference only; not cross-list inputs) | {self_optimal} |",
+        f"| **Cross-list target traits** (retained Type A ∪ retained Type B) | **{cross_list_input_n}** |",
+        f"| — Retained Type A (Without Self incremental R2 + qualifying cross) | {no_self_with_cross} |",
+        f"| — Retained Type B (With Self incremental R2 + cross beats self) | {with_cross_has_self} |",
+        f"| Total screened rows in matrix filter | {total_a} |",
+        f"| Type A total (Without Self incremental R2) | {no_self} |",
+        f"| — Type A without qualifying cross | {no_self_no_cross} |",
+        f"| Type B total (With Self incremental R2) | {has_self} |",
+        f"| — Type B self optimal | {self_optimal} |",
         f"| Any cross candidates | {with_cross_any} |",
         "",
     ])
+
+    no_self_df = summary_a[
+        (~summary_a["has_self_incremental_r2"])
+        & (summary_a["n_cross_models_beating_self"] > 0)
+    ].sort_values("top_cross_incremental_r2", ascending=False)
+    if len(no_self_df) > 0:
+        lines.extend([
+            "## Type A: Target Traits Without Self Incremental R2",
+            "",
+            "*Included in the retained cross-list target traits.*",
+            "",
+            f"Total: {len(no_self_df)} target traits",
+            "",
+            "| Target LOINC | Target Trait | Top Cross Incremental R2 | Cross Trait LOINC | Top Cross Trait | N Cross Models |",
+            "|--------------|--------------|--------------------------|-------------------|-----------------|----------------|",
+        ])
+        for _, r in no_self_df.iterrows():
+            lines.append(
+                f"| {r['input_loinc']} | {str(r['input_ontology'])[:40]} | "
+                f"{r['top_cross_incremental_r2']} | {str(r['top_output_loinc'])[:40]} | "
+                f"{str(r['top_output_trait'])[:40]} | {r['n_cross_models_beating_self']} |"
+            )
+
+    no_self_no_cross_df = summary_a[
+        (~summary_a["has_self_incremental_r2"])
+        & (summary_a["n_cross_models_beating_self"] == 0)
+    ].sort_values("input_loinc")
+    if len(no_self_no_cross_df) > 0:
+        lines.extend([
+            "",
+            "## Type A: Without Self Incremental R2 But No Qualifying Cross",
+            "",
+            "*Not included in the retained cross-list target traits under current rules; best available cross-trait evidence shown for reference.*",
+            "",
+            f"Total: {len(no_self_no_cross_df)} target traits",
+            "",
+            "| Target LOINC | Target Trait | Top Available Cross Incremental R2 | Cross Trait LOINC | Top Cross Trait | Available N Cross Models |",
+            "|--------------|--------------|------------------------------------|-------------------|-----------------|--------------------------|",
+        ])
+        for _, r in no_self_no_cross_df.iterrows():
+            lines.append(
+                f"| {r['input_loinc']} | {str(r['input_ontology'])[:40]} | "
+                f"{_display_or_dash(r.get('raw_top_cross_incremental_r2'))} | "
+                f"{_display_or_dash(r.get('raw_top_output_loinc'))[:40]} | "
+                f"{_display_or_dash(r.get('raw_top_output_trait'))[:40]} | "
+                f"{_display_positive_count_or_dash(r.get('raw_n_cross_models'))} |"
+            )
 
     beating = summary_a[
         summary_a["has_self_incremental_r2"]
@@ -1524,14 +1684,15 @@ def generate_continuous_to_continuous_report(
     ].sort_values("top_incremental_r2_improvement", ascending=False)
 
     lines.extend([
-        "## Type A: Continuous PRS Beats Self",
         "",
-        "*Included in **Type A cross-list input traits**.*",
+        "## Type B: Cross-Trait PRS Beats Self",
         "",
-        f"Total: {len(beating)} traits",
+        "*Included in the retained cross-list target traits.*",
         "",
-        "| Input LOINC | Input Trait | Self Best Incremental R2 | Top Cross Incremental R2 | Improvement | Output LOINC | Top Output Trait | N Cross | N Output Traits |",
-        "|-------------|-------------|--------------------------|--------------------------|-------------|--------------|------------------|---------|-----------------|",
+        f"Total: {len(beating)} target traits",
+        "",
+        "| Target LOINC | Target Trait | Self Best Incremental R2 | Top Cross Incremental R2 | Improvement | Cross Trait LOINC | Top Cross Trait | N Cross Models | N Unique Cross Traits |",
+        "|--------------|--------------|--------------------------|--------------------------|-------------|-------------------|-----------------|----------------|-------------------------|",
     ])
     for _, r in beating.iterrows():
         lines.append(
@@ -1548,14 +1709,14 @@ def generate_continuous_to_continuous_report(
     ].sort_values("self_best_incremental_r2", ascending=False)
     lines.extend([
         "",
-        "## Type A: Self Models Already Optimal",
+        "## Type B: Self Models Already Optimal",
         "",
-        "*Not included in **Type A cross-list input traits** (self PRS sufficient under current rules; reference only).*",
+        "*Not included in the retained cross-list target traits (self PRS sufficient under current rules; reference only).*",
         "",
-        f"Total: {len(no_beating)} traits",
+        f"Total: {len(no_beating)} target traits",
         "",
-        "| Input LOINC | Input Trait | Self Best Incremental R2 | Self N Models |",
-        "|-------------|-------------|--------------------------|---------------|",
+        "| Target LOINC | Target Trait | Self Best Incremental R2 | Self N Models |",
+        "|--------------|--------------|--------------------------|---------------|",
     ])
     for _, r in no_beating.iterrows():
         lines.append(
@@ -1584,8 +1745,6 @@ def main() -> None:
 
     matrix = load_rootcode_auc_matrix()
     allowed_input_icds = load_main_analysis_input_icds()
-    c1_icds = {str(i).strip() for i in matrix.index}
-
     print(f"\n{'='*60}")
     print("Building binary-to-binary cross list for rootcode...")
     print(f"{'='*60}")
@@ -1627,7 +1786,7 @@ def main() -> None:
     without_self_no_cross_n = int(
         ((summary_a["n_cross_models_beating_self"] == 0) & (~summary_a["has_self_auc"])).sum()
     )
-    print(f"  Type A input diseases: {len(summary_a)}")
+    print(f"  Screened benchmarked binary target traits: {len(summary_a)}")
     print(f"    With self AUC: {has_self}")
     print(f"      - Cross beats self: {beating_n}")
     print(f"      - Self optimal: {has_self - beating_n}")
@@ -1682,7 +1841,7 @@ def main() -> None:
     without_self_no_cross_bc_n = int(
         ((summary_bc["n_cross_models_beating_self"] == 0) & (~summary_bc["has_self_auc"])).sum()
     )
-    print(f"  Type A input diseases: {len(summary_bc)}")
+    print(f"  Screened benchmarked binary target traits: {len(summary_bc)}")
     print(f"    With self AUC: {has_self_bc}")
     print(f"      - Cross beats self: {beating_bc_n}")
     print(f"      - Self optimal: {has_self_bc - beating_bc_n}")
@@ -1731,7 +1890,7 @@ def main() -> None:
             & summary_cb["has_self_incremental_r2"]
         ).sum()
     )
-    print(f"  Type A input traits: {len(summary_cb)}")
+    print(f"  Screened benchmarked continuous target traits: {len(summary_cb)}")
     print(f"    With self incremental R2: {has_self_cb}")
     print(f"      - Cross beats self: {beating_cb_n}")
     print(f"      - Self optimal: {has_self_cb - beating_cb_n}")
@@ -1783,23 +1942,17 @@ def main() -> None:
             & summary_cc["has_self_incremental_r2"]
         ).sum()
     )
-    print(f"  Type A input traits: {len(summary_cc)}")
+    print(f"  Screened benchmarked continuous target traits: {len(summary_cc)}")
     print(f"    With self incremental R2: {has_self_cc}")
     print(f"      - Cross beats self: {beating_cc_n}")
     print(f"      - Self optimal: {has_self_cc - beating_cc_n}")
     print(f"    Without self incremental R2: {len(summary_cc) - has_self_cc}")
     print(f"    Detail rows: {len(detail_cc)}")
 
-    type_b = build_type_b_disease_list(c1_icds)
-    type_b.to_csv(BINARY_TO_BINARY_RUNS_DIR / "cross_list_type_b.csv", index=False)
-    type_b.to_csv(BINARY_TO_CONTINUOUS_RUNS_DIR / "cross_list_type_b.csv", index=False)
-    print(f"\n  Type B input diseases: {len(type_b)}")
-
-    report = generate_report(summary_a, type_b, "rootcode", output_kind="binary")
+    report = generate_report(summary_a, "rootcode", output_kind="binary")
     (BINARY_TO_BINARY_RUNS_DIR / "cross_list_report.md").write_text(report, encoding="utf-8")
     report_bc = generate_report(
         summary_bc,
-        type_b,
         "rootcode",
         output_kind="continuous",
     )

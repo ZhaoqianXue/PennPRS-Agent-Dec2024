@@ -26,7 +26,7 @@ from experiments.contribution2.disease_selection.configs import select_diseases_
 OUTPUT_RUNS_DIR = Path(__file__).parent.parent / "runs"
 OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
 DEFAULT_REQUIRE_QC1 = False
-DEFAULT_CURRENT_UNION_STEM = "selected_diseases_contribution2_current_union__75disease"
+CURRENT_UNION_STEM_PREFIX = "selected_diseases_contribution2_current_union"
 
 # Keep the broader canonical disease label for each merge group.
 CANONICAL_MERGE_GROUPS: dict[str, set[str]] = {
@@ -194,6 +194,14 @@ def _cell(value: object) -> object:
     return "-" if pd.isna(value) or value == "" else value
 
 
+def _default_current_union_suffix(union_count: int) -> str:
+    return f"__{union_count}disease"
+
+
+def _default_current_union_stem(union_count: int) -> str:
+    return f"{CURRENT_UNION_STEM_PREFIX}{_default_current_union_suffix(union_count)}"
+
+
 def build_current_method_union(
     min_n_models: int,
     require_qc1: bool = DEFAULT_REQUIRE_QC1,
@@ -267,15 +275,42 @@ def build_current_method_union(
     return output_df, detail_df
 
 
-def _output_suffix(min_n_models: int, require_qc1: bool) -> str:
+def _output_suffix(
+    min_n_models: int,
+    require_qc1: bool,
+    union_count: int | None = None,
+) -> str:
     if min_n_models == base.DEFAULT_MIN_N_MODELS and not require_qc1:
-        return "__75disease"
+        if union_count is None:
+            raise ValueError("union_count is required for the default current-method union naming.")
+        return _default_current_union_suffix(union_count)
     suffix_parts: list[str] = []
     if min_n_models != base.DEFAULT_MIN_N_MODELS:
         suffix_parts.append(f"min{min_n_models}")
     if require_qc1:
         suffix_parts.append("qc1required")
     return f"__{'_'.join(suffix_parts)}" if suffix_parts else ""
+
+
+def _cleanup_default_current_union_outputs(
+    keep_csv_path: Path,
+    keep_detail_csv_path: Path,
+    keep_report_path: Path,
+) -> None:
+    (OUTPUT_INTERMEDIATE_DIR / f"{CURRENT_UNION_STEM_PREFIX}_details.csv").unlink(missing_ok=True)
+    (OUTPUT_RUNS_DIR / f"{CURRENT_UNION_STEM_PREFIX}_report.md").unlink(missing_ok=True)
+
+    for stale_path in OUTPUT_RUNS_DIR.glob(f"{CURRENT_UNION_STEM_PREFIX}__*disease.csv"):
+        if stale_path != keep_csv_path:
+            stale_path.unlink(missing_ok=True)
+
+    for stale_path in OUTPUT_INTERMEDIATE_DIR.glob(f"{CURRENT_UNION_STEM_PREFIX}_details__*disease.csv"):
+        if stale_path != keep_detail_csv_path:
+            stale_path.unlink(missing_ok=True)
+
+    for stale_path in OUTPUT_RUNS_DIR.glob(f"{CURRENT_UNION_STEM_PREFIX}_report__*disease.md"):
+        if stale_path != keep_report_path:
+            stale_path.unlink(missing_ok=True)
 
 
 def main(min_n_models: int, require_qc1: bool = DEFAULT_REQUIRE_QC1) -> None:
@@ -298,14 +333,26 @@ def main(min_n_models: int, require_qc1: bool = DEFAULT_REQUIRE_QC1) -> None:
         min_n_models=min_n_models,
         require_qc1=require_qc1,
     )
-    out_suffix = _output_suffix(min_n_models=min_n_models, require_qc1=require_qc1)
+    out_suffix = _output_suffix(
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+        union_count=len(union_df),
+    )
     csv_dir = OUTPUT_RUNS_DIR if min_n_models == base.DEFAULT_MIN_N_MODELS else OUTPUT_INTERMEDIATE_DIR
     if min_n_models == base.DEFAULT_MIN_N_MODELS:
-        csv_path = csv_dir / f"{DEFAULT_CURRENT_UNION_STEM}.csv"
+        csv_path = csv_dir / f"{_default_current_union_stem(len(union_df))}.csv"
     else:
-        csv_path = csv_dir / f"selected_diseases_contribution2_current_union{out_suffix}.csv"
-    detail_csv_path = OUTPUT_INTERMEDIATE_DIR / f"selected_diseases_contribution2_current_union_details{out_suffix}.csv"
-    report_path = OUTPUT_RUNS_DIR / f"selected_diseases_contribution2_current_union_report{out_suffix}.md"
+        csv_path = csv_dir / f"{CURRENT_UNION_STEM_PREFIX}{out_suffix}.csv"
+    detail_csv_path = OUTPUT_INTERMEDIATE_DIR / f"{CURRENT_UNION_STEM_PREFIX}_details{out_suffix}.csv"
+    report_path = OUTPUT_RUNS_DIR / f"{CURRENT_UNION_STEM_PREFIX}_report{out_suffix}.md"
+
+    if min_n_models == base.DEFAULT_MIN_N_MODELS and not require_qc1:
+        _cleanup_default_current_union_outputs(
+            keep_csv_path=csv_path,
+            keep_detail_csv_path=detail_csv_path,
+            keep_report_path=report_path,
+        )
+
     union_df.to_csv(csv_path, index=False)
     detail_df.to_csv(detail_csv_path, index=False)
 

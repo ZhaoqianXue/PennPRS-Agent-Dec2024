@@ -18,6 +18,9 @@ node_modules/
 *.zip
 *.tar
 *.csv
+!experiments/contribution3/cross_list/candidate_set_tier12__21disease/cross_disease_transfer_candidate_set_tier12__21disease.csv
+!experiments/contribution3/cross_list/candidate_set_tier12__21disease/input_output_ontology_summary__tier12_21disease.csv
+!experiments/contribution3/cross_list/candidate_set_tier12__21disease/input_output_ontology_pairs__tier12_21disease.csv
 data/**
 !data/README.md
 output/logs/download/*.txt
@@ -25,4 +28,3 @@ output/logs/download/*.txt
 # Temporary files
 *.tmp
 *.log
-

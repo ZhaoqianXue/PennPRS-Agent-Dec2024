@@ -1762,18 +1762,11 @@
     "PGS001791",
     "PGS001030"
   ],
-  "retinopathy": [
-    "PGS002041",
-    "PGS001013",
-    "PGS004952",
-    "PGS001834",
-    "PGS000819",
-    "PGS002027",
-    "PGS004606",
-    "PGS000862",
-    "PGS001819",
-    "PGS004607",
-    "PGS002269"
+  "retinal detachment": [
+    "PGS001833",
+    "PGS001137",
+    "PGS000990",
+    "PGS002040"
   ],
   "rheumatoid arthritis": [
     "PGS001268",
@@ -1822,7 +1815,15 @@
   "sarcoidosis": [
     "PGS000923",
     "PGS000922",
-    "PGS001872"
+    "PGS001872",
+    "PGS002084"
+  ],
+  "schizophrenia": [
+    "PGS000134",
+    "PGS002785",
+    "PGS000136",
+    "PGS000135",
+    "PGS000133"
   ],
   "skin carcinoma in situ": [
     "PGS000469",
@@ -1878,6 +1879,7 @@
     "PGS001164",
     "PGS000796",
     "PGS000601",
+    "PGS000086",
     "PGS000603",
     "PGS000600",
     "PGS000596",
@@ -1943,7 +1945,9 @@
   ],
   "urolithiasis": [
     "PGS001250",
+    "PGS002075",
     "PGS004563",
+    "PGS001864",
     "PGS004493"
   ],
   "uterine cancer": [

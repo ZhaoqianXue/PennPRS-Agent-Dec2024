@@ -15,11 +15,11 @@ These counts are computed **before** any later canonical merge-map step that col
 
 | Base eligibility | No QC filtering union | QC3-only union | Current-method union |
 |------------------|----------------------|----------------|----------------------|
-| `min_n_models = 2` (new default) | **157** | **116** | **70** |
-| `min_n_models = 3` (legacy base eligibility) | **127** | **100** | **59** |
+| `min_n_models = 2` (new default) | **137** | **92** | **85** |
+| `min_n_models = 3` (legacy base eligibility) | **108** | **79** | **75** |
 
 The current on-disk benchmark file [selected_diseases_contribution2_union__30disease.csv](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv) is a frozen manual 30-disease benchmark created under older selection settings and is not auto-synced to the current code.
-The canonicalized current-method union produced by [build_current_method_union.py](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/configs/build_current_method_union.py) further collapses these raw counts to `60` (default) and `54` (`min_n_models = 3`).
+The canonicalized current-method union produced by [build_current_method_union.py](/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/disease_selection/configs/build_current_method_union.py) further collapses these raw counts to `76` (default) and `68` (`min_n_models = 3`).
 
 ## Mode Definitions
 
@@ -65,7 +65,7 @@ Note: this is expected because the pipeline's base eligibility already requires 
 
 ## Takeaway
 
-- With the new default `min_n_models = 2`, the three raw union sizes become `157 / 116 / 70`.
-- With legacy `min_n_models = 3`, the three raw union sizes become `127 / 100 / 59`.
-- After canonical merge-map collapsing, the current-method union becomes `60` (default) and `54` (`min_n_models = 3`).
+- With the new default `min_n_models = 2`, the three raw union sizes become `137 / 92 / 85`.
+- With legacy `min_n_models = 3`, the three raw union sizes become `108 / 79 / 75`.
+- After canonical merge-map collapsing, the current-method union becomes `76` (default) and `68` (`min_n_models = 3`).
 - The existing 30-disease union benchmark remains a frozen historical artifact rather than the output of the current code.

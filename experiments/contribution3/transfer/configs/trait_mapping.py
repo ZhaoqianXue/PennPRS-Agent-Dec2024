@@ -1,8 +1,8 @@
 """
 Manual mapping from cross-list ontology names to GWAS Atlas uniqTrait.
 
-Some cross-list diseases have no direct GWAS Atlas match (marked as None).
-These will have rg-only graphs with 0 neighbors.
+Some cross-list target traits have no direct GWAS Atlas match (marked as None).
+These remain unmapped in the current Cross Trait Transfer workflow.
 """
 
 # ICD -> best GWAS Atlas uniqTrait match (or None if no match)

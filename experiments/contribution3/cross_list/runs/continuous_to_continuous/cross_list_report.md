@@ -2,55 +2,62 @@
 
 ## Terminology
 
-- **Input continuous trait**: Measurement trait needing transfer support
-  - **Type A (matrix)**: In C1's LOINC incremental-R2 matrix (has ground truth for verification)
-  - Continuous inputs here are restricted to `include_in_analysis == 1` in `prs_incrementalr2_metadata`
-- **Output continuous trait**: Measurement trait whose PRS models are recommended for the input continuous trait
+- **Target trait**: Trait being predicted / transferred into
+  - Continuous target traits here are restricted to `include_in_analysis == 1` in `prs_incrementalr2_metadata`
+  - **Type A**: target traits **without self incremental R2**
+  - **Type B**: target traits **with self incremental R2**
+- **Cross trait**: Trait whose PRS models are recommended for the target trait (continuous trait resolved from LOINC metadata mapping)
 - PGS models with unknown source ontology are **excluded**
 
 ## Cross-list workflow
 
-1. **Define Type A input traits** — use **Cross-Disease PRS Beats Self** only.
-2. **Determine output traits** — for each continuous input, link retained cross PGS → LOINC trait metadata.
-3. **Cross-Trait Transfer** — evaluate whether continuous-trait PRS models can usefully transfer to the input continuous trait.
+1. **Partition screened target traits** into Type A (without self incremental R2) and Type B (with self incremental R2).
+2. **Retain cross-list target traits** — Type A target traits need at least one qualifying cross model; Type B target traits need a cross model that beats self.
+3. **Determine cross traits** — for each retained continuous target trait, link retained cross PGS → LOINC trait metadata.
+4. **Cross-Trait Transfer** — evaluate whether continuous-trait PRS models can usefully transfer to the target trait.
 
-## Selection Criterion (Type A)
+## Selection Criterion
 
-- At least one non-self continuous-trait PGS model has cross incremental R2 > best self incremental R2
+- Type A (without self incremental R2): require at least one non-self continuous-trait PGS model
+- Type B (with self incremental R2): require at least one non-self continuous-trait PGS model with cross incremental R2 > best self incremental R2
 - When self incremental R2 exists: require **cross incremental R2 − self best incremental R2 > 0.0025** per retained model
-- Require **Top Cross incremental R2 > 0.02** for the input trait to enter the cross-list
-- Exclude input traits with **self best incremental R2 > 0.05** (strong self PRS)
+- Require **Top Cross incremental R2 > 0.02** for the target trait to enter the cross-list
+- Exclude target traits with **self best incremental R2 > 0.05** (strong self PRS)
 
-## Type A Summary
+## Type A / Type B Summary
 
 | Metric | Count |
 |--------|-------|
-| **Type A cross-list input traits** (Cross beats self) | **2** |
-| Total Type A rows in matrix filter (incl. Self optimal) | 32 |
-| With self incremental R2 | 32 |
-| Without self incremental R2 | 0 |
-| Self optimal (reference only; not cross-list inputs) | 30 |
+| **Cross-list target traits** (retained Type A ∪ retained Type B) | **2** |
+| — Retained Type A (Without Self incremental R2 + qualifying cross) | 0 |
+| — Retained Type B (With Self incremental R2 + cross beats self) | 2 |
+| Total screened rows in matrix filter | 32 |
+| Type A total (Without Self incremental R2) | 0 |
+| — Type A without qualifying cross | 0 |
+| Type B total (With Self incremental R2) | 32 |
+| — Type B self optimal | 30 |
 | Any cross candidates | 2 |
 
-## Type A: Continuous PRS Beats Self
 
-*Included in **Type A cross-list input traits**.*
+## Type B: Cross-Trait PRS Beats Self
 
-Total: 2 traits
+*Included in the retained cross-list target traits.*
 
-| Input LOINC | Input Trait | Self Best Incremental R2 | Top Cross Incremental R2 | Improvement | Output LOINC | Top Output Trait | N Cross | N Output Traits |
-|-------------|-------------|--------------------------|--------------------------|-------------|--------------|------------------|---------|-----------------|
+Total: 2 target traits
+
+| Target LOINC | Target Trait | Self Best Incremental R2 | Top Cross Incremental R2 | Improvement | Cross Trait LOINC | Top Cross Trait | N Cross Models | N Unique Cross Traits |
+|--------------|--------------|--------------------------|--------------------------|-------------|-------------------|-----------------|----------------|-------------------------|
 | 1884-6 | apolipoprotein b measurement | 0.038225 | 0.059508 | +0.0213 | 18262-6 | low density lipoprotein cholesterol meas | 32 | 4 |
 | 1869-7 | apolipoprotein a 1 measurement | 0.01264 | 0.024816 | +0.0122 | 10835-7 | lipoprotein a measurement | 12 | 4 |
 
-## Type A: Self Models Already Optimal
+## Type B: Self Models Already Optimal
 
-*Not included in **Type A cross-list input traits** (self PRS sufficient under current rules; reference only).*
+*Not included in the retained cross-list target traits (self PRS sufficient under current rules; reference only).*
 
-Total: 30 traits
+Total: 30 target traits
 
-| Input LOINC | Input Trait | Self Best Incremental R2 | Self N Models |
-|-------------|-------------|--------------------------|---------------|
+| Target LOINC | Target Trait | Self Best Incremental R2 | Self N Models |
+|--------------|--------------|--------------------------|---------------|
 | 18262-6 | low density lipoprotein cholesterol measurement | 0.046121 | 121 |
 | 8462-4 | diastolic blood pressure | 0.037693 | 53 |
 | 62292-8 | vitamin d level | 0.034668 | 44 |
