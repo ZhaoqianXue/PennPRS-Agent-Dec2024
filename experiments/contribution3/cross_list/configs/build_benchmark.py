@@ -4,15 +4,18 @@ Contribution3: Build Cross-Trait Transfer Benchmark
 Redesign of the cross-trait transfer evaluation framework with two key changes
 from the original build_cross_list.py:
 
-1. Disease-level aggregation: ground truth is defined at the cross-disease level
-   (not individual PGS model level), since the Cross Trait Transfer module outputs
-   a disease recommendation, not a specific PGS model.
+1. Screening target selection: the benchmark still exports disease-level and
+   trait-level cross rankings, but these now serve as selection/debug assets.
 
-2. Complete ranking: for each target trait, ALL cross diseases are ranked by their
-   best model's AUC on the target — not just those passing a screening threshold.
-   This enables Hit@k and NRS evaluation consistent with Contribution2.
+2. Official Contribution3 evaluation is end-to-end: for each selected target,
+   run Cross Trait Transfer + PRS Recommendation, then rank the final selected
+   PGS model in the full Contribution1 AUC row for that target.
 
-3. Refined target selection criteria:
+3. Complete cross rankings are still exported for analysis/debugging:
+   for each target trait, ALL cross diseases/traits are ranked by their best
+   model's AUC on the target — not just those passing a screening threshold.
+
+4. Refined target selection criteria:
    - Benchmark CSV outputs include:
        * Type A targets from contribution1/aou_nontarget_pgs
        * Type B targets from the main rootcode adjAUC matrix
@@ -24,8 +27,9 @@ from the original build_cross_list.py:
    - Type B targets require self AUC < MAX_SELF_AUC (default 0.60)
 
 Screening criteria (MIN_IMPROVEMENT, MIN_TOP_CROSS_AUC, MIN_BEST_SPLIT_GAP)
-define TARGET SELECTION only. The evaluation ground truth is the complete
-disease-level AUC ranking.
+define TARGET SELECTION only. The exported `ground_truth_ranking.csv` remains
+useful for debugging and qualitative analysis, but it is no longer the official
+Contribution3 evaluation target.
 
 Usage:
     python build_benchmark.py

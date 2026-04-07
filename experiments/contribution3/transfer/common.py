@@ -21,26 +21,16 @@ if load_dotenv is not None:
     load_dotenv(PROJECT_ROOT / ".env", override=False)
 TRANSFER_DIR = Path(__file__).resolve().parent
 RUNS_DIR = TRANSFER_DIR / "runs" / "tool_calling_agent"
+BENCHMARK_DIR = (
+    PROJECT_ROOT
+    / "experiments"
+    / "contribution3"
+    / "cross_list"
+    / "benchmark"
+)
+DEFAULT_BENCHMARK_FAMILY = "binary_to_binary"
+BENCHMARK_FAMILIES = ("binary_to_binary", "binary_to_continuous")
 BUNDLE_INDEX_JSON = RUNS_DIR / "trait_bundle_index.json"
-TARGET_DOSSIERS_JSON = RUNS_DIR / "binary_candidate_dossiers.json"
-SHORTLIST_CSV = (
-    PROJECT_ROOT
-    / "experiments"
-    / "contribution3"
-    / "cross_list"
-    / "analysis"
-    / "phase2"
-    / "binary_cross_trait_shortlist.csv"
-)
-TARGET_SUMMARY_CSV = (
-    PROJECT_ROOT
-    / "experiments"
-    / "contribution3"
-    / "cross_list"
-    / "analysis"
-    / "phase2"
-    / "binary_target_cross_trait_summary.csv"
-)
 PGS_SCORES_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_scores.csv"
 PGS_EFO_TRAITS_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_efo_traits.csv"
 AOU_OVERLAP_BY_ROOT_CSV = PROJECT_ROOT / "data" / "all_of_us" / "aou_pgs_trait_overlap_by_root.csv"
@@ -101,6 +91,60 @@ class CandidateBundleDossier(BaseModel):
     candidates: list[TraitBundle]
 
 
+def validate_benchmark_family(benchmark_family: str) -> str:
+    family = str(benchmark_family or "").strip()
+    if family not in BENCHMARK_FAMILIES:
+        raise ValueError(
+            f"Unsupported benchmark family: {benchmark_family}. "
+            f"Expected one of {', '.join(BENCHMARK_FAMILIES)}."
+        )
+    return family
+
+
+def benchmark_run_dir(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
+    family = validate_benchmark_family(benchmark_family)
+    return RUNS_DIR / family
+
+
+def target_dossiers_json(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
+    return benchmark_run_dir(benchmark_family) / "candidate_dossiers.json"
+
+
+def condition_results_json(
+    condition: str,
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> Path:
+    return benchmark_run_dir(benchmark_family) / condition / "results.json"
+
+
+def condition_recommendations_json(
+    condition: str,
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> Path:
+    return benchmark_run_dir(benchmark_family) / condition / "contribution2_recommendations.json"
+
+
+def evaluation_dir(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
+    return benchmark_run_dir(benchmark_family) / "evaluation"
+
+
+def benchmark_target_selection_csv(
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> Path:
+    family = validate_benchmark_family(benchmark_family)
+    return BENCHMARK_DIR / family / "target_selection.csv"
+
+
+def benchmark_ground_truth_csv(
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> Path:
+    family = validate_benchmark_family(benchmark_family)
+    return BENCHMARK_DIR / family / "ground_truth_ranking.csv"
+
+
+TARGET_DOSSIERS_JSON = target_dossiers_json()
+
+
 def normalize_text(text: str) -> str:
     cleaned = re.sub(r"[^a-z0-9\s]", " ", (text or "").lower())
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
@@ -117,6 +161,15 @@ def split_multi_value(raw: Any) -> list[str]:
         return []
     values = re.split(r"[|;]", text)
     return [val.strip() for val in values if val and val.strip()]
+
+
+def _clean_optional_text(raw: Any) -> str:
+    if raw is None:
+        return ""
+    text = str(raw).strip()
+    if not text or text.lower() == "nan":
+        return ""
+    return text
 
 
 def unique_preserve_order(values: Iterable[str]) -> list[str]:
@@ -304,16 +357,37 @@ def bundle_lookup_by_id(bundles: Iterable[TraitBundle]) -> dict[str, TraitBundle
     return {bundle.bundle_id: bundle for bundle in bundles}
 
 
-def build_target_queries() -> list[TargetTraitQuery]:
-    df = pd.read_csv(TARGET_SUMMARY_CSV)
+def load_benchmark_target_selection(
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+    selected_only: bool = True,
+) -> pd.DataFrame:
+    path = benchmark_target_selection_csv(benchmark_family)
+    if not path.exists():
+        raise FileNotFoundError(f"Benchmark target selection not found: {path}")
+    df = pd.read_csv(path)
+    if selected_only and "selected" in df.columns:
+        selected_mask = df["selected"].fillna(False).astype(bool)
+        df = df.loc[selected_mask].copy()
+    return df
+
+
+def build_target_queries(
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> list[TargetTraitQuery]:
+    df = load_benchmark_target_selection(benchmark_family=benchmark_family, selected_only=True)
     queries: list[TargetTraitQuery] = []
     for _, row in df.iterrows():
-        label = str(row["target_trait"]).strip()
-        aliases = unique_preserve_order(split_multi_value(label))
+        ontology_text = _clean_optional_text(row.get("input_ontology"))
+        description_text = _clean_optional_text(row.get("input_description"))
+        label = ontology_text or description_text or str(row.get("input_icd", "")).strip()
+        aliases = unique_preserve_order(
+            split_multi_value(ontology_text)
+            + [description_text, ontology_text]
+        )
         queries.append(
             TargetTraitQuery(
-                target_id=str(row["target_icd"]).strip(),
-                target_code=str(row["target_icd"]).strip(),
+                target_id=str(row["input_icd"]).strip(),
+                target_code=str(row["input_icd"]).strip(),
                 target_label=label,
                 aliases=aliases,
             )
@@ -442,16 +516,20 @@ def select_candidate_bundles(
     ]
 
 
-def build_candidate_dossiers(bundles: list[TraitBundle]) -> list[CandidateBundleDossier]:
+def build_candidate_dossiers(
+    bundles: list[TraitBundle],
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> list[CandidateBundleDossier]:
     dossiers: list[CandidateBundleDossier] = []
-    for target in build_target_queries():
+    for target in build_target_queries(benchmark_family=benchmark_family):
         candidates = select_candidate_bundles(target, bundles)
         dossiers.append(CandidateBundleDossier(target=target, candidates=candidates))
     return dossiers
 
 
 def write_candidate_dossiers(
-    dossiers: list[CandidateBundleDossier], outpath: Path = TARGET_DOSSIERS_JSON
+    dossiers: list[CandidateBundleDossier],
+    outpath: Path = TARGET_DOSSIERS_JSON,
 ) -> None:
     outpath.parent.mkdir(parents=True, exist_ok=True)
     outpath.write_text(
@@ -462,18 +540,3 @@ def write_candidate_dossiers(
 def load_candidate_dossiers(path: Path = TARGET_DOSSIERS_JSON) -> list[CandidateBundleDossier]:
     data = json.loads(path.read_text())
     return [CandidateBundleDossier(**row) for row in data]
-
-
-def resolve_bundle_ids_for_trait_text(
-    trait_text: str,
-    bundles: list[TraitBundle],
-    min_score: int = 88,
-) -> list[str]:
-    terms = unique_preserve_order(split_multi_value(trait_text) + [trait_text])
-    matches: list[tuple[str, int]] = []
-    for bundle in bundles:
-        score = _bundle_match_score(bundle, terms)
-        if score >= min_score:
-            matches.append((bundle.bundle_id, score))
-    matches.sort(key=lambda item: (-item[1], item[0]))
-    return unique_preserve_order([bundle_id for bundle_id, _ in matches])

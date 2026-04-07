@@ -82,7 +82,33 @@ class TestDomainKnowledge:
 
 class TestPGSCatalogSearch:
     """Test prs_model_pgscatalog_search tool."""
-    
+
+    def test_hydrate_pgs_model_summaries_preserves_explicit_id_order(self):
+        from src.server.core.tools.prs_model_tools import hydrate_pgs_model_summaries
+        from unittest.mock import Mock
+
+        mock_client = Mock()
+
+        def mock_details(pgs_id):
+            return {
+                "id": pgs_id,
+                "trait_reported": f"Trait {pgs_id}",
+                "trait_efo": [{"label": f"Trait {pgs_id}"}],
+                "method_name": "LDpred2",
+                "variants_number": 123,
+                "ancestry_distribution": {},
+                "publication": {"title": "Test Pub", "journal": "Test Journal"},
+                "date_release": "2020-01-01",
+                "samples_training": [],
+            }
+
+        mock_client.get_score_details.side_effect = mock_details
+        mock_client.get_score_performance.side_effect = lambda _: []
+
+        models = hydrate_pgs_model_summaries(mock_client, ["PGS002", "PGS001", "PGS002"])
+
+        assert [model.id for model in models] == ["PGS002", "PGS001"]
+
     def test_search_includes_all_models_including_no_metrics(self):
         """Test that all models are returned including those with no AUC/R² (no filter)."""
         from src.server.core.tools.prs_model_tools import prs_model_pgscatalog_search

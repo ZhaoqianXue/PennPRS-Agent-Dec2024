@@ -75,6 +75,158 @@ TARGET_DISEASE_SECTION_TITLES = {
 }
 
 
+def _dedupe_preserve_order(values: Iterable[Any]) -> List[str]:
+    ordered: List[str] = []
+    seen: Set[str] = set()
+    for raw in values or []:
+        value = str(raw or "").strip()
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        ordered.append(value)
+    return ordered
+
+
+def hydrate_pgs_model_summaries(
+    client,  # PGSCatalogClient
+    pgs_ids: Iterable[str],
+    request_id: Optional[str] = None,
+) -> List[PGSModelSummary]:
+    """
+    Hydrate agent-facing PGS model summaries for an explicit ordered list of IDs.
+
+    This is the exact-ID counterpart to ``prs_model_pgscatalog_search`` and is useful
+    when the caller already knows the candidate universe and must not rely on trait
+    text retrieval recall.
+    """
+    # Import search_progress here to avoid circular imports
+    from src.server.core.state import search_progress
+
+    ordered_ids = _dedupe_preserve_order(pgs_ids)
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "status": "running",
+            "current_action": "Fetching metadata...",
+            "current_step": "step-1",
+            "models_total": len(ordered_ids),
+            "models_fetched": 0,
+            "models_successful": 0,
+        })
+
+    max_workers = int(os.getenv("PGS_FETCH_MAX_WORKERS", "20"))
+    details_map: Dict[str, Dict[str, Any]] = {}
+    performance_map: Dict[str, List[Dict[str, Any]]] = {}
+    attempted_details_count = 0
+    successful_details_count = 0
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_pid: Dict[Any, Tuple[str, str]] = {}
+        for pgs_id in ordered_ids:
+            future_to_pid[executor.submit(client.get_score_details, pgs_id)] = (pgs_id, "details")
+            future_to_pid[executor.submit(client.get_score_performance, pgs_id)] = (
+                pgs_id,
+                "performance",
+            )
+
+        for future in as_completed(future_to_pid):
+            pgs_id, req_type = future_to_pid[future]
+            try:
+                data = future.result()
+                if req_type == "details":
+                    attempted_details_count += 1
+                    if data:
+                        details_map[pgs_id] = data
+                        successful_details_count += 1
+                    if request_id and request_id in search_progress:
+                        search_progress[request_id].update({
+                            "models_fetched": attempted_details_count,
+                            "models_successful": successful_details_count,
+                            "current_action": f"Fetching {pgs_id}...",
+                            "current_step": "step-1",
+                        })
+                else:
+                    performance_map[pgs_id] = data or []
+            except Exception as e:
+                logger.debug(f"Failed to fetch {req_type} for {pgs_id}: {e}")
+                if req_type == "details":
+                    attempted_details_count += 1
+                    if request_id and request_id in search_progress:
+                        search_progress[request_id].update({
+                            "models_fetched": attempted_details_count,
+                            "models_successful": successful_details_count,
+                            "current_action": f"Fetching {pgs_id}...",
+                            "current_step": "step-1",
+                        })
+                continue
+
+    candidates: List[PGSModelSummary] = []
+    for pgs_id in ordered_ids:
+        details = details_map.get(pgs_id)
+        performance = performance_map.get(pgs_id, [])
+
+        if details:
+            cohorts = _extract_cohorts(details)
+            trait_reported = details.get("trait_reported", "Unknown")
+            trait_efo = ", ".join([t.get("label", "") for t in details.get("trait_efo", [])])
+            method_name = details.get("method_name", "Unknown")
+            variants_number = details.get("variants_number", 0)
+            ancestry_distribution = _format_ancestry(details.get("ancestry_distribution", {}))
+            publication = _extract_publication_metadata(details.get("publication"))
+            date_release = details.get("date_release", "Unknown")
+            samples_training = _format_samples(details.get("samples_training", []))
+        else:
+            cohorts = []
+            trait_reported = "Unknown"
+            trait_efo = ""
+            method_name = "Unknown"
+            variants_number = 0
+            ancestry_distribution = "Unknown"
+            publication = PublicationMetadata(title="Unknown", journal="Unknown")
+            date_release = "Unknown"
+            samples_training = "N/A"
+
+        performance_summary, selected_performance = _build_selected_performance_summary(performance)
+        phenotyping_reported = "Unknown"
+        covariates = "Unknown"
+        validation_sample_size: Optional[str] = None
+        if selected_performance:
+            phenotyping_reported = selected_performance.get("phenotyping_reported") or "Unknown"
+            covariates = selected_performance.get("covariates") or "Unknown"
+            validation_sample_size = _format_validation_sample_size(
+                _extract_validation_sample_count(selected_performance)
+            )
+
+        candidates.append(
+            PGSModelSummary(
+                id=pgs_id,
+                trait_reported=trait_reported,
+                trait_efo=trait_efo,
+                method_name=method_name,
+                variants_number=variants_number,
+                ancestry_distribution=ancestry_distribution,
+                publication=publication,
+                date_release=date_release,
+                samples_training=samples_training,
+                performance_metrics=performance_summary,
+                phenotyping_reported=phenotyping_reported,
+                covariates=covariates,
+                training_development_cohorts=cohorts,
+                validation_sample_size=validation_sample_size,
+            )
+        )
+
+    if request_id and request_id in search_progress:
+        search_progress[request_id].update({
+            "models_total": len(ordered_ids),
+            "models_fetched": len(ordered_ids),
+            "models_successful": successful_details_count,
+            "current_action": f"Completed fetching {len(ordered_ids)} models",
+            "current_step": "step-1",
+        })
+
+    return candidates
+
+
 def prs_model_pgscatalog_search(
     client,  # PGSCatalogClient
     trait_query: str,
@@ -116,150 +268,15 @@ def prs_model_pgscatalog_search(
     total_found = len(search_results)
     
     models = []
-    
-    # 2. Fetch details/performance for ALL candidate IDs (up to client-side cap) CONCURRENTLY,
-    #    then rank and slice. This makes "topN" deterministic and meaningful.
-    #    Optimized for speed: use concurrent fetching like pgs_search_service.py
-    candidates: List[PGSModelSummary] = []
+
+    # 2. Fetch details/performance for the filtered explicit candidate IDs.
     pgs_ids = [res["id"] for res in search_results]
-    
-    # Update progress: model hydration progress (separate from step progress).
-    # IMPORTANT: Do not overload `total/fetched` (used for step progress) with model counts.
-    if request_id and request_id in search_progress:
-        search_progress[request_id].update({
-            "status": "running",
-            "current_action": "Fetching metadata...",
-            "current_step": "step-1",
-            # Model-level progress for step-1 UI.
-            "models_total": len(pgs_ids),
-            # `models_fetched` counts attempted hydrations (monotonic to total).
-            "models_fetched": 0,
-            # `models_successful` counts non-empty detail payloads (best-effort).
-            "models_successful": 0,
-        })
-    
-    # Fetch details and performance concurrently (like pgs_search_service.py)
-    # Further increased default workers for faster fetching (was 10, now 20)
-    max_workers = int(os.getenv("PGS_FETCH_MAX_WORKERS", "20"))
-    details_map: Dict[str, Dict[str, Any]] = {}
-    performance_map: Dict[str, List[Dict[str, Any]]] = {}
-    attempted_details_count = 0
-    successful_details_count = 0
-    
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_pid: Dict[Any, Tuple[str, str]] = {}
-        for pgs_id in pgs_ids:
-            future_to_pid[executor.submit(client.get_score_details, pgs_id)] = (pgs_id, "details")
-            future_to_pid[executor.submit(client.get_score_performance, pgs_id)] = (pgs_id, "performance")
-        
-        for future in as_completed(future_to_pid):
-            pgs_id, req_type = future_to_pid[future]
-            try:
-                data = future.result()
-                if req_type == "details":
-                    # Count attempted detail hydrations (monotonic progress).
-                    attempted_details_count += 1
-                    if data:
-                        details_map[pgs_id] = data
-                        successful_details_count += 1
-                    if request_id and request_id in search_progress:
-                        search_progress[request_id].update({
-                            "models_fetched": attempted_details_count,
-                            "models_successful": successful_details_count,
-                            "current_action": f"Fetching {pgs_id}...",
-                            "current_step": "step-1",
-                        })
-                else:  # performance
-                    performance_map[pgs_id] = data or []
-            except Exception as e:
-                logger.debug(f"Failed to fetch {req_type} for {pgs_id}: {e}")
-                if req_type == "details":
-                    attempted_details_count += 1
-                    if request_id and request_id in search_progress:
-                        search_progress[request_id].update({
-                            "models_fetched": attempted_details_count,
-                            "models_successful": successful_details_count,
-                            "current_action": f"Fetching {pgs_id}...",
-                            "current_step": "step-1",
-                        })
-                continue
-    
-    # Process fetched data - include ALL models; never skip due to missing details.
-    # (Details are assumed fetchable; if empty, use minimal/fallback metadata.)
-    for pgs_id in pgs_ids:
-        details = details_map.get(pgs_id)
-        performance = performance_map.get(pgs_id, [])
-
-        # Extract fields from details when available; otherwise use fallbacks.
-        if details:
-            cohorts = _extract_cohorts(details)
-            trait_reported = details.get("trait_reported", "Unknown")
-            trait_efo = ", ".join([t.get("label", "") for t in details.get("trait_efo", [])])
-            method_name = details.get("method_name", "Unknown")
-            variants_number = details.get("variants_number", 0)
-            ancestry_distribution = _format_ancestry(details.get("ancestry_distribution", {}))
-            publication = _extract_publication_metadata(details.get("publication"))
-            date_release = details.get("date_release", "Unknown")
-            samples_training = _format_samples(details.get("samples_training", []))
-        else:
-            cohorts = []
-            trait_reported = "Unknown"
-            trait_efo = ""
-            method_name = "Unknown"
-            variants_number = 0
-            ancestry_distribution = "Unknown"
-            publication = PublicationMetadata(title="Unknown", journal="Unknown")
-            date_release = "Unknown"
-            samples_training = "N/A"
-
-        performance_summary, selected_performance = _build_selected_performance_summary(performance)
-
-        phenotyping_reported = "Unknown"
-        covariates = "Unknown"
-        validation_sample_size: Optional[str] = None
-        if selected_performance:
-            phenotyping_reported = selected_performance.get("phenotyping_reported") or "Unknown"
-            covariates = selected_performance.get("covariates") or "Unknown"
-            validation_sample_size = _format_validation_sample_size(
-                _extract_validation_sample_count(selected_performance)
-            )
-
-        summary = PGSModelSummary(
-            id=pgs_id,
-            trait_reported=trait_reported,
-            trait_efo=trait_efo,
-            method_name=method_name,
-            variants_number=variants_number,
-            ancestry_distribution=ancestry_distribution,
-            publication=publication,
-            date_release=date_release,
-            samples_training=samples_training,
-            performance_metrics=performance_summary,
-            phenotyping_reported=phenotyping_reported,
-            covariates=covariates,
-            training_development_cohorts=cohorts,
-            validation_sample_size=validation_sample_size,
-        )
-        candidates.append(summary)
-
-    # Ranking logic DISABLED: return models in API raw order (pgs_ids from search_scores).
-    # No Z-score sorting; preserves PGS Catalog / trait-search response order.
-    models = candidates
-
-    # Optional: restrict to evaluated models only (Contribution2 alignment with N Models).
     if evaluated_pgs_whitelist:
         whitelist_set = set(evaluated_pgs_whitelist)
-        models = [m for m in models if m.id in whitelist_set]
+        pgs_ids = [pgs_id for pgs_id in pgs_ids if pgs_id in whitelist_set]
 
-    # Finalize model hydration progress (attempted == total).
-    if request_id and request_id in search_progress:
-        search_progress[request_id].update({
-            "models_total": len(pgs_ids),
-            "models_fetched": len(pgs_ids),
-            "models_successful": successful_details_count,
-            "current_action": f"Completed fetching {len(pgs_ids)} models",
-            "current_step": "step-1",
-        })
+    # Ranking logic DISABLED: preserve API raw order from search_scores.
+    models = hydrate_pgs_model_summaries(client, pgs_ids, request_id=request_id)
         
     return PGSSearchResult(
         query_trait=trait_query,
