@@ -41,6 +41,7 @@ from __future__ import annotations
 import argparse
 import ast
 from pathlib import Path
+import re
 from typing import Optional
 
 import pandas as pd
@@ -97,6 +98,11 @@ CONTINUOUS_TYPE_A_MIN_TOP_CROSS_INCREMENTAL_R2 = 0.02
 # Helpers
 # ---------------------------------------------------------------------------
 
+def _clean_icd_description(desc: str) -> str:
+    desc = str(desc).strip()
+    return re.sub(r"^[01]\s+", "", desc, count=1)
+
+
 def _parse_pgs_ids(pgs_str: str) -> list[str]:
     try:
         out = ast.literal_eval(pgs_str)
@@ -106,6 +112,9 @@ def _parse_pgs_ids(pgs_str: str) -> list[str]:
 
 
 def _col_to_pgs_id(col: str) -> str:
+    col = str(col).strip()
+    if "__" in col:
+        return col.rsplit("__", 1)[-1]
     return col.replace("_hmPOS_GRCh38", "")
 
 
@@ -184,7 +193,7 @@ def build_pgs_to_continuous_trait_map() -> dict[str, list[dict[str, str]]]:
     for _, row in meta.loc[include].iterrows():
         loinc = str(row["loinc"]).strip()
         ontology = str(row["ontology"]).strip()
-        description = str(row.get("description", "")).strip()
+        description = _clean_icd_description(row.get("description", ""))
         for pid in _parse_pgs_ids(str(row["pgs_ids"])):
             key = (pid, loinc, ontology, description)
             if key in seen:
@@ -216,7 +225,7 @@ def build_loinc_trait_map_full() -> dict[str, dict[str, str]]:
             continue
         out[loinc] = {
             "input_ontology": str(row["ontology"]).strip(),
-            "input_description": str(row.get("description", "")).strip(),
+            "input_description": _clean_icd_description(row.get("description", "")),
         }
     return out
 
@@ -247,7 +256,7 @@ def build_pgs_to_binary_trait_map() -> dict[str, list[dict[str, str]]]:
     for _, row in pgs_id_list.iterrows():
         output_icd = str(row["icd_root"]).strip()
         output_ontology = str(row["ontology"]).strip()
-        output_description = str(row.get("description", "")).strip()
+        output_description = _clean_icd_description(row.get("description", ""))
         for pid in _parse_pgs_ids(str(row["pgs_ids"])):
             key = (pid, output_icd, output_ontology, output_description)
             if key in seen:
@@ -301,7 +310,7 @@ def get_icd_description_map_full() -> dict[str, str]:
     desc_map: dict[str, str] = {}
     for _, row in pgs_id_list.iterrows():
         icd = str(row["icd_root"]).strip()
-        desc = str(row.get("description", "")).strip()
+        desc = _clean_icd_description(row.get("description", ""))
         if icd not in desc_map and desc:
             desc_map[icd] = desc
     return desc_map
