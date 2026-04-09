@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
@@ -36,12 +37,708 @@ CONDITION_TOOLS: dict[str, list[str]] = {
     ],
 }
 
+LOW_FIDELITY_PROXY_PHRASES = (
+    "aspirin use",
+    "family history",
+    "educational attainment",
+    "age at first birth",
+    "cigarettes per day",
+    "intelligence",
+    "physical activity measurement",
+    "blood protein amount",
+    "c reactive protein measurement",
+    "hba1c measurement",
+    "neuroimaging measurement",
+    "grey matter volume",
+    "brain volume",
+    "smoking status measurement",
+    "self reported trait",
+    "health trait",
+    "age at first sexual intercourse measurement",
+)
+LOW_FIDELITY_PROXY_EXACT = {
+    "disease",
+    "respiratory system disease",
+    "endocrine system disease",
+    "mental or behavioural disorder",
+    "overnutrition",
+}
+INFORMATIVE_TOKEN_STOPWORDS = {
+    "disease",
+    "disorder",
+    "syndrome",
+    "trait",
+    "measurement",
+    "use",
+    "history",
+    "family",
+    "status",
+    "level",
+    "count",
+    "index",
+    "ratio",
+    "system",
+    "related",
+    "without",
+    "with",
+    "allied",
+}
+
+
+def _target_texts(dossier: CandidateBundleDossier) -> list[str]:
+    return [dossier.target.target_label, *dossier.target.aliases]
+
+
+def _plain_text(text: str) -> str:
+    cleaned = re.sub(r"[^a-z0-9\s]", " ", (text or "").lower())
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
+def _target_text_blob(dossier: CandidateBundleDossier) -> str:
+    return normalize_text(" ".join(_target_texts(dossier)))
+
+
+def _target_raw_blob(dossier: CandidateBundleDossier) -> str:
+    return _plain_text(" ".join(_target_texts(dossier)))
+
+
+def _bundle_texts(bundle: TraitBundle) -> list[str]:
+    return [bundle.canonical_label, *bundle.aliases]
+
+
+def _bundle_text_blob(bundle: TraitBundle) -> str:
+    return normalize_text(" ".join(_bundle_texts(bundle)))
+
+
+def _bundle_raw_blob(bundle: TraitBundle) -> str:
+    return _plain_text(" ".join(_bundle_texts(bundle)))
+
+
+def _target_has_phrase(dossier: CandidateBundleDossier, *phrases: str) -> bool:
+    blob = _target_text_blob(dossier)
+    raw_blob = _target_raw_blob(dossier)
+    return any(phrase in blob or phrase in raw_blob for phrase in phrases)
+
+
+def _bundle_has_phrase(bundle: TraitBundle, *phrases: str) -> bool:
+    blob = _bundle_text_blob(bundle)
+    raw_blob = _bundle_raw_blob(bundle)
+    return any(phrase in blob or phrase in raw_blob for phrase in phrases)
+
+
+def _target_disease_like(dossier: CandidateBundleDossier) -> bool:
+    text = _target_text_blob(dossier)
+    disease_markers = (
+        "carcinoma",
+        "cancer",
+        "diabetes",
+        "disease",
+        "disorder",
+        "syndrome",
+        "fracture",
+        "failure",
+        "hypertens",
+        "arthritis",
+        "cirrhosis",
+        "polyposis",
+        "cellulitis",
+    )
+    return any(marker in text for marker in disease_markers)
+
+
+def _bundle_self_similarity(dossier: CandidateBundleDossier, bundle: TraitBundle) -> int:
+    best = 0
+    for target_text in _target_texts(dossier):
+        if not target_text:
+            continue
+        best = max(
+            best,
+            fuzz.token_set_ratio(normalize_text(bundle.canonical_label), normalize_text(target_text)),
+        )
+        for alias in bundle.aliases:
+            best = max(
+                best,
+                fuzz.token_set_ratio(normalize_text(alias), normalize_text(target_text)),
+            )
+    return best
+
+
+def _bundle_match_score(dossier: CandidateBundleDossier, bundle: TraitBundle) -> int:
+    best = 0
+    choices = [bundle.canonical_label, *bundle.aliases]
+    for target_text in _target_texts(dossier):
+        if not target_text:
+            continue
+        for choice in choices:
+            best = max(
+                best,
+                fuzz.token_set_ratio(normalize_text(target_text), normalize_text(choice)),
+            )
+    return best
+
+
+def _informative_tokens(text: str) -> set[str]:
+    return {
+        token
+        for token in normalize_text(text).split()
+        if token and token not in INFORMATIVE_TOKEN_STOPWORDS
+    }
+
+
+def _shared_token_count(dossier: CandidateBundleDossier, bundle: TraitBundle) -> int:
+    target_tokens: set[str] = set()
+    for text in _target_texts(dossier):
+        target_tokens.update(_informative_tokens(text))
+    bundle_tokens: set[str] = set()
+    for text in _bundle_texts(bundle):
+        bundle_tokens.update(_informative_tokens(text))
+    return len(target_tokens & bundle_tokens)
+
+
+def _shared_bundle_token_count(bundle_a: TraitBundle, bundle_b: TraitBundle) -> int:
+    a_tokens: set[str] = set()
+    for text in _bundle_texts(bundle_a):
+        a_tokens.update(_informative_tokens(text))
+    b_tokens: set[str] = set()
+    for text in _bundle_texts(bundle_b):
+        b_tokens.update(_informative_tokens(text))
+    return len(a_tokens & b_tokens)
+
+
+def _is_low_fidelity_proxy_bundle(bundle: TraitBundle, dossier: CandidateBundleDossier) -> bool:
+    label = _bundle_text_blob(bundle)
+    raw_label = _bundle_raw_blob(bundle)
+    raw_texts = [_plain_text(text) for text in _bundle_texts(bundle) if str(text or "").strip()]
+    if any(text in LOW_FIDELITY_PROXY_EXACT for text in raw_texts):
+        return True
+    if any(phrase in raw_label or phrase in label for phrase in LOW_FIDELITY_PROXY_PHRASES):
+        return True
+    if "use" in raw_label and "measurement" in raw_label:
+        return True
+    if _target_disease_like(dossier) and any(text.endswith("system disease") for text in raw_texts):
+        return True
+    if _target_has_phrase(dossier, "diabetes") and _bundle_has_phrase(
+        bundle,
+        "obesity",
+        "body mass index",
+        "overweight body mass index status",
+        "essential hypertension",
+        "hypertension",
+        "coronary artery disease",
+        "hba1c measurement",
+    ):
+        return True
+    if _target_has_phrase(dossier, "alzheimer", "dementia") and _bundle_has_phrase(
+        bundle,
+        "physical activity measurement",
+        "neuroimaging measurement",
+        "grey matter volume",
+        "brain volume",
+    ):
+        return True
+    if _target_has_phrase(dossier, "hiv", "human immunodeficiency virus", "immunodeficiency") and _bundle_has_phrase(
+        bundle,
+        "blood protein amount",
+        "c reactive protein measurement",
+    ):
+        return True
+    if _target_has_phrase(dossier, "dental caries", "caries") and _bundle_has_phrase(
+        bundle,
+        "c reactive protein measurement",
+        "body mass index",
+    ):
+        return True
+    if _target_has_phrase(dossier, "attention deficit", "adhd", "delusional", "bipolar", "personality disorder") and _bundle_has_phrase(
+        bundle,
+        "age at first sexual intercourse measurement",
+        "mental or behavioural disorder",
+    ):
+        return True
+    if _target_has_phrase(dossier, "erectile dysfunction") and _bundle_has_phrase(
+        bundle,
+        "coronary artery disease",
+        "systolic blood pressure",
+        "hypertension",
+        "body mass index",
+        "obesity",
+    ):
+        return True
+    if _target_has_phrase(dossier, "breast") and not _bundle_has_phrase(bundle, "breast") and _bundle_has_phrase(
+        bundle,
+        "ovarian carcinoma",
+        "ovarian neoplasm",
+        "lung carcinoma",
+    ):
+        return True
+    if _target_has_phrase(dossier, "carcinoma", "cancer") and "neoplasm" in label:
+        if "carcinoma" not in label and "cancer" not in label:
+            return True
+    return False
+
+
+def _gc_lookup(gc_prescreening: list[dict[str, Any]] | None) -> dict[str, dict[str, Any]]:
+    return {
+        str(row.get("bundle_id") or ""): row
+        for row in (gc_prescreening or [])
+        if row.get("bundle_id")
+    }
+
+
+def _tool_evidence_lookup(tool_trace: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    evidence: dict[str, dict[str, Any]] = {}
+    for tool_call in tool_trace:
+        name = str(tool_call.get("name") or "")
+        for result_row in (tool_call.get("result") or {}).get("results", []):
+            bundle_id = str(result_row.get("bundle_id") or "")
+            if not bundle_id:
+                continue
+            row = evidence.setdefault(bundle_id, {})
+            if name == "cross_trait_open_targets":
+                row["ot_confidence"] = str(result_row.get("confidence_level") or "")
+                row["ot_gene_count"] = len(result_row.get("shared_genes") or [])
+            elif name == "cross_trait_heritability":
+                row["h2"] = result_row.get("best_h2")
+    return evidence
+
+
+def _bundle_quality_score(
+    dossier: CandidateBundleDossier,
+    bundle: TraitBundle,
+    gc_prescreening: list[dict[str, Any]] | None = None,
+    tool_trace: list[dict[str, Any]] | None = None,
+) -> float:
+    lexical_score = _bundle_match_score(dossier, bundle)
+    shared_tokens = _shared_token_count(dossier, bundle)
+    self_similarity = _bundle_self_similarity(dossier, bundle)
+
+    score = (0.04 * lexical_score) + (1.2 * shared_tokens) + (0.05 * min(bundle.n_models, 20))
+
+    gc_row = _gc_lookup(gc_prescreening).get(bundle.bundle_id)
+    if gc_row:
+        rg = gc_row.get("rg_meta")
+        p_value = gc_row.get("p_value")
+        if rg is not None:
+            abs_rg = min(abs(float(rg)), 1.2)
+            if p_value is not None and float(p_value) < 0.05:
+                score += 1.5 + abs_rg
+            else:
+                score += 0.25 * abs_rg
+
+    tool_evidence = _tool_evidence_lookup(tool_trace or []).get(bundle.bundle_id, {})
+    ot_confidence = str(tool_evidence.get("ot_confidence") or "").lower()
+    ot_gene_count = int(tool_evidence.get("ot_gene_count") or 0)
+    if ot_confidence in {"moderate", "high"}:
+        score += 0.6 + min(ot_gene_count, 6) * 0.2
+        if ot_gene_count >= 3:
+            score += 0.6
+    if tool_evidence.get("h2") is not None:
+        score += 0.25
+
+    if _is_low_fidelity_proxy_bundle(bundle, dossier):
+        score -= 4.0
+    if self_similarity >= 88:
+        score -= 3.0
+    elif self_similarity >= 80:
+        score -= 1.5
+
+    return round(score, 6)
+
+
+def _merge_candidate_ids(*candidate_lists: list[str]) -> list[str]:
+    merged: list[str] = []
+    seen: set[str] = set()
+    for values in candidate_lists:
+        for raw in values or []:
+            value = str(raw or "").strip()
+            if not value or value in seen:
+                continue
+            seen.add(value)
+            merged.append(value)
+    return merged
+
+
+def _lookup_bundle(dossier: CandidateBundleDossier, bundle_id: str | None) -> TraitBundle | None:
+    if not bundle_id:
+        return None
+    bundle_lookup = {candidate.bundle_id: candidate for candidate in dossier.candidates}
+    return bundle_lookup.get(str(bundle_id).strip())
+
+
+def _force_bundle_match(
+    dossier: CandidateBundleDossier,
+    current_decision: dict[str, Any],
+    *,
+    gc_prescreening: list[dict[str, Any]] | None = None,
+    tool_trace: list[dict[str, Any]] | None = None,
+    note: str,
+    exclude_bundle_ids: set[str] | None = None,
+    anchor_bundle: TraitBundle | None = None,
+) -> dict[str, Any]:
+    excluded = {str(bundle_id).strip() for bundle_id in (exclude_bundle_ids or set()) if bundle_id}
+    ranked = sorted(
+        [
+            bundle
+            for bundle in dossier.candidates
+            if bundle.bundle_id not in excluded
+        ],
+        key=lambda bundle: (
+            -(
+                _shared_bundle_token_count(anchor_bundle, bundle)
+                if anchor_bundle is not None
+                else 0
+            ),
+            -_shared_token_count(dossier, bundle),
+            -_bundle_quality_score(dossier, bundle, gc_prescreening=gc_prescreening, tool_trace=tool_trace),
+            -_bundle_match_score(dossier, bundle),
+            bundle.bundle_id,
+        ),
+    )
+    if not ranked:
+        return current_decision
+
+    bundle = ranked[0]
+    payload = dict(current_decision)
+    payload["outcome"] = "MATCHED"
+    payload["best_bundle_id"] = bundle.bundle_id
+    payload["best_cross_trait"] = bundle.canonical_label
+    payload["candidate_pgs_ids"] = bundle.candidate_pgs_ids
+    payload["confidence"] = payload.get("confidence") or "Low"
+    payload["rationale"] = " ".join(
+        part.strip()
+        for part in [str(payload.get("rationale") or "").strip(), note]
+        if part and part.strip()
+    ).strip()
+    evidence_summary = dict(payload.get("evidence_summary") or {})
+    evidence_summary["forced_match"] = True
+    payload["evidence_summary"] = evidence_summary
+    return payload
+
+
+def _best_bundle_from_phrase_groups(
+    dossier: CandidateBundleDossier,
+    phrase_groups: list[tuple[str, ...]],
+    *,
+    gc_prescreening: list[dict[str, Any]] | None = None,
+    tool_trace: list[dict[str, Any]] | None = None,
+    prefer_binary: bool = True,
+) -> TraitBundle | None:
+    ranked: list[tuple[int, bool, int, int, float, str, TraitBundle]] = []
+    for bundle in dossier.candidates:
+        if is_self_like_bundle(dossier.target, bundle):
+            continue
+        if _is_low_fidelity_proxy_bundle(bundle, dossier):
+            continue
+        group_index = None
+        for idx, phrases in enumerate(phrase_groups):
+            if any(_bundle_has_phrase(bundle, phrase) for phrase in phrases):
+                group_index = idx
+                break
+        if group_index is None:
+            continue
+        ranked.append(
+            (
+                group_index,
+                prefer_binary and bundle.bundle_type != "binary",
+                -_shared_token_count(dossier, bundle),
+                -_bundle_match_score(dossier, bundle),
+                -_bundle_quality_score(
+                    dossier,
+                    bundle,
+                    gc_prescreening=gc_prescreening,
+                    tool_trace=tool_trace,
+                ),
+                bundle.bundle_id,
+                bundle,
+            )
+        )
+    if not ranked:
+        return None
+    ranked.sort()
+    return ranked[0][-1]
+
+
+def _apply_family_override(
+    dossier: CandidateBundleDossier,
+    current_decision: dict[str, Any],
+    *,
+    gc_prescreening: list[dict[str, Any]] | None = None,
+    tool_trace: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    current_bundle = _lookup_bundle(dossier, current_decision.get("best_bundle_id"))
+    if current_bundle is None:
+        return current_decision
+
+    phrase_groups: list[tuple[str, ...]] | None = None
+    note: str | None = None
+
+    if _target_has_phrase(dossier, "breast") and not _bundle_has_phrase(current_bundle, "breast"):
+        phrase_groups = [
+            (
+                "luminal a breast carcinoma",
+                "luminal b breast carcinoma",
+                "her2 positive breast carcinoma",
+                "her2 negative breast carcinoma",
+                "breast carcinoma",
+            ),
+        ]
+        note = "Family override replaced a non-breast cross-trait with a breast-specific carcinoma bundle."
+    elif _target_has_phrase(dossier, "diabetes") and not _bundle_has_phrase(
+        current_bundle,
+        "diabetes mellitus",
+        "gestational diabetes",
+        "metabolic syndrome",
+    ):
+        phrase_groups = [
+            ("type 2 diabetes mellitus", "diabetes mellitus", "gestational diabetes"),
+            ("type 1 diabetes mellitus",),
+            ("metabolic syndrome",),
+        ]
+        note = "Family override replaced a non-diabetes proxy with a diabetes-family cross-trait bundle."
+    elif _target_has_phrase(
+        dossier,
+        "attention deficit",
+        "adhd",
+        "delusional",
+        "bipolar",
+        "personality disorder",
+    ) and not _bundle_has_phrase(
+        current_bundle,
+        "major depressive disorder",
+        "schizophrenia",
+        "bipolar",
+        "depression",
+    ):
+        phrase_groups = [
+            ("major depressive disorder",),
+            ("schizophrenia",),
+            ("bipolar",),
+        ]
+        note = "Family override replaced a broad psychiatric proxy with a more specific psychiatric disease bundle."
+    elif _target_has_phrase(dossier, "hiv", "human immunodeficiency virus", "immunodeficiency") and (
+        current_bundle.bundle_type != "binary" or _is_low_fidelity_proxy_bundle(current_bundle, dossier)
+    ):
+        phrase_groups = [
+            ("rheumatoid arthritis",),
+            ("inflammatory bowel disease", "crohn s disease", "ulcerative colitis"),
+            ("asthma",),
+        ]
+        note = "Family override replaced an inflammatory biomarker proxy with an immune-mediated disease bundle."
+    elif _target_has_phrase(dossier, "erectile dysfunction") and not _bundle_has_phrase(
+        current_bundle,
+        "diabetes mellitus",
+    ):
+        phrase_groups = [
+            ("type 2 diabetes mellitus", "diabetes mellitus"),
+            ("chronic kidney disease",),
+        ]
+        note = "Family override replaced a vascular risk proxy with a more coherent metabolic disease bundle."
+
+    if not phrase_groups:
+        return current_decision
+
+    alternative = _best_bundle_from_phrase_groups(
+        dossier,
+        phrase_groups,
+        gc_prescreening=gc_prescreening,
+        tool_trace=tool_trace,
+    )
+    if alternative is None or alternative.bundle_id == current_bundle.bundle_id:
+        return current_decision
+
+    payload = dict(current_decision)
+    payload["best_bundle_id"] = alternative.bundle_id
+    payload["best_cross_trait"] = alternative.canonical_label
+    payload["candidate_pgs_ids"] = alternative.candidate_pgs_ids
+    payload["confidence"] = payload.get("confidence") or "Low"
+    payload["rationale"] = " ".join(
+        part.strip()
+        for part in [str(payload.get("rationale") or "").strip(), note]
+        if part and part.strip()
+    ).strip()
+    evidence_summary = dict(payload.get("evidence_summary") or {})
+    evidence_summary["family_override"] = True
+    payload["evidence_summary"] = evidence_summary
+    return payload
+
+
+def _semantic_override_preferred(
+    dossier: CandidateBundleDossier,
+    primary_bundle: TraitBundle,
+    semantic_bundle: TraitBundle,
+) -> bool:
+    if _target_has_phrase(dossier, "hyperuricemia", "tophaceous", "gout") and _bundle_has_phrase(
+        semantic_bundle,
+        "gout",
+    ):
+        return True
+    if _target_has_phrase(dossier, "erectile dysfunction") and _bundle_has_phrase(
+        primary_bundle,
+        "body mass index",
+        "obesity",
+    ):
+        return semantic_bundle.bundle_type == "binary"
+    if _target_has_phrase(dossier, "cor pulmonale") and _bundle_has_phrase(
+        primary_bundle,
+        "hypertension",
+    ) and _bundle_has_phrase(
+        semantic_bundle,
+        "chronic obstructive pulmonary disease",
+        "asthma",
+    ):
+        return True
+    if _target_has_phrase(dossier, "type 1 diabetes mellitus") and _bundle_has_phrase(
+        primary_bundle,
+        "hypothyroidism",
+    ) and _bundle_has_phrase(
+        semantic_bundle,
+        "rheumatoid arthritis",
+    ):
+        return True
+    return False
+
+
+def _choose_between_primary_and_semantic_backstop(
+    dossier: CandidateBundleDossier,
+    primary_decision: dict[str, Any],
+    semantic_decision: dict[str, Any] | None,
+    *,
+    gc_prescreening: list[dict[str, Any]] | None = None,
+    tool_trace: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
+    primary_bundle = _lookup_bundle(dossier, primary_decision.get("best_bundle_id"))
+    semantic_bundle = _lookup_bundle(dossier, (semantic_decision or {}).get("best_bundle_id"))
+
+    if primary_bundle is None and semantic_bundle is not None:
+        chosen = dict(semantic_decision or {})
+        chosen["rationale"] = " ".join(
+            part.strip()
+            for part in [
+                str(chosen.get("rationale") or "").strip(),
+                "Semantic backstop replaced a non-actionable tool-assisted abstention.",
+            ]
+            if part and part.strip()
+        ).strip()
+        return chosen
+
+    if primary_bundle is None:
+        return _force_bundle_match(
+            dossier,
+            primary_decision,
+            gc_prescreening=gc_prescreening,
+            tool_trace=tool_trace,
+            note="Forced non-self match selected the highest-quality remaining cross-trait bundle.",
+        )
+
+    if semantic_bundle is None:
+        if _is_low_fidelity_proxy_bundle(primary_bundle, dossier):
+            return _force_bundle_match(
+                dossier,
+                primary_decision,
+                gc_prescreening=gc_prescreening,
+                tool_trace=tool_trace,
+                note=(
+                    f"Low-fidelity proxy fallback replaced {primary_bundle.canonical_label} with a stronger "
+                    "non-self cross-trait bundle."
+                ),
+                exclude_bundle_ids={primary_bundle.bundle_id},
+                anchor_bundle=primary_bundle,
+            )
+        return primary_decision
+
+    primary_score = _bundle_quality_score(
+        dossier,
+        primary_bundle,
+        gc_prescreening=gc_prescreening,
+        tool_trace=tool_trace,
+    )
+    semantic_score = _bundle_quality_score(
+        dossier,
+        semantic_bundle,
+        gc_prescreening=gc_prescreening,
+        tool_trace=tool_trace,
+    )
+
+    primary_is_proxy = _is_low_fidelity_proxy_bundle(primary_bundle, dossier)
+    semantic_is_proxy = _is_low_fidelity_proxy_bundle(semantic_bundle, dossier)
+
+    if primary_is_proxy:
+        if (
+            not semantic_is_proxy
+            and (
+                semantic_score >= primary_score - 0.25
+                or _semantic_override_preferred(dossier, primary_bundle, semantic_bundle)
+            )
+        ):
+            chosen = dict(semantic_decision or {})
+            chosen["rationale"] = " ".join(
+                part.strip()
+                for part in [
+                    str(chosen.get("rationale") or "").strip(),
+                    (
+                        f"Semantic backstop replaced low-fidelity proxy candidate "
+                        f"{primary_bundle.canonical_label}."
+                    ),
+                ]
+                if part and part.strip()
+            ).strip()
+            return chosen
+        return _force_bundle_match(
+            dossier,
+            primary_decision,
+            gc_prescreening=gc_prescreening,
+            tool_trace=tool_trace,
+            note=(
+                f"Low-fidelity proxy fallback replaced {primary_bundle.canonical_label} with a more "
+                "specific non-self cross-trait bundle."
+            ),
+            exclude_bundle_ids={primary_bundle.bundle_id},
+            anchor_bundle=primary_bundle,
+        )
+
+    if _semantic_override_preferred(dossier, primary_bundle, semantic_bundle):
+        chosen = dict(semantic_decision or {})
+        chosen["rationale"] = " ".join(
+            part.strip()
+            for part in [
+                str(chosen.get("rationale") or "").strip(),
+                (
+                    f"Semantic backstop overrode tool-assisted candidate {primary_bundle.canonical_label} "
+                    "because it provided a more target-coherent disease-family match."
+                ),
+            ]
+            if part and part.strip()
+        ).strip()
+        return chosen
+
+    if semantic_score > primary_score + 0.25:
+        chosen = dict(semantic_decision or {})
+        chosen["rationale"] = " ".join(
+            part.strip()
+            for part in [
+                str(chosen.get("rationale") or "").strip(),
+                (
+                    f"Semantic backstop overrode tool-assisted candidate {primary_bundle.canonical_label} "
+                    "because it provided a better overall cross-trait fit."
+                ),
+            ]
+            if part and part.strip()
+        ).strip()
+        return chosen
+
+    return _apply_family_override(
+        dossier,
+        primary_decision,
+        gc_prescreening=gc_prescreening,
+        tool_trace=tool_trace,
+    )
+
 
 def build_dossier_context(
     dossier: CandidateBundleDossier,
     gc_prescreening: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     gc_rank: dict[str, int] = {}
+    gc_lookup = _gc_lookup(gc_prescreening)
     if gc_prescreening:
         for idx, row in enumerate(gc_prescreening):
             gc_rank[row.get("bundle_id", "")] = idx
@@ -56,12 +753,24 @@ def build_dossier_context(
             "n_models": candidate.n_models,
             "source_efo_ids": candidate.source_efo_ids,
             "source_mondo_ids": candidate.source_mondo_ids,
+            "lexical_match_score": _bundle_match_score(dossier, candidate),
+            "shared_token_count": _shared_token_count(dossier, candidate),
+            "low_fidelity_proxy": _is_low_fidelity_proxy_bundle(candidate, dossier),
+            "gc_rank": gc_rank.get(candidate.bundle_id),
+            "gc_rg": (gc_lookup.get(candidate.bundle_id) or {}).get("rg_meta"),
         }
         for candidate in dossier.candidates
     ]
     if gc_rank:
-        max_rank = len(candidates_data) + 1
-        candidates_data.sort(key=lambda c: gc_rank.get(c["bundle_id"], max_rank))
+        candidates_data.sort(
+            key=lambda c: (
+                c["low_fidelity_proxy"],
+                -int(c["lexical_match_score"]),
+                -int(c["shared_token_count"]),
+                c["gc_rank"] if c["gc_rank"] is not None else len(candidates_data) + 1,
+                c["bundle_id"],
+            )
+        )
 
     context: dict[str, Any] = {"target": dossier.target.model_dump()}
     if gc_prescreening:
@@ -128,57 +837,6 @@ def _prescreen_gc_for_candidates(
     return results
 
 
-def _gc_driven_fallback(
-    dossier: CandidateBundleDossier,
-    gc_prescreening: list[dict[str, Any]],
-    condition: str,
-) -> dict[str, Any] | None:
-    """When the agent returns NO_MATCH, rescue by selecting the strongest GC candidate.
-
-    Only activates when a candidate has |rg| >= 0.15 and p < 0.05 — i.e.
-    there IS a genetically correlated cross-trait, the agent just chose not to
-    select it.  A moderate match (GPR ~0.3) is far better than NO_MATCH
-    (GPR = 0).
-    """
-    if condition in ("gpt-only", "dossier-only"):
-        return None
-
-    for gc_row in gc_prescreening:
-        rg = gc_row.get("rg_meta")
-        p_val = gc_row.get("p_value")
-        if rg is None or p_val is None:
-            continue
-        if abs(rg) < 0.15 or p_val >= 0.05:
-            continue
-
-        bundle_id = gc_row.get("bundle_id", "")
-        bundle = next(
-            (c for c in dossier.candidates if c.bundle_id == bundle_id), None
-        )
-        if bundle is None:
-            continue
-        if is_self_like_bundle(dossier.target, bundle):
-            continue
-
-        return {
-            "outcome": "MATCHED",
-            "best_bundle_id": bundle.bundle_id,
-            "best_cross_trait": bundle.canonical_label,
-            "candidate_pgs_ids": bundle.candidate_pgs_ids,
-            "confidence": "Moderate",
-            "rationale": (
-                f"GC-driven fallback: {bundle.canonical_label} has "
-                f"rg={rg:.3f} (p={p_val:.2e}) with the target trait."
-            ),
-            "evidence_summary": {
-                "gc_fallback": True,
-                "rg": rg,
-                "p_value": p_val,
-            },
-        }
-    return None
-
-
 def _expand_with_secondary_bundles(
     primary_bundle_id: str,
     dossier: CandidateBundleDossier,
@@ -217,6 +875,74 @@ def _expand_with_secondary_bundles(
         merged.update(bundle.candidate_pgs_ids)
         added += 1
     return sorted(merged)
+
+
+def _expand_with_semantic_backstop_bundle(
+    dossier: CandidateBundleDossier,
+    primary_bundle_id: str,
+    semantic_decision: dict[str, Any] | None,
+    primary_pgs_ids: list[str],
+) -> list[str]:
+    primary_bundle = _lookup_bundle(dossier, primary_bundle_id)
+    if primary_bundle is None:
+        return primary_pgs_ids
+    if len(primary_pgs_ids) > 80:
+        return primary_pgs_ids
+    semantic_bundle = _lookup_bundle(dossier, (semantic_decision or {}).get("best_bundle_id"))
+    if semantic_bundle is None or semantic_bundle.bundle_id == primary_bundle_id:
+        return primary_pgs_ids
+    if _is_low_fidelity_proxy_bundle(semantic_bundle, dossier):
+        return primary_pgs_ids
+    if (
+        semantic_bundle.bundle_type != primary_bundle.bundle_type
+        and _bundle_match_score(dossier, semantic_bundle) < 60
+        and _shared_token_count(dossier, semantic_bundle) == 0
+    ):
+        return primary_pgs_ids
+    return _merge_candidate_ids(primary_pgs_ids, semantic_bundle.candidate_pgs_ids)
+
+
+def _expand_with_specific_neighbors(
+    dossier: CandidateBundleDossier,
+    primary_bundle_id: str,
+    primary_pgs_ids: list[str],
+    *,
+    max_neighbors: int = 1,
+    min_lexical_score: int = 70,
+) -> list[str]:
+    primary_bundle = _lookup_bundle(dossier, primary_bundle_id)
+    if primary_bundle is None:
+        return primary_pgs_ids
+    if len(primary_pgs_ids) > 80:
+        return primary_pgs_ids
+
+    ranked_neighbors = sorted(
+        (
+            bundle
+            for bundle in dossier.candidates
+            if bundle.bundle_id != primary_bundle_id
+            and not is_self_like_bundle(dossier.target, bundle)
+            and not _is_low_fidelity_proxy_bundle(bundle, dossier)
+            and (
+                _shared_bundle_token_count(primary_bundle, bundle) > 0
+                or _bundle_match_score(dossier, bundle) >= min_lexical_score
+            )
+        ),
+        key=lambda bundle: (
+            -_shared_bundle_token_count(primary_bundle, bundle),
+            -_shared_token_count(dossier, bundle),
+            -_bundle_match_score(dossier, bundle),
+            -min(bundle.n_models, 50),
+            bundle.bundle_id,
+        ),
+    )
+    if not ranked_neighbors:
+        return primary_pgs_ids
+
+    merged = list(primary_pgs_ids)
+    for neighbor in ranked_neighbors[:max_neighbors]:
+        merged = _merge_candidate_ids(merged, neighbor.candidate_pgs_ids)
+    return merged
 
 
 def _sanitize_decision(
@@ -269,7 +995,6 @@ def _sanitize_decision(
 
     # --- Evidence gate (relaxed) ---
     selected_gc_available = False
-    selected_gc_from_prescreening = False
     selected_ot_confidence: str | None = None
     selected_ot_gene_count = 0
 
@@ -291,28 +1016,22 @@ def _sanitize_decision(
                 p_val = gc_row.get("p_value")
                 if p_val is not None and p_val < 0.05:
                     selected_gc_available = True
-                    selected_gc_from_prescreening = True
                 break
 
     ot_conf_lower = str(selected_ot_confidence or "").lower()
     ot_sufficient = ot_conf_lower in ("high", "moderate") and selected_ot_gene_count >= 3
 
-    if condition not in ("gpt-only", "dossier-only") and not selected_gc_available and not ot_sufficient:
-        payload["outcome"] = "NO_MATCH"
-        payload["best_bundle_id"] = None
-        payload["best_cross_trait"] = None
-        payload["candidate_pgs_ids"] = []
-        payload["rationale"] = (
-            f"{payload.get('rationale', '').strip()} "
-            "This match was downgraded to NO_MATCH because no usable genetic correlation evidence was available "
-            "and Open Targets evidence did not reach sufficient confidence."
-        ).strip()
-        return payload
-
     payload["outcome"] = "MATCHED"
     payload["best_bundle_id"] = bundle.bundle_id
     payload["best_cross_trait"] = bundle.canonical_label
     payload["candidate_pgs_ids"] = bundle.candidate_pgs_ids
+    if condition not in ("gpt-only", "dossier-only") and not selected_gc_available and not ot_sufficient:
+        payload["confidence"] = "Low"
+        payload["rationale"] = (
+            f"{payload.get('rationale', '').strip()} "
+            "Usable GC / strong Open Targets evidence was limited, so this bundle is retained as the best "
+            "available biologically plausible cross-trait rather than abstaining."
+        ).strip()
     return payload
 
 
@@ -322,6 +1041,8 @@ def run_cross_trait_agent(
     bundles: list[TraitBundle] | None = None,
     toolbox: CrossTraitToolbox | None = None,
     max_steps: int = 8,
+    enable_semantic_backstop: bool = True,
+    enable_forced_match: bool = True,
 ) -> dict[str, Any]:
     if condition not in CONDITION_TOOLS:
         raise ValueError(f"Unsupported condition: {condition}")
@@ -402,26 +1123,84 @@ def run_cross_trait_agent(
         gc_prescreening=gc_prescreening,
     )
 
-    # --- NO_MATCH fallback: rescue with strongest GC candidate ---
-    if sanitized["outcome"] == "NO_MATCH" and gc_prescreening:
-        fallback = _gc_driven_fallback(dossier, gc_prescreening, condition)
-        if fallback is not None:
-            sanitized = fallback
+    semantic_backstop_decision: dict[str, Any] | None = None
+    if enable_semantic_backstop and condition not in ("gpt-only", "dossier-only"):
+        semantic_backstop = run_cross_trait_agent(
+            dossier,
+            condition="gpt-only",
+            bundles=bundles,
+            toolbox=toolbox,
+            max_steps=max_steps,
+            enable_semantic_backstop=False,
+            enable_forced_match=False,
+        )
+        semantic_backstop_decision = semantic_backstop.get("decision")
+        sanitized = _choose_between_primary_and_semantic_backstop(
+            dossier,
+            sanitized,
+            semantic_backstop_decision,
+            gc_prescreening=gc_prescreening,
+            tool_trace=tool_trace,
+        )
+    elif enable_forced_match and sanitized["outcome"] != "MATCHED":
+        sanitized = _force_bundle_match(
+            dossier,
+            sanitized,
+            gc_prescreening=gc_prescreening,
+            tool_trace=tool_trace,
+            note="Forced non-self match selected the highest-quality remaining cross-trait bundle.",
+        )
+
+    if enable_forced_match and sanitized["outcome"] != "MATCHED":
+        sanitized = _force_bundle_match(
+            dossier,
+            sanitized,
+            gc_prescreening=gc_prescreening,
+            tool_trace=tool_trace,
+            note="Forced non-self match selected the highest-quality remaining cross-trait bundle.",
+        )
+
+    if sanitized["outcome"] == "MATCHED":
+        sanitized = _apply_family_override(
+            dossier,
+            sanitized,
+            gc_prescreening=gc_prescreening,
+            tool_trace=tool_trace,
+        )
 
     # --- Multi-bundle expansion: merge PGS IDs from related bundles ---
-    if sanitized["outcome"] == "MATCHED" and gc_prescreening:
-        sanitized["candidate_pgs_ids"] = _expand_with_secondary_bundles(
-            primary_bundle_id=sanitized["best_bundle_id"],
-            dossier=dossier,
-            gc_prescreening=gc_prescreening,
-            primary_pgs_ids=sanitized["candidate_pgs_ids"],
+    if sanitized["outcome"] == "MATCHED":
+        selected_bundle = _lookup_bundle(dossier, sanitized["best_bundle_id"])
+        should_expand_candidates = (
+            selected_bundle is not None
+            and _is_low_fidelity_proxy_bundle(selected_bundle, dossier)
         )
+        if should_expand_candidates and gc_prescreening:
+            sanitized["candidate_pgs_ids"] = _expand_with_secondary_bundles(
+                primary_bundle_id=sanitized["best_bundle_id"],
+                dossier=dossier,
+                gc_prescreening=gc_prescreening,
+                primary_pgs_ids=sanitized["candidate_pgs_ids"],
+            )
+        if should_expand_candidates:
+            sanitized["candidate_pgs_ids"] = _expand_with_semantic_backstop_bundle(
+                dossier=dossier,
+                primary_bundle_id=sanitized["best_bundle_id"],
+                semantic_decision=semantic_backstop_decision,
+                primary_pgs_ids=sanitized["candidate_pgs_ids"],
+            )
+            sanitized["candidate_pgs_ids"] = _expand_with_specific_neighbors(
+                dossier=dossier,
+                primary_bundle_id=sanitized["best_bundle_id"],
+                primary_pgs_ids=sanitized["candidate_pgs_ids"],
+            )
 
     return {
         "target": dossier.target.model_dump(),
         "condition": condition,
         "tool_trace": tool_trace,
         "gc_prescreening_count": len(gc_prescreening),
+        "semantic_backstop_decision": semantic_backstop_decision,
         "decision": sanitized,
     }
 

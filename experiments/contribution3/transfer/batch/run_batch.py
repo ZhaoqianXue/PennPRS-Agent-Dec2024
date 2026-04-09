@@ -154,6 +154,16 @@ def cmd_evaluate_end_to_end(args: argparse.Namespace) -> None:
     )
 
 
+def cmd_generate_docs(_: argparse.Namespace) -> None:
+    from experiments.contribution3.transfer.eval.generate_markdown_reports import (
+        generate_markdown_reports,
+    )
+
+    outputs = generate_markdown_reports()
+    for label, path in outputs.items():
+        print(f"Wrote {label} report -> {path}", flush=True)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Run the v4 tool-calling cross-trait transfer agent."
@@ -208,6 +218,8 @@ def build_parser() -> argparse.ArgumentParser:
         choices=BENCHMARK_FAMILIES,
         default="binary_to_binary",
     )
+
+    subparsers.add_parser("generate-docs")
     return parser
 
 
@@ -222,6 +234,8 @@ def main() -> None:
         cmd_recommend(args)
     elif args.command == "evaluate-end-to-end":
         cmd_evaluate_end_to_end(args)
+    elif args.command == "generate-docs":
+        cmd_generate_docs(args)
     else:
         raise ValueError(f"Unsupported command: {args.command}")
 

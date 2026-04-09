@@ -97,10 +97,20 @@ def _exclude_type_a_target(input_desc: str) -> bool:
     )
 
 
-def _type_a_split_not_at_tail(best_split_k: Optional[int], total_cross: int) -> bool:
-    if best_split_k is None or total_cross <= 0:
+def _type_a_split_not_at_tail(
+    best_split_ks: Optional[list[int]],
+    total_cross: int,
+) -> bool:
+    """
+    True if the split is not an uninformative tail split.
+
+    When multiple adjacent gaps tie for the maximum, use the earliest Top-k
+    among them (minimum k) for this ratio check.
+    """
+    if not best_split_ks or total_cross <= 0:
         return False
-    return (best_split_k / total_cross) < TYPE_A_MAX_BEST_SPLIT_RATIO
+    k_primary = min(best_split_ks)
+    return (k_primary / total_cross) < TYPE_A_MAX_BEST_SPLIT_RATIO
 
 
 def load_nontarget_type_a_matrix() -> pd.DataFrame:
@@ -164,16 +174,39 @@ def _concat_frames(frames: list[pd.DataFrame]) -> pd.DataFrame:
 def _get_best_split_info(
     ranking: list[dict],
     auc_key: str = "disease_best_auc",
-) -> tuple[Optional[float], Optional[int]]:
-    """Return the largest adjacent AUC gap and the Top-k split where it occurs."""
+) -> tuple[Optional[float], Optional[list[int]]]:
+    """Return the largest adjacent AUC gap and every Top-k split where it occurs (ties included)."""
     if len(ranking) < 2:
         return None, None
 
     aucs = [float(row[auc_key]) for row in ranking]
     gaps = [aucs[i] - aucs[i + 1] for i in range(len(aucs) - 1)]
     best_gap = max(gaps)
-    best_k = gaps.index(best_gap) + 1
-    return round(best_gap, 6), best_k
+    best_ks = [i + 1 for i, g in enumerate(gaps) if g == best_gap]
+    return round(best_gap, 6), best_ks
+
+
+def _best_split_fields_from_ks(
+    best_split_ks: Optional[list[int]],
+) -> tuple[Optional[int], Optional[str]]:
+    """Scalar min-k for numeric filters/CSV plus semicolon-separated list for display."""
+    if not best_split_ks:
+        return None, None
+    sorted_ks = sorted(best_split_ks)
+    return sorted_ks[0], ";".join(str(k) for k in sorted_ks)
+
+
+def _format_best_split_for_report(r: pd.Series) -> str:
+    """Markdown table cell: all tied Top-k positions, e.g. \"Top-2 / Top-5\"."""
+    if "best_split_k_all" in r.index and pd.notna(r["best_split_k_all"]):
+        raw = str(r["best_split_k_all"]).strip()
+        if raw:
+            ks = [int(x) for x in raw.split(";") if str(x).strip()]
+            if ks:
+                return " / ".join(f"Top-{k}" for k in sorted(set(ks)))
+    if pd.notna(r.get("best_split_k")):
+        return f"Top-{int(r['best_split_k'])}"
+    return "-"
 
 
 # ---------------------------------------------------------------------------
@@ -293,7 +326,8 @@ def build_b2b_benchmark(
         for rank_idx, dr in enumerate(disease_ranking, 1):
             dr["rank"] = rank_idx
 
-        best_split_gap, best_split_k = _get_best_split_info(disease_ranking)
+        best_split_gap, best_split_ks = _get_best_split_info(disease_ranking)
+        best_split_k, best_split_k_all = _best_split_fields_from_ks(best_split_ks)
 
         # ------------------------------------------------------------------
         # Apply target selection criteria
@@ -357,6 +391,7 @@ def build_b2b_benchmark(
             "top_auc_improvement": round(top_improvement, 6) if top_improvement is not None else None,
             "best_split_gap": best_split_gap,
             "best_split_k": best_split_k,
+            "best_split_k_all": best_split_k_all,
             "selected": selected,
             "selection_reason": reason,
         })
@@ -378,6 +413,7 @@ def build_b2b_benchmark(
                     "auc_improvement": dr["auc_improvement"],
                     "best_split_gap": best_split_gap,
                     "best_split_k": best_split_k,
+                    "best_split_k_all": best_split_k_all,
                     "rank": dr["rank"],
                     "total_cross_diseases": n_total_cross_diseases,
                     "beats_self": (
@@ -470,7 +506,8 @@ def build_b2b_type_a_benchmark(
         for rank_idx, dr in enumerate(disease_ranking, 1):
             dr["rank"] = rank_idx
 
-        best_split_gap, best_split_k = _get_best_split_info(disease_ranking)
+        best_split_gap, best_split_ks = _get_best_split_info(disease_ranking)
+        best_split_k, best_split_k_all = _best_split_fields_from_ks(best_split_ks)
         n_total_cross_diseases = len(disease_ranking)
         qualifying = [
             dr for dr in disease_ranking
@@ -481,7 +518,7 @@ def build_b2b_type_a_benchmark(
         has_clear_cluster = (
             best_split_gap is not None and best_split_gap >= min_best_split_gap
         )
-        split_not_at_tail = _type_a_split_not_at_tail(best_split_k, n_total_cross_diseases)
+        split_not_at_tail = _type_a_split_not_at_tail(best_split_ks, n_total_cross_diseases)
         selected = (
             top_cross_auc is not None
             and top_cross_auc >= min_top_cross_auc
@@ -503,7 +540,7 @@ def build_b2b_type_a_benchmark(
                 split_str = "NA" if best_split_gap is None else f"{best_split_gap:.4f}"
                 reasons.append(f"best_split_gap={split_str}<{min_best_split_gap}")
             if has_clear_cluster and not split_not_at_tail:
-                reasons.append(f"best_split_k={best_split_k} in tail")
+                reasons.append(f"best_split_k={best_split_k_all or best_split_k} in tail")
             reason = "; ".join(reasons) if reasons else "type_A_not_selected"
 
         target_rows.append({
@@ -521,6 +558,7 @@ def build_b2b_type_a_benchmark(
             "top_auc_improvement": None,
             "best_split_gap": best_split_gap,
             "best_split_k": best_split_k,
+            "best_split_k_all": best_split_k_all,
             "selected": selected,
             "selection_reason": reason,
         })
@@ -543,6 +581,7 @@ def build_b2b_type_a_benchmark(
                     "auc_improvement": None,
                     "best_split_gap": best_split_gap,
                     "best_split_k": best_split_k,
+                    "best_split_k_all": best_split_k_all,
                     "rank": dr["rank"],
                     "total_cross_diseases": n_total_cross_diseases,
                     "beats_self": None,
@@ -652,7 +691,8 @@ def build_b2c_benchmark(
         for rank_idx, tr in enumerate(trait_ranking, 1):
             tr["rank"] = rank_idx
 
-        best_split_gap, best_split_k = _get_best_split_info(trait_ranking)
+        best_split_gap, best_split_ks = _get_best_split_info(trait_ranking)
+        best_split_k, best_split_k_all = _best_split_fields_from_ks(best_split_ks)
 
         # ------------------------------------------------------------------
         # Target selection (same criteria as B2B)
@@ -716,6 +756,7 @@ def build_b2c_benchmark(
             "top_auc_improvement": round(top_improvement, 6) if top_improvement is not None else None,
             "best_split_gap": best_split_gap,
             "best_split_k": best_split_k,
+            "best_split_k_all": best_split_k_all,
             "selected": selected,
             "selection_reason": reason,
         })
@@ -736,6 +777,7 @@ def build_b2c_benchmark(
                     "auc_improvement": tr["auc_improvement"],
                     "best_split_gap": best_split_gap,
                     "best_split_k": best_split_k,
+                    "best_split_k_all": best_split_k_all,
                     "rank": tr["rank"],
                     "total_cross_traits": n_total,
                     "beats_self": (
@@ -824,7 +866,8 @@ def build_b2c_type_a_benchmark(
         for rank_idx, tr in enumerate(trait_ranking, 1):
             tr["rank"] = rank_idx
 
-        best_split_gap, best_split_k = _get_best_split_info(trait_ranking)
+        best_split_gap, best_split_ks = _get_best_split_info(trait_ranking)
+        best_split_k, best_split_k_all = _best_split_fields_from_ks(best_split_ks)
         n_total = len(trait_ranking)
         qualifying = [
             tr for tr in trait_ranking
@@ -835,7 +878,7 @@ def build_b2c_type_a_benchmark(
         has_clear_cluster = (
             best_split_gap is not None and best_split_gap >= min_best_split_gap
         )
-        split_not_at_tail = _type_a_split_not_at_tail(best_split_k, n_total)
+        split_not_at_tail = _type_a_split_not_at_tail(best_split_ks, n_total)
         selected = (
             top_cross_auc is not None
             and top_cross_auc >= min_top_cross_auc
@@ -857,7 +900,7 @@ def build_b2c_type_a_benchmark(
                 split_str = "NA" if best_split_gap is None else f"{best_split_gap:.4f}"
                 reasons.append(f"best_split_gap={split_str}<{min_best_split_gap}")
             if has_clear_cluster and not split_not_at_tail:
-                reasons.append(f"best_split_k={best_split_k} in tail")
+                reasons.append(f"best_split_k={best_split_k_all or best_split_k} in tail")
             reason = "; ".join(reasons) if reasons else "type_A_not_selected"
 
         target_rows.append({
@@ -875,6 +918,7 @@ def build_b2c_type_a_benchmark(
             "top_auc_improvement": None,
             "best_split_gap": best_split_gap,
             "best_split_k": best_split_k,
+            "best_split_k_all": best_split_k_all,
             "selected": selected,
             "selection_reason": reason,
         })
@@ -897,6 +941,7 @@ def build_b2c_type_a_benchmark(
                     "auc_improvement": None,
                     "best_split_gap": best_split_gap,
                     "best_split_k": best_split_k,
+                    "best_split_k_all": best_split_k_all,
                     "rank": tr["rank"],
                     "total_cross_traits": n_total,
                     "beats_self": None,
@@ -993,12 +1038,12 @@ def generate_report(
                     top_auc = f"{r['top_cross_disease_auc']:.4f}" if pd.notna(r.get("top_cross_disease_auc")) else "-"
                     top_name = top_name_map.get(str(r["input_icd"]), "-")
                     top_imp = f"+{r['top_auc_improvement']:.4f}" if pd.notna(r.get("top_auc_improvement")) else "-"
-                    split_k = f"Top-{int(r['best_split_k'])}" if pd.notna(r.get("best_split_k")) else "-"
+                    split_k = _format_best_split_for_report(r)
                     split_gap = f"{r['best_split_gap']:.4f}" if pd.notna(r.get("best_split_gap")) else "-"
                     lines.append(
                         f"| {r['input_icd']} | {r['input_description'][:40]} "
                         f"| {r['n_qualifying_diseases']} / {r['n_total_cross_diseases']} "
-                        f"| {self_str} | {top_auc} | {top_name[:60]} | {top_imp} | {split_k} | {split_gap} |"
+                        f"| {self_str} | {top_auc} | {top_name} | {top_imp} | {split_k} | {split_gap} |"
                     )
             else:
                 top_name_map = _build_top_cross_name_map(
@@ -1012,12 +1057,12 @@ def generate_report(
                     top_auc = f"{r['top_cross_trait_auc']:.4f}" if pd.notna(r.get("top_cross_trait_auc")) else "-"
                     top_name = top_name_map.get(str(r["input_icd"]), "-")
                     top_imp = f"+{r['top_auc_improvement']:.4f}" if pd.notna(r.get("top_auc_improvement")) else "-"
-                    split_k = f"Top-{int(r['best_split_k'])}" if pd.notna(r.get("best_split_k")) else "-"
+                    split_k = _format_best_split_for_report(r)
                     split_gap = f"{r['best_split_gap']:.4f}" if pd.notna(r.get("best_split_gap")) else "-"
                     lines.append(
                         f"| {r['input_icd']} | {r['input_description'][:40]} "
                         f"| {r['n_qualifying_traits']} / {r['n_total_cross_traits']} "
-                        f"| {self_str} | {top_auc} | {top_name[:60]} | {top_imp} | {split_k} | {split_gap} |"
+                        f"| {self_str} | {top_auc} | {top_name} | {top_imp} | {split_k} | {split_gap} |"
                     )
 
             lines.append("")
@@ -1123,12 +1168,12 @@ def generate_type_a_report(
             for _, r in sel.iterrows():
                 top_auc = f"{r[auc_col]:.4f}" if pd.notna(r.get(auc_col)) else "-"
                 top_name = top_name_map.get(str(r["input_icd"]), "-")
-                split_k = f"Top-{int(r['best_split_k'])}" if pd.notna(r.get("best_split_k")) else "-"
+                split_k = _format_best_split_for_report(r)
                 split_gap = f"{r['best_split_gap']:.4f}" if pd.notna(r.get("best_split_gap")) else "-"
                 lines.append(
                     f"| {r['input_icd']} | {r['input_description'][:40]} "
                     f"| {r[qualifying_col]} / {r[total_col]} "
-                    f"| {top_auc} | {top_name[:60]} | {split_k} | {split_gap} |"
+                    f"| {top_auc} | {top_name} | {split_k} | {split_gap} |"
                 )
 
             lines.append("")
@@ -1224,12 +1269,12 @@ def generate_combined_report(
                     for _, r in selected.iterrows():
                         top_auc = f"{r[auc_col]:.4f}" if pd.notna(r.get(auc_col)) else "-"
                         top_name = top_name_map.get(str(r["input_icd"]), "-")
-                        split_k = f"Top-{int(r['best_split_k'])}" if pd.notna(r.get("best_split_k")) else "-"
+                        split_k = _format_best_split_for_report(r)
                         split_gap = f"{r['best_split_gap']:.4f}" if pd.notna(r.get("best_split_gap")) else "-"
                         lines.append(
                             f"| {r['input_icd']} | {r['input_description'][:40]} "
                             f"| {r[qualifying_col]} / {r[total_col]} "
-                            f"| {top_auc} | {top_name[:60]} | {split_k} | {split_gap} |"
+                            f"| {top_auc} | {top_name} | {split_k} | {split_gap} |"
                         )
                 else:
                     selected = selected.sort_values("top_auc_improvement", ascending=False, na_position="last")
@@ -1244,12 +1289,12 @@ def generate_combined_report(
                         top_auc = f"{r[auc_col]:.4f}" if pd.notna(r.get(auc_col)) else "-"
                         top_name = top_name_map.get(str(r["input_icd"]), "-")
                         top_imp = f"+{r['top_auc_improvement']:.4f}" if pd.notna(r.get("top_auc_improvement")) else "-"
-                        split_k = f"Top-{int(r['best_split_k'])}" if pd.notna(r.get("best_split_k")) else "-"
+                        split_k = _format_best_split_for_report(r)
                         split_gap = f"{r['best_split_gap']:.4f}" if pd.notna(r.get("best_split_gap")) else "-"
                         lines.append(
                             f"| {r['input_icd']} | {r['input_description'][:40]} "
                             f"| {r[qualifying_col]} / {r[total_col]} "
-                            f"| {self_str} | {top_auc} | {top_name[:60]} | {top_imp} | {split_k} | {split_gap} |"
+                            f"| {self_str} | {top_auc} | {top_name} | {top_imp} | {split_k} | {split_gap} |"
                         )
 
                 lines.append("")
@@ -1310,8 +1355,6 @@ def _build_top_cross_name_map(
                 continue
             seen.add(name)
             names.append(name)
-            if len(names) == 2:
-                break
 
         result[str(target_icd)] = " / ".join(names) if names else "-"
 

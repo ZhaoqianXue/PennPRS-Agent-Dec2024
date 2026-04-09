@@ -19,10 +19,10 @@ _This report summarizes Type B targets only. Type A targets are included in the 
 
 | ICD | Description | Cross Diseases Beating Self | Top Self AUC | Top Cross AUC | Top Cross Name | Top Improvement | Best Split | Best Gap |
 |-----|-------------|-----------------------------|--------------|---------------|----------------|-----------------|------------|----------|
-| N40 | Benign prostatic hyperplasia without low | 2 / 128 | 0.5236 | 0.6423 | Malignant neoplasm of prostate / Inflammatory disease of pro | +0.1186 | Top-2 | 0.0998 |
-| M05 | Rheumatoid arthritis | 7 / 128 | 0.5559 | 0.6595 | Gout / Systemic disord of conn tiss in oth diseases classd e | +0.1036 | Top-4 | 0.0522 |
+| N40 | Benign prostatic hyperplasia without low | 2 / 128 | 0.5236 | 0.6423 | Inflammatory disease of prostate / Malignant neoplasm of prostate | +0.1186 | Top-2 | 0.0998 |
+| M05 | Rheumatoid arthritis | 7 / 128 | 0.5559 | 0.6595 | Gout / Unspecified osteoarthritis / Rheumatoid arthritis / Systemic disord of conn tiss in oth diseases classd elswhr | +0.1036 | Top-4 | 0.0522 |
 | J43 | Emphysema | 16 / 128 | 0.5292 | 0.6137 | Chronic obstructive pulmonary disease | +0.0845 | Top-1 | 0.0299 |
-| S52 | Unspecified fracture of the lower end of | 2 / 128 | 0.5212 | 0.5777 | nasal bones / Age-related osteoporosis w/o current pathologi | +0.0564 | Top-2 | 0.0507 |
+| S52 | Unspecified fracture of the lower end of | 2 / 128 | 0.5212 | 0.5777 | nasal bones / Age-related osteoporosis w/o current pathological fracture | +0.0564 | Top-2 | 0.0507 |
 | D04 | Carcinoma in situ of skin of other parts | 2 / 128 | 0.5802 | 0.6258 | Malignant melanoma of skin | +0.0456 | Top-3 | 0.0550 |
 | F31 | Bipolar disorder | 1 / 128 | 0.5637 | 0.6063 | Major depressive disorder | +0.0426 | Top-1 | 0.0307 |
 | J33 | Polyp of nasal cavity | 1 / 128 | 0.5557 | 0.5979 | asthma | +0.0423 | Top-4 | 0.0272 |
@@ -48,14 +48,14 @@ Primary rejection reasons:
 
 | ICD | Description | Cross Traits Beating Self | Top Self AUC | Top Cross AUC | Top Cross Name | Top Improvement | Best Split | Best Gap |
 |-----|-------------|---------------------------|--------------|---------------|----------------|-----------------|------------|----------|
-| C54 | Malignant neoplasm of endometrium | 21 / 36 | 0.5332 | 0.6336 | Hemoglobin [Mass/volume] in Blood / Erythrocyte [DistWidth]  | +0.1003 | Top-35 | 0.0269 |
+| C54 | Malignant neoplasm of endometrium | 21 / 36 | 0.5332 | 0.6336 | Hemoglobin [Mass/volume] in Blood / Erythrocyte [DistWidth] in Blood by Automated count | +0.1003 | Top-35 | 0.0269 |
 | N04 | Nephrotic syndrome with unspecified morp | 2 / 36 | 0.5450 | 0.6190 | Body weight / Body mass index (BMI) [Ratio] | +0.0741 | Top-2 | 0.0511 |
 | I27 | Cor pulmonale (chronic) | 2 / 36 | 0.5243 | 0.5949 | Body weight / Body mass index (BMI) [Ratio] | +0.0706 | Top-2 | 0.0470 |
 | G30 | Alzheimer's disease | 11 / 36 | 0.5910 | 0.6597 | Erythrocytes [#/volume] in Blood by Automated count | +0.0687 | Top-34 | 0.0498 |
 | C56 | Malignant neoplasm of unspecified ovary | 5 / 36 | 0.5858 | 0.6489 | Cholesterol in HDL [Mass/volume] in Serum or Plasma | +0.0631 | Top-34 | 0.0466 |
 | D25 | Leiomyoma of uterus | 3 / 36 | 0.5264 | 0.5733 | Estradiol (E2) [Mass/volume] in Serum or Plasma | +0.0469 | Top-35 | 0.0348 |
 | L03 | Cellulitis | 2 / 36 | 0.5191 | 0.5647 | Body weight / Body mass index (BMI) [Ratio] | +0.0457 | Top-2 | 0.0258 |
-| J33 | Polyp of nasal cavity | 2 / 36 | 0.5557 | 0.5902 | Eosinophils [#/volume] in Blood by Automated count / Eosinop | +0.0346 | Top-2 | 0.0425 |
+| J33 | Polyp of nasal cavity | 2 / 36 | 0.5557 | 0.5902 | Eosinophils [#/volume] in Blood by Automated count / Eosinophils/Leukocytes in Blood by Automated count | +0.0346 | Top-2 | 0.0425 |
 
 ### Rejected Targets (Binary-to-Continuous): 113
 
