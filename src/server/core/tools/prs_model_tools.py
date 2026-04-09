@@ -219,7 +219,7 @@ def hydrate_pgs_model_summaries(
         search_progress[request_id].update({
             "models_total": len(ordered_ids),
             "models_fetched": len(ordered_ids),
-            "models_successful": successful_details_count,
+            "models_successful": len(local_summaries) + successful_details_count,
             "current_action": f"Completed fetching {len(ordered_ids)} models",
             "current_step": "step-1",
         })

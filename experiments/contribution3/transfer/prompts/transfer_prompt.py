@@ -1,107 +1,226 @@
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
 
-class CrossTraitMatchDecision(BaseModel):
-    outcome: str = Field(..., description="MATCHED or NO_MATCH")
-    best_bundle_id: Optional[str] = Field(None, description="Selected candidate bundle id")
-    best_cross_trait: Optional[str] = Field(None, description="Selected cross trait label")
-    candidate_pgs_ids: list[str] = Field(default_factory=list, description="Whitelist for contribution2")
-    confidence: str = Field(..., description="High, Moderate, or Low")
-    rationale: str = Field(..., description="Decision rationale grounded in available evidence")
-    evidence_summary: dict[str, Any] = Field(
-        default_factory=dict,
-        description="Compact summary of the genetic correlation, heritability, and Open Targets evidence used",
-    )
+ConfidenceLabel = Literal["High", "Moderate", "Low"]
+DecisionMode = Literal["single_confident", "frontier_uncertain", "abstain_only_if_no_valid_bundle"]
 
 
-TOOL_CALLING_TRANSFER_SYSTEM_PROMPT = """# Identity & Persona
-You are a PRS Co-scientist specializing in cross trait transfer.
-You are evidence-driven, decisive, and concise.
-You do not hallucinate genetic evidence, biological mechanism, or model availability.
+class TraitResolutionHit(BaseModel):
+    id: str
+    label: str
+    score: float
+    source: str
+
+
+class TraitResolution(BaseModel):
+    query: str
+    system: Literal["gwas_atlas", "open_targets"]
+    best_id: Optional[str] = None
+    best_label: Optional[str] = None
+    matched_text: Optional[str] = None
+    confidence: Literal["High", "Moderate", "Low", "Unresolved"] = "Unresolved"
+    alternatives: list[TraitResolutionHit] = Field(default_factory=list)
+    unavailable_reason: Optional[str] = None
+
+
+class GeneticCorrelationPairOption(BaseModel):
+    target_trait_id: Optional[int] = None
+    target_trait_label: Optional[str] = None
+    candidate_trait_id: Optional[int] = None
+    candidate_trait_label: Optional[str] = None
+    score: float = 0.0
+
+
+class GeneticCorrelationEvidence(BaseModel):
+    source: str = "gwas_atlas"
+    target_resolution: TraitResolution
+    candidate_resolution: TraitResolution
+    pair_status: str
+    best_pair: Optional[GeneticCorrelationPairOption] = None
+    alternative_pairs: list[GeneticCorrelationPairOption] = Field(default_factory=list)
+    rg: Optional[float] = None
+    z_score: Optional[float] = None
+    p_value: Optional[float] = None
+    study_count: Optional[int] = None
+    provenance_status: str = "not_available"
+    evidence_strength: str = "Unavailable"
+    unavailable_reason: Optional[str] = None
+
+
+class HeritabilityDatum(BaseModel):
+    trait_name: str
+    trait_id: Optional[str] = None
+    h2_obs: Optional[float] = None
+    h2_obs_se: Optional[float] = None
+    population: Optional[str] = None
+    source: Optional[str] = None
+    n_samples: Optional[int] = None
+    method: Optional[str] = None
+    h2_z: Optional[float] = None
+    match_score: float = 0.0
+
+
+class HeritabilityEvidence(BaseModel):
+    source: str = "aggregated"
+    ancestry: str = "EUR"
+    target_profile: list[HeritabilityDatum] = Field(default_factory=list)
+    candidate_profile: list[HeritabilityDatum] = Field(default_factory=list)
+    target_best_h2: Optional[float] = None
+    candidate_best_h2: Optional[float] = None
+    candidate_signal_capacity: Optional[float] = None
+    shared_signal_ceiling_proxy: Optional[float] = None
+    confidence_tier: str = "Low"
+    unavailable_reason: Optional[str] = None
+
+
+class OpenTargetsSharedTarget(BaseModel):
+    target_id: str
+    symbol: str
+    source_score: float
+    candidate_score: float
+    min_score: float
+    weighted_overlap: float
+    source_datatype_scores: dict[str, float] = Field(default_factory=dict)
+    candidate_datatype_scores: dict[str, float] = Field(default_factory=dict)
+    pathways: list[str] = Field(default_factory=list)
+    druggability: str = "Unknown"
+
+
+class OpenTargetsEvidence(BaseModel):
+    source: str = "open_targets"
+    target_resolution: TraitResolution
+    candidate_resolution: TraitResolution
+    pair_status: str
+    source_association_count: int = 0
+    candidate_association_count: int = 0
+    weighted_shared_target_overlap_score: float = 0.0
+    shared_target_count: int = 0
+    top_shared_targets: list[OpenTargetsSharedTarget] = Field(default_factory=list)
+    top_source_targets: list[dict[str, Any]] = Field(default_factory=list)
+    top_candidate_targets: list[dict[str, Any]] = Field(default_factory=list)
+    shared_pathway_clusters: list[str] = Field(default_factory=list)
+    pathway_specificity: str = "unknown"
+    target_clinical_candidate_count: Optional[int] = None
+    candidate_clinical_candidate_count: Optional[int] = None
+    literature_dominance_warning: bool = False
+    genetic_support_present: bool = False
+    confidence_level: str = "Low"
+    mechanism_summary: Optional[str] = None
+    unavailable_reason: Optional[str] = None
+
+
+class CandidateEvidenceCard(BaseModel):
+    bundle_id: str
+    canonical_label: str
+    bundle_type: str
+    candidate_pgs_ids: list[str] = Field(default_factory=list)
+    n_models: int = 0
+    archetype: str
+    phenotype_fidelity: str
+    phenotype_fidelity_score: float
+    lexical_match_score: int = 0
+    shared_token_count: int = 0
+    cheap_rank_score: float = 0.0
+    utility_score: float = 0.0
+    evidence_tags: list[str] = Field(default_factory=list)
+    gc: Optional[GeneticCorrelationEvidence] = None
+    h2: Optional[HeritabilityEvidence] = None
+    open_targets: Optional[OpenTargetsEvidence] = None
+
+
+class EvidenceState(BaseModel):
+    available_tools: list[str] = Field(default_factory=list)
+    shortlist_bundle_ids: list[str] = Field(default_factory=list)
+    target_summary: dict[str, Any] = Field(default_factory=dict)
+    candidate_cards: list[CandidateEvidenceCard] = Field(default_factory=list)
+
+
+class JudgeFrontierSelection(BaseModel):
+    primary_bundle_id: Optional[str] = None
+    frontier_bundle_ids: list[str] = Field(default_factory=list)
+    confidence: ConfidenceLabel
+    decision_mode: DecisionMode
+    rationale: str
+    evidence_tags: list[str] = Field(default_factory=list)
+
+
+class VerifiedSelection(BaseModel):
+    confidence: ConfidenceLabel
+    decision_mode: DecisionMode
+    rationale: str
+    evidence_tags: list[str] = Field(default_factory=list)
+    supported: bool = True
+    issues: list[str] = Field(default_factory=list)
+
+
+class CrossTraitTransferFrontierDecision(BaseModel):
+    primary_bundle_id: Optional[str] = None
+    frontier_bundle_ids: list[str] = Field(default_factory=list)
+    frontier_bundle_weights: dict[str, float] = Field(default_factory=dict)
+    candidate_pgs_ids_union: list[str] = Field(default_factory=list)
+    confidence: ConfidenceLabel
+    decision_mode: DecisionMode
+    rationale: str
+    evidence_state: EvidenceState
+    bundle_evidence_tags: dict[str, list[str]] = Field(default_factory=dict)
+    frontier_oracle_hit: Optional[bool] = None
+
+    # Compatibility fields for existing batch/eval pipeline.
+    outcome: Literal["MATCHED", "NO_MATCH"] = "NO_MATCH"
+    best_bundle_id: Optional[str] = None
+    best_cross_trait: Optional[str] = None
+    candidate_pgs_ids: list[str] = Field(default_factory=list)
+
+
+TRANSFER_FRONTIER_JUDGE_PROMPT = """# Identity
+You are a PRS Co-scientist selecting a cross-trait transfer frontier.
 
 # Task
-Select the single best non-self cross-trait bundle for the target trait. Do not abstain: if evidence is weak, still choose the best biologically plausible bundle and state the limitation.
+Choose the best transfer frontier from the evidence cards.
 
-# Decision Boundary
-- You are only matching the best cross trait bundle.
-- You are NOT selecting a PGS model.
-- You may use only:
-  1. the static candidate bundle dossier in context (includes GC pre-screening results)
-  2. `cross_trait_genetic_correlation`
-  3. `cross_trait_heritability`
-  4. `cross_trait_open_targets`
+# Hard Rules
+- This agent is general-trait only. Do not use any trait-family-specific prior or prompt template.
+- Use only the evidence card fields that are explicitly present.
+- Evaluate candidates only on these four axes:
+  1. statistical_overlap
+  2. mechanistic_overlap
+  3. signal_capacity
+  4. phenotype_fidelity
+- Strongly penalize only `administrative/exposure/treatment/family-history proxy`.
+- Do NOT automatically penalize `composite liability trait` or `mechanistic endophenotype / organ-function measurement`.
+- Do not abstain if at least one valid non-self candidate exists.
+- `single_confident` requires a clearly best candidate with evidence closure on either significant GC or clearly supported Open Targets overlap.
+- Otherwise prefer `frontier_uncertain` and keep up to 3 bundles.
 
-# GC Pre-Screening
-- The context includes pre-computed genetic correlation (rg) for all candidates against the target.
-- The candidate dossier includes lexical / shared-token context plus GC annotations.
-- A candidate with |rg| >= 0.3 and p < 0.05 is a strong match signal.
-- A candidate with |rg| >= 0.15 and p < 0.05 is a moderate but usable signal.
-- If the pre-screening already shows a clear top candidate, you may confirm it quickly and proceed.
-- High GC alone does NOT automatically win if the candidate is a low-fidelity proxy such as medication use, family history, education / intelligence, or another broad healthcare-utilization phenotype.
+# Selection Guidance
+- Read all evidence cards before deciding.
+- Treat `utility_score` as a hint, not a rule.
+- Prefer explanations that can be mapped to explicit evidence fields.
+- If the top card has missing GC and weak OT but remains best on phenotype fidelity, lower confidence.
+- If a composite or endophenotype candidate has strong GC or mechanistic support, it can outrank a same-family disease candidate.
 
-# Evidence Policy
-- The dossier is only a candidate pool. Do not use lexical resemblance as the main basis.
-- Primary evidence sources: genetic correlation, heritability, Open Targets.
-- Prefer disease-family / organ-system / phenotype-plausible bundles over generic proxy traits.
-- Explicitly down-rank low-fidelity proxy bundles when a more biologically coherent candidate exists:
-  - medication-use traits
-  - family-history traits
-  - education / intelligence / reproductive-timing traits
-  - broad catch-all labels like `disease` or `<system> disease`
-  - generic measurements or omnibus traits such as `blood protein amount`, `physical activity measurement`, `neuroimaging measurement`, broad psychiatric catch-alls, or similarly non-specific readouts
-  - inflammatory / lab biomarkers such as `C-reactive protein measurement` or `HbA1c measurement` when the target is a specific disease and a disease-family bundle exists
-  - sexual-behavior / reproductive-timing proxies such as `age at first sexual intercourse measurement`
-  - broad upstream risk-factor traits like `obesity`, `body mass index`, or `overnutrition` when the target is a specific downstream disease and a more direct disease-family candidate exists
-  - broad malignancy labels like `<organ> neoplasm` when a more specific `<organ> carcinoma` / cancer bundle is available
-- If the target is a specific organ or disease family, prefer a same-family candidate even when a generic comorbidity or biomarker has stronger but less faithful auxiliary evidence.
-- Matching criteria (any ONE is sufficient):
-  1. Genetic correlation: |rg| >= 0.15 with p < 0.05 from GC pre-screening or tool call.
-  2. Open Targets: Moderate or High confidence with >= 3 shared genes.
-  3. Strong biological plausibility: the candidate is in the same disease family or organ system AND has heritability evidence supporting genetic overlap.
-- Prefer the candidate with the strongest combined evidence.
-- When multiple candidates have similar evidence strength, pick the one with:
-  - Higher |rg| (if GC available)
-  - More shared genes (if Open Targets available)
-  - Higher heritability (if H2 available)
-- If evidence is incomplete, still select the best available non-self bundle rather than returning `NO_MATCH`.
-
-# Tool Protocol
-- Start by reviewing the GC pre-screening results in context.
-- If a clear top candidate exists (|rg| >= 0.3), confirm with heritability or Open Targets.
-- If multiple candidates are close, use tools to discriminate between them.
-- Focus tool calls on the top 5-10 GC-ranked candidates rather than exhaustive screening.
-- A moderate match (GPR ~0.3-0.5) is far more valuable than a generic low-fidelity proxy.
-
-# Output Protocol
-When you stop calling tools, provide a concise evidence-grounded note explaining:
-- which candidate looks strongest
-- what evidence was decisive
-- what limitation remains
-Do not output the final JSON schema yourself unless explicitly asked in a later step.
+# Output
+Return one JSON object only.
 """
 
 
-FINALIZE_TRANSFER_DECISION_PROMPT = """# Identity & Persona
-You are a PRS Co-scientist finalizing a cross trait transfer decision.
+TRANSFER_FRONTIER_VERIFY_PROMPT = """# Identity
+You are a verifier for cross-trait transfer decisions.
 
 # Task
-Convert the provided agent transcript and evidence into one strict JSON decision.
+Audit the proposed frontier selection against the evidence cards.
 
 # Rules
-- Use only evidence explicitly present in the context (including GC pre-screening data).
-- A match is justified when ANY of these conditions hold:
-  1. The candidate has genetic correlation |rg| >= 0.15 with p < 0.05.
-  2. The candidate has Moderate or High Open Targets confidence with >= 3 shared genes.
-  3. The transcript explicitly argues for the match with biological plausibility AND supporting heritability evidence.
-- High GC alone should not force obviously low-fidelity proxy traits to win over a more coherent disease-family candidate.
-- Strong GC for a generic measurement or broad risk-factor proxy is not enough by itself when a more specific disease-family candidate is available.
-- When the target is clearly in a family such as breast cancer, diabetes, psychiatric disease, or immune-mediated infection/inflammation, use that family coherence as a strong tie-breaker.
-- Prefer matching over abstaining: always return the best available non-self bundle even when evidence is weak or indirect.
-- If `outcome` is `MATCHED`, `best_bundle_id`, `best_cross_trait`, and `candidate_pgs_ids` must be populated.
-- Use `NO_MATCH` only if the context literally provides no valid non-self candidate bundle.
-- Do not invent bundle ids or candidate PGS ids.
+- Keep the selected frontier fixed unless it contains an invalid bundle id.
+- Rewrite the rationale so every scientific claim is grounded in explicit card fields.
+- Lower confidence when the rationale overclaims.
+- Never inject trait-specific world knowledge that is absent from the evidence cards.
+- Evidence tags must be a subset of tags visible in the selected cards.
+
+# Output
+Return one JSON object only.
 """

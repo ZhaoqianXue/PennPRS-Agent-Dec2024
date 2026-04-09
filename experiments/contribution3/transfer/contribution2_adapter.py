@@ -49,13 +49,16 @@ def _build_todo_recitation(
     original_target_trait: str,
     matched_cross_trait: str,
     candidate_count: int,
+    frontier_bundle_ids: list[str] | None = None,
 ) -> str:
+    frontier = ", ".join(frontier_bundle_ids or []) or "Unknown"
     return "\n".join(
         [
             "# Current Task Progress",
             f"[x] Original target trait = {original_target_trait or 'Unknown'}",
             f"[x] Matched cross trait = {matched_cross_trait or 'Unknown'}",
-            f"[x] Step 1: Hydrate explicit bundle whitelist ({candidate_count} candidates)",
+            f"[x] Transfer frontier bundle IDs = {frontier}",
+            f"[x] Step 1: Hydrate weighted transfer universe ({candidate_count} candidates)",
             "[x] Step 1: Evaluate direct-match candidates",
         ]
     )
@@ -83,6 +86,9 @@ def _build_explicit_search_result(
 def _build_retrieval_payload(
     requested_candidate_pgs_ids: list[str],
     pgs_result: PGSSearchResult,
+    *,
+    frontier_bundle_ids: list[str],
+    frontier_bundle_weights: dict[str, float],
 ) -> dict[str, Any]:
     hydrated_model_ids = [model.id for model in pgs_result.models]
     missing_candidate_pgs_ids = [
@@ -92,7 +98,10 @@ def _build_retrieval_payload(
         pgs_id for pgs_id in hydrated_model_ids if pgs_id not in requested_candidate_pgs_ids
     ]
     return {
-        "mode": "explicit_candidate_pgs_ids",
+        "mode": "weighted_frontier_candidate_pgs_ids",
+        "frontier_bundle_ids": frontier_bundle_ids,
+        "frontier_bundle_count": len(frontier_bundle_ids),
+        "frontier_bundle_weights": frontier_bundle_weights,
         "requested_candidate_pgs_ids": requested_candidate_pgs_ids,
         "requested_candidate_count": len(requested_candidate_pgs_ids),
         "hydrated_model_ids": hydrated_model_ids,
@@ -110,18 +119,45 @@ def _build_retrieval_payload(
 def recommend_best_model_for_cross_trait(
     *,
     original_target_trait: str,
-    matched_cross_trait: str,
-    matched_bundle_id: str | None,
-    candidate_pgs_ids: list[str],
+    matched_cross_trait: str | None = None,
+    matched_bundle_id: str | None = None,
+    candidate_pgs_ids: list[str] | None = None,
+    frontier_bundle_ids: list[str] | None = None,
+    frontier_bundle_weights: dict[str, float] | None = None,
+    candidate_pgs_ids_union: list[str] | None = None,
+    bundle_evidence_tags: dict[str, list[str]] | None = None,
+    evidence_state: dict[str, Any] | None = None,
     use_domain_knowledge: bool = True,
 ) -> dict[str, Any]:
+    frontier_bundle_ids = _dedupe_preserve_order(frontier_bundle_ids or ([] if matched_bundle_id is None else [matched_bundle_id]))
+    if matched_bundle_id and matched_bundle_id not in frontier_bundle_ids:
+        frontier_bundle_ids = [matched_bundle_id, *frontier_bundle_ids]
+    matched_bundle_id = matched_bundle_id or (frontier_bundle_ids[0] if frontier_bundle_ids else None)
+    requested_universe = candidate_pgs_ids_union if candidate_pgs_ids_union is not None else candidate_pgs_ids
+    requested_ids = _dedupe_preserve_order(requested_universe or [])
+    frontier_bundle_weights = {
+        str(bundle_id): float(weight)
+        for bundle_id, weight in (frontier_bundle_weights or {}).items()
+        if str(bundle_id).strip()
+    }
+    if frontier_bundle_ids and not frontier_bundle_weights:
+        uniform = round(1.0 / len(frontier_bundle_ids), 4)
+        frontier_bundle_weights = {bundle_id: uniform for bundle_id in frontier_bundle_ids}
+    if matched_cross_trait is None:
+        matched_cross_trait = str(original_target_trait or "").strip()
+
     client = PGSCatalogClient()
     pgs_result, requested_ids = _build_explicit_search_result(
         client=client,
         matched_cross_trait=matched_cross_trait,
-        candidate_pgs_ids=candidate_pgs_ids,
+        candidate_pgs_ids=requested_ids,
     )
-    retrieval = _build_retrieval_payload(requested_ids, pgs_result)
+    retrieval = _build_retrieval_payload(
+        requested_ids,
+        pgs_result,
+        frontier_bundle_ids=frontier_bundle_ids,
+        frontier_bundle_weights=frontier_bundle_weights,
+    )
 
     domain_query = _build_step1_domain_query(matched_cross_trait)
     if use_domain_knowledge:
@@ -148,7 +184,11 @@ def recommend_best_model_for_cross_trait(
         "original_target_trait": original_target_trait,
         "matched_cross_trait": matched_cross_trait,
         "matched_bundle_id": matched_bundle_id,
-        "candidate_retrieval_mode": "explicit_candidate_pgs_ids",
+        "candidate_retrieval_mode": "weighted_frontier_candidate_pgs_ids",
+        "frontier_bundle_ids": frontier_bundle_ids,
+        "bundle_weights": frontier_bundle_weights,
+        "bundle_evidence_tags": bundle_evidence_tags or {},
+        "transfer_evidence_state": evidence_state or {},
         "direct_models": direct_models_inline,
         "direct_models_artifact": (
             direct_models_artifact.model_dump() if direct_models_artifact else None
@@ -159,6 +199,7 @@ def recommend_best_model_for_cross_trait(
             original_target_trait=original_target_trait,
             matched_cross_trait=matched_cross_trait,
             candidate_count=pgs_result.after_filter,
+            frontier_bundle_ids=frontier_bundle_ids,
         ),
     }
 
@@ -195,6 +236,10 @@ def recommend_best_model_for_cross_trait(
         "original_target_trait": original_target_trait,
         "matched_cross_trait": matched_cross_trait,
         "matched_bundle_id": matched_bundle_id,
+        "frontier_bundle_ids": frontier_bundle_ids,
+        "frontier_bundle_weights": frontier_bundle_weights,
+        "bundle_evidence_tags": bundle_evidence_tags or {},
+        "evidence_state": evidence_state or {},
         "candidate_pgs_ids": requested_ids,
         "retrieval": retrieval,
         "domain_query": domain_query,

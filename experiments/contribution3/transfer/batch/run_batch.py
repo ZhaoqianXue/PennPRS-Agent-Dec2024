@@ -108,16 +108,26 @@ def cmd_recommend(args: argparse.Namespace) -> None:
             "recommendation": None,
         }
         if decision.get("outcome") == "MATCHED":
+            frontier_bundle_ids = decision.get("frontier_bundle_ids") or (
+                [decision.get("primary_bundle_id")] if decision.get("primary_bundle_id") else []
+            )
             record["recommendation"] = recommend_best_model_for_cross_trait(
                 original_target_trait=str(record["target"].get("target_label") or "").strip(),
-                matched_cross_trait=decision["best_cross_trait"],
-                matched_bundle_id=decision.get("best_bundle_id"),
+                matched_cross_trait=decision.get("best_cross_trait"),
+                matched_bundle_id=decision.get("primary_bundle_id") or decision.get("best_bundle_id"),
                 candidate_pgs_ids=decision.get("candidate_pgs_ids") or [],
+                frontier_bundle_ids=frontier_bundle_ids,
+                frontier_bundle_weights=decision.get("frontier_bundle_weights") or {},
+                candidate_pgs_ids_union=decision.get("candidate_pgs_ids_union")
+                or decision.get("candidate_pgs_ids")
+                or [],
+                bundle_evidence_tags=decision.get("bundle_evidence_tags") or {},
+                evidence_state=decision.get("evidence_state") or {},
                 use_domain_knowledge=(condition != "gpt-only"),
             )
             print(
                 f"[{condition}] {record['target'].get('target_id')}: "
-                f"{decision['best_cross_trait']} -> "
+                f"{decision.get('best_cross_trait') or decision.get('primary_bundle_id') or '-'} -> "
                 f"{record['recommendation']['decision'].get('best_model_id')}",
                 flush=True,
             )

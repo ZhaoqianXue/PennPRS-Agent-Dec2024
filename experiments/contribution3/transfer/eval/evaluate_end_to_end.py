@@ -186,6 +186,11 @@ def _build_detail_rows(
         retrieval = recommendation.get("retrieval") or {}
         recommendation_decision = recommendation.get("decision") or {}
         recommended_model_id = _clean_text(recommendation_decision.get("best_model_id")) or None
+        frontier_candidate_pgs_ids = (
+            decision.get("candidate_pgs_ids_union")
+            or decision.get("candidate_pgs_ids")
+            or []
+        )
         self_best_auc = _safe_float(meta["self_best_auc"])
 
         candidate_count = None
@@ -198,6 +203,7 @@ def _build_detail_rows(
         improves_over_self = None
         selected_gpr = None
         rank_fraction = None
+        frontier_oracle_hit = None
         status = "missing_result"
 
         try:
@@ -208,6 +214,11 @@ def _build_detail_rows(
             candidate_count = len(ranked_ids)
             top_model_id = ranked_ids[0] if ranked_ids else None
             top_model_auc = auc_by_id.get(top_model_id) if top_model_id else None
+            frontier_oracle_hit = (
+                bool(top_model_id and top_model_id in frontier_candidate_pgs_ids)
+                if frontier_candidate_pgs_ids
+                else False
+            )
 
             if not result_row:
                 status = "missing_result"
@@ -256,6 +267,9 @@ def _build_detail_rows(
                 "matched_bundle_id": decision.get("best_bundle_id"),
                 "matched_cross_trait": decision.get("best_cross_trait"),
                 "candidate_pgs_id_count": len(decision.get("candidate_pgs_ids") or []),
+                "frontier_bundle_count": len(decision.get("frontier_bundle_ids") or []),
+                "frontier_candidate_pgs_id_count": len(frontier_candidate_pgs_ids),
+                "frontier_oracle_hit": frontier_oracle_hit,
                 "recommended_model_id": recommended_model_id,
                 "step1_model_universe_count": retrieval.get("hydrated_model_count"),
                 "step1_universe_matches_bundle": retrieval.get("universe_matches_candidate_ids"),
@@ -340,6 +354,12 @@ def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
             lambda value: bool(value) if pd.notna(value) else False
         )
         universe_match_rate = round(float(universe_flags.mean()), 4)
+    frontier_oracle_hit_rate = None
+    if "frontier_oracle_hit" in detail_df:
+        frontier_flags = detail_df["frontier_oracle_hit"].apply(
+            lambda value: bool(value) if pd.notna(value) else False
+        )
+        frontier_oracle_hit_rate = round(float(frontier_flags.mean()), 4)
 
     summary: dict[str, Any] = {
         "benchmark_family": str(detail_df["benchmark_family"].iloc[0]),
@@ -362,6 +382,7 @@ def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
             float(evaluated["absolute_auc_regret"].mean()) if not evaluated.empty else None
         ),
         "step1_universe_match_rate": universe_match_rate,
+        "frontier_oracle_hit_rate": frontier_oracle_hit_rate,
         "status_counts": detail_df["status"].value_counts(dropna=False).to_dict(),
         "by_input_type": {},
     }
@@ -388,6 +409,18 @@ def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
             "conditional_mean_gpr": (
                 float(evaluated_subset["selected_model_gpr"].mean())
                 if not evaluated_subset.empty
+                else None
+            ),
+            "frontier_oracle_hit_rate": (
+                round(
+                    float(
+                        subset["frontier_oracle_hit"].apply(
+                            lambda value: bool(value) if pd.notna(value) else False
+                        ).mean()
+                    ),
+                    4,
+                )
+                if "frontier_oracle_hit" in subset
                 else None
             ),
         }

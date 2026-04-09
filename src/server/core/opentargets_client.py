@@ -125,6 +125,32 @@ query DiseaseAssociatedTargets($efoId: String!) {
 }
 """
 
+DISEASE_TARGET_PROFILE_QUERY = """
+query DiseaseTargetProfile($efoId: String!, $page: Pagination!) {
+  disease(efoId: $efoId) {
+    id
+    name
+    associatedTargets(page: $page) {
+      rows {
+        score
+        datatypeScores {
+          id
+          score
+        }
+        target {
+          id
+          approvedSymbol
+          approvedName
+        }
+      }
+    }
+    drugAndClinicalCandidates {
+      count
+    }
+  }
+}
+"""
+
 # GraphQL query for target tractability (druggability)
 TARGET_TRACTABILITY_QUERY = """
 query TargetTractability($ensemblId: String!) {
@@ -541,6 +567,54 @@ class OpenTargetsClient:
             })
         return results
 
+    def get_disease_target_profile(
+        self,
+        efo_id: str,
+        *,
+        page_index: int = 0,
+        page_size: int = 25,
+    ) -> Dict[str, Any]:
+        """
+        Fetch a richer disease profile for transfer reasoning.
+
+        Returns associated target rows with datatype score breakdowns plus a
+        disease-level clinical/drug candidate count.
+        """
+        variables = {
+            "efoId": efo_id,
+            "page": {"index": page_index, "size": page_size},
+        }
+        data = self._execute_query(DISEASE_TARGET_PROFILE_QUERY, variables)
+        disease = data.get("disease") or {}
+        if not disease:
+            return {
+                "id": efo_id,
+                "name": None,
+                "associated_targets": [],
+                "clinical_candidate_count": None,
+            }
+
+        rows = disease.get("associatedTargets", {}).get("rows", []) or []
+        associated_targets: List[Dict[str, Any]] = []
+        for row in rows:
+            target = row.get("target") or {}
+            associated_targets.append(
+                {
+                    "id": target.get("id"),
+                    "approvedSymbol": target.get("approvedSymbol"),
+                    "approvedName": target.get("approvedName"),
+                    "score": row.get("score"),
+                    "datatypeScores": row.get("datatypeScores") or [],
+                }
+            )
+
+        return {
+            "id": disease.get("id"),
+            "name": disease.get("name"),
+            "associated_targets": associated_targets,
+            "clinical_candidate_count": (disease.get("drugAndClinicalCandidates") or {}).get("count"),
+        }
+
     def get_target_druggability(self, ensembl_id: str) -> str:
         """
         Get tractability (druggability) assessment for a target.
@@ -657,4 +731,3 @@ class OpenTargetsClient:
             "studies": format_list(results.get("studies", [])),
             "variants": format_list(results.get("variants", []))
         }
-
