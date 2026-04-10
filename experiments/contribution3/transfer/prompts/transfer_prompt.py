@@ -155,6 +155,8 @@ class VerifiedSelection(BaseModel):
     evidence_tags: list[str] = Field(default_factory=list)
     supported: bool = True
     issues: list[str] = Field(default_factory=list)
+    revised_primary_bundle_id: Optional[str] = None
+    revised_frontier_bundle_ids: list[str] = Field(default_factory=list)
 
 
 class CrossTraitTransferFrontierDecision(BaseModel):
@@ -185,6 +187,7 @@ Choose the best transfer frontier from the evidence cards.
 # Hard Rules
 - This agent is general-trait only. Do not use any trait-family-specific prior or prompt template.
 - Use only the evidence card fields that are explicitly present.
+- Read `target_summary.benchmark_family` before deciding.
 - Evaluate candidates only on these four axes:
   1. statistical_overlap
   2. mechanistic_overlap
@@ -202,6 +205,18 @@ Choose the best transfer frontier from the evidence cards.
 - Prefer explanations that can be mapped to explicit evidence fields.
 - If the top card has missing GC and weak OT but remains best on phenotype fidelity, lower confidence.
 - If a composite or endophenotype candidate has strong GC or mechanistic support, it can outrank a same-family disease candidate.
+- When `target_summary.benchmark_family == "binary_to_binary"`, GC and OT disagreement can justify preferring the evidence source with higher resolution confidence. That disease-to-disease guidance does not automatically transfer to `binary_to_continuous`.
+- When `target_summary.benchmark_family == "binary_to_continuous"`, preserve GC-first / endophenotype-friendly behavior: low GC resolution confidence is a caution signal, not an automatic demotion, and a candidate should not be promoted solely because it has somewhat higher Open Targets overlap or cleaner resolution metadata.
+- For disease-to-disease transfer (`binary_to_binary`), mechanistic overlap via Open Targets can be more predictive than statistical GC alone because diseases with high GC may still have different prediction-relevant genetic architectures.
+- Attend to gc.target_resolution.confidence and gc.candidate_resolution.confidence, but interpret them in the benchmark-family context above.
+
+# Evidence Grounding
+Before making your selection, for each of your top 2-3 candidates, note:
+- utility_score value
+- gc.rg, gc.p_value, and gc resolution confidence (if available)
+- open_targets.weighted_shared_target_overlap_score and confidence_level (if available)
+- phenotype_fidelity_score and archetype
+Use these quoted values to justify your selection in the rationale.
 
 # Output
 Return one JSON object only.
@@ -215,11 +230,14 @@ You are a verifier for cross-trait transfer decisions.
 Audit the proposed frontier selection against the evidence cards.
 
 # Rules
-- Keep the selected frontier fixed unless it contains an invalid bundle id.
+- Read `target_summary.benchmark_family` before deciding whether any revision is allowed.
+- Keep the selected frontier fixed unless it contains an invalid bundle id, or the evidence materially supports promoting a better candidate because the current primary depends on low-confidence GC resolution.
 - Rewrite the rationale so every scientific claim is grounded in explicit card fields.
 - Lower confidence when the rationale overclaims.
 - Never inject trait-specific world knowledge that is absent from the evidence cards.
 - Evidence tags must be a subset of tags visible in the selected cards.
+- When `target_summary.benchmark_family == "binary_to_continuous"`, do not revise the primary/frontier solely to promote a higher-OT candidate over the current GC-supported or endophenotype-friendly selection. In that family, low GC resolution confidence alone is not enough to justify OT-driven reprioritization.
+- The low-confidence-GC / higher-OT promotion rule applies only when `target_summary.benchmark_family == "binary_to_binary"`. Only in that family, if the primary bundle's GC evidence has Low resolution confidence AND another shortlisted candidate has higher OT overlap with better resolution confidence, flag this as an issue and consider whether the alternative should be the primary. If so, set `revised_primary_bundle_id` and `revised_frontier_bundle_ids`.
 
 # Output
 Return one JSON object only.

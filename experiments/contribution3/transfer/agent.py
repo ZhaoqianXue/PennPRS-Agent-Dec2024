@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
@@ -31,6 +32,68 @@ from experiments.contribution3.transfer.prompts.transfer_prompt import (
 )
 from experiments.contribution3.transfer.tools import CrossTraitToolbox
 from src.server.core.llm_config import get_llm
+
+
+@dataclass(frozen=True)
+class TransferConfig:
+    """Benchmark-family-aware configuration for the transfer pipeline."""
+
+    w_statistical_overlap: float
+    w_mechanistic_overlap: float
+    w_signal_capacity: float
+    w_phenotype_fidelity: float
+    gc_track_size: int
+    semantic_track_size: int
+    concordance_bonus: float
+    concordance_penalty: float
+    gc_cheap_rank_significant: float
+    gc_cheap_rank_nonsignificant: float
+    shortlist_strategy: Literal["dual_track", "gc_first"]
+    shortlist_cap: int
+    apply_gc_resolution_discount: bool
+    allow_ot_promotion: bool
+
+
+BINARY_TO_BINARY_CONFIG = TransferConfig(
+    w_statistical_overlap=2.0,
+    w_mechanistic_overlap=3.5,
+    w_signal_capacity=1.2,
+    w_phenotype_fidelity=2.8,
+    gc_track_size=6,
+    semantic_track_size=6,
+    concordance_bonus=0.8,
+    concordance_penalty=-0.4,
+    gc_cheap_rank_significant=1.6,
+    gc_cheap_rank_nonsignificant=0.6,
+    shortlist_strategy="dual_track",
+    shortlist_cap=14,
+    apply_gc_resolution_discount=True,
+    allow_ot_promotion=True,
+)
+
+BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
+    w_statistical_overlap=3.2,
+    w_mechanistic_overlap=2.5,
+    w_signal_capacity=1.4,
+    w_phenotype_fidelity=2.1,
+    gc_track_size=7,
+    semantic_track_size=4,
+    concordance_bonus=0.5,
+    concordance_penalty=-0.2,
+    gc_cheap_rank_significant=2.4,
+    gc_cheap_rank_nonsignificant=0.8,
+    shortlist_strategy="gc_first",
+    shortlist_cap=8,
+    apply_gc_resolution_discount=False,
+    allow_ot_promotion=False,
+)
+
+DEFAULT_CONFIG = BINARY_TO_BINARY_CONFIG
+
+BENCHMARK_FAMILY_CONFIGS: dict[str, TransferConfig] = {
+    "binary_to_binary": BINARY_TO_BINARY_CONFIG,
+    "binary_to_continuous": BINARY_TO_CONTINUOUS_CONFIG,
+}
 
 
 CONDITION_TOOLS: dict[str, list[str]] = {
@@ -212,12 +275,44 @@ def _is_strong_ot(ot: OpenTargetsEvidence | None) -> bool:
     )
 
 
+def _is_explicit_ot_discordance(ot: OpenTargetsEvidence | None) -> bool:
+    return bool(ot and ot.pair_status == "no_shared_targets")
+
+
+def _gc_resolution_discount(gc_row: dict[str, Any] | None) -> float:
+    """Discount GC evidence when trait resolution confidence is low."""
+    if gc_row is None:
+        return 0.0
+    multiplier = 1.0
+    for key in ("target_resolution", "candidate_resolution"):
+        resolution = gc_row.get(key)
+        if not resolution:
+            continue
+        conf = resolution.get("confidence", "Unresolved") if isinstance(resolution, dict) else "Unresolved"
+        if conf == "High":
+            pass
+        elif conf == "Moderate":
+            multiplier *= 0.7
+        elif conf == "Low":
+            multiplier *= 0.3
+        else:
+            multiplier *= 0.0
+    return multiplier
+
+
+def _configured_gc_discount(gc_row: dict[str, Any] | None, config: TransferConfig) -> float:
+    if not config.apply_gc_resolution_discount:
+        return 1.0
+    return _gc_resolution_discount(gc_row)
+
+
 def _cheap_rank_score(
     dossier: CandidateBundleDossier,
     bundle: TraitBundle,
     archetype: str,
     fidelity_score: float,
     gc_row: dict[str, Any] | None,
+    config: TransferConfig = DEFAULT_CONFIG,
 ) -> float:
     score = (fidelity_score * 2.0) + (min(bundle.n_models, 50) / 80.0)
     score += (_bundle_match_score(dossier, bundle) / 250.0)
@@ -225,7 +320,9 @@ def _cheap_rank_score(
     if gc_row and gc_row.get("rg") is not None:
         rg = abs(float(gc_row.get("rg") or 0.0))
         p_value = gc_row.get("p_value")
-        score += rg * (2.4 if p_value is not None and p_value < 0.05 else 0.8)
+        gc_discount = _configured_gc_discount(gc_row, config)
+        gc_mult = config.gc_cheap_rank_significant if p_value is not None and p_value < 0.05 else config.gc_cheap_rank_nonsignificant
+        score += rg * gc_mult * gc_discount
     if archetype == "administrative/exposure/treatment/family-history proxy":
         score -= 1.4
     return round(score, 6)
@@ -238,6 +335,8 @@ def _utility_score(
     gc: GeneticCorrelationEvidence | None,
     h2: HeritabilityEvidence | None,
     ot: OpenTargetsEvidence | None,
+    gc_row: dict[str, Any] | None = None,
+    config: TransferConfig = DEFAULT_CONFIG,
 ) -> tuple[float, list[str]]:
     tags: list[str] = []
     statistical_overlap = 0.0
@@ -250,6 +349,9 @@ def _utility_score(
                 tags.append("strong_gc")
         else:
             statistical_overlap = min(0.5, rg / 0.40)
+        # Only binary-to-binary applies the GC resolution discount; b2c keeps GC-first behavior.
+        gc_discount = _configured_gc_discount(gc_row, config)
+        statistical_overlap *= gc_discount
 
     mechanistic_overlap = 0.0
     if ot:
@@ -272,8 +374,24 @@ def _utility_score(
         if h2.confidence_tier == "High":
             tags.append("high_confidence_h2")
 
-    utility = (statistical_overlap * 3.2) + (mechanistic_overlap * 2.5) + (signal_capacity * 1.4)
-    utility += phenotype_fidelity_score * 2.1
+    utility = (
+        (statistical_overlap * config.w_statistical_overlap)
+        + (mechanistic_overlap * config.w_mechanistic_overlap)
+        + (signal_capacity * config.w_signal_capacity)
+        + (phenotype_fidelity_score * config.w_phenotype_fidelity)
+    )
+
+    # Phase 4: evidence concordance bonus/penalty
+    gc_strong = _is_strong_gc(gc)
+    ot_strong = _is_strong_ot(ot)
+    ot_supported = _is_supported_ot(ot)
+    if gc_strong and ot_strong:
+        utility += config.concordance_bonus
+        tags.append("gc_ot_concordant")
+    elif gc_strong and _is_explicit_ot_discordance(ot) and not ot_supported:
+        utility += config.concordance_penalty
+        tags.append("gc_ot_discordant")
+
     if archetype == "same-endpoint disease":
         tags.append("same_endpoint_disease")
     elif archetype == "adjacent disease family":
@@ -295,19 +413,22 @@ def _build_candidate_card(
     gc_row: dict[str, Any] | None = None,
     h2_row: dict[str, Any] | None = None,
     ot_row: dict[str, Any] | None = None,
+    config: TransferConfig = DEFAULT_CONFIG,
 ) -> CandidateEvidenceCard:
     archetype = _candidate_archetype(dossier, bundle)
     fidelity_score = _phenotype_fidelity_score(dossier, bundle, archetype)
     gc = GeneticCorrelationEvidence.model_validate(gc_row) if gc_row else None
     h2 = HeritabilityEvidence.model_validate(h2_row) if h2_row else None
     ot = OpenTargetsEvidence.model_validate(ot_row) if ot_row else None
-    cheap_rank_score = _cheap_rank_score(dossier, bundle, archetype, fidelity_score, gc_row)
+    cheap_rank_score = _cheap_rank_score(dossier, bundle, archetype, fidelity_score, gc_row, config=config)
     utility_score, evidence_tags = _utility_score(
         archetype=archetype,
         phenotype_fidelity_score=fidelity_score,
         gc=gc,
         h2=h2,
         ot=ot,
+        gc_row=gc_row,
+        config=config,
     )
     return CandidateEvidenceCard(
         bundle_id=bundle.bundle_id,
@@ -367,7 +488,7 @@ def _default_frontier_ids(cards: list[CandidateEvidenceCard], decision_mode: Dec
     if not cards:
         return []
     if decision_mode == "single_confident":
-        return [cards[0].bundle_id]
+        return [card.bundle_id for card in cards[: min(2, len(cards))]]
     return [card.bundle_id for card in cards[: min(3, len(cards))]]
 
 
@@ -400,13 +521,24 @@ def _normalize_frontier_ids(
     return ordered
 
 
-def _build_target_summary(dossier: CandidateBundleDossier) -> dict[str, Any]:
+def _build_target_summary(
+    dossier: CandidateBundleDossier,
+    *,
+    benchmark_family: str,
+    config: TransferConfig,
+) -> dict[str, Any]:
     return {
         "target_id": dossier.target.target_id,
         "target_code": dossier.target.target_code,
         "target_label": dossier.target.target_label,
         "aliases": dossier.target.aliases,
         "target_type": dossier.target.target_type,
+        "benchmark_family": benchmark_family,
+        "selection_policy": {
+            "shortlist_strategy": config.shortlist_strategy,
+            "apply_gc_resolution_discount": config.apply_gc_resolution_discount,
+            "allow_ot_promotion": config.allow_ot_promotion,
+        },
     }
 
 
@@ -504,6 +636,8 @@ def _verify_selection(
             evidence_tags=visible_tags[:8],
             supported=True,
             issues=[],
+            revised_primary_bundle_id=None,
+            revised_frontier_bundle_ids=[],
         )
 
 
@@ -511,6 +645,8 @@ def _finalize_frontier_decision(
     dossier: CandidateBundleDossier,
     evidence_state: EvidenceState,
     judged: JudgeFrontierSelection,
+    *,
+    config: TransferConfig,
 ) -> CrossTraitTransferFrontierDecision:
     cards_by_id = {card.bundle_id: card for card in evidence_state.candidate_cards}
     normalized_frontier_ids = _normalize_frontier_ids(
@@ -549,6 +685,24 @@ def _finalize_frontier_decision(
         )
 
     verified = _verify_selection(evidence_state, judged, selected_cards)
+    if config.allow_ot_promotion and (verified.revised_frontier_bundle_ids or verified.revised_primary_bundle_id):
+        revised_candidate_ids = list(verified.revised_frontier_bundle_ids)
+        if verified.revised_primary_bundle_id:
+            revised_candidate_ids = [verified.revised_primary_bundle_id, *revised_candidate_ids]
+        revised_frontier_ids = _normalize_frontier_ids(
+            dossier=dossier,
+            cards=evidence_state.candidate_cards,
+            candidate_ids=revised_candidate_ids,
+        )
+        if revised_frontier_ids:
+            normalized_frontier_ids = revised_frontier_ids
+            primary_bundle_id = (
+                verified.revised_primary_bundle_id
+                if verified.revised_primary_bundle_id in normalized_frontier_ids
+                else normalized_frontier_ids[0]
+            )
+            selected_cards = [cards_by_id[bundle_id] for bundle_id in normalized_frontier_ids if bundle_id in cards_by_id]
+
     bundle_weights_raw = {
         card.bundle_id: max(card.utility_score, 0.01)
         for card in selected_cards
@@ -569,12 +723,29 @@ def _finalize_frontier_decision(
 
     primary_card = cards_by_id.get(primary_bundle_id) if primary_bundle_id else None
     decision_mode = verified.decision_mode
-    if decision_mode == "single_confident" and len(selected_cards) > 1:
-        selected_cards = selected_cards[:1]
-        normalized_frontier_ids = [selected_cards[0].bundle_id]
-        frontier_bundle_weights = {selected_cards[0].bundle_id: 1.0}
-        candidate_pgs_ids_union = list(selected_cards[0].candidate_pgs_ids)
-        primary_card = selected_cards[0]
+    if decision_mode == "single_confident":
+        if len(selected_cards) < 2:
+            supplemental_cards = [
+                card
+                for card in evidence_state.candidate_cards
+                if card.bundle_id not in {selected.bundle_id for selected in selected_cards}
+            ]
+            if supplemental_cards:
+                selected_cards = [*selected_cards, supplemental_cards[0]]
+        if len(selected_cards) > 2:
+            selected_cards = selected_cards[:2]
+        normalized_frontier_ids = [card.bundle_id for card in selected_cards]
+        raw_weights = {card.bundle_id: max(card.utility_score, 0.01) for card in selected_cards}
+        total = sum(raw_weights.values()) or 1.0
+        frontier_bundle_weights = {bid: round(w / total, 4) for bid, w in raw_weights.items()}
+        candidate_pgs_ids_union = []
+        seen_pgs_recompute: set[str] = set()
+        for card in selected_cards:
+            for pgs_id in card.candidate_pgs_ids:
+                if pgs_id not in seen_pgs_recompute:
+                    seen_pgs_recompute.add(pgs_id)
+                    candidate_pgs_ids_union.append(pgs_id)
+        primary_card = cards_by_id.get(primary_bundle_id) if primary_bundle_id else selected_cards[0]
     elif decision_mode == "abstain_only_if_no_valid_bundle" and primary_card is not None:
         decision_mode = "frontier_uncertain"
 
@@ -611,6 +782,7 @@ def run_cross_trait_agent(
     max_steps: int = 8,
     enable_semantic_backstop: bool = True,
     enable_forced_match: bool = True,
+    benchmark_family: str = "binary_to_binary",
 ) -> dict[str, Any]:
     del max_steps, enable_semantic_backstop, enable_forced_match
     if condition not in CONDITION_TOOLS:
@@ -621,6 +793,7 @@ def run_cross_trait_agent(
         assert bundles is not None
         toolbox = CrossTraitToolbox(bundles)
 
+    config = BENCHMARK_FAMILY_CONFIGS.get(benchmark_family, DEFAULT_CONFIG)
     available_tools = CONDITION_TOOLS[condition]
     candidate_bundle_ids = [
         bundle.bundle_id
@@ -650,18 +823,38 @@ def run_cross_trait_agent(
         )
     gc_lookup = _gc_lookup(gc_result)
 
-    provisional_cards = _sort_cards(
-        [
-            _build_candidate_card(
-                dossier,
-                bundle_lookup[bundle_id],
-                gc_row=gc_lookup.get(bundle_id),
-            )
-            for bundle_id in candidate_bundle_ids
-            if bundle_id in bundle_lookup
-        ]
-    )
-    shortlist_ids = [card.bundle_id for card in provisional_cards[:8]]
+    provisional_cards = [
+        _build_candidate_card(
+            dossier,
+            bundle_lookup[bundle_id],
+            gc_row=gc_lookup.get(bundle_id),
+            config=config,
+        )
+        for bundle_id in candidate_bundle_ids
+        if bundle_id in bundle_lookup
+    ]
+
+    if config.shortlist_strategy == "gc_first":
+        provisional_cards = _sort_cards(provisional_cards)
+        shortlist_ids = [card.bundle_id for card in provisional_cards[: config.shortlist_cap]]
+    else:
+        # binary-to-binary keeps the dual-track shortlist that protects semantic matches.
+        gc_ranked = sorted(
+            provisional_cards,
+            key=lambda c: (-c.cheap_rank_score, -c.utility_score, c.bundle_id),
+        )
+        gc_shortlist = [card.bundle_id for card in gc_ranked[: config.gc_track_size]]
+        semantic_ranked = sorted(
+            provisional_cards,
+            key=lambda c: (-c.phenotype_fidelity_score, -c.lexical_match_score, -c.n_models),
+        )
+        semantic_shortlist = [card.bundle_id for card in semantic_ranked[: config.semantic_track_size]]
+        same_endpoint_ids = [
+            card.bundle_id
+            for card in semantic_ranked
+            if card.archetype == "same-endpoint disease"
+        ][:3]
+        shortlist_ids = list(dict.fromkeys(same_endpoint_ids + gc_shortlist + semantic_shortlist))[: config.shortlist_cap]
 
     h2_lookup: dict[str, dict[str, Any]] = {}
     if "cross_trait_heritability" in available_tools and shortlist_ids:
@@ -713,6 +906,7 @@ def run_cross_trait_agent(
                 gc_row=gc_lookup.get(bundle_id),
                 h2_row=h2_lookup.get(bundle_id),
                 ot_row=ot_lookup.get(bundle_id),
+                config=config,
             )
             for bundle_id in shortlist_ids
             if bundle_id in bundle_lookup
@@ -785,6 +979,7 @@ def run_cross_trait_agent(
                     gc_row=gc_lookup.get(bundle_id),
                     h2_row=h2_lookup.get(bundle_id),
                     ot_row=ot_lookup.get(bundle_id),
+                    config=config,
                 )
                 for bundle_id in shortlist_ids
                 if bundle_id in bundle_lookup
@@ -794,14 +989,23 @@ def run_cross_trait_agent(
     evidence_state = EvidenceState(
         available_tools=available_tools,
         shortlist_bundle_ids=[card.bundle_id for card in cards],
-        target_summary=_build_target_summary(dossier),
+        target_summary=_build_target_summary(
+            dossier,
+            benchmark_family=benchmark_family,
+            config=config,
+        ),
         candidate_cards=cards,
     )
 
     default_mode = _decision_mode_from_cards(cards)
     default_frontier_ids = _default_frontier_ids(cards, default_mode)
     judged = _judge_frontier(evidence_state, default_frontier_ids, default_mode)
-    decision = _finalize_frontier_decision(dossier, evidence_state, judged)
+    decision = _finalize_frontier_decision(
+        dossier,
+        evidence_state,
+        judged,
+        config=config,
+    )
 
     return {
         "target": dossier.target.model_dump(),

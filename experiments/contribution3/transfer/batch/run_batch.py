@@ -76,7 +76,12 @@ def cmd_run(args: argparse.Namespace) -> None:
         results = []
         outpath = condition_results_json(condition, benchmark_family=args.benchmark_family)
         for dossier in dossiers:
-            result = run_cross_trait_agent(dossier, condition=condition, toolbox=toolbox)
+            result = run_cross_trait_agent(
+                dossier,
+                condition=condition,
+                toolbox=toolbox,
+                benchmark_family=args.benchmark_family,
+            )
             results.append(result)
             print(
                 f"[{condition}] {result['target']['target_id']}: "
