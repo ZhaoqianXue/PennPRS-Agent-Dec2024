@@ -156,9 +156,9 @@ class CrossTraitToolbox:
         return TraitResolution(
             query=query,
             system=system,
-            best_id=best.get("id") if best else None,
-            best_label=best.get("label") if best else None,
-            matched_text=best.get("matched_text") if best else None,
+            best_id=str(best.get("id")) if best and best.get("id") is not None else None,
+            best_label=str(best.get("label")) if best and best.get("label") is not None else None,
+            matched_text=str(best.get("matched_text")) if best and best.get("matched_text") is not None else None,
             confidence=_resolution_confidence(best.get("score") if best else None),
             alternatives=[
                 TraitResolutionHit(
