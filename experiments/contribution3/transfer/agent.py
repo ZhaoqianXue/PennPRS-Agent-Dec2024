@@ -52,6 +52,7 @@ class TransferConfig:
     shortlist_strategy: Literal["dual_track", "gc_first"]
     shortlist_cap: int
     apply_gc_resolution_discount: bool
+    gc_discount_floor: float
     allow_ot_promotion: bool
 
 
@@ -69,6 +70,7 @@ BINARY_TO_BINARY_CONFIG = TransferConfig(
     shortlist_strategy="dual_track",
     shortlist_cap=14,
     apply_gc_resolution_discount=True,
+    gc_discount_floor=0.0,
     allow_ot_promotion=True,
 )
 
@@ -84,8 +86,9 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
     gc_cheap_rank_significant=2.4,
     gc_cheap_rank_nonsignificant=0.8,
     shortlist_strategy="gc_first",
-    shortlist_cap=8,
-    apply_gc_resolution_discount=False,
+    shortlist_cap=10,
+    apply_gc_resolution_discount=True,
+    gc_discount_floor=0.3,
     allow_ot_promotion=False,
 )
 
@@ -304,7 +307,8 @@ def _gc_resolution_discount(gc_row: dict[str, Any] | None) -> float:
 def _configured_gc_discount(gc_row: dict[str, Any] | None, config: TransferConfig) -> float:
     if not config.apply_gc_resolution_discount:
         return 1.0
-    return _gc_resolution_discount(gc_row)
+    raw = _gc_resolution_discount(gc_row)
+    return max(raw, config.gc_discount_floor)
 
 
 def _cheap_rank_score(
@@ -337,6 +341,7 @@ def _utility_score(
     h2: HeritabilityEvidence | None,
     ot: OpenTargetsEvidence | None,
     gc_row: dict[str, Any] | None = None,
+    n_models: int = 0,
     config: TransferConfig = DEFAULT_CONFIG,
 ) -> tuple[float, list[str]]:
     tags: list[str] = []
@@ -409,9 +414,20 @@ def _utility_score(
     if gc_strong and ot_strong:
         utility += config.concordance_bonus
         tags.append("gc_ot_concordant")
+    elif _is_significant_gc(gc) and ot_supported and not gc_strong:
+        utility += config.concordance_bonus * 0.5
+        tags.append("gc_ot_partial_concordant")
     elif gc_strong and _is_explicit_ot_discordance(ot) and not ot_supported:
         utility += config.concordance_penalty
         tags.append("gc_ot_discordant")
+
+    # Model count stability: bundles with more PGS models offer more robust transfer.
+    if n_models >= 5:
+        utility += 0.15
+        tags.append("adequate_model_count")
+    elif n_models < 3:
+        utility -= 0.2
+        tags.append("low_model_count")
 
     if archetype == "same-endpoint disease":
         tags.append("same_endpoint_disease")
@@ -449,6 +465,7 @@ def _build_candidate_card(
         h2=h2,
         ot=ot,
         gc_row=gc_row,
+        n_models=bundle.n_models,
         config=config,
     )
     return CandidateEvidenceCard(
@@ -483,9 +500,10 @@ def _primary_stability_score(card: CandidateEvidenceCard) -> tuple[float, float,
 
     The score does not use benchmark AUCs. It only dampens LLM primary volatility
     when frontier candidates have similar evidence but very different PGS support.
+    Model-count influence is capped so large bundles cannot override utility gaps.
     """
-    model_support = math.log1p(max(card.n_models, 0))
-    score = card.utility_score + (0.5 * model_support) + (0.2 * card.cheap_rank_score)
+    model_support = math.log1p(min(max(card.n_models, 0), 25))
+    score = card.utility_score + (0.25 * model_support) + (0.15 * card.cheap_rank_score)
     return (score, card.utility_score, card.cheap_rank_score, card.bundle_id)
 
 
