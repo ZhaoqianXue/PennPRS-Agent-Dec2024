@@ -1,0 +1,78 @@
+{
+  "description": "Target IDs for paper Evaluation figures/tables: cross-trait transfer end-to-end subset.",
+  "selection": {
+    "transfer_condition": "all-tools",
+    "gpr_threshold": 0.85,
+    "gpr_rule": "selected_model_gpr >= gpr_threshold",
+    "eval_status": "evaluated",
+    "detail_csv_paths_relative_to_repo": [
+      "experiments/contribution3/transfer/runs/tool_calling_agent/binary_to_binary/evaluation/all-tools__end_to_end_eval_detail.csv",
+      "experiments/contribution3/transfer/runs/tool_calling_agent/binary_to_continuous/evaluation/all-tools__end_to_end_eval_detail.csv"
+    ],
+    "ordering_within_group": "selected_model_gpr descending (best first)"
+  },
+  "binary_to_binary": {
+    "n_targets": 12,
+    "target_ids": [
+      "F31",
+      "S52",
+      "D04",
+      "D05",
+      "F22",
+      "J43",
+      "E01",
+      "Q23",
+      "N52",
+      "K70",
+      "E08",
+      "E11"
+    ]
+  },
+  "binary_to_continuous": {
+    "n_targets": 13,
+    "target_ids": [
+      "I16",
+      "I15",
+      "I11",
+      "J41",
+      "K74",
+      "K81",
+      "F11",
+      "E08",
+      "E11",
+      "K02",
+      "J96",
+      "I27",
+      "C56"
+    ]
+  },
+  "unique_target_ids_union": {
+    "n_targets": 23,
+    "target_ids": [
+      "C56",
+      "D04",
+      "D05",
+      "E01",
+      "E08",
+      "E11",
+      "F11",
+      "F22",
+      "F31",
+      "I11",
+      "I15",
+      "I16",
+      "I27",
+      "J41",
+      "J43",
+      "J96",
+      "K02",
+      "K70",
+      "K74",
+      "K81",
+      "N52",
+      "Q23",
+      "S52"
+    ],
+    "note": "Alphabetically sorted. E08 and E11 appear in both benchmark families."
+  }
+}
