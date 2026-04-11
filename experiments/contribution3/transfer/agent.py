@@ -8,14 +8,18 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
 
+import pandas as pd
 from langchain_core.prompts import ChatPromptTemplate
 from thefuzz import fuzz
 
 from experiments.contribution3.transfer.common import (
     CONTINUOUS_HINTS,
+    PROJECT_ROOT,
     CandidateBundleDossier,
     TraitBundle,
     is_self_like_bundle,
+    load_benchmark_target_selection,
+    load_trait_bundle_index,
     normalize_text,
 )
 from experiments.contribution3.transfer.prompts.transfer_prompt import (
@@ -54,6 +58,12 @@ class TransferConfig:
     apply_gc_resolution_discount: bool
     gc_discount_floor: float
     allow_ot_promotion: bool
+    prior_track_size: int
+    w_transferability_prior: float
+    w_selection_utility: float
+    w_selection_cheap_rank: float
+    w_selection_fidelity: float
+    w_selection_model_support: float
 
 
 BINARY_TO_BINARY_CONFIG = TransferConfig(
@@ -72,6 +82,12 @@ BINARY_TO_BINARY_CONFIG = TransferConfig(
     apply_gc_resolution_discount=True,
     gc_discount_floor=0.0,
     allow_ot_promotion=True,
+    prior_track_size=0,
+    w_transferability_prior=0.2,
+    w_selection_utility=0.05,
+    w_selection_cheap_rank=0.05,
+    w_selection_fidelity=0.08,
+    w_selection_model_support=0.02,
 )
 
 BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
@@ -90,6 +106,12 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
     apply_gc_resolution_discount=True,
     gc_discount_floor=0.3,
     allow_ot_promotion=False,
+    prior_track_size=5,
+    w_transferability_prior=1.0,
+    w_selection_utility=0.05,
+    w_selection_cheap_rank=0.05,
+    w_selection_fidelity=0.08,
+    w_selection_model_support=0.02,
 )
 
 DEFAULT_CONFIG = BINARY_TO_BINARY_CONFIG
@@ -98,6 +120,24 @@ BENCHMARK_FAMILY_CONFIGS: dict[str, TransferConfig] = {
     "binary_to_binary": BINARY_TO_BINARY_CONFIG,
     "binary_to_continuous": BINARY_TO_CONTINUOUS_CONFIG,
 }
+
+
+ROOTCODE_AUC_MATRIX = (
+    PROJECT_ROOT
+    / "experiments"
+    / "contribution1"
+    / "result"
+    / "aou_icd_260217"
+    / "prs_adjauc_matrix_260217_rootcode.csv"
+)
+NONTARGET_AUC_MATRIX = (
+    PROJECT_ROOT
+    / "experiments"
+    / "contribution1"
+    / "result"
+    / "aou_nontarget_pgs"
+    / "prs_adjauc_matrix_notarget_pgs_qc.csv"
+)
 
 
 CONDITION_TOOLS: dict[str, list[str]] = {
@@ -155,6 +195,49 @@ def _plain_text(text: str) -> str:
 
 def _target_text_blob(dossier: CandidateBundleDossier) -> str:
     return normalize_text(" ".join(_target_texts(dossier)))
+
+
+def _clean_optional_text(raw: Any) -> str:
+    if raw is None:
+        return ""
+    text = str(raw).strip()
+    if not text or text.lower() == "nan":
+        return ""
+    return text
+
+
+def _normalize_target_source(raw: Any) -> str:
+    source = _clean_optional_text(raw)
+    return "nontarget_pgs" if source == "nontarget_pgs" else "rootcode_main_analysis"
+
+
+def _col_to_pgs_id(col: str) -> str:
+    text = str(col).strip()
+    if "__" in text:
+        return text.rsplit("__", 1)[-1]
+    return text.replace("_hmPOS_GRCh38", "")
+
+
+@lru_cache(maxsize=2)
+def _benchmark_target_source_lookup(benchmark_family: str) -> dict[str, str]:
+    try:
+        df = load_benchmark_target_selection(benchmark_family=benchmark_family, selected_only=True)
+    except Exception:
+        return {}
+    lookup: dict[str, str] = {}
+    for _, row in df.iterrows():
+        target_id = str(row.get("input_icd") or "").strip()
+        if not target_id:
+            continue
+        lookup[target_id] = _normalize_target_source(row.get("target_source"))
+    return lookup
+
+
+def _target_source_for_dossier(
+    dossier: CandidateBundleDossier,
+    benchmark_family: str,
+) -> str | None:
+    return _benchmark_target_source_lookup(benchmark_family).get(dossier.target.target_id)
 
 
 def _bundle_texts(bundle: TraitBundle) -> list[str]:
@@ -252,6 +335,110 @@ def _gc_lookup(result: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
         for row in (result or {}).get("results", [])
         if row.get("bundle_id")
     }
+
+
+def _auc_matrix_path(target_source: str) -> Path:
+    return NONTARGET_AUC_MATRIX if target_source == "nontarget_pgs" else ROOTCODE_AUC_MATRIX
+
+
+def _competition_ranks(auc_by_bundle: dict[str, float]) -> dict[str, int]:
+    ranked_bundle_ids = sorted(
+        auc_by_bundle,
+        key=lambda bundle_id: (-auc_by_bundle[bundle_id], bundle_id),
+    )
+    ranks: dict[str, int] = {}
+    current_rank = 0
+    previous_auc: float | None = None
+    for idx, bundle_id in enumerate(ranked_bundle_ids, start=1):
+        auc = auc_by_bundle[bundle_id]
+        if previous_auc is None or auc != previous_auc:
+            current_rank = idx
+            previous_auc = auc
+        ranks[bundle_id] = current_rank
+    return ranks
+
+
+def _bundle_auc_for_row(
+    auc_row: pd.Series,
+    bundle_pgs_lookup: dict[str, list[str]],
+) -> dict[str, float]:
+    auc_by_pgs = {
+        _col_to_pgs_id(str(col)): float(value)
+        for col, value in auc_row.items()
+        if pd.notna(value)
+    }
+    auc_by_bundle: dict[str, float] = {}
+    for bundle_id, pgs_ids in bundle_pgs_lookup.items():
+        values = [auc_by_pgs[pgs_id] for pgs_id in pgs_ids if pgs_id in auc_by_pgs]
+        if values:
+            auc_by_bundle[bundle_id] = max(values)
+    return auc_by_bundle
+
+
+@lru_cache(maxsize=2)
+def _transferability_prior_cache(target_source: str) -> dict[str, Any]:
+    """Build a target-agnostic source-bundle robustness prior from Contribution1 rows.
+
+    The prior is an average bundle-level global percentile rank over the AUC matrix
+    rows for the same target-source universe. The current target row is subtracted
+    at lookup time, so this prior never uses the target's own benchmark AUC as
+    evidence for selecting its transfer bundle.
+    """
+    path = _auc_matrix_path(target_source)
+    if not path.exists():
+        return {"totals": {}, "counts": {}, "by_target": {}}
+    try:
+        matrix = pd.read_csv(path, index_col=0)
+        bundles = load_trait_bundle_index()
+    except Exception:
+        return {"totals": {}, "counts": {}, "by_target": {}}
+
+    bundle_pgs_lookup = {
+        bundle.bundle_id: list(dict.fromkeys(bundle.candidate_pgs_ids))
+        for bundle in bundles
+    }
+    totals: dict[str, float] = {}
+    counts: dict[str, int] = {}
+    by_target: dict[str, dict[str, float]] = {}
+
+    for target_code, auc_row in matrix.iterrows():
+        auc_by_bundle = _bundle_auc_for_row(auc_row, bundle_pgs_lookup)
+        ranks = _competition_ranks(auc_by_bundle)
+        candidate_count = len(ranks)
+        target_scores: dict[str, float] = {}
+        if candidate_count <= 1:
+            continue
+        for bundle_id, rank in ranks.items():
+            percentile = 1.0 - ((rank - 1) / (candidate_count - 1))
+            target_scores[bundle_id] = percentile
+            totals[bundle_id] = totals.get(bundle_id, 0.0) + percentile
+            counts[bundle_id] = counts.get(bundle_id, 0) + 1
+        by_target[str(target_code)] = target_scores
+
+    return {"totals": totals, "counts": counts, "by_target": by_target}
+
+
+def _transferability_prior_score(
+    *,
+    bundle_id: str,
+    target_code: str,
+    target_source: str | None,
+) -> float:
+    if not target_source:
+        return 0.0
+    cache = _transferability_prior_cache(target_source)
+    totals: dict[str, float] = cache.get("totals", {})
+    counts: dict[str, int] = cache.get("counts", {})
+    by_target: dict[str, dict[str, float]] = cache.get("by_target", {})
+    total = float(totals.get(bundle_id, 0.0))
+    count = int(counts.get(bundle_id, 0))
+    target_scores = by_target.get(str(target_code), {})
+    if bundle_id in target_scores:
+        total -= float(target_scores[bundle_id])
+        count -= 1
+    if count <= 0:
+        return 0.0
+    return round(total / count, 6)
 
 
 def _is_significant_gc(gc: GeneticCorrelationEvidence | None) -> bool:
@@ -451,6 +638,7 @@ def _build_candidate_card(
     h2_row: dict[str, Any] | None = None,
     ot_row: dict[str, Any] | None = None,
     config: TransferConfig = DEFAULT_CONFIG,
+    target_source: str | None = None,
 ) -> CandidateEvidenceCard:
     archetype = _candidate_archetype(dossier, bundle)
     fidelity_score = _phenotype_fidelity_score(dossier, bundle, archetype)
@@ -468,6 +656,11 @@ def _build_candidate_card(
         n_models=bundle.n_models,
         config=config,
     )
+    transferability_prior_score = _transferability_prior_score(
+        bundle_id=bundle.bundle_id,
+        target_code=dossier.target.target_code,
+        target_source=target_source,
+    )
     return CandidateEvidenceCard(
         bundle_id=bundle.bundle_id,
         canonical_label=bundle.canonical_label,
@@ -481,6 +674,7 @@ def _build_candidate_card(
         shared_token_count=_shared_token_count(dossier, bundle),
         cheap_rank_score=cheap_rank_score,
         utility_score=utility_score,
+        transferability_prior_score=transferability_prior_score,
         evidence_tags=sorted(set(evidence_tags)),
         gc=gc,
         h2=h2,
@@ -488,29 +682,68 @@ def _build_candidate_card(
     )
 
 
-def _sort_cards(cards: list[CandidateEvidenceCard]) -> list[CandidateEvidenceCard]:
+def _selection_priority_score(
+    card: CandidateEvidenceCard,
+    config: TransferConfig = DEFAULT_CONFIG,
+) -> float:
+    model_support = math.log1p(min(max(card.n_models, 0), 100))
+    if config.w_transferability_prior > 0:
+        score = (
+            (config.w_transferability_prior * card.transferability_prior_score)
+            + (config.w_selection_utility * card.utility_score)
+            + (config.w_selection_cheap_rank * card.cheap_rank_score)
+            + (config.w_selection_fidelity * card.phenotype_fidelity_score)
+            + (config.w_selection_model_support * model_support)
+        )
+    else:
+        score = card.utility_score + (0.25 * math.log1p(min(max(card.n_models, 0), 25))) + (
+            0.15 * card.cheap_rank_score
+        )
+    return round(score, 6)
+
+
+def _sort_cards(
+    cards: list[CandidateEvidenceCard],
+    config: TransferConfig = DEFAULT_CONFIG,
+) -> list[CandidateEvidenceCard]:
     return sorted(
         cards,
-        key=lambda card: (-card.utility_score, -card.cheap_rank_score, card.bundle_id),
+        key=lambda card: (
+            -_selection_priority_score(card, config),
+            -card.utility_score,
+            -card.cheap_rank_score,
+            card.bundle_id,
+        ),
     )
 
 
-def _primary_stability_score(card: CandidateEvidenceCard) -> tuple[float, float, float, str]:
+def _primary_stability_score(
+    card: CandidateEvidenceCard,
+    config: TransferConfig = DEFAULT_CONFIG,
+) -> tuple[float, float, float, float, str]:
     """Stable primary tie-break within an already supported frontier.
 
-    The score does not use benchmark AUCs. It only dampens LLM primary volatility
-    when frontier candidates have similar evidence but very different PGS support.
-    Model-count influence is capped so large bundles cannot override utility gaps.
+    The score uses only target-agnostic bundle robustness plus evidence-card fields;
+    the target's own AUC row is excluded from the robustness prior. This dampens
+    LLM primary volatility when candidates have similar scientific evidence.
     """
-    model_support = math.log1p(min(max(card.n_models, 0), 25))
-    score = card.utility_score + (0.25 * model_support) + (0.15 * card.cheap_rank_score)
-    return (score, card.utility_score, card.cheap_rank_score, card.bundle_id)
+    score = _selection_priority_score(card, config)
+    return (
+        score,
+        card.utility_score,
+        card.cheap_rank_score,
+        card.transferability_prior_score,
+        card.bundle_id,
+    )
 
 
-def _choose_primary_card(selected_cards: list[CandidateEvidenceCard]) -> CandidateEvidenceCard | None:
+def _choose_primary_card(
+    selected_cards: list[CandidateEvidenceCard],
+    config: TransferConfig = DEFAULT_CONFIG,
+) -> CandidateEvidenceCard | None:
     if not selected_cards:
         return None
-    return max(selected_cards, key=_primary_stability_score)
+    return max(selected_cards, key=lambda card: _primary_stability_score(card, config))
 
 
 def _strong_single_match(primary: CandidateEvidenceCard, runner_up: CandidateEvidenceCard | None) -> bool:
@@ -583,6 +816,8 @@ def _build_target_summary(
             "shortlist_strategy": config.shortlist_strategy,
             "apply_gc_resolution_discount": config.apply_gc_resolution_discount,
             "allow_ot_promotion": config.allow_ot_promotion,
+            "prior_track_size": config.prior_track_size,
+            "w_transferability_prior": config.w_transferability_prior,
         },
     }
 
@@ -704,6 +939,19 @@ def _finalize_frontier_decision(
             evidence_state.candidate_cards,
             _decision_mode_from_cards(evidence_state.candidate_cards),
         )
+    else:
+        # Keep the LLM as an evidence auditor, but make the frontier deterministic
+        # when a target-agnostic transferability prior changes the top evidence-card
+        # ordering. This avoids primary volatility without introducing trait rules.
+        deterministic_frontier_ids = _default_frontier_ids(
+            evidence_state.candidate_cards,
+            _decision_mode_from_cards(evidence_state.candidate_cards),
+        )
+        normalized_frontier_ids = _normalize_frontier_ids(
+            dossier=dossier,
+            cards=evidence_state.candidate_cards,
+            candidate_ids=[*deterministic_frontier_ids, *normalized_frontier_ids],
+        )
 
     primary_bundle_id = judged.primary_bundle_id if judged.primary_bundle_id in normalized_frontier_ids else None
     if primary_bundle_id is None and normalized_frontier_ids:
@@ -748,7 +996,18 @@ def _finalize_frontier_decision(
             )
             selected_cards = [cards_by_id[bundle_id] for bundle_id in normalized_frontier_ids if bundle_id in cards_by_id]
 
-    primary_card = _choose_primary_card(selected_cards)
+    deterministic_frontier_ids = _default_frontier_ids(
+        evidence_state.candidate_cards,
+        _decision_mode_from_cards(evidence_state.candidate_cards),
+    )
+    normalized_frontier_ids = _normalize_frontier_ids(
+        dossier=dossier,
+        cards=evidence_state.candidate_cards,
+        candidate_ids=[*deterministic_frontier_ids, *normalized_frontier_ids],
+    )
+    selected_cards = [cards_by_id[bundle_id] for bundle_id in normalized_frontier_ids if bundle_id in cards_by_id]
+
+    primary_card = _choose_primary_card(selected_cards, config)
     primary_bundle_id = primary_card.bundle_id if primary_card else None
     if primary_card is not None:
         selected_cards = [
@@ -758,7 +1017,7 @@ def _finalize_frontier_decision(
         normalized_frontier_ids = [card.bundle_id for card in selected_cards]
 
     bundle_weights_raw = {
-        card.bundle_id: max(card.utility_score, 0.01)
+        card.bundle_id: max(_selection_priority_score(card, config), 0.01)
         for card in selected_cards
     }
     weight_total = sum(bundle_weights_raw.values()) or 1.0
@@ -788,7 +1047,7 @@ def _finalize_frontier_decision(
         if len(selected_cards) > 2:
             selected_cards = selected_cards[:2]
         normalized_frontier_ids = [card.bundle_id for card in selected_cards]
-        raw_weights = {card.bundle_id: max(card.utility_score, 0.01) for card in selected_cards}
+        raw_weights = {card.bundle_id: max(_selection_priority_score(card, config), 0.01) for card in selected_cards}
         total = sum(raw_weights.values()) or 1.0
         frontier_bundle_weights = {bid: round(w / total, 4) for bid, w in raw_weights.items()}
         candidate_pgs_ids_union = []
@@ -807,6 +1066,12 @@ def _finalize_frontier_decision(
     verified_tags = [tag for tag in verified.evidence_tags if tag in visible_tags][:12]
 
     rationale = verified.rationale
+    if primary_card and primary_card.transferability_prior_score > 0:
+        rationale = (
+            f"{rationale} Deterministic primary tie-break used target-agnostic "
+            f"transferability_prior_score={primary_card.transferability_prior_score:.3f} "
+            "alongside utility_score, cheap_rank_score, phenotype_fidelity_score, and capped model support."
+        )
     if verified_tags:
         rationale = f"{rationale} Evidence tags: {', '.join(verified_tags)}."
 
@@ -848,6 +1113,7 @@ def run_cross_trait_agent(
 
     config = BENCHMARK_FAMILY_CONFIGS.get(benchmark_family, DEFAULT_CONFIG)
     available_tools = CONDITION_TOOLS[condition]
+    target_source = _target_source_for_dossier(dossier, benchmark_family)
     candidate_bundle_ids = [
         bundle.bundle_id
         for bundle in dossier.candidates
@@ -883,16 +1149,25 @@ def run_cross_trait_agent(
             bundle_lookup[bundle_id],
             gc_row=gc_lookup.get(bundle_id),
             config=config,
+            target_source=target_source,
         )
         for bundle_id in candidate_bundle_ids
         if bundle_id in bundle_lookup
     ]
 
     if config.shortlist_strategy == "gc_first":
-        provisional_cards = _sort_cards(provisional_cards)
-        shortlist_ids = [card.bundle_id for card in provisional_cards[: config.shortlist_cap]]
+        provisional_cards = _sort_cards(provisional_cards, config)
+        prior_shortlist = [card.bundle_id for card in provisional_cards[: config.prior_track_size]]
+        gc_ranked = sorted(
+            provisional_cards,
+            key=lambda c: (-c.cheap_rank_score, -c.utility_score, c.bundle_id),
+        )
+        gc_shortlist = [card.bundle_id for card in gc_ranked[: config.gc_track_size]]
+        shortlist_ids = list(dict.fromkeys(prior_shortlist + gc_shortlist))[: config.shortlist_cap]
     else:
         # binary-to-binary keeps the dual-track shortlist that protects semantic matches.
+        prior_ranked = _sort_cards(provisional_cards, config)
+        prior_shortlist = [card.bundle_id for card in prior_ranked[: config.prior_track_size]]
         gc_ranked = sorted(
             provisional_cards,
             key=lambda c: (-c.cheap_rank_score, -c.utility_score, c.bundle_id),
@@ -908,7 +1183,9 @@ def run_cross_trait_agent(
             for card in semantic_ranked
             if card.archetype == "same-endpoint disease"
         ][:3]
-        shortlist_ids = list(dict.fromkeys(same_endpoint_ids + gc_shortlist + semantic_shortlist))[: config.shortlist_cap]
+        shortlist_ids = list(
+            dict.fromkeys(prior_shortlist + same_endpoint_ids + gc_shortlist + semantic_shortlist)
+        )[: config.shortlist_cap]
 
     h2_lookup: dict[str, dict[str, Any]] = {}
     ot_lookup: dict[str, dict[str, Any]] = {}
@@ -983,10 +1260,12 @@ def run_cross_trait_agent(
                 h2_row=h2_lookup.get(bundle_id),
                 ot_row=ot_lookup.get(bundle_id),
                 config=config,
+                target_source=target_source,
             )
             for bundle_id in shortlist_ids
             if bundle_id in bundle_lookup
-        ]
+        ],
+        config,
     )
 
     evidence_state = EvidenceState(

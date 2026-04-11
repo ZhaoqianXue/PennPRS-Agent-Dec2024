@@ -135,6 +135,7 @@ class CandidateEvidenceCard(BaseModel):
     shared_token_count: int = 0
     cheap_rank_score: float = 0.0
     utility_score: float = 0.0
+    transferability_prior_score: float = 0.0
     evidence_tags: list[str] = Field(default_factory=list)
     gc: Optional[GeneticCorrelationEvidence] = None
     h2: Optional[HeritabilityEvidence] = None
@@ -211,6 +212,7 @@ Choose the best transfer frontier from the evidence cards.
 # Selection Guidance
 - Read all evidence cards before deciding.
 - Treat `utility_score` as a hint, not a rule.
+- Treat `transferability_prior_score` as a target-agnostic robustness tie-break, not as biological evidence.
 - Prefer explanations that can be mapped to explicit evidence fields.
 - If the top card has missing GC and weak OT but remains best on phenotype fidelity, lower confidence.
 - If a composite or endophenotype candidate has strong GC or mechanistic support, it can outrank a same-family disease candidate.
@@ -222,6 +224,7 @@ Choose the best transfer frontier from the evidence cards.
 # Evidence Grounding
 Before making your selection, for each of your top 2-3 candidates, note:
 - utility_score value
+- transferability_prior_score value if nonzero
 - gc.rg, gc.p_value, and gc resolution confidence (if available)
 - open_targets.weighted_shared_target_overlap_score and confidence_level (if available)
 - phenotype_fidelity_score and archetype
