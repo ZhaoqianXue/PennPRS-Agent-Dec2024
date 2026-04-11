@@ -113,8 +113,10 @@ def target_dossiers_json(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Pa
 def condition_results_json(
     condition: str,
     benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+    run_id: str | None = None,
 ) -> Path:
-    return benchmark_run_dir(benchmark_family) / condition / "results.json"
+    condition_dir = f"{condition}__{run_id}" if run_id else condition
+    return benchmark_run_dir(benchmark_family) / condition_dir / "results.json"
 
 
 def condition_recommendations_json(

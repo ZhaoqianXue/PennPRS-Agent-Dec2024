@@ -17,6 +17,15 @@ python experiments/contribution3/transfer/batch/run_batch.py generate-docs
 
 ## Source Artifacts
 
+Transfer `run` outputs are append-only by default:
+
+- `../runs/tool_calling_agent/<benchmark_family>/<condition>__<YYYYMMDD_HHMMSS>/results.json`
+
+The benchmark-family assets stay in their stable locations, including:
+
+- `../runs/tool_calling_agent/<benchmark_family>/candidate_dossiers.json`
+- `../runs/tool_calling_agent/trait_bundle_index.json`
+
 The generated reports are built from:
 
 - `../runs/tool_calling_agent/*/*/results.json`

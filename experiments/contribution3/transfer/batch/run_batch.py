@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
@@ -59,6 +60,7 @@ def _ensure_assets(benchmark_family: str):
 def cmd_run(args: argparse.Namespace) -> None:
     bundles, dossiers = _ensure_assets(args.benchmark_family)
     toolbox = None
+    run_id = args.run_id.strip() if args.run_id else datetime.now().strftime("%Y%m%d_%H%M%S")
     target_filter = {
         target_id.strip()
         for target_id in (args.target_ids.split(",") if args.target_ids else [])
@@ -74,7 +76,16 @@ def cmd_run(args: argparse.Namespace) -> None:
 
             toolbox = CrossTraitToolbox(bundles)
         results = []
-        outpath = condition_results_json(condition, benchmark_family=args.benchmark_family)
+        outpath = condition_results_json(
+            condition,
+            benchmark_family=args.benchmark_family,
+            run_id=run_id,
+        )
+        if outpath.exists():
+            raise FileExistsError(
+                f"Refusing to overwrite existing transfer run output: {outpath}. "
+                "Choose a new --run-id or remove the existing run directory."
+            )
         for dossier in dossiers:
             result = run_cross_trait_agent(
                 dossier,
@@ -90,7 +101,10 @@ def cmd_run(args: argparse.Namespace) -> None:
                 flush=True,
             )
             write_agent_results(results, outpath)
-        print(f"[{condition}] wrote {len(results)} decisions -> {outpath}", flush=True)
+        print(
+            f"[{condition}] run_id={run_id} wrote {len(results)} decisions -> {outpath}",
+            flush=True,
+        )
 
 
 def cmd_recommend(args: argparse.Namespace) -> None:
@@ -208,6 +222,16 @@ def build_parser() -> argparse.ArgumentParser:
         "--target-ids",
         default="",
         help="Optional comma-separated target ICD/root codes for focused debugging runs.",
+    )
+    run_parser.add_argument(
+        "--run-id",
+        default="",
+        help=(
+            "Optional run id for append-only transfer output. Defaults to current local timestamp "
+            "YYYYMMDD_HHMMSS and writes results to "
+            "runs/tool_calling_agent/<benchmark_family>/<condition>__<run-id>/results.json. "
+            "candidate_dossiers.json remains directly under the benchmark-family directory."
+        ),
     )
 
     recommend_parser = subparsers.add_parser("recommend")

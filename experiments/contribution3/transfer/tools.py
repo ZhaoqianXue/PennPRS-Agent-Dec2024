@@ -331,10 +331,21 @@ class CrossTraitToolbox:
         cache_key = (disease_id, response_format)
         if cache_key not in self._ot_profile_cache:
             page_size = 50 if response_format == "detailed" else 25
-            self._ot_profile_cache[cache_key] = self.ot_client.get_disease_target_profile(
-                disease_id,
-                page_size=page_size,
-            )
+            try:
+                self._ot_profile_cache[cache_key] = self.ot_client.get_disease_target_profile(
+                    disease_id,
+                    page_size=page_size,
+                )
+            except Exception as exc:
+                self._ot_profile_cache[cache_key] = {
+                    "id": disease_id,
+                    "name": None,
+                    "associated_targets": [],
+                    "clinical_candidate_count": None,
+                    "therapeutic_areas": [],
+                    "ancestors": [],
+                    "unavailable_reason": f"open_targets_profile_fetch_failed:{exc.__class__.__name__}",
+                }
         return self._ot_profile_cache[cache_key]
 
     def _shared_targets_from_profiles(
@@ -389,7 +400,6 @@ class CrossTraitToolbox:
                     source_datatype_scores=source_datatype_scores,
                     candidate_datatype_scores=candidate_datatype_scores,
                     pathways=pathways,
-                    druggability=self.ot_client.get_target_druggability(target_id),
                 )
             )
 
@@ -402,6 +412,73 @@ class CrossTraitToolbox:
         )
         limit = 8 if response_format == "detailed" else 4
         return shared[:limit], sorted(all_pathways), genetic_support_present
+
+    def _therapeutic_area_overlap(
+        self,
+        source_profile: dict[str, Any],
+        candidate_profile: dict[str, Any],
+    ) -> tuple[bool, list[str], list[str], list[str]]:
+        source_tas = {
+            ta["id"]: ta.get("name") or ta["id"]
+            for ta in source_profile.get("therapeutic_areas") or []
+        }
+        candidate_tas = {
+            ta["id"]: ta.get("name") or ta["id"]
+            for ta in candidate_profile.get("therapeutic_areas") or []
+        }
+        shared_ids = set(source_tas) & set(candidate_tas)
+        shared_names = sorted(source_tas[tid] for tid in shared_ids)
+        return (
+            bool(shared_ids),
+            shared_names,
+            sorted(source_tas.values()),
+            sorted(candidate_tas.values()),
+        )
+
+    def _ancestor_overlap(
+        self,
+        source_profile: dict[str, Any],
+        candidate_profile: dict[str, Any],
+    ) -> tuple[int, list[str]]:
+        source_anc = {
+            anc["id"]: anc.get("name") or anc["id"]
+            for anc in source_profile.get("ancestors") or []
+        }
+        candidate_anc = {
+            anc["id"]: anc.get("name") or anc["id"]
+            for anc in candidate_profile.get("ancestors") or []
+        }
+        shared_ids = set(source_anc) & set(candidate_anc)
+        # Exclude very broad ancestors (therapeutic area level) already captured above.
+        source_ta_ids = {ta["id"] for ta in source_profile.get("therapeutic_areas") or []}
+        candidate_ta_ids = {ta["id"] for ta in candidate_profile.get("therapeutic_areas") or []}
+        ta_ids = source_ta_ids | candidate_ta_ids
+        specific_shared = sorted(source_anc[aid] for aid in shared_ids if aid not in ta_ids)
+        return len(specific_shared), specific_shared
+
+    def _phenotype_overlap(
+        self,
+        source_id: str,
+        candidate_id: str,
+        response_format: ResponseFormat,
+    ) -> tuple[int, list[str], float]:
+        page_size = 100 if response_format == "detailed" else 50
+        try:
+            source_phenos = self.ot_client.get_disease_phenotypes(source_id, page_size=page_size)
+        except Exception:
+            source_phenos = []
+        try:
+            candidate_phenos = self.ot_client.get_disease_phenotypes(candidate_id, page_size=page_size)
+        except Exception:
+            candidate_phenos = []
+        source_hpo = {p["hpo_id"]: p.get("hpo_name") or p["hpo_id"] for p in source_phenos}
+        candidate_hpo = {p["hpo_id"]: p.get("hpo_name") or p["hpo_id"] for p in candidate_phenos}
+        shared_ids = set(source_hpo) & set(candidate_hpo)
+        shared_names = sorted(source_hpo[hid] for hid in shared_ids)
+        total = len(set(source_hpo) | set(candidate_hpo))
+        overlap_score = len(shared_ids) / total if total > 0 else 0.0
+        limit = 10 if response_format == "detailed" else 5
+        return len(shared_ids), shared_names[:limit], round(overlap_score, 4)
 
     def cross_trait_genetic_correlation(
         self,
@@ -643,6 +720,33 @@ class CrossTraitToolbox:
                 for candidate_match in candidate_matches[:candidate_limit]:
                     source_profile = self._fetch_ot_profile(str(target_match["id"]), response_format)
                     candidate_profile = self._fetch_ot_profile(str(candidate_match["id"]), response_format)
+                    profile_unavailable_reason = source_profile.get("unavailable_reason") or candidate_profile.get(
+                        "unavailable_reason"
+                    )
+                    if profile_unavailable_reason:
+                        evidence = OpenTargetsEvidence(
+                            target_resolution=self._build_trait_resolution(
+                                query=target_trait,
+                                system="open_targets",
+                                matches=[target_match],
+                            ),
+                            candidate_resolution=self._build_trait_resolution(
+                                query=bundle.canonical_label,
+                                system="open_targets",
+                                matches=[candidate_match],
+                            ),
+                            pair_status="unavailable",
+                            source_association_count=len(source_profile.get("associated_targets") or []),
+                            candidate_association_count=len(candidate_profile.get("associated_targets") or []),
+                            target_clinical_candidate_count=source_profile.get("clinical_candidate_count"),
+                            candidate_clinical_candidate_count=candidate_profile.get("clinical_candidate_count"),
+                            unavailable_reason=profile_unavailable_reason,
+                        )
+                        compare_tuple = (-1.0, 0)
+                        if best_tuple is None or compare_tuple > best_tuple:
+                            best_tuple = compare_tuple
+                            best_evidence = evidence
+                        continue
                     shared_targets, shared_pathways, genetic_support_present = self._shared_targets_from_profiles(
                         source_profile,
                         candidate_profile,
@@ -681,6 +785,19 @@ class CrossTraitToolbox:
                     else:
                         pathway_specificity = "unknown"
 
+                    # Therapeutic area overlap
+                    ta_match, shared_ta_names, src_ta_names, cand_ta_names = self._therapeutic_area_overlap(
+                        source_profile, candidate_profile,
+                    )
+                    # Ontology ancestor overlap
+                    ancestor_count, shared_ancestor_names = self._ancestor_overlap(
+                        source_profile, candidate_profile,
+                    )
+                    # Phenotype (HPO) overlap
+                    pheno_count, shared_pheno_names, pheno_overlap_score = self._phenotype_overlap(
+                        str(target_match["id"]), str(candidate_match["id"]), response_format,
+                    )
+
                     mechanism_summary = None
                     if shared_targets:
                         top_symbol = shared_targets[0].symbol
@@ -708,12 +825,19 @@ class CrossTraitToolbox:
                         weighted_shared_target_overlap_score=weighted_overlap,
                         shared_target_count=len(shared_targets),
                         top_shared_targets=shared_targets,
-                        top_source_targets=(source_profile.get("associated_targets") or [])[: (10 if response_format == "detailed" else 4)],
-                        top_candidate_targets=(candidate_profile.get("associated_targets") or [])[: (10 if response_format == "detailed" else 4)],
                         shared_pathway_clusters=shared_pathways[: (12 if response_format == "detailed" else 5)],
                         pathway_specificity=pathway_specificity,
                         target_clinical_candidate_count=source_profile.get("clinical_candidate_count"),
                         candidate_clinical_candidate_count=candidate_profile.get("clinical_candidate_count"),
+                        therapeutic_area_match=ta_match,
+                        shared_therapeutic_areas=shared_ta_names,
+                        source_therapeutic_areas=src_ta_names,
+                        candidate_therapeutic_areas=cand_ta_names,
+                        shared_ancestor_count=ancestor_count,
+                        shared_ancestors=shared_ancestor_names[: (20 if response_format == "detailed" else 8)],
+                        shared_phenotype_count=pheno_count,
+                        shared_phenotypes=shared_pheno_names,
+                        phenotype_overlap_score=pheno_overlap_score,
                         literature_dominance_warning=literature_dominance_warning,
                         genetic_support_present=genetic_support_present,
                         confidence_level=confidence_level,
@@ -742,7 +866,7 @@ class CrossTraitToolbox:
                 description=(
                     "Retrieve deterministic GWAS Atlas cross-trait genetic correlation evidence, "
                     "including trait resolution artifacts, best resolved pair, alternative pairs, "
-                    "rg/z/p, and pair status. Use response_format='detailed' only for ambiguous top candidates."
+                    "rg/z/p, and pair status. Use response_format='detailed' for shortlist-stage evidence."
                 ),
                 args_schema=CrossTraitGeneticCorrelationInput,
             ),
@@ -752,7 +876,7 @@ class CrossTraitToolbox:
                 description=(
                     "Retrieve target and candidate heritability profiles, including per-source h2 estimates, "
                     "signal-capacity summary, and shared-signal ceiling proxy. Use response_format='detailed' "
-                    "only for ambiguous top candidates."
+                    "for shortlist-stage evidence."
                 ),
                 args_schema=CrossTraitHeritabilityInput,
             ),
@@ -762,7 +886,7 @@ class CrossTraitToolbox:
                 description=(
                     "Retrieve richer Open Targets mechanism evidence, including target resolution, shared target "
                     "overlap, datatype score breakdowns, pathway specificity, clinical candidate counts, and "
-                    "literature-dominance warnings. Use response_format='detailed' only for ambiguous top candidates."
+                    "literature-dominance warnings. Use response_format='detailed' for shortlist-stage evidence."
                 ),
                 args_schema=CrossTraitOpenTargetsInput,
             ),

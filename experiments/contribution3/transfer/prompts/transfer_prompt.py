@@ -87,7 +87,6 @@ class OpenTargetsSharedTarget(BaseModel):
     source_datatype_scores: dict[str, float] = Field(default_factory=dict)
     candidate_datatype_scores: dict[str, float] = Field(default_factory=dict)
     pathways: list[str] = Field(default_factory=list)
-    druggability: str = "Unknown"
 
 
 class OpenTargetsEvidence(BaseModel):
@@ -100,12 +99,22 @@ class OpenTargetsEvidence(BaseModel):
     weighted_shared_target_overlap_score: float = 0.0
     shared_target_count: int = 0
     top_shared_targets: list[OpenTargetsSharedTarget] = Field(default_factory=list)
-    top_source_targets: list[dict[str, Any]] = Field(default_factory=list)
-    top_candidate_targets: list[dict[str, Any]] = Field(default_factory=list)
     shared_pathway_clusters: list[str] = Field(default_factory=list)
     pathway_specificity: str = "unknown"
     target_clinical_candidate_count: Optional[int] = None
     candidate_clinical_candidate_count: Optional[int] = None
+    # Therapeutic area overlap
+    therapeutic_area_match: bool = False
+    shared_therapeutic_areas: list[str] = Field(default_factory=list)
+    source_therapeutic_areas: list[str] = Field(default_factory=list)
+    candidate_therapeutic_areas: list[str] = Field(default_factory=list)
+    # Ontology ancestor overlap
+    shared_ancestor_count: int = 0
+    shared_ancestors: list[str] = Field(default_factory=list)
+    # Phenotype (HPO) overlap
+    shared_phenotype_count: int = 0
+    shared_phenotypes: list[str] = Field(default_factory=list)
+    phenotype_overlap_score: float = 0.0
     literature_dominance_warning: bool = False
     genetic_support_present: bool = False
     confidence_level: str = "Low"

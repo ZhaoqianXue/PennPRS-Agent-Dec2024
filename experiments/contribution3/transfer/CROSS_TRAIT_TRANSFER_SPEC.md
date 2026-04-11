@@ -94,7 +94,8 @@ Current matrix sources:
 Current output pattern:
 
 - transfer results:
-  - `experiments/contribution3/transfer/runs/tool_calling_agent/<benchmark_family>/<condition>/results.json`
+  - `experiments/contribution3/transfer/runs/tool_calling_agent/<benchmark_family>/<condition>__<YYYYMMDD_HHMMSS>/results.json`
+  - `candidate_dossiers.json` and `trait_bundle_index.json` remain in their existing stable asset locations.
 - Contribution2 handoff results:
   - `experiments/contribution3/transfer/runs/tool_calling_agent/<benchmark_family>/<condition>/contribution2_recommendations.json`
 - end-to-end evaluation detail:

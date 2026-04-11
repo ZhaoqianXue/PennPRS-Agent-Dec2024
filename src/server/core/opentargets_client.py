@@ -130,6 +130,14 @@ query DiseaseTargetProfile($efoId: String!, $page: Pagination!) {
   disease(efoId: $efoId) {
     id
     name
+    therapeuticAreas {
+      id
+      name
+    }
+    ancestors {
+      id
+      name
+    }
     associatedTargets(page: $page) {
       rows {
         score
@@ -146,6 +154,28 @@ query DiseaseTargetProfile($efoId: String!, $page: Pagination!) {
     }
     drugAndClinicalCandidates {
       count
+    }
+  }
+}
+"""
+
+# GraphQL query for disease phenotypes (HPO annotations)
+DISEASE_PHENOTYPES_QUERY = """
+query DiseasePhenotypes($efoId: String!, $page: Pagination!) {
+  disease(efoId: $efoId) {
+    phenotypes(page: $page) {
+      count
+      rows {
+        phenotypeHPO {
+          id
+          name
+        }
+        evidence {
+          frequencyHPO {
+            label
+          }
+        }
+      }
     }
   }
 }
@@ -592,6 +622,8 @@ class OpenTargetsClient:
                 "name": None,
                 "associated_targets": [],
                 "clinical_candidate_count": None,
+                "therapeutic_areas": [],
+                "ancestors": [],
             }
 
         rows = disease.get("associatedTargets", {}).get("rows", []) or []
@@ -608,12 +640,60 @@ class OpenTargetsClient:
                 }
             )
 
+        therapeutic_areas = [
+            {"id": ta.get("id"), "name": ta.get("name")}
+            for ta in (disease.get("therapeuticAreas") or [])
+            if ta.get("id")
+        ]
+        ancestors = [
+            {"id": anc.get("id"), "name": anc.get("name")}
+            for anc in (disease.get("ancestors") or [])
+            if anc.get("id")
+        ]
+
         return {
             "id": disease.get("id"),
             "name": disease.get("name"),
             "associated_targets": associated_targets,
             "clinical_candidate_count": (disease.get("drugAndClinicalCandidates") or {}).get("count"),
+            "therapeutic_areas": therapeutic_areas,
+            "ancestors": ancestors,
         }
+
+    def get_disease_phenotypes(
+        self,
+        efo_id: str,
+        *,
+        page_size: int = 100,
+    ) -> List[Dict[str, Any]]:
+        """
+        Fetch HPO phenotype annotations for a disease.
+
+        Returns a list of dicts with 'hpo_id', 'hpo_name', and optional
+        'frequency' label.
+        """
+        variables = {
+            "efoId": efo_id,
+            "page": {"index": 0, "size": page_size},
+        }
+        data = self._execute_query(DISEASE_PHENOTYPES_QUERY, variables)
+        disease = data.get("disease") or {}
+        phenotypes_block = disease.get("phenotypes") or {}
+        rows = phenotypes_block.get("rows") or []
+        results: List[Dict[str, Any]] = []
+        for row in rows:
+            hpo = row.get("phenotypeHPO") or {}
+            hpo_id = hpo.get("id")
+            if not hpo_id:
+                continue
+            evidence = row.get("evidence") or {}
+            freq_hpo = evidence.get("frequencyHPO") or {}
+            results.append({
+                "hpo_id": hpo_id,
+                "hpo_name": hpo.get("name") or "",
+                "frequency": freq_hpo.get("label"),
+            })
+        return results
 
     def get_target_druggability(self, ensembl_id: str) -> str:
         """

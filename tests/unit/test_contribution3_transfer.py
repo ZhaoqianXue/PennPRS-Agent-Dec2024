@@ -65,6 +65,263 @@ def _stub_model(model_id: str, trait: str) -> PGSModelSummary:
     )
 
 
+def test_cross_trait_agent_fetches_detailed_evidence_for_full_shortlist(monkeypatch):
+    bundles = [
+        TraitBundle(
+            bundle_id=f"bundle_{idx}",
+            canonical_label=f"candidate trait {idx}",
+            bundle_type="binary",
+            aliases=[f"candidate alias {idx}"],
+            candidate_pgs_ids=[f"PGS{idx:03d}"],
+            n_models=idx + 1,
+        )
+        for idx in range(6)
+    ]
+    dossier = CandidateBundleDossier(
+        target=TargetTraitQuery(
+            target_id="T001",
+            target_code="T001",
+            target_label="index target disease",
+            aliases=["index target"],
+        ),
+        candidates=bundles,
+    )
+
+    class FakeToolbox:
+        def __init__(self, bundle_lookup):
+            self.bundle_lookup = bundle_lookup
+            self.calls = []
+
+        @staticmethod
+        def _resolution(query: str, system: str) -> dict:
+            return {
+                "query": query,
+                "system": system,
+                "best_id": query.replace(" ", "_"),
+                "best_label": query,
+                "matched_text": query,
+                "confidence": "High",
+                "alternatives": [],
+            }
+
+        def _record(self, name: str, candidate_bundle_ids: list[str], response_format: str, ancestry: str | None = None) -> None:
+            self.calls.append(
+                {
+                    "name": name,
+                    "candidate_bundle_ids": list(candidate_bundle_ids),
+                    "response_format": response_format,
+                    "ancestry": ancestry,
+                }
+            )
+
+        def cross_trait_genetic_correlation(
+            self,
+            target_trait: str,
+            candidate_bundle_ids: list[str],
+            response_format: str = "concise",
+        ) -> dict:
+            self._record("cross_trait_genetic_correlation", candidate_bundle_ids, response_format)
+            rows = []
+            for offset, bundle_id in enumerate(candidate_bundle_ids):
+                bundle = self.bundle_lookup[bundle_id]
+                row = {
+                    "bundle_id": bundle_id,
+                    "canonical_label": bundle.canonical_label,
+                    "target_resolution": self._resolution(target_trait, "gwas_atlas"),
+                    "candidate_resolution": self._resolution(bundle.canonical_label, "gwas_atlas"),
+                    "pair_status": "resolved_pair_found",
+                    "rg": round(0.08 + offset * 0.01, 4),
+                    "z_score": 1.0,
+                    "p_value": 0.2,
+                    "provenance_status": "lookup_only",
+                    "evidence_strength": "Weak",
+                }
+                if response_format == "detailed":
+                    row["alternative_pairs"] = [
+                        {
+                            "target_trait_id": 10,
+                            "target_trait_label": target_trait,
+                            "candidate_trait_id": 20 + offset,
+                            "candidate_trait_label": bundle.canonical_label,
+                            "score": 180.0,
+                        }
+                    ]
+                rows.append(row)
+            return {"target_trait": target_trait, "response_format": response_format, "results": rows}
+
+        def cross_trait_heritability(
+            self,
+            target_trait: str,
+            candidate_bundle_ids: list[str],
+            ancestry: str = "EUR",
+            response_format: str = "concise",
+        ) -> dict:
+            self._record("cross_trait_heritability", candidate_bundle_ids, response_format, ancestry)
+            rows = []
+            for offset, bundle_id in enumerate(candidate_bundle_ids):
+                bundle = self.bundle_lookup[bundle_id]
+                rows.append(
+                    {
+                        "bundle_id": bundle_id,
+                        "canonical_label": bundle.canonical_label,
+                        "ancestry": ancestry,
+                        "target_profile": [
+                            {"trait_name": target_trait, "h2_obs": 0.02, "match_score": 99.0},
+                            {"trait_name": f"{target_trait} alternate", "h2_obs": 0.018, "match_score": 88.0},
+                        ],
+                        "candidate_profile": [
+                            {"trait_name": bundle.canonical_label, "h2_obs": 0.01 + offset * 0.001, "match_score": 99.0},
+                            {"trait_name": f"{bundle.canonical_label} alternate", "h2_obs": 0.008, "match_score": 87.0},
+                        ],
+                        "target_best_h2": 0.02,
+                        "candidate_best_h2": 0.01 + offset * 0.001,
+                        "candidate_signal_capacity": 0.01 + offset * 0.001,
+                        "shared_signal_ceiling_proxy": 0.01,
+                        "confidence_tier": "High",
+                    }
+                )
+            return {
+                "target_trait": target_trait,
+                "ancestry": ancestry,
+                "response_format": response_format,
+                "results": rows,
+            }
+
+        def cross_trait_open_targets(
+            self,
+            target_trait: str,
+            candidate_bundle_ids: list[str],
+            response_format: str = "concise",
+        ) -> dict:
+            self._record("cross_trait_open_targets", candidate_bundle_ids, response_format)
+            rows = []
+            for offset, bundle_id in enumerate(candidate_bundle_ids):
+                bundle = self.bundle_lookup[bundle_id]
+                rows.append(
+                    {
+                        "bundle_id": bundle_id,
+                        "canonical_label": bundle.canonical_label,
+                        "target_resolution": self._resolution(target_trait, "open_targets"),
+                        "candidate_resolution": self._resolution(bundle.canonical_label, "open_targets"),
+                        "pair_status": "resolved_overlap",
+                        "source_association_count": 12,
+                        "candidate_association_count": 10,
+                        "weighted_shared_target_overlap_score": 0.3 + offset * 0.01,
+                        "shared_target_count": 1,
+                        "top_shared_targets": [
+                            {
+                                "target_id": f"ENSG{offset:04d}",
+                                "symbol": f"GENE{offset}",
+                                "source_score": 0.8,
+                                "candidate_score": 0.7,
+                                "min_score": 0.7,
+                                "weighted_overlap": 0.3,
+                                "source_datatype_scores": {"genetic_association": 0.5},
+                                "candidate_datatype_scores": {"genetic_association": 0.4},
+                                "pathways": ["Pathway A", "Pathway B"],
+                            }
+                        ],
+                        "shared_pathway_clusters": ["Pathway A", "Pathway B"],
+                        "therapeutic_area_match": True,
+                        "shared_therapeutic_areas": ["immune system disease"],
+                        "source_therapeutic_areas": ["immune system disease"],
+                        "candidate_therapeutic_areas": ["immune system disease"],
+                        "shared_ancestor_count": 2,
+                        "shared_ancestors": ["autoimmune disease", "immune system disease"],
+                        "shared_phenotype_count": 3,
+                        "shared_phenotypes": ["Fever", "Fatigue", "Weight loss"],
+                        "phenotype_overlap_score": 0.12,
+                        "genetic_support_present": True,
+                        "confidence_level": "Moderate",
+                        "mechanism_summary": "Synthetic detailed overlap.",
+                    }
+                )
+            return {"target_trait": target_trait, "response_format": response_format, "results": rows}
+
+    fake_toolbox = FakeToolbox({bundle.bundle_id: bundle for bundle in bundles})
+
+    def fake_judge(evidence_state, default_frontier_ids, default_mode):
+        return JudgeFrontierSelection(
+            primary_bundle_id=default_frontier_ids[0],
+            frontier_bundle_ids=default_frontier_ids,
+            confidence="Moderate",
+            decision_mode=default_mode,
+            rationale="Synthetic judge selection.",
+            evidence_tags=[],
+        )
+
+    def fake_verify(evidence_state, proposed, selected_cards):
+        visible_tags = sorted({tag for card in selected_cards for tag in card.evidence_tags})
+        return transfer_agent.VerifiedSelection(
+            confidence=proposed.confidence,
+            decision_mode=proposed.decision_mode,
+            rationale=proposed.rationale,
+            evidence_tags=visible_tags,
+            supported=True,
+            issues=[],
+        )
+
+    monkeypatch.setattr(transfer_agent, "_judge_frontier", fake_judge)
+    monkeypatch.setattr(transfer_agent, "_verify_selection", fake_verify)
+
+    result = transfer_agent.run_cross_trait_agent(
+        dossier,
+        condition="all-tools",
+        toolbox=fake_toolbox,
+        benchmark_family="binary_to_continuous",
+    )
+
+    all_candidate_ids = [bundle.bundle_id for bundle in bundles]
+    detailed_calls = [
+        call
+        for call in fake_toolbox.calls
+        if call["response_format"] == "detailed"
+    ]
+    concise_h2_ot_calls = [
+        call
+        for call in fake_toolbox.calls
+        if call["name"] in {"cross_trait_heritability", "cross_trait_open_targets"}
+        and call["response_format"] == "concise"
+    ]
+
+    assert fake_toolbox.calls[0] == {
+        "name": "cross_trait_genetic_correlation",
+        "candidate_bundle_ids": all_candidate_ids,
+        "response_format": "concise",
+        "ancestry": None,
+    }
+    assert [call["name"] for call in fake_toolbox.calls] == [
+        "cross_trait_genetic_correlation",
+        "cross_trait_genetic_correlation",
+        "cross_trait_heritability",
+        "cross_trait_open_targets",
+    ]
+    assert concise_h2_ot_calls == []
+    assert len(detailed_calls) == 3
+
+    detailed_gc_call = detailed_calls[0]
+    shortlist_ids = detailed_gc_call["candidate_bundle_ids"]
+    assert len(shortlist_ids) == len(all_candidate_ids)
+    assert set(shortlist_ids) == set(all_candidate_ids)
+    assert all(call["candidate_bundle_ids"] == shortlist_ids for call in detailed_calls)
+    assert all(len(call["candidate_bundle_ids"]) != 3 for call in detailed_calls)
+
+    trace = result["tool_trace"]
+    assert trace[0]["phase"] == "candidate_prescreen"
+    assert trace[0]["args"]["response_format"] == "concise"
+    assert [entry["phase"] for entry in trace[1:]] == ["shortlist_detailed"] * 3
+    assert [entry["args"]["response_format"] for entry in trace[1:]] == ["detailed"] * 3
+
+    evidence_state = result["decision"]["evidence_state"]
+    candidate_cards = evidence_state["candidate_cards"]
+    assert set(evidence_state["shortlist_bundle_ids"]) == set(shortlist_ids)
+    assert {card["bundle_id"] for card in candidate_cards} == set(shortlist_ids)
+    for card in candidate_cards:
+        assert card["gc"]["alternative_pairs"]
+        assert len(card["h2"]["candidate_profile"]) == 2
+        assert card["open_targets"]["therapeutic_area_match"] is True
+
+
 def test_build_target_queries_reads_selected_targets_from_benchmark_family(tmp_path, monkeypatch):
     selection_path = tmp_path / "binary_to_binary" / "target_selection.csv"
     _write_target_selection_csv(
@@ -396,7 +653,12 @@ def test_finalize_frontier_decision_builds_weighted_union_candidate_universe():
         evidence_tags=["significant_gc", "ot_overlap"],
     )
 
-    decision = transfer_agent._finalize_frontier_decision(dossier, evidence_state, judged)
+    decision = transfer_agent._finalize_frontier_decision(
+        dossier,
+        evidence_state,
+        judged,
+        config=transfer_agent.DEFAULT_CONFIG,
+    )
 
     assert decision.primary_bundle_id == "bundle_primary"
     assert decision.frontier_bundle_ids == ["bundle_primary", "bundle_secondary"]
@@ -409,11 +671,103 @@ def test_finalize_frontier_decision_builds_weighted_union_candidate_universe():
     assert decision.outcome == "MATCHED"
 
 
+def test_finalize_frontier_decision_stabilizes_primary_with_model_support(monkeypatch):
+    dossier = CandidateBundleDossier(
+        target=TargetTraitQuery(
+            target_id="T1",
+            target_code="T1",
+            target_label="target disease",
+        ),
+        candidates=[
+            TraitBundle(
+                bundle_id="sparse_high_utility",
+                canonical_label="sparse candidate",
+                bundle_type="binary",
+                aliases=[],
+                candidate_pgs_ids=["PGS001"],
+                n_models=1,
+            ),
+            TraitBundle(
+                bundle_id="supported_near_tie",
+                canonical_label="supported candidate",
+                bundle_type="binary",
+                aliases=[],
+                candidate_pgs_ids=["PGS010", "PGS011"],
+                n_models=80,
+            ),
+        ],
+    )
+    evidence_state = EvidenceState(
+        available_tools=["cross_trait_genetic_correlation"],
+        shortlist_bundle_ids=["sparse_high_utility", "supported_near_tie"],
+        target_summary={"target_label": "target disease"},
+        candidate_cards=[
+            CandidateEvidenceCard(
+                bundle_id="sparse_high_utility",
+                canonical_label="sparse candidate",
+                bundle_type="binary",
+                candidate_pgs_ids=["PGS001"],
+                n_models=1,
+                archetype="adjacent disease family",
+                phenotype_fidelity="adjacent disease family",
+                phenotype_fidelity_score=0.76,
+                cheap_rank_score=3.0,
+                utility_score=6.2,
+                evidence_tags=["significant_gc"],
+            ),
+            CandidateEvidenceCard(
+                bundle_id="supported_near_tie",
+                canonical_label="supported candidate",
+                bundle_type="binary",
+                candidate_pgs_ids=["PGS010", "PGS011"],
+                n_models=80,
+                archetype="adjacent disease family",
+                phenotype_fidelity="adjacent disease family",
+                phenotype_fidelity_score=0.76,
+                cheap_rank_score=2.9,
+                utility_score=5.9,
+                evidence_tags=["significant_gc"],
+            ),
+        ],
+    )
+    judged = JudgeFrontierSelection(
+        primary_bundle_id="sparse_high_utility",
+        frontier_bundle_ids=["sparse_high_utility", "supported_near_tie"],
+        confidence="Moderate",
+        decision_mode="frontier_uncertain",
+        rationale="Both frontier bundles have usable support.",
+        evidence_tags=["significant_gc"],
+    )
+
+    def fake_verify(evidence_state, proposed, selected_cards):
+        return transfer_agent.VerifiedSelection(
+            confidence=proposed.confidence,
+            decision_mode=proposed.decision_mode,
+            rationale=proposed.rationale,
+            evidence_tags=proposed.evidence_tags,
+            supported=True,
+            issues=[],
+        )
+
+    monkeypatch.setattr(transfer_agent, "_verify_selection", fake_verify)
+
+    decision = transfer_agent._finalize_frontier_decision(
+        dossier,
+        evidence_state,
+        judged,
+        config=transfer_agent.DEFAULT_CONFIG,
+    )
+
+    assert decision.primary_bundle_id == "supported_near_tie"
+    assert decision.best_bundle_id == "supported_near_tie"
+    assert decision.frontier_bundle_ids[0] == "supported_near_tie"
+    assert decision.candidate_pgs_ids_union == ["PGS010", "PGS011", "PGS001"]
+
+
 def test_open_targets_shared_target_overlap_uses_weighted_datatype_support():
     toolbox = CrossTraitToolbox.__new__(CrossTraitToolbox)
     toolbox.ot_client = SimpleNamespace(
         get_target_pathways=lambda target_id: ["Pathway A", "Pathway B"],
-        get_target_druggability=lambda target_id: "Druggable",
     )
 
     source_profile = {
@@ -453,8 +807,7 @@ def test_open_targets_shared_target_overlap_uses_weighted_datatype_support():
     assert shared_pathways == ["Pathway A", "Pathway B"]
     assert len(shared_targets) == 1
     assert shared_targets[0].symbol == "GENE1"
-    assert shared_targets[0].weighted_overlap == pytest.approx(0.528, rel=1e-6)
-    assert shared_targets[0].druggability == "Druggable"
+    assert shared_targets[0].weighted_overlap == pytest.approx(0.63, rel=1e-6)
 
 
 def test_evaluate_end_to_end_condition_ranks_recommended_model(tmp_path, monkeypatch):

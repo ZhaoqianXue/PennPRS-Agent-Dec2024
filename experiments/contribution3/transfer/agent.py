@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from dataclasses import dataclass
 from functools import lru_cache
@@ -363,6 +364,26 @@ def _utility_score(
         if ot.literature_dominance_warning:
             mechanistic_overlap = max(0.0, mechanistic_overlap - 0.25)
             tags.append("ot_literature_dominant")
+        # Discount mechanistic overlap when traits resolve to different broad areas.
+        # Cross-area shared-target overlap is often driven by nonspecific hub biology.
+        if not ot.therapeutic_area_match and ot.source_therapeutic_areas and ot.candidate_therapeutic_areas:
+            mechanistic_overlap *= 0.4
+            tags.append("ot_different_therapeutic_area")
+        elif ot.therapeutic_area_match:
+            tags.append("ot_same_therapeutic_area")
+        # Boost from ontology ancestor overlap — diseases sharing specific ancestors
+        # beyond the therapeutic-area level are nosologically close.
+        if ot.shared_ancestor_count >= 3:
+            mechanistic_overlap += 0.3
+            tags.append("ot_ancestor_overlap")
+        elif ot.shared_ancestor_count >= 1:
+            mechanistic_overlap += 0.1
+        # Phenotype (HPO) overlap contributes independently of shared gene targets.
+        if ot.phenotype_overlap_score >= 0.15:
+            mechanistic_overlap += 0.35
+            tags.append("ot_phenotype_overlap")
+        elif ot.phenotype_overlap_score >= 0.05:
+            mechanistic_overlap += 0.15
 
     signal_capacity = 0.0
     if h2:
@@ -457,15 +478,21 @@ def _sort_cards(cards: list[CandidateEvidenceCard]) -> list[CandidateEvidenceCar
     )
 
 
-def _needs_detailed_pass(cards: list[CandidateEvidenceCard]) -> bool:
-    if len(cards) < 2:
-        return False
-    top, second = cards[0], cards[1]
-    if top.utility_score - second.utility_score < 0.45:
-        return True
-    if top.gc is None and (top.open_targets is None or not _is_supported_ot(top.open_targets)):
-        return True
-    return False
+def _primary_stability_score(card: CandidateEvidenceCard) -> tuple[float, float, float, str]:
+    """Stable primary tie-break within an already supported frontier.
+
+    The score does not use benchmark AUCs. It only dampens LLM primary volatility
+    when frontier candidates have similar evidence but very different PGS support.
+    """
+    model_support = math.log1p(max(card.n_models, 0))
+    score = card.utility_score + (0.5 * model_support) + (0.2 * card.cheap_rank_score)
+    return (score, card.utility_score, card.cheap_rank_score, card.bundle_id)
+
+
+def _choose_primary_card(selected_cards: list[CandidateEvidenceCard]) -> CandidateEvidenceCard | None:
+    if not selected_cards:
+        return None
+    return max(selected_cards, key=_primary_stability_score)
 
 
 def _strong_single_match(primary: CandidateEvidenceCard, runner_up: CandidateEvidenceCard | None) -> bool:
@@ -703,6 +730,15 @@ def _finalize_frontier_decision(
             )
             selected_cards = [cards_by_id[bundle_id] for bundle_id in normalized_frontier_ids if bundle_id in cards_by_id]
 
+    primary_card = _choose_primary_card(selected_cards)
+    primary_bundle_id = primary_card.bundle_id if primary_card else None
+    if primary_card is not None:
+        selected_cards = [
+            primary_card,
+            *[card for card in selected_cards if card.bundle_id != primary_card.bundle_id],
+        ]
+        normalized_frontier_ids = [card.bundle_id for card in selected_cards]
+
     bundle_weights_raw = {
         card.bundle_id: max(card.utility_score, 0.01)
         for card in selected_cards
@@ -721,7 +757,6 @@ def _finalize_frontier_decision(
                 seen_pgs.add(pgs_id)
                 candidate_pgs_ids_union.append(pgs_id)
 
-    primary_card = cards_by_id.get(primary_bundle_id) if primary_bundle_id else None
     decision_mode = verified.decision_mode
     if decision_mode == "single_confident":
         if len(selected_cards) < 2:
@@ -813,6 +848,7 @@ def run_cross_trait_agent(
         tool_trace.append(
             {
                 "name": "cross_trait_genetic_correlation",
+                "phase": "candidate_prescreen",
                 "args": {
                     "target_trait": dossier.target.target_label,
                     "candidate_bundle_ids": candidate_bundle_ids,
@@ -857,41 +893,63 @@ def run_cross_trait_agent(
         shortlist_ids = list(dict.fromkeys(same_endpoint_ids + gc_shortlist + semantic_shortlist))[: config.shortlist_cap]
 
     h2_lookup: dict[str, dict[str, Any]] = {}
+    ot_lookup: dict[str, dict[str, Any]] = {}
+    if "cross_trait_genetic_correlation" in available_tools and shortlist_ids:
+        detailed_gc = toolbox.cross_trait_genetic_correlation(
+            dossier.target.target_label,
+            shortlist_ids,
+            response_format="detailed",
+        )
+        tool_trace.append(
+            {
+                "name": "cross_trait_genetic_correlation",
+                "phase": "shortlist_detailed",
+                "args": {
+                    "target_trait": dossier.target.target_label,
+                    "candidate_bundle_ids": shortlist_ids,
+                    "response_format": "detailed",
+                },
+                "result": detailed_gc,
+            }
+        )
+        gc_lookup.update(_gc_lookup(detailed_gc))
+
     if "cross_trait_heritability" in available_tools and shortlist_ids:
         h2_result = toolbox.cross_trait_heritability(
             dossier.target.target_label,
             shortlist_ids,
             ancestry="EUR",
-            response_format="concise",
+            response_format="detailed",
         )
         tool_trace.append(
             {
                 "name": "cross_trait_heritability",
+                "phase": "shortlist_detailed",
                 "args": {
                     "target_trait": dossier.target.target_label,
                     "candidate_bundle_ids": shortlist_ids,
                     "ancestry": "EUR",
-                    "response_format": "concise",
+                    "response_format": "detailed",
                 },
                 "result": h2_result,
             }
         )
         h2_lookup = _gc_lookup(h2_result)
 
-    ot_lookup: dict[str, dict[str, Any]] = {}
     if "cross_trait_open_targets" in available_tools and shortlist_ids:
         ot_result = toolbox.cross_trait_open_targets(
             dossier.target.target_label,
             shortlist_ids,
-            response_format="concise",
+            response_format="detailed",
         )
         tool_trace.append(
             {
                 "name": "cross_trait_open_targets",
+                "phase": "shortlist_detailed",
                 "args": {
                     "target_trait": dossier.target.target_label,
                     "candidate_bundle_ids": shortlist_ids,
-                    "response_format": "concise",
+                    "response_format": "detailed",
                 },
                 "result": ot_result,
             }
@@ -912,79 +970,6 @@ def run_cross_trait_agent(
             if bundle_id in bundle_lookup
         ]
     )
-
-    if _needs_detailed_pass(cards):
-        detailed_ids = [card.bundle_id for card in cards[:3]]
-        if "cross_trait_genetic_correlation" in available_tools:
-            detailed_gc = toolbox.cross_trait_genetic_correlation(
-                dossier.target.target_label,
-                detailed_ids,
-                response_format="detailed",
-            )
-            tool_trace.append(
-                {
-                    "name": "cross_trait_genetic_correlation",
-                    "args": {
-                        "target_trait": dossier.target.target_label,
-                        "candidate_bundle_ids": detailed_ids,
-                        "response_format": "detailed",
-                    },
-                    "result": detailed_gc,
-                }
-            )
-            gc_lookup.update(_gc_lookup(detailed_gc))
-        if "cross_trait_heritability" in available_tools:
-            detailed_h2 = toolbox.cross_trait_heritability(
-                dossier.target.target_label,
-                detailed_ids,
-                ancestry="EUR",
-                response_format="detailed",
-            )
-            tool_trace.append(
-                {
-                    "name": "cross_trait_heritability",
-                    "args": {
-                        "target_trait": dossier.target.target_label,
-                        "candidate_bundle_ids": detailed_ids,
-                        "ancestry": "EUR",
-                        "response_format": "detailed",
-                    },
-                    "result": detailed_h2,
-                }
-            )
-            h2_lookup.update(_gc_lookup(detailed_h2))
-        if "cross_trait_open_targets" in available_tools:
-            detailed_ot = toolbox.cross_trait_open_targets(
-                dossier.target.target_label,
-                detailed_ids,
-                response_format="detailed",
-            )
-            tool_trace.append(
-                {
-                    "name": "cross_trait_open_targets",
-                    "args": {
-                        "target_trait": dossier.target.target_label,
-                        "candidate_bundle_ids": detailed_ids,
-                        "response_format": "detailed",
-                    },
-                    "result": detailed_ot,
-                }
-            )
-            ot_lookup.update(_gc_lookup(detailed_ot))
-        cards = _sort_cards(
-            [
-                _build_candidate_card(
-                    dossier,
-                    bundle_lookup[bundle_id],
-                    gc_row=gc_lookup.get(bundle_id),
-                    h2_row=h2_lookup.get(bundle_id),
-                    ot_row=ot_lookup.get(bundle_id),
-                    config=config,
-                )
-                for bundle_id in shortlist_ids
-                if bundle_id in bundle_lookup
-            ]
-        )
 
     evidence_state = EvidenceState(
         available_tools=available_tools,
