@@ -84,10 +84,14 @@ BINARY_TO_BINARY_CONFIG = TransferConfig(
     allow_ot_promotion=True,
     prior_track_size=0,
     w_transferability_prior=0.2,
-    w_selection_utility=0.06,
+    # Offline simulation (20260412) showed w_utility=0.04 and w_model=0.001
+    # reduce total oracle-rank gap by 25% vs baseline (360→269) with no hit regression.
+    # The reduced utility weight prevents OT-inflated same-area bundles from dominating
+    # the target-agnostic prior; the model-support cap removes the large-bundle bias.
+    w_selection_utility=0.04,
     w_selection_cheap_rank=0.05,
     w_selection_fidelity=0.08,
-    w_selection_model_support=0.02,
+    w_selection_model_support=0.001,
 )
 
 BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
@@ -110,8 +114,12 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
     w_transferability_prior=1.0,
     w_selection_utility=0.07,
     w_selection_cheap_rank=0.05,
-    w_selection_fidelity=0.08,
-    w_selection_model_support=0.02,
+    # Offline simulation (20260412) showed w_fid=0.06 and w_model=0.001
+    # reduce total oracle-rank gap by 13% (308→268) and gain 1 exact hit (11→12).
+    # Reduced fidelity weight shrinks the same-endpoint-disease advantage; reduced
+    # model-support weight removes the large-bundle (T2D) dominance effect.
+    w_selection_fidelity=0.06,
+    w_selection_model_support=0.001,
 )
 
 DEFAULT_CONFIG = BINARY_TO_BINARY_CONFIG
