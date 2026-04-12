@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+import re
 from typing import Any, Literal, Optional
 
 from langchain_core.tools import StructuredTool
@@ -101,6 +102,48 @@ def _estimate_match_score(query: str, label: str) -> float:
     return float(fuzz.token_set_ratio(normalize_text(query), normalize_text(label)))
 
 
+def _unique_texts(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for value in values:
+        text = re.sub(r"\s+", " ", str(value or "")).strip()
+        if not text:
+            continue
+        key = normalize_text(text)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(text)
+    return out
+
+
+def _collapse_repeated_phrase(text: str) -> str | None:
+    tokens = normalize_text(text).split()
+    if len(tokens) < 4 or len(tokens) % 2 != 0:
+        return None
+    midpoint = len(tokens) // 2
+    if tokens[:midpoint] == tokens[midpoint:]:
+        return " ".join(tokens[:midpoint])
+    return None
+
+
+def _trait_query_texts(raw: str) -> list[str]:
+    text = re.sub(r"\s+", " ", str(raw or "")).strip()
+    candidates: list[str] = []
+    for part in re.split(r"[;|]", text):
+        part = re.sub(r"\s+", " ", part).strip()
+        if not part:
+            continue
+        candidates.append(part)
+        candidates.append(re.sub(r"\([^)]*\)", " ", part))
+        collapsed = _collapse_repeated_phrase(part)
+        if collapsed:
+            candidates.append(collapsed)
+    if text:
+        candidates.append(text)
+    return _unique_texts(candidates)
+
+
 def _weighted_datatype_support(raw_scores: dict[str, float]) -> float:
     if not raw_scores:
         return 0.0
@@ -138,8 +181,7 @@ class CrossTraitToolbox:
         return self.bundle_lookup.get(bundle_id)
 
     def _texts_for_target(self, target_trait: str) -> list[str]:
-        parts = [part.strip() for part in str(target_trait or "").split(";") if part.strip()]
-        return [*parts, str(target_trait or "").strip()]
+        return _trait_query_texts(str(target_trait or ""))
 
     def _texts_for_bundle(self, bundle: TraitBundle) -> list[str]:
         return [bundle.canonical_label, *bundle.aliases]

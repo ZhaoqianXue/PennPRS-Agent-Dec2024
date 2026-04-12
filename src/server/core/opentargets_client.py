@@ -134,10 +134,7 @@ query DiseaseTargetProfile($efoId: String!, $page: Pagination!) {
       id
       name
     }
-    ancestors {
-      id
-      name
-    }
+    ancestors
     associatedTargets(page: $page) {
       rows {
         score
@@ -645,11 +642,15 @@ class OpenTargetsClient:
             for ta in (disease.get("therapeuticAreas") or [])
             if ta.get("id")
         ]
-        ancestors = [
-            {"id": anc.get("id"), "name": anc.get("name")}
-            for anc in (disease.get("ancestors") or [])
-            if anc.get("id")
-        ]
+        ancestors = []
+        for anc in disease.get("ancestors") or []:
+            if isinstance(anc, dict):
+                anc_id = anc.get("id")
+                if anc_id:
+                    ancestors.append({"id": anc_id, "name": anc.get("name") or anc_id})
+            elif anc:
+                anc_id = str(anc)
+                ancestors.append({"id": anc_id, "name": anc_id})
 
         return {
             "id": disease.get("id"),
