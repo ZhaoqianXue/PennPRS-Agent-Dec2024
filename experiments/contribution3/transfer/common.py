@@ -38,6 +38,37 @@ GWAS_ATLAS_H2_TSV = PROJECT_ROOT / "data" / "heritability" / "gwas_atlas" / "gwa
 GC_DATA_TSV = (
     PROJECT_ROOT / "data" / "genetic_correlation" / "gwas_atlas" / "gwas_atlas_gc.tsv"
 )
+ROOTCODE_AUC_MATRIX = (
+    PROJECT_ROOT
+    / "experiments"
+    / "contribution1"
+    / "result"
+    / "aou_icd_260217"
+    / "prs_adjauc_matrix_260217_rootcode.csv"
+)
+NONTARGET_AUC_MATRIX = (
+    PROJECT_ROOT
+    / "experiments"
+    / "contribution1"
+    / "result"
+    / "aou_nontarget_pgs"
+    / "prs_adjauc_matrix_notarget_pgs_qc.csv"
+)
+
+CANDIDATE_DOSSIER_CONFIGS: dict[str, dict[str, int]] = {
+    "binary_to_binary": {
+        "lexical_cap": 40,
+        "dossier_cap": 340,
+        "fallback_binary": 260,
+        "fallback_continuous": 100,
+    },
+    "binary_to_continuous": {
+        "lexical_cap": 40,
+        "dossier_cap": 340,
+        "fallback_binary": 240,
+        "fallback_continuous": 100,
+    },
+}
 
 CONTINUOUS_HINTS = {
     "measurement",
@@ -174,6 +205,11 @@ def _clean_optional_text(raw: Any) -> str:
     return text
 
 
+def _normalize_target_source(raw: Any) -> str:
+    source = _clean_optional_text(raw)
+    return "nontarget_pgs" if source == "nontarget_pgs" else "rootcode_main_analysis"
+
+
 def unique_preserve_order(values: Iterable[str]) -> list[str]:
     seen: set[str] = set()
     out: list[str] = []
@@ -209,12 +245,58 @@ def _global_fallback_bundles(
         (bundle for bundle in bundles if bundle.bundle_type == "continuous"),
         key=lambda bundle: (-bundle.n_models, bundle.bundle_id),
     )
-    return [*binary[:top_binary], *continuous[:top_continuous]]
+    binary = binary[:top_binary]
+    continuous = continuous[:top_continuous]
+    interleaved: list[TraitBundle] = []
+    for idx in range(max(len(binary), len(continuous))):
+        if idx < len(binary):
+            interleaved.append(binary[idx])
+        if idx < len(continuous):
+            interleaved.append(continuous[idx])
+    return interleaved
 
 
 def slugify(text: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "_", (text or "").lower()).strip("_")
     return slug or "unknown"
+
+
+def _auc_matrix_path_for_source(target_source: str) -> Path:
+    return NONTARGET_AUC_MATRIX if target_source == "nontarget_pgs" else ROOTCODE_AUC_MATRIX
+
+
+def _col_to_pgs_id(col: str) -> str:
+    text = str(col).strip()
+    if "__" in text:
+        return text.rsplit("__", 1)[-1]
+    return text.replace("_hmPOS_GRCh38", "")
+
+
+@lru_cache(maxsize=2)
+def source_universe_pgs_ids(target_source: str | None) -> set[str]:
+    """Return PGS IDs present in the benchmark source universe.
+
+    This reads only the AUC-matrix header, never target-row AUC values or ranks.
+    The shortlist can therefore avoid bundles that cannot be evaluated for the
+    benchmark source without leaking the current target's performance.
+    """
+    if not target_source:
+        return set()
+    path = _auc_matrix_path_for_source(target_source)
+    if not path.exists():
+        return set()
+    try:
+        header = pd.read_csv(path, nrows=0)
+    except Exception:
+        return set()
+    return {_col_to_pgs_id(str(col)) for col in list(header.columns)[1:]}
+
+
+def bundle_has_source_universe_pgs(bundle: TraitBundle, target_source: str | None) -> bool:
+    universe_ids = source_universe_pgs_ids(target_source)
+    if not universe_ids:
+        return True
+    return any(pgs_id in universe_ids for pgs_id in bundle.candidate_pgs_ids)
 
 
 @lru_cache(maxsize=1)
@@ -373,6 +455,27 @@ def load_benchmark_target_selection(
     return df
 
 
+@lru_cache(maxsize=2)
+def benchmark_target_source_lookup(benchmark_family: str) -> dict[str, str]:
+    try:
+        df = load_benchmark_target_selection(benchmark_family=benchmark_family, selected_only=True)
+    except Exception:
+        return {}
+    lookup: dict[str, str] = {}
+    for _, row in df.iterrows():
+        target_id = str(row.get("input_icd") or "").strip()
+        if target_id:
+            lookup[target_id] = _normalize_target_source(row.get("target_source"))
+    return lookup
+
+
+def target_source_for_target_id(
+    target_id: str,
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> str | None:
+    return benchmark_target_source_lookup(benchmark_family).get(str(target_id or "").strip())
+
+
 def build_target_queries(
     benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
 ) -> list[TargetTraitQuery]:
@@ -473,10 +576,17 @@ def _resolve_overlap_bundles(target: TargetTraitQuery, bundles: list[TraitBundle
 def select_candidate_bundles(
     target: TargetTraitQuery,
     bundles: list[TraitBundle],
-    lexical_cap: int = 25,
-    dossier_cap: int = 100,
+    lexical_cap: int | None = None,
+    dossier_cap: int | None = None,
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
 ) -> list[TraitBundle]:
+    family = validate_benchmark_family(benchmark_family)
+    config = CANDIDATE_DOSSIER_CONFIGS[family]
+    lexical_cap = lexical_cap if lexical_cap is not None else config["lexical_cap"]
+    dossier_cap = dossier_cap if dossier_cap is not None else config["dossier_cap"]
+    target_source = target_source_for_target_id(target.target_id, benchmark_family=family)
     terms = [target.target_label, *target.aliases]
+    lookup = bundle_lookup_by_id(bundles)
     lexical_scored = [
         (bundle.bundle_id, _bundle_match_score(bundle, terms))
         for bundle in bundles
@@ -484,11 +594,18 @@ def select_candidate_bundles(
     lexical_ranked = [
         bundle_id
         for bundle_id, score in sorted(lexical_scored, key=lambda item: (-item[1], item[0]))[:lexical_cap]
-        if score >= 60
+        if score >= 55
     ]
     overlap_ids = _resolve_overlap_bundles(target, bundles)
     gc_ids = _resolve_gc_bundles(target, bundles)
-    fallback_ranked = [bundle.bundle_id for bundle in _global_fallback_bundles(bundles)]
+    fallback_ranked = [
+        bundle.bundle_id
+        for bundle in _global_fallback_bundles(
+            bundles,
+            top_binary=config["fallback_binary"],
+            top_continuous=config["fallback_continuous"],
+        )
+    ]
 
     selected: list[str] = []
     seen: set[str] = set()
@@ -496,6 +613,13 @@ def select_candidate_bundles(
     def add_candidates(bundle_ids: Iterable[str]) -> None:
         for bundle_id in bundle_ids:
             if bundle_id in seen:
+                continue
+            bundle = lookup.get(bundle_id)
+            if bundle is None:
+                continue
+            if is_self_like_bundle(target, bundle):
+                continue
+            if not bundle_has_source_universe_pgs(bundle, target_source):
                 continue
             seen.add(bundle_id)
             selected.append(bundle_id)
@@ -510,11 +634,10 @@ def select_candidate_bundles(
     if len(selected) < dossier_cap:
         add_candidates(fallback_ranked)
 
-    lookup = bundle_lookup_by_id(bundles)
     return [
         lookup[bundle_id]
-        for bundle_id in sorted(selected)
-        if bundle_id in lookup and not is_self_like_bundle(target, lookup[bundle_id])
+        for bundle_id in selected
+        if bundle_id in lookup
     ]
 
 
@@ -524,7 +647,11 @@ def build_candidate_dossiers(
 ) -> list[CandidateBundleDossier]:
     dossiers: list[CandidateBundleDossier] = []
     for target in build_target_queries(benchmark_family=benchmark_family):
-        candidates = select_candidate_bundles(target, bundles)
+        candidates = select_candidate_bundles(
+            target,
+            bundles,
+            benchmark_family=benchmark_family,
+        )
         dossiers.append(CandidateBundleDossier(target=target, candidates=candidates))
     return dossiers
 

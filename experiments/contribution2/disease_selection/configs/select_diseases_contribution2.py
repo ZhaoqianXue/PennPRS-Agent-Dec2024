@@ -27,11 +27,30 @@ import pandas as pd
 # Paths
 # ---------------------------------------------------------------------------
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
-CONTRIB1_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
+CONTRIB1_BINARY_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_binary"
+CONTRIB1_LEGACY_ICD_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
 DISEASE_SELECTION_DIR = Path(__file__).parent.parent
 OUTPUT_RUNS_DIR = DISEASE_SELECTION_DIR / "runs"
 OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
 OUTPUT_METRICS_DIR = DISEASE_SELECTION_DIR / "metrics"
+
+CONTRIB1_ADJAUC_INPUTS = {
+    "rootcode": {
+        "matrix": CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv",
+        "metadata": CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_metadata_binary_combined_rootcode.csv",
+        "case_count": CONTRIB1_BINARY_RESULT_DIR / "trait_case_count_binary_combined_rootcode.csv",
+        "label": "aou_binary/binary_combined_rootcode",
+    },
+    # The colleague update includes a refreshed child-code case-count file, but
+    # not the matching child-code AUC matrix/metadata. Keep child-code selection
+    # on the legacy paired files until those refreshed inputs exist.
+    "childrencode": {
+        "matrix": CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv",
+        "metadata": CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_metadata_260217_childrencode.csv",
+        "case_count": CONTRIB1_LEGACY_ICD_RESULT_DIR / "trait_case_count_260217_childrencode.csv",
+        "label": "aou_icd_260217/childrencode",
+    },
+}
 
 # ---------------------------------------------------------------------------
 # Selection criteria parameters
@@ -244,6 +263,28 @@ def _get_trait_auc_for_models(
     return pd.Series(vals)
 
 
+def contrib1_adjauc_input_paths(suffix: str) -> dict[str, Path | str]:
+    try:
+        paths = CONTRIB1_ADJAUC_INPUTS[suffix]
+    except KeyError as exc:
+        raise ValueError(f"Unknown Contribution1 AUC suffix: {suffix}") from exc
+
+    missing = [str(path) for key, path in paths.items() if key != "label" and not Path(path).exists()]
+    if missing:
+        joined = "\n  - ".join(missing)
+        raise FileNotFoundError(f"Contribution1 AUC input files are missing:\n  - {joined}")
+    return paths
+
+
+def load_contrib1_adjauc_inputs(suffix: str) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    paths = contrib1_adjauc_input_paths(suffix)
+    return (
+        pd.read_csv(Path(paths["matrix"])),
+        pd.read_csv(Path(paths["metadata"])),
+        pd.read_csv(Path(paths["case_count"])),
+    )
+
+
 def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODELS) -> None:
     suffix = "childrencode" if use_childrencode else "rootcode"
     trait_col = "icd" if use_childrencode else "icd_root"
@@ -251,9 +292,7 @@ def main(use_childrencode: bool = False, min_n_models: int = DEFAULT_MIN_N_MODEL
     # -----------------------------------------------------------------------
     # Load data
     # -----------------------------------------------------------------------
-    matrix = pd.read_csv(CONTRIB1_RESULT_DIR / f"prs_adjauc_matrix_260217_{suffix}.csv")
-    metadata = pd.read_csv(CONTRIB1_RESULT_DIR / f"prs_adjauc_metadata_260217_{suffix}.csv")
-    trait_case_count = pd.read_csv(CONTRIB1_RESULT_DIR / f"trait_case_count_260217_{suffix}.csv")
+    matrix, metadata, trait_case_count = load_contrib1_adjauc_inputs(suffix)
 
     # Filter to included traits (case_count >= 200 from postprocess)
     included = metadata[metadata["include_in_analysis"] == 1]

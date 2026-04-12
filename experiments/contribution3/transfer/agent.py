@@ -17,6 +17,7 @@ from experiments.contribution3.transfer.common import (
     PROJECT_ROOT,
     CandidateBundleDossier,
     TraitBundle,
+    bundle_has_source_universe_pgs,
     is_self_like_bundle,
     load_benchmark_target_selection,
     load_trait_bundle_index,
@@ -59,6 +60,8 @@ class TransferConfig:
     gc_discount_floor: float
     allow_ot_promotion: bool
     prior_track_size: int
+    selection_track_size: int
+    support_track_size: int
     w_transferability_prior: float
     w_selection_utility: float
     w_selection_cheap_rank: float
@@ -71,21 +74,23 @@ BINARY_TO_BINARY_CONFIG = TransferConfig(
     w_mechanistic_overlap=3.5,
     w_signal_capacity=1.2,
     w_phenotype_fidelity=2.8,
-    gc_track_size=6,
-    semantic_track_size=6,
+    gc_track_size=12,
+    semantic_track_size=12,
     concordance_bonus=0.8,
     concordance_penalty=-0.4,
     gc_cheap_rank_significant=1.6,
     gc_cheap_rank_nonsignificant=0.6,
     shortlist_strategy="dual_track",
-    shortlist_cap=14,
+    shortlist_cap=24,
     apply_gc_resolution_discount=True,
     gc_discount_floor=0.0,
     allow_ot_promotion=True,
-    prior_track_size=0,
+    prior_track_size=12,
+    selection_track_size=24,
+    support_track_size=8,
     w_transferability_prior=0.2,
     # Offline simulation (20260412) showed w_utility=0.04 and w_model=0.001
-    # reduce total oracle-rank gap by 25% vs baseline (360→269) with no hit regression.
+    # reduce total oracle-rank gap by 25% vs baseline (360->269) with no hit regression.
     # The reduced utility weight prevents OT-inflated same-area bundles from dominating
     # the target-agnostic prior; the model-support cap removes the large-bundle bias.
     w_selection_utility=0.04,
@@ -99,23 +104,25 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
     w_mechanistic_overlap=2.5,
     w_signal_capacity=1.4,
     w_phenotype_fidelity=2.1,
-    gc_track_size=7,
-    semantic_track_size=4,
+    gc_track_size=12,
+    semantic_track_size=6,
     concordance_bonus=0.5,
     concordance_penalty=-0.2,
     gc_cheap_rank_significant=2.4,
     gc_cheap_rank_nonsignificant=0.8,
     shortlist_strategy="gc_first",
-    shortlist_cap=10,
+    shortlist_cap=22,
     apply_gc_resolution_discount=True,
     gc_discount_floor=0.3,
     allow_ot_promotion=False,
-    prior_track_size=5,
+    prior_track_size=12,
+    selection_track_size=24,
+    support_track_size=8,
     w_transferability_prior=1.0,
     w_selection_utility=0.07,
     w_selection_cheap_rank=0.05,
     # Offline simulation (20260412) showed w_fid=0.06 and w_model=0.001
-    # reduce total oracle-rank gap by 13% (308→268) and gain 1 exact hit (11→12).
+    # reduce total oracle-rank gap by 13% (308->268) and gain 1 exact hit (11->12).
     # Reduced fidelity weight shrinks the same-endpoint-disease advantage; reduced
     # model-support weight removes the large-bundle (T2D) dominance effect.
     w_selection_fidelity=0.06,
@@ -725,6 +732,71 @@ def _sort_cards(
     )
 
 
+def _prior_ranked_cards(
+    cards: list[CandidateEvidenceCard],
+    config: TransferConfig = DEFAULT_CONFIG,
+) -> list[CandidateEvidenceCard]:
+    return sorted(
+        cards,
+        key=lambda card: (
+            -card.transferability_prior_score,
+            -_selection_priority_score(card, config),
+            -card.cheap_rank_score,
+            -card.phenotype_fidelity_score,
+            card.bundle_id,
+        ),
+    )
+
+
+def _support_ranked_cards(cards: list[CandidateEvidenceCard]) -> list[CandidateEvidenceCard]:
+    return sorted(
+        cards,
+        key=lambda card: (
+            -card.n_models,
+            -card.transferability_prior_score,
+            -card.cheap_rank_score,
+            card.bundle_id,
+        ),
+    )
+
+
+def _gc_ranked_cards(cards: list[CandidateEvidenceCard]) -> list[CandidateEvidenceCard]:
+    def key(card: CandidateEvidenceCard) -> tuple[int, int, float, float, float, str]:
+        gc = card.gc
+        has_pair = int(bool(gc and gc.rg is not None))
+        is_significant = int(bool(gc and gc.rg is not None and gc.p_value is not None and gc.p_value < 0.05))
+        p_value = float(gc.p_value) if gc and gc.p_value is not None else 1.0
+        abs_rg = abs(float(gc.rg or 0.0)) if gc else 0.0
+        return (
+            -is_significant,
+            -has_pair,
+            p_value,
+            -abs_rg,
+            -card.cheap_rank_score,
+            card.bundle_id,
+        )
+
+    return sorted(cards, key=key)
+
+
+def _merge_shortlist_tracks(track_ids: list[list[str]], cap: int) -> list[str]:
+    shortlist_ids: list[str] = []
+    seen: set[str] = set()
+    max_len = max((len(track) for track in track_ids), default=0)
+    for idx in range(max_len):
+        for track in track_ids:
+            if idx >= len(track):
+                continue
+            bundle_id = track[idx]
+            if bundle_id in seen:
+                continue
+            seen.add(bundle_id)
+            shortlist_ids.append(bundle_id)
+            if len(shortlist_ids) >= cap:
+                return shortlist_ids
+    return shortlist_ids
+
+
 def _primary_stability_score(
     card: CandidateEvidenceCard,
     config: TransferConfig = DEFAULT_CONFIG,
@@ -825,6 +897,8 @@ def _build_target_summary(
             "apply_gc_resolution_discount": config.apply_gc_resolution_discount,
             "allow_ot_promotion": config.allow_ot_promotion,
             "prior_track_size": config.prior_track_size,
+            "selection_track_size": config.selection_track_size,
+            "support_track_size": config.support_track_size,
             "w_transferability_prior": config.w_transferability_prior,
         },
     }
@@ -1126,6 +1200,7 @@ def run_cross_trait_agent(
         bundle.bundle_id
         for bundle in dossier.candidates
         if not is_self_like_bundle(dossier.target, bundle)
+        and bundle_has_source_universe_pgs(bundle, target_source)
     ]
     bundle_lookup = _bundle_lookup(dossier)
 
@@ -1165,21 +1240,47 @@ def run_cross_trait_agent(
 
     if config.shortlist_strategy == "gc_first":
         provisional_cards = _sort_cards(provisional_cards, config)
-        prior_shortlist = [card.bundle_id for card in provisional_cards[: config.prior_track_size]]
-        gc_ranked = sorted(
-            provisional_cards,
-            key=lambda c: (-c.cheap_rank_score, -c.utility_score, c.bundle_id),
-        )
+        prior_shortlist = [
+            card.bundle_id
+            for card in _prior_ranked_cards(provisional_cards, config)[: config.prior_track_size]
+        ]
+        selection_shortlist = [
+            card.bundle_id
+            for card in provisional_cards[: config.selection_track_size]
+        ]
+        gc_ranked = _gc_ranked_cards(provisional_cards)
         gc_shortlist = [card.bundle_id for card in gc_ranked[: config.gc_track_size]]
-        shortlist_ids = list(dict.fromkeys(prior_shortlist + gc_shortlist))[: config.shortlist_cap]
+        semantic_ranked = sorted(
+            provisional_cards,
+            key=lambda c: (-c.phenotype_fidelity_score, -c.lexical_match_score, -c.n_models, c.bundle_id),
+        )
+        semantic_shortlist = [card.bundle_id for card in semantic_ranked[: config.semantic_track_size]]
+        support_shortlist = [
+            card.bundle_id
+            for card in _support_ranked_cards(provisional_cards)[: config.support_track_size]
+        ]
+        shortlist_ids = _merge_shortlist_tracks(
+            [
+                prior_shortlist,
+                selection_shortlist,
+                gc_shortlist,
+                semantic_shortlist,
+                support_shortlist,
+            ],
+            config.shortlist_cap,
+        )
     else:
         # binary-to-binary keeps the dual-track shortlist that protects semantic matches.
-        prior_ranked = _sort_cards(provisional_cards, config)
-        prior_shortlist = [card.bundle_id for card in prior_ranked[: config.prior_track_size]]
-        gc_ranked = sorted(
-            provisional_cards,
-            key=lambda c: (-c.cheap_rank_score, -c.utility_score, c.bundle_id),
-        )
+        prior_shortlist = [
+            card.bundle_id
+            for card in _prior_ranked_cards(provisional_cards, config)[: config.prior_track_size]
+        ]
+        selection_ranked = _sort_cards(provisional_cards, config)
+        selection_shortlist = [
+            card.bundle_id
+            for card in selection_ranked[: config.selection_track_size]
+        ]
+        gc_ranked = _gc_ranked_cards(provisional_cards)
         gc_shortlist = [card.bundle_id for card in gc_ranked[: config.gc_track_size]]
         semantic_ranked = sorted(
             provisional_cards,
@@ -1191,9 +1292,21 @@ def run_cross_trait_agent(
             for card in semantic_ranked
             if card.archetype == "same-endpoint disease"
         ][:3]
-        shortlist_ids = list(
-            dict.fromkeys(prior_shortlist + same_endpoint_ids + gc_shortlist + semantic_shortlist)
-        )[: config.shortlist_cap]
+        support_shortlist = [
+            card.bundle_id
+            for card in _support_ranked_cards(provisional_cards)[: config.support_track_size]
+        ]
+        shortlist_ids = _merge_shortlist_tracks(
+            [
+                prior_shortlist,
+                selection_shortlist,
+                same_endpoint_ids,
+                gc_shortlist,
+                semantic_shortlist,
+                support_shortlist,
+            ],
+            config.shortlist_cap,
+        )
 
     h2_lookup: dict[str, dict[str, Any]] = {}
     ot_lookup: dict[str, dict[str, Any]] = {}

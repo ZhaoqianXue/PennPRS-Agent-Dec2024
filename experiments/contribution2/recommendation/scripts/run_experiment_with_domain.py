@@ -31,9 +31,8 @@ _ORIGINAL_STEP1_MESSAGES = without_domain._step1_messages
 
 RECOMMENDATION_RUNS = Path(__file__).parent.parent / "runs"
 DOCS_DIR = Path(__file__).parent.parent / "docs"
-CONTRIB1_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
-CHILDCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
-ROOTCODE_AUC_MATRIX = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
+CHILDCODE_AUC_MATRIX = without_domain.CHILDCODE_AUC_MATRIX
+ROOTCODE_AUC_MATRIX = without_domain.ROOTCODE_AUC_MATRIX
 
 RESULTS_JSON = Path()
 SUMMARY_JSON = Path()

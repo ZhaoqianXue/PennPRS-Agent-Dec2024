@@ -51,9 +51,7 @@ def _compute_selected_raw(
     suffix = "childrencode" if use_childrencode else "rootcode"
     trait_col = "icd" if use_childrencode else "icd_root"
 
-    matrix = pd.read_csv(base.CONTRIB1_RESULT_DIR / f"prs_adjauc_matrix_260217_{suffix}.csv")
-    metadata = pd.read_csv(base.CONTRIB1_RESULT_DIR / f"prs_adjauc_metadata_260217_{suffix}.csv")
-    trait_case_count = pd.read_csv(base.CONTRIB1_RESULT_DIR / f"trait_case_count_260217_{suffix}.csv")
+    matrix, metadata, trait_case_count = base.load_contrib1_adjauc_inputs(suffix)
 
     included = metadata[metadata["include_in_analysis"] == 1]
     case_map = trait_case_count.drop_duplicates("ICD10_code").set_index("ICD10_code")["case_count"]

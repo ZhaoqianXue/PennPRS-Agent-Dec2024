@@ -2,8 +2,8 @@
 
 - Base eligibility: `min_n_models = 2`
 - QC1 gate: `disabled (QC1 retained as diagnostic column only)`
-- Raw current-method ontology union size (before canonical merge): `85`
-- Canonical merged union size: `76`
+- Raw current-method ontology union size (before canonical merge): `98`
+- Canonical merged union size: `89`
 - Output CSV can be used directly by `recommendation/configs/generate_evaluated_pgs_list.py`; manual `Target_TopK` annotation is no longer required.
 
 ## Canonical Merge Rule
