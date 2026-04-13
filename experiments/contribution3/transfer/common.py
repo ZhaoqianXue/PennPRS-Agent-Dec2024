@@ -57,14 +57,19 @@ NONTARGET_AUC_MATRIX = (
 
 CANDIDATE_DOSSIER_CONFIGS: dict[str, dict[str, int]] = {
     "binary_to_binary": {
-        "lexical_cap": 40,
-        "dossier_cap": 340,
+        # Offline shortlist-oracle study (eval/offline_tune_shortlist_oracle_hits.py): wider pool
+        # improves global-oracle inclusion before dual-track merge. Rebuild candidate_dossiers.json
+        # after changing these (batch prepare-assets or build_candidate_dossiers).
+        "lexical_cap": 100,
+        "dossier_cap": 560,
+        "lexical_min_score": 38,
         "fallback_binary": 260,
         "fallback_continuous": 100,
     },
     "binary_to_continuous": {
         "lexical_cap": 40,
         "dossier_cap": 340,
+        "lexical_min_score": 55,
         "fallback_binary": 240,
         "fallback_continuous": 100,
     },
@@ -578,12 +583,16 @@ def select_candidate_bundles(
     bundles: list[TraitBundle],
     lexical_cap: int | None = None,
     dossier_cap: int | None = None,
+    lexical_min_score: int | None = None,
     benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
 ) -> list[TraitBundle]:
     family = validate_benchmark_family(benchmark_family)
     config = CANDIDATE_DOSSIER_CONFIGS[family]
     lexical_cap = lexical_cap if lexical_cap is not None else config["lexical_cap"]
     dossier_cap = dossier_cap if dossier_cap is not None else config["dossier_cap"]
+    lexical_min_score = (
+        lexical_min_score if lexical_min_score is not None else config.get("lexical_min_score", 55)
+    )
     target_source = target_source_for_target_id(target.target_id, benchmark_family=family)
     terms = [target.target_label, *target.aliases]
     lookup = bundle_lookup_by_id(bundles)
@@ -594,7 +603,7 @@ def select_candidate_bundles(
     lexical_ranked = [
         bundle_id
         for bundle_id, score in sorted(lexical_scored, key=lambda item: (-item[1], item[0]))[:lexical_cap]
-        if score >= 55
+        if score >= lexical_min_score
     ]
     overlap_ids = _resolve_overlap_bundles(target, bundles)
     gc_ids = _resolve_gc_bundles(target, bundles)

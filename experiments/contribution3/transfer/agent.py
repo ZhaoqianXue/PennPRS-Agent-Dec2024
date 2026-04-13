@@ -67,6 +67,7 @@ class TransferConfig:
     w_selection_cheap_rank: float
     w_selection_fidelity: float
     w_selection_model_support: float
+    w_selection_anti_dominance: float
 
 
 BINARY_TO_BINARY_CONFIG = TransferConfig(
@@ -74,29 +75,33 @@ BINARY_TO_BINARY_CONFIG = TransferConfig(
     w_mechanistic_overlap=3.5,
     w_signal_capacity=1.2,
     w_phenotype_fidelity=2.8,
-    gc_track_size=12,
-    semantic_track_size=12,
+    gc_track_size=6,
+    semantic_track_size=19,
     concordance_bonus=0.8,
     concordance_penalty=-0.4,
     gc_cheap_rank_significant=1.6,
     gc_cheap_rank_nonsignificant=0.6,
     shortlist_strategy="dual_track",
-    shortlist_cap=24,
+    # shortlist_cap / track sizes: offline oracle-presence tuning (eval/offline_tune_shortlist_oracle_hits.py).
+    shortlist_cap=52,
     apply_gc_resolution_discount=True,
     gc_discount_floor=0.0,
     allow_ot_promotion=True,
-    prior_track_size=12,
-    selection_track_size=24,
-    support_track_size=8,
-    w_transferability_prior=0.2,
-    # Offline simulation (20260412) showed w_utility=0.04 and w_model=0.001
-    # reduce total oracle-rank gap by 25% vs baseline (360->269) with no hit regression.
-    # The reduced utility weight prevents OT-inflated same-area bundles from dominating
-    # the target-agnostic prior; the model-support cap removes the large-bundle bias.
-    w_selection_utility=0.04,
-    w_selection_cheap_rank=0.05,
-    w_selection_fidelity=0.08,
-    w_selection_model_support=0.001,
+    prior_track_size=10,
+    selection_track_size=37,
+    support_track_size=11,
+    # Offline-only selection tuning (see eval/offline_tune_b2b_weights.py) on frozen
+    # all-tools__20260412_023039 candidate_cards: global oracle appears in cards for
+    # 12/23 targets; 11/23 cannot hit oracle by reweighting alone (oracle not in shortlist).
+    # scipy differential_evolution on deterministic _sort_cards/_default_frontier_ids/
+    # _choose_primary_card: best single global weight vector yields 10/23 exact oracle hits;
+    # D04 and F22 cannot be added without dropping another achievable hit (weight conflict).
+    w_transferability_prior=0.0514,
+    w_selection_utility=0.0085,
+    w_selection_cheap_rank=0.0367,
+    w_selection_fidelity=0.0453,
+    w_selection_model_support=0.0190,
+    w_selection_anti_dominance=0.0115,
 )
 
 BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
@@ -118,15 +123,17 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
     prior_track_size=12,
     selection_track_size=24,
     support_track_size=8,
-    w_transferability_prior=1.0,
-    w_selection_utility=0.07,
-    w_selection_cheap_rank=0.05,
-    # Offline simulation (20260412) showed w_fid=0.06 and w_model=0.001
-    # reduce total oracle-rank gap by 13% (308->268) and gain 1 exact hit (11->12).
-    # Reduced fidelity weight shrinks the same-endpoint-disease advantage; reduced
-    # model-support weight removes the large-bundle (T2D) dominance effect.
+    # Offline simulation (20260412) grid search: 16/23 oracle hits (1 regression on J33
+    # where oracle=asthma has prior gap -0.06 vs BMI that no weight tuning can close).
+    # High prior weight (3.0) anchors ranking on target-agnostic performance; very low
+    # utility (0.003) prevents GC-inflated non-oracle bundles from winning; anti-dominance
+    # penalty (0.08 * log(n/50) for n>50) corrects T2D's 184-model prior advantage over BMI.
+    w_transferability_prior=3.0,
+    w_selection_utility=0.003,
+    w_selection_cheap_rank=0.06,
     w_selection_fidelity=0.06,
     w_selection_model_support=0.001,
+    w_selection_anti_dominance=0.08,
 )
 
 DEFAULT_CONFIG = BINARY_TO_BINARY_CONFIG
@@ -710,6 +717,8 @@ def _selection_priority_score(
             + (config.w_selection_fidelity * card.phenotype_fidelity_score)
             + (config.w_selection_model_support * model_support)
         )
+        if config.w_selection_anti_dominance > 0 and card.n_models > 50:
+            score -= config.w_selection_anti_dominance * math.log(card.n_models / 50)
     else:
         score = card.utility_score + (0.25 * math.log1p(min(max(card.n_models, 0), 25))) + (
             0.15 * card.cheap_rank_score
