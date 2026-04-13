@@ -9,8 +9,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 import pandas as pd
 from experiments.contribution3.transfer.common import load_trait_bundle_index, load_benchmark_target_selection
 
-ROOTCODE_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_rootcode.csv"
-NONTARGET_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_nontarget_pgs/prs_adjauc_matrix_notarget_pgs_qc.csv"
+ROOTCODE_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv"
+NONTARGET_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_extend_trait/prs_adjauc_matrix_binary_extend_qc.csv"
 RUNS = PROJECT_ROOT / "experiments/contribution3/transfer/runs/tool_calling_agent"
 
 import glob as _glob
@@ -41,7 +41,7 @@ def load_matrix(path):
 
 def normalize_target_source(raw):
     s = str(raw).strip() if raw else ""
-    return "nontarget_pgs" if s == "nontarget_pgs" else "rootcode"
+    return "extend_trait" if s in ("nontarget_pgs", "extend_trait") else "rootcode"
 
 def competition_ranks(auc_by_bundle):
     ranked = sorted(auc_by_bundle, key=lambda b: (-auc_by_bundle[b], b))
@@ -62,7 +62,7 @@ mat_rc = load_matrix(ROOTCODE_AUC)
 mat_nt = load_matrix(NONTARGET_AUC)
 
 def get_matrix(source):
-    return mat_nt if source == "nontarget_pgs" else mat_rc
+    return mat_nt if source in ("nontarget_pgs", "extend_trait") else mat_rc
 
 def bundle_ranks_for_target(target_code, source):
     m = get_matrix(source)

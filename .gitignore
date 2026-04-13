@@ -28,3 +28,6 @@ output/logs/download/*.txt
 # Temporary files
 *.tmp
 *.log
+
+# Tool-calling run raw logs exceed GitHub 100MB limit (keep summaries locally)
+experiments/contribution3/transfer/runs/tool_calling_agent/unified/**/results.json

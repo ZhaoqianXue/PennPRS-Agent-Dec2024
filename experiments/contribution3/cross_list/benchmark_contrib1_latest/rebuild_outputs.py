@@ -365,7 +365,7 @@ def main() -> None:
     _deselect_benchmark_targets_post_hoc(OUT_DIR)
 
     # Fix target_source label for Type A rows (pipeline still emits legacy string)
-    for sub in ("binary_to_binary", "binary_to_continuous"):
+    for sub in ("binary_to_binary", "binary_to_continuous", "unified"):
         for name in ("target_selection.csv", "ground_truth_ranking.csv"):
             p = OUT_DIR / sub / name
             if not p.exists():

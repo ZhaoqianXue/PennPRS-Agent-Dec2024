@@ -22,8 +22,8 @@ from experiments.contribution3.transfer.common import (
     load_benchmark_target_selection,
 )
 
-ROOTCODE_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_rootcode.csv"
-NONTARGET_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_nontarget_pgs/prs_adjauc_matrix_notarget_pgs_qc.csv"
+ROOTCODE_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv"
+NONTARGET_AUC = PROJECT_ROOT / "experiments/contribution1/result/aou_extend_trait/prs_adjauc_matrix_binary_extend_qc.csv"
 RUNS = PROJECT_ROOT / "experiments/contribution3/transfer/runs/tool_calling_agent"
 LATEST_TS = "all-tools__20260411_211443"
 
@@ -49,11 +49,11 @@ mat_nt = load_matrix(NONTARGET_AUC)
 
 
 def get_matrix(source: str) -> pd.DataFrame:
-    return mat_nt if source == "nontarget_pgs" else mat_rc
+    return mat_nt if source in ("nontarget_pgs", "extend_trait") else mat_rc
 
 
 def normalize_target_source(raw) -> str:
-    return "nontarget_pgs" if str(raw).strip() == "nontarget_pgs" else "rootcode"
+    return "extend_trait" if str(raw).strip() in ("nontarget_pgs", "extend_trait") else "rootcode"
 
 
 def competition_ranks(auc_by_bundle: dict) -> dict:

@@ -204,7 +204,7 @@ def build_parser() -> argparse.ArgumentParser:
     prepare_parser.add_argument(
         "--benchmark-family",
         choices=BENCHMARK_FAMILIES,
-        default="binary_to_binary",
+        default="unified",
     )
 
     run_parser = subparsers.add_parser("run")
@@ -216,7 +216,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_parser.add_argument(
         "--benchmark-family",
         choices=BENCHMARK_FAMILIES,
-        default="binary_to_binary",
+        default="unified",
     )
     run_parser.add_argument(
         "--target-ids",
@@ -243,7 +243,7 @@ def build_parser() -> argparse.ArgumentParser:
     recommend_parser.add_argument(
         "--benchmark-family",
         choices=BENCHMARK_FAMILIES,
-        default="binary_to_binary",
+        default="unified",
     )
 
     eval_parser = subparsers.add_parser("evaluate-end-to-end")
@@ -255,7 +255,7 @@ def build_parser() -> argparse.ArgumentParser:
     eval_parser.add_argument(
         "--benchmark-family",
         choices=BENCHMARK_FAMILIES,
-        default="binary_to_binary",
+        default="unified",
     )
 
     subparsers.add_parser("generate-docs")

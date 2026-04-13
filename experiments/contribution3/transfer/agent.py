@@ -164,17 +164,17 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
 
 UNIFIED_CONFIG = TransferConfig(
     # --- utility calculation ---
-    w_statistical_overlap=2.9685,
-    w_mechanistic_overlap=0.5524,
-    w_signal_capacity=1.5620,
-    w_phenotype_fidelity=3.0928,
+    w_statistical_overlap=3.160130,
+    w_mechanistic_overlap=0.996305,
+    w_signal_capacity=1.429890,
+    w_phenotype_fidelity=3.785864,
     # --- concordance ---
-    concordance_bonus=1.2507,
-    concordance_penalty=-0.3846,
+    concordance_bonus=1.400000,
+    concordance_penalty=-0.171731,
     # --- GC cheap-rank multipliers ---
-    gc_cheap_rank_significant=2.2447,
-    gc_cheap_rank_nonsignificant=0.2453,
-    # --- shortlist construction (use B2B-style for broader oracle coverage) ---
+    gc_cheap_rank_significant=1.447597,
+    gc_cheap_rank_nonsignificant=0.455726,
+    # --- shortlist construction (dual_track for broad oracle coverage) ---
     shortlist_strategy="dual_track",
     shortlist_cap=52,
     gc_track_size=8,
@@ -184,21 +184,24 @@ UNIFIED_CONFIG = TransferConfig(
     support_track_size=10,
     # --- GC resolution discount ---
     apply_gc_resolution_discount=True,
-    gc_discount_floor=0.4689,
+    gc_discount_floor=0.304643,
     allow_ot_promotion=False,
     # --- selection priority weights ---
-    w_transferability_prior=1.7384,
-    w_selection_utility=0.01272,
-    w_selection_cheap_rank=0.05834,
-    w_selection_fidelity=0.04133,
-    w_selection_model_support=0.02616,
-    w_selection_anti_dominance=0.03239,
-    w_ot_exceptional=0.03444,
+    # w_ot_exceptional=0.326 captures OT-strong targets (F42/F43/K25/G40/N40/D25/K21/N21/J43)
+    # lower w_transferability_prior avoids BMI dominance via prior alone
+    w_transferability_prior=0.948752,
+    w_selection_utility=0.002751,
+    w_selection_cheap_rank=0.005000,
+    w_selection_fidelity=0.011677,
+    w_selection_model_support=0.001792,
+    w_selection_anti_dominance=0.030352,
+    w_ot_exceptional=0.326132,
 )
 
 DEFAULT_CONFIG = UNIFIED_CONFIG
 
 BENCHMARK_FAMILY_CONFIGS: dict[str, TransferConfig] = {
+    "unified": UNIFIED_CONFIG,
     "binary_to_binary": UNIFIED_CONFIG,
     "binary_to_continuous": UNIFIED_CONFIG,
 }
@@ -209,16 +212,16 @@ ROOTCODE_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
-    / "aou_icd_260217"
-    / "prs_adjauc_matrix_260217_rootcode.csv"
+    / "aou_binary"
+    / "prs_adjauc_matrix_binary_combined_rootcode.csv"
 )
 NONTARGET_AUC_MATRIX = (
     PROJECT_ROOT
     / "experiments"
     / "contribution1"
     / "result"
-    / "aou_nontarget_pgs"
-    / "prs_adjauc_matrix_notarget_pgs_qc.csv"
+    / "aou_extend_trait"
+    / "prs_adjauc_matrix_binary_extend_qc.csv"
 )
 
 
@@ -290,7 +293,7 @@ def _clean_optional_text(raw: Any) -> str:
 
 def _normalize_target_source(raw: Any) -> str:
     source = _clean_optional_text(raw)
-    return "nontarget_pgs" if source == "nontarget_pgs" else "rootcode_main_analysis"
+    return "extend_trait" if source in ("nontarget_pgs", "extend_trait") else "rootcode_main_analysis"
 
 
 def _col_to_pgs_id(col: str) -> str:
@@ -420,7 +423,7 @@ def _gc_lookup(result: dict[str, Any] | None) -> dict[str, dict[str, Any]]:
 
 
 def _auc_matrix_path(target_source: str) -> Path:
-    return NONTARGET_AUC_MATRIX if target_source == "nontarget_pgs" else ROOTCODE_AUC_MATRIX
+    return NONTARGET_AUC_MATRIX if target_source in ("nontarget_pgs", "extend_trait") else ROOTCODE_AUC_MATRIX
 
 
 def _competition_ranks(auc_by_bundle: dict[str, float]) -> dict[str, int]:
@@ -1255,7 +1258,7 @@ def run_cross_trait_agent(
     max_steps: int = 8,
     enable_semantic_backstop: bool = True,
     enable_forced_match: bool = True,
-    benchmark_family: str = "binary_to_binary",
+    benchmark_family: str = "unified",
 ) -> dict[str, Any]:
     del max_steps, enable_semantic_backstop, enable_forced_match
     if condition not in CONDITION_TOOLS:

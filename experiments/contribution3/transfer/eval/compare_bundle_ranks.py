@@ -26,16 +26,16 @@ ROOTCODE_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
-    / "aou_icd_260217"
-    / "prs_adjauc_matrix_260217_rootcode.csv"
+    / "aou_binary"
+    / "prs_adjauc_matrix_binary_combined_rootcode.csv"
 )
 NONTARGET_AUC_MATRIX = (
     PROJECT_ROOT
     / "experiments"
     / "contribution1"
     / "result"
-    / "aou_nontarget_pgs"
-    / "prs_adjauc_matrix_notarget_pgs_qc.csv"
+    / "aou_extend_trait"
+    / "prs_adjauc_matrix_binary_extend_qc.csv"
 )
 
 
@@ -57,7 +57,7 @@ def _clean_text(raw: Any) -> str:
 
 def _normalize_target_source(raw: Any) -> str:
     source = _clean_text(raw)
-    return "nontarget_pgs" if source == "nontarget_pgs" else "rootcode_main_analysis"
+    return "extend_trait" if source in ("nontarget_pgs", "extend_trait") else "rootcode_main_analysis"
 
 
 def _col_to_pgs_id(col: str) -> str:
@@ -68,7 +68,7 @@ def _col_to_pgs_id(col: str) -> str:
 
 
 def _matrix_path(target_source: str) -> Path:
-    return NONTARGET_AUC_MATRIX if target_source == "nontarget_pgs" else ROOTCODE_AUC_MATRIX
+    return NONTARGET_AUC_MATRIX if target_source in ("nontarget_pgs", "extend_trait") else ROOTCODE_AUC_MATRIX
 
 
 @lru_cache(maxsize=2)

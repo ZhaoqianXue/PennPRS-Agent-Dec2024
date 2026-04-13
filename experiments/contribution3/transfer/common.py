@@ -28,8 +28,8 @@ BENCHMARK_DIR = (
     / "cross_list"
     / "benchmark_contrib1_latest"
 )
-DEFAULT_BENCHMARK_FAMILY = "binary_to_binary"
-BENCHMARK_FAMILIES = ("binary_to_binary", "binary_to_continuous")
+DEFAULT_BENCHMARK_FAMILY = "unified"
+BENCHMARK_FAMILIES = ("binary_to_binary", "binary_to_continuous", "unified")
 BUNDLE_INDEX_JSON = RUNS_DIR / "trait_bundle_index.json"
 PGS_SCORES_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_scores.csv"
 PGS_EFO_TRAITS_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_efo_traits.csv"
@@ -43,16 +43,16 @@ ROOTCODE_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
-    / "aou_icd_260217"
-    / "prs_adjauc_matrix_260217_rootcode.csv"
+    / "aou_binary"
+    / "prs_adjauc_matrix_binary_combined_rootcode.csv"
 )
 NONTARGET_AUC_MATRIX = (
     PROJECT_ROOT
     / "experiments"
     / "contribution1"
     / "result"
-    / "aou_nontarget_pgs"
-    / "prs_adjauc_matrix_notarget_pgs_qc.csv"
+    / "aou_extend_trait"
+    / "prs_adjauc_matrix_binary_extend_qc.csv"
 )
 
 CANDIDATE_DOSSIER_CONFIGS: dict[str, dict[str, int]] = {
@@ -71,6 +71,15 @@ CANDIDATE_DOSSIER_CONFIGS: dict[str, dict[str, int]] = {
         "dossier_cap": 340,
         "lexical_min_score": 55,
         "fallback_binary": 240,
+        "fallback_continuous": 100,
+    },
+    # Unified: single config for all targets (no b2b/b2c distinction).
+    # Uses B2B-style wider pool for better oracle coverage.
+    "unified": {
+        "lexical_cap": 100,
+        "dossier_cap": 560,
+        "lexical_min_score": 38,
+        "fallback_binary": 260,
         "fallback_continuous": 100,
     },
 }
@@ -212,7 +221,7 @@ def _clean_optional_text(raw: Any) -> str:
 
 def _normalize_target_source(raw: Any) -> str:
     source = _clean_optional_text(raw)
-    return "nontarget_pgs" if source == "nontarget_pgs" else "rootcode_main_analysis"
+    return "extend_trait" if source in ("nontarget_pgs", "extend_trait") else "rootcode_main_analysis"
 
 
 def unique_preserve_order(values: Iterable[str]) -> list[str]:
@@ -267,7 +276,7 @@ def slugify(text: str) -> str:
 
 
 def _auc_matrix_path_for_source(target_source: str) -> Path:
-    return NONTARGET_AUC_MATRIX if target_source == "nontarget_pgs" else ROOTCODE_AUC_MATRIX
+    return NONTARGET_AUC_MATRIX if target_source in ("nontarget_pgs", "extend_trait") else ROOTCODE_AUC_MATRIX
 
 
 def _col_to_pgs_id(col: str) -> str:
@@ -460,7 +469,7 @@ def load_benchmark_target_selection(
     return df
 
 
-@lru_cache(maxsize=2)
+@lru_cache(maxsize=4)
 def benchmark_target_source_lookup(benchmark_family: str) -> dict[str, str]:
     try:
         df = load_benchmark_target_selection(benchmark_family=benchmark_family, selected_only=True)
