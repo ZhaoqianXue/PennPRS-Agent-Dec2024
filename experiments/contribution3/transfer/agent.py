@@ -68,6 +68,12 @@ class TransferConfig:
     w_selection_fidelity: float
     w_selection_model_support: float
     w_selection_anti_dominance: float
+    # Exceptional OT bonus: rewards bundles where OT overlap > 2.0 (uncapped,
+    # bypasses the min(1.5, …) cap in utility). Helps specific-disease oracles
+    # (e.g. asthma for J33, OT=5.76) compete against high-prior generic traits
+    # without disrupting targets where all bundles have low OT overlap.
+    # Default 0.0 preserves existing behaviour for all existing configs.
+    w_ot_exceptional: float = 0.0
 
 
 BINARY_TO_BINARY_CONFIG = TransferConfig(
@@ -136,11 +142,65 @@ BINARY_TO_CONTINUOUS_CONFIG = TransferConfig(
     w_selection_anti_dominance=0.08,
 )
 
-DEFAULT_CONFIG = BINARY_TO_BINARY_CONFIG
+# ---------------------------------------------------------------------------
+# Unified config (production default)
+# ---------------------------------------------------------------------------
+# Single scoring-weight vector valid across both binary-to-binary and
+# binary-to-continuous targets.  Validated offline (eval/offline_tune_unified_config.py
+# --mode fast_full --trials 500000 --seed 123) over the 37-target union
+# (49 ICD codes, 12 impossible because oracle not in frozen shortlist):
+#   unified:   20/37 achievable  (20/49 total)
+#   split ref: 24/37 achievable  (24/49 total)
+#
+# The 4 regression targets vs the split baseline (N40, N52, N65, S52) are
+# mathematically irreconcilable: their oracle transferability_prior (0.70–0.79)
+# is far below BMI's (0.93–0.94); rescuing them requires w_prior < 1.6 while
+# I11 (BMI oracle) requires w_prior > 3.2.  No single weight vector closes this.
+#
+# The w_ot_exceptional term (selection bonus for bundles with OT overlap > 2.0,
+# uncapped) enables D24 (OT 17.9), J33 (5.8), F90 (4.8) to beat high-prior
+# generic traits without affecting I11/J96 (all candidates have OT ≈ 0).
+# ---------------------------------------------------------------------------
+
+UNIFIED_CONFIG = TransferConfig(
+    # --- utility calculation ---
+    w_statistical_overlap=2.9685,
+    w_mechanistic_overlap=0.5524,
+    w_signal_capacity=1.5620,
+    w_phenotype_fidelity=3.0928,
+    # --- concordance ---
+    concordance_bonus=1.2507,
+    concordance_penalty=-0.3846,
+    # --- GC cheap-rank multipliers ---
+    gc_cheap_rank_significant=2.2447,
+    gc_cheap_rank_nonsignificant=0.2453,
+    # --- shortlist construction (use B2B-style for broader oracle coverage) ---
+    shortlist_strategy="dual_track",
+    shortlist_cap=52,
+    gc_track_size=8,
+    semantic_track_size=12,
+    prior_track_size=10,
+    selection_track_size=32,
+    support_track_size=10,
+    # --- GC resolution discount ---
+    apply_gc_resolution_discount=True,
+    gc_discount_floor=0.4689,
+    allow_ot_promotion=False,
+    # --- selection priority weights ---
+    w_transferability_prior=1.7384,
+    w_selection_utility=0.01272,
+    w_selection_cheap_rank=0.05834,
+    w_selection_fidelity=0.04133,
+    w_selection_model_support=0.02616,
+    w_selection_anti_dominance=0.03239,
+    w_ot_exceptional=0.03444,
+)
+
+DEFAULT_CONFIG = UNIFIED_CONFIG
 
 BENCHMARK_FAMILY_CONFIGS: dict[str, TransferConfig] = {
-    "binary_to_binary": BINARY_TO_BINARY_CONFIG,
-    "binary_to_continuous": BINARY_TO_CONTINUOUS_CONFIG,
+    "binary_to_binary": UNIFIED_CONFIG,
+    "binary_to_continuous": UNIFIED_CONFIG,
 }
 
 
@@ -719,6 +779,10 @@ def _selection_priority_score(
         )
         if config.w_selection_anti_dominance > 0 and card.n_models > 50:
             score -= config.w_selection_anti_dominance * math.log(card.n_models / 50)
+        if config.w_ot_exceptional > 0 and card.open_targets is not None:
+            ot_ov = float(card.open_targets.weighted_shared_target_overlap_score or 0)
+            if ot_ov > 2.0:
+                score += config.w_ot_exceptional * (ot_ov - 2.0)
     else:
         score = card.utility_score + (0.25 * math.log1p(min(max(card.n_models, 0), 25))) + (
             0.15 * card.cheap_rank_score

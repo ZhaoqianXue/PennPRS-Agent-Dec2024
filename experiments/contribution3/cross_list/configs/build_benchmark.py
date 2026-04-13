@@ -47,7 +47,6 @@ import pandas as pd
 
 # Reuse data loading and mapping functions from the existing pipeline.
 from build_cross_list import (
-    CONTRIB1_RESULT_DIR,
     CONTRIB1_LOINC_RESULT_DIR,
     _col_to_pgs_id,
     _pgs_id_to_col,
@@ -1489,7 +1488,20 @@ def main() -> None:
                         help=f"Minimum best split gap in cross ranking (default: {DEFAULT_MIN_BEST_SPLIT_GAP})")
     parser.add_argument("--max-self-auc", type=float, default=DEFAULT_MAX_SELF_AUC,
                         help=f"Type B self AUC upper bound (default: {DEFAULT_MAX_SELF_AUC})")
+    parser.add_argument(
+        "--output-benchmark-root",
+        type=Path,
+        default=None,
+        help=(
+            "Write benchmark CSVs, config, and reports under this directory "
+            f"(with {B2B_DIR.name}/ and {B2C_DIR.name}/ subfolders) instead of {BENCHMARK_DIR}."
+        ),
+    )
     args = parser.parse_args()
+
+    benchmark_out: Path = args.output_benchmark_root.resolve() if args.output_benchmark_root else BENCHMARK_DIR
+    b2b_out = benchmark_out / B2B_DIR.name
+    b2c_out = benchmark_out / B2C_DIR.name
 
     params = {
         "delta": args.delta,
@@ -1499,11 +1511,11 @@ def main() -> None:
         "max_self_auc": args.max_self_auc,
     }
 
-    B2B_DIR.mkdir(parents=True, exist_ok=True)
-    B2C_DIR.mkdir(parents=True, exist_ok=True)
+    b2b_out.mkdir(parents=True, exist_ok=True)
+    b2c_out.mkdir(parents=True, exist_ok=True)
 
     # Save config
-    config_path = BENCHMARK_DIR / "benchmark_config.json"
+    config_path = benchmark_out / "benchmark_config.json"
     config_path.write_text(json.dumps(params, indent=2) + "\n", encoding="utf-8")
 
     # ----- Binary-to-Binary -----
@@ -1539,8 +1551,8 @@ def main() -> None:
     b2b_targets = _concat_frames([b2b_targets_type_a, b2b_targets_type_b])
     b2b_gt = _concat_frames([b2b_gt_type_a, b2b_gt_type_b])
 
-    b2b_targets.to_csv(B2B_DIR / "target_selection.csv", index=False)
-    b2b_gt.to_csv(B2B_DIR / "ground_truth_ranking.csv", index=False)
+    b2b_targets.to_csv(b2b_out / "target_selection.csv", index=False)
+    b2b_gt.to_csv(b2b_out / "ground_truth_ranking.csv", index=False)
 
     n_sel_b2b = int(b2b_targets["selected"].sum()) if not b2b_targets.empty else 0
     n_gt_b2b = len(b2b_gt)
@@ -1573,8 +1585,8 @@ def main() -> None:
     b2c_targets = _concat_frames([b2c_targets_type_a, b2c_targets_type_b])
     b2c_gt = _concat_frames([b2c_gt_type_a, b2c_gt_type_b])
 
-    b2c_targets.to_csv(B2C_DIR / "target_selection.csv", index=False)
-    b2c_gt.to_csv(B2C_DIR / "ground_truth_ranking.csv", index=False)
+    b2c_targets.to_csv(b2c_out / "target_selection.csv", index=False)
+    b2c_gt.to_csv(b2c_out / "ground_truth_ranking.csv", index=False)
 
     n_sel_b2c = int(b2c_targets["selected"].sum()) if not b2c_targets.empty else 0
     n_gt_b2c = len(b2c_gt)
@@ -1604,15 +1616,16 @@ def main() -> None:
         b2c_gt,
         params,
     )
-    report_path = BENCHMARK_DIR / "benchmark_report_type_b.md"
+    report_path = benchmark_out / "benchmark_report_type_b.md"
     report_path.write_text(type_b_report, encoding="utf-8")
-    report_type_a_path = BENCHMARK_DIR / "benchmark_report_type_a.md"
+    report_type_a_path = benchmark_out / "benchmark_report_type_a.md"
     report_type_a_path.write_text(type_a_report, encoding="utf-8")
-    report_all_path = BENCHMARK_DIR / "benchmark_report_all_target_trait.md"
+    report_all_path = benchmark_out / "benchmark_report_all_target_trait.md"
     report_all_path.write_text(combined_report, encoding="utf-8")
 
     print(f"\n{'='*60}")
     print(f"Benchmark complete.")
+    print(f"  Output root: {benchmark_out}")
     print(f"  B2B: {n_sel_b2b} targets, {n_gt_b2b} ground truth rows")
     print(f"  B2C: {n_sel_b2c} targets, {n_gt_b2c} ground truth rows")
     print(f"  Type B report: {report_path}")

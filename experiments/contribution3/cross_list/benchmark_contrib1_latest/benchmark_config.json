@@ -1,0 +1,12 @@
+{
+  "delta": 0.025,
+  "k_min": 1,
+  "min_top_cross_auc": 0.55,
+  "min_best_split_gap": 0.0,
+  "max_self_auc": 0.6,
+  "type_a_source": "aou_extend_trait",
+  "type_b_binary_matrix": "contribution1/result/aou_binary",
+  "type_b_continuous_loinc_dir": "contribution1/result/aou_continuous",
+  "union_selected_icd_count": 80,
+  "union_excluded_icd_count": 0
+}

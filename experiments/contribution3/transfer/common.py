@@ -26,7 +26,7 @@ BENCHMARK_DIR = (
     / "experiments"
     / "contribution3"
     / "cross_list"
-    / "benchmark"
+    / "benchmark_contrib1_latest"
 )
 DEFAULT_BENCHMARK_FAMILY = "binary_to_binary"
 BENCHMARK_FAMILIES = ("binary_to_binary", "binary_to_continuous")

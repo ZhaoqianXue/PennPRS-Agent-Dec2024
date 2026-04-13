@@ -18,8 +18,9 @@ Selection criterion:
   The top retained cross model must also have AUC > 0.55.
   Target traits with self best AUC > 0.60 are excluded (self PRS already strong).
 
-Target traits here are restricted to the same set as Contribution2 main analysis:
-  ICD root rows with include_in_analysis == 1 in prs_adjauc_metadata_260217_rootcode.csv
+  Target traits here are restricted to the same set as Contribution2 main analysis:
+  ICD root rows with include_in_analysis == 1 in
+  `contribution1/result/aou_binary/prs_adjauc_metadata_binary_combined_rootcode.csv`
   (case_count >= 200 in Contribution1 QC).
 
 PGS models with unknown source ontology are excluded (cannot build disease-level mapping).
@@ -57,12 +58,16 @@ BINARY_TO_CONTINUOUS_RUNS_DIR = RUNS_DIR / "binary_to_continuous"
 CONTINUOUS_TO_BINARY_RUNS_DIR = RUNS_DIR / "continuous_to_binary"
 CONTINUOUS_TO_CONTINUOUS_RUNS_DIR = RUNS_DIR / "continuous_to_continuous"
 
+# Primary binary (disease) AoU adjAUC matrices: refreshed binary-combined rootcode outputs
+# under contribution1/result (not the legacy aou_icd_260217 snapshot).
 CONTRIB1_RESULT_DIR = (
     CROSS_LIST_DIR.parent.parent
     / "contribution1"
     / "result"
-    / "aou_icd_260217"
+    / "aou_binary"
 )
+CONTRIB1_ROOTCODE_ADJ_AUC_MATRIX_NAME = "prs_adjauc_matrix_binary_combined_rootcode.csv"
+CONTRIB1_ROOTCODE_ADJ_AUC_METADATA_NAME = "prs_adjauc_metadata_binary_combined_rootcode.csv"
 CONTRIB1_LOINC_RESULT_DIR = (
     CROSS_LIST_DIR.parent.parent
     / "contribution1"
@@ -144,7 +149,7 @@ def _display_positive_count_or_dash(value: object) -> str:
 
 
 def load_rootcode_auc_matrix() -> pd.DataFrame:
-    matrix_path = CONTRIB1_RESULT_DIR / "prs_adjauc_matrix_260217_rootcode.csv"
+    matrix_path = CONTRIB1_RESULT_DIR / CONTRIB1_ROOTCODE_ADJ_AUC_MATRIX_NAME
     if not matrix_path.exists():
         raise FileNotFoundError(f"Matrix not found: {matrix_path}")
     return pd.read_csv(matrix_path, index_col=0)
@@ -357,7 +362,7 @@ def load_main_analysis_input_icds() -> set[str]:
 
     Uses prs_adjauc_metadata include_in_analysis == 1 (AoU case_count >= 200 QC).
     """
-    meta_path = CONTRIB1_RESULT_DIR / "prs_adjauc_metadata_260217_rootcode.csv"
+    meta_path = CONTRIB1_RESULT_DIR / CONTRIB1_ROOTCODE_ADJ_AUC_METADATA_NAME
     if not meta_path.exists():
         raise FileNotFoundError(f"Metadata not found: {meta_path}")
 
