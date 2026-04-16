@@ -4,6 +4,7 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
+.claude/worktrees/
 downloads/
 output/
 pennprs-agent/
@@ -31,3 +32,5 @@ output/logs/download/*.txt
 
 # Tool-calling run raw logs exceed GitHub 100MB limit (keep summaries locally)
 experiments/contribution3/transfer/runs/tool_calling_agent/unified/**/results.json
+# Large recommendation dump (>100MB); keep locally
+experiments/contribution3/transfer/runs/tool_calling_agent/unified/all-tools/contribution2_recommendations.json

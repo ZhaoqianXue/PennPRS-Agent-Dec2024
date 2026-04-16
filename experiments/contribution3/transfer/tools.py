@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import json
+import logging
 from collections import defaultdict
+from functools import lru_cache
 import re
 from typing import Any, Literal, Optional
 
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.tools import StructuredTool
 from pydantic import BaseModel, Field
 from thefuzz import fuzz
@@ -24,9 +28,12 @@ from experiments.contribution3.transfer.prompts.transfer_prompt import (
     TraitResolution,
     TraitResolutionHit,
 )
+from src.server.core.llm_config import get_llm
 from src.server.core.opentargets_client import OpenTargetsClient
 from src.server.modules.heritability.aggregator import HeritabilityAggregator
 from src.server.modules.heritability.models import HeritabilityEstimate
+
+logger = logging.getLogger(__name__)
 
 
 ResponseFormat = Literal["concise", "detailed"]
@@ -83,18 +90,89 @@ def _resolution_confidence(score: float | None) -> Literal["High", "Moderate", "
     return "Unresolved"
 
 
-def _best_signal_strength(rg: float | None, p_value: float | None) -> str:
+def _gwas_atlas_confidence(rg: float | None, p_value: float | None) -> str | None:
+    """Map GWAS Atlas rg/p to a confidence tier aligned with LLM estimates."""
     if rg is None or p_value is None:
-        return "Unavailable"
+        return None
     abs_rg = abs(float(rg))
     if p_value < 0.05 and abs_rg >= 0.30:
-        return "Strong"
+        return "High"
     if p_value < 0.05 and abs_rg >= 0.15:
         return "Moderate"
-    if abs_rg > 0:
-        return "Weak"
-    return "Unavailable"
+    if p_value < 0.05:
+        return "Low"
+    return "Low"
 
+
+# ---------------------------------------------------------------------------
+# LLM-based genetic relatedness estimation infrastructure
+# ---------------------------------------------------------------------------
+
+_LLM_RG_SYSTEM_PROMPT = """\
+You are a quantitative genetics expert. For each (target_trait, candidate_trait) \
+pair below, estimate the genetic correlation (rg) that would be observed in a \
+large-scale LD-score regression or similar cross-trait GWAS analysis.
+
+Base your estimate on:
+- Published GWAS / LD-score regression results you are aware of
+- Known shared biological pathways and pleiotropic loci
+- Epidemiological comorbidity patterns that suggest shared genetic architecture
+
+Return one entry per candidate with:
+- estimated_rg: float in [-1.0, 1.0]
+- confidence: "High" (well-studied pair with published rg), \
+"Moderate" (related traits with indirect evidence), \
+or "Low" (speculative, little direct evidence)
+- brief_rationale: one sentence citing the key reason for your estimate
+
+Be calibrated: most trait pairs have |rg| < 0.3. Reserve |rg| > 0.5 for \
+genuinely closely related traits (e.g. BMI vs waist circumference, T2D vs \
+fasting glucose). Unrelated traits should get rg near 0 with Low confidence.\
+"""
+
+
+class _LLMGeneticRelatednessItem(BaseModel):
+    bundle_id: str
+    candidate_label: str
+    estimated_rg: float = Field(ge=-1.0, le=1.0)
+    confidence: Literal["High", "Moderate", "Low"]
+    brief_rationale: str
+
+
+class _LLMGeneticRelatednessResponse(BaseModel):
+    estimates: list[_LLMGeneticRelatednessItem]
+
+
+@lru_cache(maxsize=1)
+def _build_llm_rg_chain():
+    llm = get_llm("disease_workflow")
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", _LLM_RG_SYSTEM_PROMPT),
+        ("human", "{request_json}"),
+    ])
+    structured = llm.with_structured_output(
+        _LLMGeneticRelatednessResponse,
+        method="function_calling",
+    )
+    return prompt | structured
+
+
+def _call_llm_rg_estimation(
+    target_trait: str,
+    batch_items: list[dict[str, str]],
+) -> list[_LLMGeneticRelatednessItem]:
+    """Call the LLM to estimate rg for a batch of (target, candidate) pairs."""
+    request = {
+        "target_trait": target_trait,
+        "candidates": batch_items,
+    }
+    result: _LLMGeneticRelatednessResponse = _build_llm_rg_chain().invoke(
+        {"request_json": json.dumps(request, ensure_ascii=False)}
+    )
+    return result.estimates
+
+
+# ---------------------------------------------------------------------------
 
 def _estimate_match_score(query: str, label: str) -> float:
     if not query or not label:
@@ -190,7 +268,7 @@ class CrossTraitToolbox:
         self,
         *,
         query: str,
-        system: Literal["gwas_atlas", "open_targets"],
+        system: Literal["gwas_atlas", "open_targets", "llm"],
         matches: list[dict[str, Any]],
         unavailable_reason: Optional[str] = None,
     ) -> TraitResolution:
@@ -625,7 +703,7 @@ class CrossTraitToolbox:
                     p_value=metrics["p"],
                     study_count=None,
                     provenance_status="lookup_only",
-                    evidence_strength=_best_signal_strength(metrics["rg"], metrics["p"]),
+                    confidence=_gwas_atlas_confidence(metrics["rg"], metrics["p"]),
                 )
             else:
                 evidence = GeneticCorrelationEvidence(
@@ -642,6 +720,86 @@ class CrossTraitToolbox:
                 )
             rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
         return {"target_trait": target_trait, "response_format": response_format, "results": rows}
+
+    # ------------------------------------------------------------------
+    # LLM-based genetic relatedness estimation
+    # ------------------------------------------------------------------
+
+    def cross_trait_genetic_correlation_llm(
+        self,
+        target_trait: str,
+        candidate_bundle_ids: list[str],
+        batch_size: int = 20,
+    ) -> dict[str, Any]:
+        """Estimate genetic correlation via LLM internal knowledge.
+
+        For each (target, candidate) pair the LLM returns an estimated rg,
+        a confidence tier, and a brief rationale.  The output is schema-
+        compatible with the GWAS-Atlas-backed tool so downstream scoring
+        functions can consume it unchanged.
+        """
+        candidates = [
+            (bid, self._candidate_bundle(bid))
+            for bid in candidate_bundle_ids
+        ]
+        candidates = [(bid, b) for bid, b in candidates if b is not None]
+
+        rows: list[dict[str, Any]] = []
+        # Process in batches
+        for start in range(0, len(candidates), batch_size):
+            batch = candidates[start : start + batch_size]
+            batch_items = [
+                {"bundle_id": bid, "candidate_label": b.canonical_label}
+                for bid, b in batch
+            ]
+
+            try:
+                estimates = _call_llm_rg_estimation(target_trait, batch_items)
+            except Exception:
+                logger.exception("LLM rg estimation failed for target=%s batch=%d", target_trait, start)
+                estimates = []
+
+            estimate_by_id: dict[str, _LLMGeneticRelatednessItem] = {
+                est.bundle_id: est for est in estimates
+            }
+
+            for bid, bundle in batch:
+                est = estimate_by_id.get(bid)
+                if est is None:
+                    evidence = GeneticCorrelationEvidence(
+                        source="llm_estimated",
+                        target_resolution=TraitResolution(query=target_trait, system="llm"),
+                        candidate_resolution=TraitResolution(query=bundle.canonical_label, system="llm"),
+                        pair_status="llm_estimation_failed",
+                        provenance_status="llm_estimated",
+                        unavailable_reason="llm_did_not_return_estimate",
+                    )
+                else:
+                    evidence = GeneticCorrelationEvidence(
+                        source="llm_estimated",
+                        target_resolution=TraitResolution(
+                            query=target_trait,
+                            system="llm",
+                            confidence="High",
+                        ),
+                        candidate_resolution=TraitResolution(
+                            query=bundle.canonical_label,
+                            system="llm",
+                            confidence="High",
+                        ),
+                        pair_status="llm_estimated",
+                        rg=max(-1.0, min(1.0, est.estimated_rg)),
+                        provenance_status="llm_estimated",
+                        confidence=est.confidence,
+                        llm_rationale=est.brief_rationale,
+                    )
+                rows.append({
+                    "bundle_id": bid,
+                    "canonical_label": bundle.canonical_label,
+                    **evidence.model_dump(),
+                })
+
+        return {"target_trait": target_trait, "response_format": "concise", "results": rows}
 
     def cross_trait_heritability(
         self,

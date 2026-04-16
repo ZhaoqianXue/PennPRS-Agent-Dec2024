@@ -37,6 +37,7 @@ from experiments.contribution3.transfer.agent import (
     BINARY_TO_CONTINUOUS_CONFIG,
     UNIFIED_CONFIG,
     TransferConfig,
+    _is_significant_gc,
 )
 from experiments.contribution3.transfer.common import (
     CandidateBundleDossier,
@@ -129,6 +130,10 @@ class BundleCache:
 def _gc_raw_discount(gc) -> float:
     if gc is None:
         return 0.0
+    if getattr(gc, "source", "gwas_atlas") == "llm_estimated":
+        return {"High": 1.0, "Moderate": 0.7, "Low": 0.3}.get(
+            getattr(gc, "confidence", None) or "", 0.0
+        )
     mult = 1.0
     for res in (gc.target_resolution, gc.candidate_resolution):
         if res is None:
@@ -157,7 +162,7 @@ def _precompute_bundle_cache(
         n = card.n_models
 
         rg_val = float(gc.rg) if gc and gc.rg is not None else 0.0
-        p_sig = bool(gc and gc.p_value is not None and gc.p_value < 0.05)
+        p_sig = _is_significant_gc(gc)
         gc_disc = _gc_raw_discount(gc) if gc else 0.0
 
         ot_ov = float(ot.weighted_shared_target_overlap_score) if ot else 0.0

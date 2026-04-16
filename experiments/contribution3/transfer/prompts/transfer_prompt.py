@@ -18,7 +18,7 @@ class TraitResolutionHit(BaseModel):
 
 class TraitResolution(BaseModel):
     query: str
-    system: Literal["gwas_atlas", "open_targets"]
+    system: Literal["gwas_atlas", "open_targets", "llm"]
     best_id: Optional[str] = None
     best_label: Optional[str] = None
     matched_text: Optional[str] = None
@@ -47,7 +47,8 @@ class GeneticCorrelationEvidence(BaseModel):
     p_value: Optional[float] = None
     study_count: Optional[int] = None
     provenance_status: str = "not_available"
-    evidence_strength: str = "Unavailable"
+    confidence: Optional[Literal["High", "Moderate", "Low"]] = None
+    llm_rationale: Optional[str] = None
     unavailable_reason: Optional[str] = None
 
 
@@ -206,26 +207,31 @@ Choose the best transfer frontier from the evidence cards.
 - Strongly penalize only `administrative/exposure/treatment/family-history proxy`.
 - Do NOT automatically penalize `composite liability trait` or `mechanistic endophenotype / organ-function measurement`.
 - Do not abstain if at least one valid non-self candidate exists.
-- `single_confident` requires a clearly best candidate with evidence closure on either significant GC or clearly supported Open Targets overlap.
+- `single_confident` requires a clearly best candidate with evidence closure on either significant GC (High/Moderate confidence) or clearly supported Open Targets overlap.
 - Otherwise prefer `frontier_uncertain` and keep up to 3 bundles.
+
+# GC Evidence Source
+- GC evidence may come from GWAS Atlas lookup (`gc.source == "gwas_atlas"`) or LLM estimation (`gc.source == "llm_estimated"`).
+- For GWAS Atlas: significance is determined by `gc.p_value < 0.05`.
+- For LLM-estimated: significance is determined by `gc.confidence` being "High" or "Moderate". There is no p_value; use `gc.confidence` as the reliability indicator.
+- `gc.llm_rationale` provides a brief justification for the LLM estimate.
 
 # Selection Guidance
 - Read all evidence cards before deciding.
 - Treat `utility_score` as a hint, not a rule.
 - Treat `transferability_prior_score` as a target-agnostic robustness tie-break, not as biological evidence.
 - Prefer explanations that can be mapped to explicit evidence fields.
-- If the top card has missing GC and weak OT but remains best on phenotype fidelity, lower confidence.
+- If the top card has missing or low-confidence GC and weak OT but remains best on phenotype fidelity, lower confidence.
 - If a composite or endophenotype candidate has strong GC or mechanistic support, it can outrank a same-family disease candidate.
-- When `target_summary.benchmark_family == "binary_to_binary"`, GC and OT disagreement can justify preferring the evidence source with higher resolution confidence. That disease-to-disease guidance does not automatically transfer to `binary_to_continuous`.
-- When `target_summary.benchmark_family == "binary_to_continuous"`, preserve GC-first / endophenotype-friendly behavior: low GC resolution confidence is a caution signal, not an automatic demotion, and a candidate should not be promoted solely because it has somewhat higher Open Targets overlap or cleaner resolution metadata.
+- When `target_summary.benchmark_family == "binary_to_binary"`, GC and OT disagreement can justify preferring the evidence source with higher confidence. That disease-to-disease guidance does not automatically transfer to `binary_to_continuous`.
+- When `target_summary.benchmark_family == "binary_to_continuous"`, preserve GC-first / endophenotype-friendly behavior: low GC confidence is a caution signal, not an automatic demotion, and a candidate should not be promoted solely because it has somewhat higher Open Targets overlap.
 - For disease-to-disease transfer (`binary_to_binary`), mechanistic overlap via Open Targets can be more predictive than statistical GC alone because diseases with high GC may still have different prediction-relevant genetic architectures.
-- Attend to gc.target_resolution.confidence and gc.candidate_resolution.confidence, but interpret them in the benchmark-family context above.
 
 # Evidence Grounding
 Before making your selection, for each of your top 2-3 candidates, note:
 - utility_score value
 - transferability_prior_score value if nonzero
-- gc.rg, gc.p_value, and gc resolution confidence (if available)
+- gc.rg and gc.confidence (if available)
 - open_targets.weighted_shared_target_overlap_score and confidence_level (if available)
 - phenotype_fidelity_score and archetype
 Use these quoted values to justify your selection in the rationale.
@@ -243,13 +249,14 @@ Audit the proposed frontier selection against the evidence cards.
 
 # Rules
 - Read `target_summary.benchmark_family` before deciding whether any revision is allowed.
-- Keep the selected frontier fixed unless it contains an invalid bundle id, or the evidence materially supports promoting a better candidate because the current primary depends on low-confidence GC resolution.
+- Keep the selected frontier fixed unless it contains an invalid bundle id, or the evidence materially supports promoting a better candidate because the current primary depends on low-confidence GC.
 - Rewrite the rationale so every scientific claim is grounded in explicit card fields.
 - Lower confidence when the rationale overclaims.
 - Never inject trait-specific world knowledge that is absent from the evidence cards.
 - Evidence tags must be a subset of tags visible in the selected cards.
-- When `target_summary.benchmark_family == "binary_to_continuous"`, do not revise the primary/frontier solely to promote a higher-OT candidate over the current GC-supported or endophenotype-friendly selection. In that family, low GC resolution confidence alone is not enough to justify OT-driven reprioritization.
-- The low-confidence-GC / higher-OT promotion rule applies only when `target_summary.benchmark_family == "binary_to_binary"`. Only in that family, if the primary bundle's GC evidence has Low resolution confidence AND another shortlisted candidate has higher OT overlap with better resolution confidence, flag this as an issue and consider whether the alternative should be the primary. If so, set `revised_primary_bundle_id` and `revised_frontier_bundle_ids`.
+- GC confidence is indicated by `gc.confidence` ("High", "Moderate", "Low") regardless of whether the source is GWAS Atlas or LLM-estimated.
+- When `target_summary.benchmark_family == "binary_to_continuous"`, do not revise the primary/frontier solely to promote a higher-OT candidate over the current GC-supported or endophenotype-friendly selection. In that family, low GC confidence alone is not enough to justify OT-driven reprioritization.
+- The low-confidence-GC / higher-OT promotion rule applies only when `target_summary.benchmark_family == "binary_to_binary"`. Only in that family, if the primary bundle's GC evidence has Low confidence AND another shortlisted candidate has higher OT overlap with better confidence, flag this as an issue and consider whether the alternative should be the primary. If so, set `revised_primary_bundle_id` and `revised_frontier_bundle_ids`.
 
 # Output
 Return one JSON object only.

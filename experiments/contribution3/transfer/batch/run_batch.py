@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 
@@ -69,13 +71,13 @@ def cmd_run(args: argparse.Namespace) -> None:
     if target_filter:
         dossiers = [dossier for dossier in dossiers if dossier.target.target_id in target_filter]
 
+    n_workers = getattr(args, "workers", 1) or 1
     conditions = list(CONDITION_TOOLS) if args.condition == "all" else [args.condition]
     for condition in conditions:
         if toolbox is None:
             from experiments.contribution3.transfer.tools import CrossTraitToolbox
 
             toolbox = CrossTraitToolbox(bundles)
-        results = []
         outpath = condition_results_json(
             condition,
             benchmark_family=args.benchmark_family,
@@ -86,21 +88,63 @@ def cmd_run(args: argparse.Namespace) -> None:
                 f"Refusing to overwrite existing transfer run output: {outpath}. "
                 "Choose a new --run-id or remove the existing run directory."
             )
-        for dossier in dossiers:
-            result = run_cross_trait_agent(
-                dossier,
-                condition=condition,
-                toolbox=toolbox,
-                benchmark_family=args.benchmark_family,
-            )
-            results.append(result)
+
+        if n_workers <= 1:
+            # Sequential (original) path
+            results = []
+            for dossier in dossiers:
+                result = run_cross_trait_agent(
+                    dossier,
+                    condition=condition,
+                    toolbox=toolbox,
+                    benchmark_family=args.benchmark_family,
+                )
+                results.append(result)
+                print(
+                    f"[{condition}] {result['target']['target_id']}: "
+                    f"{result['decision']['outcome']} "
+                    f"{result['decision'].get('best_cross_trait') or '-'}",
+                    flush=True,
+                )
+                write_agent_results(results, outpath)
+        else:
+            # Parallel path — each target is independent; LLM calls are I/O-bound.
+            results_lock = threading.Lock()
+            results: list[dict] = [None] * len(dossiers)  # type: ignore[list-item]
+            done_count = 0
+
+            def _process(idx: int, dossier):
+                return idx, run_cross_trait_agent(
+                    dossier,
+                    condition=condition,
+                    toolbox=toolbox,
+                    benchmark_family=args.benchmark_family,
+                )
+
             print(
-                f"[{condition}] {result['target']['target_id']}: "
-                f"{result['decision']['outcome']} "
-                f"{result['decision'].get('best_cross_trait') or '-'}",
+                f"[{condition}] Running {len(dossiers)} targets with {n_workers} workers ...",
                 flush=True,
             )
+            with ThreadPoolExecutor(max_workers=n_workers) as pool:
+                futures = {
+                    pool.submit(_process, i, d): i
+                    for i, d in enumerate(dossiers)
+                }
+                for future in as_completed(futures):
+                    idx, result = future.result()
+                    with results_lock:
+                        results[idx] = result
+                        done_count += 1
+                    print(
+                        f"[{condition}] ({done_count}/{len(dossiers)}) "
+                        f"{result['target']['target_id']}: "
+                        f"{result['decision']['outcome']} "
+                        f"{result['decision'].get('best_cross_trait') or '-'}",
+                        flush=True,
+                    )
+            # Write once after all complete (preserves original target order)
             write_agent_results(results, outpath)
+
         print(
             f"[{condition}] run_id={run_id} wrote {len(results)} decisions -> {outpath}",
             flush=True,
@@ -231,6 +275,16 @@ def build_parser() -> argparse.ArgumentParser:
             "YYYYMMDD_HHMMSS and writes results to "
             "runs/tool_calling_agent/<benchmark_family>/<condition>__<run-id>/results.json. "
             "candidate_dossiers.json remains directly under the benchmark-family directory."
+        ),
+    )
+    run_parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help=(
+            "Number of parallel worker threads for target processing. "
+            "Each target's LLM calls are I/O-bound, so 4-8 workers give near-linear speedup. "
+            "Default 1 (sequential) preserves incremental write-after-each-target behaviour."
         ),
     )
 

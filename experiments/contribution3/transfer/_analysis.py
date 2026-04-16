@@ -263,7 +263,7 @@ for family in ["binary_to_binary", "binary_to_continuous"]:
         if selected_c:
             print(f"    Selected evidence: utility={selected_c.get('utility_score',0):.3f} cheap={selected_c.get('cheap_rank_score',0):.3f} prior={selected_c.get('transferability_prior_score',0):.3f} arch={selected_c.get('archetype','?')[:30]}")
             gc = selected_c.get("gc") or {}
-            print(f"      GC: rg={gc.get('rg','?')} p={gc.get('p_value','?')} strength={gc.get('evidence_strength','?')}")
+            print(f"      GC: rg={gc.get('rg','?')} p={gc.get('p_value','?')} conf={gc.get('confidence','?')}")
             ot = selected_c.get("open_targets") or {}
             print(f"      OT: overlap={ot.get('weighted_shared_target_overlap_score','?')} conf={ot.get('confidence_level','?')} genetic_supp={ot.get('genetic_support_present','?')}")
             print(f"      Tags: {selected_c.get('evidence_tags', [])}")
@@ -271,7 +271,7 @@ for family in ["binary_to_binary", "binary_to_continuous"]:
         if oracle_c:
             print(f"    Oracle evidence: utility={oracle_c.get('utility_score',0):.3f} cheap={oracle_c.get('cheap_rank_score',0):.3f} prior={oracle_c.get('transferability_prior_score',0):.3f} arch={oracle_c.get('archetype','?')[:30]}")
             gc = oracle_c.get("gc") or {}
-            print(f"      GC: rg={gc.get('rg','?')} p={gc.get('p_value','?')} strength={gc.get('evidence_strength','?')}")
+            print(f"      GC: rg={gc.get('rg','?')} p={gc.get('p_value','?')} conf={gc.get('confidence','?')}")
             ot = oracle_c.get("open_targets") or {}
             print(f"      OT: overlap={ot.get('weighted_shared_target_overlap_score','?')} conf={ot.get('confidence_level','?')} genetic_supp={ot.get('genetic_support_present','?')}")
             print(f"      Tags: {oracle_c.get('evidence_tags', [])}")

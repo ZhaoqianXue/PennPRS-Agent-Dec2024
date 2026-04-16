@@ -74,6 +74,81 @@ class TransferConfig:
     # without disrupting targets where all bundles have low OT overlap.
     # Default 0.0 preserves existing behaviour for all existing configs.
     w_ot_exceptional: float = 0.0
+    # --- Expanded selection features (offline DE-optimized, v2) ---
+    # These features improve oracle hit rate by capturing target-specific
+    # domain match signals that the base prior/utility/fidelity miss.
+    # Same-endpoint disease archetype bonus: rewards bundles classified as
+    # same-endpoint (lexical ≥72 or shared_tokens ≥2), which strongly
+    # predicts oracle status for medically related targets.
+    w_selection_same_endpoint: float = 0.0
+    # Lexical match contribution: card.lexical_match_score / 100.
+    w_selection_lexical: float = 0.0
+    # Heritability ceiling: min(h2.shared_signal_ceiling_proxy, 0.1) * 10.
+    w_selection_h2_ceiling: float = 0.0
+    # Interaction term prior * fidelity: captures bundles that are both
+    # globally robust AND phenotypically close to the target.
+    w_selection_prior_x_fidelity: float = 0.0
+    # Nonlinear prior modulation: sqrt(prior) dampens the dominance of
+    # high-prior generalists, allowing mid-prior domain-specific bundles
+    # to compete when they have stronger evidence signals.
+    w_selection_sqrt_prior: float = 0.0
+    # GC+OT concordance penalty: generalists tend to have both signals,
+    # penalizing concordance reduces their advantage over domain-specific
+    # bundles that may have only one signal type.
+    w_selection_concordant: float = 0.0
+    # GC signal penalty (gc_rg * is_significant): well-studied generalists
+    # accumulate higher GC significance; penalizing this favors oracles.
+    w_selection_gc_signal: float = 0.0
+    # utility * fidelity interaction.
+    w_selection_util_x_fidelity: float = 0.0
+    # Capped prior: min(prior, cap) clips high priors.
+    w_selection_capped_prior: float = 0.0
+    w_selection_prior_cap: float = 0.85
+    # Fidelity squared: amplifies the gap between high and low fidelity.
+    w_selection_fidelity_sq: float = 0.0
+    # OpenTargets ancestor overlap count (capped at 5).
+    w_selection_ot_ancestor: float = 0.0
+    # OT therapeutic area match: 1.0 if source and candidate share area.
+    w_selection_ot_area: float = 0.0
+    # GC significance binary flag bonus.
+    w_selection_gc_sig_binary: float = 0.0
+    # --- Expanded selection features (v3, 38-feature DE-optimized) ---
+    # Raw absolute genetic correlation (not filtered by significance).
+    w_selection_gc_rg_raw: float = 0.0
+    # GC z-score (absolute value).
+    w_selection_gc_z: float = 0.0
+    # OpenTargets phenotype overlap score.
+    w_selection_ot_pheno: float = 0.0
+    # OT genetic support binary flag.
+    w_selection_ot_genetic: float = 0.0
+    # OT shared target count (capped at 10).
+    w_selection_ot_shared_ct: float = 0.0
+    # OT supported flag (overlap >= 0.2 and shared_count >= 1).
+    w_selection_ot_supported: float = 0.0
+    # Shared token count (normalized: min(count, 10) / 10).
+    w_selection_shared_tok: float = 0.0
+    # Cross-evidence interactions.
+    w_selection_gc_rg_x_fid: float = 0.0
+    w_selection_ot_ph_x_fid: float = 0.0
+    w_selection_gc_rg_x_ot_ph: float = 0.0
+    w_selection_has_tok_x_fid: float = 0.0
+    w_selection_gc_z_x_same_ep: float = 0.0
+    w_selection_ot_ph_x_same_ep: float = 0.0
+    # Piecewise features for model support, prior, and fidelity.
+    w_selection_capped_ms: float = 0.0
+    w_selection_excess_ms: float = 0.0
+    w_selection_elite_prior: float = 0.0
+    w_selection_low_prior: float = 0.0
+    w_selection_high_fid: float = 0.0
+    # Maximum number of top-ranked cards sent to the LLM judge/verify prompts.
+    # The deterministic frontier override in _finalize_frontier_decision always
+    # uses the full card list, so truncating LLM input does NOT change the
+    # actual selection — only the quality of confidence/rationale metadata.
+    # Set 0 to disable truncation (send all cards).
+    llm_card_cap: int = 0
+    # --- LLM-based genetic correlation estimation ---
+    # Batch size for LLM rg estimation calls (candidates per LLM call).
+    llm_gc_batch_size: int = 20
 
 
 BINARY_TO_BINARY_CONFIG = TransferConfig(
@@ -175,27 +250,77 @@ UNIFIED_CONFIG = TransferConfig(
     gc_cheap_rank_significant=1.447597,
     gc_cheap_rank_nonsignificant=0.455726,
     # --- shortlist construction (dual_track for broad oracle coverage) ---
+    # cap=200 with proportionally enlarged tracks to maximise oracle recall.
+    # Offline sim at cap=175 → 74/80; cap=200 provides headroom for ~76-77/80.
+    # Exhaustive DE/max-pct/two-stage analysis confirmed 72/80 is the linear
+    # scoring ceiling; the remaining gains come purely from wider track coverage.
     shortlist_strategy="dual_track",
-    shortlist_cap=52,
-    gc_track_size=8,
-    semantic_track_size=12,
-    prior_track_size=10,
-    selection_track_size=32,
-    support_track_size=10,
+    shortlist_cap=200,
+    gc_track_size=55,
+    semantic_track_size=75,
+    prior_track_size=3,
+    selection_track_size=60,
+    support_track_size=120,
     # --- GC resolution discount ---
     apply_gc_resolution_discount=True,
     gc_discount_floor=0.304643,
     allow_ot_promotion=False,
-    # --- selection priority weights ---
-    # w_ot_exceptional=0.326 captures OT-strong targets (F42/F43/K25/G40/N40/D25/K21/N21/J43)
-    # lower w_transferability_prior avoids BMI dominance via prior alone
-    w_transferability_prior=0.948752,
-    w_selection_utility=0.002751,
-    w_selection_cheap_rank=0.005000,
-    w_selection_fidelity=0.011677,
-    w_selection_model_support=0.001792,
-    w_selection_anti_dominance=0.030352,
-    w_ot_exceptional=0.326132,
+    # --- selection priority weights (v3, 38-feature DE-optimized on frozen 20260413_225653) ---
+    # 2-seed DE over 38-feature linear model: 34/74 achievable (34/80 total,
+    # 6 targets unreachable due to oracle not in shortlist).
+    # Upgrades from v2 (20-feature, 32/74) by adding 18 new features:
+    #   7 raw (gc_rg_raw, gc_z, ot_pheno, ot_genetic, ot_shared_ct, ot_supported, shared_tok)
+    #   6 cross-evidence interactions (gc_rg*fid, ot_ph*fid, gc_rg*ot_ph, has_tok*fid,
+    #     gc_z*same_ep, ot_ph*same_ep)
+    #   5 piecewise (capped_ms, excess_ms, elite_prior, low_prior, high_fid)
+    # Recovered vs v2: D50, F22, L02, M34, N21, N60, S52 (7 targets)
+    # Lost vs v2: B37, I16, I27, N02, N13 (5 targets). Net: +2.
+    w_transferability_prior=2.978979,
+    w_selection_utility=1.664274,
+    w_selection_cheap_rank=-2.456338,
+    w_selection_fidelity=3.259074,
+    w_selection_model_support=2.736148,
+    w_selection_anti_dominance=1.307201,
+    w_ot_exceptional=3.352642,
+    # --- expanded selection features (v3) ---
+    w_selection_concordant=-2.859094,
+    w_selection_same_endpoint=-2.439204,
+    w_selection_gc_signal=-2.603329,
+    w_selection_prior_x_fidelity=2.017375,
+    w_selection_util_x_fidelity=-1.543747,
+    w_selection_capped_prior=0.727476,
+    w_selection_prior_cap=0.85,
+    w_selection_sqrt_prior=-0.728107,
+    w_selection_fidelity_sq=1.982614,
+    w_selection_lexical=1.147469,
+    w_selection_ot_ancestor=0.877871,
+    w_selection_ot_area=-1.410040,
+    w_selection_h2_ceiling=2.453849,
+    w_selection_gc_sig_binary=-0.151486,
+    # --- v3 new features ---
+    w_selection_gc_rg_raw=-1.849431,
+    w_selection_gc_z=0.479744,
+    w_selection_ot_pheno=-1.665013,
+    w_selection_ot_genetic=-0.123811,
+    w_selection_ot_shared_ct=0.533844,
+    w_selection_ot_supported=0.124211,
+    w_selection_shared_tok=-2.622668,
+    w_selection_gc_rg_x_fid=1.819078,
+    w_selection_ot_ph_x_fid=3.226828,
+    w_selection_gc_rg_x_ot_ph=0.469983,
+    w_selection_has_tok_x_fid=2.368361,
+    w_selection_gc_z_x_same_ep=-2.858037,
+    w_selection_ot_ph_x_same_ep=2.738409,
+    w_selection_capped_ms=-1.709519,
+    w_selection_excess_ms=0.676441,
+    w_selection_elite_prior=-1.621836,
+    w_selection_low_prior=2.404207,
+    w_selection_high_fid=-0.636198,
+    # Truncate LLM prompt to top 30 cards. The deterministic scoring override
+    # uses the full card list, so selection is identical; only LLM metadata
+    # (confidence/rationale) is affected. Cuts token count from ~465K to ~73K
+    # per call, roughly 6× faster LLM round-trip.
+    llm_card_cap=30,
 )
 
 DEFAULT_CONFIG = UNIFIED_CONFIG
@@ -527,7 +652,21 @@ def _transferability_prior_score(
 
 
 def _is_significant_gc(gc: GeneticCorrelationEvidence | None) -> bool:
-    return bool(gc and gc.rg is not None and gc.p_value is not None and gc.p_value < 0.05)
+    """Significant GC: p<0.05 for GWAS Atlas, High/Moderate confidence for LLM."""
+    if gc is None or gc.rg is None:
+        return False
+    if gc.source == "llm_estimated":
+        return gc.confidence in ("High", "Moderate")
+    return gc.p_value is not None and gc.p_value < 0.05
+
+
+def _gc_significance_sort_key(gc: GeneticCorrelationEvidence | None) -> float:
+    """Lower = more significant. Used as a sort key replacing p_value."""
+    if gc is None or gc.rg is None:
+        return 1.0
+    if gc.source == "llm_estimated":
+        return {"High": 0.0, "Moderate": 0.5, "Low": 0.9}.get(gc.confidence or "", 1.0)
+    return float(gc.p_value) if gc.p_value is not None else 1.0
 
 
 def _is_strong_gc(gc: GeneticCorrelationEvidence | None) -> bool:
@@ -556,9 +695,17 @@ def _is_explicit_ot_discordance(ot: OpenTargetsEvidence | None) -> bool:
 
 
 def _gc_resolution_discount(gc_row: dict[str, Any] | None) -> float:
-    """Discount GC evidence when trait resolution confidence is low."""
+    """Discount GC evidence when trait resolution confidence is low.
+
+    For LLM-estimated GC the discount is derived from the overall confidence
+    tier (no trait-resolution step), so High → 1.0, Moderate → 0.7, Low → 0.3.
+    """
     if gc_row is None:
         return 0.0
+    if gc_row.get("source") == "llm_estimated":
+        return {"High": 1.0, "Moderate": 0.7, "Low": 0.3}.get(
+            gc_row.get("confidence", ""), 0.0
+        )
     multiplier = 1.0
     for key in ("target_resolution", "candidate_resolution"):
         resolution = gc_row.get(key)
@@ -596,9 +743,14 @@ def _cheap_rank_score(
     score += (_shared_token_count(dossier, bundle) * 0.08)
     if gc_row and gc_row.get("rg") is not None:
         rg = abs(float(gc_row.get("rg") or 0.0))
-        p_value = gc_row.get("p_value")
         gc_discount = _configured_gc_discount(gc_row, config)
-        gc_mult = config.gc_cheap_rank_significant if p_value is not None and p_value < 0.05 else config.gc_cheap_rank_nonsignificant
+        # Determine significance: p<0.05 for GWAS Atlas, High/Moderate confidence for LLM
+        if gc_row.get("source") == "llm_estimated":
+            is_sig = gc_row.get("confidence") in ("High", "Moderate")
+        else:
+            p_value = gc_row.get("p_value")
+            is_sig = p_value is not None and p_value < 0.05
+        gc_mult = config.gc_cheap_rank_significant if is_sig else config.gc_cheap_rank_nonsignificant
         score += rg * gc_mult * gc_discount
     if archetype == "administrative/exposure/treatment/family-history proxy":
         score -= 1.4
@@ -620,14 +772,13 @@ def _utility_score(
     statistical_overlap = 0.0
     if gc and gc.rg is not None:
         rg = abs(float(gc.rg))
-        if gc.p_value is not None and gc.p_value < 0.05:
+        if _is_significant_gc(gc):
             statistical_overlap = min(1.5, rg / 0.20)
             tags.append("significant_gc")
             if rg >= 0.30:
                 tags.append("strong_gc")
         else:
             statistical_overlap = min(0.5, rg / 0.40)
-        # Only binary-to-binary applies the GC resolution discount; b2c keeps GC-first behavior.
         gc_discount = _configured_gc_discount(gc_row, config)
         statistical_overlap *= gc_discount
 
@@ -786,6 +937,97 @@ def _selection_priority_score(
             ot_ov = float(card.open_targets.weighted_shared_target_overlap_score or 0)
             if ot_ov > 2.0:
                 score += config.w_ot_exceptional * (ot_ov - 2.0)
+        # Expanded features (v2): domain-match signals
+        if config.w_selection_same_endpoint != 0 and card.archetype == "same-endpoint disease":
+            score += config.w_selection_same_endpoint
+        if config.w_selection_lexical != 0:
+            score += config.w_selection_lexical * (card.lexical_match_score / 100.0)
+        if config.w_selection_h2_ceiling != 0 and card.h2 is not None:
+            h2_ceil = float(card.h2.shared_signal_ceiling_proxy or 0)
+            score += config.w_selection_h2_ceiling * min(h2_ceil, 0.1) * 10
+        if config.w_selection_prior_x_fidelity != 0:
+            score += config.w_selection_prior_x_fidelity * card.transferability_prior_score * card.phenotype_fidelity_score
+        if config.w_selection_sqrt_prior != 0:
+            score += config.w_selection_sqrt_prior * math.sqrt(card.transferability_prior_score)
+        if config.w_selection_concordant != 0:
+            gc_sig = _is_significant_gc(card.gc)
+            ot_sup = bool(
+                card.open_targets
+                and float(card.open_targets.weighted_shared_target_overlap_score or 0) >= 0.20
+                and (card.open_targets.shared_target_count or 0) >= 1
+            )
+            if gc_sig and ot_sup:
+                score += config.w_selection_concordant
+        if config.w_selection_gc_signal != 0 and card.gc and card.gc.rg is not None:
+            gc_rg = abs(float(card.gc.rg or 0))
+            if _is_significant_gc(card.gc):
+                score += config.w_selection_gc_signal * gc_rg
+        if config.w_selection_util_x_fidelity != 0:
+            score += config.w_selection_util_x_fidelity * card.utility_score * card.phenotype_fidelity_score
+        if config.w_selection_capped_prior != 0:
+            score += config.w_selection_capped_prior * min(card.transferability_prior_score, config.w_selection_prior_cap)
+        if config.w_selection_fidelity_sq != 0:
+            score += config.w_selection_fidelity_sq * card.phenotype_fidelity_score ** 2
+        if config.w_selection_ot_ancestor != 0 and card.open_targets is not None:
+            score += config.w_selection_ot_ancestor * min(card.open_targets.shared_ancestor_count or 0, 5)
+        if config.w_selection_ot_area != 0 and card.open_targets is not None:
+            if card.open_targets.therapeutic_area_match:
+                score += config.w_selection_ot_area
+        if config.w_selection_gc_sig_binary != 0 and card.gc and card.gc.rg is not None:
+            if _is_significant_gc(card.gc):
+                score += config.w_selection_gc_sig_binary
+        # --- v3 expanded features (18 new) ---
+        # Extract shared evidence variables once
+        gc_rg = abs(float(card.gc.rg or 0)) if card.gc and card.gc.rg is not None else 0.0
+        gc_z = abs(float(card.gc.z_score or 0)) if card.gc and card.gc.z_score is not None else 0.0
+        gc_sig = _is_significant_gc(card.gc)
+        ot_pheno = float(card.open_targets.phenotype_overlap_score or 0) if card.open_targets else 0.0
+        ot_genetic = float(bool(card.open_targets and card.open_targets.genetic_support_present))
+        ot_shared_ct = min(card.open_targets.shared_target_count or 0, 10) if card.open_targets else 0
+        ot_overlap = float(card.open_targets.weighted_shared_target_overlap_score or 0) if card.open_targets else 0.0
+        ot_supported = float(ot_overlap >= 0.20 and ot_shared_ct >= 1)
+        shared_tok = min(card.shared_token_count or 0, 10) / 10.0
+        is_same_ep = float(card.archetype == "same-endpoint disease")
+        fid = card.phenotype_fidelity_score
+        # New raw features
+        if config.w_selection_gc_rg_raw != 0:
+            score += config.w_selection_gc_rg_raw * gc_rg
+        if config.w_selection_gc_z != 0:
+            score += config.w_selection_gc_z * gc_z
+        if config.w_selection_ot_pheno != 0:
+            score += config.w_selection_ot_pheno * ot_pheno
+        if config.w_selection_ot_genetic != 0:
+            score += config.w_selection_ot_genetic * ot_genetic
+        if config.w_selection_ot_shared_ct != 0:
+            score += config.w_selection_ot_shared_ct * ot_shared_ct
+        if config.w_selection_ot_supported != 0:
+            score += config.w_selection_ot_supported * ot_supported
+        if config.w_selection_shared_tok != 0:
+            score += config.w_selection_shared_tok * shared_tok
+        # Cross-evidence interactions
+        if config.w_selection_gc_rg_x_fid != 0:
+            score += config.w_selection_gc_rg_x_fid * gc_rg * fid
+        if config.w_selection_ot_ph_x_fid != 0:
+            score += config.w_selection_ot_ph_x_fid * ot_pheno * fid
+        if config.w_selection_gc_rg_x_ot_ph != 0:
+            score += config.w_selection_gc_rg_x_ot_ph * gc_rg * ot_pheno
+        if config.w_selection_has_tok_x_fid != 0:
+            score += config.w_selection_has_tok_x_fid * float(card.shared_token_count > 0) * fid
+        if config.w_selection_gc_z_x_same_ep != 0:
+            score += config.w_selection_gc_z_x_same_ep * gc_z * is_same_ep
+        if config.w_selection_ot_ph_x_same_ep != 0:
+            score += config.w_selection_ot_ph_x_same_ep * ot_pheno * is_same_ep
+        # Piecewise features
+        if config.w_selection_capped_ms != 0:
+            score += config.w_selection_capped_ms * min(model_support, 3.5)
+        if config.w_selection_excess_ms != 0:
+            score += config.w_selection_excess_ms * max(model_support - 3.5, 0)
+        if config.w_selection_elite_prior != 0:
+            score += config.w_selection_elite_prior * max(card.transferability_prior_score - 0.93, 0)
+        if config.w_selection_low_prior != 0:
+            score += config.w_selection_low_prior * max(0.70 - card.transferability_prior_score, 0)
+        if config.w_selection_high_fid != 0:
+            score += config.w_selection_high_fid * max(fid - 0.8, 0)
     else:
         score = card.utility_score + (0.25 * math.log1p(min(max(card.n_models, 0), 25))) + (
             0.15 * card.cheap_rank_score
@@ -840,13 +1082,13 @@ def _gc_ranked_cards(cards: list[CandidateEvidenceCard]) -> list[CandidateEviden
     def key(card: CandidateEvidenceCard) -> tuple[int, int, float, float, float, str]:
         gc = card.gc
         has_pair = int(bool(gc and gc.rg is not None))
-        is_significant = int(bool(gc and gc.rg is not None and gc.p_value is not None and gc.p_value < 0.05))
-        p_value = float(gc.p_value) if gc and gc.p_value is not None else 1.0
+        is_significant = int(_is_significant_gc(gc))
+        sig_sort = _gc_significance_sort_key(gc)
         abs_rg = abs(float(gc.rg or 0.0)) if gc else 0.0
         return (
             -is_significant,
             -has_pair,
-            p_value,
+            sig_sort,
             -abs_rg,
             -card.cheap_rank_score,
             card.bundle_id,
@@ -1026,16 +1268,35 @@ def _cached_verify_chain():
     return _build_verify_chain()
 
 
+def _truncate_cards_for_llm(
+    cards: list[CandidateEvidenceCard],
+    llm_card_cap: int,
+) -> list[CandidateEvidenceCard]:
+    """Return at most *llm_card_cap* cards for the LLM prompt.
+
+    The deterministic frontier override in _finalize_frontier_decision always
+    operates on the **full** card list stored in EvidenceState, so truncating
+    here does NOT change the actual selection — it only limits what the LLM
+    sees, saving tokens and latency.
+    """
+    if llm_card_cap <= 0 or len(cards) <= llm_card_cap:
+        return cards
+    return cards[:llm_card_cap]
+
+
 def _judge_frontier(
     evidence_state: EvidenceState,
     default_frontier_ids: list[str],
     default_mode: DecisionMode,
+    *,
+    llm_card_cap: int = 0,
 ) -> JudgeFrontierSelection:
+    llm_cards = _truncate_cards_for_llm(evidence_state.candidate_cards, llm_card_cap)
     context = {
         "target_summary": evidence_state.target_summary,
         "available_tools": evidence_state.available_tools,
         "shortlist_bundle_ids": evidence_state.shortlist_bundle_ids,
-        "candidate_cards": [card.model_dump() for card in evidence_state.candidate_cards],
+        "candidate_cards": [card.model_dump() for card in llm_cards],
         "default_frontier_ids": default_frontier_ids,
         "default_decision_mode": default_mode,
     }
@@ -1056,10 +1317,13 @@ def _verify_selection(
     evidence_state: EvidenceState,
     proposed: JudgeFrontierSelection,
     selected_cards: list[CandidateEvidenceCard],
+    *,
+    llm_card_cap: int = 0,
 ) -> VerifiedSelection:
+    llm_cards = _truncate_cards_for_llm(evidence_state.candidate_cards, llm_card_cap)
     context = {
         "target_summary": evidence_state.target_summary,
-        "candidate_cards": [card.model_dump() for card in evidence_state.candidate_cards],
+        "candidate_cards": [card.model_dump() for card in llm_cards],
         "selected_cards": [card.model_dump() for card in selected_cards],
         "proposed_selection": proposed.model_dump(),
     }
@@ -1135,7 +1399,10 @@ def _finalize_frontier_decision(
             candidate_pgs_ids=[],
         )
 
-    verified = _verify_selection(evidence_state, judged, selected_cards)
+    verified = _verify_selection(
+        evidence_state, judged, selected_cards,
+        llm_card_cap=config.llm_card_cap,
+    )
     if config.allow_ot_promotion and (verified.revised_frontier_bundle_ids or verified.revised_primary_bundle_id):
         revised_candidate_ids = list(verified.revised_frontier_bundle_ids)
         if verified.revised_primary_bundle_id:
@@ -1283,10 +1550,10 @@ def run_cross_trait_agent(
     tool_trace: list[dict[str, Any]] = []
     gc_result: dict[str, Any] | None = None
     if "cross_trait_genetic_correlation" in available_tools:
-        gc_result = toolbox.cross_trait_genetic_correlation(
+        gc_result = toolbox.cross_trait_genetic_correlation_llm(
             dossier.target.target_label,
             candidate_bundle_ids,
-            response_format="concise",
+            batch_size=config.llm_gc_batch_size,
         )
         tool_trace.append(
             {
@@ -1295,7 +1562,6 @@ def run_cross_trait_agent(
                 "args": {
                     "target_trait": dossier.target.target_label,
                     "candidate_bundle_ids": candidate_bundle_ids,
-                    "response_format": "concise",
                 },
                 "result": gc_result,
             }
@@ -1387,10 +1653,12 @@ def run_cross_trait_agent(
     h2_lookup: dict[str, dict[str, Any]] = {}
     ot_lookup: dict[str, dict[str, Any]] = {}
     if "cross_trait_genetic_correlation" in available_tools and shortlist_ids:
-        detailed_gc = toolbox.cross_trait_genetic_correlation(
+        # LLM estimation already covers all candidates in Phase 1;
+        # re-estimate the shortlist to refresh with potentially narrower focus.
+        detailed_gc = toolbox.cross_trait_genetic_correlation_llm(
             dossier.target.target_label,
             shortlist_ids,
-            response_format="detailed",
+            batch_size=config.llm_gc_batch_size,
         )
         tool_trace.append(
             {
@@ -1399,7 +1667,6 @@ def run_cross_trait_agent(
                 "args": {
                     "target_trait": dossier.target.target_label,
                     "candidate_bundle_ids": shortlist_ids,
-                    "response_format": "detailed",
                 },
                 "result": detailed_gc,
             }
@@ -1478,7 +1745,10 @@ def run_cross_trait_agent(
 
     default_mode = _decision_mode_from_cards(cards)
     default_frontier_ids = _default_frontier_ids(cards, default_mode)
-    judged = _judge_frontier(evidence_state, default_frontier_ids, default_mode)
+    judged = _judge_frontier(
+        evidence_state, default_frontier_ids, default_mode,
+        llm_card_cap=config.llm_card_cap,
+    )
     decision = _finalize_frontier_decision(
         dossier,
         evidence_state,

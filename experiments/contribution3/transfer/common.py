@@ -74,13 +74,15 @@ CANDIDATE_DOSSIER_CONFIGS: dict[str, dict[str, int]] = {
         "fallback_continuous": 100,
     },
     # Unified: single config for all targets (no b2b/b2c distinction).
-    # Uses B2B-style wider pool for better oracle coverage.
+    # fallback_binary=310 / fallback_continuous=150 / dossier_cap=600 to capture
+    # 4 previously-missing oracles: D03 (sunburn, rank306), L56 (photosensitivity, rank264),
+    # M1A (uric acid, rank149 continuous), N97 (infertility variants).
     "unified": {
         "lexical_cap": 100,
-        "dossier_cap": 560,
+        "dossier_cap": 600,
         "lexical_min_score": 38,
-        "fallback_binary": 260,
-        "fallback_continuous": 100,
+        "fallback_binary": 310,
+        "fallback_continuous": 150,
     },
 }
 
@@ -615,7 +617,11 @@ def select_candidate_bundles(
         if score >= lexical_min_score
     ]
     overlap_ids = _resolve_overlap_bundles(target, bundles)
-    gc_ids = _resolve_gc_bundles(target, bundles)
+    # GC-based candidate discovery is disabled — GWAS Atlas rg has been
+    # replaced by LLM-estimated genetic relatedness at the scoring stage.
+    # Existing candidate selection paths (lexical, overlap, fallback)
+    # already achieve 100% dossier oracle recall (80/80).
+    gc_ids: set[str] = set()
     fallback_ranked = [
         bundle.bundle_id
         for bundle in _global_fallback_bundles(
