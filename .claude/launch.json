@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "presentation",
-      "runtimeExecutable": "python3",
+      "runtimeExecutable": "/opt/homebrew/bin/python3.13",
       "runtimeArgs": ["-m", "http.server", "8765", "-d", "experiments/contribution3/presentation"],
       "port": 8765
     }

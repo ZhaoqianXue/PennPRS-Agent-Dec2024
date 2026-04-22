@@ -36,7 +36,7 @@ from src.server.modules.heritability.models import HeritabilityEstimate
 logger = logging.getLogger(__name__)
 
 
-ResponseFormat = Literal["concise", "detailed"]
+ResponseFormat = Literal["concise", "detailed", "screening", "evidence"]
 DEFAULT_TOP_RESOLUTIONS = 3
 OT_DATATYPE_WEIGHTS = {
     "genetic_association": 1.0,
@@ -49,13 +49,20 @@ OT_DATATYPE_WEIGHTS = {
     "literature": 0.25,
 }
 
+CONFIDENCE_TO_SCORE: dict[str, float] = {
+    "High": 0.9,
+    "Moderate": 0.65,
+    "Low": 0.35,
+    "Unresolved": 0.0,
+}
+
 
 class CrossTraitGeneticCorrelationInput(BaseModel):
     target_trait: str = Field(..., description="Target trait label")
     candidate_bundle_ids: list[str] = Field(..., description="Subset of candidate bundle IDs to inspect")
     response_format: ResponseFormat = Field(
-        "concise",
-        description="Controls response verbosity: concise or detailed.",
+        "screening",
+        description="Controls response verbosity: screening/concise or evidence/detailed.",
     )
 
 
@@ -64,8 +71,8 @@ class CrossTraitHeritabilityInput(BaseModel):
     candidate_bundle_ids: list[str] = Field(..., description="Subset of candidate bundle IDs to inspect")
     ancestry: str = Field("EUR", description="Preferred ancestry when choosing best heritability estimate")
     response_format: ResponseFormat = Field(
-        "concise",
-        description="Controls response verbosity: concise or detailed.",
+        "screening",
+        description="Controls response verbosity: screening/concise or evidence/detailed.",
     )
 
 
@@ -73,8 +80,8 @@ class CrossTraitOpenTargetsInput(BaseModel):
     target_trait: str = Field(..., description="Target trait label")
     candidate_bundle_ids: list[str] = Field(..., description="Subset of candidate bundle IDs to inspect")
     response_format: ResponseFormat = Field(
-        "concise",
-        description="Controls response verbosity: concise or detailed.",
+        "screening",
+        description="Controls response verbosity: screening/concise or evidence/detailed.",
     )
 
 
@@ -102,6 +109,30 @@ def _gwas_atlas_confidence(rg: float | None, p_value: float | None) -> str | Non
     if p_value < 0.05:
         return "Low"
     return "Low"
+
+
+def _normalize_response_format(response_format: ResponseFormat) -> Literal["concise", "detailed"]:
+    if response_format in {"detailed", "evidence"}:
+        return "detailed"
+    return "concise"
+
+
+def _confidence_score(label: str | None) -> float:
+    return CONFIDENCE_TO_SCORE.get(str(label or "Unresolved"), 0.0)
+
+
+def _confidence_label_from_score(score: float) -> Literal["High", "Moderate", "Low"]:
+    if score >= 0.8:
+        return "High"
+    if score >= 0.55:
+        return "Moderate"
+    return "Low"
+
+
+def _append_unique(messages: list[str], message: str | None) -> None:
+    text = str(message or "").strip()
+    if text and text not in messages:
+        messages.append(text)
 
 
 # ---------------------------------------------------------------------------
@@ -408,7 +439,7 @@ class CrossTraitToolbox:
         self,
         query: str,
         texts: list[str],
-        ancestry: str,
+        ancestry: Optional[str],
         *,
         top_k: int,
         cache_key: tuple[str, str],
@@ -600,12 +631,39 @@ class CrossTraitToolbox:
         limit = 10 if response_format == "detailed" else 5
         return len(shared_ids), shared_names[:limit], round(overlap_score, 4)
 
+    def _gc_resolution_status(
+        self,
+        target_matches: list[dict[str, Any]],
+        candidate_matches: list[dict[str, Any]],
+        pair_found: bool,
+        hypothesized_rg: float | None = None,
+    ) -> tuple[str, str, float, str]:
+        target_resolved = bool(target_matches)
+        candidate_resolved = bool(candidate_matches)
+        if pair_found:
+            return ("resolved", "complete", 1.0, "stop")
+        if target_resolved and candidate_resolved and hypothesized_rg is not None:
+            return ("fallback_only", "resolved_but_pair_missing", 1.0, "expand")
+        if target_resolved and candidate_resolved:
+            return ("partial", "resolved_but_pair_missing", 1.0, "expand")
+        if target_resolved or candidate_resolved:
+            return ("partial", "partial", 0.5, "expand")
+        return ("unresolved", "missing", 0.0, "expand")
+
+    def _confidence_from_ot_level(self, confidence_level: str) -> Literal["High", "Moderate", "Low"]:
+        if confidence_level == "High":
+            return "High"
+        if confidence_level == "Moderate":
+            return "Moderate"
+        return "Low"
+
     def cross_trait_genetic_correlation(
         self,
         target_trait: str,
         candidate_bundle_ids: list[str],
         response_format: ResponseFormat = "concise",
     ) -> dict[str, Any]:
+        normalized_format = _normalize_response_format(response_format)
         target_matches = self._resolve_target_gc(target_trait)
         target_resolution = self._build_trait_resolution(
             query=target_trait,
@@ -613,7 +671,8 @@ class CrossTraitToolbox:
             matches=target_matches,
             unavailable_reason="target_not_resolved_to_gwas_atlas" if not target_matches else None,
         )
-        rows: list[dict[str, Any]] = []
+        rows: list[tuple[TraitBundle, GeneticCorrelationEvidence]] = []
+        pending_hypotheses: list[tuple[int, str, str, list[dict[str, Any]], list[dict[str, Any]]]] = []
         for bundle_id in candidate_bundle_ids:
             bundle = self._candidate_bundle(bundle_id)
             if bundle is None:
@@ -625,32 +684,64 @@ class CrossTraitToolbox:
                 matches=candidate_matches,
                 unavailable_reason="candidate_not_resolved_to_gwas_atlas" if not candidate_matches else None,
             )
+            supports: list[str] = []
+            against: list[str] = []
+            uncertainties: list[str] = []
 
             if not target_matches:
+                resolution_status, completeness, lookup_coverage, expand_recommendation = self._gc_resolution_status(
+                    target_matches,
+                    candidate_matches,
+                    False,
+                )
+                _append_unique(against, "Target trait could not be resolved in GWAS Atlas.")
+                _append_unique(uncertainties, "GC evidence is incomplete because target resolution failed.")
                 evidence = GeneticCorrelationEvidence(
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="target_unresolved",
+                    resolution_status=resolution_status,
+                    pair_evidence_completeness=completeness,
+                    lookup_coverage=lookup_coverage,
+                    expand_recommendation=expand_recommendation,
                     provenance_status="not_available",
+                    confidence="Low",
+                    against=against,
+                    uncertainties=uncertainties,
                     unavailable_reason="target_not_resolved_to_gwas_atlas",
                 )
-                rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
+                rows.append((bundle, evidence))
                 continue
 
             if not candidate_matches:
+                resolution_status, completeness, lookup_coverage, expand_recommendation = self._gc_resolution_status(
+                    target_matches,
+                    candidate_matches,
+                    False,
+                )
+                _append_unique(against, "Candidate bundle could not be resolved in GWAS Atlas.")
+                _append_unique(uncertainties, "Pair-specific GC is unavailable because candidate resolution failed.")
                 evidence = GeneticCorrelationEvidence(
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="candidate_unresolved",
+                    resolution_status=resolution_status,
+                    pair_evidence_completeness=completeness,
+                    lookup_coverage=lookup_coverage,
+                    expand_recommendation=expand_recommendation,
                     provenance_status="not_available",
+                    confidence="Low",
+                    against=against,
+                    uncertainties=uncertainties,
                     unavailable_reason="candidate_not_resolved_to_gwas_atlas",
                 )
-                rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
+                rows.append((bundle, evidence))
                 continue
 
             pair_options: list[tuple[GeneticCorrelationPairOption, dict[str, Any]]] = []
-            for target_match in target_matches[: (3 if response_format == "detailed" else 1)]:
-                for candidate_match in candidate_matches[: (3 if response_format == "detailed" else 1)]:
+            limit = 3 if normalized_format == "detailed" else 1
+            for target_match in target_matches[:limit]:
+                for candidate_match in candidate_matches[:limit]:
                     pair_df = self.gc_data[
                         (
                             (self.gc_data["id1"] == target_match["id"])
@@ -689,37 +780,128 @@ class CrossTraitToolbox:
                     found_pairs,
                     key=lambda item: (item[1]["p"], -abs(item[1]["rg"]), -item[0].score),
                 )[0]
+                confidence = _gwas_atlas_confidence(metrics["rg"], metrics["p"]) or "Low"
+                resolution_status, completeness, lookup_coverage, expand_recommendation = self._gc_resolution_status(
+                    target_matches,
+                    candidate_matches,
+                    True,
+                )
+                abs_rg = abs(float(metrics["rg"]))
+                if metrics["p"] < 0.05 and abs_rg >= 0.30:
+                    _append_unique(supports, f"Resolved GWAS Atlas pair shows strong rg={metrics['rg']:.2f} with p={metrics['p']:.2g}.")
+                elif metrics["p"] < 0.05:
+                    _append_unique(supports, f"Resolved GWAS Atlas pair shows nominally significant rg={metrics['rg']:.2f}.")
+                else:
+                    _append_unique(against, f"Resolved GWAS Atlas pair is weak or non-significant (rg={metrics['rg']:.2f}, p={metrics['p']:.2g}).")
+                if abs_rg < 0.10:
+                    _append_unique(against, "Observed rg magnitude is close to zero.")
+                _append_unique(uncertainties, "GWAS Atlas returns only matched study pairs, not full trait-family coverage.")
                 evidence = GeneticCorrelationEvidence(
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="resolved_pair_found",
+                    resolution_status=resolution_status,
+                    pair_evidence_completeness=completeness,
+                    lookup_coverage=lookup_coverage,
+                    expand_recommendation=expand_recommendation,
                     best_pair=best_pair,
                     alternative_pairs=[
                         pair_option
-                        for pair_option, _ in pair_options[1 : (6 if response_format == "detailed" else 2)]
+                        for pair_option, _ in pair_options[1 : (6 if normalized_format == "detailed" else 2)]
                     ],
                     rg=metrics["rg"],
                     z_score=metrics["z"],
                     p_value=metrics["p"],
                     study_count=None,
                     provenance_status="lookup_only",
-                    confidence=_gwas_atlas_confidence(metrics["rg"], metrics["p"]),
+                    confidence=confidence,
+                    supports=supports,
+                    against=against,
+                    uncertainties=uncertainties,
                 )
             else:
+                resolution_status, completeness, lookup_coverage, expand_recommendation = self._gc_resolution_status(
+                    target_matches,
+                    candidate_matches,
+                    False,
+                )
+                _append_unique(against, "Resolved traits had no matched pair in GWAS Atlas genetic-correlation table.")
+                _append_unique(uncertainties, "Absence of a pair may reflect lookup coverage limits rather than true lack of shared architecture.")
                 evidence = GeneticCorrelationEvidence(
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="pair_not_found",
+                    resolution_status=resolution_status,
+                    pair_evidence_completeness=completeness,
+                    lookup_coverage=lookup_coverage,
+                    expand_recommendation=expand_recommendation,
                     best_pair=pair_options[0][0] if pair_options else None,
                     alternative_pairs=[
                         pair_option
-                        for pair_option, _ in pair_options[1 : (6 if response_format == "detailed" else 2)]
+                        for pair_option, _ in pair_options[1 : (6 if normalized_format == "detailed" else 2)]
                     ],
                     provenance_status="lookup_only",
+                    confidence="Low",
+                    against=against,
+                    uncertainties=uncertainties,
                     unavailable_reason="pair_not_found_in_gwas_atlas_gc",
                 )
-            rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
-        return {"target_trait": target_trait, "response_format": response_format, "results": rows}
+                pending_hypotheses.append(
+                    (len(rows), bundle.bundle_id, bundle.canonical_label, target_matches, candidate_matches)
+                )
+            rows.append((bundle, evidence))
+
+        if pending_hypotheses:
+            try:
+                estimates = _call_llm_rg_estimation(
+                    target_trait,
+                    [
+                        {"bundle_id": bundle_id, "candidate_label": candidate_label}
+                        for _, bundle_id, candidate_label, _, _ in pending_hypotheses
+                    ],
+                )
+            except Exception:
+                logger.exception("GC hypothesis fallback failed for target=%s", target_trait)
+                estimates = []
+            estimate_by_id = {estimate.bundle_id: estimate for estimate in estimates}
+            for row_idx, bundle_id, _, target_match_list, candidate_match_list in pending_hypotheses:
+                estimate = estimate_by_id.get(bundle_id)
+                if estimate is None:
+                    continue
+                bundle, evidence = rows[row_idx]
+                evidence.hypothesized_rg = max(-1.0, min(1.0, estimate.estimated_rg))
+                evidence.hypothesized_confidence = estimate.confidence
+                evidence.hypothesized_rationale = estimate.brief_rationale
+                evidence.llm_rationale = estimate.brief_rationale
+                resolution_status, completeness, lookup_coverage, expand_recommendation = self._gc_resolution_status(
+                    target_match_list,
+                    candidate_match_list,
+                    False,
+                    evidence.hypothesized_rg,
+                )
+                evidence.resolution_status = resolution_status
+                evidence.pair_evidence_completeness = completeness
+                evidence.lookup_coverage = lookup_coverage
+                evidence.expand_recommendation = expand_recommendation
+                if estimate.confidence in {"High", "Moderate"} and abs(float(estimate.estimated_rg)) >= 0.20:
+                    _append_unique(
+                        evidence.supports,
+                        f"Fallback hypothesis suggests plausible shared architecture (hypothesized_rg={estimate.estimated_rg:.2f}).",
+                    )
+                else:
+                    _append_unique(
+                        evidence.uncertainties,
+                        "Fallback hypothesis exists but remains too uncertain to treat as resolved GC evidence.",
+                    )
+
+        return {
+            "target_trait": target_trait,
+            "response_format": normalized_format,
+            "results": [
+                {"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()}
+                for bundle, evidence in rows
+            ],
+        }
 
     # ------------------------------------------------------------------
     # LLM-based genetic relatedness estimation
@@ -771,10 +953,21 @@ class CrossTraitToolbox:
                         target_resolution=TraitResolution(query=target_trait, system="llm"),
                         candidate_resolution=TraitResolution(query=bundle.canonical_label, system="llm"),
                         pair_status="llm_estimation_failed",
+                        resolution_status="unresolved",
+                        pair_evidence_completeness="missing",
+                        lookup_coverage=0.0,
+                        expand_recommendation="expand",
                         provenance_status="llm_estimated",
+                        confidence="Low",
+                        uncertainties=["LLM fallback did not return a usable rg estimate."],
                         unavailable_reason="llm_did_not_return_estimate",
                     )
                 else:
+                    supports: list[str] = []
+                    if est.confidence in {"High", "Moderate"} and abs(float(est.estimated_rg)) >= 0.20:
+                        supports.append(
+                            f"LLM fallback suggests plausible shared architecture (estimated_rg={est.estimated_rg:.2f})."
+                        )
                     evidence = GeneticCorrelationEvidence(
                         source="llm_estimated",
                         target_resolution=TraitResolution(
@@ -788,10 +981,16 @@ class CrossTraitToolbox:
                             confidence="High",
                         ),
                         pair_status="llm_estimated",
+                        resolution_status="fallback_only",
+                        pair_evidence_completeness="hypothesis_only",
+                        lookup_coverage=0.0,
+                        expand_recommendation="expand",
                         rg=max(-1.0, min(1.0, est.estimated_rg)),
                         provenance_status="llm_estimated",
                         confidence=est.confidence,
                         llm_rationale=est.brief_rationale,
+                        supports=supports,
+                        uncertainties=["This rg value is an LLM estimate, not a GWAS Atlas lookup."],
                     )
                 rows.append({
                     "bundle_id": bid,
@@ -808,45 +1007,100 @@ class CrossTraitToolbox:
         ancestry: str = "EUR",
         response_format: ResponseFormat = "concise",
     ) -> dict[str, Any]:
-        target_profile = self._search_h2_profile(
+        normalized_format = _normalize_response_format(response_format)
+        top_k = 6 if normalized_format == "detailed" else 3
+
+        def _prioritize_profile(profile: list[HeritabilityDatum]) -> list[HeritabilityDatum]:
+            return sorted(
+                profile,
+                key=lambda datum: (
+                    -(str(datum.population or "").upper() == ancestry.upper()),
+                    -datum.match_score,
+                    -(datum.n_samples or 0),
+                    datum.h2_obs_se or 9999.0,
+                    -(datum.h2_obs or 0.0),
+                    datum.trait_name,
+                ),
+            )[:top_k]
+
+        def _estimate_confidence(profile: list[HeritabilityDatum]) -> Literal["High", "Moderate", "Low"]:
+            if not profile:
+                return "Low"
+            best = profile[0]
+            best_n = best.n_samples or 0
+            best_se = best.h2_obs_se or 0.2
+            if best_n >= 100000 and best_se <= 0.03:
+                return "High"
+            if best_n >= 50000 or best_se <= 0.05:
+                return "Moderate"
+            return "Low"
+
+        all_target_profile = self._search_h2_profile(
             target_trait,
             self._texts_for_target(target_trait),
-            ancestry,
-            top_k=6 if response_format == "detailed" else 3,
-            cache_key=(normalize_text(target_trait), ancestry),
+            None,
+            top_k=max(10, top_k),
+            cache_key=(normalize_text(target_trait), f"ALL::{ancestry.upper()}"),
             cache=self._target_h2_cache,
         )
+        target_profile = _prioritize_profile(all_target_profile)
         target_best_h2 = target_profile[0].h2_obs if target_profile else None
         rows: list[dict[str, Any]] = []
         for bundle_id in candidate_bundle_ids:
             bundle = self._candidate_bundle(bundle_id)
             if bundle is None:
                 continue
-            candidate_profile = self._search_h2_profile(
+            all_candidate_profile = self._search_h2_profile(
                 bundle.canonical_label,
                 self._texts_for_bundle(bundle),
-                ancestry,
-                top_k=6 if response_format == "detailed" else 3,
-                cache_key=(bundle.bundle_id, ancestry),
+                None,
+                top_k=max(10, top_k),
+                cache_key=(bundle.bundle_id, f"ALL::{ancestry.upper()}"),
                 cache=self._bundle_h2_cache,
             )
+            candidate_profile = _prioritize_profile(all_candidate_profile)
             candidate_best_h2 = candidate_profile[0].h2_obs if candidate_profile else None
             best_n = candidate_profile[0].n_samples if candidate_profile else None
             best_se = candidate_profile[0].h2_obs_se if candidate_profile else None
-            confidence_tier = "Low"
-            if candidate_best_h2 is not None:
-                if (best_n or 0) >= 100000 and (best_se or 0.0) <= 0.05:
-                    confidence_tier = "High"
-                elif (best_n or 0) >= 50000:
-                    confidence_tier = "Moderate"
-                else:
-                    confidence_tier = "Low"
+            estimate_confidence = _estimate_confidence(candidate_profile)
+            confidence_tier = estimate_confidence
 
-            shared_ceiling = None
+            shared_ceiling: float | None = None
             if target_best_h2 is not None and candidate_best_h2 is not None:
                 shared_ceiling = min(target_best_h2, candidate_best_h2)
             elif candidate_best_h2 is not None:
                 shared_ceiling = candidate_best_h2
+            elif target_best_h2 is not None:
+                shared_ceiling = target_best_h2
+
+            ancestry_coverage = sorted(
+                {
+                    str(datum.population or "").upper()
+                    for datum in [*target_profile, *candidate_profile]
+                    if str(datum.population or "").strip()
+                }
+            )
+            resolution_status = (
+                "resolved"
+                if target_profile and candidate_profile
+                else "partial" if target_profile or candidate_profile else "unresolved"
+            )
+            signal_capacity_score = min(float(shared_ceiling or 0.0) / 0.10, 1.0)
+            supports: list[str] = []
+            against: list[str] = []
+            uncertainties: list[str] = []
+            if shared_ceiling is not None and shared_ceiling >= 0.05:
+                _append_unique(supports, f"Shared heritability ceiling is non-trivial ({shared_ceiling:.3f}).")
+            elif shared_ceiling is not None and shared_ceiling >= 0.02:
+                _append_unique(supports, f"Candidate has modest signal capacity ({shared_ceiling:.3f}).")
+            if candidate_best_h2 is None:
+                _append_unique(against, "No candidate heritability estimate was found across the aggregated sources.")
+            elif candidate_best_h2 < 0.01:
+                _append_unique(against, f"Candidate heritability is very low ({candidate_best_h2:.3f}).")
+            if ancestry.upper() not in ancestry_coverage:
+                _append_unique(uncertainties, f"Preferred ancestry {ancestry.upper()} is not represented in the retrieved heritability estimates.")
+            if best_n is not None and best_n < 20000:
+                _append_unique(uncertainties, "Best candidate heritability estimate has limited sample size.")
 
             evidence = HeritabilityEvidence(
                 ancestry=ancestry,
@@ -856,14 +1110,21 @@ class CrossTraitToolbox:
                 candidate_best_h2=candidate_best_h2,
                 candidate_signal_capacity=candidate_best_h2,
                 shared_signal_ceiling_proxy=shared_ceiling,
+                signal_capacity_score=round(signal_capacity_score, 4),
+                estimate_confidence=estimate_confidence,
+                ancestry_coverage=ancestry_coverage,
+                resolution_status=resolution_status,
                 confidence_tier=confidence_tier,
+                supports=supports,
+                against=against,
+                uncertainties=uncertainties,
                 unavailable_reason=None if candidate_profile else "no_heritability_estimate_found",
             )
             rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
         return {
             "target_trait": target_trait,
             "ancestry": ancestry,
-            "response_format": response_format,
+            "response_format": normalized_format,
             "results": rows,
         }
 
@@ -873,6 +1134,7 @@ class CrossTraitToolbox:
         candidate_bundle_ids: list[str],
         response_format: ResponseFormat = "concise",
     ) -> dict[str, Any]:
+        normalized_format = _normalize_response_format(response_format)
         target_matches = self._resolve_target_ot(target_trait)
         target_resolution = self._build_trait_resolution(
             query=target_trait,
@@ -898,6 +1160,10 @@ class CrossTraitToolbox:
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="target_unresolved",
+                    resolution_status="unresolved",
+                    confidence="Low",
+                    against=["Target trait could not be resolved in Open Targets."],
+                    uncertainties=["Mechanistic overlap is unavailable because target resolution failed."],
                     unavailable_reason="target_not_resolved_to_opentargets",
                 )
                 rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
@@ -907,19 +1173,23 @@ class CrossTraitToolbox:
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="candidate_unresolved",
+                    resolution_status="unresolved",
+                    confidence="Low",
+                    against=["Candidate bundle could not be resolved in Open Targets."],
+                    uncertainties=["Mechanistic overlap is unavailable because candidate resolution failed."],
                     unavailable_reason="candidate_not_resolved_to_opentargets",
                 )
                 rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **evidence.model_dump()})
                 continue
 
             best_evidence: OpenTargetsEvidence | None = None
-            best_tuple: tuple[float, int] | None = None
-            target_limit = 2 if response_format == "detailed" else 1
-            candidate_limit = 2 if response_format == "detailed" else 1
+            best_tuple: tuple[float, float, float, int] | None = None
+            target_limit = 2 if normalized_format == "detailed" else 1
+            candidate_limit = 2 if normalized_format == "detailed" else 1
             for target_match in target_matches[:target_limit]:
                 for candidate_match in candidate_matches[:candidate_limit]:
-                    source_profile = self._fetch_ot_profile(str(target_match["id"]), response_format)
-                    candidate_profile = self._fetch_ot_profile(str(candidate_match["id"]), response_format)
+                    source_profile = self._fetch_ot_profile(str(target_match["id"]), normalized_format)
+                    candidate_profile = self._fetch_ot_profile(str(candidate_match["id"]), normalized_format)
                     profile_unavailable_reason = source_profile.get("unavailable_reason") or candidate_profile.get(
                         "unavailable_reason"
                     )
@@ -936,13 +1206,16 @@ class CrossTraitToolbox:
                                 matches=[candidate_match],
                             ),
                             pair_status="unavailable",
+                            resolution_status="partial",
                             source_association_count=len(source_profile.get("associated_targets") or []),
                             candidate_association_count=len(candidate_profile.get("associated_targets") or []),
                             target_clinical_candidate_count=source_profile.get("clinical_candidate_count"),
                             candidate_clinical_candidate_count=candidate_profile.get("clinical_candidate_count"),
+                            confidence="Low",
+                            uncertainties=["Open Targets profile fetch failed for at least one resolved disease node."],
                             unavailable_reason=profile_unavailable_reason,
                         )
-                        compare_tuple = (-1.0, 0)
+                        compare_tuple = (-1.0, -1.0, -1.0, 0)
                         if best_tuple is None or compare_tuple > best_tuple:
                             best_tuple = compare_tuple
                             best_evidence = evidence
@@ -950,7 +1223,7 @@ class CrossTraitToolbox:
                     shared_targets, shared_pathways, genetic_support_present = self._shared_targets_from_profiles(
                         source_profile,
                         candidate_profile,
-                        response_format,
+                        normalized_format,
                     )
                     weighted_overlap = round(sum(target.weighted_overlap for target in shared_targets), 6)
                     literature_scores = [
@@ -995,8 +1268,45 @@ class CrossTraitToolbox:
                     )
                     # Phenotype (HPO) overlap
                     pheno_count, shared_pheno_names, pheno_overlap_score = self._phenotype_overlap(
-                        str(target_match["id"]), str(candidate_match["id"]), response_format,
+                        str(target_match["id"]), str(candidate_match["id"]), normalized_format,
                     )
+                    genetic_overlap_score = round(
+                        min(
+                            1.0,
+                            weighted_overlap / 2.0
+                            + (0.2 if genetic_support_present else 0.0)
+                            + min(avg_genetic, 0.5),
+                        ),
+                        4,
+                    )
+                    pathway_overlap_score = round(
+                        min(
+                            1.0,
+                            (len(shared_pathways) / 8.0 if shared_pathways else 0.0)
+                            * (1.0 if pathway_specificity == "specific" else 0.7 if pathway_specificity == "moderate" else 0.4),
+                        ),
+                        4,
+                    )
+                    ontology_overlap_score = round(
+                        min(
+                            1.0,
+                            (ancestor_count / 6.0) + (0.2 if ta_match else 0.0),
+                        ),
+                        4,
+                    )
+                    genericity_penalty = round(
+                        min(
+                            1.0,
+                            (0.35 if literature_dominance_warning else 0.0)
+                            + (0.25 if pathway_specificity == "broad" else 0.0)
+                            + (0.15 if shared_targets and not genetic_support_present else 0.0),
+                        ),
+                        4,
+                    )
+                    confidence = self._confidence_from_ot_level(confidence_level)
+                    supports: list[str] = []
+                    against: list[str] = []
+                    uncertainties: list[str] = []
 
                     mechanism_summary = None
                     if shared_targets:
@@ -1007,6 +1317,23 @@ class CrossTraitToolbox:
                         )
                     else:
                         mechanism_summary = "No shared target overlap found in the retrieved Open Targets profiles."
+
+                    if genetic_support_present and weighted_overlap >= 0.20:
+                        _append_unique(supports, f"Shared target overlap is supported by genetic-association evidence (weighted_overlap={weighted_overlap:.3f}).")
+                    elif shared_targets:
+                        _append_unique(supports, f"Resolved Open Targets profiles share {len(shared_targets)} targets.")
+                    else:
+                        _append_unique(against, "No shared targets were found between the resolved Open Targets profiles.")
+                    if pheno_overlap_score >= 0.10:
+                        _append_unique(supports, f"Phenotype overlap is non-trivial (score={pheno_overlap_score:.2f}).")
+                    if ancestor_count >= 2:
+                        _append_unique(supports, f"Ontology overlap is present with {ancestor_count} shared ancestors.")
+                    if genericity_penalty >= 0.3:
+                        _append_unique(against, "Open Targets overlap appears generic or literature-dominant.")
+                    if not ta_match and src_ta_names and cand_ta_names:
+                        _append_unique(uncertainties, "Resolved diseases sit in different therapeutic areas, which weakens specificity.")
+                    if not shared_targets and shared_pathways:
+                        _append_unique(uncertainties, "Pathway overlap without shared targets may reflect broad downstream biology.")
 
                     evidence = OpenTargetsEvidence(
                         target_resolution=self._build_trait_resolution(
@@ -1020,12 +1347,13 @@ class CrossTraitToolbox:
                             matches=[candidate_match],
                         ),
                         pair_status=pair_status,
+                        resolution_status="resolved",
                         source_association_count=len(source_profile.get("associated_targets") or []),
                         candidate_association_count=len(candidate_profile.get("associated_targets") or []),
                         weighted_shared_target_overlap_score=weighted_overlap,
                         shared_target_count=len(shared_targets),
                         top_shared_targets=shared_targets,
-                        shared_pathway_clusters=shared_pathways[: (12 if response_format == "detailed" else 5)],
+                        shared_pathway_clusters=shared_pathways[: (12 if normalized_format == "detailed" else 5)],
                         pathway_specificity=pathway_specificity,
                         target_clinical_candidate_count=source_profile.get("clinical_candidate_count"),
                         candidate_clinical_candidate_count=candidate_profile.get("clinical_candidate_count"),
@@ -1034,16 +1362,29 @@ class CrossTraitToolbox:
                         source_therapeutic_areas=src_ta_names,
                         candidate_therapeutic_areas=cand_ta_names,
                         shared_ancestor_count=ancestor_count,
-                        shared_ancestors=shared_ancestor_names[: (20 if response_format == "detailed" else 8)],
+                        shared_ancestors=shared_ancestor_names[: (20 if normalized_format == "detailed" else 8)],
                         shared_phenotype_count=pheno_count,
                         shared_phenotypes=shared_pheno_names,
                         phenotype_overlap_score=pheno_overlap_score,
+                        genetic_overlap_score=genetic_overlap_score,
+                        pathway_overlap_score=pathway_overlap_score,
+                        ontology_overlap_score=ontology_overlap_score,
+                        genericity_penalty=genericity_penalty,
                         literature_dominance_warning=literature_dominance_warning,
                         genetic_support_present=genetic_support_present,
                         confidence_level=confidence_level,
+                        confidence=confidence,
+                        supports=supports,
+                        against=against,
+                        uncertainties=uncertainties,
                         mechanism_summary=mechanism_summary,
                     )
-                    compare_tuple = (weighted_overlap, len(shared_targets))
+                    compare_tuple = (
+                        weighted_overlap - genericity_penalty,
+                        genetic_overlap_score,
+                        pheno_overlap_score + ontology_overlap_score,
+                        len(shared_targets),
+                    )
                     if best_tuple is None or compare_tuple > best_tuple:
                         best_tuple = compare_tuple
                         best_evidence = evidence
@@ -1053,10 +1394,13 @@ class CrossTraitToolbox:
                     target_resolution=target_resolution,
                     candidate_resolution=candidate_resolution,
                     pair_status="unavailable",
+                    resolution_status="unresolved",
+                    confidence="Low",
+                    uncertainties=["Open Targets profile data was unavailable."],
                     unavailable_reason="open_targets_profile_unavailable",
                 )
             rows.append({"bundle_id": bundle.bundle_id, "canonical_label": bundle.canonical_label, **best_evidence.model_dump()})
-        return {"target_trait": target_trait, "response_format": response_format, "results": rows}
+        return {"target_trait": target_trait, "response_format": normalized_format, "results": rows}
 
     def build_tools(self) -> list[StructuredTool]:
         return [

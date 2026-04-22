@@ -14,6 +14,8 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from experiments.contribution3.transfer.agent import (
     CONDITION_TOOLS,
+    DEFAULT_TRANSFER_ABLATION,
+    TRANSFER_ABLATIONS,
     run_cross_trait_agent,
     write_agent_results,
 )
@@ -24,8 +26,10 @@ from experiments.contribution3.transfer.common import (
     build_trait_bundle_index,
     condition_recommendations_json,
     condition_results_json,
+    evaluation_dir,
     load_candidate_dossiers,
     load_trait_bundle_index,
+    normalize_transfer_ablation,
     target_dossiers_json,
     write_candidate_dossiers,
     write_trait_bundle_index,
@@ -59,10 +63,40 @@ def _ensure_assets(benchmark_family: str):
     return bundles, dossiers
 
 
+def _resolve_run_id(raw_run_id: str | None) -> str:
+    return raw_run_id.strip() if raw_run_id and raw_run_id.strip() else datetime.now().strftime("%Y%m%d_%H%M%S")
+
+
+def _resolve_ablation(raw_ablation: str | None) -> str:
+    label = normalize_transfer_ablation(raw_ablation)
+    if label not in TRANSFER_ABLATIONS:
+        raise ValueError(f"Unsupported ablation: {raw_ablation}. Expected one of {', '.join(TRANSFER_ABLATIONS)}.")
+    return label
+
+
+def _split_ablation_list(raw: str | None) -> list[str]:
+    if not raw:
+        return list(TRANSFER_ABLATIONS)
+    values = [
+        _resolve_ablation(item)
+        for item in str(raw).split(",")
+        if str(item).strip()
+    ]
+    seen: set[str] = set()
+    ordered: list[str] = []
+    for value in values:
+        if value in seen:
+            continue
+        seen.add(value)
+        ordered.append(value)
+    return ordered or list(TRANSFER_ABLATIONS)
+
+
 def cmd_run(args: argparse.Namespace) -> None:
     bundles, dossiers = _ensure_assets(args.benchmark_family)
     toolbox = None
-    run_id = args.run_id.strip() if args.run_id else datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_id = _resolve_run_id(getattr(args, "run_id", None))
+    ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
     target_filter = {
         target_id.strip()
         for target_id in (args.target_ids.split(",") if args.target_ids else [])
@@ -82,6 +116,7 @@ def cmd_run(args: argparse.Namespace) -> None:
             condition,
             benchmark_family=args.benchmark_family,
             run_id=run_id,
+            ablation=ablation,
         )
         if outpath.exists():
             raise FileExistsError(
@@ -98,10 +133,11 @@ def cmd_run(args: argparse.Namespace) -> None:
                     condition=condition,
                     toolbox=toolbox,
                     benchmark_family=args.benchmark_family,
+                    ablation=ablation,
                 )
                 results.append(result)
                 print(
-                    f"[{condition}] {result['target']['target_id']}: "
+                    f"[{condition}][{ablation}] {result['target']['target_id']}: "
                     f"{result['decision']['outcome']} "
                     f"{result['decision'].get('best_cross_trait') or '-'}",
                     flush=True,
@@ -119,10 +155,11 @@ def cmd_run(args: argparse.Namespace) -> None:
                     condition=condition,
                     toolbox=toolbox,
                     benchmark_family=args.benchmark_family,
+                    ablation=ablation,
                 )
 
             print(
-                f"[{condition}] Running {len(dossiers)} targets with {n_workers} workers ...",
+                f"[{condition}][{ablation}] Running {len(dossiers)} targets with {n_workers} workers ...",
                 flush=True,
             )
             with ThreadPoolExecutor(max_workers=n_workers) as pool:
@@ -136,7 +173,7 @@ def cmd_run(args: argparse.Namespace) -> None:
                         results[idx] = result
                         done_count += 1
                     print(
-                        f"[{condition}] ({done_count}/{len(dossiers)}) "
+                        f"[{condition}][{ablation}] ({done_count}/{len(dossiers)}) "
                         f"{result['target']['target_id']}: "
                         f"{result['decision']['outcome']} "
                         f"{result['decision'].get('best_cross_trait') or '-'}",
@@ -146,18 +183,27 @@ def cmd_run(args: argparse.Namespace) -> None:
             write_agent_results(results, outpath)
 
         print(
-            f"[{condition}] run_id={run_id} wrote {len(results)} decisions -> {outpath}",
+            f"[{condition}][{ablation}] run_id={run_id} wrote {len(results)} decisions -> {outpath}",
             flush=True,
         )
 
 
 def cmd_recommend(args: argparse.Namespace) -> None:
-    from experiments.contribution3.transfer.contribution2_adapter import (
-        recommend_best_model_for_cross_trait,
-    )
+    """Extract Stage 2 model recommendations from unified two-stage decision output.
 
+    In the new pipeline, `run_cross_trait_agent` already produces `best_model_id`
+    and `recommended_model_ids` via Stage 2 LLM. This command simply extracts
+    them into the `contribution2_recommendations.json` format for eval compat.
+    """
     condition = args.condition
-    results_path = condition_results_json(condition, benchmark_family=args.benchmark_family)
+    ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
+    run_id = getattr(args, "run_id", None) or None
+    results_path = condition_results_json(
+        condition,
+        benchmark_family=args.benchmark_family,
+        run_id=run_id,
+        ablation=ablation,
+    )
     if not results_path.exists():
         raise FileNotFoundError(f"Agent results not found: {results_path}")
     results = json.loads(results_path.read_text())
@@ -171,40 +217,56 @@ def cmd_recommend(args: argparse.Namespace) -> None:
             "recommendation": None,
         }
         if decision.get("outcome") == "MATCHED":
-            frontier_bundle_ids = decision.get("frontier_bundle_ids") or (
-                [decision.get("primary_bundle_id")] if decision.get("primary_bundle_id") else []
-            )
-            record["recommendation"] = recommend_best_model_for_cross_trait(
-                original_target_trait=str(record["target"].get("target_label") or "").strip(),
-                matched_cross_trait=decision.get("best_cross_trait"),
-                matched_bundle_id=decision.get("primary_bundle_id") or decision.get("best_bundle_id"),
-                candidate_pgs_ids=decision.get("candidate_pgs_ids") or [],
-                frontier_bundle_ids=frontier_bundle_ids,
-                frontier_bundle_weights=decision.get("frontier_bundle_weights") or {},
-                candidate_pgs_ids_union=decision.get("candidate_pgs_ids_union")
-                or decision.get("candidate_pgs_ids")
-                or [],
-                bundle_evidence_tags=decision.get("bundle_evidence_tags") or {},
-                evidence_state=decision.get("evidence_state") or {},
-                use_domain_knowledge=(condition != "gpt-only"),
-            )
+            # Extract Stage 2 model recommendation from unified decision
+            stage2 = decision.get("stage2") or {}
+            model_frontier = decision.get("model_frontier") or stage2.get("model_frontier") or stage2.get("recommended_models", [])
+            best_model_id = decision.get("best_model_id") or stage2.get("primary_model_id")
+            recommended_ids = decision.get("recommended_model_ids") or [
+                m["pgs_id"] for m in model_frontier if m.get("pgs_id")
+            ]
+            record["recommendation"] = {
+                "original_target_trait": str(record["target"].get("target_label") or "").strip(),
+                "matched_cross_trait": decision.get("best_cross_trait"),
+                "matched_bundle_id": decision.get("primary_bundle_id") or decision.get("best_bundle_id"),
+                "frontier_bundle_ids": decision.get("frontier_bundle_ids") or [],
+                "frontier_bundle_weights": decision.get("frontier_bundle_weights") or {},
+                "candidate_pgs_ids": decision.get("candidate_pgs_ids") or [],
+                "retrieval": {
+                    "hydrated_model_count": stage2.get("model_universe_size"),
+                    "frontier_model_count": len(model_frontier),
+                    "bundles_hydrated": stage2.get("bundles_hydrated") or list((decision.get("search_trace") or {}).get("model_budget_by_bundle", {}).keys()),
+                    "universe_matches_candidate_ids": True if best_model_id and best_model_id in (decision.get("candidate_pgs_ids") or []) else None,
+                    "missing_candidate_pgs_ids": [],
+                },
+                "decision": {
+                    "outcome": "DIRECT_HIGH_QUALITY" if best_model_id else "NO_MATCH_FOUND",
+                    "best_model_id": best_model_id,
+                    "confidence": stage2.get("confidence", decision.get("confidence", "Low")),
+                    "rationale": stage2.get("decision_rationale", ""),
+                },
+                "recommended_model_ids": recommended_ids,
+            }
             print(
-                f"[{condition}] {record['target'].get('target_id')}: "
-                f"{decision.get('best_cross_trait') or decision.get('primary_bundle_id') or '-'} -> "
-                f"{record['recommendation']['decision'].get('best_model_id')}",
+                f"[{condition}][{ablation}] {record['target'].get('target_id')}: "
+                f"{decision.get('best_cross_trait') or '-'} -> {best_model_id}",
                 flush=True,
             )
         else:
             print(
-                f"[{condition}] {record['target'].get('target_id')}: "
+                f"[{condition}][{ablation}] {record['target'].get('target_id')}: "
                 f"{decision.get('outcome') or 'NO_DECISION'}",
                 flush=True,
             )
         recommendations.append(record)
-    outpath = condition_recommendations_json(condition, benchmark_family=args.benchmark_family)
+    outpath = condition_recommendations_json(
+        condition,
+        benchmark_family=args.benchmark_family,
+        run_id=run_id,
+        ablation=ablation,
+    )
     outpath.write_text(json.dumps(recommendations, indent=2, ensure_ascii=False))
     print(
-        f"[{condition}] wrote {len(recommendations)} contribution2 recommendations -> {outpath}",
+        f"[{condition}][{ablation}] wrote {len(recommendations)} recommendations -> {outpath}",
         flush=True,
     )
 
@@ -214,17 +276,95 @@ def cmd_evaluate_end_to_end(args: argparse.Namespace) -> None:
         evaluate_end_to_end_condition,
     )
 
+    ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
+    run_id = getattr(args, "run_id", None) or None
     summary = evaluate_end_to_end_condition(
         condition=args.condition,
         benchmark_family=args.benchmark_family,
+        run_id=run_id,
+        ablation=ablation,
     )
     print(
-        f"[{args.condition}] benchmark_family={args.benchmark_family} "
+        f"[{args.condition}][{ablation}] benchmark_family={args.benchmark_family} "
         f"coverage={summary.get('coverage'):.4f} "
         f"mean_gpr={summary.get('official_metrics', {}).get('mean_gpr')} "
-        f"hit@5%={summary.get('official_metrics', {}).get('hit_at_percent', {}).get('top_5pct')}",
+        f"hit@0.5%={summary.get('official_metrics', {}).get('hit_at_percent', {}).get('top_0_5pct')}",
         flush=True,
     )
+
+
+def cmd_offline_unified(args: argparse.Namespace) -> None:
+    run_id = _resolve_run_id(getattr(args, "run_id", None))
+    ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
+
+    if not getattr(args, "skip_prepare_assets", False):
+        cmd_prepare_assets(argparse.Namespace(benchmark_family="unified"))
+
+    run_args = argparse.Namespace(
+        condition=args.condition,
+        benchmark_family="unified",
+        target_ids=getattr(args, "target_ids", ""),
+        run_id=run_id,
+        workers=getattr(args, "workers", 1),
+        ablation=ablation,
+    )
+    cmd_run(run_args)
+
+    recommend_args = argparse.Namespace(
+        condition=args.condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    cmd_recommend(recommend_args)
+
+    eval_args = argparse.Namespace(
+        condition=args.condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    cmd_evaluate_end_to_end(eval_args)
+
+    results_path = condition_results_json(
+        args.condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    recommendations_path = condition_recommendations_json(
+        args.condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    eval_root = evaluation_dir("unified", run_id=run_id, ablation=ablation)
+    print(
+        f"[offline-unified][{ablation}] completed run_id={run_id}\n"
+        f"results={results_path}\n"
+        f"recommendations={recommendations_path}\n"
+        f"evaluation_dir={eval_root}",
+        flush=True,
+    )
+
+
+def cmd_offline_ablation_sweep(args: argparse.Namespace) -> None:
+    ablations = _split_ablation_list(getattr(args, "ablations", None))
+    base_run_id = _resolve_run_id(getattr(args, "run_id", None))
+
+    if not getattr(args, "skip_prepare_assets", False):
+        cmd_prepare_assets(argparse.Namespace(benchmark_family="unified"))
+
+    for ablation in ablations:
+        offline_args = argparse.Namespace(
+            condition=args.condition,
+            target_ids=getattr(args, "target_ids", ""),
+            workers=getattr(args, "workers", 1),
+            run_id=base_run_id,
+            ablation=ablation,
+            skip_prepare_assets=True,
+        )
+        cmd_offline_unified(offline_args)
 
 
 def cmd_generate_docs(_: argparse.Namespace) -> None:
@@ -287,6 +427,12 @@ def build_parser() -> argparse.ArgumentParser:
             "Default 1 (sequential) preserves incremental write-after-each-target behaviour."
         ),
     )
+    run_parser.add_argument(
+        "--ablation",
+        choices=TRANSFER_ABLATIONS,
+        default=DEFAULT_TRANSFER_ABLATION,
+        help="Optional workflow ablation to apply during the transfer run.",
+    )
 
     recommend_parser = subparsers.add_parser("recommend")
     recommend_parser.add_argument(
@@ -299,6 +445,17 @@ def build_parser() -> argparse.ArgumentParser:
         choices=BENCHMARK_FAMILIES,
         default="unified",
     )
+    recommend_parser.add_argument(
+        "--run-id",
+        default="",
+        help="Optional run id to read/write artifacts from a run-specific directory.",
+    )
+    recommend_parser.add_argument(
+        "--ablation",
+        choices=TRANSFER_ABLATIONS,
+        default=DEFAULT_TRANSFER_ABLATION,
+        help="Optional workflow ablation to read/write recommend artifacts under.",
+    )
 
     eval_parser = subparsers.add_parser("evaluate-end-to-end")
     eval_parser.add_argument(
@@ -310,6 +467,86 @@ def build_parser() -> argparse.ArgumentParser:
         "--benchmark-family",
         choices=BENCHMARK_FAMILIES,
         default="unified",
+    )
+    eval_parser.add_argument(
+        "--run-id",
+        default="",
+        help="Optional run id to read/write evaluation artifacts from a run-specific directory.",
+    )
+    eval_parser.add_argument(
+        "--ablation",
+        choices=TRANSFER_ABLATIONS,
+        default=DEFAULT_TRANSFER_ABLATION,
+        help="Optional workflow ablation to evaluate.",
+    )
+
+    offline_unified_parser = subparsers.add_parser("offline-unified")
+    offline_unified_parser.add_argument(
+        "--condition",
+        choices=list(CONDITION_TOOLS.keys()),
+        default="all-tools",
+        help="Offline unified benchmark run condition. Defaults to all-tools.",
+    )
+    offline_unified_parser.add_argument(
+        "--target-ids",
+        default="",
+        help="Optional comma-separated subset of target IDs for focused offline debugging.",
+    )
+    offline_unified_parser.add_argument(
+        "--run-id",
+        default="",
+        help="Optional run id reused across run/recommend/evaluate artifacts.",
+    )
+    offline_unified_parser.add_argument(
+        "--workers",
+        type=int,
+        default=4,
+        help="Parallel worker count for the unified 80-target offline run.",
+    )
+    offline_unified_parser.add_argument(
+        "--ablation",
+        choices=TRANSFER_ABLATIONS,
+        default=DEFAULT_TRANSFER_ABLATION,
+        help="Optional workflow ablation for the unified offline run.",
+    )
+    offline_unified_parser.add_argument(
+        "--skip-prepare-assets",
+        action="store_true",
+        help="Skip prepare-assets if bundle index and candidate dossiers are already materialized.",
+    )
+
+    offline_ablation_parser = subparsers.add_parser("offline-ablation-sweep")
+    offline_ablation_parser.add_argument(
+        "--condition",
+        choices=list(CONDITION_TOOLS.keys()),
+        default="all-tools",
+        help="Condition used for the unified ablation sweep.",
+    )
+    offline_ablation_parser.add_argument(
+        "--target-ids",
+        default="",
+        help="Optional comma-separated subset of target IDs for focused ablation sweeps.",
+    )
+    offline_ablation_parser.add_argument(
+        "--run-id",
+        default="",
+        help="Optional shared run id for all ablations in the sweep.",
+    )
+    offline_ablation_parser.add_argument(
+        "--workers",
+        type=int,
+        default=4,
+        help="Parallel worker count for each ablation run.",
+    )
+    offline_ablation_parser.add_argument(
+        "--ablations",
+        default=",".join(TRANSFER_ABLATIONS),
+        help="Comma-separated ablation list. Defaults to full,no_ot_verifier,no_h2,no_reflective_reprobe,no_local_champion.",
+    )
+    offline_ablation_parser.add_argument(
+        "--skip-prepare-assets",
+        action="store_true",
+        help="Skip prepare-assets if bundle index and candidate dossiers are already materialized.",
     )
 
     subparsers.add_parser("generate-docs")
@@ -327,6 +564,10 @@ def main() -> None:
         cmd_recommend(args)
     elif args.command == "evaluate-end-to-end":
         cmd_evaluate_end_to_end(args)
+    elif args.command == "offline-unified":
+        cmd_offline_unified(args)
+    elif args.command == "offline-ablation-sweep":
+        cmd_offline_ablation_sweep(args)
     elif args.command == "generate-docs":
         cmd_generate_docs(args)
     else:

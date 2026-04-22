@@ -30,6 +30,7 @@ BENCHMARK_DIR = (
 )
 DEFAULT_BENCHMARK_FAMILY = "unified"
 BENCHMARK_FAMILIES = ("binary_to_binary", "binary_to_continuous", "unified")
+DEFAULT_TRANSFER_ABLATION = "full"
 BUNDLE_INDEX_JSON = RUNS_DIR / "trait_bundle_index.json"
 PGS_SCORES_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_scores.csv"
 PGS_EFO_TRAITS_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_efo_traits.csv"
@@ -153,6 +154,22 @@ def benchmark_run_dir(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
     return RUNS_DIR / family
 
 
+def normalize_transfer_ablation(ablation: str | None) -> str:
+    text = str(ablation or DEFAULT_TRANSFER_ABLATION).strip().lower().replace("-", "_")
+    return text or DEFAULT_TRANSFER_ABLATION
+
+
+def benchmark_ablation_run_dir(
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+    ablation: str | None = None,
+) -> Path:
+    label = normalize_transfer_ablation(ablation)
+    family_dir = benchmark_run_dir(benchmark_family)
+    if label == DEFAULT_TRANSFER_ABLATION:
+        return family_dir
+    return family_dir / f"ablation__{label}"
+
+
 def target_dossiers_json(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
     return benchmark_run_dir(benchmark_family) / "candidate_dossiers.json"
 
@@ -161,20 +178,29 @@ def condition_results_json(
     condition: str,
     benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
     run_id: str | None = None,
+    ablation: str | None = None,
 ) -> Path:
     condition_dir = f"{condition}__{run_id}" if run_id else condition
-    return benchmark_run_dir(benchmark_family) / condition_dir / "results.json"
+    return benchmark_ablation_run_dir(benchmark_family, ablation=ablation) / condition_dir / "results.json"
 
 
 def condition_recommendations_json(
     condition: str,
     benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+    run_id: str | None = None,
+    ablation: str | None = None,
 ) -> Path:
-    return benchmark_run_dir(benchmark_family) / condition / "contribution2_recommendations.json"
+    condition_dir = f"{condition}__{run_id}" if run_id else condition
+    return benchmark_ablation_run_dir(benchmark_family, ablation=ablation) / condition_dir / "contribution2_recommendations.json"
 
 
-def evaluation_dir(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
-    return benchmark_run_dir(benchmark_family) / "evaluation"
+def evaluation_dir(
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+    run_id: str | None = None,
+    ablation: str | None = None,
+) -> Path:
+    base = benchmark_ablation_run_dir(benchmark_family, ablation=ablation)
+    return base / (f"evaluation__{run_id}" if run_id else "evaluation")
 
 
 def benchmark_target_selection_csv(

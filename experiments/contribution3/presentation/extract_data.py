@@ -23,12 +23,9 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 TRANSFER_RUNS = PROJECT_ROOT / "experiments" / "contribution3" / "transfer" / "runs" / "tool_calling_agent"
 BUNDLE_INDEX_JSON = TRANSFER_RUNS / "trait_bundle_index.json"
-SHORTLIST_CSV = (
-    TRANSFER_RUNS
-    / "unified"
-    / "all-tools__20260414_015734"
-    / "shortlist_recall.csv"
-)
+RUN_DIR_NAME = "all-tools__online_opt3_20260421_203013"
+EVAL_DIR_NAME = f"evaluation__{RUN_DIR_NAME.split('__', 1)[1]}"  # mirrors the run timestamp
+SHORTLIST_CSV = TRANSFER_RUNS / "unified" / RUN_DIR_NAME / "shortlist_recall.csv"
 DOSSIER_JSON = TRANSFER_RUNS / "unified" / "candidate_dossiers.json"
 BENCHMARK_DIR = (
     PROJECT_ROOT
@@ -41,7 +38,7 @@ UNION_TARGETS_CSV = BENCHMARK_DIR / "union_selected_targets.csv"
 B2B_SELECTION_CSV = BENCHMARK_DIR / "binary_to_binary" / "target_selection.csv"
 B2C_SELECTION_CSV = BENCHMARK_DIR / "binary_to_continuous" / "target_selection.csv"
 EVAL_DETAIL_CSV = (
-    TRANSFER_RUNS / "unified" / "evaluation" / "all-tools__end_to_end_eval_detail.csv"
+    TRANSFER_RUNS / "unified" / EVAL_DIR_NAME / "all-tools__end_to_end_eval_detail.csv"
 )
 PGS_METADATA_CSV = PROJECT_ROOT / "Genetic_Agent" / "disease_preprocess" / "pgs_metadata_binary_combined.csv"
 OUT_DIR = Path(__file__).resolve().parent
@@ -52,7 +49,7 @@ PRS_TOP_N = 100  # show top-N PGS models per target in PRS model level view
 
 # Presentation cohort: strong primary (low competition rank), not "exact oracle only".
 MAX_SELECTED_RANK_INCLUSIVE = 5
-RUN_LABEL = "all-tools__20260414_015734"
+RUN_LABEL = RUN_DIR_NAME
 
 # Targets excluded from the presentation (weak biological rationale or niche phenotype)
 EXCLUDED_TARGET_IDS = {"K02", "K04", "N65", "L05"}

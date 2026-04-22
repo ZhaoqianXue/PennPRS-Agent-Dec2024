@@ -218,7 +218,7 @@ body.prs-mode .prs-meta-row{display:flex}
 <section id="page-cards" class="page">
   <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:8px;flex-wrap:wrap">
     <h2 style="margin-bottom:0">Target Trait Summary</h2>
-    <div class="view-toggle" style="display:none">
+    <div class="view-toggle">
       <button class="vt-btn active" id="vt-cross" onclick="setViewMode('cross-trait')">Cross Trait Level</button>
       <button class="vt-btn" id="vt-prs" onclick="setViewMode('prs-model')">PRS Model Level</button>
     </div>
@@ -364,6 +364,116 @@ const zoomState = {};
 /** Current view mode: 'cross-trait' | 'prs-model' */
 let viewMode = 'cross-trait';
 
+/* ── Chart.js plugin: vertical percentile threshold lines (PRS mode) ───
+   Reads chart.options.plugins.verticalThresholdLines.lines (array of
+   { barIndex, label, color, labelColor, labelOffset }) and paints a
+   dashed vertical line at the right edge of each bar, with a small
+   label near the top of the chart area. */
+const verticalThresholdLinesPlugin = {
+  id: 'verticalThresholdLines',
+  afterDatasetsDraw(chart) {
+    const opts = chart.options.plugins && chart.options.plugins.verticalThresholdLines;
+    if (!opts || !opts.lines || !opts.lines.length) return;
+    const ctx = chart.ctx;
+    const xScale = chart.scales.x;
+    const yScale = chart.scales.y;
+    const labels = chart.data.labels;
+    if (!labels.length) return;
+    ctx.save();
+    opts.lines.forEach(line => {
+      const idx = line.barIndex;
+      if (idx < 0 || idx >= labels.length) return;
+      const xCenter = xScale.getPixelForValue(idx);
+      let xLine;
+      if (idx + 1 < labels.length) {
+        xLine = (xCenter + xScale.getPixelForValue(idx + 1)) / 2;
+      } else {
+        const xPrev = idx > 0 ? xScale.getPixelForValue(idx - 1) : xCenter - 10;
+        xLine = xCenter + (xCenter - xPrev) / 2;
+      }
+      ctx.beginPath();
+      ctx.strokeStyle = line.color || 'rgba(255,255,255,0.45)';
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([3, 3]);
+      ctx.moveTo(xLine, yScale.top);
+      ctx.lineTo(xLine, yScale.bottom);
+      ctx.stroke();
+      if (line.label) {
+        ctx.setLineDash([]);
+        ctx.fillStyle = line.labelColor || '#e8eef5';
+        ctx.font = '10px Segoe UI, system-ui, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText(line.label, xLine + 4, yScale.top + 2 + (line.labelOffset || 0));
+      }
+    });
+    ctx.restore();
+  }
+};
+Chart.register(verticalThresholdLinesPlugin);
+
+/** Percentiles to mark in PRS Model Level view, low → high. */
+const PRS_PERCENTILE_MARKS = [0.5, 2.5, 5, 10];
+
+/** Build threshold-line specs for the PRS chart, deduped by bar index.
+ *  In full view, also draws lines for the Recommended PRS model and the
+ *  Type B Self best AUC crossover, since those bar-level markers become
+ *  invisible when 3000+ bars are squeezed into the overview width. */
+function buildPrsThresholdLines(target, displayedBars, fullView) {
+  const nTotal = (target.prs_bars_full && target.prs_bars_full.length) || displayedBars.length;
+  if (!nTotal) return [];
+  const seen = new Set();
+  const lines = [];
+  PRS_PERCENTILE_MARKS.forEach((p, i) => {
+    const cutoff = Math.round(nTotal * p / 100);
+    if (cutoff < 1) return;
+    const barIndex = cutoff - 1;
+    if (barIndex >= displayedBars.length) return;
+    if (seen.has(barIndex)) return;
+    seen.add(barIndex);
+    lines.push({
+      barIndex,
+      label: `Top ${p}%`,
+      color: 'rgba(255,255,255,0.45)',
+      labelColor: '#e8eef5',
+      labelOffset: i * 12,
+    });
+  });
+
+  if (fullView) {
+    const recIdx = displayedBars.findIndex(b => b.is_recommended);
+    if (recIdx >= 0 && !seen.has(recIdx)) {
+      seen.add(recIdx);
+      lines.push({
+        barIndex: recIdx,
+        label: `Recommended (rank ${recIdx + 1})`,
+        color: 'rgba(255,215,0,0.7)',
+        labelColor: '#ffd700',
+        labelOffset: 50,
+      });
+    }
+    if (target.input_type === 'B' && target.self_best_auc != null) {
+      const selfAuc = target.self_best_auc;
+      let lastIdx = -1;
+      for (let i = 0; i < displayedBars.length; i++) {
+        if (displayedBars[i].auc >= selfAuc) lastIdx = i;
+        else break;
+      }
+      if (lastIdx >= 0 && !seen.has(lastIdx)) {
+        seen.add(lastIdx);
+        lines.push({
+          barIndex: lastIdx,
+          label: `Self best AUC (n above: ${lastIdx + 1})`,
+          color: 'rgba(255,124,124,0.7)',
+          labelColor: '#ff7c7c',
+          labelOffset: 62,
+        });
+      }
+    }
+  }
+  return lines;
+}
+
 function barsForTarget(t, idx) {
   if (viewMode === 'prs-model') {
     const full = t.prs_bars_full;
@@ -476,8 +586,16 @@ function createOrUpdateChart(idx) {
 
   if (dense) {
     if (isDetail) {
+      // Browsers have a hard cap on canvas pixel dimensions (~32767 in Chrome,
+      // 16384 in Safari). At dpr>1 the device-pixel size is CSS px × dpr, so
+      // we clamp the CSS width using the live devicePixelRatio. Without this,
+      // huge ranking sets (e.g. 3000+ PRS models) silently produced a blank
+      // canvas in expand mode.
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const maxCssWidth = Math.floor(16000 / dpr);
+      const desiredWidth = Math.max(900, bars.length * 14);
       inner.style.width = '';
-      inner.style.minWidth = Math.max(900, bars.length * 14) + 'px';
+      inner.style.minWidth = Math.min(desiredWidth, maxCssWidth) + 'px';
       inner.style.height = '380px';
     } else {
       inner.style.minWidth = '100%';
@@ -501,6 +619,7 @@ function createOrUpdateChart(idx) {
   }
 
   const selfAuc = (t.input_type === 'B' && t.self_best_auc != null) ? t.self_best_auc : null;
+  const thresholdLines = isPrs ? buildPrsThresholdLines(t, bars, !!fullViewState[idx]) : [];
 
   const allValues = selfAuc != null ? [...data, selfAuc] : data;
   const yMin = Math.min(...allValues);
@@ -545,6 +664,7 @@ function createOrUpdateChart(idx) {
       maintainAspectRatio: false,
       animation: { duration: 0 },
       plugins: {
+        verticalThresholdLines: { lines: thresholdLines },
         legend: { display: false },
         tooltip: {
           backgroundColor: '#1e2940',
@@ -640,14 +760,14 @@ function wireFullViewButtons() {
     const preview = isPrs ? (t.prs_bars || []) : (t.bars || []);
     const full    = isPrs ? t.prs_bars_full : t.bars_full;
     const canToggle = full && full.length > preview.length;
+    const labelFor = isFull => isFull ? 'Click to switch to top view' : 'Click to switch to full view';
     if (!canToggle) {
       btn.disabled = true;
-      btn.textContent = 'Click to switch to full view';
+      btn.textContent = labelFor(!!fullViewState[idx]);
       return;
     }
     btn.disabled = false;
-    fullViewState[idx] = false;
-    btn.textContent = 'Click to switch to full view';
+    btn.textContent = labelFor(!!fullViewState[idx]);
     btn.onclick = () => {
       fullViewState[idx] = !fullViewState[idx];
       if (!fullViewState[idx]) zoomState[idx] = false;
@@ -689,9 +809,11 @@ function setViewMode(mode) {
   // update legend label
   const legendSel = document.getElementById('legend-selected-text');
   if (legendSel) legendSel.textContent = mode === 'prs-model' ? 'Recommended PRS model' : 'Selected primary Cross Trait';
-  // reset all per-card states
+  // reset per-card states. PRS mode defaults to full view (so the
+  // recommended/self-AUC marker lines are visible without an extra click);
+  // cross-trait mode keeps top view as default.
   PRESENTATION_DATA.targets.forEach((_, idx) => {
-    fullViewState[idx] = false;
+    fullViewState[idx] = (mode === 'prs-model');
     zoomState[idx] = false;
   });
   // re-wire full view buttons for new mode

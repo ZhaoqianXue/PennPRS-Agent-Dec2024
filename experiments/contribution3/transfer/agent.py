@@ -14,6 +14,7 @@ from thefuzz import fuzz
 
 from experiments.contribution3.transfer.common import (
     CONTINUOUS_HINTS,
+    DEFAULT_TRANSFER_ABLATION,
     PROJECT_ROOT,
     CandidateBundleDossier,
     TraitBundle,
@@ -21,19 +22,43 @@ from experiments.contribution3.transfer.common import (
     is_self_like_bundle,
     load_benchmark_target_selection,
     load_trait_bundle_index,
+    normalize_transfer_ablation,
     normalize_text,
 )
 from experiments.contribution3.transfer.prompts.transfer_prompt import (
+    BUNDLE_POSTERIOR_PROMPT,
     CandidateEvidenceCard,
+    ConfidenceLabel,
     CrossTraitTransferFrontierDecision,
     DecisionMode,
     EvidenceState,
+    GlobalModelFrontierDecision,
     GeneticCorrelationEvidence,
     HeritabilityEvidence,
+    InitialSearchPlan,
     JudgeFrontierSelection,
+    LOCAL_CHAMPION_PROMPT,
+    LocalChampionDecision,
     OpenTargetsEvidence,
+    PerToolEvidence,
+    PROBE_REFLECTION_PROMPT,
+    PRSModelCandidate,
+    ProbeRoundDecision,
+    GLOBAL_MODEL_FRONTIER_PROMPT,
+    SEARCH_PLAN_PROMPT,
+    SearchTrace,
+    SearchTraceRound,
+    SupportingBundleSelection,
+    Stage1BundleCandidate,
+    Stage1CrossTraitShortlist,
+    Stage1ShortlistLLMOutput,
+    Stage2ModelRecommendation,
+    STAGE1_SHORTLIST_JUDGE_PROMPT,
+    STAGE2_MODEL_JUDGE_PROMPT,
+    BundlePosteriorDecision,
     TRANSFER_FRONTIER_JUDGE_PROMPT,
     TRANSFER_FRONTIER_VERIFY_PROMPT,
+    TwoStageTransferDecision,
     VerifiedSelection,
 )
 from experiments.contribution3.transfer.tools import CrossTraitToolbox
@@ -149,6 +174,57 @@ class TransferConfig:
     # --- LLM-based genetic correlation estimation ---
     # Batch size for LLM rg estimation calls (candidates per LLM call).
     llm_gc_batch_size: int = 20
+    # --- Two-stage pipeline ---
+    # Top N candidates enriched with Open Targets evidence (budget allocation).
+    ot_enrichment_cap: int = 50
+    # Stage 1: target number of cross-trait bundles for LLM to select.
+    stage1_target_count: int = 5
+    stage1_max_count: int = 7
+    # Stage 2: max PRS models sent to LLM; max models selected.
+    stage2_model_cap: int = 50
+    stage2_max_count: int = 5
+    # Max Tier B (partial-evidence) candidates shown to LLM in condensed form.
+    tier_b_condensed_cap: int = 200
+    # --- vNext LLM-dominant workflow ---
+    # Budgets enlarged after the 20260421 online_opt run showed matching losses
+    # at every upstream stage (shortlist_miss 25, posterior_miss 25,
+    # local_champion_miss 22 out of 80). Wider probe + retained set + supporting
+    # cap + OT verification + local-champion budget give the LLM judges more
+    # room to retain the oracle's bundle (trait-agnostic parameter changes).
+    initial_probe_size: int = 36
+    challenger_probe_cap: int = 20
+    max_probe_rounds: int = 3
+    retained_probe_min: int = 10
+    retained_probe_max: int = 16
+    ot_verification_cap: int = 16
+    supporting_bundle_min: int = 4
+    supporting_bundle_max: int = 7
+    model_total_budget: int = 96
+    local_champion_max_per_bundle: int = 4
+    # Number of top-fidelity cards that must always be present in the initial
+    # probe set (trait-agnostic: picked from `phenotype_fidelity_score`).
+    probe_fidelity_floor: int = 8
+    # Deterministic anchor enforced on the bundle-posterior output: the top-K
+    # non-proxy cards from the UNIFIED_CONFIG DE-optimized `_sort_cards` order
+    # (38-feature, validated at 34/74 frozen-data oracle recall) are APPENDED
+    # after the LLM's picks in the supporting list. Guarantees Stage 3 cannot
+    # regress below the DE-optimized ranking. Cycle0 best at K=3; cycle3
+    # showed K=4 displaced genuine LLM picks and regressed all metrics.
+    posterior_deterministic_anchor: int = 3
+    # Secondary fidelity floor enforced only after the deterministic anchor and
+    # LLM picks have been merged. Uses the handcrafted
+    # `_fidelity_weighted_score` (fidelity^2 + significant-GC + supported-OT)
+    # as a backup to recover endpoint-faithful bundles the LLM missed.
+    posterior_fidelity_floor: int = 2
+    # Stage 4/5: deterministic quality anchors. `_model_quality_score` is
+    # trait-agnostic — it measures PRS quality on the bundle's OWN trait, not
+    # transferability to the target — so anchoring top-K by quality_score in
+    # the local-champion / global-frontier pools systematically replaces the
+    # oracle PGS with a high-quality non-oracle PGS from the same or different
+    # bundle. Disabled after cycle1 regressed official metrics (top_2pct
+    # 0.30 → 0.27, global_tournament_conversion 0.60 → 0.45).
+    local_champion_quality_anchor: int = 0
+    global_frontier_quality_anchor: int = 0
 
 
 BINARY_TO_BINARY_CONFIG = TransferConfig(
@@ -361,6 +437,14 @@ CONDITION_TOOLS: dict[str, list[str]] = {
         "cross_trait_open_targets",
     ],
 }
+
+TRANSFER_ABLATIONS = (
+    DEFAULT_TRANSFER_ABLATION,
+    "no_ot_verifier",
+    "no_h2",
+    "no_reflective_reprobe",
+    "no_local_champion",
+)
 
 PROXY_MARKERS = (
     "family history",
@@ -897,7 +981,7 @@ def _build_candidate_card(
         target_code=dossier.target.target_code,
         target_source=target_source,
     )
-    return CandidateEvidenceCard(
+    card = CandidateEvidenceCard(
         bundle_id=bundle.bundle_id,
         canonical_label=bundle.canonical_label,
         bundle_type=bundle.bundle_type,
@@ -916,6 +1000,8 @@ def _build_candidate_card(
         h2=h2,
         open_targets=ot,
     )
+    card.selection_priority_score = _selection_priority_score(card, config)
+    return card
 
 
 def _selection_priority_score(
@@ -1177,6 +1263,7 @@ def _normalize_frontier_ids(
     dossier: CandidateBundleDossier,
     cards: list[CandidateEvidenceCard],
     candidate_ids: list[str],
+    max_ids: int = 3,
 ) -> list[str]:
     card_lookup = {card.bundle_id: card for card in cards}
     ordered: list[str] = []
@@ -1192,7 +1279,7 @@ def _normalize_frontier_ids(
             continue
         seen.add(bundle_id)
         ordered.append(bundle_id)
-        if len(ordered) >= 3:
+        if len(ordered) >= max_ids:
             break
     return ordered
 
@@ -1221,6 +1308,1988 @@ def _build_target_summary(
         },
     }
 
+
+# ---------------------------------------------------------------------------
+# Two-stage pipeline: Stage 1 (cross-trait shortlist) + Stage 2 (PRS model)
+# ---------------------------------------------------------------------------
+
+import logging as _logging
+
+_log = _logging.getLogger(__name__)
+
+
+def _condensed_card(card: CandidateEvidenceCard, rank: int) -> dict[str, Any]:
+    """Condensed representation of a Tier B card for the LLM prompt."""
+    d: dict[str, Any] = {
+        "bundle_id": card.bundle_id,
+        "label": card.canonical_label,
+        "archetype": card.archetype,
+        "n_models": card.n_models,
+        "fidelity": round(card.phenotype_fidelity_score, 3),
+        "utility": round(card.utility_score, 3),
+        "prior": round(card.transferability_prior_score, 3),
+        "informational_rank": rank,
+    }
+    if card.gc and card.gc.rg is not None:
+        d["rg"] = round(card.gc.rg, 3)
+        d["gc_confidence"] = card.gc.confidence
+    if card.h2 and card.h2.shared_signal_ceiling_proxy is not None:
+        d["h2_ceiling"] = round(card.h2.shared_signal_ceiling_proxy, 4)
+    return d
+
+
+def _condensed_tier_a_card(card: CandidateEvidenceCard, rank: int) -> dict[str, Any]:
+    """Condensed Tier A card: keeps decision-relevant evidence, drops verbose detail."""
+    d: dict[str, Any] = {
+        "bundle_id": card.bundle_id,
+        "canonical_label": card.canonical_label,
+        "archetype": card.archetype,
+        "n_models": card.n_models,
+        "phenotype_fidelity_score": round(card.phenotype_fidelity_score, 3),
+        "utility_score": round(card.utility_score, 3),
+        "transferability_prior_score": round(card.transferability_prior_score, 3),
+        "evidence_tags": card.evidence_tags,
+        "informational_rank": rank,
+        "tier": "A",
+    }
+    # GC: keep summary stats, drop resolution detail
+    if card.gc:
+        d["gc"] = {
+            "source": card.gc.source,
+            "rg": card.gc.rg,
+            "confidence": card.gc.confidence,
+            "pair_status": card.gc.pair_status,
+        }
+        if card.gc.p_value is not None:
+            d["gc"]["p_value"] = card.gc.p_value
+        if card.gc.llm_rationale:
+            d["gc"]["llm_rationale"] = card.gc.llm_rationale
+    # H2: keep summary stats, drop full profiles
+    if card.h2:
+        d["h2"] = {
+            "target_best_h2": card.h2.target_best_h2,
+            "candidate_best_h2": card.h2.candidate_best_h2,
+            "shared_signal_ceiling_proxy": card.h2.shared_signal_ceiling_proxy,
+            "candidate_signal_capacity": card.h2.candidate_signal_capacity,
+            "confidence_tier": card.h2.confidence_tier,
+        }
+    # OT: keep summary metrics + top 3 target symbols, drop verbose target details
+    if card.open_targets:
+        ot = card.open_targets
+        top_symbols = [t.symbol for t in (ot.top_shared_targets or [])[:3] if t.symbol]
+        d["open_targets"] = {
+            "weighted_shared_target_overlap_score": ot.weighted_shared_target_overlap_score,
+            "shared_target_count": ot.shared_target_count,
+            "top_shared_target_symbols": top_symbols,
+            "confidence_level": ot.confidence_level,
+            "therapeutic_area_match": ot.therapeutic_area_match,
+            "shared_therapeutic_areas": ot.shared_therapeutic_areas,
+            "genetic_support_present": ot.genetic_support_present,
+            "pathway_specificity": ot.pathway_specificity,
+            "literature_dominance_warning": ot.literature_dominance_warning,
+            "mechanism_summary": ot.mechanism_summary,
+        }
+    return d
+
+
+def _build_stage1_chain():
+    from langchain_openai import ChatOpenAI
+
+    base_llm = get_llm("disease_workflow")
+    # Stage 1 sends ~25K tokens of context; increase timeout to avoid spurious failures
+    llm = ChatOpenAI(
+        model=base_llm.model_name,
+        temperature=base_llm.temperature,
+        timeout=120,
+    )
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", STAGE1_SHORTLIST_JUDGE_PROMPT),
+            (
+                "human",
+                "Select ~5 cross-trait bundles for transfer from the context below.\n\nContext:\n{context_json}",
+            ),
+        ]
+    )
+    structured = llm.with_structured_output(
+        Stage1ShortlistLLMOutput,
+        method="function_calling",
+    )
+    return prompt | structured
+
+
+@lru_cache(maxsize=1)
+def _cached_stage1_chain():
+    return _build_stage1_chain()
+
+
+def _judge_stage1(
+    evidence_state: EvidenceState,
+    config: TransferConfig,
+) -> Stage1CrossTraitShortlist:
+    """Stage 1 LLM: select ~5 cross-trait bundles from evidence cards."""
+    cards = evidence_state.candidate_cards
+    # Split into Tier A (has OT evidence) and Tier B (GC+H2 only)
+    tier_a = [c for c in cards if c.open_targets is not None]
+    tier_b = [c for c in cards if c.open_targets is None]
+
+    # Build context for LLM (condensed to keep prompt within token limits)
+    tier_a_dicts = [
+        _condensed_tier_a_card(card, rank=i + 1)
+        for i, card in enumerate(tier_a)
+    ]
+
+    tier_b_dicts = [
+        _condensed_card(card, rank=len(tier_a) + i + 1)
+        for i, card in enumerate(tier_b[:config.tier_b_condensed_cap])
+    ]
+
+    context = {
+        "target_summary": evidence_state.target_summary,
+        "available_tools": evidence_state.available_tools,
+        "tier_a_candidates": tier_a_dicts,
+        "tier_a_count": len(tier_a),
+        "tier_b_candidates": tier_b_dicts,
+        "tier_b_count": len(tier_b),
+        "tier_b_shown": len(tier_b_dicts),
+        "total_candidates": len(cards),
+    }
+    try:
+        llm_output = _cached_stage1_chain().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False)}
+        )
+        # Wrap narrow LLM output into full Stage1CrossTraitShortlist with evidence_state.
+        result = Stage1CrossTraitShortlist(
+            shortlisted_bundles=llm_output.shortlisted_bundles,
+            confidence=llm_output.confidence,
+            decision_rationale=llm_output.decision_rationale,
+            evidence_state=evidence_state,
+        )
+        return result
+    except Exception as exc:
+        _log.warning("Stage 1 LLM call failed (%s); using deterministic fallback.", exc)
+        # Deterministic fallback: top cards by selection_priority_score
+        fallback_cards = cards[:config.stage1_target_count]
+        return Stage1CrossTraitShortlist(
+            shortlisted_bundles=[
+                Stage1BundleCandidate(
+                    bundle_id=card.bundle_id,
+                    canonical_label=card.canonical_label,
+                    rank=i + 1,
+                    tool_evidence=[],
+                    selection_rationale="Deterministic fallback: Stage 1 LLM call failed.",
+                    utility_score=card.utility_score,
+                    transferability_prior_score=card.transferability_prior_score,
+                    phenotype_fidelity_score=card.phenotype_fidelity_score,
+                )
+                for i, card in enumerate(fallback_cards)
+            ],
+            confidence="Low",
+            decision_rationale="Deterministic fallback selected top cards by selection_priority_score.",
+            evidence_state=evidence_state,
+        )
+
+
+def _finalize_stage1(
+    dossier: CandidateBundleDossier,
+    evidence_state: EvidenceState,
+    stage1: Stage1CrossTraitShortlist,
+    *,
+    config: TransferConfig,
+) -> Stage1CrossTraitShortlist:
+    """Validate Stage 1 LLM output: check IDs, apply fallback if empty."""
+    cards_by_id = {card.bundle_id: card for card in evidence_state.candidate_cards}
+    valid_bundles: list[Stage1BundleCandidate] = []
+    for candidate in stage1.shortlisted_bundles:
+        bid = str(candidate.bundle_id or "").strip()
+        if not bid or bid not in cards_by_id:
+            _log.warning("Stage 1: LLM selected invalid bundle_id %r — skipping.", bid)
+            continue
+        bundle = _bundle_lookup(dossier).get(bid)
+        if bundle is None or is_self_like_bundle(dossier.target, bundle):
+            _log.warning("Stage 1: LLM selected self-like bundle %r — skipping.", bid)
+            continue
+        # Populate scores from actual cards
+        card = cards_by_id[bid]
+        candidate.utility_score = card.utility_score
+        candidate.transferability_prior_score = card.transferability_prior_score
+        candidate.phenotype_fidelity_score = card.phenotype_fidelity_score
+        valid_bundles.append(candidate)
+        if len(valid_bundles) >= config.stage1_max_count:
+            break
+
+    if not valid_bundles:
+        _log.warning("Stage 1: LLM returned zero valid bundles; using deterministic fallback.")
+        sorted_cards = evidence_state.candidate_cards[:config.stage1_target_count]
+        valid_bundles = [
+            Stage1BundleCandidate(
+                bundle_id=card.bundle_id,
+                canonical_label=card.canonical_label,
+                rank=i + 1,
+                tool_evidence=[],
+                selection_rationale="Deterministic fallback: LLM returned no valid IDs.",
+                utility_score=card.utility_score,
+                transferability_prior_score=card.transferability_prior_score,
+                phenotype_fidelity_score=card.phenotype_fidelity_score,
+            )
+            for i, card in enumerate(sorted_cards)
+        ]
+        stage1.confidence = "Low"
+        stage1.decision_rationale = (
+            "Stage 1 LLM returned no valid bundle IDs. "
+            "Falling back to top candidates by selection_priority_score."
+        )
+    elif len(valid_bundles) < config.stage1_target_count:
+        # Supplement with top deterministic cards (preserve LLM choices as primary).
+        selected_ids = {b.bundle_id for b in valid_bundles}
+        needed = config.stage1_target_count - len(valid_bundles)
+        supplement_cards: list[Any] = []
+        bundle_map = _bundle_lookup(dossier)
+        for card in evidence_state.candidate_cards:
+            if card.bundle_id in selected_ids:
+                continue
+            bundle = bundle_map.get(card.bundle_id)
+            if bundle is None or is_self_like_bundle(dossier.target, bundle):
+                continue
+            supplement_cards.append(card)
+            if len(supplement_cards) >= needed:
+                break
+        if supplement_cards:
+            _log.info(
+                "Stage 1: LLM returned %d bundles (<target %d); supplementing %d from top cards.",
+                len(valid_bundles), config.stage1_target_count, len(supplement_cards),
+            )
+            for card in supplement_cards:
+                valid_bundles.append(
+                    Stage1BundleCandidate(
+                        bundle_id=card.bundle_id,
+                        canonical_label=card.canonical_label,
+                        rank=len(valid_bundles) + 1,
+                        tool_evidence=[],
+                        selection_rationale=(
+                            "Supplemental candidate: LLM returned fewer than target. "
+                            "Added from top-ranked cards by selection_priority_score to "
+                            "ensure Stage 2 has sufficient bundle diversity."
+                        ),
+                        utility_score=card.utility_score,
+                        transferability_prior_score=card.transferability_prior_score,
+                        phenotype_fidelity_score=card.phenotype_fidelity_score,
+                    )
+                )
+
+    # Re-rank
+    for i, b in enumerate(valid_bundles):
+        b.rank = i + 1
+
+    stage1.shortlisted_bundles = valid_bundles
+    stage1.evidence_state = evidence_state
+    return stage1
+
+
+def _build_stage2_chain():
+    from langchain_openai import ChatOpenAI
+
+    base_llm = get_llm("disease_workflow")
+    llm = ChatOpenAI(
+        model=base_llm.model_name,
+        temperature=base_llm.temperature,
+        timeout=120,
+    )
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", STAGE2_MODEL_JUDGE_PROMPT),
+            (
+                "human",
+                "Select 1-5 PRS models for cross-trait transfer.\n\nContext:\n{context_json}",
+            ),
+        ]
+    )
+    structured = llm.with_structured_output(
+        Stage2ModelRecommendation,
+        method="function_calling",
+    )
+    return prompt | structured
+
+
+@lru_cache(maxsize=1)
+def _cached_stage2_chain():
+    return _build_stage2_chain()
+
+
+def _run_stage2(
+    stage1: Stage1CrossTraitShortlist,
+    dossier: CandidateBundleDossier,
+    config: TransferConfig,
+) -> Stage2ModelRecommendation | None:
+    """Stage 2: hydrate PRS models for shortlisted bundles, LLM selects 1-5."""
+    from src.server.core.pgs_catalog_client import PGSCatalogClient
+    from src.server.core.tools.prs_model_tools import hydrate_pgs_model_summaries
+
+    bundle_lookup = {b.bundle_id: b for b in dossier.candidates}
+
+    # Collect PGS IDs from shortlisted bundles, capped per bundle for fairness.
+    n_bundles = sum(1 for c in stage1.shortlisted_bundles if bundle_lookup.get(c.bundle_id))
+    per_bundle_cap = max(config.stage2_model_cap // max(n_bundles, 1), 3)
+
+    all_pgs_ids: list[str] = []
+    pgs_to_bundle: dict[str, str] = {}
+    pgs_to_cross_trait: dict[str, str] = {}
+    for candidate in stage1.shortlisted_bundles:
+        bundle = bundle_lookup.get(candidate.bundle_id)
+        if not bundle:
+            continue
+        count = 0
+        for pgs_id in bundle.candidate_pgs_ids:
+            if pgs_id not in pgs_to_bundle and count < per_bundle_cap:
+                all_pgs_ids.append(pgs_id)
+                pgs_to_bundle[pgs_id] = candidate.bundle_id
+                pgs_to_cross_trait[pgs_id] = candidate.canonical_label
+                count += 1
+
+    if not all_pgs_ids:
+        _log.warning("Stage 2: No PGS IDs to hydrate.")
+        return None
+
+    # Hydrate model metadata
+    client = PGSCatalogClient()
+    try:
+        models = hydrate_pgs_model_summaries(client, all_pgs_ids)
+    except Exception as exc:
+        _log.warning("Stage 2: Model hydration failed (%s).", exc)
+        return None
+
+    if not models:
+        _log.warning("Stage 2: No models hydrated successfully.")
+        return None
+
+    # Build Stage 1 evidence summary for context
+    stage1_evidence: dict[str, Any] = {}
+    for candidate in stage1.shortlisted_bundles:
+        stage1_evidence[candidate.bundle_id] = {
+            "canonical_label": candidate.canonical_label,
+            "rank": candidate.rank,
+            "selection_rationale": candidate.selection_rationale,
+            "tool_evidence": [te.model_dump() for te in candidate.tool_evidence],
+        }
+
+    model_cards = []
+    for model in models:
+        d = model.model_dump()
+        d["source_bundle_id"] = pgs_to_bundle.get(model.id)
+        d["source_cross_trait"] = pgs_to_cross_trait.get(model.id)
+        model_cards.append(d)
+
+    target_label = stage1.evidence_state.target_summary.get("target_label", "")
+    context = {
+        "target_trait": target_label,
+        "target_summary": stage1.evidence_state.target_summary,
+        "n_bundles": len(stage1.shortlisted_bundles),
+        "stage1_evidence_summary": stage1_evidence,
+        "model_cards": model_cards,
+        "total_models": len(model_cards),
+    }
+
+    try:
+        result = _cached_stage2_chain().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
+        )
+    except Exception as exc:
+        _log.warning("Stage 2 LLM call failed (%s); selecting first model as fallback.", exc)
+        first = models[0]
+        return Stage2ModelRecommendation(
+            recommended_models=[
+                PRSModelCandidate(
+                    pgs_id=first.id,
+                    source_bundle_id=pgs_to_bundle.get(first.id, ""),
+                    source_cross_trait=pgs_to_cross_trait.get(first.id, ""),
+                    rank=1,
+                    selection_rationale="Deterministic fallback: Stage 2 LLM call failed.",
+                    cross_trait_evidence_rationale="N/A",
+                    model_quality_rationale="N/A",
+                )
+            ],
+            primary_model_id=first.id,
+            model_universe_size=len(models),
+            bundles_hydrated=[c.bundle_id for c in stage1.shortlisted_bundles],
+            confidence="Low",
+            decision_rationale="Stage 2 LLM call failed; first available model selected.",
+        )
+
+    # Validate selected model IDs exist in hydrated set
+    hydrated_ids = {m.id for m in models}
+    valid_models = [m for m in result.recommended_models if m.pgs_id in hydrated_ids]
+    if not valid_models and result.recommended_models:
+        _log.warning("Stage 2: LLM selected non-existent PGS IDs; using first hydrated model.")
+        first = models[0]
+        valid_models = [
+            PRSModelCandidate(
+                pgs_id=first.id,
+                source_bundle_id=pgs_to_bundle.get(first.id, ""),
+                source_cross_trait=pgs_to_cross_trait.get(first.id, ""),
+                rank=1,
+                selection_rationale="Fallback: LLM-selected IDs not found in hydrated set.",
+                cross_trait_evidence_rationale="N/A",
+                model_quality_rationale="N/A",
+            )
+        ]
+    result.recommended_models = valid_models
+    if valid_models:
+        result.primary_model_id = valid_models[0].pgs_id
+    result.model_universe_size = len(models)
+    result.bundles_hydrated = [c.bundle_id for c in stage1.shortlisted_bundles]
+    return result
+
+
+def _build_two_stage_decision(
+    stage1: Stage1CrossTraitShortlist,
+    stage2: Stage2ModelRecommendation | None,
+    evidence_state: EvidenceState,
+) -> TwoStageTransferDecision:
+    """Build unified output with backward-compatible fields."""
+    bundles = stage1.shortlisted_bundles
+    primary = bundles[0] if bundles else None
+    frontier_ids = [b.bundle_id for b in bundles]
+
+    # Compute frontier weights from utility scores
+    raw_weights = {b.bundle_id: max(b.utility_score, 0.01) for b in bundles}
+    total = sum(raw_weights.values()) or 1.0
+    frontier_weights = {bid: round(w / total, 4) for bid, w in raw_weights.items()}
+
+    # Collect all PGS IDs from shortlisted bundles
+    pgs_union: list[str] = []
+    seen_pgs: set[str] = set()
+    cards_by_id = {c.bundle_id: c for c in evidence_state.candidate_cards}
+    for b in bundles:
+        card = cards_by_id.get(b.bundle_id)
+        if card:
+            for pgs_id in card.candidate_pgs_ids:
+                if pgs_id not in seen_pgs:
+                    seen_pgs.add(pgs_id)
+                    pgs_union.append(pgs_id)
+
+    bundle_evidence_tags = {
+        b.bundle_id: cards_by_id[b.bundle_id].evidence_tags
+        for b in bundles
+        if b.bundle_id in cards_by_id
+    }
+
+    best_model_id = stage2.primary_model_id if stage2 else None
+    recommended_model_ids = [m.pgs_id for m in stage2.recommended_models] if stage2 else []
+
+    return TwoStageTransferDecision(
+        stage1=stage1,
+        stage2=stage2,
+        outcome="MATCHED" if primary else "NO_MATCH",
+        best_bundle_id=primary.bundle_id if primary else None,
+        best_cross_trait=primary.canonical_label if primary else None,
+        primary_bundle_id=primary.bundle_id if primary else None,
+        frontier_bundle_ids=frontier_ids,
+        frontier_bundle_weights=frontier_weights,
+        candidate_pgs_ids=pgs_union,
+        candidate_pgs_ids_union=pgs_union,
+        confidence=stage2.confidence if stage2 else stage1.confidence,
+        decision_mode="frontier_uncertain" if len(bundles) > 1 else (
+            "single_confident" if bundles else "abstain_only_if_no_valid_bundle"
+        ),
+        rationale=stage1.decision_rationale,
+        evidence_state=evidence_state,
+        bundle_evidence_tags=bundle_evidence_tags,
+        best_model_id=best_model_id,
+        recommended_model_ids=recommended_model_ids,
+    )
+
+
+# ---------------------------------------------------------------------------
+# vNext: LLM-dominant, model-first workflow
+# ---------------------------------------------------------------------------
+
+
+def _numeric_confidence(label: str | None) -> float:
+    return {
+        "High": 0.9,
+        "Moderate": 0.65,
+        "Low": 0.35,
+    }.get(str(label or "Low"), 0.35)
+
+
+def _confidence_label(score: float) -> ConfidenceLabel:
+    if score >= 0.8:
+        return "High"
+    if score >= 0.55:
+        return "Moderate"
+    return "Low"
+
+
+def _unique_preserve_order(values: list[str]) -> list[str]:
+    ordered: list[str] = []
+    seen: set[str] = set()
+    for raw in values:
+        value = str(raw or "").strip()
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        ordered.append(value)
+    return ordered
+
+
+def _safe_support_list(values: Any) -> list[str]:
+    if not values:
+        return []
+    if isinstance(values, list):
+        return [str(value).strip() for value in values if str(value).strip()]
+    return [str(values).strip()]
+
+
+def _build_structured_chain(system_prompt: str, output_model: Any, user_prompt: str):
+    from langchain_openai import ChatOpenAI
+
+    base_llm = get_llm("disease_workflow")
+    # vNext chains (search plan / probe reflection / bundle posterior / local champion /
+    # global frontier) often send 20-60K tokens of structured evidence; the default 30 s
+    # disease_workflow timeout was the dominant reason the 20260421 online run ate 30+
+    # Bundle-posterior fallbacks. A 120 s ceiling matches what Stage 1 / Stage 2 already
+    # use and eliminates that failure mode without changing any decision logic.
+    llm = ChatOpenAI(
+        model=base_llm.model_name,
+        temperature=base_llm.temperature,
+        timeout=120,
+    )
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            ("system", system_prompt),
+            ("human", user_prompt),
+        ]
+    )
+    structured = llm.with_structured_output(output_model, method="function_calling")
+    return prompt | structured
+
+
+@lru_cache(maxsize=1)
+def _cached_search_plan_chain_vnext():
+    return _build_structured_chain(
+        SEARCH_PLAN_PROMPT,
+        InitialSearchPlan,
+        "Recall-pool manifest:\n{context_json}",
+    )
+
+
+@lru_cache(maxsize=1)
+def _cached_probe_reflection_chain_vnext():
+    return _build_structured_chain(
+        PROBE_REFLECTION_PROMPT,
+        ProbeRoundDecision,
+        "Probe-round context:\n{context_json}",
+    )
+
+
+@lru_cache(maxsize=1)
+def _cached_bundle_posterior_chain_vnext():
+    return _build_structured_chain(
+        BUNDLE_POSTERIOR_PROMPT,
+        BundlePosteriorDecision,
+        "Bundle-posterior context:\n{context_json}",
+    )
+
+
+@lru_cache(maxsize=1)
+def _cached_local_champion_chain_vnext():
+    return _build_structured_chain(
+        LOCAL_CHAMPION_PROMPT,
+        LocalChampionDecision,
+        "Local bundle model context:\n{context_json}",
+    )
+
+
+@lru_cache(maxsize=1)
+def _cached_global_frontier_chain_vnext():
+    return _build_structured_chain(
+        GLOBAL_MODEL_FRONTIER_PROMPT,
+        GlobalModelFrontierDecision,
+        "Champion-model tournament context:\n{context_json}",
+    )
+
+
+def _manifest_row(card: CandidateEvidenceCard, rank: int) -> dict[str, Any]:
+    return {
+        "bundle_id": card.bundle_id,
+        "canonical_label": card.canonical_label,
+        "bundle_type": card.bundle_type,
+        "archetype": card.archetype,
+        "n_models": card.n_models,
+        "phenotype_fidelity_score": round(card.phenotype_fidelity_score, 3),
+        "transferability_prior_score": round(card.transferability_prior_score, 3),
+        "selection_priority_score": round(card.selection_priority_score or card.utility_score, 3),
+        "lexical_match_score": card.lexical_match_score,
+        "shared_token_count": card.shared_token_count,
+        "rank_hint": rank,
+    }
+
+
+def _screened_card_row(card: CandidateEvidenceCard) -> dict[str, Any]:
+    row = {
+        "bundle_id": card.bundle_id,
+        "canonical_label": card.canonical_label,
+        "bundle_type": card.bundle_type,
+        "archetype": card.archetype,
+        "n_models": card.n_models,
+        "phenotype_fidelity_score": round(card.phenotype_fidelity_score, 3),
+        "transferability_prior_score": round(card.transferability_prior_score, 3),
+        "selection_priority_score": round(card.selection_priority_score or 0.0, 3),
+        "utility_score": round(card.utility_score, 3),
+        "evidence_tags": card.evidence_tags,
+    }
+    if card.gc:
+        row["gc"] = {
+            "rg": card.gc.rg,
+            "p_value": card.gc.p_value,
+            "confidence": card.gc.confidence,
+            "resolution_status": card.gc.resolution_status,
+            "lookup_coverage": card.gc.lookup_coverage,
+            "supports": card.gc.supports,
+            "against": card.gc.against,
+            "uncertainties": card.gc.uncertainties,
+            "hypothesized_rg": card.gc.hypothesized_rg,
+            "hypothesized_confidence": card.gc.hypothesized_confidence,
+        }
+    if card.h2:
+        row["h2"] = {
+            "target_best_h2": card.h2.target_best_h2,
+            "candidate_best_h2": card.h2.candidate_best_h2,
+            "shared_signal_ceiling_proxy": card.h2.shared_signal_ceiling_proxy,
+            "signal_capacity_score": card.h2.signal_capacity_score,
+            "estimate_confidence": card.h2.estimate_confidence,
+            "ancestry_coverage": card.h2.ancestry_coverage,
+            "supports": card.h2.supports,
+            "against": card.h2.against,
+            "uncertainties": card.h2.uncertainties,
+        }
+    if card.open_targets:
+        row["open_targets"] = {
+            "weighted_shared_target_overlap_score": card.open_targets.weighted_shared_target_overlap_score,
+            "genetic_overlap_score": card.open_targets.genetic_overlap_score,
+            "pathway_overlap_score": card.open_targets.pathway_overlap_score,
+            "phenotype_overlap_score": card.open_targets.phenotype_overlap_score,
+            "ontology_overlap_score": card.open_targets.ontology_overlap_score,
+            "genericity_penalty": card.open_targets.genericity_penalty,
+            "confidence": card.open_targets.confidence,
+            "supports": card.open_targets.supports,
+            "against": card.open_targets.against,
+            "uncertainties": card.open_targets.uncertainties,
+        }
+    return row
+
+
+def _fidelity_weighted_score(card: CandidateEvidenceCard) -> float:
+    """Bundle-level retention score built only from visible card fields.
+
+    Rewards phenotype-alignment + GC-magnitude (when significant) + supported OT
+    overlap + h2 ceiling; penalises the administrative-proxy archetype. No trait
+    names or ICD codes appear; this is a pure field composition so the same rule
+    applies uniformly across all targets.
+    """
+    fidelity = float(getattr(card, "phenotype_fidelity_score", 0.0) or 0.0)
+    score = fidelity * fidelity
+    if card.archetype in ("same-endpoint disease", "adjacent disease family"):
+        score += 0.15
+    if card.archetype == "administrative/exposure/treatment/family-history proxy":
+        score -= 1.0
+    if card.gc and card.gc.rg is not None and _is_significant_gc(card.gc):
+        score += min(0.50, abs(float(card.gc.rg)))
+    if _is_supported_ot(card.open_targets):
+        score += 0.15
+    if card.h2 and card.h2.shared_signal_ceiling_proxy is not None:
+        score += min(0.10, float(card.h2.shared_signal_ceiling_proxy) * 10.0) * 0.10
+    # Informational utility and prior as mild tie-breaks.
+    score += 0.05 * float(getattr(card, "utility_score", 0.0) or 0.0)
+    score += 0.05 * float(getattr(card, "transferability_prior_score", 0.0) or 0.0)
+    return score
+
+
+def _rank_cards_by_fidelity(cards: list[CandidateEvidenceCard]) -> list[CandidateEvidenceCard]:
+    return sorted(cards, key=lambda c: (-_fidelity_weighted_score(c), c.bundle_id))
+
+
+def _fidelity_floor_ids(
+    cards: list[CandidateEvidenceCard],
+    *,
+    floor: int,
+    exclude: set[str] | None = None,
+) -> list[str]:
+    """Return bundle IDs for the top-`floor` cards by the trait-agnostic
+    fidelity-weighted score, skipping anything already in `exclude` and skipping
+    the administrative-proxy archetype entirely.
+    """
+    exclude = exclude or set()
+    ordered = _rank_cards_by_fidelity(cards)
+    picks: list[str] = []
+    for card in ordered:
+        if card.bundle_id in exclude:
+            continue
+        if card.archetype == "administrative/exposure/treatment/family-history proxy":
+            continue
+        picks.append(card.bundle_id)
+        if len(picks) >= floor:
+            break
+    return picks
+
+
+def _deterministic_floor_ids(
+    ordered_cards: list[CandidateEvidenceCard],
+    *,
+    floor: int,
+    exclude: set[str] | None = None,
+) -> list[str]:
+    """Return the top-`floor` bundle IDs from an *already-ordered* list.
+
+    Expects `ordered_cards` to be sorted by the UNIFIED_CONFIG DE-optimized
+    `_sort_cards` scoring (validated on frozen 20260413 at 34/74 oracle recall).
+    Skips the administrative/exposure/treatment/family-history proxy archetype
+    and any bundle IDs already present in `exclude`. Pure positional gating —
+    no trait names, no ICD codes, no handcrafted score.
+    """
+    exclude = exclude or set()
+    picks: list[str] = []
+    for card in ordered_cards:
+        if card.bundle_id in exclude:
+            continue
+        if card.archetype == "administrative/exposure/treatment/family-history proxy":
+            continue
+        picks.append(card.bundle_id)
+        if len(picks) >= floor:
+            break
+    return picks
+
+
+def _diverse_probe_ids(cards: list[CandidateEvidenceCard], limit: int) -> list[str]:
+    buckets: dict[str, list[CandidateEvidenceCard]] = {}
+    for card in cards:
+        buckets.setdefault(card.archetype, []).append(card)
+    ordered_ids: list[str] = []
+    max_bucket = max((len(bucket) for bucket in buckets.values()), default=0)
+    for idx in range(max_bucket):
+        for bucket_name in sorted(buckets):
+            bucket = buckets[bucket_name]
+            if idx >= len(bucket):
+                continue
+            ordered_ids.append(bucket[idx].bundle_id)
+            if len(ordered_ids) >= limit:
+                return ordered_ids
+    return ordered_ids[:limit]
+
+
+def _fallback_search_plan_vnext(
+    recall_cards: list[CandidateEvidenceCard],
+    config: TransferConfig,
+) -> InitialSearchPlan:
+    archetypes = _unique_preserve_order([card.archetype for card in recall_cards])[:8]
+    hypotheses = [
+        {
+            "hypothesis": f"Probe {archetype}",
+            "rationale": f"Keep recall coverage for {archetype} bundles before committing to final transfer.",
+        }
+        for archetype in archetypes
+    ]
+    probe_ids = _diverse_probe_ids(recall_cards, config.initial_probe_size)
+    return InitialSearchPlan.model_validate(
+        {
+            "hypotheses": hypotheses[:8],
+            "probe_bundle_ids": probe_ids,
+            "rationale": "Fallback plan uses diverse high-priority bundles from the recall pool.",
+        }
+    )
+
+
+def _call_search_plan_vnext(
+    target_summary: dict[str, Any],
+    recall_cards: list[CandidateEvidenceCard],
+    config: TransferConfig,
+) -> InitialSearchPlan:
+    context = {
+        "target_summary": target_summary,
+        "recall_pool_size": len(recall_cards),
+        "manifest": [_manifest_row(card, idx + 1) for idx, card in enumerate(recall_cards)],
+        "constraints": {
+            "initial_probe_size": config.initial_probe_size,
+            "hypothesis_count_range": [6, 8],
+        },
+    }
+    try:
+        plan: InitialSearchPlan = _cached_search_plan_chain_vnext().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False)}
+        )
+    except Exception as exc:
+        _log.warning("Search-plan LLM failed (%s); using fallback.", exc)
+        return _fallback_search_plan_vnext(recall_cards, config)
+
+    valid_ids = {card.bundle_id for card in recall_cards}
+    llm_probe_ids = [
+        bundle_id
+        for bundle_id in _unique_preserve_order(plan.probe_bundle_ids)
+        if bundle_id in valid_ids
+    ]
+    if not llm_probe_ids:
+        return _fallback_search_plan_vnext(recall_cards, config)
+
+    # Trait-agnostic deterministic seeding: recall_cards is already sorted by
+    # the UNIFIED_CONFIG DE-optimized `_sort_cards` 38-feature scoring. Force
+    # the top-K non-proxy IDs from that order into the probe pool to guarantee
+    # the DE-ranked anchors survive Stage 1.
+    det_seeds = _deterministic_floor_ids(
+        recall_cards,
+        floor=max(config.probe_fidelity_floor, config.posterior_deterministic_anchor * 2),
+        exclude=set(llm_probe_ids),
+    )
+    # Fidelity seeds as a complementary safety net (covers cases where the
+    # DE-scoring misses an endpoint-faithful candidate with weak priors).
+    fidelity_seeds = _fidelity_floor_ids(
+        recall_cards,
+        floor=config.probe_fidelity_floor,
+        exclude=set(llm_probe_ids) | set(det_seeds),
+    )
+    normalized_probe_ids = _unique_preserve_order(
+        list(llm_probe_ids) + list(det_seeds) + list(fidelity_seeds)
+    )[: config.initial_probe_size]
+
+    plan.probe_bundle_ids = normalized_probe_ids
+    if len(plan.hypotheses) < 6:
+        fallback = _fallback_search_plan_vnext(recall_cards, config)
+        plan.hypotheses = (plan.hypotheses or []) + fallback.hypotheses[: max(0, 6 - len(plan.hypotheses))]
+    return plan
+
+
+def _fallback_probe_round_decision_vnext(
+    seen_cards: list[CandidateEvidenceCard],
+    remaining_cards: list[CandidateEvidenceCard],
+    round_index: int,
+    config: TransferConfig,
+) -> ProbeRoundDecision:
+    retained_cards = seen_cards[: config.retained_probe_max]
+    challenger_cards = remaining_cards[: config.challenger_probe_cap]
+    promote_cards = [
+        card.bundle_id
+        for card in retained_cards
+        if card.open_targets is not None
+        or _is_significant_gc(card.gc)
+        or (card.h2 is not None and (card.h2.signal_capacity_score or 0.0) >= 0.3)
+    ][: config.ot_verification_cap]
+    return ProbeRoundDecision(
+        retain_bundle_ids=[card.bundle_id for card in retained_cards[: max(config.retained_probe_min, min(len(retained_cards), config.retained_probe_max))]],
+        challenger_bundle_ids=[card.bundle_id for card in challenger_cards],
+        promote_to_ot_bundle_ids=promote_cards,
+        stop=round_index >= (config.max_probe_rounds - 1) or not challenger_cards,
+        rationale="Fallback probe reflection uses the strongest screened bundles while preserving challenger coverage.",
+    )
+
+
+def _call_probe_reflection_vnext(
+    *,
+    round_index: int,
+    target_summary: dict[str, Any],
+    seen_cards: list[CandidateEvidenceCard],
+    remaining_cards: list[CandidateEvidenceCard],
+    config: TransferConfig,
+) -> ProbeRoundDecision:
+    context = {
+        "round_index": round_index,
+        "target_summary": target_summary,
+        "seen_cards": [_screened_card_row(card) for card in seen_cards],
+        "remaining_manifest": [
+            _manifest_row(card, idx + 1)
+            for idx, card in enumerate(remaining_cards[: max(config.challenger_probe_cap * 3, 40)])
+        ],
+        "constraints": {
+            "retain_range": [config.retained_probe_min, config.retained_probe_max],
+            "challenger_cap": config.challenger_probe_cap,
+            "ot_promotion_cap": config.ot_verification_cap,
+        },
+    }
+    try:
+        decision: ProbeRoundDecision = _cached_probe_reflection_chain_vnext().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False)}
+        )
+    except Exception as exc:
+        _log.warning("Probe reflection LLM failed on round %d (%s); using fallback.", round_index, exc)
+        return _fallback_probe_round_decision_vnext(seen_cards, remaining_cards, round_index, config)
+
+    seen_ids = {card.bundle_id for card in seen_cards}
+    remaining_ids = {card.bundle_id for card in remaining_cards}
+    retain_ids = [
+        bundle_id
+        for bundle_id in _unique_preserve_order(decision.retain_bundle_ids)
+        if bundle_id in seen_ids
+    ][: config.retained_probe_max]
+    # Trait-agnostic deterministic floor: seen_cards is already sorted by the
+    # UNIFIED_CONFIG DE-optimized `_sort_cards` scoring. Seed the top-K from
+    # that order to guarantee the strongest DE-ranked probes cannot be evicted
+    # by LLM reasoning about generalists-vs-specialists. Pure positional
+    # gating; no trait names, no ICD codes.
+    det_seeds = _deterministic_floor_ids(
+        seen_cards,
+        floor=max(3, config.posterior_deterministic_anchor),
+        exclude=set(retain_ids),
+    )
+    if det_seeds:
+        retain_ids = _unique_preserve_order(retain_ids + det_seeds)[: config.retained_probe_max]
+    # Fidelity floor as a complementary safety net.
+    fidelity_seeds = _fidelity_floor_ids(
+        seen_cards,
+        floor=max(2, config.posterior_fidelity_floor + 1),
+        exclude=set(retain_ids),
+    )
+    if fidelity_seeds:
+        retain_ids = _unique_preserve_order(retain_ids + fidelity_seeds)[: config.retained_probe_max]
+    if len(retain_ids) < config.retained_probe_min:
+        fallback = _fallback_probe_round_decision_vnext(seen_cards, remaining_cards, round_index, config)
+        retain_ids = _unique_preserve_order(retain_ids + fallback.retain_bundle_ids)[: config.retained_probe_max]
+    challenger_ids = [
+        bundle_id
+        for bundle_id in _unique_preserve_order(decision.challenger_bundle_ids)
+        if bundle_id in remaining_ids
+    ][: config.challenger_probe_cap]
+    promote_ids = [
+        bundle_id
+        for bundle_id in _unique_preserve_order(decision.promote_to_ot_bundle_ids)
+        if bundle_id in seen_ids
+    ][: config.ot_verification_cap]
+    if not promote_ids and retain_ids:
+        promote_ids = retain_ids[: min(len(retain_ids), config.ot_verification_cap)]
+    decision.retain_bundle_ids = retain_ids
+    decision.challenger_bundle_ids = challenger_ids
+    decision.promote_to_ot_bundle_ids = promote_ids
+    if round_index >= (config.max_probe_rounds - 1):
+        decision.stop = True
+    return decision
+
+
+def _per_tool_evidence_from_card(card: CandidateEvidenceCard) -> list[PerToolEvidence]:
+    evidence: list[PerToolEvidence] = []
+    if card.gc:
+        key_evidence = (
+            card.gc.supports[0]
+            if card.gc.supports
+            else card.gc.against[0]
+            if card.gc.against
+            else "GC evidence remains unresolved."
+        )
+        evidence.append(
+            PerToolEvidence(
+                tool_name="genetic_correlation",
+                supports_selection=bool(card.gc.supports) and not bool(card.gc.against and not card.gc.rg),
+                key_evidence=key_evidence,
+                confidence=card.gc.confidence or "Low",
+            )
+        )
+    if card.h2:
+        key_evidence = (
+            card.h2.supports[0]
+            if card.h2.supports
+            else card.h2.against[0]
+            if card.h2.against
+            else "Heritability signal is limited."
+        )
+        evidence.append(
+            PerToolEvidence(
+                tool_name="heritability",
+                supports_selection=bool(card.h2.supports),
+                key_evidence=key_evidence,
+                confidence=card.h2.estimate_confidence,
+            )
+        )
+    if card.open_targets:
+        key_evidence = (
+            card.open_targets.supports[0]
+            if card.open_targets.supports
+            else card.open_targets.against[0]
+            if card.open_targets.against
+            else "Open Targets verification is limited."
+        )
+        evidence.append(
+            PerToolEvidence(
+                tool_name="open_targets",
+                supports_selection=bool(card.open_targets.supports),
+                key_evidence=key_evidence,
+                confidence=card.open_targets.confidence,
+            )
+        )
+    return evidence
+
+
+def _bundle_posterior_from_card(card: CandidateEvidenceCard, rank: int) -> SupportingBundleSelection:
+    supports = _safe_support_list(
+        (card.gc.supports if card.gc else [])
+        + (card.h2.supports if card.h2 else [])
+        + (card.open_targets.supports if card.open_targets else [])
+    )[:5]
+    against = _safe_support_list(
+        (card.gc.against if card.gc else [])
+        + (card.h2.against if card.h2 else [])
+        + (card.open_targets.against if card.open_targets else [])
+    )[:5]
+    uncertainties = _safe_support_list(
+        (card.gc.uncertainties if card.gc else [])
+        + (card.h2.uncertainties if card.h2 else [])
+        + (card.open_targets.uncertainties if card.open_targets else [])
+    )[:5]
+    confidence = _confidence_label(
+        (
+            _numeric_confidence(card.gc.confidence if card.gc else None)
+            + _numeric_confidence(card.h2.estimate_confidence if card.h2 else None)
+            + _numeric_confidence(card.open_targets.confidence if card.open_targets else None)
+        )
+        / max(1, int(bool(card.gc)) + int(bool(card.h2)) + int(bool(card.open_targets)))
+    )
+    return SupportingBundleSelection(
+        bundle_id=card.bundle_id,
+        canonical_label=card.canonical_label,
+        rank=rank,
+        supports=supports,
+        against=against,
+        uncertainties=uncertainties,
+        confidence=confidence,
+        why_continue_or_stop="Selected for model tournament based on the current multi-tool posterior.",
+        tool_evidence=_per_tool_evidence_from_card(card),
+        utility_score=card.utility_score,
+        transferability_prior_score=card.transferability_prior_score,
+        phenotype_fidelity_score=card.phenotype_fidelity_score,
+    )
+
+
+def _fallback_bundle_posterior_vnext(
+    posterior_cards: list[CandidateEvidenceCard],
+    config: TransferConfig,
+) -> BundlePosteriorDecision:
+    chosen = posterior_cards[: max(config.supporting_bundle_min, min(config.supporting_bundle_max, len(posterior_cards)))]
+    return BundlePosteriorDecision(
+        supporting_bundles=[
+            _bundle_posterior_from_card(card, idx + 1)
+            for idx, card in enumerate(chosen)
+        ],
+        confidence="Low" if not chosen else "Moderate",
+        rationale="Fallback posterior uses the strongest screened bundles after validation and budget clipping.",
+    )
+
+
+def _call_bundle_posterior_vnext(
+    *,
+    target_summary: dict[str, Any],
+    posterior_cards: list[CandidateEvidenceCard],
+    config: TransferConfig,
+    domain_knowledge: dict[str, Any] | None = None,
+) -> BundlePosteriorDecision:
+    # `posterior_cards` arrives already sorted by `_sort_cards` (the
+    # UNIFIED_CONFIG DE-optimized 38-feature scoring, validated at 34/74 oracle
+    # recall on frozen 20260413). Do NOT re-sort by a handcrafted fidelity
+    # formula here — the 20260421 opt3 run regressed oracle_in_supporting_bundles
+    # from 0.375 to 0.2875 precisely because that re-sort displaced the
+    # DE-ranked anchor. Keep the deterministic order.
+    context = {
+        "target_summary": target_summary,
+        "posterior_cards": [_screened_card_row(card) for card in posterior_cards],
+        "constraints": {
+            "supporting_bundle_range": [config.supporting_bundle_min, config.supporting_bundle_max],
+        },
+        "domain_knowledge": domain_knowledge or {},
+        "signal_priority": [
+            "phenotype_fidelity_score and archetype — primary endpoint alignment",
+            "genetic_correlation (gc.rg, gc.confidence, gc.p_value) — statistical overlap",
+            "open_targets.weighted_shared_target_overlap_score and shared_target_count — mechanistic overlap",
+            "heritability.shared_signal_ceiling_proxy — signal capacity",
+            "transferability_prior_score — target-agnostic tie-break only, not primary",
+        ],
+    }
+    try:
+        decision: BundlePosteriorDecision = _cached_bundle_posterior_chain_vnext().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False)}
+        )
+    except Exception as exc:
+        _log.warning("Bundle posterior LLM failed (%s); using fallback.", exc)
+        return _fallback_bundle_posterior_vnext(posterior_cards, config)
+
+    card_lookup = {card.bundle_id: card for card in posterior_cards}
+
+    # LLM-first ordering: the LLM's top pick keeps rank 1 (gets the largest
+    # model-hydration quota at Stage 4). Then append any DE-ranked anchors the
+    # LLM omitted so the deterministic top-K is guaranteed to survive in the
+    # supporting list (even if at a lower rank). This recovers Stage 3 oracle
+    # retention without displacing the LLM's best pick from rank 1.
+    selected: list[SupportingBundleSelection] = []
+    selected_ids: set[str] = set()
+    for proposed in decision.supporting_bundles:
+        bundle_id = str(proposed.bundle_id or "").strip()
+        if bundle_id not in card_lookup:
+            continue
+        if bundle_id in selected_ids:
+            continue
+        card = card_lookup[bundle_id]
+        proposed.canonical_label = card.canonical_label
+        proposed.rank = len(selected) + 1
+        proposed.tool_evidence = _per_tool_evidence_from_card(card)
+        proposed.utility_score = card.utility_score
+        proposed.transferability_prior_score = card.transferability_prior_score
+        proposed.phenotype_fidelity_score = card.phenotype_fidelity_score
+        proposed.supports = _safe_support_list(proposed.supports)
+        proposed.against = _safe_support_list(proposed.against)
+        proposed.uncertainties = _safe_support_list(proposed.uncertainties)
+        selected.append(proposed)
+        selected_ids.add(bundle_id)
+        if len(selected) >= config.supporting_bundle_max:
+            break
+
+    # Trait-agnostic deterministic anchor: if the LLM omitted any of the top-K
+    # non-proxy bundles from the UNIFIED_CONFIG DE-optimized `_sort_cards`
+    # order, append them to the supporting list. `posterior_cards` is already
+    # `_sort_cards`-ordered, so `_deterministic_floor_ids` is positional-only —
+    # no trait names, no ICD codes, no handcrafted score. This guarantees the
+    # DE-ranked anchor survives Stage 3 regardless of LLM reasoning drift.
+    anchor_count = max(0, int(getattr(config, "posterior_deterministic_anchor", 0)))
+    if anchor_count > 0 and len(selected) < config.supporting_bundle_max:
+        anchor_ids = _deterministic_floor_ids(
+            posterior_cards,
+            floor=anchor_count,
+            exclude=selected_ids,
+        )
+        for bundle_id in anchor_ids:
+            if len(selected) >= config.supporting_bundle_max:
+                break
+            card = card_lookup.get(bundle_id)
+            if card is None:
+                continue
+            insertion = _bundle_posterior_from_card(card, len(selected) + 1)
+            selected.append(insertion)
+            selected_ids.add(bundle_id)
+
+    # Trait-agnostic fidelity floor (secondary safety net): recover endpoint-
+    # faithful bundles that neither the LLM nor the DE-ranked anchor retained.
+    fidelity_floor = max(0, int(config.posterior_fidelity_floor))
+    if fidelity_floor > 0 and len(selected) < config.supporting_bundle_max:
+        floor_ids = _fidelity_floor_ids(
+            posterior_cards,
+            floor=fidelity_floor,
+            exclude=selected_ids,
+        )
+        for bundle_id in floor_ids:
+            if len(selected) >= config.supporting_bundle_max:
+                break
+            card = card_lookup.get(bundle_id)
+            if card is None:
+                continue
+            insertion = _bundle_posterior_from_card(card, len(selected) + 1)
+            selected.append(insertion)
+            selected_ids.add(bundle_id)
+
+    if len(selected) < config.supporting_bundle_min:
+        fallback = _fallback_bundle_posterior_vnext(posterior_cards, config)
+        seen = {bundle.bundle_id for bundle in selected}
+        for bundle in fallback.supporting_bundles:
+            if bundle.bundle_id in seen:
+                continue
+            bundle.rank = len(selected) + 1
+            selected.append(bundle)
+            if len(selected) >= config.supporting_bundle_max:
+                break
+    # Re-rank: LLM-selected keep their order; floor inserts go to the end.
+    for idx, bundle in enumerate(selected, start=1):
+        bundle.rank = idx
+    decision.supporting_bundles = selected
+    return decision
+
+
+def _parse_sample_size(text: str | None) -> int:
+    raw = str(text or "")
+    matches = re.findall(r"(\d[\d,]*)", raw)
+    if not matches:
+        return 0
+    try:
+        return max(int(match.replace(",", "")) for match in matches)
+    except Exception:
+        return 0
+
+
+def _method_family(method_name: str | None) -> str:
+    name = normalize_text(str(method_name or ""))
+    if "ldpred" in name:
+        return "LDpred-family"
+    if "prs cs" in name or "prs-cs" in name:
+        return "PRS-CS-family"
+    if "lassosum" in name:
+        return "lassosum-family"
+    if "sbayes" in name:
+        return "Bayesian shrinkage"
+    if "snpnet" in name:
+        return "large-biobank regularized regression"
+    if "clump" in name or "threshold" in name or "c t" in name:
+        return "clumping-thresholding"
+    return "other"
+
+
+def _study_archetype(model: Any) -> str:
+    text = normalize_text(
+        " ".join(
+            [
+                str(getattr(model, "samples_training", "") or ""),
+                " ".join(getattr(model, "training_development_cohorts", []) or []),
+                str(getattr(model, "phenotyping_reported", "") or ""),
+            ]
+        )
+    )
+    if "incident" in text or "time to event" in text:
+        return "incident/time-to-event"
+    if "ukb" in text or "uk biobank" in text or "all of us" in text or "fingen" in text:
+        return "large-biobank"
+    if "meta" in text or "consortium" in text:
+        return "meta-analysis"
+    return "case-control/other"
+
+
+def _covariate_inflation_flag(model: Any) -> bool:
+    metrics = getattr(model, "performance_metrics", {}) or {}
+    pgs_only_auc = metrics.get("pgs_only_auc")
+    full_auc = metrics.get("full_model_auc")
+    pgs_only_r2 = metrics.get("pgs_only_r2")
+    full_r2 = metrics.get("full_model_r2")
+    try:
+        if pgs_only_auc is not None and full_auc is not None and float(full_auc) - float(pgs_only_auc) >= 0.03:
+            return True
+        if pgs_only_r2 is not None and full_r2 is not None and float(full_r2) - float(pgs_only_r2) >= 0.05:
+            return True
+    except Exception:
+        pass
+    return False
+
+
+_PAN_TRAIT_FRAMEWORK_MARKERS = (
+    "across 813 traits",
+    "portability of 245",
+    "exprsweb",
+    "online repository with polygenic risk scores",
+    "pan-trait",
+    "pan-phenome",
+    "polygenic scores across",
+    "polygenic risk scores for common health-related",
+    "global biobank meta-analysis",
+)
+
+_COVARIATE_LEAKAGE_MARKERS = (
+    "family history",
+    "family_history",
+    "biomarker",
+    "risk calculator",
+    "charge-af",
+    "framingham",
+    "qrisk",
+    "pooled cohort",
+    "5-year risk",
+    "absolute risk",
+    "screening risk",
+    "phenotype risk score",
+    "phecode bundle",
+    "ehr phenotype",
+)
+
+
+def _study_is_pan_trait_framework(model: Any) -> bool:
+    """Detect pan-trait / portability frameworks from publicly visible metadata.
+
+    Section 4 of `prs_model_domain_knowledge.md` ("pan-trait framework identification")
+    lists these as a systematic underperformer archetype. We only look at catalog-level
+    fields, not trait names, so the signal is trait-agnostic.
+    """
+    blob_parts = [
+        str(getattr(model, "publication_title", "") or ""),
+        str(getattr(model, "publication_doi", "") or ""),
+        str(getattr(model, "method_name", "") or ""),
+        str(getattr(model, "trait_reported", "") or ""),
+        " ".join(getattr(model, "training_development_cohorts", []) or []),
+    ]
+    blob = normalize_text(" ".join(blob_parts))
+    return any(marker in blob for marker in _PAN_TRAIT_FRAMEWORK_MARKERS)
+
+
+def _heavy_covariate_leakage(model: Any) -> bool:
+    """Detect explicit heavy-covariate / risk-wrapper leakage from the covariates text.
+
+    Aligned with Section 2 of the domain-knowledge rubric: family history,
+    biomarker-heavy adjustment, and named clinical risk calculators make reported
+    discrimination non-comparable to PRS-only evaluation.
+    """
+    cov_blob = normalize_text(str(getattr(model, "covariates", "") or ""))
+    return any(marker in cov_blob for marker in _COVARIATE_LEAKAGE_MARKERS)
+
+
+def _multi_cohort_development(model: Any) -> int:
+    cohorts = getattr(model, "training_development_cohorts", None) or []
+    try:
+        return int(len([c for c in cohorts if str(c).strip()]))
+    except Exception:
+        return 0
+
+
+def _effect_size_signal(model: Any) -> float:
+    """Convert `effect_sizes` (OR/HR per SD, Beta) into a bounded PRS-quality signal.
+
+    Rubric section 2: `OR ≥ 1.5` / `HR ≥ 1.5` is strong, 1.3–1.5 moderate, <1.3 weak.
+    We map |OR - 1| (or |HR - 1|) onto [0, 0.8] so it never dominates a direct PRS-only
+    metric but can tip the tie when PRS-only AUC/R² are both missing.
+    """
+    try:
+        effect = getattr(model, "effect_sizes", None) or {}
+    except Exception:
+        effect = {}
+    best = 0.0
+    for key in ("or_per_sd", "hr_per_sd", "beta_per_sd"):
+        value = None
+        try:
+            value = float(effect.get(key)) if isinstance(effect, dict) else None
+        except Exception:
+            value = None
+        if value is None:
+            continue
+        # OR / HR per SD: centre on 1.0; Beta per SD: absolute magnitude.
+        magnitude = abs(value - 1.0) if key in ("or_per_sd", "hr_per_sd") else abs(value)
+        best = max(best, min(0.8, magnitude))
+    return best
+
+
+# Deterministic signal weights chosen to match the factor importance ordering documented
+# at the top of `prs_model_domain_knowledge.md`:
+#   1. phenotype alignment/endpoint fidelity (handled by the bundle posterior stage)
+#   2. comparable reported performance (PRS-only metrics + effect sizes)
+#   3. transportability context (archetype, multi-cohort, ancestry)
+#   4. method family and model structure
+#   5. weak signals from publication context, date, and validation size
+#
+# These deterministic features are only a *cheap prior* that constrains the LLM
+# context; the final selection is made by the `LOCAL_CHAMPION` and `GLOBAL_FRONTIER`
+# LLM judges with the full domain-knowledge document attached.
+_ARCHETYPE_BONUS: dict[str, float] = {
+    "meta-analysis": 0.40,
+    "case-control/other": 0.28,
+    "large-biobank": 0.12,
+    "incident/time-to-event": 0.06,
+}
+_METHOD_BONUS: dict[str, float] = {
+    "LDpred-family": 0.18,
+    "PRS-CS-family": 0.18,
+    "lassosum-family": 0.15,
+    "Bayesian shrinkage": 0.12,
+    "large-biobank regularized regression": 0.05,
+    "clumping-thresholding": 0.03,
+    "other": 0.06,
+}
+
+
+def _model_quality_score(model_card: dict[str, Any]) -> float:
+    pgs_auc = float(model_card.get("pgs_only_auc") or 0.0)
+    pgs_r2 = float(model_card.get("pgs_only_r2") or 0.0)
+    full_auc = float(model_card.get("full_model_auc") or 0.0)
+    full_r2 = float(model_card.get("full_model_r2") or 0.0)
+
+    # Primary signal: any *PRS-comparable* metric. When only a full-model metric is
+    # available we count it at 40% weight of the PRS-only equivalent, matching the
+    # rubric guidance that full-model numbers are uninformative unless covariates
+    # are demographic-only.
+    has_pgs_only = pgs_auc > 0 or pgs_r2 > 0
+    comparable_metric = max(pgs_auc, pgs_r2)
+    if not has_pgs_only:
+        comparable_metric = 0.40 * max(full_auc, full_r2)
+
+    effect_signal = float(model_card.get("effect_signal") or 0.0)
+
+    # Covariate inflation from `_covariate_inflation_flag` is already passed in; we
+    # additionally penalise explicit heavy-covariate leakage (family history,
+    # biomarker adjustment, clinical risk calculators).
+    inflation_penalty = 0.40 if model_card.get("covariate_inflation_flag") else 0.0
+    leakage_penalty = 0.25 if model_card.get("heavy_covariate_leakage") else 0.0
+    framework_penalty = 0.20 if model_card.get("pan_trait_framework") else 0.0
+
+    archetype_bonus = _ARCHETYPE_BONUS.get(model_card.get("study_archetype", ""), 0.0)
+    multi_cohort = int(model_card.get("multi_cohort_count") or 0)
+    transportability_bonus = min(multi_cohort / 5.0, 0.25)
+    method_bonus = _METHOD_BONUS.get(model_card.get("method_family", ""), 0.06)
+
+    # `training_sample_n` is explicitly flagged as a weak / negligible signal in
+    # `prs_model_domain_knowledge.md` section 4. We therefore give it only a tiny
+    # saturating contribution so it cannot dominate the ranking.
+    training_score = min(float(model_card.get("training_sample_n") or 0) / 2_000_000.0, 0.05)
+    # Validation sample size is likewise a weak tie-break (section 3).
+    validation_score = min(float(model_card.get("validation_sample_n") or 0) / 1_000_000.0, 0.05)
+
+    variants = int(model_card.get("variants_number") or 0)
+    # Variant count is mildly informative within the same method family (rubric §5).
+    # Use a sub-linear shape so a 1M-variant genome-wide score does not eclipse a
+    # well-tuned sparse model with strong PRS-only AUC.
+    variants_score = 0.0 if variants <= 0 else min(0.08, (variants / 1_000_000.0) ** 0.5 * 0.08)
+
+    score = (
+        2.4 * comparable_metric
+        + 0.8 * effect_signal
+        + archetype_bonus
+        + method_bonus
+        + transportability_bonus
+        + training_score
+        + validation_score
+        + variants_score
+        - inflation_penalty
+        - leakage_penalty
+        - framework_penalty
+    )
+    return round(score, 6)
+
+
+def _build_model_card(
+    model: Any,
+    *,
+    supporting_bundle: SupportingBundleSelection,
+    bundle_rank: int,
+) -> dict[str, Any]:
+    metrics = getattr(model, "performance_metrics", {}) or {}
+    training_sample_n = _parse_sample_size(getattr(model, "samples_training", None))
+    validation_sample_n = _parse_sample_size(getattr(model, "validation_sample_size", None))
+    card = {
+        "pgs_id": getattr(model, "id"),
+        "source_bundle_id": supporting_bundle.bundle_id,
+        "source_cross_trait": supporting_bundle.canonical_label,
+        "bundle_rank": bundle_rank,
+        "bundle_confidence": supporting_bundle.confidence,
+        "bundle_supports": supporting_bundle.supports,
+        "bundle_against": supporting_bundle.against,
+        "bundle_posterior_evidence": {
+            "supports": list(supporting_bundle.supports or []),
+            "against": list(supporting_bundle.against or []),
+            "uncertainties": list(supporting_bundle.uncertainties or []),
+            "why_continue_or_stop": supporting_bundle.why_continue_or_stop,
+            "tool_evidence": [
+                entry.model_dump() for entry in (supporting_bundle.tool_evidence or [])
+            ],
+        },
+        "phenotyping_reported": getattr(model, "phenotyping_reported", None),
+        "method_name": getattr(model, "method_name", None),
+        "method_family": _method_family(getattr(model, "method_name", None)),
+        "variants_number": getattr(model, "variants_number", None),
+        "trait_reported": getattr(model, "trait_reported", None),
+        "trait_efo": getattr(model, "trait_efo", None),
+        "ancestry_distribution": getattr(model, "ancestry_distribution", None),
+        "samples_training": getattr(model, "samples_training", None),
+        "training_sample_n": training_sample_n,
+        "training_development_cohorts": getattr(model, "training_development_cohorts", None),
+        "multi_cohort_count": _multi_cohort_development(model),
+        "validation_sample_size": getattr(model, "validation_sample_size", None),
+        "validation_sample_n": validation_sample_n,
+        "selected_validation_ancestry": metrics.get("selected_validation_ancestry"),
+        "pgs_only_auc": metrics.get("pgs_only_auc"),
+        "pgs_only_r2": metrics.get("pgs_only_r2"),
+        "full_model_auc": metrics.get("full_model_auc"),
+        "full_model_r2": metrics.get("full_model_r2"),
+        "covariates": getattr(model, "covariates", None),
+        "covariate_inflation_flag": _covariate_inflation_flag(model),
+        "heavy_covariate_leakage": _heavy_covariate_leakage(model),
+        "pan_trait_framework": _study_is_pan_trait_framework(model),
+        "effect_sizes": getattr(model, "effect_sizes", None),
+        "effect_signal": _effect_size_signal(model),
+        "publication_title": getattr(model, "publication_title", None),
+        "publication_date": getattr(model, "publication_date", None),
+        "study_archetype": _study_archetype(model),
+        "validation_context": {
+            "selected_performance_id": metrics.get("selected_performance_id"),
+            "selected_validation_ancestry": metrics.get("selected_validation_ancestry"),
+            "record_count": metrics.get("record_count"),
+            "classification_metrics": metrics.get("classification_metrics"),
+            "other_metrics": metrics.get("other_metrics"),
+        },
+    }
+    card["quality_score"] = _model_quality_score(card)
+    return card
+
+
+def _fallback_local_champion_vnext(
+    bundle_id: str,
+    model_cards: list[dict[str, Any]],
+    *,
+    max_count: int,
+) -> LocalChampionDecision:
+    selected_cards = sorted(
+        model_cards,
+        key=lambda card: (-float(card.get("quality_score") or 0.0), card.get("pgs_id") or ""),
+    )[:max_count]
+    champions = [
+        PRSModelCandidate(
+            pgs_id=str(card["pgs_id"]),
+            source_bundle_id=str(card["source_bundle_id"]),
+            source_cross_trait=str(card["source_cross_trait"]),
+            rank=idx + 1,
+            selection_rationale="Fallback champion chosen for PRS-comparable metric quality and validation context.",
+            cross_trait_evidence_rationale="Bundle posterior retained this source bundle for the final model tournament.",
+            model_quality_rationale="Fallback ranking preferred cleaner PRS-only evidence, stronger method family, and better validation support.",
+            local_champion_rank=idx + 1,
+            bundle_rank=int(card.get("bundle_rank") or 0),
+        )
+        for idx, card in enumerate(selected_cards)
+    ]
+    return LocalChampionDecision(
+        source_bundle_id=bundle_id,
+        champions=champions,
+        confidence="Moderate" if champions else "Low",
+        rationale="Fallback local champion selection applied a deterministic model-quality score.",
+    )
+
+
+def _call_local_champion_vnext(
+    *,
+    supporting_bundle: SupportingBundleSelection,
+    model_cards: list[dict[str, Any]],
+    max_count: int,
+    target_trait: str | None = None,
+    domain_knowledge: dict[str, Any] | None = None,
+    quality_anchor: int = 2,
+) -> LocalChampionDecision:
+    context = {
+        "target_trait": target_trait or "",
+        "supporting_bundle": supporting_bundle.model_dump(),
+        "model_cards": model_cards,
+        "max_count": max_count,
+        "domain_knowledge": domain_knowledge or {},
+        "signal_priority": [
+            "pgs_only metrics (PGS-only AUC / PGS-only R2) — primary",
+            "effect_signal (OR / HR per SD) — strong secondary when PGS-only metrics missing",
+            "covariate_inflation_flag / heavy_covariate_leakage — hard penalty",
+            "study_archetype (meta-analysis > case-control > large-biobank > time-to-event)",
+            "bundle_posterior_evidence (supports / against / uncertainties)",
+            "method_family + variants_number consistency",
+            "multi_cohort_count and validation_context (ancestry, record_count) — weak tie-break",
+            "training_sample_n / validation_sample_n — negligible on their own",
+        ],
+    }
+    try:
+        decision: LocalChampionDecision = _cached_local_champion_chain_vnext().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
+        )
+    except Exception as exc:
+        _log.warning("Local champion LLM failed for %s (%s); using fallback.", supporting_bundle.bundle_id, exc)
+        return _fallback_local_champion_vnext(
+            supporting_bundle.bundle_id,
+            model_cards,
+            max_count=max_count,
+        )
+
+    valid_ids = {str(card["pgs_id"]) for card in model_cards}
+    card_lookup = {str(card["pgs_id"]): card for card in model_cards}
+    selected: list[PRSModelCandidate] = []
+    selected_ids: set[str] = set()
+    for proposed in decision.champions:
+        if proposed.pgs_id not in valid_ids:
+            continue
+        if proposed.pgs_id in selected_ids:
+            continue
+        proposed.source_bundle_id = supporting_bundle.bundle_id
+        proposed.source_cross_trait = supporting_bundle.canonical_label
+        proposed.rank = len(selected) + 1
+        proposed.local_champion_rank = proposed.rank
+        proposed.bundle_rank = supporting_bundle.rank
+        selected.append(proposed)
+        selected_ids.add(proposed.pgs_id)
+        if len(selected) >= max_count:
+            break
+
+    # Trait-agnostic deterministic quality anchor: append the top-K models by
+    # `_model_quality_score` (trait-agnostic PRS-quality composition: PGS-only
+    # AUC/R2, effect_signal, covariate-inflation penalty, study_archetype,
+    # multi_cohort transportability, method_family, variants — no trait names)
+    # that the LLM omitted. Guarantees the DE-quality leaders cannot be silently
+    # dropped by local-champion reasoning. Pure card-field policy.
+    anchor_count = max(0, int(quality_anchor))
+    if anchor_count > 0 and len(selected) < max_count:
+        ordered = sorted(
+            model_cards,
+            key=lambda card: (-float(card.get("quality_score") or 0.0), str(card.get("pgs_id") or "")),
+        )
+        inserted = 0
+        for card in ordered:
+            if inserted >= anchor_count or len(selected) >= max_count:
+                break
+            pgs_id = str(card.get("pgs_id") or "")
+            if not pgs_id or pgs_id in selected_ids:
+                continue
+            selected.append(
+                PRSModelCandidate(
+                    pgs_id=pgs_id,
+                    source_bundle_id=supporting_bundle.bundle_id,
+                    source_cross_trait=supporting_bundle.canonical_label,
+                    rank=len(selected) + 1,
+                    selection_rationale="Deterministic quality-score anchor applied the field-level rubric (PGS-only metric + effect-signal + archetype + method family).",
+                    cross_trait_evidence_rationale="Bundle posterior retained this source for the model tournament; quality anchor guarantees the deterministic PRS-comparable leader is not silently dropped.",
+                    model_quality_rationale="Deterministic quality-score leader under the trait-agnostic rubric (PGS-only AUC/R2, covariate-leakage penalties, transportability).",
+                    local_champion_rank=len(selected) + 1,
+                    bundle_rank=int(card.get("bundle_rank") or supporting_bundle.rank),
+                )
+            )
+            selected_ids.add(pgs_id)
+            inserted += 1
+
+    if not selected:
+        return _fallback_local_champion_vnext(
+            supporting_bundle.bundle_id,
+            model_cards,
+            max_count=max_count,
+        )
+    # Re-rank to ensure contiguous 1..N after anchor inserts.
+    for idx, champion in enumerate(selected, start=1):
+        champion.rank = idx
+        champion.local_champion_rank = idx
+    decision.source_bundle_id = supporting_bundle.bundle_id
+    decision.champions = selected
+    return decision
+
+
+def _fallback_global_frontier_vnext(champion_cards: list[dict[str, Any]]) -> GlobalModelFrontierDecision:
+    ordered = sorted(
+        champion_cards,
+        key=lambda card: (
+            -(float(card.get("quality_score") or 0.0) + (0.08 * max(0, 6 - int(card.get("bundle_rank") or 6)))),
+            card.get("pgs_id") or "",
+        ),
+    )[:5]
+    frontier = [
+        PRSModelCandidate(
+            pgs_id=str(card["pgs_id"]),
+            source_bundle_id=str(card["source_bundle_id"]),
+            source_cross_trait=str(card["source_cross_trait"]),
+            rank=idx + 1,
+            selection_rationale="Fallback final ranking combined bundle posterior order with PRS model quality.",
+            cross_trait_evidence_rationale="Source bundle survived the posterior stage and local champion filtering.",
+            model_quality_rationale="Fallback ranking preferred cleaner PRS-only metrics and stronger validation support.",
+            local_champion_rank=int(card.get("local_champion_rank") or idx + 1),
+            bundle_rank=int(card.get("bundle_rank") or 0),
+        )
+        for idx, card in enumerate(ordered)
+    ]
+    return GlobalModelFrontierDecision(
+        model_frontier=frontier,
+        primary_model_id=frontier[0].pgs_id if frontier else None,
+        confidence="Moderate" if frontier else "Low",
+        rationale="Fallback global model frontier applied a deterministic score over the local champions.",
+    )
+
+
+def _call_global_frontier_vnext(
+    champion_cards: list[dict[str, Any]],
+    *,
+    target_trait: str | None = None,
+    domain_knowledge: dict[str, Any] | None = None,
+    quality_anchor: int = 2,
+) -> GlobalModelFrontierDecision:
+    context = {
+        "target_trait": target_trait or "",
+        "champion_cards": champion_cards,
+        "max_frontier_size": 5,
+        "domain_knowledge": domain_knowledge or {},
+        "signal_priority": [
+            "pgs_only metrics (PGS-only AUC / PGS-only R2) — primary",
+            "effect_signal (OR / HR per SD) — strong secondary",
+            "covariate_inflation_flag / heavy_covariate_leakage — hard penalty",
+            "study_archetype + multi_cohort_count — transportability",
+            "bundle_rank + bundle_posterior_evidence — cross-trait transfer context",
+            "method_family + variants_number — structural tie-break",
+            "training_sample_n / validation_sample_n — negligible on their own",
+        ],
+    }
+    try:
+        decision: GlobalModelFrontierDecision = _cached_global_frontier_chain_vnext().invoke(
+            {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
+        )
+    except Exception as exc:
+        _log.warning("Global frontier LLM failed (%s); using fallback.", exc)
+        return _fallback_global_frontier_vnext(champion_cards)
+
+    valid_ids = {str(card["pgs_id"]) for card in champion_cards}
+    card_lookup = {str(card["pgs_id"]): card for card in champion_cards}
+    frontier: list[PRSModelCandidate] = []
+    frontier_ids: set[str] = set()
+    for proposed in decision.model_frontier:
+        if proposed.pgs_id not in valid_ids:
+            continue
+        if proposed.pgs_id in frontier_ids:
+            continue
+        matched = card_lookup[proposed.pgs_id]
+        proposed.rank = len(frontier) + 1
+        proposed.source_bundle_id = str(matched["source_bundle_id"])
+        proposed.source_cross_trait = str(matched["source_cross_trait"])
+        proposed.local_champion_rank = int(matched.get("local_champion_rank") or 1)
+        proposed.bundle_rank = int(matched.get("bundle_rank") or 0)
+        frontier.append(proposed)
+        frontier_ids.add(proposed.pgs_id)
+        if len(frontier) >= 5:
+            break
+
+    # Trait-agnostic deterministic quality anchor: append the top-K champion
+    # cards by (`_model_quality_score` + bundle_rank bonus) that the LLM
+    # omitted from the frontier. Pure card-field composition; no trait names.
+    anchor_count = max(0, int(quality_anchor))
+    if anchor_count > 0 and len(frontier) < 5:
+        ordered = sorted(
+            champion_cards,
+            key=lambda card: (
+                -(float(card.get("quality_score") or 0.0) + (0.08 * max(0, 6 - int(card.get("bundle_rank") or 6)))),
+                str(card.get("pgs_id") or ""),
+            ),
+        )
+        inserted = 0
+        for card in ordered:
+            if inserted >= anchor_count or len(frontier) >= 5:
+                break
+            pgs_id = str(card.get("pgs_id") or "")
+            if not pgs_id or pgs_id in frontier_ids:
+                continue
+            frontier.append(
+                PRSModelCandidate(
+                    pgs_id=pgs_id,
+                    source_bundle_id=str(card["source_bundle_id"]),
+                    source_cross_trait=str(card["source_cross_trait"]),
+                    rank=len(frontier) + 1,
+                    selection_rationale="Deterministic quality-score anchor (trait-agnostic PRS rubric) guarantees the DE-quality leader appears in the frontier.",
+                    cross_trait_evidence_rationale="Bundle posterior retained this source; the quality anchor ensures the deterministic leader is not omitted by the tournament LLM.",
+                    model_quality_rationale="Deterministic rubric leader: PGS-only metric + effect_signal + archetype + method_family composition.",
+                    local_champion_rank=int(card.get("local_champion_rank") or 1),
+                    bundle_rank=int(card.get("bundle_rank") or 0),
+                )
+            )
+            frontier_ids.add(pgs_id)
+            inserted += 1
+
+    if not frontier:
+        return _fallback_global_frontier_vnext(champion_cards)
+    for idx, candidate in enumerate(frontier, start=1):
+        candidate.rank = idx
+    decision.model_frontier = frontier
+    if decision.primary_model_id not in frontier_ids:
+        decision.primary_model_id = frontier[0].pgs_id
+    return decision
+
+
+_DOMAIN_KNOWLEDGE_QUERY_TEMPLATE = (
+    "target_trait: {target_trait}; PRS clinical thresholds AUC R2 heritability ceiling sanity-check "
+    "must-pass gates phenotype alignment endpoint specificity external transfer reliability "
+    "ancestry compatibility ranking features penalties method priors validation sample size "
+    "tie-break time-to-event horizon-specific incident case-control dominant subtype "
+    "PGS-only no-covariates incremental AUROC snpnet biobank transportability"
+)
+
+
+def _load_domain_knowledge_payload(target_trait: str) -> dict[str, Any]:
+    """Invoke the contribution2 `prs_model_domain_knowledge` tool as a trait-agnostic
+    PRS-quality rubric. The payload is attached to the local-champion and global-frontier
+    contexts so the model-first tournament evaluates every PGS card against the same
+    field-level policy contribution2 uses at Step 1.
+    """
+    from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
+
+    query = _DOMAIN_KNOWLEDGE_QUERY_TEMPLATE.format(target_trait=target_trait or "")
+    try:
+        knowledge = prs_model_domain_knowledge(query)
+    except Exception as exc:
+        _log.warning("Domain knowledge tool failed (%s); continuing without it.", exc)
+        return {
+            "query": query,
+            "full_document": "",
+            "snippets": [],
+            "source_type": "error",
+        }
+    if knowledge is None:
+        return {
+            "query": query,
+            "full_document": "",
+            "snippets": [],
+            "source_type": "missing",
+        }
+    try:
+        payload = knowledge.model_dump()
+    except Exception:
+        payload = {
+            "query": query,
+            "full_document": getattr(knowledge, "full_document", "") or "",
+            "snippets": [],
+            "source_type": getattr(knowledge, "source_type", "local") or "local",
+        }
+    return payload
+
+
+def _trim_domain_knowledge_for_bundle(payload: dict[str, Any], max_snippets: int = 6) -> dict[str, Any]:
+    """Return a compact DK view for per-bundle calls. The full document stays in the
+    global-frontier context (one call per target) while each of the 3-6 local-champion
+    calls receives a shorter snippet-focused view to keep prompt tokens bounded.
+    """
+    if not payload:
+        return {}
+    snippets = payload.get("snippets") or []
+    trimmed = list(snippets)[:max_snippets]
+    return {
+        "query": payload.get("query", ""),
+        "source_type": payload.get("source_type", ""),
+        "full_document": payload.get("full_document", ""),
+        "snippets": trimmed,
+        "is_trimmed": len(trimmed) < len(snippets),
+    }
+
+
+def _diversify_model_cards(
+    model_cards: list[dict[str, Any]],
+    *,
+    max_models: int = 24,
+    max_per_cluster: int = 3,
+) -> list[dict[str, Any]]:
+    """Cap model-card count per (method_family, training_sample bucket) cluster.
+
+    Prevents the LLM from drowning in dozens of near-identical LDpred2 siblings from
+    the same biobank while preserving architectural diversity across the bundle.
+    """
+    ordered = sorted(
+        model_cards,
+        key=lambda card: (
+            -float(card.get("quality_score") or 0.0),
+            str(card.get("pgs_id") or ""),
+        ),
+    )
+    clusters: dict[tuple[str, str], int] = {}
+    kept: list[dict[str, Any]] = []
+    for card in ordered:
+        training_n = int(card.get("training_sample_n") or 0)
+        if training_n <= 50_000:
+            bucket = "<=50K"
+        elif training_n <= 200_000:
+            bucket = "50K-200K"
+        elif training_n <= 1_000_000:
+            bucket = "200K-1M"
+        else:
+            bucket = ">1M"
+        method = str(card.get("method_family") or "other")
+        key = (method, bucket)
+        if clusters.get(key, 0) >= max_per_cluster:
+            continue
+        clusters[key] = clusters.get(key, 0) + 1
+        kept.append(card)
+        if len(kept) >= max_models:
+            break
+    return kept
+
+
+def _hydrate_models_for_supporting_bundles_vnext(
+    dossier: CandidateBundleDossier,
+    supporting_bundles: list[SupportingBundleSelection],
+) -> tuple[dict[str, int], list[Any], dict[str, str]]:
+    from src.server.core.pgs_catalog_client import PGSCatalogClient
+    from src.server.core.tools.prs_model_tools import hydrate_pgs_model_summaries
+
+    # Hydration quotas — cycle0 proved best on macro metrics with
+    # [36,24,18,12,8,6,4]. Cycle1's uniform widening [44,28,20,14,10,7,5] and
+    # cycle2's front-loaded [56,24,18,12,8,6,4] both degraded A/B macro, so
+    # cycle3 restores cycle0 quotas.
+    quotas = [36, 24, 18, 12, 8, 6, 4]
+    bundle_lookup = _bundle_lookup(dossier)
+    ordered_ids: list[str] = []
+    pgs_to_bundle: dict[str, str] = {}
+    model_budget_by_bundle: dict[str, int] = {}
+    for idx, supporting_bundle in enumerate(supporting_bundles[: len(quotas)]):
+        bundle = bundle_lookup.get(supporting_bundle.bundle_id)
+        if bundle is None:
+            continue
+        budget = quotas[idx]
+        picked = 0
+        for pgs_id in bundle.candidate_pgs_ids:
+            if pgs_id in pgs_to_bundle:
+                continue
+            ordered_ids.append(pgs_id)
+            pgs_to_bundle[pgs_id] = supporting_bundle.bundle_id
+            picked += 1
+            if picked >= budget:
+                break
+        model_budget_by_bundle[supporting_bundle.bundle_id] = picked
+    if not ordered_ids:
+        return model_budget_by_bundle, [], pgs_to_bundle
+    client = PGSCatalogClient()
+    models = hydrate_pgs_model_summaries(client, ordered_ids)
+    return model_budget_by_bundle, models, pgs_to_bundle
+
+
+def _build_tool_evidence_summary(card_lookup: dict[str, CandidateEvidenceCard]) -> dict[str, dict[str, Any]]:
+    summary: dict[str, dict[str, Any]] = {}
+    for bundle_id, card in card_lookup.items():
+        summary[bundle_id] = {
+            "genetic_correlation": card.gc.model_dump() if card.gc else None,
+            "heritability": card.h2.model_dump() if card.h2 else None,
+            "open_targets": card.open_targets.model_dump() if card.open_targets else None,
+        }
+    return summary
+
+
+def _synthetic_stage1_from_supporting(
+    supporting_bundles: list[SupportingBundleSelection],
+    evidence_state: EvidenceState,
+    confidence: ConfidenceLabel,
+    rationale: str,
+) -> Stage1CrossTraitShortlist:
+    return Stage1CrossTraitShortlist(
+        shortlisted_bundles=[
+            Stage1BundleCandidate(
+                bundle_id=bundle.bundle_id,
+                canonical_label=bundle.canonical_label,
+                rank=bundle.rank,
+                tool_evidence=bundle.tool_evidence,
+                selection_rationale=bundle.why_continue_or_stop,
+                utility_score=bundle.utility_score,
+                transferability_prior_score=bundle.transferability_prior_score,
+                phenotype_fidelity_score=bundle.phenotype_fidelity_score,
+            )
+            for bundle in supporting_bundles
+        ],
+        confidence=confidence,
+        decision_rationale=rationale,
+        evidence_state=evidence_state,
+    )
+
+
+def _synthetic_stage2_from_frontier(
+    model_frontier: list[PRSModelCandidate],
+    confidence: ConfidenceLabel,
+    rationale: str,
+    model_universe_size: int,
+    bundles_hydrated: list[str],
+) -> Stage2ModelRecommendation:
+    return Stage2ModelRecommendation(
+        recommended_models=model_frontier[:5],
+        model_frontier=model_frontier[:5],
+        primary_model_id=model_frontier[0].pgs_id if model_frontier else None,
+        model_universe_size=model_universe_size,
+        bundles_hydrated=bundles_hydrated,
+        confidence=confidence,
+        decision_rationale=rationale,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Ablation helpers
+# ---------------------------------------------------------------------------
+
+
+def _resolve_ablation(ablation: str | None) -> str:
+    label = normalize_transfer_ablation(ablation)
+    if label not in TRANSFER_ABLATIONS:
+        raise ValueError(
+            f"Unsupported ablation: {ablation}. Expected one of {', '.join(TRANSFER_ABLATIONS)}."
+        )
+    return label
+
+
+def _active_tools_for_ablation(available_tools: list[str], ablation: str) -> list[str]:
+    disabled_tools: set[str] = set()
+    if ablation == "no_h2":
+        disabled_tools.add("cross_trait_heritability")
+    if ablation == "no_ot_verifier":
+        disabled_tools.add("cross_trait_open_targets")
+    return [tool_name for tool_name in available_tools if tool_name not in disabled_tools]
+
+
+# ---------------------------------------------------------------------------
+# Legacy pipeline functions (kept for backward compat with eval scripts)
+# ---------------------------------------------------------------------------
 
 def _build_judge_chain():
     llm = get_llm("disease_workflow")
@@ -1526,7 +3595,9 @@ def run_cross_trait_agent(
     enable_semantic_backstop: bool = True,
     enable_forced_match: bool = True,
     benchmark_family: str = "unified",
+    ablation: str = DEFAULT_TRANSFER_ABLATION,
 ) -> dict[str, Any]:
+    """Cross-trait transfer vNext: LLM-dominant, model-first workflow."""
     del max_steps, enable_semantic_backstop, enable_forced_match
     if condition not in CONDITION_TOOLS:
         raise ValueError(f"Unsupported condition: {condition}")
@@ -1536,8 +3607,9 @@ def run_cross_trait_agent(
         assert bundles is not None
         toolbox = CrossTraitToolbox(bundles)
 
+    ablation = _resolve_ablation(ablation)
     config = BENCHMARK_FAMILY_CONFIGS.get(benchmark_family, DEFAULT_CONFIG)
-    available_tools = CONDITION_TOOLS[condition]
+    available_tools = _active_tools_for_ablation(CONDITION_TOOLS[condition], ablation)
     target_source = _target_source_for_dossier(dossier, benchmark_family)
     candidate_bundle_ids = [
         bundle.bundle_id
@@ -1545,222 +3617,477 @@ def run_cross_trait_agent(
         if not is_self_like_bundle(dossier.target, bundle)
         and bundle_has_source_universe_pgs(bundle, target_source)
     ]
-    bundle_lookup = _bundle_lookup(dossier)
+    bundle_lookup_map = _bundle_lookup(dossier)
 
     tool_trace: list[dict[str, Any]] = []
-    gc_result: dict[str, Any] | None = None
-    if "cross_trait_genetic_correlation" in available_tools:
-        gc_result = toolbox.cross_trait_genetic_correlation_llm(
-            dossier.target.target_label,
-            candidate_bundle_ids,
-            batch_size=config.llm_gc_batch_size,
-        )
-        tool_trace.append(
-            {
-                "name": "cross_trait_genetic_correlation",
-                "phase": "candidate_prescreen",
-                "args": {
-                    "target_trait": dossier.target.target_label,
-                    "candidate_bundle_ids": candidate_bundle_ids,
-                },
-                "result": gc_result,
-            }
-        )
-    gc_lookup = _gc_lookup(gc_result)
+    target_summary = _build_target_summary(
+        dossier,
+        benchmark_family=benchmark_family,
+        config=config,
+    )
+    target_summary["ablation"] = ablation
 
-    provisional_cards = [
-        _build_candidate_card(
-            dossier,
-            bundle_lookup[bundle_id],
-            gc_row=gc_lookup.get(bundle_id),
-            config=config,
-            target_source=target_source,
-        )
-        for bundle_id in candidate_bundle_ids
-        if bundle_id in bundle_lookup
-    ]
-
-    if config.shortlist_strategy == "gc_first":
-        provisional_cards = _sort_cards(provisional_cards, config)
-        prior_shortlist = [
-            card.bundle_id
-            for card in _prior_ranked_cards(provisional_cards, config)[: config.prior_track_size]
-        ]
-        selection_shortlist = [
-            card.bundle_id
-            for card in provisional_cards[: config.selection_track_size]
-        ]
-        gc_ranked = _gc_ranked_cards(provisional_cards)
-        gc_shortlist = [card.bundle_id for card in gc_ranked[: config.gc_track_size]]
-        semantic_ranked = sorted(
-            provisional_cards,
-            key=lambda c: (-c.phenotype_fidelity_score, -c.lexical_match_score, -c.n_models, c.bundle_id),
-        )
-        semantic_shortlist = [card.bundle_id for card in semantic_ranked[: config.semantic_track_size]]
-        support_shortlist = [
-            card.bundle_id
-            for card in _support_ranked_cards(provisional_cards)[: config.support_track_size]
-        ]
-        shortlist_ids = _merge_shortlist_tracks(
-            [
-                prior_shortlist,
-                selection_shortlist,
-                gc_shortlist,
-                semantic_shortlist,
-                support_shortlist,
-            ],
-            config.shortlist_cap,
-        )
-    else:
-        # binary-to-binary keeps the dual-track shortlist that protects semantic matches.
-        prior_shortlist = [
-            card.bundle_id
-            for card in _prior_ranked_cards(provisional_cards, config)[: config.prior_track_size]
-        ]
-        selection_ranked = _sort_cards(provisional_cards, config)
-        selection_shortlist = [
-            card.bundle_id
-            for card in selection_ranked[: config.selection_track_size]
-        ]
-        gc_ranked = _gc_ranked_cards(provisional_cards)
-        gc_shortlist = [card.bundle_id for card in gc_ranked[: config.gc_track_size]]
-        semantic_ranked = sorted(
-            provisional_cards,
-            key=lambda c: (-c.phenotype_fidelity_score, -c.lexical_match_score, -c.n_models),
-        )
-        semantic_shortlist = [card.bundle_id for card in semantic_ranked[: config.semantic_track_size]]
-        same_endpoint_ids = [
-            card.bundle_id
-            for card in semantic_ranked
-            if card.archetype == "same-endpoint disease"
-        ][:3]
-        support_shortlist = [
-            card.bundle_id
-            for card in _support_ranked_cards(provisional_cards)[: config.support_track_size]
-        ]
-        shortlist_ids = _merge_shortlist_tracks(
-            [
-                prior_shortlist,
-                selection_shortlist,
-                same_endpoint_ids,
-                gc_shortlist,
-                semantic_shortlist,
-                support_shortlist,
-            ],
-            config.shortlist_cap,
-        )
-
-    h2_lookup: dict[str, dict[str, Any]] = {}
-    ot_lookup: dict[str, dict[str, Any]] = {}
-    if "cross_trait_genetic_correlation" in available_tools and shortlist_ids:
-        # LLM estimation already covers all candidates in Phase 1;
-        # re-estimate the shortlist to refresh with potentially narrower focus.
-        detailed_gc = toolbox.cross_trait_genetic_correlation_llm(
-            dossier.target.target_label,
-            shortlist_ids,
-            batch_size=config.llm_gc_batch_size,
-        )
-        tool_trace.append(
-            {
-                "name": "cross_trait_genetic_correlation",
-                "phase": "shortlist_detailed",
-                "args": {
-                    "target_trait": dossier.target.target_label,
-                    "candidate_bundle_ids": shortlist_ids,
-                },
-                "result": detailed_gc,
-            }
-        )
-        gc_lookup.update(_gc_lookup(detailed_gc))
-
-    if "cross_trait_heritability" in available_tools and shortlist_ids:
-        h2_result = toolbox.cross_trait_heritability(
-            dossier.target.target_label,
-            shortlist_ids,
-            ancestry="EUR",
-            response_format="detailed",
-        )
-        tool_trace.append(
-            {
-                "name": "cross_trait_heritability",
-                "phase": "shortlist_detailed",
-                "args": {
-                    "target_trait": dossier.target.target_label,
-                    "candidate_bundle_ids": shortlist_ids,
-                    "ancestry": "EUR",
-                    "response_format": "detailed",
-                },
-                "result": h2_result,
-            }
-        )
-        h2_lookup = _gc_lookup(h2_result)
-
-    if "cross_trait_open_targets" in available_tools and shortlist_ids:
-        ot_result = toolbox.cross_trait_open_targets(
-            dossier.target.target_label,
-            shortlist_ids,
-            response_format="detailed",
-        )
-        tool_trace.append(
-            {
-                "name": "cross_trait_open_targets",
-                "phase": "shortlist_detailed",
-                "args": {
-                    "target_trait": dossier.target.target_label,
-                    "candidate_bundle_ids": shortlist_ids,
-                    "response_format": "detailed",
-                },
-                "result": ot_result,
-            }
-        )
-        ot_lookup = _gc_lookup(ot_result)
-
-    cards = _sort_cards(
+    recall_cards = _sort_cards(
         [
             _build_candidate_card(
                 dossier,
-                bundle_lookup[bundle_id],
+                bundle_lookup_map[bundle_id],
+                config=config,
+                target_source=target_source,
+            )
+            for bundle_id in candidate_bundle_ids
+            if bundle_id in bundle_lookup_map
+        ],
+        config,
+    )
+    card_lookup = {card.bundle_id: card for card in recall_cards}
+
+    search_plan = _call_search_plan_vnext(target_summary, recall_cards, config)
+    tool_trace.append(
+        {
+            "name": "llm_search_plan",
+            "phase": "phase1_search_plan",
+            "args": {
+                "target_trait": dossier.target.target_label,
+                "recall_pool_size": len(recall_cards),
+            },
+            "result": search_plan.model_dump(),
+        }
+    )
+
+    search_trace = SearchTrace(
+        recall_pool_size=len(recall_cards),
+        initial_probe_bundle_ids=search_plan.probe_bundle_ids,
+    )
+
+    gc_lookup: dict[str, dict[str, Any]] = {}
+    h2_lookup: dict[str, dict[str, Any]] = {}
+    ot_lookup: dict[str, dict[str, Any]] = {}
+    retained_bundle_ids: list[str] = []
+    ot_promoted_bundle_ids: list[str] = []
+
+    current_probe_ids = list(search_plan.probe_bundle_ids)
+    for round_index in range(config.max_probe_rounds):
+        new_probe_ids = [
+            bundle_id
+            for bundle_id in current_probe_ids
+            if bundle_id in bundle_lookup_map and bundle_id not in search_trace.probed_bundle_ids
+        ]
+        if not new_probe_ids:
+            if not search_trace.stop_reason:
+                search_trace.stop_reason = "No new challenger bundles remained for screening."
+            break
+
+        if "cross_trait_genetic_correlation" in available_tools:
+            gc_result = toolbox.cross_trait_genetic_correlation(
+                dossier.target.target_label,
+                new_probe_ids,
+                response_format="screening",
+            )
+            gc_lookup.update(_gc_lookup(gc_result))
+            tool_trace.append(
+                {
+                    "name": "cross_trait_genetic_correlation",
+                    "phase": f"phase2_probe_round_{round_index + 1}",
+                    "args": {
+                        "target_trait": dossier.target.target_label,
+                        "candidate_bundle_ids": new_probe_ids,
+                        "response_format": "screening",
+                    },
+                    "result": gc_result,
+                }
+            )
+
+        if "cross_trait_heritability" in available_tools:
+            h2_result = toolbox.cross_trait_heritability(
+                dossier.target.target_label,
+                new_probe_ids,
+                ancestry="EUR",
+                response_format="screening",
+            )
+            h2_lookup.update(_gc_lookup(h2_result))
+            tool_trace.append(
+                {
+                    "name": "cross_trait_heritability",
+                    "phase": f"phase2_probe_round_{round_index + 1}",
+                    "args": {
+                        "target_trait": dossier.target.target_label,
+                        "candidate_bundle_ids": new_probe_ids,
+                        "ancestry": "EUR",
+                        "response_format": "screening",
+                    },
+                    "result": h2_result,
+                }
+            )
+
+        for bundle_id in new_probe_ids:
+            card_lookup[bundle_id] = _build_candidate_card(
+                dossier,
+                bundle_lookup_map[bundle_id],
                 gc_row=gc_lookup.get(bundle_id),
                 h2_row=h2_lookup.get(bundle_id),
                 ot_row=ot_lookup.get(bundle_id),
                 config=config,
                 target_source=target_source,
             )
-            for bundle_id in shortlist_ids
-            if bundle_id in bundle_lookup
-        ],
+
+        search_trace.probed_bundle_ids = _unique_preserve_order(search_trace.probed_bundle_ids + new_probe_ids)
+        seen_cards = _sort_cards(
+            [card_lookup[bundle_id] for bundle_id in search_trace.probed_bundle_ids if bundle_id in card_lookup],
+            config,
+        )
+        remaining_cards = [
+            card for card in recall_cards if card.bundle_id not in set(search_trace.probed_bundle_ids)
+        ]
+        if ablation == "no_reflective_reprobe":
+            retained_bundle_ids = [card.bundle_id for card in seen_cards[: config.retained_probe_max]]
+            promoted = retained_bundle_ids[: config.ot_verification_cap]
+            round_decision = ProbeRoundDecision(
+                retain_bundle_ids=retained_bundle_ids,
+                challenger_bundle_ids=[],
+                promote_to_ot_bundle_ids=promoted,
+                stop=True,
+                rationale="Ablation disabled reflective re-probe; stopping after the initial screening round.",
+            )
+        else:
+            round_decision = _call_probe_reflection_vnext(
+                round_index=round_index + 1,
+                target_summary=target_summary,
+                seen_cards=seen_cards,
+                remaining_cards=remaining_cards,
+                config=config,
+            )
+        retained_bundle_ids = round_decision.retain_bundle_ids
+        ot_promoted_bundle_ids = _unique_preserve_order(
+            ot_promoted_bundle_ids + round_decision.promote_to_ot_bundle_ids
+        )[: config.ot_verification_cap]
+        search_trace.probe_rounds.append(
+            SearchTraceRound(
+                round_index=round_index + 1,
+                probed_bundle_ids=new_probe_ids,
+                retained_bundle_ids=retained_bundle_ids,
+                challenger_bundle_ids=round_decision.challenger_bundle_ids,
+                promote_to_ot_bundle_ids=round_decision.promote_to_ot_bundle_ids,
+                stop=round_decision.stop,
+                rationale=round_decision.rationale,
+            )
+        )
+        tool_trace.append(
+            {
+                "name": "llm_probe_reflection" if ablation != "no_reflective_reprobe" else "ablation_probe_reflection_disabled",
+                "phase": f"phase2_probe_round_{round_index + 1}",
+                "args": {
+                    "seen_bundle_count": len(seen_cards),
+                    "remaining_bundle_count": len(remaining_cards),
+                },
+                "result": round_decision.model_dump(),
+            }
+        )
+
+        current_probe_ids = round_decision.challenger_bundle_ids
+        if round_decision.stop:
+            search_trace.stopped_early = True
+            search_trace.stop_reason = round_decision.rationale
+            break
+        if not current_probe_ids:
+            search_trace.stop_reason = "Reflection step proposed no additional challenger bundles."
+            break
+
+    if not search_trace.stop_reason and len(search_trace.probe_rounds) >= config.max_probe_rounds:
+        search_trace.stop_reason = "Reached the maximum number of probe rounds."
+    if not retained_bundle_ids:
+        retained_bundle_ids = search_trace.probed_bundle_ids[: config.retained_probe_max]
+
+    ot_verified_bundle_ids = ot_promoted_bundle_ids[: config.ot_verification_cap]
+    if "cross_trait_open_targets" in available_tools and ot_verified_bundle_ids:
+        ot_result = toolbox.cross_trait_open_targets(
+            dossier.target.target_label,
+            ot_verified_bundle_ids,
+            response_format="evidence",
+        )
+        ot_lookup.update(_gc_lookup(ot_result))
+        tool_trace.append(
+            {
+                "name": "cross_trait_open_targets",
+                "phase": "phase3_ot_verification",
+                "args": {
+                    "target_trait": dossier.target.target_label,
+                    "candidate_bundle_ids": ot_verified_bundle_ids,
+                    "response_format": "evidence",
+                },
+                "result": ot_result,
+            }
+        )
+        for bundle_id in ot_verified_bundle_ids:
+            if bundle_id not in bundle_lookup_map:
+                continue
+            card_lookup[bundle_id] = _build_candidate_card(
+                dossier,
+                bundle_lookup_map[bundle_id],
+                gc_row=gc_lookup.get(bundle_id),
+                h2_row=h2_lookup.get(bundle_id),
+                ot_row=ot_lookup.get(bundle_id),
+                config=config,
+                target_source=target_source,
+            )
+    search_trace.ot_verified_bundle_ids = ot_verified_bundle_ids
+
+    posterior_cards = _sort_cards(
+        [card_lookup[bundle_id] for bundle_id in retained_bundle_ids if bundle_id in card_lookup],
         config,
     )
 
-    evidence_state = EvidenceState(
-        available_tools=available_tools,
-        shortlist_bundle_ids=[card.bundle_id for card in cards],
-        target_summary=_build_target_summary(
-            dossier,
-            benchmark_family=benchmark_family,
-            config=config,
-        ),
-        candidate_cards=cards,
+    # Load the contribution2 `prs_model_domain_knowledge` tool once per target
+    # (trait-agnostic PRS-quality rubric). The bundle-posterior call receives a
+    # trimmed snippet view so the judge can evaluate phenotype-alignment under
+    # the same policy contribution2 applies at Step 1; the local-champion and
+    # global-frontier calls reuse the same payload below.
+    target_trait_label = dossier.target.target_label or ""
+    domain_knowledge_payload = _load_domain_knowledge_payload(target_trait_label)
+    domain_knowledge_bundle = _trim_domain_knowledge_for_bundle(domain_knowledge_payload)
+
+    bundle_posterior = _call_bundle_posterior_vnext(
+        target_summary=target_summary,
+        posterior_cards=posterior_cards,
+        config=config,
+        domain_knowledge=domain_knowledge_bundle,
+    )
+    supporting_bundles = bundle_posterior.supporting_bundles
+    search_trace.supporting_bundle_ids = [bundle.bundle_id for bundle in supporting_bundles]
+    tool_trace.append(
+        {
+            "name": "llm_bundle_posterior",
+            "phase": "phase4_bundle_posterior",
+            "args": {"retained_bundle_count": len(posterior_cards)},
+            "result": bundle_posterior.model_dump(),
+        }
     )
 
-    default_mode = _decision_mode_from_cards(cards)
-    default_frontier_ids = _default_frontier_ids(cards, default_mode)
-    judged = _judge_frontier(
-        evidence_state, default_frontier_ids, default_mode,
-        llm_card_cap=config.llm_card_cap,
-    )
-    decision = _finalize_frontier_decision(
+    model_budget_by_bundle, hydrated_models, pgs_to_bundle = _hydrate_models_for_supporting_bundles_vnext(
         dossier,
+        supporting_bundles,
+    )
+    search_trace.model_budget_by_bundle = model_budget_by_bundle
+
+    supporting_lookup = {bundle.bundle_id: bundle for bundle in supporting_bundles}
+    models_by_bundle: dict[str, list[Any]] = {}
+    for model in hydrated_models:
+        bundle_id = pgs_to_bundle.get(getattr(model, "id", ""))
+        if bundle_id is None or bundle_id not in supporting_lookup:
+            continue
+        models_by_bundle.setdefault(bundle_id, []).append(model)
+
+    # The contribution2 `prs_model_domain_knowledge` payload was loaded above
+    # (once per target). Local-champion and global-frontier reuse the trimmed /
+    # full views for the model-first tournament (trait-agnostic rubric).
+    tool_trace.append(
+        {
+            "name": "prs_model_domain_knowledge",
+            "phase": "phase5_domain_knowledge",
+            "args": {"target_trait": target_trait_label},
+            "result": {
+                "source_type": domain_knowledge_payload.get("source_type"),
+                "full_document_chars": len(domain_knowledge_payload.get("full_document") or ""),
+                "snippet_count": len(domain_knowledge_payload.get("snippets") or []),
+            },
+        }
+    )
+
+    champion_cards: list[dict[str, Any]] = []
+    for supporting_bundle in supporting_bundles:
+        bundle_models = models_by_bundle.get(supporting_bundle.bundle_id) or []
+        if not bundle_models:
+            continue
+        model_cards = [
+            _build_model_card(
+                model,
+                supporting_bundle=supporting_bundle,
+                bundle_rank=supporting_bundle.rank,
+            )
+            for model in bundle_models
+        ]
+        # Cap each bundle to ≤32 models with at most 5 per (method_family,
+        # training-N bucket). Cycle3 restores cycle0's proven (32, 5) after
+        # cycle1 (40, 6) and cycle2 (48, 8) both failed to lift primary picks.
+        model_cards = _diversify_model_cards(model_cards, max_models=32, max_per_cluster=5)
+        model_card_lookup = {str(card["pgs_id"]): card for card in model_cards}
+        if ablation == "no_local_champion":
+            ordered_model_cards = sorted(
+                model_cards,
+                key=lambda card: (-float(card.get("quality_score") or 0.0), str(card.get("pgs_id") or "")),
+            )
+            tool_trace.append(
+                {
+                    "name": "ablation_local_champion_disabled",
+                    "phase": f"phase5_local_champion::{supporting_bundle.bundle_id}",
+                    "args": {
+                        "bundle_id": supporting_bundle.bundle_id,
+                        "model_count": len(model_cards),
+                    },
+                    "result": {
+                        "bypass": True,
+                        "reason": "Ablation disabled local champion selection; forwarding all hydrated models to the global tournament.",
+                        "model_ids": [card["pgs_id"] for card in ordered_model_cards],
+                    },
+                }
+            )
+            for idx, model_card in enumerate(ordered_model_cards, start=1):
+                champion_card = dict(model_card)
+                champion_card["local_champion_rank"] = idx
+                champion_cards.append(champion_card)
+        else:
+            local_decision = _call_local_champion_vnext(
+                supporting_bundle=supporting_bundle,
+                model_cards=model_cards,
+                max_count=config.local_champion_max_per_bundle,
+                target_trait=target_trait_label,
+                domain_knowledge=domain_knowledge_bundle,
+                quality_anchor=config.local_champion_quality_anchor,
+            )
+            tool_trace.append(
+                {
+                    "name": "llm_local_champion",
+                    "phase": f"phase5_local_champion::{supporting_bundle.bundle_id}",
+                    "args": {
+                        "bundle_id": supporting_bundle.bundle_id,
+                        "model_count": len(model_cards),
+                    },
+                    "result": local_decision.model_dump(),
+                }
+            )
+            for champion in local_decision.champions:
+                champion_card = dict(model_card_lookup[champion.pgs_id])
+                champion_card["local_champion_rank"] = champion.local_champion_rank or champion.rank
+                champion_cards.append(champion_card)
+    search_trace.local_champion_ids = [str(card["pgs_id"]) for card in champion_cards]
+
+    if champion_cards:
+        global_frontier = _call_global_frontier_vnext(
+            champion_cards,
+            target_trait=target_trait_label,
+            domain_knowledge=domain_knowledge_payload,
+            quality_anchor=config.global_frontier_quality_anchor,
+        )
+        tool_trace.append(
+            {
+                "name": "llm_global_model_frontier",
+                "phase": "phase5_global_tournament",
+                "args": {"champion_count": len(champion_cards)},
+                "result": global_frontier.model_dump(),
+            }
+        )
+    else:
+        global_frontier = GlobalModelFrontierDecision(
+            model_frontier=[],
+            primary_model_id=None,
+            confidence="Low",
+            rationale="No hydrated champion models were available for the final tournament.",
+        )
+    model_frontier = global_frontier.model_frontier
+    search_trace.model_frontier_ids = [candidate.pgs_id for candidate in model_frontier]
+
+    all_cards = _sort_cards(list(card_lookup.values()), config)
+    evidence_state = EvidenceState(
+        available_tools=available_tools,
+        shortlist_bundle_ids=[card.bundle_id for card in all_cards],
+        target_summary=target_summary,
+        candidate_cards=all_cards,
+    )
+
+    stage1 = _synthetic_stage1_from_supporting(
+        supporting_bundles,
         evidence_state,
-        judged,
-        config=config,
+        bundle_posterior.confidence,
+        bundle_posterior.rationale,
+    )
+    stage2 = _synthetic_stage2_from_frontier(
+        model_frontier,
+        global_frontier.confidence,
+        global_frontier.rationale,
+        len(hydrated_models),
+        list(model_budget_by_bundle.keys()),
+    )
+
+    frontier_bundle_ids = [bundle.bundle_id for bundle in supporting_bundles]
+    raw_bundle_weights = {
+        bundle.bundle_id: float(max(0.01, len(supporting_bundles) - idx))
+        for idx, bundle in enumerate(supporting_bundles)
+    }
+    total_weight = sum(raw_bundle_weights.values()) or 1.0
+    frontier_bundle_weights = {
+        bundle_id: round(weight / total_weight, 4)
+        for bundle_id, weight in raw_bundle_weights.items()
+    }
+    candidate_pgs_ids = _unique_preserve_order(
+        [getattr(model, "id", "") for model in hydrated_models if getattr(model, "id", "")]
+    )
+    if not candidate_pgs_ids:
+        candidate_pgs_ids = _unique_preserve_order(
+            [
+                pgs_id
+                for bundle in supporting_bundles
+                for pgs_id in (
+                    bundle_lookup_map[bundle.bundle_id].candidate_pgs_ids
+                    if bundle.bundle_id in bundle_lookup_map
+                    else []
+                )
+            ]
+        )
+
+    best_model_id = global_frontier.primary_model_id
+    best_bundle_id = pgs_to_bundle.get(best_model_id or "") if best_model_id else None
+    if best_bundle_id is None and supporting_bundles:
+        best_bundle_id = supporting_bundles[0].bundle_id
+    best_cross_trait = supporting_lookup[best_bundle_id].canonical_label if best_bundle_id in supporting_lookup else None
+    decision_mode: DecisionMode = (
+        "single_confident"
+        if len(model_frontier) == 1 and global_frontier.confidence == "High"
+        else "frontier_uncertain" if model_frontier or supporting_bundles else "abstain_only_if_no_valid_bundle"
+    )
+    bundle_evidence_tags = {
+        bundle_id: card_lookup[bundle_id].evidence_tags
+        for bundle_id in frontier_bundle_ids
+        if bundle_id in card_lookup
+    }
+    tool_evidence_summary = _build_tool_evidence_summary(
+        {
+            bundle_id: card_lookup[bundle_id]
+            for bundle_id in search_trace.probed_bundle_ids
+            if bundle_id in card_lookup
+        }
+    )
+
+    decision = TwoStageTransferDecision(
+        stage1=stage1,
+        stage2=stage2,
+        supporting_bundles=supporting_bundles,
+        model_frontier=model_frontier,
+        search_trace=search_trace,
+        tool_evidence_summary=tool_evidence_summary,
+        failure_label=None,
+        outcome="MATCHED" if best_model_id else "NO_MATCH",
+        best_bundle_id=best_bundle_id,
+        best_cross_trait=best_cross_trait,
+        primary_bundle_id=best_bundle_id,
+        frontier_bundle_ids=frontier_bundle_ids,
+        frontier_bundle_weights=frontier_bundle_weights,
+        candidate_pgs_ids=candidate_pgs_ids,
+        candidate_pgs_ids_union=candidate_pgs_ids,
+        confidence=global_frontier.confidence if best_model_id else bundle_posterior.confidence,
+        decision_mode=decision_mode,
+        rationale=global_frontier.rationale or bundle_posterior.rationale or search_plan.rationale,
+        evidence_state=evidence_state,
+        bundle_evidence_tags=bundle_evidence_tags,
+        best_model_id=best_model_id,
+        recommended_model_ids=[candidate.pgs_id for candidate in model_frontier],
     )
 
     return {
         "target": dossier.target.model_dump(),
         "condition": condition,
+        "ablation": ablation,
         "tool_trace": tool_trace,
-        "gc_prescreening_count": len((gc_result or {}).get("results", [])),
+        "gc_prescreening_count": len(gc_lookup),
         "semantic_backstop_decision": None,
         "decision": decision.model_dump(),
     }

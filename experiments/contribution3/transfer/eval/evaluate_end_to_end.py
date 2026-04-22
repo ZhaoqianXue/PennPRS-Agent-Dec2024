@@ -17,6 +17,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from experiments.contribution3.transfer.common import (
     BENCHMARK_FAMILIES,
     DEFAULT_BENCHMARK_FAMILY,
+    DEFAULT_TRANSFER_ABLATION,
     condition_recommendations_json,
     condition_results_json,
     evaluation_dir,
@@ -40,7 +41,8 @@ NONTARGET_AUC_MATRIX = (
     / "aou_extend_trait"
     / "prs_adjauc_matrix_binary_extend_qc.csv"
 )
-HIT_AT_PCTS = (0.05, 0.10, 0.15, 0.20, 0.25)
+HIT_AT_PCTS = (0.005, 0.01, 0.015, 0.02, 0.025)
+LEGACY_HIT_AT_PCTS = (0.05, 0.10, 0.15, 0.20, 0.25)
 
 
 def _load_json(path: Path) -> Any:
@@ -121,7 +123,11 @@ def _rank_fraction(rank: float | None, candidate_count: int) -> float | None:
 
 
 def _hit_at_percent_label(percent: float) -> str:
-    return f"top_{int(percent * 100)}pct"
+    percent_value = percent * 100
+    if float(percent_value).is_integer():
+        return f"top_{int(percent_value)}pct"
+    safe = f"{percent_value:.1f}".rstrip("0").rstrip(".").replace(".", "_")
+    return f"top_{safe}pct"
 
 
 def _is_top_percent_hit(rank: float | None, candidate_count: int | None, percent: float) -> bool:
@@ -138,6 +144,101 @@ def _safe_float(raw: Any) -> float | None:
         return float(raw)
     except Exception:
         return None
+
+
+def _bundle_pgs_lookup(decision: dict[str, Any]) -> dict[str, list[str]]:
+    evidence_state = decision.get("evidence_state") or {}
+    cards = evidence_state.get("candidate_cards") or []
+    lookup: dict[str, list[str]] = {}
+    for card in cards:
+        bundle_id = _clean_text(card.get("bundle_id"))
+        if not bundle_id:
+            continue
+        lookup[bundle_id] = [
+            _clean_text(pgs_id)
+            for pgs_id in (card.get("candidate_pgs_ids") or [])
+            if _clean_text(pgs_id)
+        ]
+    return lookup
+
+
+def _bundle_card_lookup(decision: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    evidence_state = decision.get("evidence_state") or {}
+    cards = evidence_state.get("candidate_cards") or []
+    return {
+        _clean_text(card.get("bundle_id")): card
+        for card in cards
+        if _clean_text(card.get("bundle_id"))
+    }
+
+
+def _bundles_to_pgs_ids(bundle_ids: list[str], lookup: dict[str, list[str]]) -> list[str]:
+    ordered: list[str] = []
+    seen: set[str] = set()
+    for bundle_id in bundle_ids:
+        for pgs_id in lookup.get(bundle_id, []):
+            if pgs_id in seen:
+                continue
+            seen.add(pgs_id)
+            ordered.append(pgs_id)
+    return ordered
+
+
+def _tool_resolution_failure_rate(cards: list[dict[str, Any]]) -> float:
+    if not cards:
+        return 1.0
+    unresolved = 0
+    for card in cards:
+        gc = card.get("gc") or {}
+        h2 = card.get("h2") or {}
+        if gc.get("resolution_status") in {"unresolved", "partial", "fallback_only"}:
+            unresolved += 1
+            continue
+        if h2.get("resolution_status") in {"unresolved", "partial"}:
+            unresolved += 1
+    return unresolved / len(cards)
+
+
+def _card_has_tool_conflict(card: dict[str, Any] | None) -> bool:
+    if not card:
+        return False
+    for tool_key in ("gc", "h2", "open_targets"):
+        tool_row = card.get(tool_key) or {}
+        if tool_row.get("supports") and tool_row.get("against"):
+            return True
+    return False
+
+
+def _classify_failure_label(
+    *,
+    existing_label: str | None,
+    status: str,
+    oracle_in_probe_pool: bool,
+    oracle_in_supporting_bundles: bool,
+    oracle_in_local_champions: bool,
+    oracle_in_model_frontier: bool,
+    best_bundle_card: dict[str, Any] | None,
+    probe_cards: list[dict[str, Any]],
+) -> str | None:
+    if existing_label:
+        return existing_label
+    if status == "evaluated" and oracle_in_model_frontier:
+        return None
+    if oracle_in_supporting_bundles and not oracle_in_local_champions:
+        return "model_stage_ranking_error"
+    if oracle_in_local_champions and not oracle_in_model_frontier:
+        return "model_stage_ranking_error"
+    if not oracle_in_probe_pool:
+        if _tool_resolution_failure_rate(probe_cards) >= 0.5:
+            return "tool_resolution_failure"
+        return "reasoning_weight_error"
+    if oracle_in_probe_pool and not oracle_in_supporting_bundles:
+        if _card_has_tool_conflict(best_bundle_card):
+            return "tool_conflict_unresolved"
+        if best_bundle_card and _safe_float(best_bundle_card.get("phenotype_fidelity_score")) and float(best_bundle_card.get("phenotype_fidelity_score") or 0.0) >= 0.9:
+            return "phenotypic_mimic"
+        return "reasoning_weight_error"
+    return "reasoning_weight_error"
 
 
 def _selected_target_lookup(
@@ -185,12 +286,29 @@ def _build_detail_rows(
         recommendation = recommendation_row.get("recommendation") or {}
         retrieval = recommendation.get("retrieval") or {}
         recommendation_decision = recommendation.get("decision") or {}
-        recommended_model_id = _clean_text(recommendation_decision.get("best_model_id")) or None
+        recommended_model_id = (
+            _clean_text(recommendation_decision.get("best_model_id"))
+            or _clean_text(decision.get("best_model_id"))
+            or None
+        )
         frontier_candidate_pgs_ids = (
             decision.get("candidate_pgs_ids_union")
             or decision.get("candidate_pgs_ids")
             or []
         )
+        search_trace = decision.get("search_trace") or {}
+        bundle_pgs_lookup = _bundle_pgs_lookup(decision)
+        bundle_card_lookup = _bundle_card_lookup(decision)
+        probe_bundle_ids = search_trace.get("probed_bundle_ids") or []
+        supporting_bundle_ids = search_trace.get("supporting_bundle_ids") or []
+        local_champion_ids = search_trace.get("local_champion_ids") or []
+        model_frontier_ids = search_trace.get("model_frontier_ids") or [
+            _clean_text(model.get("pgs_id"))
+            for model in (decision.get("model_frontier") or [])
+            if _clean_text(model.get("pgs_id"))
+        ]
+        probe_pool_pgs_ids = _bundles_to_pgs_ids(probe_bundle_ids, bundle_pgs_lookup)
+        supporting_pgs_ids = _bundles_to_pgs_ids(supporting_bundle_ids, bundle_pgs_lookup)
         self_best_auc = _safe_float(meta["self_best_auc"])
 
         candidate_count = None
@@ -204,6 +322,12 @@ def _build_detail_rows(
         selected_gpr = None
         rank_fraction = None
         frontier_oracle_hit = None
+        oracle_in_probe_pool = None
+        oracle_in_supporting_bundles = None
+        oracle_in_local_champions = None
+        oracle_in_model_frontier = None
+        local_champion_conversion = None
+        global_tournament_conversion = None
         status = "missing_result"
 
         try:
@@ -218,6 +342,16 @@ def _build_detail_rows(
                 bool(top_model_id and top_model_id in frontier_candidate_pgs_ids)
                 if frontier_candidate_pgs_ids
                 else False
+            )
+            oracle_in_probe_pool = bool(top_model_id and top_model_id in probe_pool_pgs_ids) if top_model_id else False
+            oracle_in_supporting_bundles = bool(top_model_id and top_model_id in supporting_pgs_ids) if top_model_id else False
+            oracle_in_local_champions = bool(top_model_id and top_model_id in local_champion_ids) if top_model_id else False
+            oracle_in_model_frontier = bool(top_model_id and top_model_id in model_frontier_ids) if top_model_id else False
+            local_champion_conversion = (
+                bool(oracle_in_local_champions) if oracle_in_supporting_bundles else None
+            )
+            global_tournament_conversion = (
+                bool(oracle_in_model_frontier) if oracle_in_local_champions else None
             )
 
             if not result_row:
@@ -252,6 +386,23 @@ def _build_detail_rows(
         except Exception as exc:  # pragma: no cover - defensive reporting
             status = f"matrix_error:{exc.__class__.__name__}"
 
+        best_bundle_card = bundle_card_lookup.get(_clean_text(decision.get("best_bundle_id")))
+        probe_cards = [
+            bundle_card_lookup[bundle_id]
+            for bundle_id in probe_bundle_ids
+            if bundle_id in bundle_card_lookup
+        ]
+        failure_label = _classify_failure_label(
+            existing_label=_clean_text(decision.get("failure_label")) or None,
+            status=status,
+            oracle_in_probe_pool=bool(oracle_in_probe_pool),
+            oracle_in_supporting_bundles=bool(oracle_in_supporting_bundles),
+            oracle_in_local_champions=bool(oracle_in_local_champions),
+            oracle_in_model_frontier=bool(oracle_in_model_frontier),
+            best_bundle_card=best_bundle_card,
+            probe_cards=probe_cards,
+        )
+
         detail_rows.append(
             {
                 "benchmark_family": benchmark_family,
@@ -271,11 +422,18 @@ def _build_detail_rows(
                 "frontier_candidate_pgs_id_count": len(frontier_candidate_pgs_ids),
                 "frontier_oracle_hit": frontier_oracle_hit,
                 "recommended_model_id": recommended_model_id,
-                "step1_model_universe_count": retrieval.get("hydrated_model_count"),
+                "step1_model_universe_count": retrieval.get("hydrated_model_count") or (decision.get("stage2") or {}).get("model_universe_size"),
                 "step1_universe_matches_bundle": retrieval.get("universe_matches_candidate_ids"),
                 "step1_missing_candidate_pgs_count": len(
                     retrieval.get("missing_candidate_pgs_ids") or []
                 ),
+                "oracle_in_probe_pool": oracle_in_probe_pool,
+                "oracle_in_supporting_bundles": oracle_in_supporting_bundles,
+                "oracle_in_model_frontier": oracle_in_model_frontier,
+                "oracle_in_local_champions": oracle_in_local_champions,
+                "local_champion_conversion": local_champion_conversion,
+                "global_tournament_conversion": global_tournament_conversion,
+                "failure_label": failure_label,
                 "candidate_count": candidate_count,
                 "selected_model_auc": selected_auc,
                 "selected_model_rank": selected_rank,
@@ -300,6 +458,16 @@ def _mean_or_none(values: list[float | None], *, digits: int) -> float | None:
     if not clean_values:
         return None
     return round(sum(clean_values) / len(clean_values), digits)
+
+
+def _bool_mean(series: pd.Series, *, dropna: bool = False) -> float | None:
+    values = series.dropna() if dropna else series
+    if values.empty:
+        return None
+    normalized = values.apply(lambda value: bool(value) if pd.notna(value) else False)
+    if normalized.empty:
+        return None
+    return round(float(normalized.mean()), 4)
 
 
 def _compute_subset_official_metrics(subset: pd.DataFrame) -> dict[str, Any]:
@@ -339,6 +507,26 @@ def _compute_subset_official_metrics(subset: pd.DataFrame) -> dict[str, Any]:
             round(float(evaluated["absolute_auc_regret"].mean()), 6) if not evaluated.empty else None
         ),
     }
+
+
+def _compute_legacy_hit_metrics(subset: pd.DataFrame) -> dict[str, float | None]:
+    if subset.empty:
+        return {_hit_at_percent_label(percent): None for percent in LEGACY_HIT_AT_PCTS}
+    total_targets = int(len(subset))
+    output: dict[str, float | None] = {}
+    for percent in LEGACY_HIT_AT_PCTS:
+        hits = int(
+            sum(
+                _is_top_percent_hit(
+                    rank=row.selected_model_rank,
+                    candidate_count=row.candidate_count,
+                    percent=percent,
+                )
+                for row in subset.itertuples()
+            )
+        )
+        output[_hit_at_percent_label(percent)] = round(hits / total_targets, 4)
+    return output
 
 
 def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
@@ -383,8 +571,23 @@ def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
         ),
         "step1_universe_match_rate": universe_match_rate,
         "frontier_oracle_hit_rate": frontier_oracle_hit_rate,
+        "stagewise_diagnostics": {
+            "oracle_in_probe_pool": _bool_mean(detail_df["oracle_in_probe_pool"]) if "oracle_in_probe_pool" in detail_df else None,
+            "oracle_in_supporting_bundles": _bool_mean(detail_df["oracle_in_supporting_bundles"]) if "oracle_in_supporting_bundles" in detail_df else None,
+            "oracle_in_model_frontier": _bool_mean(detail_df["oracle_in_model_frontier"]) if "oracle_in_model_frontier" in detail_df else None,
+            "local_champion_conversion": _bool_mean(detail_df["local_champion_conversion"], dropna=True) if "local_champion_conversion" in detail_df else None,
+            "global_tournament_conversion": _bool_mean(detail_df["global_tournament_conversion"], dropna=True) if "global_tournament_conversion" in detail_df else None,
+        },
+        "failure_label_counts": (
+            detail_df["failure_label"].fillna("NONE").value_counts(dropna=False).to_dict()
+            if "failure_label" in detail_df
+            else {}
+        ),
         "status_counts": detail_df["status"].value_counts(dropna=False).to_dict(),
         "by_input_type": {},
+        "diagnostics": {
+            "legacy_hit_at_percent": _compute_legacy_hit_metrics(detail_df),
+        },
     }
 
     for input_type, subset in detail_df.groupby("input_type", dropna=False):
@@ -412,17 +615,17 @@ def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
                 else None
             ),
             "frontier_oracle_hit_rate": (
-                round(
-                    float(
-                        subset["frontier_oracle_hit"].apply(
-                            lambda value: bool(value) if pd.notna(value) else False
-                        ).mean()
-                    ),
-                    4,
-                )
+                _bool_mean(subset["frontier_oracle_hit"])
                 if "frontier_oracle_hit" in subset
                 else None
             ),
+            "stagewise_diagnostics": {
+                "oracle_in_probe_pool": _bool_mean(subset["oracle_in_probe_pool"]) if "oracle_in_probe_pool" in subset else None,
+                "oracle_in_supporting_bundles": _bool_mean(subset["oracle_in_supporting_bundles"]) if "oracle_in_supporting_bundles" in subset else None,
+                "oracle_in_model_frontier": _bool_mean(subset["oracle_in_model_frontier"]) if "oracle_in_model_frontier" in subset else None,
+                "local_champion_conversion": _bool_mean(subset["local_champion_conversion"], dropna=True) if "local_champion_conversion" in subset else None,
+                "global_tournament_conversion": _bool_mean(subset["global_tournament_conversion"], dropna=True) if "global_tournament_conversion" in subset else None,
+            },
         }
 
     macro_labels = [label for label in ("A", "B") if label in summary["by_input_type"]]
@@ -457,7 +660,6 @@ def _summarize_rows(detail_df: pd.DataFrame) -> dict[str, Any]:
             digits=6,
         ),
     }
-
     return summary
 
 
@@ -467,14 +669,20 @@ def evaluate_end_to_end_condition(
     *,
     results_path: Path | None = None,
     recommendations_path: Path | None = None,
+    run_id: str | None = None,
+    ablation: str = DEFAULT_TRANSFER_ABLATION,
 ) -> dict[str, Any]:
     results_path = results_path or condition_results_json(
         condition=condition,
         benchmark_family=benchmark_family,
+        run_id=run_id,
+        ablation=ablation,
     )
     recommendations_path = recommendations_path or condition_recommendations_json(
         condition=condition,
         benchmark_family=benchmark_family,
+        run_id=run_id,
+        ablation=ablation,
     )
 
     results = _load_json(results_path)
@@ -488,7 +696,7 @@ def evaluate_end_to_end_condition(
     detail_df = pd.DataFrame(detail_rows)
     summary = _summarize_rows(detail_df)
 
-    out_dir = evaluation_dir(benchmark_family)
+    out_dir = evaluation_dir(benchmark_family, run_id=run_id, ablation=ablation)
     out_dir.mkdir(parents=True, exist_ok=True)
     detail_path = out_dir / f"{condition}__end_to_end_eval_detail.csv"
     summary_path = out_dir / f"{condition}__end_to_end_eval_summary.json"
