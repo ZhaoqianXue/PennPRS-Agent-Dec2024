@@ -766,7 +766,30 @@ def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
 
 # --- Domain Knowledge Tool ---
 
-# Default path to knowledge base
+# Default path to knowledge base.
+#
+# MIGRATION PATH (planned, not yet executed):
+# This file is the legacy canonical PRS-model domain-knowledge corpus.
+# It has been mirrored, byte-equal, into the prs-model-evaluator
+# Anthropic Agent Skill at
+# `src/server/core/skills/prs_model_evaluator/reference/*.md`.
+#
+# When contribution2 is ready to migrate from reading this `.md` to
+# reading the skill directly, replace the file read inside
+# `prs_model_domain_knowledge(...)` below with a call to the skill's
+# c2 view loader:
+#
+#     from src.server.core.tools.prs_model_evaluator_skill import load_c2_view
+#     content = load_c2_view()
+#
+# `load_c2_view()` is documented to return content **byte-equal** to
+# this `.md`, frozen against any c3-only edits to the skill (SKILL.md
+# or `overrides_c3/*`). This guarantee is enforced by
+# `experiments/contribution3/transfer/tests/test_skill_two_view_contract.py`
+# and `test_skill_c2_compat_sync.py`.
+#
+# After migration the legacy `.md` file can be removed; the c2 view
+# loader becomes c2's only entry point to the corpus.
 KNOWLEDGE_BASE_PATH = os.path.join(
     os.path.dirname(__file__), "..", "knowledge", "prs_model_domain_knowledge.md"
 )

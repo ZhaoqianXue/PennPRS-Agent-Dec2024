@@ -47,12 +47,22 @@ CONDITION_TOOLS: dict[str, list[str]] = {
 
 TRANSFER_ABLATIONS: tuple[str, ...] = (
     DEFAULT_TRANSFER_ABLATION,
+    # ARCHIVED — cross_trait_domain_knowledge skill labels.
+    # paired80 (skilltask_final3 vs skilltask_final2) measured zero lift
+    # over the no_all_tools baseline: top_0.5%=0.325 in both, mean_rank
+    # bit-identical at 510.70625, hit_at_k all identical. Kept here for
+    # reproducibility of pre-archive batch runs; new ablations should
+    # use `no_all_tools_plus_pgs_skill` instead.
     "skill_only",
     "no_all_tools_plus_skill",
     "no_critic",
     "all_evidence_tools",
+    # ACTIVE — prs_model_evaluator skill (PICK / RECONCILE / CRITIC).
+    # Replaces the archived cross_trait labels for the production
+    # comparison vs no_all_tools.
+    "no_all_tools_plus_pgs_skill",
     # Legacy additive tool labels. Current production runs should use
-    # `no_all_tools` vs `skill_only` / `full`.
+    # `no_all_tools` vs `no_all_tools_plus_pgs_skill` / `full`.
     "add_h2_tool",
     "add_ot_tool",
     "add_gc_tool",
@@ -82,13 +92,26 @@ TRANSFER_ABLATIONS: tuple[str, ...] = (
 # ---------------------------------------------------------------------------
 
 _TOOL_ABLATION_CONFIGS: dict[str, ToolAblationConfig] = {
-    # Current production comparison: skill-only over a no-skill/no-tool
-    # baseline. All evidence tools are closed by default.
+    # ARCHIVED — cross_trait skill production labels.
+    # paired80 verified zero lift over `no_all_tools` for these labels.
+    # New production work should use `no_all_tools_plus_pgs_skill` (below).
+    # These configs remain only for reproducing pre-archive batch runs.
     DEFAULT_TRANSFER_ABLATION: ToolAblationConfig(enable_skill_reference_lane=True),
     "skill_only":              ToolAblationConfig(enable_skill_reference_lane=True),
     "no_all_tools_plus_skill": ToolAblationConfig(enable_skill_reference_lane=True),
     "no_critic":               ToolAblationConfig(),
     "all_evidence_tools":      ToolAblationConfig(enable_h2=True, enable_ot=True, enable_gc_batch=True, enable_biology=True),
+    # ACTIVE — prs_model_evaluator skill over the no_all_tools baseline.
+    # All evidence tools off; cross_trait skill explicitly off (archived);
+    # prs_model_evaluator skill on at PICK / GLOBAL_PRIMARY_RECONCILIATION
+    # / CRITIC. This is the production label for the c3 paper's headline
+    # cross-trait result going forward.
+    "no_all_tools_plus_pgs_skill": ToolAblationConfig(
+        enable_h2=False, enable_ot=False, enable_gc_batch=False, enable_biology=False,
+        enable_skill=False,                  # cross_trait skill off (archived)
+        enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,       # prs_model_evaluator skill on
+    ),
     # Additive tool conditions over no_all_tools.
     "add_h2_tool":             ToolAblationConfig(enable_h2=True,  enable_ot=False, enable_gc_batch=False, enable_biology=False),
     "add_ot_tool":             ToolAblationConfig(enable_h2=False, enable_ot=True,  enable_gc_batch=False, enable_biology=False),

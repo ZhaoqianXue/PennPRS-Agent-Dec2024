@@ -109,6 +109,11 @@ def _domain_knowledge_block(cfg, *, stage_text: str = "") -> str:
     exists. This is required for strict ablation: leaving the section in
     while delivering empty `cross_trait_guidance` would tell the LLM to
     "look at the rules" while there are no rules, biasing behavior.
+
+    NOTE: ARCHIVED for production use. The cross_trait_domain_knowledge
+    skill provides zero lift over the no_all_tools baseline on paired80
+    (skill_only top_0.5%=0.325 == no_all_tools top_0.5%=0.325). Kept for
+    historical reproducibility of pre-archive batch runs.
     """
     if not getattr(cfg, "enable_skill", True):
         return ""
@@ -118,6 +123,72 @@ def _domain_knowledge_block(cfg, *, stage_text: str = "") -> str:
         "contains the sealed skill guidance"
         + (f" for {stage_text}" if stage_text else " for this stage") +
         ". Read it before writing your decision.\n\n"
+    )
+
+
+def _pgs_quality_block(cfg, *, stage: str) -> str:
+    """Return the '# PGS quality skill' prompt section, or empty if disabled.
+
+    Mirrors `_domain_knowledge_block` for the prs_model_evaluator skill.
+    Strict-ablation contract: when `cfg.enable_pgs_quality_skill=False`,
+    the entire section is omitted so the LLM is not told a
+    `pgs_quality_guidance` field exists.
+
+    The skill is advisory text that helps the LLM weigh PGS Catalog
+    metadata fields. The LLM remains the decision-maker — the prompt
+    explicitly states this so the LLM does not treat the skill as a
+    deterministic rule set.
+    """
+    if not getattr(cfg, "enable_pgs_quality_skill", False):
+        return ""
+    if stage == "triage":
+        stage_guidance = (
+            "- In this triage step, use the guidance to choose a broad hydration\n"
+            "  set, not a final winner. Preserve candidates whose compact\n"
+            "  summaries show standout endpoint fit, PRS-only performance,\n"
+            "  training scale, validation breadth, or method diversity. Avoid\n"
+            "  filling the set with near-duplicate siblings if doing so crowds\n"
+            "  out candidates that could plausibly win after full hydration.\n"
+        )
+    elif stage == "pick":
+        stage_guidance = (
+            "- In this Pick step, use the guidance only for within-bundle PGS\n"
+            "  quality. Your rationale may describe why a model is strong inside\n"
+            "  the fixed supporting bundle. Generic PGS-quality advantages alone\n"
+            "  are not evidence that this source bundle should beat another one,\n"
+            "  but source relevance may include direct, measurement/proxy-like,\n"
+            "  upstream, intermediate, or construct-adjacent sources already\n"
+            "  selected for review.\n"
+            "- If a direct-endpoint candidate and a broader or adjacent candidate\n"
+            "  are both plausible, do not replace the direct-endpoint candidate\n"
+            "  on generic scale, recency, method label, or validation breadth alone.\n"
+            "  The broader candidate needs record-visible quality evidence or a\n"
+            "  record-visible construct bridge that justifies the trade-off.\n"
+            "- When writing each frontier rationale, separate source-bundle fit\n"
+            "  from model-quality evidence. Do not overstate transfer confidence\n"
+            "  from validation breadth, publication recency, method labels, or an\n"
+            "  established score unless the candidate record itself supports it.\n"
+        )
+    else:
+        stage_guidance = ""
+    return (
+        "# PGS quality skill\n"
+        "The `pgs_quality_guidance` field at the top of your input context\n"
+        "contains advisory empirical patterns for evaluating PGS Catalog\n"
+        "candidate records from their metadata. The patterns are TRAIT-AGNOSTIC.\n"
+        "Treat them as advisory context, not as deterministic rules:\n"
+        "- Apply a pattern only when the candidate records actually exhibit\n"
+        "  the metadata signal it describes; do not infer the signal from\n"
+        "  trait names or domain knowledge outside the records.\n"
+        "- When two patterns point in different directions on the same\n"
+        "  candidate, weigh them yourself and explain the trade-off in your\n"
+        "  rationale; do not invent a fixed precedence ordering.\n"
+        "- Source-trait quality applies to the bundle's own trait, not the\n"
+        "  target. Bundle-level trait-relationship reasoning is out of scope\n"
+        "  here, so do not let generic PGS quality alone stand in for source\n"
+        "  relevance.\n"
+        + stage_guidance +
+        "\n"
     )
 
 
@@ -371,7 +442,8 @@ def make_pick_prompt(cfg) -> str:
         "  the hydrated set contains more plausibly-transferable models.\n"
         "- primary_pgs_id: the single best pick.\n"
         "- rationale: overall reasoning.\n\n"
-        + _domain_knowledge_block(cfg) +
+        + _domain_knowledge_block(cfg)
+        + _pgs_quality_block(cfg, stage="pick") +
         "# Constraints\n"
         "- No disease-specific rules.\n"
         "- No numeric scoring formulas.\n"
@@ -407,8 +479,13 @@ def make_pgs_triage_prompt(cfg) -> str:
         "- rationale: one short paragraph.\n\n"
         "# Selection discipline\n"
         "- Select a plausible, construct-diverse review set for downstream\n"
-        "  comparison. Do not compute a score or formula.\n\n"
-        + _domain_knowledge_block(cfg) +
+        "  comparison. Do not compute a score or formula.\n"
+        "- Favor BREADTH over narrow endpoint-label matching: keep candidates\n"
+        "  that span method families, training-cohort diversity, and validation\n"
+        "  breadth, not only those whose source-trait label most narrowly\n"
+        "  matches the bundle's canonical label.\n\n"
+        + _domain_knowledge_block(cfg)
+        + _pgs_quality_block(cfg, stage="triage") +
         "# Constraints\n"
         "- Do NOT invent IDs; only return IDs present in the input list.\n"
         "- Respect max_selected; do not exceed it.\n"
@@ -498,6 +575,8 @@ def make_global_primary_prompt(cfg) -> str:
         "  not filtering.\n"
         "- rationale: one paragraph citing the key evidence that decided primary.\n\n"
         + _domain_knowledge_block(cfg) +
+        # NOTE: _pgs_quality_block intentionally NOT included here — see
+        # agent.py:_run_global_primary_reconciliation comment.
         "# Decision guidance\n"
         "- Use " + decision_inputs + "\n"
         "  to choose one primary. Do not compute or cite a numeric formula.\n"
@@ -562,6 +641,8 @@ def make_critic_prompt(cfg) -> str:
         "  Each entry has the bundle's raw evidence fields.\n\n"
         + reference_input
         + _domain_knowledge_block(cfg) +
+        # NOTE: _pgs_quality_block intentionally NOT included here — see
+        # agent.py:_run_critic comment.
         "# Output contract (CritiqueDecision)\n"
         "- kept: True if the proposed frontier stands; False if you are revising.\n"
         "- revised_frontier / revised_primary_pgs_id: populated only when kept=False.\n"

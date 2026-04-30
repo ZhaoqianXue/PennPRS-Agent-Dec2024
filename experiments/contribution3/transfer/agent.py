@@ -47,11 +47,12 @@ from experiments.contribution3.transfer.state import (
 )
 from experiments.contribution3.transfer.tools import (
     biology_retrieve_related_bundles,
-    cross_trait_domain_knowledge,
+    cross_trait_domain_knowledge,  # ARCHIVED: see tools/__init__.py
     describe_pgs_model,
     genetic_correlation_batch_estimator,
     get_heritability,
     get_open_targets_overlap,
+    prs_model_evaluator_skill,
 )
 from experiments.contribution3.transfer.llm_chains import (
     critic_chain,
@@ -90,15 +91,25 @@ class ToolAblationConfig:
     observe the corresponding EvidenceRegistry slot as None.
     """
 
-    # Current contribution3 comparison isolates skill value: all evidence
-    # tools default off; the only default augmentation over no_all_tools is
-    # the sealed cross-trait skill.
+    # Current contribution3 comparison isolates the prs_model_evaluator
+    # skill value over no_all_tools: all evidence tools default off; the
+    # production augmentation over no_all_tools is the prs_model_evaluator
+    # skill at PICK / GLOBAL_PRIMARY_RECONCILIATION / CRITIC.
+    #
+    # `enable_skill` (the cross_trait_domain_knowledge KB) is ARCHIVED
+    # for production use because paired80 measured zero lift over the
+    # `no_all_tools` baseline (skill_only top_0.5%=0.325 == no_all_tools
+    # top_0.5%=0.325; mean_rank, mean_gpr, hit_at_k all bit-identical).
+    # The default value remains True ONLY for historical reproducibility
+    # of pre-archive batch runs; production ablation labels added after
+    # the archive (see driver.py) explicitly set `enable_skill=False`.
     enable_h2: bool = False
     enable_ot: bool = False             # gates `get_open_targets_overlap` in Gather (LLM-callable)
     enable_gc_batch: bool = False       # gates Stage 3.5 `genetic_correlation_batch_estimator`
     enable_biology: bool = False        # gates Scout-time `biology_retrieve_related_bundles` (only entry)
-    enable_skill: bool = True           # gates `cross_trait_domain_knowledge` KB injection at all stages
+    enable_skill: bool = True           # ARCHIVED: cross_trait_domain_knowledge KB (paired80 zero lift); default kept True for legacy reproducibility only
     enable_skill_reference_lane: bool = False
+    enable_pgs_quality_skill: bool = False  # gates prs_model_evaluator skill at PICK/RECONCILE/CRITIC (production active)
 
     def disabled_tools(self) -> list[str]:
         out: list[str] = []
@@ -112,6 +123,8 @@ class ToolAblationConfig:
             out.append("biology")
         if not self.enable_skill:
             out.append("cross_trait_domain_knowledge")
+        if not self.enable_pgs_quality_skill:
+            out.append("prs_model_evaluator_skill")
         return out
 
 
@@ -154,6 +167,7 @@ def run_transfer_agent(
         "enable_biology": cfg.enable_biology,
         "enable_skill": cfg.enable_skill,
         "enable_skill_reference_lane": cfg.enable_skill_reference_lane,
+        "enable_pgs_quality_skill": cfg.enable_pgs_quality_skill,
         "disabled_tools": cfg.disabled_tools(),
     }
 
@@ -1166,6 +1180,7 @@ def _run_pick(
                 ),
                 cfg=prompt_cfg,
             )
+            _triage_pgs_skill = prs_model_evaluator_skill(stage="pgs_triage", cfg=prompt_cfg)
             triage_context: dict[str, Any] = {
                 "target": {
                     "target_label": target.target_label,
@@ -1181,6 +1196,21 @@ def _run_pick(
             }
             if prompt_cfg.enable_skill:
                 triage_context["cross_trait_guidance"] = _triage_dk.primary_section
+            if _triage_pgs_skill.enabled:
+                # Advisory text from prs_model_evaluator skill at TRIAGE.
+                #
+                # Iter8 rationale: TRIAGE is the choke point that
+                # determines which ~15 of N candidates downstream PICK
+                # ever sees. If TRIAGE narrows to endpoint-fidelity-
+                # specific labels alone, the surviving set loses method-
+                # family / training-cohort / validation-breadth
+                # diversity, which hurts the WHOLE pick-quality
+                # distribution (top_0.5% through top_25%) — not just
+                # oracle hit. SKILL.md procedural overview gives TRIAGE
+                # a balanced consideration set so the surviving 15 span
+                # the diversity that PICK needs to make a good choice
+                # across every quality threshold.
+                triage_context["pgs_quality_guidance"] = _triage_pgs_skill.primary_section
             try:
                 triage = pgs_triage_chain(prompt_cfg).invoke(
                     {"context_json": json.dumps(triage_context, ensure_ascii=False, default=str)}
@@ -1250,6 +1280,7 @@ def _run_pick(
             ),
             cfg=prompt_cfg,
         )
+        _pick_pgs_skill = prs_model_evaluator_skill(stage="pick", cfg=prompt_cfg)
         context: dict[str, Any] = {
             "target": {
                 "target_label": target.target_label,
@@ -1267,6 +1298,10 @@ def _run_pick(
         }
         if prompt_cfg.enable_skill:
             context["cross_trait_guidance"] = _pick_dk.primary_section
+        if _pick_pgs_skill.enabled:
+            # Advisory text from prs_model_evaluator skill. Source-of-truth
+            # corpus shared with contribution2 (loader does not modify).
+            context["pgs_quality_guidance"] = _pick_pgs_skill.primary_section
         try:
             bundle_frontier: ModelFrontier = pick_chain(prompt_cfg).invoke(
                 {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
@@ -1512,6 +1547,15 @@ def _run_global_primary_reconciliation(
     )
     if gp_cfg.enable_skill:
         context["cross_trait_guidance"] = _gp_dk.primary_section
+    # NOTE: pgs_model_evaluator skill is intentionally NOT injected at
+    # GLOBAL_PRIMARY_RECONCILIATION. Iteration-0 paired80 measurement
+    # showed skill at this stage caused the LLM to switch primaries to
+    # bundles whose source trait looked "endpoint-cleaner" but
+    # transferred worse on AoU validation (6 of 9 top_0.5% losses were
+    # bundle-level switches at this stage). The cross-bundle decision
+    # belongs to the LLM weighing per-bundle Pick output, not to within-
+    # bundle PGS-quality reasoning. Reconcile is intentionally skill-free
+    # so it preserves Pick's bundle preference.
     try:
         decision = global_primary_chain(gp_cfg).invoke(
             {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
@@ -1776,6 +1820,14 @@ def _run_critic(
     )
     if cfg.enable_skill:
         context["cross_trait_guidance"] = _critic_dk.primary_section
+    # NOTE: pgs_model_evaluator skill is intentionally NOT injected at
+    # CRITIC. Critic's job is to flag clear orthogonal-evidence
+    # contradictions of the proposed primary. Adding the long PGS-quality
+    # corpus here invites the LLM to second-guess Pick on tie-breaker
+    # patterns rather than on contradictory evidence. Iteration-0 showed
+    # the heaviest skill influence at the cross-bundle stages produced
+    # bundle-level regressions; CRITIC is held skill-free for the same
+    # reason until measurement justifies otherwise.
     try:
         result: CritiqueDecision = critic_chain(cfg).invoke(
             {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
