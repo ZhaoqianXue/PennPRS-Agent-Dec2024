@@ -31,7 +31,9 @@ output/logs/download/*.txt
 *.tmp
 *.log
 
-# Tool-calling run raw logs exceed GitHub 100MB limit (keep summaries locally)
-experiments/contribution3/transfer/runs/tool_calling_agent/unified/**/results.json
-# Large recommendation dump (>100MB); keep locally
-experiments/contribution3/transfer/runs/tool_calling_agent/unified/all-tools/contribution2_recommendations.json
+# Tool-calling run outputs (large; keep locally, not in remote)
+experiments/contribution3/transfer/runs/
+
+# Presentation large generated assets (keep locally)
+experiments/contribution3/presentation/presentation_data.json
+experiments/contribution3/presentation/data.js
