@@ -11,6 +11,7 @@ import json
 import logging
 import time
 import requests
+from requests.adapters import HTTPAdapter
 from typing import List, Dict, Any, Optional
 from dataclasses import dataclass
 
@@ -226,13 +227,16 @@ class OpenTargetsClient:
     def __init__(self, api_url: str = OPENTARGETS_API_URL):
         self.api_url = api_url
         self.session = requests.Session()
+        adapter = HTTPAdapter(pool_connections=64, pool_maxsize=64)
+        self.session.mount("https://", adapter)
+        self.session.mount("http://", adapter)
         self.session.headers.update({
             "Content-Type": "application/json",
             "Accept": "application/json"
         })
         self._cache = {}  # Cache for GraphQL responses
 
-    def _execute_query(self, query: str, variables: Dict[str, Any], timeout: int = 8) -> Dict[str, Any]:
+    def _execute_query(self, query: str, variables: Dict[str, Any], timeout: int = 15) -> Dict[str, Any]:
         """Execute a GraphQL query and return the response data with caching."""
         # Create a cache key from query and variables
         cache_key = f"{query}:{json.dumps(variables, sort_keys=True)}"

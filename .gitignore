@@ -11,6 +11,7 @@ pennprs-agent/
 pgscatalog/
 TissueLab/
 .pytest_cache/
+.cache/
 node_modules/
 .next/
 # Large data files

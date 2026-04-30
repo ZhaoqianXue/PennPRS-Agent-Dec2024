@@ -7,18 +7,19 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from experiments.contribution3.transfer.agent import (
+from experiments.contribution3.transfer.driver import (
     CONDITION_TOOLS,
-    DEFAULT_TRANSFER_ABLATION,
     TRANSFER_ABLATIONS,
     run_cross_trait_agent,
     write_agent_results,
 )
+from experiments.contribution3.transfer.common import DEFAULT_TRANSFER_ABLATION
 from experiments.contribution3.transfer.common import (
     BENCHMARK_FAMILIES,
     BUNDLE_INDEX_JSON,
@@ -92,11 +93,42 @@ def _split_ablation_list(raw: str | None) -> list[str]:
     return ordered or list(TRANSFER_ABLATIONS)
 
 
+def _extract_skill_reference(row: dict[str, Any]) -> dict[str, Any]:
+    decision = row.get("decision") or {}
+    stage2 = decision.get("stage2") or {}
+    return {
+        "outcome": decision.get("outcome"),
+        "reference_bundle_id": decision.get("best_bundle_id") or decision.get("primary_bundle_id"),
+        "reference_bundle_label": decision.get("best_cross_trait"),
+        "reference_primary_pgs_id": decision.get("best_model_id") or stage2.get("primary_model_id"),
+        "reference_frontier_pgs_ids": list(decision.get("recommended_model_ids") or []),
+        "reference_rationale": stage2.get("decision_rationale") or decision.get("selection_reason") or "",
+        "reference_source": "frozen_no_skill_baseline",
+    }
+
+
+def _load_skill_reference_results(raw_path: str | None) -> dict[str, dict[str, Any]]:
+    if not raw_path:
+        return {}
+    path = Path(raw_path).expanduser()
+    if not path.exists():
+        raise FileNotFoundError(f"Skill reference results not found: {path}")
+    rows = json.loads(path.read_text())
+    out: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        target = row.get("target") or {}
+        target_id = str(target.get("target_id") or target.get("target_code") or "").strip()
+        if not target_id:
+            continue
+        out[target_id] = _extract_skill_reference(row)
+    return out
+
+
 def cmd_run(args: argparse.Namespace) -> None:
-    bundles, dossiers = _ensure_assets(args.benchmark_family)
-    toolbox = None
+    _, dossiers = _ensure_assets(args.benchmark_family)
     run_id = _resolve_run_id(getattr(args, "run_id", None))
     ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
+    skill_reference_map = _load_skill_reference_results(getattr(args, "skill_reference_results", None))
     target_filter = {
         target_id.strip()
         for target_id in (args.target_ids.split(",") if args.target_ids else [])
@@ -108,10 +140,6 @@ def cmd_run(args: argparse.Namespace) -> None:
     n_workers = getattr(args, "workers", 1) or 1
     conditions = list(CONDITION_TOOLS) if args.condition == "all" else [args.condition]
     for condition in conditions:
-        if toolbox is None:
-            from experiments.contribution3.transfer.tools import CrossTraitToolbox
-
-            toolbox = CrossTraitToolbox(bundles)
         outpath = condition_results_json(
             condition,
             benchmark_family=args.benchmark_family,
@@ -124,6 +152,7 @@ def cmd_run(args: argparse.Namespace) -> None:
                 "Choose a new --run-id or remove the existing run directory."
             )
 
+        stop_after = getattr(args, "stop_after", None) or None
         if n_workers <= 1:
             # Sequential (original) path
             results = []
@@ -131,9 +160,10 @@ def cmd_run(args: argparse.Namespace) -> None:
                 result = run_cross_trait_agent(
                     dossier,
                     condition=condition,
-                    toolbox=toolbox,
                     benchmark_family=args.benchmark_family,
                     ablation=ablation,
+                    stop_after=stop_after,
+                    skill_reference_override=skill_reference_map.get(dossier.target.target_id),
                 )
                 results.append(result)
                 print(
@@ -153,9 +183,10 @@ def cmd_run(args: argparse.Namespace) -> None:
                 return idx, run_cross_trait_agent(
                     dossier,
                     condition=condition,
-                    toolbox=toolbox,
                     benchmark_family=args.benchmark_family,
                     ablation=ablation,
+                    stop_after=stop_after,
+                    skill_reference_override=skill_reference_map.get(dossier.target.target_id),
                 )
 
             print(
@@ -307,6 +338,7 @@ def cmd_offline_unified(args: argparse.Namespace) -> None:
         run_id=run_id,
         workers=getattr(args, "workers", 1),
         ablation=ablation,
+        skill_reference_results=getattr(args, "skill_reference_results", ""),
     )
     cmd_run(run_args)
 
@@ -362,6 +394,7 @@ def cmd_offline_ablation_sweep(args: argparse.Namespace) -> None:
             workers=getattr(args, "workers", 1),
             run_id=base_run_id,
             ablation=ablation,
+            skill_reference_results=getattr(args, "skill_reference_results", ""),
             skip_prepare_assets=True,
         )
         cmd_offline_unified(offline_args)
@@ -432,6 +465,25 @@ def build_parser() -> argparse.ArgumentParser:
         choices=TRANSFER_ABLATIONS,
         default=DEFAULT_TRANSFER_ABLATION,
         help="Optional workflow ablation to apply during the transfer run.",
+    )
+    run_parser.add_argument(
+        "--stop-after",
+        choices=["bundle_posterior"],
+        default=None,
+        help=(
+            "Short-circuit the agent after the named phase. "
+            "'bundle_posterior' returns supporting_bundles only, skipping all "
+            "model-picker phases (hydration + local champion + global frontier). "
+            "Used for fast Stage-A (cross-trait) iteration."
+        ),
+    )
+    run_parser.add_argument(
+        "--skill-reference-results",
+        default="",
+        help=(
+            "Optional path to a frozen no-skill/no-tool results.json. "
+            "Skill-enabled ablations use this as the paired reference lane."
+        ),
     )
 
     recommend_parser = subparsers.add_parser("recommend")
@@ -514,6 +566,14 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip prepare-assets if bundle index and candidate dossiers are already materialized.",
     )
+    offline_unified_parser.add_argument(
+        "--skill-reference-results",
+        default="",
+        help=(
+            "Optional path to a frozen no-skill/no-tool results.json. "
+            "Skill-enabled ablations use this as the paired reference lane."
+        ),
+    )
 
     offline_ablation_parser = subparsers.add_parser("offline-ablation-sweep")
     offline_ablation_parser.add_argument(
@@ -547,6 +607,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--skip-prepare-assets",
         action="store_true",
         help="Skip prepare-assets if bundle index and candidate dossiers are already materialized.",
+    )
+    offline_ablation_parser.add_argument(
+        "--skill-reference-results",
+        default="",
+        help=(
+            "Optional path to a frozen no-skill/no-tool results.json. "
+            "Skill-enabled ablations use this as the paired reference lane."
+        ),
     )
 
     subparsers.add_parser("generate-docs")

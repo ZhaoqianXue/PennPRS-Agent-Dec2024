@@ -6,6 +6,7 @@ Implements sop.md L356-462 tool specifications.
 import os
 import re
 import logging
+import threading
 from functools import lru_cache
 from typing import List, Optional, Dict, Any, Iterable, Tuple, Set
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -15,6 +16,98 @@ from src.server.core.tool_schemas import (
 )
 
 logger = logging.getLogger(__name__)
+
+# Process-wide PGS Catalog metadata caches. The transfer pipeline hydrates the
+# same bundle (e.g. a large generalist trait retained by many targets) across
+# 80 targets in parallel workers — without a cache, each worker re-fetches the
+# same PGS details and performance rows hundreds of times. A simple lock-guarded
+# read-through cache collapses those to one fetch per distinct PGS ID for the
+# lifetime of the process. None is cached as well so we don't hammer the catalog
+# on PGS IDs that return 404.
+_PGS_DETAILS_CACHE: Dict[str, Any] = {}
+_PGS_PERFORMANCE_CACHE: Dict[str, Any] = {}
+_PGS_DETAILS_LOCKS: Dict[str, threading.Lock] = {}
+_PGS_PERFORMANCE_LOCKS: Dict[str, threading.Lock] = {}
+_PGS_CACHE_LOCK = threading.Lock()
+_PGS_CACHE_SENTINEL = object()
+
+
+def _pgs_key_lock(lock_map: Dict[str, threading.Lock], pgs_id: str) -> threading.Lock:
+    """Return a per-PGS lock so concurrent workers share one in-flight fetch."""
+    with _PGS_CACHE_LOCK:
+        lock = lock_map.get(pgs_id)
+        if lock is None:
+            lock = threading.Lock()
+            lock_map[pgs_id] = lock
+        return lock
+
+
+def _cached_get_score_details(client, pgs_id: str) -> Any:
+    with _PGS_CACHE_LOCK:
+        cached = _PGS_DETAILS_CACHE.get(pgs_id, _PGS_CACHE_SENTINEL)
+    if cached is not _PGS_CACHE_SENTINEL:
+        return cached
+    key_lock = _pgs_key_lock(_PGS_DETAILS_LOCKS, pgs_id)
+    with key_lock:
+        with _PGS_CACHE_LOCK:
+            cached = _PGS_DETAILS_CACHE.get(pgs_id, _PGS_CACHE_SENTINEL)
+        if cached is not _PGS_CACHE_SENTINEL:
+            return cached
+        data = client.get_score_details(pgs_id)
+        with _PGS_CACHE_LOCK:
+            _PGS_DETAILS_CACHE.setdefault(pgs_id, data)
+        return data
+
+
+def _cached_get_score_performance(client, pgs_id: str) -> Any:
+    with _PGS_CACHE_LOCK:
+        cached = _PGS_PERFORMANCE_CACHE.get(pgs_id, _PGS_CACHE_SENTINEL)
+    if cached is not _PGS_CACHE_SENTINEL:
+        return cached
+    key_lock = _pgs_key_lock(_PGS_PERFORMANCE_LOCKS, pgs_id)
+    with key_lock:
+        with _PGS_CACHE_LOCK:
+            cached = _PGS_PERFORMANCE_CACHE.get(pgs_id, _PGS_CACHE_SENTINEL)
+        if cached is not _PGS_CACHE_SENTINEL:
+            return cached
+        data = client.get_score_performance(pgs_id)
+        with _PGS_CACHE_LOCK:
+            _PGS_PERFORMANCE_CACHE.setdefault(pgs_id, data)
+        return data
+
+
+def _load_dev_cache_from_disk() -> None:
+    """Development-only optimization: if a pre-fetched PGS Catalog metadata
+    pickle exists under `data/pgs_catalog_cache/`, pre-populate the in-memory
+    caches at module import time. In production the file will be absent and
+    the transfer pipeline falls back to on-demand API hydration. Build the
+    cache by running
+      ``experiments/contribution3/transfer/scripts/prefetch_pgs_catalog_cache.py``.
+    """
+    try:
+        import pickle
+        from pathlib import Path
+        # repo_root = .../PennPRS_Agent
+        repo_root = Path(__file__).resolve().parents[4]
+        cache_file = repo_root / "data" / "pgs_catalog_cache" / "pgs_catalog_cache.pkl"
+        if not cache_file.exists():
+            return
+        with cache_file.open("rb") as f:
+            data = pickle.load(f)
+        details = data.get("details", {})
+        performance = data.get("performance", {})
+        with _PGS_CACHE_LOCK:
+            _PGS_DETAILS_CACHE.update(details)
+            _PGS_PERFORMANCE_CACHE.update(performance)
+        logger.info(
+            "Loaded PGS Catalog dev cache: %d details + %d performance entries from %s",
+            len(details), len(performance), cache_file,
+        )
+    except Exception as exc:  # pragma: no cover - defensive
+        logger.warning("Failed to load PGS Catalog dev cache: %s", exc)
+
+
+_load_dev_cache_from_disk()
 
 DOMAIN_QUERY_EXPANSION: Dict[str, List[str]] = {
     "clinical": ["clinical", "guideline", "consensus", "threshold", "benchmark"],
@@ -122,8 +215,8 @@ def hydrate_pgs_model_summaries(
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         future_to_pid: Dict[Any, Tuple[str, str]] = {}
         for pgs_id in ordered_ids:
-            future_to_pid[executor.submit(client.get_score_details, pgs_id)] = (pgs_id, "details")
-            future_to_pid[executor.submit(client.get_score_performance, pgs_id)] = (
+            future_to_pid[executor.submit(_cached_get_score_details, client, pgs_id)] = (pgs_id, "details")
+            future_to_pid[executor.submit(_cached_get_score_performance, client, pgs_id)] = (
                 pgs_id,
                 "performance",
             )

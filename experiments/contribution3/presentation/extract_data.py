@@ -23,9 +23,9 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 TRANSFER_RUNS = PROJECT_ROOT / "experiments" / "contribution3" / "transfer" / "runs" / "tool_calling_agent"
 BUNDLE_INDEX_JSON = TRANSFER_RUNS / "trait_bundle_index.json"
-RUN_DIR_NAME = "all-tools__online_opt3_20260421_203013"
+RUN_DIR_NAME = "all-tools__v16_80tgt_20260427_025458"
 EVAL_DIR_NAME = f"evaluation__{RUN_DIR_NAME.split('__', 1)[1]}"  # mirrors the run timestamp
-SHORTLIST_CSV = TRANSFER_RUNS / "unified" / RUN_DIR_NAME / "shortlist_recall.csv"
+RESULTS_JSON = TRANSFER_RUNS / "unified" / RUN_DIR_NAME / "results.json"
 DOSSIER_JSON = TRANSFER_RUNS / "unified" / "candidate_dossiers.json"
 BENCHMARK_DIR = (
     PROJECT_ROOT
@@ -47,12 +47,14 @@ OUT_JS = OUT_DIR / "data.js"
 
 PRS_TOP_N = 100  # show top-N PGS models per target in PRS model level view
 
-# Presentation cohort: strong primary (low competition rank), not "exact oracle only".
-MAX_SELECTED_RANK_INCLUSIVE = 5
+# Presentation cohort: include the full benchmark — set rank filter wide open
+# and clear the curatorial exclusion list so all 80 targets render.
+MAX_SELECTED_RANK_INCLUSIVE = 10**9
 RUN_LABEL = RUN_DIR_NAME
 
-# Targets excluded from the presentation (weak biological rationale or niche phenotype)
-EXCLUDED_TARGET_IDS = {"K02", "K04", "N65", "L05"}
+# Targets excluded from the presentation (weak biological rationale or niche phenotype).
+# Empty = include everything; was {"K02", "K04", "N65", "L05"} in the curated cohort.
+EXCLUDED_TARGET_IDS: set[str] = set()
 
 
 def _load_evaluate_module():
@@ -116,6 +118,100 @@ def _load_pgs_n_cases_map() -> dict[str, int | None]:
     return out
 
 
+def _as_int(v):
+    return int(v) if pd.notna(v) and v > 0 else None
+
+
+def _as_text(v):
+    if pd.isna(v):
+        return None
+    t = str(v).strip()
+    return t if t and t.lower() != "nan" else None
+
+
+def _load_pgs_metadata_map() -> dict[str, dict]:
+    """Map pgs_id -> GWAS-sample metadata for the tooltip.
+
+    Layered, first-wins: Genetic_Agent's curated binary + measurement CSVs
+    (which use a uniform schema) cover ~3060 / 3196 PGS in the contribution3
+    matrix; the remaining ~140 PGS fall back to the upstream PGS Catalog dump
+    (`data/pgs_all_metadata/`) so every bar in the chart has hover info.
+    """
+    out: dict[str, dict] = {}
+
+    GENETIC_AGENT_COLS = [
+        "PGS_ID",
+        "num_training_cases",
+        "num_training_controls",
+        "num_training_sample",
+        "training_ancestry",
+        "training_method",
+        "training_cohort",
+        "num_variant",
+    ]
+
+    def _add_genetic_agent_csv(path: Path) -> None:
+        if not path.exists():
+            return
+        df = pd.read_csv(path, usecols=lambda c: c in GENETIC_AGENT_COLS)
+        for _, r in df.iterrows():
+            pgs = str(r["PGS_ID"]).strip()
+            if pgs in out:
+                continue
+            out[pgs] = {
+                "n_cases":    _as_int(r.get("num_training_cases")),
+                "n_controls": _as_int(r.get("num_training_controls")),
+                "n_total":    _as_int(r.get("num_training_sample")),
+                "n_variant":  _as_int(r.get("num_variant")),
+                "ancestry":   _as_text(r.get("training_ancestry")),
+                "method":     _as_text(r.get("training_method")),
+                "cohort":     _as_text(r.get("training_cohort")),
+            }
+
+    # Layer 1: binary disease (current source).
+    _add_genetic_agent_csv(PGS_METADATA_CSV)
+    # Layer 2: continuous-measurement traits — same schema, sibling directory.
+    _add_genetic_agent_csv(
+        PROJECT_ROOT / "Genetic_Agent" / "measurement_preprocess" / "pgs_metadata_260225.csv"
+    )
+
+    # Layer 3: PGS Catalog dump — only used to fill PGS that the curated CSVs
+    # don't cover. We never overwrite curated entries. Score-development data
+    # gives training-side counts; the scores file gives variant count + method.
+    pgs_dir = PROJECT_ROOT / "data" / "pgs_all_metadata"
+    scores_csv = pgs_dir / "pgs_all_metadata_scores.csv"
+    dev_csv = pgs_dir / "pgs_all_metadata_score_development_samples.csv"
+    if scores_csv.exists() and dev_csv.exists():
+        scores_df = pd.read_csv(scores_csv, low_memory=False)
+        dev_df = pd.read_csv(dev_csv, low_memory=False)
+        scores_lookup = scores_df.set_index("Polygenic Score (PGS) ID").to_dict("index")
+        # Prefer "Score Development/Training" row; fall back to first GWAS row.
+        train_df = dev_df[dev_df["Stage of PGS Development"] == "Score Development/Training"]
+        gwas_df = dev_df[dev_df["Stage of PGS Development"] == "Source of Variant Associations (GWAS)"]
+        train_first = train_df.groupby("Polygenic Score (PGS) ID", sort=False).first()
+        gwas_first = gwas_df.groupby("Polygenic Score (PGS) ID", sort=False).first()
+        all_pgs = set(scores_lookup.keys())
+        for pgs in all_pgs:
+            if pgs in out:
+                continue
+            sample_row = (
+                train_first.loc[pgs] if pgs in train_first.index
+                else (gwas_first.loc[pgs] if pgs in gwas_first.index else None)
+            )
+            scores_row = scores_lookup.get(pgs, {})
+            out[pgs] = {
+                "n_cases":    _as_int(sample_row.get("Number of Cases")) if sample_row is not None else None,
+                "n_controls": _as_int(sample_row.get("Number of Controls")) if sample_row is not None else None,
+                "n_total":    _as_int(sample_row.get("Number of Individuals")) if sample_row is not None else None,
+                "n_variant":  _as_int(scores_row.get("Number of Variants")),
+                "ancestry":   _as_text(sample_row.get("Broad Ancestry Category")) if sample_row is not None else None,
+                "method":     _as_text(scores_row.get("PGS Development Method")),
+                "cohort":     _as_text(sample_row.get("Cohort(s)")) if sample_row is not None else None,
+            }
+
+    return out
+
+
 def _load_eval_detail() -> dict[str, dict]:
     """Map target_id -> eval detail row (recommended_model_id, benchmark_top_model_id, etc.)"""
     if not EVAL_DETAIL_CSV.exists():
@@ -149,20 +245,29 @@ def main() -> None:
         for pgs in b.get("candidate_pgs_ids") or []:
             pgs_to_bundle[pgs] = bid
 
-    shortlist_df = pd.read_csv(SHORTLIST_CSV)
-    sr = pd.to_numeric(shortlist_df["selected_bundle_rank"], errors="coerce")
-    cohort = shortlist_df[sr <= MAX_SELECTED_RANK_INCLUSIVE].copy()
-    target_ids = [str(x).strip() for x in cohort["target_id"].tolist()]
+    # Load per-target target metadata (incl. aliases for self-like detection)
+    # from results.json — the new run format no longer ships a precomputed
+    # shortlist_recall.csv, so we derive selected_bundle_rank and the
+    # transfer-eligible global oracle inline from the AUC matrix.
+    raw_results = json.loads(RESULTS_JSON.read_text("utf-8"))
+    target_meta_by_id: dict[str, dict] = {}
+    for r in raw_results:
+        tgt = r.get("target") or {}
+        tid = str(tgt.get("target_id") or "").strip()
+        if tid:
+            target_meta_by_id[tid] = tgt
 
-    print(
-        f"Run {RUN_LABEL}: {len(target_ids)} targets with "
-        f"selected_bundle_rank <= {MAX_SELECTED_RANK_INCLUSIVE} (of {len(shortlist_df)} total)"
-    )
+    # Per-target detail lives in the eval CSV: matched_bundle_id, matched_cross_trait,
+    # target_source, input_type, plus the PRS-level recommended/oracle/AUC fields.
+    eval_df = pd.read_csv(EVAL_DETAIL_CSV)
+    n_total_eval = len(eval_df)
+    print(f"Run {RUN_LABEL}: eval CSV has {n_total_eval} targets, results.json has {len(raw_results)}")
 
     input_type_map = _load_union_input_type_map()
     self_best_auc_map, self_best_pgs_map = _load_self_best_maps()
     eval_detail_map = _load_eval_detail()
     pgs_n_cases_map = _load_pgs_n_cases_map()
+    pgs_metadata_map = _load_pgs_metadata_map()
     print(f"Loaded self_best_auc for {len(self_best_auc_map)} ICDs")
     print(f"Loaded eval detail for {len(eval_detail_map)} targets")
     print(f"Loaded num_training_cases for {sum(1 for v in pgs_n_cases_map.values() if v is not None)} PGS models")
@@ -179,22 +284,44 @@ def main() -> None:
 
     e2e = _load_evaluate_module()
 
+    # Lazy import — pulled in here so a missing thefuzz install fails loudly
+    # at extract time rather than during construction of the constants block.
+    from experiments.contribution3.transfer.common import (
+        TargetTraitQuery,
+        is_self_like_bundle,
+        load_trait_bundle_index,
+    )
+    bundle_objs = load_trait_bundle_index(BUNDLE_INDEX_JSON)
+    bundle_obj_by_id = {b.bundle_id: b for b in bundle_objs}
+
     results = []
-    target_ids = [t for t in target_ids if t not in EXCLUDED_TARGET_IDS]
-    for tid in target_ids:
-        row = cohort[cohort["target_id"] == tid].iloc[0]
+    skipped_excluded = 0
+    skipped_no_match = 0
+    skipped_rank = 0
+    for _, row in eval_df.iterrows():
+        tid = str(row["target_id"]).strip()
+        if tid in EXCLUDED_TARGET_IDS:
+            skipped_excluded += 1
+            continue
+
+        matched_bid_raw = row.get("matched_bundle_id")
+        matched_bid = str(matched_bid_raw).strip() if pd.notna(matched_bid_raw) else ""
+        if not matched_bid or matched_bid.lower() == "nan":
+            skipped_no_match += 1
+            continue
+
         target_source = str(row["target_source"]).strip()
-        target_desc = str(row.get("target_label", "") or "").strip() or tid
+        target_desc = str(row.get("target_description", "") or "").strip() or tid
+        matched_cross_trait_raw = row.get("matched_cross_trait")
+        matched_cross_trait = (
+            str(matched_cross_trait_raw).strip()
+            if pd.notna(matched_cross_trait_raw) and str(matched_cross_trait_raw).strip()
+            else bundle_label_map.get(matched_bid, matched_bid)
+        )
 
-        matched_bid = str(row["selected_bundle_id"]).strip()
-        oracle_bid = str(row["transfer_eligible_global_oracle_bundle_id"]).strip()
-        oracle_label = str(row["transfer_eligible_global_oracle_label"]).strip()
-        sel_rank = int(float(row["selected_bundle_rank"])) if pd.notna(row.get("selected_bundle_rank")) else None
-        ora_rank = int(float(row["transfer_eligible_global_oracle_rank"])) if pd.notna(
-            row.get("transfer_eligible_global_oracle_rank")
-        ) else None
-
-        input_type = input_type_map.get(tid, "A")
+        # Authoritative input_type from eval CSV; fall back to union map.
+        input_type_raw = str(row.get("input_type", "") or "").strip()
+        input_type = input_type_raw or input_type_map.get(tid, "A")
 
         try:
             _, _, auc_by_id = e2e._build_full_matrix_ranking(tid, target_source)
@@ -231,7 +358,7 @@ def main() -> None:
                     "median_auc": round(median_auc, 6),
                     "n_models_hit": n,
                     "is_selected": bid == matched_bid,
-                    "is_oracle": bid == oracle_bid,
+                    "is_oracle": False,  # filled in after we resolve the global oracle
                     "is_self": is_self,
                     "max_auc_pgs_id": max_pgs,
                     "max_auc_n_cases": pgs_n_cases_map.get(max_pgs),
@@ -239,6 +366,40 @@ def main() -> None:
             )
 
         bars.sort(key=lambda x: (-x["max_auc"], x["bundle_id"]))
+
+        # Resolve transfer-eligible global oracle = best non-self-like bundle.
+        # Mirrors the deleted shortlist_recall._oracle_bundle helper so the
+        # new flow reproduces the same oracle/rank semantics as the old CSV.
+        target_meta = target_meta_by_id.get(tid, {})
+        target_query = TargetTraitQuery(
+            target_id=tid,
+            target_code=str(target_meta.get("target_code", tid) or tid),
+            target_label=str(target_meta.get("target_label", target_desc) or target_desc),
+            target_type=str(target_meta.get("target_type", "binary") or "binary"),
+            aliases=list(target_meta.get("aliases") or []),
+        )
+        oracle_bid = ""
+        oracle_label = ""
+        oracle_rank = None
+        for i, b in enumerate(bars):
+            bundle_obj = bundle_obj_by_id.get(b["bundle_id"])
+            if bundle_obj is None or is_self_like_bundle(target_query, bundle_obj):
+                continue
+            oracle_bid = b["bundle_id"]
+            oracle_label = b["label"]
+            oracle_rank = i + 1
+            b["is_oracle"] = True
+            break
+
+        # Selected bundle's competition rank — used for cohort filtering.
+        sel_rank = None
+        for i, b in enumerate(bars):
+            if b["bundle_id"] == matched_bid:
+                sel_rank = i + 1
+                break
+        if sel_rank is None or sel_rank > MAX_SELECTED_RANK_INCLUSIVE:
+            skipped_rank += 1
+            continue
 
         # Full ranking for presentation "full view" toggle (preview uses top 50 + extras).
         bars_full = [dict(b) for b in bars]
@@ -293,6 +454,9 @@ def main() -> None:
                 }
             )
 
+        confidence_raw = row.get("status")
+        confidence = str(confidence_raw).strip() if pd.notna(confidence_raw) else "ok"
+
         results.append(
             {
                 "target_id": tid,
@@ -300,15 +464,15 @@ def main() -> None:
                 "input_type": input_type,
                 "target_source": target_source,
                 "matched_bundle_id": matched_bid,
-                "matched_cross_trait": str(row.get("selected_bundle_label", "")).strip(),
+                "matched_cross_trait": matched_cross_trait,
                 "selected_bundle_rank": sel_rank,
                 "oracle_bundle_id": oracle_bid,
                 "oracle_label": oracle_label,
-                "oracle_rank": ora_rank,
+                "oracle_rank": oracle_rank,
                 "primary_equals_oracle": matched_bid == oracle_bid,
                 "benchmark_top_auc": None,
                 "self_best_auc": self_best_auc_map.get(tid),
-                "confidence": str(row.get("status", "ok")).strip(),
+                "confidence": confidence,
                 "bars": bars,
                 "bars_full": bars_full,
                 "shortlist_candidates": shortlist_candidates,
@@ -321,17 +485,25 @@ def main() -> None:
                 "prs_bars_full": prs_bars_full,
             }
         )
-        print(f"  {tid}: {len(bars)} Cross Trait bars")
+        print(f"  {tid}: rank={sel_rank}, {len(bars)} Cross Trait bars")
 
+    print(
+        f"\nKept {len(results)} targets (excluded={skipped_excluded}, "
+        f"no_match={skipped_no_match}, rank>{MAX_SELECTED_RANK_INCLUSIVE}={skipped_rank})"
+    )
     results.sort(key=lambda x: (x["input_type"], x["target_id"]))
 
     out = {
         "generated": RUN_LABEL,
-        "shortlist_csv": str(SHORTLIST_CSV.relative_to(PROJECT_ROOT)),
+        "results_json": str(RESULTS_JSON.relative_to(PROJECT_ROOT)),
         "filter": f"selected_bundle_rank <= {MAX_SELECTED_RANK_INCLUSIVE}",
-        "n_targets_total_benchmark": int(len(shortlist_df)),
+        "n_targets_total_benchmark": int(n_total_eval),
         "n_targets": len(results),
         "targets": results,
+        # Shared lookup keyed by PGS_ID; the frontend reads it for hover tooltips
+        # (GWAS cases/controls/ancestry/method/cohort) instead of duplicating the
+        # fields across every bar of every target.
+        "pgs_metadata": pgs_metadata_map,
     }
 
     OUT_JSON.write_text(json.dumps(out, indent=2, ensure_ascii=False), "utf-8")

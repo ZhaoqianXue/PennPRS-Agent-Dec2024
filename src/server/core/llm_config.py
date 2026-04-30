@@ -38,6 +38,7 @@ class ModelConfig:
     temperature: Optional[float] = None
     max_tokens: Optional[int] = None
     timeout: Optional[int] = 30
+    seed: Optional[int] = None
     json_mode: bool = False
     strict: bool = False
     
@@ -52,6 +53,8 @@ class ModelConfig:
             config["max_tokens"] = self.max_tokens
         if self.timeout:
             config["timeout"] = self.timeout
+        if self.seed is not None:
+            config["seed"] = self.seed
         if self.json_mode and not self.strict:
             config["model_kwargs"] = {"response_format": {"type": "json_object"}}
         # Note: strict mode is typically applied at the .with_structured_output() level, 
@@ -99,8 +102,9 @@ class LLMConfig:
     # =========================================================================
     DISEASE_WORKFLOW = ModelConfig(
         model="gpt-5.2",
-        temperature=None,
-        timeout=30
+        temperature=0,
+        timeout=60,
+        seed=42,
     )
     
     # =========================================================================

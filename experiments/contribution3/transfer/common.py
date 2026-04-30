@@ -155,7 +155,13 @@ def benchmark_run_dir(benchmark_family: str = DEFAULT_BENCHMARK_FAMILY) -> Path:
 
 
 def normalize_transfer_ablation(ablation: str | None) -> str:
-    text = str(ablation or DEFAULT_TRANSFER_ABLATION).strip().lower().replace("-", "_")
+    text = (
+        str(ablation or DEFAULT_TRANSFER_ABLATION)
+        .strip()
+        .lower()
+        .replace("-", "_")
+        .replace("+", "_plus_")
+    )
     return text or DEFAULT_TRANSFER_ABLATION
 
 
@@ -339,6 +345,45 @@ def bundle_has_source_universe_pgs(bundle: TraitBundle, target_source: str | Non
     if not universe_ids:
         return True
     return any(pgs_id in universe_ids for pgs_id in bundle.candidate_pgs_ids)
+
+
+def filter_bundle_to_source_universe(
+    bundle: TraitBundle,
+    target_source: str | None,
+) -> TraitBundle:
+    """Return a copy whose PGS candidates are evaluable for the source universe.
+
+    This uses only the benchmark AUC-matrix header for the target source
+    (rootcode vs extend trait). It does not inspect target-row performance and
+    does not encode trait-specific preferences; it simply prevents unevaluable
+    PGS Catalog IDs from entering model selection.
+    """
+    universe_ids = source_universe_pgs_ids(target_source)
+    if not universe_ids:
+        return bundle
+    candidate_pgs_ids = [pgs_id for pgs_id in bundle.candidate_pgs_ids if pgs_id in universe_ids]
+    return TraitBundle(
+        **{
+            **bundle.model_dump(),
+            "candidate_pgs_ids": candidate_pgs_ids,
+            "n_models": len(candidate_pgs_ids),
+        }
+    )
+
+
+def filter_dossier_to_benchmark_universe(
+    dossier: CandidateBundleDossier,
+    benchmark_family: str = DEFAULT_BENCHMARK_FAMILY,
+) -> CandidateBundleDossier:
+    """Filter each candidate bundle to PGS IDs available in the benchmark universe."""
+    family = validate_benchmark_family(benchmark_family)
+    target_source = target_source_for_target_id(dossier.target.target_id, benchmark_family=family)
+    filtered_candidates = [
+        filter_bundle_to_source_universe(bundle, target_source)
+        for bundle in dossier.candidates
+    ]
+    filtered_candidates = [bundle for bundle in filtered_candidates if bundle.candidate_pgs_ids]
+    return CandidateBundleDossier(target=dossier.target, candidates=filtered_candidates)
 
 
 @lru_cache(maxsize=1)
@@ -552,19 +597,41 @@ def _bundle_match_score(bundle: TraitBundle, terms: list[str]) -> int:
     return best
 
 
+def _light_normalize(text: str) -> str:
+    """Lower + whitespace-collapse only. Unlike `normalize_text` this does NOT
+    strip stopwords like 'disease' / 'disorder' / 'syndrome', so self-like
+    detection can distinguish 'migraine' from 'migraine disorder', or
+    'hypertension' from 'secondary hypertension'.
+    """
+    cleaned = re.sub(r"[^a-z0-9\s]", " ", (text or "").lower())
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
 def is_self_like_bundle(
     target: TargetTraitQuery,
     bundle: TraitBundle,
     threshold: int = 90,
 ) -> bool:
+    """Detect bundles that are effectively the same trait as the target.
+
+    Uses Levenshtein-based `fuzz.ratio` on a length-preserving normalization
+    (no stopword stripping). With the original `token_set_ratio`+`normalize_text`
+    combination, "major depressive disorder" bundle was flagged self for
+    "Major depressive disorder, recurrent" (token-subset score = 100) — that
+    wrongly excluded the umbrella-disease bundle whose PGS is the empirical
+    oracle for ~7 of the 80 unified targets (D03, D05, F33, G43, I15, M05,
+    M1A). `fuzz.ratio` on the lightly-normalized strings returns 64-80 there,
+    so subtypes/variants are NOT flagged self while truly identical labels
+    still hit the 90+ threshold.
+    """
     target_texts = [target.target_label, *target.aliases]
     for target_text in target_texts:
         if not target_text:
             continue
-        if fuzz.token_set_ratio(normalize_text(bundle.canonical_label), normalize_text(target_text)) >= threshold:
+        if fuzz.ratio(_light_normalize(bundle.canonical_label), _light_normalize(target_text)) >= threshold:
             return True
         for alias in bundle.aliases:
-            if fuzz.token_set_ratio(normalize_text(alias), normalize_text(target_text)) >= threshold:
+            if fuzz.ratio(_light_normalize(alias), _light_normalize(target_text)) >= threshold:
                 return True
     return False
 
@@ -667,6 +734,13 @@ def select_candidate_bundles(
             bundle = lookup.get(bundle_id)
             if bundle is None:
                 continue
+            # Self-match filter retained: target_selection.csv pre-filters
+            # to targets whose self-PGS underperforms, so the same-trait
+            # bundle's PGSs are known weak. Allowing the same-trait bundle
+            # in dossier lets Pick fall back to those weak PGSs and
+            # regress versus the cross-trait alternative — empirically
+            # observed in P26 80-run (e.g., N10 0.041→0.974 when self
+            # bundle was kept in dossier). The filter prevents this.
             if is_self_like_bundle(target, bundle):
                 continue
             if not bundle_has_source_universe_pgs(bundle, target_source):
@@ -685,7 +759,7 @@ def select_candidate_bundles(
         add_candidates(fallback_ranked)
 
     return [
-        lookup[bundle_id]
+        filter_bundle_to_source_universe(lookup[bundle_id], target_source)
         for bundle_id in selected
         if bundle_id in lookup
     ]

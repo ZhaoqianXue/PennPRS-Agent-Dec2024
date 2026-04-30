@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cross-Trait Transfer</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<script src="data.js"></script>
-<script src="translations.js"></script>
+<script src="data.js?v=20260428"></script>
+<script src="translations.js?v=20260428"></script>
 <style>
 /* ── reset & base ──────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -24,59 +24,143 @@ body{overflow-x:hidden}
 /* ═══════════════════════════════════════════════════════════
    PAGE 1 — Architecture
    ═══════════════════════════════════════════════════════════ */
-#page-arch{display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,#131b2e 0%,#0b0f19 70%);padding:24px 20px}
+#page-arch{display:flex;flex-direction:column;align-items:center;justify-content:center;background:
+  radial-gradient(ellipse 120% 80% at 50% -10%,rgba(108,140,255,.12) 0%,transparent 55%),
+  radial-gradient(ellipse at 50% 40%,#131b2e 0%,#0b0f19 70%);
+padding:40px 20px 56px}
 #page-arch h1{font-size:1rem;font-weight:400;letter-spacing:3px;text-transform:uppercase;color:#6c8cff;margin-bottom:8px}
-#page-arch h2{font-size:2rem;font-weight:700;margin-bottom:24px;text-align:center}
+#page-arch h2{font-size:clamp(1.5rem,4vw,1.95rem);font-weight:750;margin-bottom:10px;text-align:center;letter-spacing:-.02em}
+#page-arch .arch-lead{max-width:560px;text-align:center;font-size:.82rem;color:#8899bb;margin-bottom:32px;line-height:1.5}
 
-/* architecture canvas */
-.arch-canvas{position:relative;width:820px;max-width:96vw;height:420px}
+.pipe-flow{width:100%;max-width:760px}
+.pipe-flow ol{
+  margin:0;padding:0;list-style:none;
+  display:flex;flex-direction:column;
+  gap:22px;
+}
 
-/* center hub */
-.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:linear-gradient(135deg,#2a3a6e,#1a244a);border:2.5px solid #6c8cff;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:.95rem;line-height:1.3;color:#c0d0ff;box-shadow:0 0 60px rgba(108,140,255,.18);z-index:2}
+/* One card per step */
+.pipe-card{
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  gap:18px;
+  padding:20px 20px 20px 20px;
+  background:linear-gradient(165deg,#141d32 0%,#101822 52%,#0d1320 100%);
+  border:1px solid rgba(108,140,255,.22);
+  border-radius:18px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 12px 40px rgba(0,0,0,.42);
+  font-size:.8rem;line-height:1.45;color:#b8c5d8;
+  transition:border-color .2s,transform .22s ease,box-shadow .22s ease;
+}
+.pipe-card:hover{
+  border-color:rgba(108,140,255,.4);
+  transform:translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.08) inset,
+    0 16px 48px rgba(0,0,0,.48);
+}
 
-/* tool nodes */
-.tool-node{position:absolute;width:140px;height:140px;border-radius:20px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600;font-size:.82rem;line-height:1.3;cursor:pointer;transition:all .25s;z-index:2;padding:14px}
-.tool-node:hover{transform:scale(1.07);box-shadow:0 0 30px rgba(108,140,255,.3)}
-.tool-gc{left:40px;top:20px;background:linear-gradient(135deg,#1e3a5f,#162c48);border:2px solid #3a9bdc;color:#8cceff}
-.tool-h2{right:40px;top:20px;background:linear-gradient(135deg,#1e4a3a,#163828);border:2px solid #38b87c;color:#8cffc8}
-.tool-ot{left:50%;bottom:10px;transform:translateX(-50%);background:linear-gradient(135deg,#4a2e1e,#3a2218);border:2px solid #dc8a3a;color:#ffe0a0}
+/* Large step index (left rail) */
+.pipe-card-index{
+  flex:0 0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:4px 0 4px 4px;
+  border-right:1px solid rgba(108,140,255,.14);
+  min-width:64px;
+}
+.pipe-step-num{
+  font-size:1.85rem;font-weight:800;line-height:1;
+  letter-spacing:-.03em;color:#eaf0ff;
+  text-shadow:0 0 24px rgba(108,140,255,.35);
+  font-variant-numeric:tabular-nums;
+}
+.pipe-step-tag{
+  margin-top:6px;font-size:.62rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:#6a7fb3;
+}
 
-/* PRS Recommender */
-.prs-node{position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:130px;height:68px;border-radius:12px;background:linear-gradient(135deg,#3a1e4a,#2a1838);border:2px solid #b06cdc;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600;font-size:.78rem;color:#dbb0ff;z-index:2}
+/* Body column */
+.pipe-card-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px;padding-top:2px}
+.pipe-flow h3.pipe-title{
+  margin:0 0 2px 0;
+  font-weight:780;color:#f0f4fc;font-size:.98rem;
+  letter-spacing:-.02em;
+  line-height:1.25;
+}
+.pipe-flow .pipe-lines{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.pipe-flow .pipe-lines li{display:flex;align-items:flex-start;gap:0}
+.pipe-flow .pipe-lines li{position:relative;padding:8px 0;border-top:1px dashed rgba(108,140,255,.12)}
+.pipe-flow .pipe-lines li:first-of-type{border-top:none;padding-top:0}
+.pipe-flow .pipe-lines .pl-k{
+  flex:0 0 6.6rem;
+  max-width:6.9rem;
+  color:#7d92b8;font-weight:700;font-size:.67rem;text-transform:uppercase;letter-spacing:.05em;line-height:1.35;
+}
+@media (max-width:520px){
+  .pipe-card{flex-direction:column;gap:12px;padding:18px 16px}
+  .pipe-card-index{flex-direction:row;justify-content:flex-start;border-right:none;border-bottom:1px solid rgba(108,140,255,.14);padding:0 0 12px;width:100%;min-width:0}
+  .pipe-step-tag{margin-top:0;margin-left:10px;align-self:center}
+  .pipe-flow .pipe-lines li{flex-wrap:wrap}
+  .pipe-flow .pipe-lines .pl-k{flex:0 0 100%;max-width:100%;margin-bottom:4px}
+}
+.pipe-flow .pipe-lines .line-body{flex:1;min-width:0;color:#aab6c9;font-size:.78rem;line-height:1.5}
 
-/* connection lines (SVG layer) */
-.arch-svg{position:absolute;inset:0;z-index:1;pointer-events:none}
-.arch-svg line{stroke-width:2;stroke-dasharray:6 4}
-.arch-svg .line-gc{stroke:#3a9bdc}
-.arch-svg .line-h2{stroke:#38b87c}
-.arch-svg .line-ot{stroke:#dc8a3a}
-.arch-svg .line-prs{stroke:#b06cdc}
+.pipe-tool-chips{display:inline-flex;flex-wrap:wrap;gap:6px;align-items:center;vertical-align:middle;margin-top:-1px}
+.pipe-tool-chips span,
+.pipe-tool-chips .tool-chip-btn{
+  display:inline-block;font-size:.66rem;font-weight:700;padding:4px 9px;border-radius:8px;line-height:1.2;
+  letter-spacing:.02em;border:1px solid rgba(255,255,255,.08);
+}
+.pipe-tool-chips .tool-chip-btn{
+  font-family:inherit;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease;
+}
+.pipe-tool-chips .tool-chip-btn:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(108,140,255,.2)}
+.pipe-tool-chips .tool-chip-btn:focus-visible{outline:2px solid #6c8cff;outline-offset:2px}
 
-/* flow labels */
-.flow-label{position:absolute;font-size:.7rem;color:#8899bb;z-index:3;pointer-events:none;background:#0b0f19;padding:2px 6px;border-radius:4px}
-
-/* arrow marker */
-.arch-svg marker path{fill:#b06cdc}
-
-/* footer stats */
-.arch-stats{display:flex;gap:40px;margin-top:20px;font-size:.82rem;color:#7788aa}
-.arch-stats .stat-val{font-size:1.5rem;font-weight:700;color:#e0e6f0}
-
-/* ── Modal ─────────────────────────────────────────────────── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:1000;display:none;align-items:center;justify-content:center}
-.modal-overlay.active{display:flex}
-.modal{background:#141c30;border:1px solid #2a3550;border-radius:16px;max-width:640px;width:90vw;max-height:80vh;overflow-y:auto;padding:36px 40px;position:relative}
-.modal h3{font-size:1.3rem;margin-bottom:6px}
-.modal .modal-subtitle{font-size:.82rem;color:#6c8cff;margin-bottom:16px}
-.modal p,.modal li{font-size:.88rem;line-height:1.65;color:#b0bcd0}
-.modal ul{padding-left:20px;margin:10px 0}
-.modal .tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.72rem;font-weight:600;margin:2px 4px 2px 0}
-.modal .tag-input{background:#1e3a5f;color:#8cceff}
-.modal .tag-output{background:#2a1838;color:#dbb0ff}
-.modal .tag-evidence{background:#1e4a3a;color:#8cffc8}
-.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;color:#7788aa;font-size:1.4rem;cursor:pointer}
-.modal-close:hover{color:#fff}
-
+/* Tool detail modal */
+.tool-modal-overlay{
+  position:fixed;inset:0;z-index:2000;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:24px 16px 48px;overflow-y:auto;
+  background:rgba(5,8,16,.82);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transition:opacity .22s ease,visibility .22s ease;
+}
+.tool-modal-overlay.is-open{opacity:1;visibility:visible}
+.tool-modal-panel{
+  position:relative;margin:min(5vh,48px) auto;width:100%;max-width:580px;
+  background:linear-gradient(165deg,#141d32 0%,#101822 100%);
+  border:1px solid rgba(108,140,255,.28);border-radius:18px;
+  padding:26px 26px 24px;
+  box-shadow:0 28px 90px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.tool-modal-panel h3{font-size:1.15rem;font-weight:750;color:#f0f4fc;margin:0 32px 12px 0;letter-spacing:-.02em;line-height:1.25}
+.tool-modal-panel .tool-modal-intro{color:#aab6c9;font-size:.86rem;line-height:1.62;margin:0}
+.tool-modal-panel .tool-modal-intro p{margin:0 0 10px}
+.tool-modal-panel .tool-modal-intro p:last-child{margin-bottom:0}
+.tool-modal-panel h4.tool-modal-h4{
+  margin:20px 0 8px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7d92b8;
+}
+.tool-modal-panel pre.tool-modal-pre{
+  margin:0;font-family:'SF Mono',Menlo,Consolas,monospace;font-size:.65rem;line-height:1.5;
+  background:#080c14;border:1px solid #1e2940;border-radius:12px;padding:14px 16px;
+  color:#c8d4e8;overflow-x:auto;max-height:min(48vh,380px);overflow-y:auto;white-space:pre-wrap;word-break:break-word;
+}
+.tool-modal-foot{margin:12px 0 0;font-size:.68rem;color:#6a7d9a;line-height:1.45}
+.tool-modal-close{
+  position:absolute;top:10px;right:12px;width:36px;height:36px;border:none;border-radius:10px;
+  background:transparent;color:#8899aa;font-size:1.35rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.tool-modal-close:hover{color:#f0f4fc;background:rgba(255,255,255,.06)}
+.t-biology{background:rgba(177,134,217,.22);color:#e4d6f9;border-color:rgba(177,134,217,.35)!important}
+.t-opent{background:rgba(220,138,58,.22);color:#ffd9a8;border-color:rgba(220,138,58,.35)!important}
+.t-herit{background:rgba(56,184,124,.22);color:#b8ffd9;border-color:rgba(56,184,124,.35)!important}
+.t-genc{background:rgba(58,155,220,.22);color:#a8ddff;border-color:rgba(58,155,220,.38)!important}
+.t-skill{background:rgba(236,236,252,.14);color:#d8dff5;border-color:rgba(200,212,252,.38)!important}
 /* ═══════════════════════════════════════════════════════════
    PAGE 2 — Target Trait Summary
    ═══════════════════════════════════════════════════════════ */
@@ -154,10 +238,104 @@ body{overflow-x:hidden}
 .vt-btn.active{background:#1e2c48;color:#c0d0f0;box-shadow:0 1px 4px rgba(0,0,0,.4)}
 .vt-btn:hover:not(.active){color:#b0c0d8}
 
-/* ── CT vs PRS meta-row switching ──────────────────────────── */
+/* ── PAGE 2 — Target Trait Summary (high-level overview) ───── */
+#page-summary{padding:48px 40px 40px;max-width:1280px;margin:0 auto}
+#page-summary h2{font-size:2rem;font-weight:700}
+
+.kpi-row{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin:0 auto 32px;max-width:1100px}
+.kpi-card{flex:1 1 180px;min-width:180px;max-width:240px;background:#111827;border:1px solid #1e2940;border-radius:12px;padding:18px 20px;text-align:center}
+.kpi-card .kpi-num{font-size:1.9rem;font-weight:800;color:#c0d0f0;line-height:1.1;letter-spacing:.5px}
+.kpi-card .kpi-num .kpi-num-sep{color:#445268;margin:0 4px;font-weight:500}
+.kpi-card .kpi-label{font-size:.78rem;color:#8aa0b8;margin-top:8px;line-height:1.35}
+.kpi-card .kpi-sub{font-size:.7rem;color:#677893;margin-top:2px}
+
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:20px;margin-bottom:24px}
+.summary-block{background:#111827;border:1px solid #1e2940;border-radius:12px;padding:20px 24px}
+.summary-block-wide{grid-column:1 / -1}
+.summary-block h3{font-size:1.05rem;font-weight:700;margin-bottom:4px;color:#d0d8e8}
+.summary-block-sub{font-size:.8rem;color:#7788aa;margin-bottom:14px;line-height:1.45}
+
+/* ── To-scale percentile strip + dot plot ──────────────────── */
+.strip-wrap{margin-bottom:18px}
+.strip{position:relative;width:100%;height:64px;background:#0d1220;border-radius:4px;overflow:hidden}
+.strip-seg{position:absolute;top:0;bottom:0;border-right:1px solid rgba(11,15,25,.85)}
+.strip-seg:last-of-type{border-right:none}
+.strip-seg.tier-best    {background:linear-gradient(180deg,rgba(92,208,154,.55),rgba(58,170,128,.34))}
+.strip-seg.tier-good    {background:linear-gradient(180deg,rgba(140,184,230,.45),rgba(92,154,214,.25))}
+.strip-seg.tier-good-alt{background:linear-gradient(180deg,rgba(92,154,214,.45),rgba(64,124,184,.25))}
+.strip-seg.tier-mid     {background:linear-gradient(180deg,rgba(240,200,120,.42),rgba(220,181,88,.22))}
+.strip-seg.tier-mid-alt {background:linear-gradient(180deg,rgba(220,181,88,.42),rgba(196,156,72,.22))}
+.strip-seg.tier-low     {background:linear-gradient(180deg,rgba(240,152,152,.36),rgba(220,120,120,.20))}
+.strip-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:#e8eef5;border:1px solid #0b0f19;transform:translate(-50%,-50%);box-shadow:0 0 4px rgba(255,255,255,.35);pointer-events:none;z-index:2}
+.strip-axis{position:relative;height:80px;margin-top:0;font-size:.7rem;color:#7788aa;font-variant-numeric:tabular-nums}
+.strip-axis>span{position:absolute;transform:translateX(-50%);white-space:nowrap;line-height:1}
+/* Vertical dashed leader from each label's center up to the strip's bottom edge. */
+.strip-axis>span::before{
+  content:'';position:absolute;left:50%;bottom:100%;
+  width:0;border-left:1px dashed #455870;
+}
+.strip-axis>span.row-0{top:6px}
+.strip-axis>span.row-1{top:22px}
+.strip-axis>span.row-2{top:38px}
+.strip-axis>span.row-3{top:54px}
+.strip-axis>span.row-0::before{height:6px}
+.strip-axis>span.row-1::before{height:22px}
+.strip-axis>span.row-2::before{height:38px}
+.strip-axis>span.row-3::before{height:54px}
+
+.strip-legend{display:flex;flex-wrap:nowrap;gap:6px;font-size:.72rem;margin-top:18px}
+.strip-legend-item{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:#0d1220;border-radius:6px;padding:6px 8px}
+.strip-legend-item-head{display:flex;align-items:center;gap:6px;width:100%;min-width:0}
+.strip-legend-swatch{display:inline-block;width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.strip-legend-name{color:#d0d8e8;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.7rem}
+.strip-legend-stats{color:#8aa0b8;font-variant-numeric:tabular-nums;font-size:.7rem;white-space:nowrap}
+.strip-legend-stats strong{color:#c0d0f0}
+.strip-note{font-size:.74rem;color:#7788aa;line-height:1.55;margin-top:14px;border-top:1px dashed #1e2940;padding-top:12px}
+.strip-note strong{color:#aabbcc}
+
+.improvement-panel{display:flex;flex-direction:column;gap:14px}
+.improvement-stat{display:flex;align-items:baseline;gap:10px}
+.improvement-stat-num{font-size:2rem;font-weight:800;color:#5cd09a}
+.improvement-stat-num.bad{color:#f09898}
+.improvement-stat-num.muted{color:#aabbcc}
+.improvement-stat-label{font-size:.85rem;color:#aabbcc}
+.improvement-bar{height:10px;background:#0d1220;border-radius:5px;overflow:hidden;display:flex}
+.improvement-bar > span{display:block;height:100%}
+.improvement-bar-good{background:linear-gradient(90deg,#3aaa80,#5cd09a)}
+.improvement-bar-bad {background:linear-gradient(90deg,#dc7878,#f09898)}
+.improvement-detail{font-size:.78rem;color:#7788aa;line-height:1.55}
+
+.bundle-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.bundle-item{display:flex;align-items:center;gap:10px;background:#0d1220;border-radius:6px;padding:8px 12px;font-size:.82rem}
+.bundle-item-name{flex:1 1 auto;color:#d0d8e8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bundle-item-name-zh{color:#7788aa;font-size:.72rem;margin-left:4px}
+.bundle-item-count{color:#8aabff;font-weight:700;font-variant-numeric:tabular-nums}
+.bundle-item-type-binary{border-left:3px solid #3a9bdc;padding-left:9px}
+.bundle-item-type-continuous{border-left:3px solid #38b87c;padding-left:9px}
+
+/* ── Percentile range filter (dual-handle slider) ──────────── */
+.range-filter{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto 18px;flex-wrap:wrap;font-size:.82rem;color:#99aabb}
+.range-filter-label{font-weight:600;color:#c0d0f0}
+.range-filter-track{position:relative;width:340px;height:48px;display:flex;align-items:center}
+.range-filter-track input[type=range]{position:absolute;left:0;right:0;width:100%;margin:0;background:transparent;-webkit-appearance:none;appearance:none;height:4px;pointer-events:none;top:18px}
+.range-filter-track input[type=range]:focus{outline:none}
+.range-filter-track input[type=range]::-webkit-slider-runnable-track{height:4px;background:#2a3550;border-radius:2px}
+.range-filter-track input[type=range]::-moz-range-track{height:4px;background:#2a3550;border-radius:2px}
+.range-filter-track input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:#6c8cff;border:2px solid #0b0f19;cursor:pointer;pointer-events:auto;margin-top:-7px;box-shadow:0 0 6px rgba(108,140,255,.4);position:relative;z-index:3}
+.range-filter-track input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#6c8cff;border:2px solid #0b0f19;cursor:pointer;pointer-events:auto;box-shadow:0 0 6px rgba(108,140,255,.4)}
+.range-filter-track .range-fill{position:absolute;height:4px;background:#6c8cff;border-radius:2px;pointer-events:none;top:20px;z-index:1}
+.range-filter-track .range-ticks{position:absolute;top:30px;left:0;width:100%;display:flex;justify-content:space-between;pointer-events:none;font-size:.68rem;color:#7788aa}
+.range-filter-track .range-ticks span{transform:translateX(-50%);white-space:nowrap}
+.range-filter-track .range-ticks span:first-child{transform:translateX(0)}
+.range-filter-track .range-ticks span:last-child{transform:translateX(-100%)}
+.range-filter-summary{font-family:'SF Mono',Menlo,Consolas,monospace;color:#8aabff;font-weight:700;min-width:130px;text-align:left}
+.range-filter-count{font-size:.72rem;color:#7788aa}
+.range-filter-count::before{content:'· '}
+
+/* ── CT vs PRS meta-row switching (per-card) ───────────────── */
 .prs-meta-row{display:none}
-body.prs-mode .ct-meta-row{display:none}
-body.prs-mode .prs-meta-row{display:flex}
+.trait-card.prs-view .ct-meta-row{display:none}
+.trait-card.prs-view .prs-meta-row{display:flex}
 </style>
 </head>
 <body>
@@ -165,7 +343,8 @@ body.prs-mode .prs-meta-row{display:flex}
 <!-- nav dots -->
 <nav class="nav-dots">
   <a href="#page-arch" title="Architecture"></a>
-  <a href="#page-cards" title="Target Traits"></a>
+  <a href="#page-summary" title="Summary"></a>
+  <a href="#page-cards" title="Detail"></a>
 </nav>
 
 <!-- ═══════════════════════════════════════════════════════════
@@ -173,63 +352,146 @@ body.prs-mode .prs-meta-row{display:flex}
      ═══════════════════════════════════════════════════════════ -->
 <section id="page-arch" class="page">
   <h2>Cross-Trait Transfer</h2>
+  <p class="arch-lead">Bundles &rarr; evidence &rarr; one chosen model; evaluate on the full benchmark row.</p>
 
-  <div class="arch-canvas">
-    <!-- SVG connection lines -->
-    <svg class="arch-svg" viewBox="0 0 820 420" preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#b06cdc"/></marker>
-      </defs>
-      <!-- Tool → Hub lines -->
-      <line class="line-gc" x1="180" y1="120" x2="340" y2="185"/>
-      <line class="line-h2" x1="640" y1="120" x2="480" y2="185"/>
-      <line class="line-ot" x1="410" y1="340" x2="410" y2="280"/>
-      <!-- Hub → PRS flow -->
-      <line class="line-prs" x1="495" y1="210" x2="670" y2="210" marker-end="url(#arrow)"/>
-    </svg>
-
-    <!-- flow labels -->
-    <div class="flow-label" style="left:550px;top:192px">cross-trait &rarr; PRS</div>
-    <div class="flow-label" style="left:590px;top:218px;font-size:.65rem;color:#b06cdc">target trait in</div>
-
-    <!-- center hub -->
-    <div class="hub">Cross-Trait<br>Transfer<br>Agent</div>
-
-    <!-- tool nodes -->
-    <div class="tool-node tool-gc" onclick="showModal('gc')">
-      Genetic<br>Correlation<br>Tool
-    </div>
-    <div class="tool-node tool-h2" onclick="showModal('h2')">
-      Heritability<br>Tool
-    </div>
-    <div class="tool-node tool-ot" onclick="showModal('ot')">
-      OpenTarget<br>Tool
-    </div>
-
-    <!-- PRS Recommender -->
-    <div class="prs-node">PRS<br>Recommender</div>
+  <div class="pipe-flow" aria-label="Cross-trait transfer pipeline">
+    <ol>
+      <li class="pipe-card" aria-label="Step 1: Prepare assets">
+        <div class="pipe-card-index" aria-hidden="true"><span class="pipe-step-num">1</span><span class="pipe-step-tag">STEP</span></div>
+        <div class="pipe-card-body">
+          <h3 class="pipe-title">Prepare assets</h3>
+          <ul class="pipe-lines">
+            <li><span class="pl-k">Purpose</span><span class="line-body">Define the global trait-bundle catalog and build a large, target-specific candidate list.</span></li>
+            <li><span class="pl-k">Rough scale</span><span class="line-body">~660 trait bundles in the global index; roughly hundreds of candidate trait bundles per target.</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="pipe-card" aria-label="Step 2: Scout">
+        <div class="pipe-card-index" aria-hidden="true"><span class="pipe-step-num">2</span><span class="pipe-step-tag">STEP</span></div>
+        <div class="pipe-card-body">
+          <h3 class="pipe-title">Scout</h3>
+          <ul class="pipe-lines">
+            <li><span class="pl-k">Purpose</span><span class="line-body">Choose which bundles get deep evidence gathering next.</span></li>
+            <li><span class="pl-k">Tools</span><span class="line-body"><span class="pipe-tool-chips"><button type="button" class="tool-chip-btn t-biology" data-tool-modal="biology" title="Tool details">Biology</button><button type="button" class="tool-chip-btn t-skill" data-tool-modal="skill" title="Tool details">Skill</button></span></span></li>
+            <li><span class="pl-k">Rough scale</span><span class="line-body">~50–60 trait bundles from the per-target pool.</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="pipe-card" aria-label="Step 3: Gather">
+        <div class="pipe-card-index" aria-hidden="true"><span class="pipe-step-num">3</span><span class="pipe-step-tag">STEP</span></div>
+        <div class="pipe-card-body">
+          <h3 class="pipe-title">Gather</h3>
+          <ul class="pipe-lines">
+            <li><span class="pl-k">Purpose</span><span class="line-body">Fill a structured evidence ledger for the probe bundles.</span></li>
+            <li><span class="pl-k">Tools</span><span class="line-body pipe-tool-chips"><button type="button" class="tool-chip-btn t-opent" data-tool-modal="open_target" title="Tool details">Open Target</button><button type="button" class="tool-chip-btn t-herit" data-tool-modal="heritability" title="Tool details">Heritability</button><button type="button" class="tool-chip-btn t-skill" data-tool-modal="skill" title="Tool details">Skill</button></span></li>
+            <li><span class="pl-k">Rough scale</span><span class="line-body">~50–60 trait bundles (same probe set as Scout).</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="pipe-card" aria-label="Step 4: Judge">
+        <div class="pipe-card-index" aria-hidden="true"><span class="pipe-step-num">4</span><span class="pipe-step-tag">STEP</span></div>
+        <div class="pipe-card-body">
+          <h3 class="pipe-title">Judge</h3>
+          <ul class="pipe-lines">
+            <li><span class="pl-k">Purpose</span><span class="line-body">Rank supporting bundles and decide how many feed the model picker.</span></li>
+            <li><span class="pl-k">Tools</span><span class="line-body pipe-tool-chips"><button type="button" class="tool-chip-btn t-skill" data-tool-modal="skill" title="Tool details">Skill</button></span></li>
+            <li><span class="pl-k">Rough scale</span><span class="line-body">~5–10 supporting trait bundles.</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="pipe-card" aria-label="Step 5: Genetic correlation batch">
+        <div class="pipe-card-index" aria-hidden="true"><span class="pipe-step-num">5</span><span class="pipe-step-tag">STEP</span></div>
+        <div class="pipe-card-body">
+          <h3 class="pipe-title">Genetic correlation batch</h3>
+          <ul class="pipe-lines">
+            <li><span class="pl-k">Purpose</span><span class="line-body">Add cross-trait relatedness estimates for the shortlist to help later disambiguation.</span></li>
+            <li><span class="pl-k">Tools</span><span class="line-body pipe-tool-chips"><button type="button" class="tool-chip-btn t-genc" data-tool-modal="genetic_correction" title="Tool details">Genetic Correction</button></span></li>
+            <li><span class="pl-k">Rough scale</span><span class="line-body">~5–10 trait bundles (shortlist, same as Judge).</span></li>
+          </ul>
+        </div>
+      </li>
+      <li class="pipe-card" aria-label="Step 6: Pick and global primary">
+        <div class="pipe-card-index" aria-hidden="true"><span class="pipe-step-num">6</span><span class="pipe-step-tag">STEP</span></div>
+        <div class="pipe-card-body">
+          <h3 class="pipe-title">Pick (+ global primary)</h3>
+          <ul class="pipe-lines">
+            <li><span class="pl-k">Purpose</span><span class="line-body">Hydrate scoring models inside each supporting bundle and pick one primary recommendation across bundles.</span></li>
+            <li><span class="pl-k">Tools</span><span class="line-body pipe-tool-chips"><button type="button" class="tool-chip-btn t-skill" data-tool-modal="skill" title="Tool details">Skill</button></span></li>
+            <li><span class="pl-k">Rough scale</span><span class="line-body">Per trait bundle: up to ~18 PGS models fully examined, ~5 frontier PGS models; one primary PGS model after cross-bundle merge.</span></li>
+          </ul>
+        </div>
+      </li>
+    </ol>
   </div>
 
 </section>
 
+<!-- Tool detail modal (opened from pipeline chips) -->
+<div id="tool-modal-overlay" class="tool-modal-overlay" aria-hidden="true">
+  <div class="tool-modal-panel" role="dialog" aria-modal="true" aria-labelledby="tool-modal-heading">
+    <button type="button" class="tool-modal-close" id="tool-modal-close" aria-label="Close">&times;</button>
+    <h3 id="tool-modal-heading"></h3>
+    <div id="tool-modal-intro" class="tool-modal-intro"></div>
+    <h4 class="tool-modal-h4" id="tool-modal-example-label">Example output</h4>
+    <pre id="tool-modal-example" class="tool-modal-pre"></pre>
+    <p id="tool-modal-footnote" class="tool-modal-foot"></p>
+  </div>
+</div>
+
 <!-- ═══════════════════════════════════════════════════════════
-     PAGE 2 — Target Trait Summary
+     PAGE 2 — Target Trait Summary (high-level overview)
+     ═══════════════════════════════════════════════════════════ -->
+<section id="page-summary" class="page">
+  <h2 style="text-align:center;margin-bottom:6px">Target Trait Summary</h2>
+  <p id="summary-target-intro" style="text-align:center;color:#7788aa;font-size:.9rem;margin-bottom:28px"></p>
+
+  <!-- KPI row -->
+  <div class="kpi-row" id="kpi-row"></div>
+
+  <!-- Rank percentile distribution -->
+  <div class="summary-block">
+    <h3>Recommended PRS rank percentile</h3>
+    <p class="summary-block-sub">
+      The horizontal bar below is the full 0 – 100% percentile space drawn to scale.
+      Top 0.5% is a <strong>tiny sliver on the left</strong>; 25 – 100% is the huge region taking up three quarters of the bar.
+      Each target is shown as a dot at its actual rank percentile, so dot density tells you how concentrated recommendations are in each region.
+    </p>
+    <div id="hist-rank-percentile"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 3 — Target Trait Detail (per-target cards)
      ═══════════════════════════════════════════════════════════ -->
 <section id="page-cards" class="page">
-  <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:8px;flex-wrap:wrap">
-    <h2 style="margin-bottom:0">Target Trait Summary</h2>
-    <div class="view-toggle">
-      <button class="vt-btn active" id="vt-cross" onclick="setViewMode('cross-trait')">Cross Trait Level</button>
-      <button class="vt-btn" id="vt-prs" onclick="setViewMode('prs-model')">PRS Model Level</button>
+  <h2 style="text-align:center;margin-bottom:8px">Target Trait Detail</h2>
+
+  <!-- ── Percentile range filter (dual-handle slider) ─────────── -->
+  <div class="range-filter">
+    <span class="range-filter-label">Show targets in top</span>
+    <div class="range-filter-track">
+      <input type="range" id="range-low"  min="0" max="5" step="1" value="0">
+      <input type="range" id="range-high" min="0" max="5" step="1" value="5">
+      <div class="range-fill" id="range-fill"></div>
+      <div class="range-ticks">
+        <span data-pct="0">0%</span>
+        <span data-pct="0.5">0.5%</span>
+        <span data-pct="2.5">2.5%</span>
+        <span data-pct="5">5%</span>
+        <span data-pct="25">25%</span>
+        <span data-pct="100">100%</span>
+      </div>
     </div>
+    <span class="range-filter-summary" id="range-summary">0% – 100%</span>
+    <span class="range-filter-count" id="range-count"></span>
   </div>
 
   <div class="legend-section">
     <div class="legend-group">
       <span><span class="legend-swatch" style="background:#3a9bdc"></span>Binary cross-trait</span>
       <span><span class="legend-swatch" style="background:#38b87c"></span>Continuous cross-trait</span>
-      <span><span class="legend-swatch" style="border:2.5px solid #ffd700;background:transparent"></span><span id="legend-selected-text">Selected primary Cross Trait</span></span>
-      <span><span class="legend-swatch" style="border-top:2.5px dashed #ff7c7c;background:transparent;height:0;width:20px;border-radius:0;display:inline-block;vertical-align:middle;margin-right:5px"></span>Type B self best AUC</span>
+      <span><span class="legend-swatch" style="border:2.5px solid #ff7c7c;background:transparent"></span><span id="legend-selected-text">Recommended PRS model</span></span>
+      <span><span class="legend-swatch" style="border-top:2.5px dashed #f0a050;background:transparent;height:0;width:20px;border-radius:0;display:inline-block;vertical-align:middle;margin-right:5px"></span>Type B self best AUC</span>
     </div>
     <div class="legend-divider"></div>
     <div class="legend-group">
@@ -247,102 +509,15 @@ body.prs-mode .prs-meta-row{display:flex}
   <div id="cards-container"></div>
 </section>
 
-<!-- ── Tool Modals ──────────────────────────────────────────── -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal" id="modal-content" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="document.getElementById('modal-overlay').classList.remove('active')">&times;</button>
-    <div id="modal-body"></div>
-  </div>
-</div>
-
 <script>
-/* ══════════════════════════════════════════════════════════════
-   MODALS — Tool Descriptions
-   ══════════════════════════════════════════════════════════════ */
-const TOOL_INFO = {
-  gc: {
-    title: 'Genetic Correlation Tool',
-    subtitle: 'cross_trait_genetic_correlation',
-    html: `
-      <p>Performs <strong>deterministic GWAS Atlas lookups</strong> to identify genetic correlation (r<sub>g</sub>) between target and candidate traits.</p>
-      <ul>
-        <li><span class="tag tag-input">Input</span> Target trait label + candidate Cross Trait IDs</li>
-        <li><span class="tag tag-output">Output</span> r<sub>g</sub>, z-score, p-value per trait pair</li>
-        <li><span class="tag tag-evidence">Evidence Strength</span> Strong (p&lt;0.05 &amp; |r<sub>g</sub>|&ge;0.30), Moderate (p&lt;0.05 &amp; |r<sub>g</sub>|&ge;0.15), Weak</li>
-      </ul>
-      <p><strong>How it works:</strong></p>
-      <ul>
-        <li>Resolves both target and candidate trait labels to GWAS Atlas trait IDs via fuzzy matching (min score=60)</li>
-        <li>Queries pre-loaded cross-trait genetic correlation matrix for r<sub>g</sub>, z-score, p-value</li>
-        <li>Examines up to 3&times;3 = 9 resolved trait pairs (detailed mode), selects best pair by p-value &amp; |r<sub>g</sub>|</li>
-        <li>Applies resolution discount when traits resolve with Low/Moderate confidence</li>
-      </ul>
-      <p><strong>Concise mode</strong> (prescreening, all ~600 candidates): 1&times;1 pair, 2 alternatives.<br>
-         <strong>Detailed mode</strong> (shortlist, ~50 candidates): 3&times;3 pairs, 6 alternatives.</p>
-    `
-  },
-  h2: {
-    title: 'Heritability Tool',
-    subtitle: 'cross_trait_heritability',
-    html: `
-      <p>Aggregates <strong>heritability estimates from multiple public sources</strong> (LDSC, GCTA, etc.) to assess shared genetic signal capacity between target and candidates.</p>
-      <ul>
-        <li><span class="tag tag-input">Input</span> Target trait + candidate Cross Trait IDs + ancestry (default EUR)</li>
-        <li><span class="tag tag-output">Output</span> Per-trait h<sup>2</sup> estimates, shared signal ceiling proxy</li>
-        <li><span class="tag tag-evidence">Confidence</span> High (n&ge;100K &amp; SE&le;0.05), Moderate (n&ge;50K), Low</li>
-      </ul>
-      <p><strong>Key outputs:</strong></p>
-      <ul>
-        <li><strong>target_best_h2:</strong> Best heritability estimate for the target trait</li>
-        <li><strong>candidate_best_h2:</strong> Best heritability for each candidate</li>
-        <li><strong>shared_signal_ceiling_proxy:</strong> min(target_h2, candidate_h2) &mdash; the theoretical maximum shared signal</li>
-      </ul>
-      <p>Deduplicates by trait name + source + population + h<sup>2</sup> value. Sorts by match score, sample size (desc), h<sup>2</sup> (desc), SE (asc).</p>
-    `
-  },
-  ot: {
-    title: 'OpenTarget Tool',
-    subtitle: 'cross_trait_open_targets',
-    html: `
-      <p>Identifies <strong>mechanistic/biological overlap</strong> between diseases via shared therapeutic targets, pathways, phenotypes, and disease ontology ancestors from Open Targets Platform.</p>
-      <ul>
-        <li><span class="tag tag-input">Input</span> Target trait + candidate Cross Trait IDs</li>
-        <li><span class="tag tag-output">Output</span> Shared targets, pathways, phenotype overlap, mechanism summary</li>
-        <li><span class="tag tag-evidence">Confidence</span> High (weighted_overlap&ge;1.2 &amp; shared_count&ge;3 &amp; genetic_support), Moderate (w_overlap&ge;0.20), Low</li>
-      </ul>
-      <p><strong>Evidence dimensions:</strong></p>
-      <ul>
-        <li><strong>Shared Targets:</strong> Gene targets with per-datatype scores (genetic_association=1.0, clinical=0.7, somatic_mutation=0.6, pathway=0.55, expression=0.45, animal=0.45, drug=0.45, literature=0.25)</li>
-        <li><strong>Therapeutic Area Match:</strong> Do both diseases share at least one therapeutic area?</li>
-        <li><strong>Ancestor Overlap:</strong> Shared ontological ancestors in disease hierarchy</li>
-        <li><strong>Phenotype Overlap:</strong> Shared HPO terms; score = shared_count / total_union</li>
-      </ul>
-      <p>Warns when literature evidence dominates over genetic support (literature_dominance_warning).</p>
-    `
-  }
-};
-
-function showModal(key) {
-  const info = TOOL_INFO[key];
-  document.getElementById('modal-body').innerHTML =
-    `<h3>${info.title}</h3><div class="modal-subtitle">${info.subtitle}</div>${info.html}`;
-  document.getElementById('modal-overlay').classList.add('active');
-}
-function closeModal(e) {
-  if (e.target === e.currentTarget) e.currentTarget.classList.remove('active');
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.getElementById('modal-overlay').classList.remove('active');
-});
-
 /* ══════════════════════════════════════════════════════════════
    PAGE 2 — Build Target Trait Cards
    ══════════════════════════════════════════════════════════════ */
 const BAR_COLOR_BINARY  = '#3a9bdc';
 const BAR_COLOR_CONT    = '#38b87c';
 const BAR_COLOR_UNASSIGNED = '#556677';
-const HIGHLIGHT_BORDER  = '#ffd700';
-const SELF_BORDER       = '#ff7c7c';
+const HIGHLIGHT_BORDER  = '#ff7c7c';
+const SELF_BORDER       = '#f0a050';
 
 function barColor(bundleType) {
   if (bundleType === 'binary') return BAR_COLOR_BINARY;
@@ -355,14 +530,41 @@ function crossTraitCountPhrase(n) {
   return `${n} Cross Trait${n === 1 ? '' : 's'}`;
 }
 
+/** ICD F60 (Specific personality disorders): drop from deck when benchmark PRS rank is missing.
+ * Cross-trait bundles may still exist; until eval fills selected_model_rank, treat as no PRS result.
+ * Regenerated data with selected_model_rank present includes this target again (no manual toggle). */
+const F60_TARGET_ID = 'F60';
+
+function presentationKeepsTarget(t) {
+  if (t.target_id !== F60_TARGET_ID) return true;
+  return t.selected_model_rank != null;
+}
+
+/** Benchmark cohort size for denominators — unchanged when omitting no-result F60 from cards. */
+let presentationBenchmarkDenom = null;
+/** Snapshot before dropping no-result F60 (for Type A/B KPI totals matching benchmark size). */
+let presentationTargetsSnapshotForMetrics = null;
+
+function applyPresentationTargetFilter() {
+  if (typeof PRESENTATION_DATA === 'undefined') return;
+  presentationBenchmarkDenom = PRESENTATION_DATA.n_targets_total_benchmark;
+  presentationTargetsSnapshotForMetrics = PRESENTATION_DATA.targets.slice();
+  const kept = PRESENTATION_DATA.targets.filter(presentationKeepsTarget);
+  if (kept.length === PRESENTATION_DATA.targets.length) return;
+  PRESENTATION_DATA.targets = kept;
+}
+
 /** Chart instances (destroy before rebuild). */
 const presentationCharts = [];
 /** Per-card: true = show bars_full. */
 const fullViewState = {};
 /** Per-card: true = detail (scroll) mode; false = overview (fit) mode. */
 const zoomState = {};
-/** Current view mode: 'cross-trait' | 'prs-model' */
-let viewMode = 'cross-trait';
+/** Per-card view mode: 'cross-trait' | 'prs-model'. PRS Model Level is the
+ *  default (set in DOMContentLoaded); each card has its own toggle button so
+ *  users can switch one card to Cross Trait Level without affecting others. */
+const cardViewMode = {};
+function isPrsView(idx) { return cardViewMode[idx] !== 'cross-trait'; }
 
 /* ── Chart.js plugin: vertical percentile threshold lines (PRS mode) ───
    Reads chart.options.plugins.verticalThresholdLines.lines (array of
@@ -393,8 +595,8 @@ const verticalThresholdLinesPlugin = {
       }
       ctx.beginPath();
       ctx.strokeStyle = line.color || 'rgba(255,255,255,0.45)';
-      ctx.lineWidth = 1.2;
-      ctx.setLineDash([3, 3]);
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
       ctx.moveTo(xLine, yScale.top);
       ctx.lineTo(xLine, yScale.bottom);
       ctx.stroke();
@@ -413,7 +615,7 @@ const verticalThresholdLinesPlugin = {
 Chart.register(verticalThresholdLinesPlugin);
 
 /** Percentiles to mark in PRS Model Level view, low → high. */
-const PRS_PERCENTILE_MARKS = [0.5, 2.5, 5, 10];
+const PRS_PERCENTILE_MARKS = [0.5, 2.5, 5, 10, 25];
 
 /** Build threshold-line specs for the PRS chart, deduped by bar index.
  *  In full view, also draws lines for the Recommended PRS model and the
@@ -422,19 +624,26 @@ const PRS_PERCENTILE_MARKS = [0.5, 2.5, 5, 10];
 function buildPrsThresholdLines(target, displayedBars, fullView) {
   const nTotal = (target.prs_bars_full && target.prs_bars_full.length) || displayedBars.length;
   if (!nTotal) return [];
-  const seen = new Set();
   const lines = [];
+  // Dedup percentile lines among themselves (e.g. when N is small enough that
+  // 0.5% and 2.5% round to the same bar) — but never suppress Recommended /
+  // Self-best lines: those carry critical info and need to render even when
+  // their bar coincides with a percentile cutoff. The plugin draws in array
+  // order, so later (warmer-colored) lines paint on top of earlier ones at the
+  // same x position; labels are y-staggered via labelOffset so they never
+  // hide each other.
+  const pctSeen = new Set();
   PRS_PERCENTILE_MARKS.forEach((p, i) => {
     const cutoff = Math.round(nTotal * p / 100);
     if (cutoff < 1) return;
     const barIndex = cutoff - 1;
     if (barIndex >= displayedBars.length) return;
-    if (seen.has(barIndex)) return;
-    seen.add(barIndex);
+    if (pctSeen.has(barIndex)) return;
+    pctSeen.add(barIndex);
     lines.push({
       barIndex,
       label: `Top ${p}%`,
-      color: 'rgba(255,255,255,0.45)',
+      color: '#e8eef5',
       labelColor: '#e8eef5',
       labelOffset: i * 12,
     });
@@ -442,14 +651,13 @@ function buildPrsThresholdLines(target, displayedBars, fullView) {
 
   if (fullView) {
     const recIdx = displayedBars.findIndex(b => b.is_recommended);
-    if (recIdx >= 0 && !seen.has(recIdx)) {
-      seen.add(recIdx);
+    if (recIdx >= 0) {
       lines.push({
         barIndex: recIdx,
         label: `Recommended (rank ${recIdx + 1})`,
-        color: 'rgba(255,215,0,0.7)',
-        labelColor: '#ffd700',
-        labelOffset: 50,
+        color: '#ff7c7c',
+        labelColor: '#ff7c7c',
+        labelOffset: 62,
       });
     }
     if (target.input_type === 'B' && target.self_best_auc != null) {
@@ -459,14 +667,13 @@ function buildPrsThresholdLines(target, displayedBars, fullView) {
         if (displayedBars[i].auc >= selfAuc) lastIdx = i;
         else break;
       }
-      if (lastIdx >= 0 && !seen.has(lastIdx)) {
-        seen.add(lastIdx);
+      if (lastIdx >= 0) {
         lines.push({
           barIndex: lastIdx,
           label: `Self best AUC (n above: ${lastIdx + 1})`,
-          color: 'rgba(255,124,124,0.7)',
-          labelColor: '#ff7c7c',
-          labelOffset: 62,
+          color: '#f0a050',
+          labelColor: '#f0a050',
+          labelOffset: 74,
         });
       }
     }
@@ -475,7 +682,7 @@ function buildPrsThresholdLines(target, displayedBars, fullView) {
 }
 
 function barsForTarget(t, idx) {
-  if (viewMode === 'prs-model') {
+  if (isPrsView(idx)) {
     const full = t.prs_bars_full;
     if (fullViewState[idx] && full && full.length) return full;
     return t.prs_bars || [];
@@ -490,7 +697,7 @@ function refreshChartChrome(idx) {
   const bars = barsForTarget(t, idx);
   const meta = document.getElementById(`bars-meta-${idx}`);
   const mix = document.getElementById(`type-mix-${idx}`);
-  const isPrs = viewMode === 'prs-model';
+  const isPrs = isPrsView(idx);
   if (isPrs) {
     const isFull = !!(fullViewState[idx] && t.prs_bars_full && t.prs_bars_full.length);
     if (meta) meta.textContent = `${bars.length} PRS Models — ${isFull ? 'full ranking by AUC' : 'top 100 by AUC'}`;
@@ -506,6 +713,135 @@ function refreshChartChrome(idx) {
   }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   PAGE 2 — Build summary panels (KPIs, rank histogram, type-B
+   improvement, top recommended cross-trait sources).
+   ══════════════════════════════════════════════════════════════ */
+function buildSummary() {
+  const targets = PRESENTATION_DATA.targets;
+  const denom = presentationBenchmarkDenom != null ? presentationBenchmarkDenom : targets.length;
+  const cohortSplit = presentationTargetsSnapshotForMetrics || targets;
+  const nA = cohortSplit.filter(t => t.input_type === 'A').length;
+  const nB = cohortSplit.filter(t => t.input_type === 'B').length;
+
+  // Per-target rank percentile (null rank => null pct).
+  const pcts = targets.map(t => {
+    const total = (t.prs_bars_full && t.prs_bars_full.length) || 0;
+    if (t.selected_model_rank == null || !total) return null;
+    return (t.selected_model_rank / total) * 100;
+  });
+  const valid = pcts.filter(p => p != null);
+  const inTop = thresholdPct => valid.filter(p => p <= thresholdPct).length;
+  const sorted = [...valid].sort((a, b) => a - b);
+  const median = sorted.length ? sorted[Math.floor(sorted.length / 2)] : null;
+
+  // KPI cards.
+  const kpiRow = document.getElementById('kpi-row');
+  if (kpiRow) {
+    const top05 = inTop(0.5);
+    const top5  = inTop(5);
+    const kpis = [
+      { num: denom, label: 'Targets evaluated', sub: 'against contribution1 benchmark' },
+      { num: `${nA}<span class="kpi-num-sep">/</span>${nB}`, label: 'Type A / Type B',
+        sub: 'A: no direct PRS · B: self AUC&lt;0.60' },
+      { num: `${top05}<span class="kpi-num-sep">/</span>${denom}`, label: 'in top 0.5%',
+        sub: 'recommended PRS ranks among the top 0.5% of its candidate pool' },
+      { num: `${top5}<span class="kpi-num-sep">/</span>${denom}`, label: 'in top 5%' },
+    ];
+    kpiRow.innerHTML = kpis.map(k =>
+      `<div class="kpi-card">
+        <div class="kpi-num">${k.num}</div>
+        <div class="kpi-label">${k.label}</div>
+        ${k.sub ? `<div class="kpi-sub">${k.sub}</div>` : ''}
+      </div>`
+    ).join('');
+  }
+
+  // Rank percentile distribution rendered as a single proportional bar that
+  // spans the actual 0–100% percentile space. Top 0.5% is literally drawn 0.5%
+  // wide; 25–100% is 75% wide — so the eye sees the geometric truth. Each
+  // ranked target is also plotted as a dot at its true percentile, giving an
+  // immediate sense of density: dots cluster tightly in the narrow top zones
+  // and scatter sparsely across the wide bottom zone.
+  const hist = document.getElementById('hist-rank-percentile');
+  if (hist) {
+    const buckets = [
+      { label: 'Top 0.5%',    tier: 'best',     lo: 0,    hi: 0.5,  swatch: '#5cd09a' },
+      { label: '0.5% – 2.5%', tier: 'good',     lo: 0.5,  hi: 2.5,  swatch: '#8ab8e6' },
+      { label: '2.5% – 5%',   tier: 'good-alt', lo: 2.5,  hi: 5,    swatch: '#5c9ad6' },
+      { label: '5% – 10%',    tier: 'mid',      lo: 5,    hi: 10,   swatch: '#f0c878' },
+      { label: '10% – 25%',   tier: 'mid-alt',  lo: 10,   hi: 25,   swatch: '#dcb558' },
+      { label: '25% – 100%',  tier: 'low',      lo: 25,   hi: 100,  swatch: '#f09898' },
+    ];
+    const data = buckets.map(b => {
+      const count = pcts.filter(p => p != null && (b.lo === 0 ? p <= b.hi : (p > b.lo && p <= b.hi))).length;
+      return { ...b, count, widthPP: b.hi - b.lo };
+    });
+
+    // Pre-compute jittered y for each ranked target so dots in dense regions
+    // don't all stack on a single line. Deterministic pseudo-jitter (no
+    // randomness), so re-renders look identical.
+    const dots = pcts
+      .map((p, i) => ({ p, i }))
+      .filter(d => d.p != null)
+      .map(d => {
+        const jitter = (((d.i * 13 + 7) % 17) - 8) * 0.045;  // -0.36 ~ +0.36 in y-fraction
+        return { p: d.p, jy: jitter };
+      });
+
+    const segs = data.map(d =>
+      `<div class="strip-seg tier-${d.tier}"
+            style="left:${d.lo}%;width:${d.widthPP}%"
+            title="${d.label}: ${d.count} targets"></div>`
+    ).join('');
+
+    const dotsHtml = dots.map(d =>
+      `<div class="strip-dot" style="left:${d.p.toFixed(4)}%;top:calc(50% + ${(d.jy * 100).toFixed(1)}%)"></div>`
+    ).join('');
+
+    // Labels at 0.5 / 2.5 / 5 / 10 all sit in the leftmost 10% of the strip,
+    // so we stagger them across three rows to keep every label readable
+    // without ditching any. Each label has a short vertical leader connecting
+    // it back up to its tick on the strip.
+    const labeledPositions = [
+      { v: 0.5,  row: 0 },
+      { v: 2.5,  row: 1 },
+      { v: 5,    row: 2 },
+      { v: 10,   row: 3 },
+      { v: 25,   row: 0 },
+    ];
+    const tickHtml = labeledPositions.map(p =>
+      `<span class="labeled row-${p.row}" style="left:${p.v}%">${p.v}%</span>`
+    ).join('');
+
+    hist.innerHTML = `
+      <div class="strip-wrap">
+        <div class="strip">
+          ${segs}
+          ${dotsHtml}
+        </div>
+        <div class="strip-axis">${tickHtml}</div>
+      </div>
+      <div class="strip-legend">
+        ${data.map(d => `
+          <div class="strip-legend-item">
+            <div class="strip-legend-item-head">
+              <span class="strip-legend-swatch" style="background:${d.swatch}"></span>
+              <span class="strip-legend-name">${d.label}</span>
+            </div>
+            <span class="strip-legend-stats"><strong>${d.count}</strong> targets</span>
+          </div>
+        `).join('')}
+      </div>
+      <p class="strip-note">
+        <strong>How to read:</strong> the colored bar IS the 0–100% percentile space, drawn to scale.
+        Each target is plotted as a dot at its actual rank percentile, so dot density shows where recommendations concentrate.
+      </p>
+    `;
+  }
+
+}
+
 function buildCards() {
   const container = document.getElementById('cards-container');
   const targets = PRESENTATION_DATA.targets;
@@ -513,11 +849,19 @@ function buildCards() {
   targets.forEach((t, idx) => {
     // card element
     const card = document.createElement('div');
-    card.className = `trait-card type-${t.input_type.toLowerCase()}`;
+    // `prs-view` toggles the CSS-driven CT/PRS meta-row swap on this card.
+    const initialViewClass = isPrsView(idx) ? ' prs-view' : '';
+    card.className = `trait-card type-${t.input_type.toLowerCase()}${initialViewClass}`;
 
     // header
     const typeLabel = t.input_type === 'A' ? 'Type A' : 'Type B';
     const typeBadge = t.input_type === 'A' ? 'badge-type-a' : 'badge-type-b';
+    // Look up the trait the recommended PGS targets, so users can see what
+    // the model is for without hovering. Falls back gracefully if the
+    // recommended PGS isn't in any cross-trait bundle.
+    const recBar = (t.prs_bars_full || t.prs_bars || []).find(b => b.is_recommended);
+    const recTrait = recBar ? recBar.bundle_label || '' : '';
+    const recTraitZh = recTrait ? zh(recTrait) : '';
     card.innerHTML = `
       <div class="card-header">
         <span class="card-code">${t.target_id}</span>
@@ -533,6 +877,7 @@ function buildCards() {
       </div>
       <div class="card-meta prs-meta-row">
         <span>Recommended: ${t.recommended_model_id || '—'}</span>
+        ${recTrait ? `<span>Trait: ${recTrait}${recTraitZh ? ` <span style="opacity:.7">${recTraitZh}</span>` : ''}</span>` : ''}
         <span>AUC: ${t.selected_model_auc != null ? t.selected_model_auc.toFixed(4) : '—'}</span>
         <span>Rank: ${t.selected_model_rank ?? '—'}</span>
         ${t.selected_model_gpr != null ? `<span>GPR: ${t.selected_model_gpr.toFixed(4)}</span>` : ''}
@@ -542,7 +887,10 @@ function buildCards() {
           <span class="bars-scope" id="bars-meta-${idx}"></span>
           <span class="bars-scope" id="type-mix-${idx}" style="font-size:.72rem;opacity:.8"></span>
         </div>
-        <button type="button" class="btn-full-view" id="toggle-full-${idx}">Click to switch to full view</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="btn-full-view" id="toggle-view-${idx}">Click to switch to Cross Trait view</button>
+          <button type="button" class="btn-full-view" id="toggle-full-${idx}">Click to switch to full view</button>
+        </div>
       </div>
       <div class="chart-wrap zoom-overview" id="wrap-${idx}">
         <div class="chart-inner" id="inner-${idx}"><canvas id="chart-${idx}"></canvas></div>
@@ -559,7 +907,7 @@ function createOrUpdateChart(idx) {
   const canvas = document.getElementById(`chart-${idx}`);
   if (!canvas || !t) return;
 
-  const isPrs = viewMode === 'prs-model';
+  const isPrs = isPrsView(idx);
   const bars = barsForTarget(t, idx);
   if (presentationCharts[idx]) {
     presentationCharts[idx].destroy();
@@ -644,7 +992,7 @@ function createOrUpdateChart(idx) {
     datasets.push({
       type: 'line',
       data: Array(labels.length).fill(selfAuc),
-      borderColor: '#ff7c7c',
+      borderColor: '#f0a050',
       borderWidth: 2,
       borderDash: [6, 4],
       pointRadius: 0,
@@ -692,9 +1040,25 @@ function createOrUpdateChart(idx) {
               const b = bars[i];
               if (isPrs) {
                 const lines = [
-                  `AUC    : ${b.auc.toFixed(4)}`,
-                  `Type   : ${b.bundle_type}`,
+                  `AUC       : ${b.auc.toFixed(4)}`,
+                  `Type      : ${b.bundle_type}`,
                 ];
+                const meta = (typeof PRESENTATION_DATA !== 'undefined' && PRESENTATION_DATA.pgs_metadata)
+                  ? PRESENTATION_DATA.pgs_metadata[b.pgs_id] : null;
+                if (meta) {
+                  const fmtN = v => (v != null ? v.toLocaleString() : '—');
+                  if (meta.n_cases != null || meta.n_controls != null || meta.n_total != null) {
+                    lines.push(
+                      `N cases   : ${fmtN(meta.n_cases)}`,
+                      `N controls: ${fmtN(meta.n_controls)}`,
+                      `N total   : ${fmtN(meta.n_total)}`,
+                    );
+                  }
+                  if (meta.n_variant != null) lines.push(`Variants  : ${fmtN(meta.n_variant)}`);
+                  if (meta.method)   lines.push(`Method    : ${meta.method}`);
+                  if (meta.ancestry) lines.push(`Ancestry  : ${meta.ancestry}`);
+                  if (meta.cohort)   lines.push(`Cohort    : ${meta.cohort}`);
+                }
                 if (b.is_recommended) lines.push('★ Recommended model');
                 if (b.is_oracle) lines.push('◆ Benchmark top model');
                 return lines;
@@ -752,11 +1116,25 @@ function createOrUpdateChart(idx) {
   });
 }
 
+function wireCardViewModeButtons() {
+  PRESENTATION_DATA.targets.forEach((_, idx) => {
+    const btn = document.getElementById(`toggle-view-${idx}`);
+    if (!btn) return;
+    btn.textContent = isPrsView(idx)
+      ? 'Click to switch to Cross Trait view'
+      : 'Click to switch to PRS Model view';
+    btn.onclick = () => {
+      const next = isPrsView(idx) ? 'cross-trait' : 'prs-model';
+      setCardViewMode(idx, next);
+    };
+  });
+}
+
 function wireFullViewButtons() {
-  const isPrs = viewMode === 'prs-model';
   PRESENTATION_DATA.targets.forEach((t, idx) => {
     const btn = document.getElementById(`toggle-full-${idx}`);
     if (!btn) return;
+    const isPrs = isPrsView(idx);
     const preview = isPrs ? (t.prs_bars || []) : (t.bars || []);
     const full    = isPrs ? t.prs_bars_full : t.bars_full;
     const canToggle = full && full.length > preview.length;
@@ -788,7 +1166,7 @@ function wireZoomClick() {
     hint.addEventListener('click', e => {
       e.stopPropagation();
       // read current mode at click time
-      const fullArr = viewMode === 'prs-model' ? t.prs_bars_full : t.bars_full;
+      const fullArr = isPrsView(idx) ? t.prs_bars_full : t.bars_full;
       if (!fullArr || fullArr.length <= 80) return;
       if (!fullViewState[idx]) return; // only active in full view
       zoomState[idx] = !zoomState[idx];
@@ -798,31 +1176,30 @@ function wireZoomClick() {
   });
 }
 
-function setViewMode(mode) {
-  if (viewMode === mode) return;
-  viewMode = mode;
-  // update toggle button styles
-  document.getElementById('vt-cross').classList.toggle('active', mode === 'cross-trait');
-  document.getElementById('vt-prs').classList.toggle('active', mode === 'prs-model');
-  // toggle body class for CSS-driven CT/PRS meta-row visibility
-  document.body.classList.toggle('prs-mode', mode === 'prs-model');
-  // update legend label
-  const legendSel = document.getElementById('legend-selected-text');
-  if (legendSel) legendSel.textContent = mode === 'prs-model' ? 'Recommended PRS model' : 'Selected primary Cross Trait';
-  // reset per-card states. PRS mode defaults to full view (so the
-  // recommended/self-AUC marker lines are visible without an extra click);
-  // cross-trait mode keeps top view as default.
-  PRESENTATION_DATA.targets.forEach((_, idx) => {
-    fullViewState[idx] = (mode === 'prs-model');
-    zoomState[idx] = false;
-  });
-  // re-wire full view buttons for new mode
-  wireFullViewButtons();
-  // re-render all charts
-  PRESENTATION_DATA.targets.forEach((_, idx) => {
-    refreshChartChrome(idx);
-    createOrUpdateChart(idx);
-  });
+/** Toggle a single card between PRS Model Level and Cross Trait Level.
+ *  Each card carries its own state, so users can mix views across the
+ *  page (e.g. read most cards as PRS but inspect one as cross-trait). */
+function setCardViewMode(idx, mode) {
+  if (cardViewMode[idx] === mode) return;
+  cardViewMode[idx] = mode;
+  const isPrs = mode === 'prs-model';
+  const card = document.querySelectorAll('.trait-card')[idx];
+  if (card) card.classList.toggle('prs-view', isPrs);
+  // PRS view defaults to full ranking (so the percentile/recommended/self-AUC
+  // lines are visible). Cross-trait view defaults to the top view (≤50 bars
+  // is small enough to read without expanding).
+  fullViewState[idx] = isPrs;
+  zoomState[idx] = false;
+  const viewBtn = document.getElementById(`toggle-view-${idx}`);
+  if (viewBtn) {
+    viewBtn.textContent = isPrs ? 'Click to switch to Cross Trait view' : 'Click to switch to PRS Model view';
+  }
+  const fullBtn = document.getElementById(`toggle-full-${idx}`);
+  if (fullBtn) {
+    fullBtn.textContent = fullViewState[idx] ? 'Click to switch to top view' : 'Click to switch to full view';
+  }
+  refreshChartChrome(idx);
+  createOrUpdateChart(idx);
 }
 
 function renderCharts() {
@@ -832,34 +1209,104 @@ function renderCharts() {
     createOrUpdateChart(idx);
   });
   wireFullViewButtons();
+  wireCardViewModeButtons();
   wireZoomClick();
 }
 
 /* ── Type filter ──────────────────────────────────────────── */
 function wireTypeFilter() {
-  const targets = PRESENTATION_DATA.targets;
-  const nAll = targets.length;
-  const nA   = targets.filter(t => t.input_type === 'A').length;
-  const nB   = targets.filter(t => t.input_type === 'B').length;
-  const el = id => document.getElementById(id);
-  if (el('count-all')) el('count-all').textContent = nAll;
-  if (el('count-a'))   el('count-a').textContent   = nA;
-  if (el('count-b'))   el('count-b').textContent   = nB;
-
   document.querySelectorAll('.type-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.type-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
       document.querySelectorAll('.trait-card').forEach(card => {
-        if (filter === 'all') {
-          card.style.display = '';
-        } else {
-          card.style.display = card.classList.contains(`type-${filter}`) ? '' : 'none';
-        }
+        const typePass = (filter === 'all') || card.classList.contains(`type-${filter}`);
+        card.dataset.typePass = typePass ? '1' : '0';
       });
+      applyCardVisibility();
     });
   });
+}
+
+/* Recount each type-filter badge over only the cards that pass the
+ * percentile slider — counts ignore the active type filter so the user
+ * always sees how many Type A / Type B candidates are available within
+ * the current percentile slice. */
+function updateTypeFilterCounts() {
+  let nAll = 0, nA = 0, nB = 0;
+  document.querySelectorAll('.trait-card').forEach(card => {
+    if (card.dataset.pctPass !== '1') return;
+    nAll++;
+    if (card.classList.contains('type-a')) nA++;
+    else if (card.classList.contains('type-b')) nB++;
+  });
+  const set = (id, n) => { const e = document.getElementById(id); if (e) e.textContent = n; };
+  set('count-all', nAll);
+  set('count-a',   nA);
+  set('count-b',   nB);
+}
+
+/* ── Combined filter: card is visible only when both type & percentile pass. */
+function applyCardVisibility() {
+  let visible = 0;
+  document.querySelectorAll('.trait-card').forEach(card => {
+    const typeOk = card.dataset.typePass !== '0';
+    const pctOk  = card.dataset.pctPass  !== '0';
+    const show   = typeOk && pctOk;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const cnt = document.getElementById('range-count');
+  const denomShown =
+    presentationBenchmarkDenom != null ? presentationBenchmarkDenom : PRESENTATION_DATA.targets.length;
+  if (cnt) cnt.textContent = `${visible} / ${denomShown} targets shown`;
+  updateTypeFilterCounts();
+}
+
+/* ── Percentile range slider (dual-handle, snap to PCT_STOPS). */
+const PCT_STOPS = [0, 0.5, 2.5, 5, 25, 100];
+
+function targetPercentile(t) {
+  const total = (t.prs_bars_full && t.prs_bars_full.length) || 0;
+  if (t.selected_model_rank == null || !total) return Infinity;
+  return (t.selected_model_rank / total) * 100;
+}
+
+function wirePercentileFilter() {
+  const lowEl  = document.getElementById('range-low');
+  const highEl = document.getElementById('range-high');
+  const fill   = document.getElementById('range-fill');
+  const summary = document.getElementById('range-summary');
+  if (!lowEl || !highEl) return;
+  const maxIdx = PCT_STOPS.length - 1;
+
+  const update = () => {
+    let lo = +lowEl.value, hi = +highEl.value;
+    if (lo > hi) { const tmp = lo; lo = hi; hi = tmp; }
+    const loPct = PCT_STOPS[lo];
+    const hiPct = PCT_STOPS[hi];
+    fill.style.left  = (lo / maxIdx * 100) + '%';
+    fill.style.width = ((hi - lo) / maxIdx * 100) + '%';
+    if (summary) summary.textContent = `top ${loPct}% – ${hiPct}%`;
+    document.querySelectorAll('.trait-card').forEach((card, idx) => {
+      const t = PRESENTATION_DATA.targets[idx];
+      const pct = targetPercentile(t);
+      // hiPct === 100 means "everything", which should also include null-rank
+      // targets (Infinity); otherwise null-rank cards stay hidden.
+      const inRange = (pct === Infinity)
+        ? (hiPct === 100)
+        : (pct >= loPct && pct <= hiPct);
+      card.dataset.pctPass = inRange ? '1' : '0';
+    });
+    applyCardVisibility();
+  };
+
+  // Keep handles from crossing too far: read both inputs, take min/max at apply.
+  lowEl.addEventListener('input', update);
+  highEl.addEventListener('input', update);
+  // Initial paint
+  update();
 }
 
 /* ── Nav dot highlighting ─────────────────────────────────── */
@@ -877,6 +1324,13 @@ window.addEventListener('scroll', updateNavDots, { passive: true });
 
 /* ── Init ──────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
+  applyPresentationTargetFilter();
+  const introEl = document.getElementById('summary-target-intro');
+  if (introEl && typeof PRESENTATION_DATA !== 'undefined') {
+    const nIntro = PRESENTATION_DATA.n_targets_total_benchmark;
+    introEl.textContent =
+      `High-level view across the ${nIntro} evaluated target traits`;
+  }
   if (typeof PRESENTATION_DATA !== 'undefined') {
     const total = PRESENTATION_DATA.n_targets_total_benchmark;
     const n = PRESENTATION_DATA.n_targets;
@@ -885,16 +1339,266 @@ document.addEventListener('DOMContentLoaded', () => {
     if (elT) elT.textContent = String(total);
     if (elS) elS.textContent = `${n}/${total}`;
   }
-  // sort targets by highest bar max_auc descending
+  // Sort targets by recommended PRS model's rank percentile (ascending).
+  // Lower percentile = recommended model ranks nearer the top of its population,
+  // so those targets are more convincing and appear first. Targets without a
+  // recommended rank (missing selected_model_rank) fall to the bottom.
+  // Tiebreaker: when two targets share the same rank percentile (e.g. both
+  // are rank 1 of 3196), prefer the higher recommended-model AUC.
   PRESENTATION_DATA.targets.sort((a, b) => {
-    const maxAuc = t => Math.max(...(t.bars_full || t.bars || []).map(b => b.max_auc), 0);
-    return maxAuc(b) - maxAuc(a);
+    const rankPct = t => {
+      const total = (t.prs_bars_full && t.prs_bars_full.length) || 0;
+      if (t.selected_model_rank == null || !total) return Infinity;
+      return t.selected_model_rank / total;
+    };
+    const aucDesc = t => (t.selected_model_auc != null ? -t.selected_model_auc : Infinity);
+    const dRank = rankPct(a) - rankPct(b);
+    if (dRank !== 0) return dRank;
+    return aucDesc(a) - aucDesc(b);
   });
+  // Seed per-card state. Default view mode is PRS Model Level for every card,
+  // and PRS view opens in full ranking so the percentile / recommended /
+  // self-AUC lines are visible on first paint.
+  PRESENTATION_DATA.targets.forEach((_, idx) => {
+    cardViewMode[idx] = 'prs-model';
+    fullViewState[idx] = true;
+  });
+  buildSummary();
   buildCards();
+  // Seed each card so both filters default to "pass"; applyCardVisibility()
+  // (called by wirePercentileFilter on init) will then count visibility.
+  document.querySelectorAll('.trait-card').forEach(card => {
+    card.dataset.typePass = '1';
+    card.dataset.pctPass  = '1';
+  });
   renderCharts();
   wireTypeFilter();
+  wirePercentileFilter();
   updateNavDots();
 });
+</script>
+
+<script>
+/* Tool chip modals — overview + example output per channel */
+(function () {
+  'use strict';
+  var overlay = document.getElementById('tool-modal-overlay');
+  var btnClose = document.getElementById('tool-modal-close');
+  var heading = document.getElementById('tool-modal-heading');
+  var intro = document.getElementById('tool-modal-intro');
+  var exLabel = document.getElementById('tool-modal-example-label');
+  var example = document.getElementById('tool-modal-example');
+  var foot = document.getElementById('tool-modal-footnote');
+
+  if (!overlay || !btnClose || !heading || !intro || !exLabel || !example || !foot) return;
+
+  var GC_PAIR_EXAMPLE = {
+    bundle_id: 'efo_0001422',
+    candidate_label: 'cirrhosis of liver',
+    target_label: 'Chronic viral hepatitis',
+    rg: 0.38,
+    p_value: 0.029,
+    z: 2.06,
+    source: 'llm_batch_evidence',
+    pair_status: 'inferred_shared_pathway',
+    confidence: 'Moderate',
+    shared_pathways: [
+      'Fibrogenic activation in hepatic stellate cells (IL-6 / TGF-beta axis)',
+      'Liver inflammation and extracellular matrix remodeling'
+    ],
+    comorbidity_signals: [
+      'Chronic viral hepatitis frequently progresses to cirrhosis in cohort studies'
+    ],
+    citations: [
+      '(batch verify rationale) Cross-trait liver GWAS pleiotropy synthesis'
+    ],
+    rationale: 'Shared hepatocyte injury and fibrosis pathways support non-zero genetic overlap between chronic viral liver disease and established cirrhosis endpoints.'
+  };
+
+  var BIOLOGY_EXAMPLE = {
+    n_suggestions_kept: 4,
+    n_suggestions_total: 6,
+    rationale: 'Lexical pool skewed to spelling variants; adding liver fibrosis / bilirubin-linked bundles for mechanism coverage.',
+    suggestions: [
+      {
+        bundle_id: 'efo_0009444',
+        suggestion_rationale: 'Liver fibrosis shares fibrogenic GWAS axes with progressing viral hepatitis'
+      },
+      {
+        bundle_id: 'mondo_0005298',
+        suggestion_rationale: 'Bilirubin metabolism overlap with hepatic impairment pathways relevant to ESLD states'
+      }
+    ]
+  };
+
+  /* Successful overlap only (both phenotypes resolve to EFO) */
+  var OT_SUCCESS_EXAMPLE = {
+    target_label: 'Chronic viral hepatitis',
+    candidate_label: 'cirrhosis of liver',
+    target_efo: 'EFO:0009462',
+    candidate_efo: 'EFO:0001422',
+    shared_targets: [
+      {
+        gene: 'PNPLA3',
+        target_id: 'ENSG000001003…',
+        source_score: 0.42,
+        candidate_score: 0.51,
+        source_datatype_scores: { genetic_association: 1.0 },
+        candidate_datatype_scores: { genetic_association: 1.0 }
+      },
+      {
+        gene: 'TM6SF2',
+        target_id: 'ENSG000001045…',
+        source_score: 0.38,
+        candidate_score: 0.42
+      }
+    ],
+    shared_pathways: [
+      { pathway_name: 'Regulation of lipoprotein localization', shared_target_genes: ['PNPLA3', 'APOB'] },
+      { pathway_name: 'Liver necrosis / ER stress', shared_target_genes: ['DDIT3', 'HSPA5'] }
+    ],
+    ancestors: [
+      { id: 'EFO:0000270', name: 'liver disease' },
+      { id: 'EFO:0000684', name: 'digestive system disease' }
+    ],
+    therapeutic_areas: [{ id: 'MONDO_0000001', name: 'disease of anatomical entity' }],
+    phenotypes: [{ hpo_id: 'HP:0002910', hpo_name: 'Elevated hepatic transaminases', frequency: 'Occasional' }],
+    shared_target_count_total: 31,
+    shared_pathway_count_total: 17,
+    ancestor_count_total: 4,
+    phenotype_count_total: 2,
+    target_profile_target_count: 186,
+    candidate_profile_target_count: 142
+  };
+
+  var H2_EXAMPLE = [
+    {
+      trait: 'cirrhosis of liver',
+      h2: 0.097,
+      h2_se: 0.0067,
+      n_samples: 361194,
+      method: 'SBayesS',
+      ancestry: 'EUR',
+      source: 'gwas_atlas',
+      match_score: 87.2
+    },
+    {
+      trait: 'cirrhosis of liver',
+      h2: 0.091,
+      h2_se: 0.0081,
+      n_samples: 465000,
+      method: 'LDSC',
+      ancestry: 'EUR',
+      source: 'ukbb_ldsc',
+      match_score: 84.0
+    }
+  ];
+
+  var DETAIL = {
+    biology: {
+      title: 'Biology retrieval',
+      intro: [
+        'Runs when the Scout stage requests augmentation: a dedicated LLM pass proposes additional trait-bundle IDs whose biology plausibly relates to the target (pathways, comorbidity, pleiotropy) even when lexical search missed them.',
+        'Suggested IDs are intersected with the universe built from catalog metadata — only bundles that truly exist survive; retrieval does not re-rank Scout probes.'
+      ],
+      example: JSON.stringify(BIOLOGY_EXAMPLE, null, 2),
+      footnote: 'Representative trimmed structure returned after ID validation (biology_retrieve_related_bundles).'
+    },
+    open_target: {
+      title: 'Open Targets overlap',
+      intro: [
+        'Gather calls Open Targets-backed integration per (target phenotype, candidate bundle canonical label): shared drug-target genes, shared pathways, ontology ancestors and phenotype overlaps when both sides resolve to EFO-backed disease identifiers.',
+        'Payload is raw aggregates only—the LLM reasons over overlaps; there are no canned confidence tiers in the tool.'
+      ],
+      example: JSON.stringify(OT_SUCCESS_EXAMPLE, null, 2),
+      footnote: 'Illustrative success payload aligned with experiments/contribution3/transfer/tools/ot.py populate path (genes/pathways abbreviated).'
+    },
+    heritability: {
+      title: 'Heritability aggregation',
+      intro: [
+        'Immediately after Gather, the harness issues batched lookups for heritability records for the target label and each probe bundle trait.',
+        'Each row carries h², SE, cohort size and source without an automatic tiered “winner” — planners read the raw table as a biological ceiling cue, not the primary Judge knob.'
+      ],
+      example: JSON.stringify(H2_EXAMPLE, null, 2),
+      footnote: 'Rows mimic get_heritability() dicts emitted by experiments/contribution3/transfer/tools/h2.py.'
+    },
+    genetic_correction: {
+      title: 'Genetic correction (batch)',
+      intro: [
+        'Two fused LLM calls per invocation: structured recall enumerating evidence for target↔candidate pairs, then verifier outputs per-bundle rg-like estimates with citations and rationale.',
+        'Scheduled right after Judge on the narrowed bundle list so cross-trait relatedness informs Global Primary reconciliation without polluting Scout/Gather tuning.'
+      ],
+      example: JSON.stringify(GC_PAIR_EXAMPLE, null, 2),
+      footnote: 'Shows one EvidenceRegistry.gc record (GCCandidateEstimate). Pair inspired by hepatitis vs cirrhosis shortlist interplay; rg / p-value numerics are illustrative yet schema-faithful.'
+    },
+    skill: {
+      title: 'Skill (cross-trait domain knowledge)',
+      intro: [
+        'Stage prompts receive curated paragraphs from cross_trait_domain_knowledge.md via the cross_trait_guidance channel — empirical heuristics that stay trait-agnostic at rule level.',
+        'Scout guidance stresses mandatory exploration of high-n_models metabolic / anthropometric bundles; Gather/Judge echo the Open Targets–first evidence hierarchy used in production runs.'
+      ],
+      example:
+        '# Cross-trait empirical patterns (abbreviated excerpt)\n\n' +
+        '- Lexical / substring matches with the target label. These are reliable inclusion candidates and should be included liberally.\n' +
+        '- High-n_models generalist anthropometric / metabolic / lipid bundles (...) are MANDATORY inclusion candidates regardless of label match with the target.\n' +
+        '- Open Targets gene/pathway/phenotype overlap is the primary cross-trait mechanism signal when labels differ;',
+      footnote: 'Quoted / paraphrased from cross_trait_domain_knowledge.md for illustration — not live LLM output.'
+    }
+  };
+
+  function openModal(key) {
+    var d = DETAIL[key];
+    if (!d) return;
+    heading.textContent = d.title;
+    intro.innerHTML = '';
+    d.intro.forEach(function (para) {
+      var p = document.createElement('p');
+      p.textContent = para;
+      intro.appendChild(p);
+    });
+    if (d.example && d.example.trim()) {
+      exLabel.style.display = '';
+      example.style.display = 'block';
+      example.textContent = d.example;
+    } else {
+      exLabel.style.display = 'none';
+      example.style.display = 'none';
+      example.textContent = '';
+    }
+    foot.textContent = d.footnote || '';
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    btnClose.focus();
+  }
+
+  function closeModal() {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.tool-chip-btn[data-tool-modal]');
+    if (btn) {
+      e.preventDefault();
+      openModal(btn.getAttribute('data-tool-modal'));
+      return;
+    }
+    if (e.target === overlay) {
+      closeModal();
+    }
+  });
+
+  btnClose.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeModal();
+  });
+
+  var panel = overlay && overlay.querySelector('.tool-modal-panel');
+  if (panel) panel.addEventListener('click', function (e) { e.stopPropagation(); });
+})();
 </script>
 </body>
 </html>
