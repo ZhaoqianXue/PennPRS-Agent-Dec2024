@@ -293,6 +293,7 @@ class AgentTrace:
     gather_halt_reason: HaltReason = "not_applicable"
     gather_tool_calls_consumed: int = 0
     h2_batch_json: Optional[dict[str, Any]] = None  # Stage 2.5 h2-batch observability
+    ot_late_batch_json: Optional[dict[str, Any]] = None  # late OT audit output
     gc_batch_json: Optional[dict[str, Any]] = None  # gc_batch_estimator output
 
     judge_output_json: Optional[dict[str, Any]] = None
@@ -319,6 +320,7 @@ class AgentTrace:
             "scout": self.scout_directive_json,
             "scout_biology": self.scout_biology_json,
             "h2_batch": self.h2_batch_json,
+            "ot_late_batch": self.ot_late_batch_json,
             "gc_batch": self.gc_batch_json,
             "gather": {
                 "halt_reason": self.gather_halt_reason,

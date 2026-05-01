@@ -106,16 +106,19 @@ class ToolAblationConfig:
     enable_h2: bool = False
     enable_ot: bool = False             # gates `get_open_targets_overlap` in Gather (LLM-callable)
     enable_gc_batch: bool = False       # gates Stage 3.5 `genetic_correlation_batch_estimator`
+    enable_ot_late_batch: bool = False  # harness OT audit after Pick candidate set is known
     enable_biology: bool = False        # gates Scout-time `biology_retrieve_related_bundles` (only entry)
     enable_skill: bool = True           # ARCHIVED: cross_trait_domain_knowledge KB (paired80 zero lift); default kept True for legacy reproducibility only
     enable_skill_reference_lane: bool = False
     enable_pgs_quality_skill: bool = False  # gates prs_model_evaluator skill at PICK/RECONCILE/CRITIC (production active)
+    enable_pgs_quality_reference_lane: bool = False  # independent iter11-style no-evidence reference for final LLM arbitration
+    enable_h2_global_primary_context: bool = False  # expose h2 records to cross-bundle GP, not upstream selection
 
     def disabled_tools(self) -> list[str]:
         out: list[str] = []
         if not self.enable_h2:
             out.append("get_heritability")
-        if not self.enable_ot:
+        if not (self.enable_ot or self.enable_ot_late_batch):
             out.append("get_open_targets_overlap")
         if not self.enable_gc_batch:
             out.append("genetic_correlation_batch_estimator")
@@ -125,6 +128,10 @@ class ToolAblationConfig:
             out.append("cross_trait_domain_knowledge")
         if not self.enable_pgs_quality_skill:
             out.append("prs_model_evaluator_skill")
+        if not self.enable_pgs_quality_reference_lane:
+            out.append("pgs_quality_reference_lane")
+        if self.enable_h2 and not self.enable_h2_global_primary_context:
+            out.append("h2_global_primary_context")
         return out
 
 
@@ -164,10 +171,13 @@ def run_transfer_agent(
         "enable_h2": cfg.enable_h2,
         "enable_ot": cfg.enable_ot,
         "enable_gc_batch": cfg.enable_gc_batch,
+        "enable_ot_late_batch": cfg.enable_ot_late_batch,
         "enable_biology": cfg.enable_biology,
         "enable_skill": cfg.enable_skill,
         "enable_skill_reference_lane": cfg.enable_skill_reference_lane,
         "enable_pgs_quality_skill": cfg.enable_pgs_quality_skill,
+        "enable_pgs_quality_reference_lane": cfg.enable_pgs_quality_reference_lane,
+        "enable_h2_global_primary_context": cfg.enable_h2_global_primary_context,
         "disabled_tools": cfg.disabled_tools(),
     }
 
@@ -189,6 +199,17 @@ def run_transfer_agent(
                 enable_critic=enable_critic,
                 benchmark_family=benchmark_family,
             )
+        trace.skill_reference_json = skill_reference
+    elif cfg.enable_pgs_quality_reference_lane and stop_after != "bundle_posterior":
+        skill_reference = _run_pgs_quality_reference_lane(
+            dossier=dossier,
+            max_tool_calls=max_tool_calls,
+            stale_rounds=stale_rounds,
+            max_gather_rounds=max_gather_rounds,
+            model_frontier_budget_per_bundle=model_frontier_budget_per_bundle,
+            enable_critic=enable_critic,
+            benchmark_family=benchmark_family,
+        )
         trace.skill_reference_json = skill_reference
 
     # Pre-populate registry with bundle metadata (not a tool call — hygiene).
@@ -436,6 +457,19 @@ def run_transfer_agent(
             detail=f"ot_shared={_has_ot_overlap(bundle.bundle_id)}",
         )
         next_rank += 1
+
+    # Optional late OT audit: fetch raw Open Targets overlap only for the
+    # bundle set already selected for Pick. This keeps OT from reshaping the
+    # upstream candidate pool while still giving Critic an orthogonal evidence
+    # axis for cross-bundle contradictions.
+    if cfg.enable_ot_late_batch and not cfg.enable_ot:
+        _run_ot_late_batch(
+            target=target,
+            registry=registry,
+            top_k_bundle_ids=[rb.bundle_id for rb in top_k_bundles],
+            bundle_lookup=bundle_lookup,
+            trace=trace,
+        )
 
     reference_pgs_by_bundle: dict[str, str] = {}
     if skill_reference:
@@ -786,6 +820,73 @@ def _run_h2_batch(
         )
 
     trace.h2_batch_json = payload
+
+
+# ---------------------------------------------------------------------------
+# Stage 3.25 — Late Open Targets audit augmentation
+# ---------------------------------------------------------------------------
+
+
+def _run_ot_late_batch(
+    *,
+    target,
+    registry: EvidenceRegistry,
+    top_k_bundle_ids: list[str],
+    bundle_lookup: dict[str, TraitBundle],
+    trace: AgentTrace,
+    max_calls: int = 12,
+) -> None:
+    """Fetch Open Targets overlap for the bundles already exposed to Pick.
+
+    This is intentionally later and narrower than the LLM-callable Gather
+    path. It does not alter Scout, Gather, Judge, Pick, or Global Primary;
+    it only makes raw OT overlap available to the final Critic audit.
+    """
+    payload: dict[str, Any] = {
+        "target_label": target.target_label,
+        "n_topk": len(top_k_bundle_ids),
+        "n_called": 0,
+        "n_with_shared_targets": 0,
+        "skipped_reason": None,
+        "max_calls": max_calls,
+    }
+    if not top_k_bundle_ids:
+        payload["skipped_reason"] = "no_topk"
+        trace.ot_late_batch_json = payload
+        return
+
+    target_query = "; ".join(
+        [str(x) for x in [target.target_label, *list(target.aliases or [])[:8]] if x]
+    )
+    seen: set[str] = set()
+    for bid in top_k_bundle_ids:
+        if payload["n_called"] >= max_calls:
+            break
+        if bid in seen:
+            continue
+        seen.add(bid)
+        bundle = bundle_lookup.get(bid)
+        if bundle is None:
+            continue
+        ev = registry.get(bid)
+        if ev is not None and ev.ot is not None:
+            continue
+        candidate_query = "; ".join(
+            [str(x) for x in [bundle.canonical_label, *list(bundle.aliases or [])[:8]] if x]
+        )
+        if not candidate_query:
+            continue
+        result = get_open_targets_overlap(
+            target_label_or_efo=target_query,
+            candidate_label_or_efo=candidate_query,
+        )
+        trace.increment_tool_call("get_open_targets_overlap")
+        payload["n_called"] += 1
+        if int((result or {}).get("shared_target_count_total") or len((result or {}).get("shared_targets") or [])) > 0:
+            payload["n_with_shared_targets"] += 1
+        registry.set_ot(bundle_id=bid, payload=result, round_idx=99)
+
+    trace.ot_late_batch_json = payload
 
 
 # ---------------------------------------------------------------------------
@@ -1448,7 +1549,11 @@ def _run_global_primary_reconciliation(
     primary and reorder the frontier. Preserves every candidate.
     """
     cfg = cfg or ToolAblationConfig()
-    gp_cfg = replace(cfg, enable_h2=False, enable_gc_batch=False)
+    gp_cfg = replace(
+        cfg,
+        enable_h2=bool(cfg.enable_h2 and cfg.enable_h2_global_primary_context),
+        enable_gc_batch=False,
+    )
     if not model_frontier.frontier:
         return model_frontier
 
@@ -1530,12 +1635,18 @@ def _run_global_primary_reconciliation(
         "bundle_evidence_by_id": bundle_evidence_ctx,
     }
     if skill_reference:
-        context["skill_only_reference"] = {
+        reference_key = (
+            "pgs_quality_reference"
+            if getattr(cfg, "enable_pgs_quality_reference_lane", False)
+            else "skill_only_reference"
+        )
+        context[reference_key] = {
             "reference_primary_pgs_id": skill_reference.get("reference_primary_pgs_id"),
             "reference_bundle_id": skill_reference.get("reference_bundle_id"),
             "reference_bundle_label": skill_reference.get("reference_bundle_label"),
             "reference_frontier_pgs_ids": skill_reference.get("reference_frontier_pgs_ids") or [],
             "reference_rationale": skill_reference.get("reference_rationale") or "",
+            "reference_lane_description": skill_reference.get("reference_lane_description") or "",
         }
     _gp_dk = cross_trait_domain_knowledge(
         stage="global_primary",
@@ -1804,7 +1915,12 @@ def _run_critic(
         "per_axis_top3": per_axis_top3,
     }
     if skill_reference:
-        context["skill_only_reference"] = {
+        reference_key = (
+            "pgs_quality_reference"
+            if getattr(cfg, "enable_pgs_quality_reference_lane", False)
+            else "skill_only_reference"
+        )
+        context[reference_key] = {
             "reference_primary_pgs_id": skill_reference.get("reference_primary_pgs_id"),
             "reference_bundle_id": skill_reference.get("reference_bundle_id"),
             "reference_bundle_label": skill_reference.get("reference_bundle_label"),
@@ -1927,7 +2043,8 @@ def _build_per_axis_top3(
     if cfg.enable_gc_batch:
         out["abs_rg"] = _axis(_abs_rg, descending=True, positive_only=True)
         out["p_value_asc"] = _axis(_p, descending=False, positive_only=False)
-    if cfg.enable_ot:
+    include_ot = cfg.enable_ot or cfg.enable_ot_late_batch
+    if include_ot:
         out["shared_targets_count"] = _axis(_shared, descending=True, positive_only=True)
         out["phenotype_overlap_count"] = _axis(_pheno, descending=True, positive_only=True)
     if cfg.enable_h2:
@@ -2220,6 +2337,95 @@ def _run_skill_reference_lane(
         ),
         "reference_source": "internal_no_skill_reference_lane",
     }, dossier=dossier)
+
+
+def _run_pgs_quality_reference_lane(
+    *,
+    dossier: CandidateBundleDossier,
+    max_tool_calls: int,
+    stale_rounds: int,
+    max_gather_rounds: int,
+    model_frontier_budget_per_bundle: int,
+    enable_critic: bool,
+    benchmark_family: str,
+) -> Optional[dict[str, Any]]:
+    """Run the current PGS-skill/no-evidence lane as an LLM reference.
+
+    This is not a selection rule. The tool-assisted lane still reaches final
+    reconciliation, where the LLM sees both candidate judgments and chooses.
+    """
+    ref_cfg = ToolAblationConfig(
+        enable_h2=False,
+        enable_ot=False,
+        enable_ot_late_batch=False,
+        enable_gc_batch=False,
+        enable_biology=False,
+        enable_skill=False,
+        enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+        enable_pgs_quality_reference_lane=False,
+    )
+    try:
+        result = run_transfer_agent(
+            dossier=dossier,
+            max_tool_calls=0 if max_tool_calls <= 0 else max_tool_calls,
+            stale_rounds=stale_rounds,
+            max_gather_rounds=max_gather_rounds,
+            model_frontier_budget_per_bundle=model_frontier_budget_per_bundle,
+            enable_critic=enable_critic,
+            stop_after=None,
+            benchmark_family=benchmark_family,
+            tool_ablation=ref_cfg,
+        )
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("PGS-quality reference lane failed: %s", exc)
+        return {"error": f"pgs_quality_reference_lane_error:{exc}"}
+
+    decision = result.get("decision") or {}
+    ref_bundle_id = decision.get("best_bundle_id") or decision.get("primary_bundle_id")
+    ref_pgs_id = decision.get("best_model_id")
+    if not ref_bundle_id or not ref_pgs_id:
+        return {
+            "outcome": decision.get("outcome"),
+            "reference_bundle_id": ref_bundle_id,
+            "reference_primary_pgs_id": ref_pgs_id,
+            "skipped_reason": "no_pgs_quality_reference_primary",
+            "reference_source": "internal_pgs_quality_reference_lane",
+        }
+
+    known_bundle = next((b for b in dossier.candidates if b.bundle_id == ref_bundle_id), None)
+    if known_bundle is None or ref_pgs_id not in set(known_bundle.candidate_pgs_ids or []):
+        containing_bundle = next(
+            (b for b in dossier.candidates if ref_pgs_id in set(b.candidate_pgs_ids or [])),
+            None,
+        )
+        if containing_bundle is None:
+            return {
+                "outcome": decision.get("outcome"),
+                "reference_bundle_id": ref_bundle_id,
+                "reference_primary_pgs_id": ref_pgs_id,
+                "skipped_reason": "reference_pgs_not_in_dossier",
+                "reference_source": "internal_pgs_quality_reference_lane",
+            }
+        known_bundle = containing_bundle
+        ref_bundle_id = containing_bundle.bundle_id
+
+    normalized = _normalize_skill_reference({
+        "outcome": decision.get("outcome"),
+        "reference_bundle_id": ref_bundle_id,
+        "reference_bundle_label": known_bundle.canonical_label,
+        "reference_primary_pgs_id": ref_pgs_id,
+        "reference_frontier_pgs_ids": list(decision.get("recommended_model_ids") or []),
+        "reference_rationale": (
+            (decision.get("stage2") or {}).get("decision_rationale")
+            or (decision.get("stage2") or {}).get("rationale")
+            or decision.get("selection_reason")
+            or ""
+        ),
+        "reference_source": "internal_pgs_quality_reference_lane",
+    }, dossier=dossier)
+    normalized["reference_lane_description"] = "PGS quality skill with evidence tools disabled"
+    return normalized
 
 
 def _frontier_bundle_for_pgs(frontier: ModelFrontier, pgs_id: Optional[str]) -> Optional[str]:

@@ -369,6 +369,10 @@ def _judge_digest_field_lines(cfg) -> str:
     return ",\n    ".join(fields)
 
 
+def _critic_has_ot_axis(cfg) -> bool:
+    return bool(getattr(cfg, "enable_ot", False) or getattr(cfg, "enable_ot_late_batch", False))
+
+
 def _judge_evidence_cited_examples(cfg) -> str:
     """Generate dot-path examples for evidence_cited based on enabled tools."""
     examples = []
@@ -506,7 +510,46 @@ def make_global_primary_prompt(cfg) -> str:
     reference_candidate_field = ""
     reference_input = ""
     reference_guidance = ""
-    if getattr(cfg, "enable_skill_reference_lane", False):
+    h2_guidance = ""
+    if cfg.enable_h2:
+        h2_guidance = (
+            "- Treat h2 records as background evidence about whether a source\n"
+            "  trait has a measurable inherited signal in the available lookup,\n"
+            "  not as target relevance by itself. High h2, low standard error,\n"
+            "  or large samples can support a source only when source fit and\n"
+            "  candidate model records are otherwise competitive; weak or absent\n"
+            "  h2 should not discard a direct, well-matched candidate by itself.\n"
+        )
+    if getattr(cfg, "enable_pgs_quality_reference_lane", False):
+        reference_candidate_field = (
+            ", is_skill_only_reference_primary, "
+            "is_tool_lane_primary_before_arbitration"
+        )
+        reference_input = (
+            "- pgs_quality_reference: optional {reference_primary_pgs_id,\n"
+            "  reference_bundle_id, reference_bundle_label,\n"
+            "  reference_frontier_pgs_ids, reference_rationale}. This is an\n"
+            "  independent PGS-quality-skill pass with evidence tools disabled.\n"
+        )
+        reference_guidance = (
+            "- When `pgs_quality_reference` is present, compare the independent\n"
+            "  no-evidence PGS-quality judgment with the current tool-assisted\n"
+            "  judgment. Both are LLM judgments; choose the primary whose source\n"
+            "  fit, candidate record, and enabled raw evidence best support\n"
+            "  transfer for this target.\n"
+            "- Use raw evidence tools to change the reference choice only when the\n"
+            "  evidence supplies a record-visible target-relevance reason. Broad\n"
+            "  tool overlap, high heritability, publication recency, validation\n"
+            "  breadth, or generic model scale alone is not enough.\n"
+            "- If the tool-assisted lane mainly moves to a broader proxy while the\n"
+            "  reference lane has a direct or cleaner endpoint candidate, keep the\n"
+            "  direct candidate unless the raw evidence explains why the proxy is\n"
+            "  more transferable.\n"
+            "- Use `is_tool_lane_primary_before_arbitration` to identify the current\n"
+            "  tool-assisted primary, and compare it explicitly with\n"
+            "  `is_skill_only_reference_primary` before choosing.\n"
+        )
+    elif getattr(cfg, "enable_skill_reference_lane", False):
         reference_candidate_field = (
             ", is_skill_only_reference_primary, "
             "is_tool_lane_primary_before_arbitration"
@@ -587,6 +630,7 @@ def make_global_primary_prompt(cfg) -> str:
         "- Decide the source bundle from target fit plus enabled bundle evidence;\n"
         "  use model metadata to break ties within that source, not to replace\n"
         "  bundle-level relevance by generic validation breadth alone.\n"
+        + h2_guidance
         + reference_guidance +
         "- Do NOT refer to specific ICD codes, trait names, or disease families\n"
         "  in rules. Reasoning must generalize.\n\n"
@@ -601,20 +645,32 @@ def make_global_primary_prompt(cfg) -> str:
 def make_critic_prompt(cfg) -> str:
     """CRITIC prompt — per_axis_top3 axis bullets conditional on cfg."""
     axis_lines = []
+    has_ot_axis = _critic_has_ot_axis(cfg)
     if cfg.enable_gc_batch:
         axis_lines.append("    - by absolute rg magnitude (significant GC first)")
-    if cfg.enable_ot:
+    if has_ot_axis:
         axis_lines.append("    - by ot.shared_targets count")
     if cfg.enable_h2:
         axis_lines.append("    - by candidate h2 magnitude")
-    if cfg.enable_ot:
+    if has_ot_axis:
         axis_lines.append("    - by phenotype overlap count")
     if not axis_lines:
         axis_lines.append("    - by candidate label / alias match strength")
     axis_block = "\n".join(axis_lines)
     reference_input = ""
     reference_guidance = ""
-    if getattr(cfg, "enable_skill_reference_lane", False):
+    if getattr(cfg, "enable_pgs_quality_reference_lane", False):
+        reference_input = (
+            "- pgs_quality_reference: optional reference primary from an\n"
+            "  independent PGS-quality-skill pass with evidence tools disabled.\n"
+        )
+        reference_guidance = (
+            "- If the proposed primary differs from the PGS-quality reference,\n"
+            "  check whether the enabled raw evidence clearly supports that\n"
+            "  change. If the evidence is broad, indirect, or neutral, keep the\n"
+            "  proposed frontier rather than using this stage for a new search.\n"
+        )
+    elif getattr(cfg, "enable_skill_reference_lane", False):
         reference_input = (
             "- skill_only_reference: optional no-skill reference primary from an\n"
             "  independent no-skill LLM pass.\n"

@@ -61,6 +61,18 @@ TRANSFER_ABLATIONS: tuple[str, ...] = (
     # Replaces the archived cross_trait labels for the production
     # comparison vs no_all_tools.
     "no_all_tools_plus_pgs_skill",
+    # ACTIVE experiments — prs_model_evaluator skill plus selected evidence
+    # tools. The archived cross_trait_domain_knowledge skill remains off.
+    "pgs_skill_plus_h2",
+    "pgs_skill_plus_h2_gp",
+    "pgs_skill_plus_h2_ref",
+    "pgs_skill_plus_ot",
+    "pgs_skill_plus_ot_late",
+    "pgs_skill_plus_gc",
+    "pgs_skill_plus_h2_ot",
+    "pgs_skill_plus_h2_gc",
+    "pgs_skill_plus_ot_gc",
+    "pgs_skill_plus_all",
     # Legacy additive tool labels. Current production runs should use
     # `no_all_tools` vs `no_all_tools_plus_pgs_skill` / `full`.
     "add_h2_tool",
@@ -111,6 +123,57 @@ _TOOL_ABLATION_CONFIGS: dict[str, ToolAblationConfig] = {
         enable_skill=False,                  # cross_trait skill off (archived)
         enable_skill_reference_lane=False,
         enable_pgs_quality_skill=True,       # prs_model_evaluator skill on
+    ),
+    "pgs_skill_plus_h2": ToolAblationConfig(
+        enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_h2_gp": ToolAblationConfig(
+        enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True, enable_h2_global_primary_context=True,
+    ),
+    "pgs_skill_plus_h2_ref": ToolAblationConfig(
+        enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True, enable_pgs_quality_reference_lane=True,
+    ),
+    "pgs_skill_plus_ot": ToolAblationConfig(
+        enable_h2=False, enable_ot=True, enable_gc_batch=False, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_ot_late": ToolAblationConfig(
+        enable_h2=False, enable_ot=False, enable_ot_late_batch=True,
+        enable_gc_batch=False, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_gc": ToolAblationConfig(
+        enable_h2=False, enable_ot=False, enable_gc_batch=True, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_h2_ot": ToolAblationConfig(
+        enable_h2=True, enable_ot=True, enable_gc_batch=False, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_h2_gc": ToolAblationConfig(
+        enable_h2=True, enable_ot=False, enable_gc_batch=True, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_ot_gc": ToolAblationConfig(
+        enable_h2=False, enable_ot=True, enable_gc_batch=True, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
+    ),
+    "pgs_skill_plus_all": ToolAblationConfig(
+        enable_h2=True, enable_ot=True, enable_gc_batch=True, enable_biology=False,
+        enable_skill=False, enable_skill_reference_lane=False,
+        enable_pgs_quality_skill=True,
     ),
     # Additive tool conditions over no_all_tools.
     "add_h2_tool":             ToolAblationConfig(enable_h2=True,  enable_ot=False, enable_gc_batch=False, enable_biology=False),
