@@ -766,146 +766,13 @@ def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
 
 # --- Domain Knowledge Tool ---
 
-# Default path to knowledge base.
-#
-# MIGRATION PATH (planned, not yet executed):
-# This file is the legacy canonical PRS-model domain-knowledge corpus.
-# It has been mirrored, byte-equal, into the prs-model-evaluator
-# Anthropic Agent Skill at
-# `src/server/core/skills/prs_model_evaluator/reference/*.md`.
-#
-# When contribution2 is ready to migrate from reading this `.md` to
-# reading the skill directly, replace the file read inside
-# `prs_model_domain_knowledge(...)` below with a call to the skill's
-# c2 view loader:
-#
-#     from src.server.core.tools.prs_model_evaluator_skill import load_c2_view
-#     content = load_c2_view()
-#
-# `load_c2_view()` is documented to return content **byte-equal** to
-# this `.md`, frozen against any c3-only edits to the skill (SKILL.md
-# or `overrides_c3/*`). This guarantee is enforced by
-# `experiments/contribution3/transfer/tests/test_skill_two_view_contract.py`
-# and `test_skill_c2_compat_sync.py`.
-#
-# After migration the legacy `.md` file can be removed; the c2 view
-# loader becomes c2's only entry point to the corpus.
+# Default path to the legacy canonical corpus. The runtime read path below now
+# uses `load_c2_view()` so contribution2 consumes the shared
+# prs-model-evaluator skill folder; this constant remains for compatibility and
+# for byte-equality tests that compare the historical file to the skill view.
 KNOWLEDGE_BASE_PATH = os.path.join(
     os.path.dirname(__file__), "..", "knowledge", "prs_model_domain_knowledge.md"
 )
-
-
-@lru_cache(maxsize=1)
-def _get_heritability_aggregator():
-    from src.server.modules.heritability.aggregator import HeritabilityAggregator
-    return HeritabilityAggregator()
-
-
-def _format_optional_float(value: Optional[float], digits: int = 4) -> str:
-    if value is None:
-        return "N/A"
-    return f"{float(value):.{digits}f}"
-
-
-def _format_optional_int(value: Optional[int]) -> str:
-    if value is None:
-        return "N/A"
-    try:
-        parsed = int(value)
-    except Exception:
-        return "N/A"
-    return f"{parsed:,}" if parsed > 0 else "N/A"
-
-
-def _collapse_query_to_trait(query: str) -> Optional[str]:
-    text = re.sub(r"\s+", " ", (query or "").strip())
-    if not text:
-        return None
-    text = re.sub(r";.*$", "", text)
-    return text or None
-
-
-def _heritability_confidence_rank(est: Any) -> Tuple[int, float, int]:
-    source_priority = {
-        "gwas_atlas": 3,
-        "ukbb_ldsc": 2,
-        "pan_ukb": 1,
-    }
-    n_samples = int(getattr(est, "n_samples", 0) or 0)
-    se = getattr(est, "h2_obs_se", None)
-    se_inv = 0.0 if not se else 1.0 / (float(se) + 0.001)
-    source = getattr(getattr(est, "source", None), "value", getattr(est, "source", ""))
-    return (n_samples, se_inv, source_priority.get(str(source), 0))
-
-
-def _build_trait_specific_heritability_section(query: str) -> Optional[Tuple[str, str]]:
-    target_trait = _extract_target_trait_phrase(query) or _collapse_query_to_trait(query)
-    if not target_trait:
-        return None
-
-    try:
-        aggregator = _get_heritability_aggregator()
-        eur_best = aggregator.get_best_estimate(target_trait, ancestry="EUR")
-        all_results = aggregator.search(target_trait, min_score=70, limit=8)
-    except Exception as exc:
-        logger.warning("Failed to load trait-specific heritability for '%s': %s", target_trait, exc)
-        return (
-            "Trait-Specific Heritability",
-            (
-                f"Target trait: {target_trait}\n"
-                "Local heritability lookup failed.\n"
-                "- use heritability only as a ceiling/sanity field for PGS-only metrics\n"
-                "- do not back-calculate or rank by full-model AUROC"
-            ),
-        )
-
-    if eur_best is None and all_results:
-        eur_best = sorted(all_results, key=_heritability_confidence_rank, reverse=True)[0]
-
-    if eur_best is None:
-        return (
-            "Trait-Specific Heritability",
-            (
-                f"Target trait: {target_trait}\n"
-                "No matching local heritability estimate was found above the retrieval threshold.\n"
-                "- use the generic ceiling rule only\n"
-                "- do not infer PRS quality from full-model AUROC alone"
-            ),
-        )
-
-    top_results = sorted(all_results, key=_heritability_confidence_rank, reverse=True)[:3]
-    best_source = getattr(getattr(eur_best, "source", None), "value", getattr(eur_best, "source", "N/A"))
-    lines = [
-        f"Target trait: {target_trait}",
-        (
-            "Best matched local heritability estimate: "
-            f"h2_obs={_format_optional_float(getattr(eur_best, 'h2_obs', None))}; "
-            f"h2_liability={_format_optional_float(getattr(eur_best, 'h2_liability', None))}; "
-            f"SE={_format_optional_float(getattr(eur_best, 'h2_obs_se', None))}; "
-            f"z={_format_optional_float(getattr(eur_best, 'h2_z', None), digits=2)}; "
-            f"population={getattr(eur_best, 'population', 'N/A')}; "
-            f"n={_format_optional_int(getattr(eur_best, 'n_samples', None))}; "
-            f"source={best_source}."
-        ),
-        "Sanity-check usage:",
-        "- compare PGS-only R2 or covariates-regressed-out R2 against h2; they should remain below the trait heritability ceiling",
-        "- if full-model AUROC is very high but incremental AUROC and PGS-only R2 are small relative to h2, treat the AUROC as mostly covariate-driven rather than PRS-driven",
-        "- if PGS-only AUROC is absent, do not substitute the full-model AUROC as a comparable PRS metric",
-        "- use heritability as a ceiling/sanity field, not as an exact formula to reconstruct AUROC",
-    ]
-    if top_results:
-        lines.append("Top local matches:")
-        for est in top_results:
-            source = getattr(getattr(est, "source", None), "value", getattr(est, "source", "N/A"))
-            lines.append(
-                "- "
-                f"{getattr(est, 'trait_name', 'Unknown')} | "
-                f"h2_obs={_format_optional_float(getattr(est, 'h2_obs', None))} | "
-                f"population={getattr(est, 'population', 'N/A')} | "
-                f"n={_format_optional_int(getattr(est, 'n_samples', None))} | "
-                f"source={source}"
-            )
-    return ("Trait-Specific Heritability", "\n".join(lines))
 
 
 def prs_model_domain_knowledge(
@@ -932,11 +799,18 @@ def prs_model_domain_knowledge(
     from src.server.core.tool_schemas import DomainKnowledgeResult, KnowledgeSnippet
     
     kb_path = knowledge_file or KNOWLEDGE_BASE_PATH
-    
-    # Load knowledge base
+
+    # Load knowledge base. The default c2 runtime path reads the shared
+    # prs-model-evaluator skill's byte-equal c2 view. Explicit
+    # `knowledge_file` calls are kept for contribution2 ablation variants.
     try:
-        with open(kb_path, 'r', encoding='utf-8') as f:
-            content = f.read()
+        if knowledge_file is None:
+            from src.server.core.tools.prs_model_evaluator_skill import load_c2_view
+
+            content = load_c2_view()
+        else:
+            with open(kb_path, 'r', encoding='utf-8') as f:
+                content = f.read()
     except FileNotFoundError:
         return DomainKnowledgeResult(
             query=query,
@@ -947,11 +821,6 @@ def prs_model_domain_knowledge(
     
     # Parse into sections
     sections = _parse_markdown_sections(content)
-    dynamic_sections: List[Tuple[str, str]] = []
-    heritability_section = _build_trait_specific_heritability_section(query)
-    if heritability_section:
-        dynamic_sections.append(heritability_section)
-    sections = dynamic_sections + sections
     
     # Score and rank sections by relevance
     query_terms = _expand_domain_query_terms(query)
@@ -1003,7 +872,7 @@ def prs_model_domain_knowledge(
         truncated = content_text[:500] + "..." if len(content_text) > 500 else content_text
         
         snippet = KnowledgeSnippet(
-            source="local_heritability_data" if title == "Trait-Specific Heritability" else "prs_model_domain_knowledge.md",
+            source="prs_model_domain_knowledge.md",
             section=title,
             content=truncated,
             relevance_score=min(score / 10.0, 1.0)  # Normalize to 0-1
@@ -1011,12 +880,6 @@ def prs_model_domain_knowledge(
         snippets.append(snippet)
 
     full_document = content.strip()
-    if dynamic_sections:
-        dynamic_doc = "\n\n".join(
-            f"## {title}\n\n{section_content.strip()}"
-            for title, section_content in dynamic_sections
-        ).strip()
-        full_document = f"{dynamic_doc}\n\n{full_document}" if full_document else dynamic_doc
 
     return DomainKnowledgeResult(
         query=query,

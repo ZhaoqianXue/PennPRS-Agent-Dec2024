@@ -423,45 +423,11 @@ class TestPGSCatalogSearch:
         assert model.performance_metrics["full_model_r2"] == pytest.approx(0.15)
         assert model.performance_metrics["incremental_auc"] == pytest.approx(0.02)
 
-    def test_domain_knowledge_includes_trait_specific_heritability(self, monkeypatch):
-        """Domain knowledge should prepend a trait-specific local heritability summary."""
-        from types import SimpleNamespace
+    def test_domain_knowledge_does_not_embed_trait_specific_heritability(self):
+        """Trait-specific h2 is exposed by the h2 tool, not injected into skill text."""
         from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
-
-        class _FakeAggregator:
-            def get_best_estimate(self, trait: str, ancestry: str = "EUR"):
-                assert trait == "prostate cancer"
-                assert ancestry == "EUR"
-                return SimpleNamespace(
-                    trait_name="Prostate cancer",
-                    h2_obs=0.12,
-                    h2_liability=0.23,
-                    h2_obs_se=0.02,
-                    h2_z=6.0,
-                    population="EUR",
-                    n_samples=120000,
-                    source=SimpleNamespace(value="gwas_atlas"),
-                )
-
-            def search(self, trait: str, min_score: int = 70, limit: int = 8):
-                assert trait == "prostate cancer"
-                return [
-                    SimpleNamespace(
-                        trait_name="Prostate cancer",
-                        h2_obs=0.12,
-                        population="EUR",
-                        n_samples=120000,
-                        source=SimpleNamespace(value="gwas_atlas"),
-                    )
-                ]
-
-        monkeypatch.setattr(
-            "src.server.core.tools.prs_model_tools._get_heritability_aggregator",
-            lambda: _FakeAggregator(),
-        )
 
         result = prs_model_domain_knowledge("target_trait: prostate cancer; AUC R2 heritability ceiling")
 
-        assert "Trait-Specific Heritability" in result.full_document
-        assert "h2_obs=0.1200" in result.full_document
-        assert any(snippet.section == "Trait-Specific Heritability" for snippet in result.snippets)
+        assert "Trait-Specific Heritability" not in result.full_document
+        assert not any(snippet.section == "Trait-Specific Heritability" for snippet in result.snippets)

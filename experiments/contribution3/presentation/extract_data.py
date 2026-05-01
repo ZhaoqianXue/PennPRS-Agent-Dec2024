@@ -23,9 +23,12 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 TRANSFER_RUNS = PROJECT_ROOT / "experiments" / "contribution3" / "transfer" / "runs" / "tool_calling_agent"
 BUNDLE_INDEX_JSON = TRANSFER_RUNS / "trait_bundle_index.json"
-RUN_DIR_NAME = "all-tools__v16_80tgt_20260427_025458"
+RUN_DIR_NAME = "all-tools__paired80_pgs_skill_iter11_repeat2_20260430_024834_w20"
 EVAL_DIR_NAME = f"evaluation__{RUN_DIR_NAME.split('__', 1)[1]}"  # mirrors the run timestamp
-RESULTS_JSON = TRANSFER_RUNS / "unified" / RUN_DIR_NAME / "results.json"
+# Some run families nest both the run dir and eval dir under an extra parent
+# (e.g. ablation__no_all_tools_plus_pgs_skill/). Set to "" for top-level runs.
+RUN_PARENT_SUBDIR = "ablation__no_all_tools_plus_pgs_skill"
+RESULTS_JSON = TRANSFER_RUNS / "unified" / RUN_PARENT_SUBDIR / RUN_DIR_NAME / "results.json"
 DOSSIER_JSON = TRANSFER_RUNS / "unified" / "candidate_dossiers.json"
 BENCHMARK_DIR = (
     PROJECT_ROOT
@@ -38,7 +41,7 @@ UNION_TARGETS_CSV = BENCHMARK_DIR / "union_selected_targets.csv"
 B2B_SELECTION_CSV = BENCHMARK_DIR / "binary_to_binary" / "target_selection.csv"
 B2C_SELECTION_CSV = BENCHMARK_DIR / "binary_to_continuous" / "target_selection.csv"
 EVAL_DETAIL_CSV = (
-    TRANSFER_RUNS / "unified" / EVAL_DIR_NAME / "all-tools__end_to_end_eval_detail.csv"
+    TRANSFER_RUNS / "unified" / RUN_PARENT_SUBDIR / EVAL_DIR_NAME / "all-tools__end_to_end_eval_detail.csv"
 )
 PGS_METADATA_CSV = PROJECT_ROOT / "Genetic_Agent" / "disease_preprocess" / "pgs_metadata_binary_combined.csv"
 OUT_DIR = Path(__file__).resolve().parent
