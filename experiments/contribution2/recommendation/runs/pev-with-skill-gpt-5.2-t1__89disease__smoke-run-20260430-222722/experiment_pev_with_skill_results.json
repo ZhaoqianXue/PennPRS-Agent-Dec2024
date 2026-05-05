@@ -1,0 +1,224 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "trial": 1,
+    "n_models": 6,
+    "benchmark_ranked_ids": [
+      "PGS003973",
+      "PGS003429",
+      "PGS003972",
+      "PGS001784",
+      "PGS000753",
+      "PGS002054"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000753": 0.538848,
+      "PGS001784": 0.561756,
+      "PGS002054": 0.524981,
+      "PGS003429": 0.634083,
+      "PGS003972": 0.631193,
+      "PGS003973": 0.637363
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS003973"
+      ],
+      "2": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "3": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972"
+      ],
+      "4": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784"
+      ],
+      "5": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS003973"
+      ],
+      "10": [
+        "PGS003973"
+      ],
+      "15": [
+        "PGS003973"
+      ],
+      "20": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "25": [
+        "PGS003973",
+        "PGS003429"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS003972",
+      "PGS002054",
+      "PGS003973",
+      "PGS003429",
+      "PGS000753",
+      "PGS001784"
+    ],
+    "recommended_pgs_id": "PGS001784",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "MEDIUM",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "TRIAGE: All candidates are direct-label matches (AAA) with broadly similar endpoint wording, so downstream comparison should focus on (a) what performance metric is being reported (PRS-only vs full model; AUC vs C-index vs OR), (b) covariate packaging/cleanliness, (c) validation sample size and cohort independence, and (d) method/variant-count differences that may affect robustness.\n\nShortlist:\n- PGS003973: Same Nat Genet study family as PGS003972 but reports a very strong discrimination metric (C-index 0.882 with CI) and has explicit covariates (Age, Age^2, Sex). Because it\u2019s a time-to-event style metric (C-index) and may reflect a model context different from AUC, it deserves close, careful apples-to-apples comparison rather than being auto-picked.\n- PGS001784: Very large genome-wide PRS (PRS-CS-auto; ~911k variants) from a multi-biobank cross-cohort effort; provides PRS-only R2 (Nagelkerke R2 with covariates regressed out) and also reports a full-model AUROC (0.868). The presence of a PRS-only metric makes it a key comparator, but the full-model AUROC could mislead a single-shot picker if mistaken for PRS-only performance.\n- PGS003972: Same Nat Genet meta-analysis family as PGS003973 (PRS-CS; ~1.12M variants) with AUROC 0.69 reported. It\u2019s a near-tie sibling candidate where differences may come from endpoint definition, evaluation setup, or metric type; should be compared side-by-side with PGS003973 to avoid picking the \u201cbetter-looking\u201d metric without context.\n- PGS002054: Large UKB-derived LDpred2 score with very large training N (n~391k) and explicit portability framing across multiple ancestry groups; reports partial correlation (partial-r 0.0144). Metric type differs from others, so it\u2019s easy to under/over-interpret; still a plausible strong contender due to training scale and evaluation across groups.\n\nWatchlist (plausible but with reasons they can be misleading or weaker on visible evidence):\n- PGS003429: Recent UKB-based score (shaPRS+LDpred2) with full-model AUROC 0.708 and small R2 (0.00547) but covariates are \u201cUnknown,\u201d making it hard to judge packaging/leakage and to compare fairly. Could be competitive, but metadata gaps warrant caution.\n- PGS000753: Very low-variant P+T score (29 variants) with an OR (1.37) rather than AUC/R2; older and likely less polygenic coverage. However, it has clear covariates and a distinct MVP/Mayo context, so it\u2019s worth keeping as a sanity-check comparator (and to avoid dismissing a simpler score that might be robust in some settings).\n\nDownstream comparison should explicitly normalize for: PRS-only vs full-model metrics, metric family (AUC vs C-index vs OR vs partial-r vs R2), covariate sets (including interaction terms), and evaluation cohort size/independence (e.g., very large EUR eval for PGS001784 vs smaller eval Ns for the Nat Genet scores). Uncertainty: High comparability uncertainty because candidates report heterogeneous metric types and sometimes only full-model discrimination (which can be mistaken for PRS-only). Two candidates (PGS003972/PGS003973) are same-publication siblings with different reported discrimination metrics (AUC vs C-index), so apparent superiority may reflect evaluation design rather than intrinsic PRS quality. Several records lack PRS-only AUC/R2, limiting clean head-to-head ranking from metadata alone. PICK: All candidates are direct matches to the target trait (abdominal aortic aneurysm) by trait_reported/trait_efo and phenotype wording, so selection hinges on strength/clarity of the PRS evidence and evaluation support.\n\nPGS001784 is best-supported on the visible metadata because it provides a clearly identified PRS-only performance metric (Nagelkerke R2 with covariates regressed out; pgsonly_r2=0.014661) alongside a very large European evaluation sample (n=350,767) and a modern genome-wide method (PRS-CS-auto; 911,440 variants) developed across multiple cohorts. The presence of an explicit PRS-only metric and the unusually large evaluation N make its support more directly interpretable than candidates that only report full-model discrimination.\n\nRunner-up PGS003973 is also strong (same exact AAA endpoint; PRS-CS; large variant count; reports C-index 0.882 with CI and has explicit covariates Age/Age^2/Sex), but the reported metric is not clearly PRS-only and could reflect a broader model context, making apples-to-apples comparison less certain from metadata alone. PGS003972 similarly reports AUROC=0.69 without clear PRS-only isolation and with much smaller validation N. PGS002054 reports partial-r (0.0144) with moderate validation N and good portability framing but lacks clearer PRS-only AUC/R2. PGS003429 has covariates listed as unknown, and PGS000753 is a much smaller P+T score with only an OR reported.\n\nGiven these trade-offs, PGS001784 has the cleanest, most directly comparable PRS-only evidence plus the strongest evaluation support in the candidate set, but confidence remains medium due to heterogeneous metric types across records. CRITIC: No visible contradiction with selecting PGS001784. All candidates are direct AAA matches by trait_reported/trait_efo and phenotype wording, so the decision turns on interpretability/strength of the visible performance evidence and evaluation support.\n\nPGS001784 uniquely provides an explicitly labeled PRS-only metric (pgs_only_r2 = 0.014661; Nagelkerke R2 with covariates regressed out) and has by far the largest listed European evaluation sample (n=350,767), with a modern genome-wide method (PRS-CS-auto; 911,440 variants) and multi-cohort development context. Those are concrete, visible supports.\n\nAlternatives are not better-supported on the visible metadata: PGS003973 reports a high C-index (0.882 with CI) but it is not clearly PRS-only and is plausibly a covariate-inclusive/time-to-event discrimination context (covariates listed; metric type differs), with much smaller validation N (n=7,517). PGS003972 reports AUROC 0.69 with small validation N (n=6,940) and unclear PRS-only isolation. PGS002054 reports partial-r 0.0144 (different metric family) with smaller validation N (n=19,545) and no PRS-only AUC/R2. PGS003429 has covariates unknown and reports full-model AUROC/R2, limiting comparability. PGS000753 reports only an OR (1.37) for a 29-variant P+T score, not directly comparable to PRS-only R2/AUC.\n\nGiven the heterogeneous metric types and frequent lack of PRS-only discrimination metrics in other records, keeping PGS001784 as the defensible best-supported pick is warranted; confidence appropriately remains medium due to comparability uncertainty across metric families.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/6"
+  },
+  {
+    "ontology": "alcohol dependence",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000201": 0.576196,
+      "PGS000202": 0.574157,
+      "PGS002738": 0.60511,
+      "PGS002739": 0.522355
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002738"
+      ],
+      "2": [
+        "PGS002738",
+        "PGS000201"
+      ],
+      "3": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ],
+      "4": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "5": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002738"
+      ],
+      "10": [
+        "PGS002738"
+      ],
+      "15": [
+        "PGS002738"
+      ],
+      "20": [
+        "PGS002738"
+      ],
+      "25": [
+        "PGS002738"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002739",
+      "PGS002738",
+      "PGS000202",
+      "PGS000201"
+    ],
+    "recommended_pgs_id": "PGS002738",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "MEDIUM",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: Plan for downstream comparison should center on three distinct \u201cfamilies\u201d that could each win depending on the intended deployment ancestry and endpoint interpretation.\n\n1) Direct alcohol dependence endpoint, EUR eval, multi-ancestry GWAS: PGS002738\n- Trait/endpoint alignment: trait_efo is alcohol dependence; phenotyping_reported is alcohol use disorder (direct/close endpoint).\n- Evidence strength: reports an interpretable PRS-only style metric (OR top 10% vs rest = 1.96 with CI) with a reasonably large EUR validation N (7,900) and multiple performance records (record_count=4), suggesting multiple analyses/splits.\n- Transportability nuance: GWAS ancestry distribution is mixed (EUR-dominant but includes other ancestries), while evaluation is EUR only; could be advantaged vs purely EUR-trained scores, but also could mislead if one assumes \u201cmulti-ancestry GWAS\u201d implies multi-ancestry evaluation.\n\n2) Direct alcohol dependence endpoint, AFR eval, gene-based PRS-CSx: PGS002739\n- Trait/endpoint alignment: trait_efo alcohol dependence; phenotyping_reported alcohol use disorder.\n- Key differentiator: evaluation is African American/Afro-Caribbean (N=6,315) with OR top 10% vs rest = 1.76 (CI provided). This is the only candidate with non-EUR evaluation and thus a plausible best choice for AFR deployment.\n- \u201cCould mislead\u201d factor: very small variant count (858) and gene-based construction may look weaker than million-variant PRSs, but it\u2019s paired with ancestry-matched evaluation and a clear OR metric; needs careful apples-to-apples comparison rather than dismissing on variant count.\n\n3) Measurement/proxy-like phenotype but very dense genome-wide PRS and clean covariate reporting: PGS000201\n- Trait/endpoint: trait_efo is alcohol dependence measurement; phenotyping_reported is DSM-5 criteria count (log-transformed). This is not identical to a binary diagnosis label but is closely related and may capture severity/continuum.\n- Evidence: \u0394R\u00b2 vs covariates alone = 0.01192 and \u03b2=0.099 (SE 0.01) in a sizable EUR validation (N=7,599). Covariates are explicitly listed (includes array/site), which can make interpretation cleaner.\n- \u201cCould mislead\u201d factor: \u0394R\u00b2 is not directly comparable to OR top-decile metrics from other records; a single-shot picker might over-privilege either the huge variant count (~1.09M) or the continuous phenotype without checking metric comparability and endpoint differences.\n\nWatchlist: PGS000202\n- Same publication/family as PGS000201 (same method PRS-CS, same phenotype description), but materially smaller validation N (1,251) and weaker reported \u0394R\u00b2 (0.00456) with a less robust \u03b2 estimate (0.043, SE 0.019).\n- Still worth keeping as a sibling check because differences in covariate set (PGS000202 lists fewer covariates) could confound naive comparisons; downstream should verify whether the performance difference is driven by sample size, cohort, or covariate specification rather than true score quality.\n\nDownstream comparison focus\n- Split comparisons by evaluation ancestry (EUR-focused: PGS002738 vs PGS000201/PGS000202; AFR-focused: PGS002739 stands apart).\n- Avoid metric-mismatch traps: OR(top10%) vs \u0394R\u00b2/\u03b2 are not directly rankable; treat them as separate evidence streams.\n- Within the Transl Psychiatry sibling pair (PGS000201 vs PGS000202), prioritize understanding why performance differs (validation N and covariates) before using either as a representative \u201cproblematic alcohol use\u201d proxy. Uncertainty: No candidates report directly comparable PRS-only AUC/R\u00b2 across all four records, and covariates are unknown for PGS002738/PGS002739, limiting clean cross-record performance comparison. Endpoint labels differ (AUD diagnosis vs DSM-5 criteria count), so the best candidate may depend on whether the downstream target expects diagnostic status vs severity/measurement. Multi-ancestry GWAS in PGS002738 and gene-based low-variant construction in PGS002739 are both features that can be over- or under-valued without additional context not present here. PICK: PGS002738 is the strongest direct match to the target trait (alcohol dependence) on the visible metadata: it uses the alcohol dependence EFO, reports an alcohol use disorder phenotype (closest endpoint among candidates), and provides a clear PRS-only style association metric (OR top 10% vs rest = 1.96 with CI) in a reasonably large European validation sample (n=7,900) with multiple performance records (record_count=4), suggesting more robustness than single-record reports.\n\nPGS002739 is also a direct alcohol dependence EFO match with an interpretable OR metric and solid validation size (n=6,315), but it is evaluated in African American/Afro-Caribbean samples and is gene-based with far fewer features; without a specified target deployment ancestry, PGS002738 is the more generally supported direct-match pick.\n\nPGS000201/PGS000202 are close but less direct: they are labeled as \u201cproblematic alcohol use\u201d / \u201calcohol dependence measurement\u201d with a DSM-5 criteria count (continuous/severity) rather than a straightforward AUD diagnosis endpoint, and they report \u0394R\u00b2/\u03b2 rather than an OR; among them PGS000201 is stronger than PGS000202 due to larger validation N and higher \u0394R\u00b2, but both remain secondary to the direct AUD/alcohol dependence EFO candidates. CRITIC: No visible contradiction found with keeping PGS002738 as best overall for target trait alcohol dependence.\n\nVisible-record support for PGS002738:\n- Endpoint alignment: trait_efo is exactly \"alcohol dependence\" and phenotyping_reported is \"Alcohol use disorder\" (closest direct endpoint among candidates).\n- Evaluation evidence: EUR evaluation (100%) with n=7,900 and an interpretable PRS association metric OR(top 10% vs rest)=1.96 (CI 1.54\u20132.51). record_count=4 suggests multiple reported analyses/records within the catalog entry.\n- Method is standard PRS-CS; variant count (326k) is plausible and not obviously problematic.\n\nWhy not revise to alternatives based on visible evidence:\n- PGS002739 is also direct (trait_efo alcohol dependence) and has a clear OR metric (1.76, CI 1.32\u20132.34) with n=6,315, but it is evaluated in African American/Afro-Caribbean samples (EVAL: AFR 100%) and is gene-based with only 858 features. Without an explicit target deployment ancestry, the EUR-evaluated direct model (PGS002738) remains the more generally defensible pick.\n- PGS000201/PGS000202 are \"problematic alcohol use\" with trait_efo \"alcohol dependence measurement\" and a continuous DSM-5 criteria count phenotype; they report \u0394R\u00b2/\u03b2 rather than an OR and are therefore less directly comparable and less directly aligned to a dependence/AUD endpoint. Among them, PGS000201 is stronger than PGS000202 (larger n and higher \u0394R\u00b2), but neither is better-supported than the direct AUD/alcohol dependence EFO candidates.\n\nSkill guidance consistency checks:\n- The triage notes explicitly prioritize PGS002738 for EUR-focused direct endpoint use and flag metric-mismatch issues; the proposed pick follows that guidance.\n- Unknown covariates for PGS002738/PGS002739 are a limitation but not a visible reason to overturn the pick given the direct endpoint match and clear OR metric for PGS002738.\n\nRaw h2 evidence is generic context only and does not create a visible contradiction with selecting PGS002738.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "heritability",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  }
+]

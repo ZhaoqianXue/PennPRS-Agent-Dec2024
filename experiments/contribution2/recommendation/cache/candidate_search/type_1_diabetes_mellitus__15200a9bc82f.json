@@ -1,0 +1,1842 @@
+{
+  "cache_version": "v4",
+  "ontology": "type 1 diabetes mellitus",
+  "candidate_model_ids": [
+    "PGS004009",
+    "PGS004132",
+    "PGS004173",
+    "PGS000023",
+    "PGS004162",
+    "PGS004171",
+    "PGS000869",
+    "PGS003749",
+    "PGS004117",
+    "PGS002025",
+    "PGS001296",
+    "PGS001297",
+    "PGS000833",
+    "PGS003993",
+    "PGS000021",
+    "PGS000022",
+    "PGS004093",
+    "PGS005399",
+    "PGS000024",
+    "PGS004102",
+    "PGS004063",
+    "PGS004174",
+    "PGS004035",
+    "PGS005398",
+    "PGS004874",
+    "PGS004078",
+    "PGS005400",
+    "PGS004020",
+    "PGS004147",
+    "PGS003750",
+    "PGS001817",
+    "PGS004175",
+    "PGS004172"
+  ],
+  "total_found": 33,
+  "candidate_models": [
+    {
+      "id": "PGS000021",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "SNP associations curated from the literature",
+      "variants_number": 33,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (20%), EUR (60%), MAE (20%)",
+      "publication": {
+        "title": "A Type 1 Diabetes Genetic Risk Score Can Aid Discrimination Between Type 1 and Type 2 Diabetes in Young Adults.",
+        "journal": "Diabetes Care"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "n=3,852",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.96,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000041",
+        "selected_validation_ancestry": "European",
+        "record_count": 14,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.96,
+            "ci_lower": 0.94,
+            "ci_upper": 0.99
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "AUROC (without covariates)",
+            "name_short": "AUROC (without covariates)",
+            "estimate": 0.87
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Severe insulin deficiency",
+      "covariates": "islet auto-antibody status, body mass index (BMI), age at diagnosis",
+      "training_development_cohorts": [
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=223"
+    },
+    {
+      "id": "PGS000022",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 37,
+      "ancestry_distribution": "EVAL: AFR (33%), AMR (33%), EUR (33%)",
+      "publication": {
+        "title": "Application of a Genetic Risk Score to Racially Diverse Type 1 Diabetes Populations Demonstrates the Need for Diversity in Risk-Modeling.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8508,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000042",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8508
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,447"
+    },
+    {
+      "id": "PGS000023",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 7,
+      "ancestry_distribution": "GWAS: AFR (100%) | EVAL: AFR (25%), EUR (25%), MAE (25%), MAO (25%)",
+      "publication": {
+        "title": "Type 1 Diabetes Risk in African-Ancestry Participants and Utility of an Ancestry-Specific Genetic Risk Score.",
+        "journal": "Diabetes Care"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.817,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018537",
+        "selected_validation_ancestry": "European, African American or Afro-Caribbean, Hispanic or Latin American, East Asian, South East Asian, Native American, South Asian, Other",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.817
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "BDC",
+        "CLEAR",
+        "GoKinD",
+        "NYCP",
+        "SEARCH",
+        "T1DGC",
+        "UAB",
+        "UCSF"
+      ],
+      "validation_sample_size": "n=57,643"
+    },
+    {
+      "id": "PGS000024",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant associations and interaction modelling",
+      "variants_number": 85,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (16%), AFR (5%), AMR (5%), EUR (58%), MAE (10%), MAO (5%)",
+      "publication": {
+        "title": "Development and Standardization of an Improved Type 1 Diabetes Genetic Risk Score for Use in Newborn Screening and Incident Diagnosis.",
+        "journal": "Diabetes Care"
+      },
+      "date_release": "2019-10-14",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.921,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000048",
+        "selected_validation_ancestry": "European",
+        "record_count": 26,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.921
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Youden index",
+            "name_short": "Youden index",
+            "estimate": 0.698
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "T1DGC"
+      ],
+      "validation_sample_size": "n=374,000"
+    },
+    {
+      "id": "PGS000833",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 66,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genome-wide association analyses highlight etiological differences underlying newly defined subtypes of diabetes",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-11-04",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002247",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.02,
+            "ci_lower": 0.97,
+            "ci_upper": 1.07
+          }
+        ]
+      },
+      "phenotyping_reported": "Moderate Age-Related Diabetes",
+      "covariates": "PC1-10",
+      "training_development_cohorts": [
+        "B58C",
+        "CBR",
+        "T1DGC",
+        "UKBS"
+      ],
+      "validation_sample_size": "n=5,597"
+    },
+    {
+      "id": "PGS000869",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 48,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Genetic Modifiers of Cystic Fibrosis-Related Diabetes Have Extensive Overlap With Type 2 Diabetes and Related Traits.",
+        "journal": "J Clin Endocrinol Metab"
+      },
+      "date_release": "2021-08-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002414",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.077
+          }
+        ]
+      },
+      "phenotyping_reported": "Cystic-fibrosis related diabetes",
+      "covariates": "PCs(1-4), site of recruitment",
+      "training_development_cohorts": [
+        "B58C",
+        "CBR",
+        "T1DGC",
+        "UKBS"
+      ],
+      "validation_sample_size": "n=5,740"
+    },
+    {
+      "id": "PGS001296",
+      "trait_reported": "Insulin-dependent diabetes mellitus (time-to-event)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "snpnet",
+      "variants_number": 356,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.68941,
+        "r2": 0.05496,
+        "pgs_only_auc": 0.68941,
+        "pgs_only_r2": 0.05496,
+        "full_model_auc": 0.70536,
+        "full_model_r2": 0.0607,
+        "incremental_auc": 0.12077,
+        "selected_performance_id": "PPM008980",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.70536,
+            "ci_lower": 0.66494,
+            "ci_upper": 0.74577
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0607
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.12077
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.05496
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.68941,
+            "ci_lower": 0.64672,
+            "ci_upper": 0.73209
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE insulin-dependent diabetes mellitus",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001297",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "snpnet",
+      "variants_number": 69,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.77118,
+        "r2": 0.0912,
+        "pgs_only_auc": 0.77118,
+        "pgs_only_r2": 0.0912,
+        "full_model_auc": 0.79737,
+        "full_model_r2": 0.11683,
+        "incremental_auc": 0.09636,
+        "selected_performance_id": "PPM008984",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.79737,
+            "ci_lower": 0.708,
+            "ci_upper": 0.88674
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11683
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.09636
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.0912
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.77118,
+            "ci_lower": 0.67108,
+            "ci_upper": 0.87128
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001817",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 825,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009436",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0752,
+            "ci_lower": 0.061,
+            "ci_upper": 0.0893
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,975"
+    },
+    {
+      "id": "PGS002025",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 106800,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011074",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0824,
+            "ci_lower": 0.0682,
+            "ci_upper": 0.0965
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=18,975"
+    },
+    {
+      "id": "PGS003749",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 6612,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic risk scores to differentiate between type 1 and type 2 diabetes.",
+        "journal": "Genet Epidemiol"
+      },
+      "date_release": "2023-06-22",
+      "samples_training": "n=178,911",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.797,
+        "full_model_r2": 0.099,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018508",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.797
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke R2",
+            "name_short": "Nagelkerke R2",
+            "estimate": 0.099
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes with age of diagnosis under 25",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=119,273"
+    },
+    {
+      "id": "PGS003750",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 7835,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluation of polygenic risk scores to differentiate between type 1 and type 2 diabetes.",
+        "journal": "Genet Epidemiol"
+      },
+      "date_release": "2023-06-22",
+      "samples_training": "n=180,045",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": 0.014,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM018509",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke R2",
+            "name_short": "Nagelkerke R2",
+            "estimate": 0.014
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=120,028"
+    },
+    {
+      "id": "PGS003993",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "DBSLMM-auto",
+      "variants_number": 63182,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74379609,
+        "full_model_r2": 0.11520767,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019954",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74379609,
+            "ci_lower": 0.70604081,
+            "ci_upper": 0.78155137
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11520767,
+            "ci_lower": 0.08261093,
+            "ci_upper": 0.15365125
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.40714288,
+            "ci_lower": 2.12613109,
+            "ci_upper": 2.72529613
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.87844052,
+            "ci_lower": 0.75430394,
+            "ci_upper": 1.0025771
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004009",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "lassosum.auto",
+      "variants_number": 4031,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74137506,
+        "full_model_r2": 0.10551184,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019999",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74137506,
+            "ci_lower": 0.70575103,
+            "ci_upper": 0.77699909
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10551184,
+            "ci_lower": 0.07498107,
+            "ci_upper": 0.14145494
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.32890951,
+            "ci_lower": 2.05474726,
+            "ci_upper": 2.63965287
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.84540014,
+            "ci_lower": 0.72015285,
+            "ci_upper": 0.97064742
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004020",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "lassosum.CV",
+      "variants_number": 6682,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74450121,
+        "full_model_r2": 0.10751698,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019994",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74450121,
+            "ci_lower": 0.70912362,
+            "ci_upper": 0.7798788
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10751698,
+            "ci_lower": 0.07728308,
+            "ci_upper": 0.14325004
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.34600631,
+            "ci_lower": 2.07012734,
+            "ci_upper": 2.65865075
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.85271444,
+            "ci_lower": 0.72761012,
+            "ci_upper": 0.97781876
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004035",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LDpred2-auto",
+      "variants_number": 56562,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74858281,
+        "full_model_r2": 0.11349367,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019969",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74858281,
+            "ci_lower": 0.71080109,
+            "ci_upper": 0.78636453
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11349367,
+            "ci_lower": 0.08057329,
+            "ci_upper": 0.1513995
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.67222557,
+            "ci_lower": 2.33127749,
+            "ci_upper": 3.06303713
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.98291167,
+            "ci_lower": 0.8464164,
+            "ci_upper": 1.11940695
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004063",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "megaprs.auto",
+      "variants_number": 56288,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.73582572,
+        "full_model_r2": 0.1065667,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019974",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.73582572,
+            "ci_lower": 0.6992247,
+            "ci_upper": 0.77242674
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.1065667,
+            "ci_lower": 0.0731231,
+            "ci_upper": 0.14722601
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.32027044,
+            "ci_lower": 2.05513583,
+            "ci_upper": 2.61961025
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.84168375,
+            "ci_lower": 0.72034195,
+            "ci_upper": 0.96302555
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004078",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "megaprs.CV",
+      "variants_number": 56288,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.75807884,
+        "full_model_r2": 0.12382282,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019979",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.75807884,
+            "ci_lower": 0.72109039,
+            "ci_upper": 0.79506729
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.12382282,
+            "ci_lower": 0.0893776,
+            "ci_upper": 0.1626812
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.67622631,
+            "ci_lower": 2.34580171,
+            "ci_upper": 3.0531938
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.98440771,
+            "ci_lower": 0.85262722,
+            "ci_upper": 1.11618819
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004093",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "PRS-CS-auto",
+      "variants_number": 61651,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74365419,
+        "full_model_r2": 0.11537847,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019989",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74365419,
+            "ci_lower": 0.70655591,
+            "ci_upper": 0.78075248
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11537847,
+            "ci_lower": 0.08154941,
+            "ci_upper": 0.15461483
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.39116291,
+            "ci_lower": 2.11480155,
+            "ci_upper": 2.70363906
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.87177982,
+            "ci_lower": 0.74896098,
+            "ci_upper": 0.99459867
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004102",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "PRS-CS.CV",
+      "variants_number": 61651,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74704743,
+        "full_model_r2": 0.11790381,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019984",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74704743,
+            "ci_lower": 0.70995893,
+            "ci_upper": 0.78413594
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.11790381,
+            "ci_lower": 0.08420483,
+            "ci_upper": 0.15729309
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.4314481,
+            "ci_lower": 2.14880751,
+            "ci_upper": 2.75126545
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.88848701,
+            "ci_lower": 0.76491304,
+            "ci_upper": 1.01206097
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004117",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "pt_clump.auto",
+      "variants_number": 131,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67866686,
+        "full_model_r2": 0.0488395,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019944",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67866686,
+            "ci_lower": 0.64177739,
+            "ci_upper": 0.71555632
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.0488395,
+            "ci_lower": 0.02894078,
+            "ci_upper": 0.07332714
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.89070339,
+            "ci_lower": 1.65320815,
+            "ci_upper": 2.16231652
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.63694892,
+            "ci_lower": 0.50271774,
+            "ci_upper": 0.77118011
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004132",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "pt_clump_nested.CV",
+      "variants_number": 354,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67436957,
+        "full_model_r2": 0.04581092,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019949",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67436957,
+            "ci_lower": 0.63811128,
+            "ci_upper": 0.71062785
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04581092,
+            "ci_lower": 0.02667374,
+            "ci_upper": 0.06787352
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.8705218,
+            "ci_lower": 1.63223449,
+            "ci_upper": 2.14359629
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.62621743,
+            "ci_lower": 0.48994993,
+            "ci_upper": 0.76248493
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004147",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "SBayesR-auto",
+      "variants_number": 45996,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.69901452,
+        "full_model_r2": 0.05972549,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019956",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69901452,
+            "ci_lower": 0.69126203,
+            "ci_upper": 0.70676702
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05972549,
+            "ci_lower": 0.05525799,
+            "ci_upper": 0.06439209
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.0869076,
+            "ci_lower": 2.02370949,
+            "ci_upper": 2.15207932
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.73568335,
+            "ci_lower": 0.70493221,
+            "ci_upper": 0.7664345
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=322,349"
+    },
+    {
+      "id": "PGS004162",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "UKBB-EUR.MultiPRS.CV",
+      "variants_number": 62645,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (80%), SAS (20%)",
+      "publication": {
+        "title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2023-12-19",
+      "samples_training": "n=804",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.77123669,
+        "full_model_r2": 0.14125048,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM019964",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.77123669,
+            "ci_lower": 0.73430954,
+            "ci_upper": 0.80816383
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14125048,
+            "ci_lower": 0.10181365,
+            "ci_upper": 0.18523438
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.88687425,
+            "ci_lower": 2.52605474,
+            "ci_upper": 3.29923292
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.06017434,
+            "ci_lower": 0.92665869,
+            "ci_upper": 1.19368999
+          }
+        ]
+      },
+      "phenotyping_reported": "T1D",
+      "covariates": "0",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=90,274"
+    },
+    {
+      "id": "PGS004171",
+      "trait_reported": "Type 1 diabetes",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LASSO",
+      "variants_number": 520,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020104",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004172",
+      "trait_reported": "Type 1 diabetes",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LASSO",
+      "variants_number": 70,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020105",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004173",
+      "trait_reported": "Type 1 diabetes",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LASSO",
+      "variants_number": 295,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020106",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004174",
+      "trait_reported": "Type 1 diabetes",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LASSO",
+      "variants_number": 49,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.71,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020107",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.71
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004175",
+      "trait_reported": "Type 1 diabetes",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "LASSO",
+      "variants_number": 315,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Biobank-scale methods and projections for sparse polygenic prediction from machine learning.",
+        "journal": "Sci Rep"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "n=200,000",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.7,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020108",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Type 1 diabetes",
+      "covariates": "year of birth, sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=45,334"
+    },
+    {
+      "id": "PGS004874",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "megaprs.auto",
+      "variants_number": 56916,
+      "ancestry_distribution": "GWAS: AFR (7%), EUR (89%), OTH (4%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A unified framework for estimating country-specific cumulative incidence for 18 diseases stratified by polygenic risk.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-06-27",
+      "samples_training": "n=404",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.77,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021179",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.77,
+            "ci_lower": 0.77,
+            "ci_upper": 0.78
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 2.37,
+            "ci_lower": 2.31,
+            "ci_upper": 2.44
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident T1D",
+      "covariates": "PCs 1-10",
+      "training_development_cohorts": [
+        "1000G"
+      ],
+      "validation_sample_size": "n=412,090"
+    },
+    {
+      "id": "PGS005398",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 645391,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex specific genomic insights into type 1 diabetes through GWAS and single cell transcriptome analysis.",
+        "journal": "Diabetes Res Clin Pract"
+      },
+      "date_release": "2026-02-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.629,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM023441",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.629,
+            "ci_lower": 0.6,
+            "ci_upper": 0.658
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.586,
+            "ci_lower": 1.42,
+            "ci_upper": 1.771
+          }
+        ]
+      },
+      "phenotyping_reported": "Type 1 diabetes diagnosis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CHOP"
+      ],
+      "validation_sample_size": "n=2,771"
+    },
+    {
+      "id": "PGS005399",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 264227,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex specific genomic insights into type 1 diabetes through GWAS and single cell transcriptome analysis.",
+        "journal": "Diabetes Res Clin Pract"
+      },
+      "date_release": "2026-02-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.668,
+        "full_model_r2": null,
+        "incremental_auc": 0.0444,
+        "selected_performance_id": "PPM023442",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.668,
+            "ci_lower": 0.629,
+            "ci_upper": 0.707
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "delta AUC (sex\u2011specific-all\u2011samples)",
+            "name_short": "delta AUC (sex\u2011specific-all\u2011samples)",
+            "estimate": 0.0444,
+            "ci_lower": 0.0341,
+            "ci_upper": 0.0546
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.896,
+            "ci_lower": 1.627,
+            "ci_upper": 2.21
+          }
+        ]
+      },
+      "phenotyping_reported": "Type 1 diabetes diagnosis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CHOP"
+      ],
+      "validation_sample_size": "n=1,435"
+    },
+    {
+      "id": "PGS005400",
+      "trait_reported": "Type 1 diabetes (T1D)",
+      "trait_efo": "type 1 diabetes mellitus",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 128279,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex specific genomic insights into type 1 diabetes through GWAS and single cell transcriptome analysis.",
+        "journal": "Diabetes Res Clin Pract"
+      },
+      "date_release": "2026-02-26",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.719,
+        "full_model_r2": null,
+        "incremental_auc": 0.084,
+        "selected_performance_id": "PPM023443",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.719,
+            "ci_lower": 0.682,
+            "ci_upper": 0.756
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "delta AUC (sex\u2011specific-all\u2011samples)",
+            "name_short": "delta AUC (sex\u2011specific-all\u2011samples)",
+            "estimate": 0.084,
+            "ci_lower": 0.0646,
+            "ci_upper": 0.1035
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.316,
+            "ci_lower": 1.962,
+            "ci_upper": 2.732
+          }
+        ]
+      },
+      "phenotyping_reported": "Type 1 diabetes diagnosis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "CHOP"
+      ],
+      "validation_sample_size": "n=1,336"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001297",
+    "reported_auc": 0.7712,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Type 1 diabetes (T1D)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

@@ -1,0 +1,1404 @@
+[
+  {
+    "ontology": "blood coagulation disease",
+    "trial": 1,
+    "n_models": 3,
+    "benchmark_ranked_ids": [
+      "PGS001033",
+      "PGS002034",
+      "PGS001826"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS001033": 0.57209,
+      "PGS001826": 0.569462,
+      "PGS002034": 0.570214
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS001033"
+      ],
+      "2": [
+        "PGS001033",
+        "PGS002034"
+      ],
+      "3": [
+        "PGS001033",
+        "PGS002034",
+        "PGS001826"
+      ],
+      "4": [
+        "PGS001033",
+        "PGS002034",
+        "PGS001826"
+      ],
+      "5": [
+        "PGS001033",
+        "PGS002034",
+        "PGS001826"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS001033"
+      ],
+      "10": [
+        "PGS001033"
+      ],
+      "15": [
+        "PGS001033"
+      ],
+      "20": [
+        "PGS001033"
+      ],
+      "25": [
+        "PGS001033"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS001826",
+      "PGS002034",
+      "PGS001033"
+    ],
+    "recommended_pgs_id": "PGS001033",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "High",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: All three candidates merit close downstream comparison because they represent two distinct endpoint definitions and two within-publication sibling models with near-identical reported performance.\n\n- PGS001033: Directly aligned to the target EFO (blood coagulation disease) with explicit time-to-event phenotyping and provides clean, comparable PRS-only and full-model AUROC/R\u00b2 plus incremental AUROC. This makes it a strong anchor candidate even though it is a broader/\"other coagulation defects\" endpoint rather than the congenital deficiency endpoint used by the other two.\n\n- PGS002034 vs PGS001826: Same publication family, same reported phenotype (congenital deficiency of other clotting factors), same training scale and validation setup, and essentially identical partial-r estimates with overlapping CIs. This is a classic near-tie where a single-shot picker could be misled by method label (LDpred2 vs penalized regression) or variant count (32,552 vs 45) despite the visible performance being indistinguishable; they should be kept head-to-head.\n\nKeeping all three on the shortlist preserves (a) the strongest direct-endpoint candidate with richer metric reporting (PGS001033) and (b) cleaner, like-for-like sibling alternatives for the congenital deficiency endpoint (PGS001826/PGS002034) that could plausibly be preferred depending on downstream endpoint matching priorities and how partial-r is interpreted relative to AUROC/R\u00b2 in the final comparison. Uncertainty: Cross-endpoint comparability is limited: PGS001033 targets a broader time-to-event coagulation-defects phenotype, while PGS001826/PGS002034 target a specific congenital deficiency phenotype and only report partial correlation (no AUROC/R\u00b2). With only the visible metadata, it is unclear whether the congenital deficiency endpoint is a subset, proxy, or differently ascertained construct relative to the target; therefore none should be deprioritized at triage. LEGACY_PROPOSAL: All three candidates are direct matches at the broad concept level (coagulation disorders), but none is a clean, high-confidence match for the generic target \u201cblood coagulation disease.\u201d PGS001033 is mapped directly to the target EFO (\u201cblood coagulation disease\u201d) and provides PRS-comparable metrics including PGS-only AUROC (0.634) and PGS R\u00b2 (0.0578), whereas PGS001826 and PGS002034 target a narrower congenital clotting-factor deficiency EFO and report only partial correlation (~0.056) without AUROC/R\u00b2, limiting comparability. However, PGS001033 is from a pan-trait UK Biobank sparse-score framework (\u201cacross 813 traits\u201d) with an extremely low variant count (1) and a time-to-event phenotype, both of which are warning signals for generalizability and endpoint fidelity. Given these competing limitations (framework/sparsity vs narrower congenital endpoint and missing standard metrics), the selection is necessarily low-confidence and best considered sub-optimal. PICK: Keep the legacy proposal. Among the full candidate list, PGS001033 is the only record whose trait_efo exactly matches the target (\u201cblood coagulation disease\u201d) and it reports directly comparable discrimination/variance metrics (PGS-only AUROC 0.634; full-model AUROC 0.656 with conventional covariates; validation n=67,425). The two alternatives (PGS002034, PGS001826) target a narrower congenital clotting-factor deficiency EFO rather than the generic target concept and provide only partial correlation (~0.056) without AUROC/R\u00b2, making the visible predictive evidence less directly comparable and not clearly stronger. While PGS001033 has limitations (pan-trait framework, time-to-event phenotype label, and extremely sparse variant count), there is not a clearly better-supported direct-match alternative across multiple independent visible axes; therefore the legacy pick remains defensible but sub-optimal and low-confidence. CRITIC: No visible contradiction with keeping PGS001033. It is the only candidate whose trait_efo exactly matches the target (\u201cblood coagulation disease\u201d) and it provides standard, directly comparable performance metrics (PGS-only AUROC/R\u00b2 and full-model AUROC with CI) with a larger validation N (67,425) than the other two (19,864). PGS001826 and PGS002034 are for a narrower congenital clotting-factor deficiency EFO and only report partial correlation (~0.056) without AUROC/R\u00b2, so there is no clearly stronger visible predictive evidence to justify revising away from the direct-EFO match. The noted limitations for PGS001033 (time-to-event phenotype label, pan-trait framework, very low variant count) are real but not a concrete disqualifying packaging problem in the visible fields, and do not create a better-supported alternative among the provided candidates. Legacy proposal and proposed_pick agree on PGS001033; both are defensible, so no revision is warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
+  },
+  {
+    "ontology": "crohn's disease",
+    "trial": 1,
+    "n_models": 3,
+    "benchmark_ranked_ids": [
+      "PGS004254",
+      "PGS001330",
+      "PGS001331"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS001330": 0.572303,
+      "PGS001331": 0.565416,
+      "PGS004254": 0.650069
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS004254"
+      ],
+      "2": [
+        "PGS004254",
+        "PGS001330"
+      ],
+      "3": [
+        "PGS004254",
+        "PGS001330",
+        "PGS001331"
+      ],
+      "4": [
+        "PGS004254",
+        "PGS001330",
+        "PGS001331"
+      ],
+      "5": [
+        "PGS004254",
+        "PGS001330",
+        "PGS001331"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS004254"
+      ],
+      "10": [
+        "PGS004254"
+      ],
+      "15": [
+        "PGS004254"
+      ],
+      "20": [
+        "PGS004254"
+      ],
+      "25": [
+        "PGS004254"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS001330",
+      "PGS001331",
+      "PGS004254"
+    ],
+    "recommended_pgs_id": "PGS004254",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: All three candidates are direct-endpoint Crohn\u2019s disease scores and should be compared head-to-head downstream.\n\n- PGS004254 deserves close comparison because it reports much stronger apparent discrimination (full-model AUROC 0.72 with tight CI; also reports an OR 2.18). It is newer and uses a very large variant set (LDpred2-auto, ~745k). However, its reported AUROC is full-model (not PRS-only), so a single-shot picker could be misled if covariates contribute materially or if reporting differs from the snpnet siblings; it should be explicitly compared on metric packaging and endpoint/analysis context.\n\n- PGS001331 and PGS001330 are sibling models from the same UKB snpnet paper with clean PRS-only metrics reported (PGS-only AUROC/R\u00b2 plus full-model and incremental AUROC). They are near-tied and both plausibly competitive within that study family; PGS001331 is slightly higher on the reported AUROC/R\u00b2 and incremental AUROC, but differences are small enough that downstream comparison should treat them as plausible near-ties rather than assuming a clear winner.\n\n- PGS001330 is additionally notable for its time-to-event phenotype label, which could create an endpoint/analysis mismatch versus plain case-control reporting; that makes it a candidate whose evidence could mislead if not checked carefully, but it still has direct-endpoint labeling and clean PRS-only metrics, so it should remain in close comparison rather than being dropped. Uncertainty: Key uncertainty is comparability of performance reporting across publications: PGS004254 provides full-model AUROC (no PRS-only AUROC/R\u00b2 shown), while PGS001330/PGS001331 provide both PRS-only and full-model metrics. Also, PGS001330\u2019s time-to-event framing may not be directly comparable to the others\u2019 case-control framing based on the visible fields alone. Validation cohorts are all EUR-selected in the chosen performance records, limiting what can be inferred about cross-ancestry transportability from the displayed metrics. LEGACY_PROPOSAL: All three candidates are direct matches to Crohn disease by trait_efo and phenotyping_reported. PGS001330 is a time-to-event endpoint (explicitly a warning signal in the provided domain guidance) and comes from a pan-trait UK Biobank framework paper (\u201cacross 813 traits\u201d), which the domain guidance flags as tending to generalize poorly despite complete metadata; its PRS-only AUROC/R\u00b2 are modest. PGS001331 is also from the same pan-trait framework family with similar covariates and validation context, but has slightly better PRS-only metrics than PGS001330 (higher PGS-only AUROC and R\u00b2, and higher incremental AUROC), making it the stronger of the two framework siblings. PGS004254 has clean endpoint alignment (Crohn\u2019s disease), uses a genome-wide shrinkage method (LDpred2-auto; structurally favored over sparse framework scores for polygenic traits), has far more variants, and reports strong discrimination in European validation (AUROC 0.72 with CI 0.70\u20130.73) plus a strong per-SD effect size (OR 2.18, CI 2.05\u20132.32), which is supportive evidence of meaningful PRS signal per the domain guidance. Main limitation: the reported AUROC appears to be a full-model metric (no explicit PGS-only AUROC/R\u00b2 provided), so comparability to the framework models\u2019 PRS-only metrics is imperfect; this keeps confidence at Moderate rather than High. PICK: Keep the legacy proposal. All three candidates are direct matches to Crohn\u2019s disease by trait_efo and phenotyping_reported, but PGS004254 has clearly stronger visible predictive evidence across multiple axes while using ordinary covariate packaging.\n\n- Endpoint alignment: PGS004254 and PGS001331 are straightforward Crohn\u2019s disease endpoints; PGS001330 is explicitly time-to-event framed, making it less directly comparable to the others\u2019 case/control-style reporting.\n- Predictive evidence: PGS004254 reports substantially higher discrimination (AUROC 0.72, CI 0.70\u20130.73) and a strong effect size (OR 2.18, CI 2.05\u20132.32). The snpnet siblings (PGS001331/PGS001330) show much lower AUROC (~0.58 PGS-only; ~0.61 full-model) and low R\u00b2 (~0.011 full-model).\n- Metric packaging caveat handled: PGS004254\u2019s AUROC appears to be full-model (no PRS-only AUROC/R\u00b2 shown), so it is not perfectly comparable to the snpnet records\u2019 PRS-only metrics; however, the covariates listed (age, sex, PCs) are conventional and similar in spirit to the snpnet models\u2019 covariates, and the magnitude gap in AUROC plus the additional OR evidence makes PGS004254 still better-supported overall rather than merely \u201ccleaner.\u201d\n- Study/model characteristics: PGS004254 uses LDpred2-auto with genome-wide variant coverage (~745k), whereas the snpnet models are sparse (220\u2013257 variants) from a broad pan-trait UKB framework paper; within that sibling pair, PGS001331 is the stronger runner-up (slightly higher AUROC/R\u00b2 and incremental AUROC than PGS001330).\n\nTherefore PGS004254 remains a defensible best-supported direct-match pick, with Moderate confidence due to the PRS-only vs full-model reporting mismatch. CRITIC: No visible contradiction found: all three candidates are direct Crohn\u2019s disease matches by trait_efo/phenotyping_reported, and the proposed pick (PGS004254) is also the legacy proposal.\n\nPGS004254 is defensible as best-supported on visible predictive evidence: it reports AUROC 0.72 (CI 0.70\u20130.73) and an OR 2.18 (CI 2.05\u20132.32) in EUR validation (n=22,296) with conventional covariates (age, sex, PCs). The main caveat\u2014AUROC appears to be a full-model metric with no explicit PRS-only AUROC/R\u00b2\u2014is already acknowledged and does not create a clear mistake given the large performance gap versus the snpnet siblings.\n\nPGS001331 and PGS001330 have much lower visible discrimination (PGS-only AUROC ~0.58; full-model AUROC ~0.61; full-model R\u00b2 ~0.011) despite larger training N, and PGS001330 is additionally labeled time-to-event, making it less directly comparable. Nothing in the visible records clearly supports revising away from PGS004254.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/3"
+  },
+  {
+    "ontology": "dilated cardiomyopathy",
+    "trial": 1,
+    "n_models": 8,
+    "benchmark_ranked_ids": [
+      "PGS004951",
+      "PGS004949",
+      "PGS004947",
+      "PGS004862",
+      "PGS004948",
+      "PGS004950",
+      "PGS004946",
+      "PGS004861"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS004861": 0.609865,
+      "PGS004862": 0.634376,
+      "PGS004946": 0.621211,
+      "PGS004947": 0.639553,
+      "PGS004948": 0.622457,
+      "PGS004949": 0.646324,
+      "PGS004950": 0.622363,
+      "PGS004951": 0.648013
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS004951"
+      ],
+      "2": [
+        "PGS004951",
+        "PGS004949"
+      ],
+      "3": [
+        "PGS004951",
+        "PGS004949",
+        "PGS004947"
+      ],
+      "4": [
+        "PGS004951",
+        "PGS004949",
+        "PGS004947",
+        "PGS004862"
+      ],
+      "5": [
+        "PGS004951",
+        "PGS004949",
+        "PGS004947",
+        "PGS004862",
+        "PGS004948"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS004951"
+      ],
+      "10": [
+        "PGS004951"
+      ],
+      "15": [
+        "PGS004951",
+        "PGS004949"
+      ],
+      "20": [
+        "PGS004951",
+        "PGS004949"
+      ],
+      "25": [
+        "PGS004951",
+        "PGS004949"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS004950",
+      "PGS004861",
+      "PGS004949",
+      "PGS004946",
+      "PGS004951",
+      "PGS004948",
+      "PGS004862",
+      "PGS004947"
+    ],
+    "recommended_pgs_id": "PGS004862",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "High",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "TRIAGE: Two main publication families appear, each with DCM vs MTAG siblings and differing endpoint labels.\n\n1) 2024-12-16 Nat Genet family (PGS004946-951):\n- Keep both MTAG and non-MTAG because they are near-ties on visible PRS-only discrimination and effect sizes, and MTAG can look better on some metrics while being less endpoint-specific.\n- Strongest-looking direct-endpoint predictive evidence within this family is PGS004949 (MTAG; non-ischemic DCM; PRS-only AUC 0.68 with tight CI; OR 1.91; large validation n=326,106). This is a prime downstream comparator.\n- PGS004951 (MTAG; clinical DCM; PRS-only AUC 0.67; OR 1.93) is a plausible near-tie to PGS004949 but has much smaller validation n=7,761; still worth head-to-head because endpoint label differs (clinical vs non-ischemic) and effect size is strong.\n- PGS004947 (MTAG; non-ischemic DCM; PRS-only AUC 0.66; OR 1.73; n=96,016) and PGS004946 (non-MTAG; non-ischemic DCM; PRS-only AUC 0.65; OR ~1.66; n=96,016) should be compared because they share evaluation setting and differ mainly by MTAG vs not; easy to be misled by small metric differences without checking endpoint/covariate packaging consistency.\n- PGS004950 (clinical DCM; non-MTAG; PRS-only AUC 0.64; OR 1.71; n=7,761) is watchlist: weaker AUC than its MTAG sibling (PGS004951) but has unusually high reported PRS-only AUPRC (0.1765) relative to other siblings, which could reflect different case prevalence/ascertainment and mislead a single-shot picker; keep for sanity-checking metric comparability.\n- PGS004948 (non-MTAG; non-ischemic DCM; PRS-only AUC 0.64; OR 1.64; n=326,106) is watchlist: large validation N and clean PRS-only AUC reported, but appears weaker than PGS004949; still useful as a cleaner/large-N alternative in case endpoint preference favors non-MTAG.\n\n2) 2024-04-18 Nat Genet family (PGS004861-862):\n- Both are direct \u201cDilated cardiomyopathy\u201d labels with very large validation n=347,585 and conventional covariates (age/sex/PCs). Metrics are reported as full-model AUROC (~0.70-0.71) and R2 (~0.048-0.05) rather than clearly PRS-only, which can mislead comparisons versus PRS-only AUC from the other family; nonetheless they are important downstream comparators because they are cleanly labeled to the target trait and have strong-looking discrimination.\n- Between them, PGS004862 (MTAG) slightly edges PGS004861 on AUROC/OR, but they are close enough that both should be retained for direct comparison and to avoid over-interpreting small differences.\n\nOverall downstream comparison should explicitly separate: (a) endpoint label differences (clinical vs non-ischemic vs generic DCM), (b) MTAG vs non-MTAG siblings, and (c) PRS-only vs full-model metric reporting, since each axis can create misleading apparent winners if not normalized. Uncertainty: Key uncertainty is metric comparability: PGS004861/862 report full-model AUROC/R2 (with age/sex/PCs) while the 2024-12-16 family provides explicit PRS-only AUC/AUPRC plus multiple R2 variants; apparent superiority could flip depending on whether downstream PICK prioritizes PRS-only performance, endpoint fidelity (clinical vs non-ischemic vs generic), or validation setting differences (notably very small n=7,761 for the clinical DCM evaluations). Also, AUPRC values vary widely across records and may be driven by differing prevalence/ascertainment rather than intrinsic model quality. LEGACY_PROPOSAL: All 8 candidates are direct matches to the target trait (dilated cardiomyopathy) by trait_efo, with phenotyping_reported spanning generic DCM, non-ischemic DCM, and clinical DCM. Per the provided domain guidance, endpoint fidelity is primary and MTAG variants are mildly preferred over non-MTAG siblings when the endpoint remains the same disease. Among the two most endpoint-generic and cleanly specified models from the same publication family (PGS004861 vs PGS004862; both phenotyping_reported: Dilated cardiomyopathy; covariates: age, age^2, sex, PC1-10; EVAL: EUR 100%), PGS004862 (MTAG) has slightly stronger reported performance/effect size (full-model AUROC 0.71 vs 0.70; OR 1.76 vs 1.56; R\u00b2 0.05 vs 0.048), making it the best-supported direct-match choice within that coherent sibling pair. Confidence is not high because across the broader candidate set several newer models report much larger liability-scale R\u00b2 values and similar/stronger ORs but use different phenotype definitions (non-ischemic or clinical DCM) and report mostly full-model or differently-scaled metrics, limiting clean comparability and leaving some unresolved ambiguity about which endpoint best matches the intended \u2018dilated cardiomyopathy\u2019 deployment definition. PICK: Keep the legacy proposal. PGS004862 is the cleanest direct endpoint match on the visible phenotype labels (phenotyping_reported: \u201cDilated cardiomyopathy\u201d without additional subtype qualifiers) and is evaluated at very large scale (n=347,585) with conventional covariates (age, age^2, sex, PC1-10). Within its tight sibling pair (PGS004861 vs PGS004862) it has consistently slightly stronger visible predictive evidence (full-model AUROC 0.71 vs 0.70; R\u00b2 0.05 vs 0.048; OR 1.76 vs 1.56), making it a defensible primary.\n\nSeveral 2024-12-16 candidates show stronger PRS-only discrimination/effect estimates (notably PGS004949: PRS-only AUC 0.68, OR 1.91, large n=326,106), but they are labeled/evaluated on \u201cNon-ischemic dilated cardiomyopathy\u201d rather than generic dilated cardiomyopathy, introducing an endpoint-definition shift. Because both the legacy pick and these alternatives are defensible and the legacy pick remains best-aligned on endpoint labeling while still showing solid discrimination at very large validation N, there is not a clearly better-supported alternative across multiple independent visible axes that justifies revising away from PGS004862. PGS004949 is the strongest runner-up if a non-ischemic endpoint is acceptable; PGS004861 is the closest like-for-like alternative under the same generic endpoint definition. CRITIC: No visible contradiction found. Both the legacy_with_domain_proposal and the proposed_pick select PGS004862, and that choice is defensible on the visible evidence.\n\nWhy PGS004862 is defensible:\n- Direct endpoint label alignment: trait_reported and phenotyping_reported are both plain \u201cDilated cardiomyopathy\u201d (no subtype qualifier like \u201cnon-ischemic\u201d or \u201cclinical\u201d), matching the target trait most literally among candidates.\n- Large validation scale and conventional covariates: EVAL EUR 100% with n=347,585; covariates are age, age^2, sex, PC1-10 (no obvious packaging/leakage signals).\n- Within its closest like-for-like sibling pair (same paper/family, same phenotype label, same covariates, same ancestry, similar variant count), PGS004862 has slightly stronger visible metrics than PGS004861 (full-model AUROC 0.71 vs 0.70; R\u00b2 0.05 vs 0.048; OR 1.76 vs 1.56). Picking the stronger sibling is coherent.\n\nChecks against alternatives:\n- Several 2024-12-16 models (e.g., PGS004949) show stronger PRS-only AUC/OR and large validation N, but they are explicitly evaluated on \u201cNon-ischemic dilated cardiomyopathy\u201d (or \u201cClinical dilated cardiomyopathy\u201d), which is a visible endpoint-definition shift away from the generic target label. That makes them plausible runner-ups, not a clear contradiction to choosing the generic-label model.\n- Metric comparability is mixed across families (PGS004861/862 report full-model AUROC/R\u00b2; the 2024-12-16 family reports PRS-only AUC plus multiple R\u00b2 variants). This prevents a clear, record-visible dominance claim that would force revision away from PGS004862.\n\nLegacy proposal defensibility rule: since both the legacy proposal and proposed_pick agree on PGS004862 and are defensible, no revision is warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/8"
+  },
+  {
+    "ontology": "heart failure",
+    "trial": 1,
+    "n_models": 34,
+    "benchmark_ranked_ids": [
+      "PGS005097",
+      "PGS005078",
+      "PGS005076",
+      "PGS005077",
+      "PGS005083",
+      "PGS005084",
+      "PGS005080",
+      "PGS005074",
+      "PGS005085",
+      "PGS005082",
+      "PGS001790",
+      "PGS005299",
+      "PGS004532",
+      "PGS005303",
+      "PGS002051",
+      "PGS005302",
+      "PGS005300",
+      "PGS004462",
+      "PGS000709",
+      "PGS005305",
+      "PGS005081",
+      "PGS005306",
+      "PGS005304",
+      "PGS005075",
+      "PGS005073",
+      "PGS003969",
+      "PGS005079",
+      "PGS005301",
+      "PGS001842",
+      "PGS005319",
+      "PGS004598",
+      "PGS001840",
+      "PGS002049"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000709": 0.541789,
+      "PGS001790": 0.578094,
+      "PGS001840": 0.504841,
+      "PGS001842": 0.519866,
+      "PGS002049": 0.50291,
+      "PGS002051": 0.545244,
+      "PGS003969": 0.524913,
+      "PGS004462": 0.541877,
+      "PGS004532": 0.560895,
+      "PGS004598": 0.514785,
+      "PGS005073": 0.525464,
+      "PGS005074": 0.592126,
+      "PGS005075": 0.531955,
+      "PGS005076": 0.593774,
+      "PGS005077": 0.593756,
+      "PGS005078": 0.594709,
+      "PGS005079": 0.524647,
+      "PGS005080": 0.592375,
+      "PGS005081": 0.533882,
+      "PGS005082": 0.588952,
+      "PGS005083": 0.593093,
+      "PGS005084": 0.592712,
+      "PGS005085": 0.591323,
+      "PGS005097": 0.611032,
+      "PGS005299": 0.575339,
+      "PGS005300": 0.542844,
+      "PGS005301": 0.520428,
+      "PGS005302": 0.542844,
+      "PGS005303": 0.54688,
+      "PGS005304": 0.53277,
+      "PGS005305": 0.537536,
+      "PGS005306": 0.53277,
+      "PGS005319": 0.515205
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS005097"
+      ],
+      "2": [
+        "PGS005097",
+        "PGS005078"
+      ],
+      "3": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076"
+      ],
+      "4": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076",
+        "PGS005077"
+      ],
+      "5": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076",
+        "PGS005077",
+        "PGS005083"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS005097",
+        "PGS005078"
+      ],
+      "10": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076",
+        "PGS005077"
+      ],
+      "15": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076",
+        "PGS005077",
+        "PGS005083"
+      ],
+      "20": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076",
+        "PGS005077",
+        "PGS005083",
+        "PGS005084",
+        "PGS005080"
+      ],
+      "25": [
+        "PGS005097",
+        "PGS005078",
+        "PGS005076",
+        "PGS005077",
+        "PGS005083",
+        "PGS005084",
+        "PGS005080",
+        "PGS005074",
+        "PGS005085"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS005079",
+      "PGS002049",
+      "PGS005081",
+      "PGS005306",
+      "PGS005077",
+      "PGS000709",
+      "PGS004462",
+      "PGS004532",
+      "PGS001840",
+      "PGS005080",
+      "PGS002051",
+      "PGS005300",
+      "PGS005083",
+      "PGS005303",
+      "PGS001790",
+      "PGS005075",
+      "PGS005085",
+      "PGS001842",
+      "PGS003969",
+      "PGS005299",
+      "PGS005082",
+      "PGS005084",
+      "PGS005305",
+      "PGS005074",
+      "PGS005076",
+      "PGS005073",
+      "PGS005078",
+      "PGS005301",
+      "PGS005097",
+      "PGS005319",
+      "PGS004598",
+      "PGS005304",
+      "PGS005302"
+    ],
+    "recommended_pgs_id": "PGS005083",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": false,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": false,
+    "rationale": "TRIAGE: Downstream comparison should explicitly separate (a) direct heart-failure endpoint scores with strong reported discrimination, (b) large sibling sets where tiny metric differences could mislead a single-shot picker, and (c) adjacent/alternate endpoint definitions that are close enough to confuse selection but may not be endpoint-aligned.\n\nShortlist rationale (close head-to-head):\n- PGS001790: Direct heart failure label; reports both PRS-only Nagelkerke R2 (~0.007) and a full-model AUROC (0.75) in a large EUR validation (n~358k). Strong-looking discrimination but metric packaging (full-model AUROC) could mislead if compared naively to PRS-only metrics; keep for direct comparison.\n- MVP/HGG Adv CHF PheCode 428.1 family with C-index ~0.74\u20130.754 and ORs spanning ~1.09\u20131.46: PGS005077/PGS005083/PGS005076/PGS005074/PGS005080/PGS005084/PGS005078/PGS005085. These are near-ties with very similar covariates (age/sex/PCs) and same general endpoint label; small differences in C-index/OR could be unstable or reflect modeling choices. Include multiple top siblings to avoid being misled by picking the numerically highest single record.\n- PGS000709: Direct heart failure; time-to-event framing (C-index 0.635, HR per SD ~1.08) with large UKB validation (n~135k). Lower apparent discrimination than the MVP family but different modeling/metric type; keep as a clean, direct-endpoint comparator.\n- PGS005097: Direct heart failure (prevalent) with AUROC ~0.72 and Brier skill score reported; multi-ancestry GWAS and MAE evaluation. Strong and recent, but \u201cprevalent\u201d endpoint and non-EUR eval context could complicate apples-to-apples; keep for comparison.\n- PGS004532 vs PGS004462: Same publication family (I50 heart failure) with ORs reported (metaPRS vs disease PRS). Could look strong on OR alone while lacking clear PRS-only vs full-model separation and covariates are \u201cUnknown\u201d; keep both to prevent being misled by the integrated/metaPRS packaging.\n\nWatchlist rationale (plausible alternatives / misleading evidence risk):\n- PGS003969: Direct heart failure but only 39 GWS SNPs and OR reported; could be attractive for simplicity yet underpowered vs genome-wide scores.\n- Remaining MVP/HGG Adv siblings (PGS005073/PGS005079/PGS005082/PGS005075/PGS005081): same endpoint family; keep as alternates because within-family differences are small and a downstream pick might prefer a different method label (ldpred vs PRS-CS vs PRS-CSx) or slightly different reported performance.\n- NPJ Genom Med LDpred2 cluster (PGS005299\u2013PGS005306, plus PGS005303/PGS005305): direct heart failure but reported AUROCs are notably lower (~0.57\u20130.63) and endpoints are \u201cprevalent\u201d; still worth retaining as a coherent family for sanity-checking and because some have slightly higher AUROC (~0.628).\n- PGS005319 and PGS004598: heart-failure outcomes in specific contexts (medication cohort; breast cancer survivors) with HRs; could mislead if interpreted as general-population HF prediction.\n- PGS001842/PGS002051 (congestive HF nonhypertensive) and PGS001840/PGS002049 (pulmonary heart disease/cor pulmonale): adjacent but not the same endpoint; keep only as watchlist because label proximity could mislead selection despite different phenotype definitions and metrics (partial-r only). Uncertainty: Key uncertainty is metric comparability: many candidates report full-model AUROC/C-index (with covariates) rather than PRS-only discrimination, and some report only OR/HR without clear scaling. Endpoint heterogeneity is also material (heart failure vs CHF phecode vs I50 vs prevalent vs incident vs context-specific cohorts). Because several large sibling families exist (MVP/HGG Adv; NPJ Genom Med; Commun Biol integration), downstream comparison should be done within-family first and then across families with explicit attention to endpoint wording and whether metrics are PRS-only vs covariate-inclusive. LEGACY_PROPOSAL: Direct-match candidates for heart failure are present (multiple models with trait_efo=heart failure or congestive heart failure). Among them, PGS005083 is best supported by the visible evidence because it reports the strongest available discrimination metric in this set (C-index 0.7537 in European validation) alongside a relatively strong per-SD effect size (OR 1.455, 95% CI 1.38\u20131.54), and it uses only basic covariates (age, sex, 20 PCs), which are comparatively clean and interpretable. However, the decision remains sub-optimal because many candidates report only full-model metrics (often not PRS-only), several have unknown covariates, and the PGS00507x/PGS00508x cluster contains many near-clone CHF models with very similar C-index values, making it hard to establish a uniquely superior choice from metadata alone. PICK: Keep the legacy proposal. Across the full candidate list, the strongest direct-match evidence cluster is the MVP/HGG Adv congestive heart failure (PheCode 428.1) family (PGS005073\u2013PGS005085): they share the same endpoint label, similar clean covariates (age, sex, 20 PCs), and report both discrimination (C-index) and effect size (OR). Within that near-clone family, PGS005083 has the highest reported C-index (0.75368 in EUR validation, n=31,804) and one of the strongest ORs (1.455, 95% CI 1.38\u20131.54), making it a defensible pick on multiple independent visible axes (endpoint alignment within-family, discrimination, effect size, covariate cleanliness). No alternative is clearly better-supported across multiple axes: PGS001790 shows a similar full-model AUROC (0.75) with very large EUR validation and provides PRS-only Nagelkerke R2 (~0.007), but it lacks an effect-size summary here and its AUROC is full-model (not directly comparable to PRS-only), so it does not clearly surpass the MVP family. PGS005097 is direct heart failure but uses a prevalent endpoint and has lower AUROC (~0.72). PGS000709 is direct but has much lower C-index (0.635). PGS004462/PGS004532 (I50) report only OR with unknown covariates and no discrimination, so they are less supported overall. Because the top CHF siblings are extremely close, the choice remains DIRECT_SUB_OPTIMAL rather than high-quality. CRITIC: No clear mistake found: the proposed pick (PGS005083) is a direct-match CHF/heart-failure endpoint (congestive HF PheCode 428.1) and, within the large near-clone MVP/HGG Adv CHF family (PGS005073\u2013PGS005085) that shares the same endpoint label and similar clean covariates (age, sex, 20 PCs) and validation size (EUR n=31,804), it has the highest reported discrimination (C-index 0.75368) and one of the strongest reported effect sizes (OR 1.455, 95% CI 1.38\u20131.54). No alternative in the visible records is clearly better-supported across multiple axes without introducing a re-ranking of close calls: PGS005077/PGS005076/PGS005074/PGS005084/PGS005080 are extremely close siblings with slightly lower C-index and/or similar ORs; PGS001790 has very large EUR validation and reports PRS-only Nagelkerke R2 (~0.007) but its AUROC=0.75 is full-model and it lacks an effect-size summary here, so it does not visibly contradict choosing the top-performing CHF sibling; PGS005097 (AUROC ~0.72) and PGS000709 (C-index 0.635) are weaker on reported discrimination; PGS004462/PGS004532 report only OR with unknown covariates and no discrimination. The legacy_with_domain_proposal matches the proposed_pick, so no revision is warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 5,
+    "recommended_rank_label": "5/34"
+  },
+  {
+    "ontology": "hip osteoarthritis",
+    "trial": 1,
+    "n_models": 7,
+    "benchmark_ranked_ids": [
+      "PGS002763",
+      "PGS004882",
+      "PGS004478",
+      "PGS000967",
+      "PGS002750",
+      "PGS004548",
+      "PGS002728"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000967": 0.530704,
+      "PGS002728": 0.503149,
+      "PGS002750": 0.527711,
+      "PGS002763": 0.55081,
+      "PGS004478": 0.536005,
+      "PGS004548": 0.522443,
+      "PGS004882": 0.549586
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002763"
+      ],
+      "2": [
+        "PGS002763",
+        "PGS004882"
+      ],
+      "3": [
+        "PGS002763",
+        "PGS004882",
+        "PGS004478"
+      ],
+      "4": [
+        "PGS002763",
+        "PGS004882",
+        "PGS004478",
+        "PGS000967"
+      ],
+      "5": [
+        "PGS002763",
+        "PGS004882",
+        "PGS004478",
+        "PGS000967",
+        "PGS002750"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002763"
+      ],
+      "10": [
+        "PGS002763"
+      ],
+      "15": [
+        "PGS002763",
+        "PGS004882"
+      ],
+      "20": [
+        "PGS002763",
+        "PGS004882"
+      ],
+      "25": [
+        "PGS002763",
+        "PGS004882"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS000967",
+      "PGS002728",
+      "PGS002750",
+      "PGS004882",
+      "PGS004478",
+      "PGS002763",
+      "PGS004548"
+    ],
+    "recommended_pgs_id": "PGS002763",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: Shortlist focuses on candidates with (a) direct hip OA / coxarthrosis endpoint alignment and (b) some interpretable predictive evidence (AUC/C-index/HR/OR) and/or strong validation scale, while preserving both cleaner PRS-only reporting and strong full-model/large-N alternatives for head-to-head comparison.\n\n- PGS000967: Direct hip OA/cxarthrosis TTE endpoint; reports both PRS-only (AUROC/R\u00b2) and full-model metrics plus incremental AUROC with conventional covariates. Also has multi-ancestry evaluation availability (though selected performance is EUR). Strong \u201cclean-metric\u201d comparator because PRS-only AUROC is explicitly provided.\n- PGS002728: Hip OA context but phenotype is total hip replacement (proxy/advanced endpoint). Has an AUROC with CI (full model with age/sex). Despite not being PRS-only, it\u2019s a strong direct-endpoint proxy with interpretable discrimination and should be compared against PGS000967/PGS004882.\n- PGS004882: Incident hip OA with very large validation N and time-to-event framing (C-index) plus HR with CI. Even though PRS-only vs covariate-separated metrics aren\u2019t shown, the scale and endpoint alignment make it a strong contender that could beat cleaner-but-weaker PRS-only candidates.\n- PGS002763: Direct \u201chip osteoarthritis\u201d phenotype; very large genome-wide PRS (PRS-CS) with a clear OR and CI in a sizable validation sample. Metrics are effect-size style rather than AUC, which can mislead single-shot picking if not compared carefully, so it belongs in close comparison.\n\nWatchlist retains plausible alternatives and \u201ccould mislead\u201d cases:\n- PGS004478 and PGS004548: Same publication family and same phenotype label (M16 coxarthrosis) with large variant counts; only single-point ORs shown and covariates are unknown, so they\u2019re hard to compare but could be competitive. Keep for downstream inspection rather than dropping.\n- PGS002750: Total hip replacement endpoint with OR and CI, but small validation N and richer covariate set (BMI/education/SES) that complicates comparability; still a plausible proxy-endpoint alternative worth keeping visible. Uncertainty: Comparability is limited by heterogeneous metric types (PRS-only AUROC vs full-model AUROC vs C-index vs OR/HR) and inconsistent covariate reporting (notably unknown covariates for PGS004478/PGS004548). Endpoint definitions vary (incident hip OA, coxarthrosis ICD-like label, and hip replacement proxies), so downstream comparison should explicitly stratify by endpoint fidelity and metric packaging rather than assuming one metric family dominates. LEGACY_PROPOSAL: All 7 candidates are direct matches at the disease-concept level (hip osteoarthritis / coxarthrosis / hip OA-related arthroplasty). The strongest endpoint-fidelity candidates for the generic target are those with phenotyping_reported explicitly as hip osteoarthritis rather than proxies like total hip replacement (PGS002728, PGS002750) or time-to-event framing (PGS000967). Among the endpoint-faithful models, PGS002763 reports a moderate per-SD effect size (OR=1.38, 95% CI 1.31\u20131.46) with basic covariates (age, sex, PCs, technical), and uses a genome-wide shrinkage method (PRS-CS) with a large variant set, which is structurally favorable for a polygenic disease. However, confidence is limited because several competing direct-match models lack comparable PRS-only metrics (AUC/R\u00b2) and some have unknown covariates (PGS004478/PGS004548), making it hard to conclusively establish a single best model from the visible evidence alone. PICK: Keep the legacy proposal (PGS002763) because no alternative is clearly better-supported across multiple independent visible axes while remaining at least as direct on the endpoint.\n\n- Endpoint fidelity: PGS002763 is explicitly phenotyped as \u201cHip osteoarthritis\u201d (direct match). Several competitors are either proxy endpoints (PGS002728/PGS002750: hip replacement/total hip replacement) or different framing (PGS000967: time-to-event coxarthrosis; PGS004882: incident hip OA).\n\n- Predictive evidence strength (visible): PGS002763 reports a clear per-SD effect size with CI (OR=1.38, 95% CI 1.31\u20131.46) in a reasonably large validation sample (n=39,444) with conventional covariates (age, sex, PCs, technical). Competing 2024 UKB-based scores (PGS004478/PGS004548) provide only single-point ORs with unknown covariates, making them harder to trust/compare despite similar phenotype labels.\n\n- Why not switch to PGS000967: It has clean PRS-only AUROC/R\u00b2 reporting and incremental AUROC, but the PRS-only discrimination is modest (PGS-only AUROC 0.5611) and the phenotype is time-to-event coxarthrosis rather than the straightforward \u201chip osteoarthritis\u201d case/control label. Its stronger full-model AUROC (0.6905) is not directly comparable to PRS-only performance and depends on covariates.\n\n- Why not switch to PGS004882: Very large validation N and direct \u201cincident hip osteoarthritis\u201d endpoint are strong positives, but the reported discrimination is only C-index=0.6 and the training sample size shown is unusually small (n=404) with limited covariate detail (PCs only). This does not clearly dominate PGS002763\u2019s direct endpoint + clear effect size evidence.\n\n- Why not switch to PGS002728: Uses a proxy endpoint (total hip replacement) and reports full-model AUROC=0.66 with only age/sex; it\u2019s informative but not more direct than PGS002763 and not clearly stronger overall.\n\nGiven these trade-offs and the instruction to retain the legacy pick unless an alternative is clearly superior on multiple visible axes, PGS002763 remains the most defensible direct-match choice, though overall confidence stays moderate due to heterogeneous metric types and incomplete reporting for some newer candidates. CRITIC: No clear visible contradiction in keeping PGS002763. It is a direct phenotype match (phenotyping_reported: \"Hip osteoarthritis\"; trait_efo: osteoarthritis, hip) and provides interpretable predictive evidence with uncertainty (OR=1.38, 95% CI 1.31\u20131.46) in a sizable validation sample (n=39,444) with conventional covariates (age, sex, PCs, technical). \n\nAlternatives do not clearly dominate on visible evidence while being at least as endpoint-aligned: PGS000967 has clean PRS-only AUROC/R2 but modest PRS-only AUROC (0.5611) and its stronger AUROC is full-model with covariates; PGS004882 has very large validation N and incident endpoint but only C-index=0.6 and an unusually small listed training n=404; PGS002728/PGS002750 are hip replacement proxies; PGS004478/PGS004548 show only single-point ORs with unknown covariates. \n\nLegacy_with_domain_proposal and proposed_pick are identical (PGS002763), and that choice remains defensible given the heterogeneous metric packaging across candidates and lack of a clearly better-supported direct alternative.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/7"
+  },
+  {
+    "ontology": "kidney failure",
+    "trial": 1,
+    "n_models": 27,
+    "benchmark_ranked_ids": [
+      "PGS004562",
+      "PGS004561",
+      "PGS000708",
+      "PGS004492",
+      "PGS004158",
+      "PGS004058",
+      "PGS004016",
+      "PGS004074",
+      "PGS004045",
+      "PGS004030",
+      "PGS004088",
+      "PGS004101",
+      "PGS004004",
+      "PGS002237",
+      "PGS003988",
+      "PGS004142",
+      "PGS005113",
+      "PGS004491",
+      "PGS004889",
+      "PGS004128",
+      "PGS004224",
+      "PGS000728",
+      "PGS004112",
+      "PGS001272",
+      "PGS000859",
+      "PGS005090",
+      "PGS002757"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000708": 0.552926,
+      "PGS000728": 0.514944,
+      "PGS000859": 0.512581,
+      "PGS001272": 0.512775,
+      "PGS002237": 0.524897,
+      "PGS002757": 0.474039,
+      "PGS003988": 0.524464,
+      "PGS004004": 0.525345,
+      "PGS004016": 0.526907,
+      "PGS004030": 0.525978,
+      "PGS004045": 0.526351,
+      "PGS004058": 0.527401,
+      "PGS004074": 0.526854,
+      "PGS004088": 0.525965,
+      "PGS004101": 0.525725,
+      "PGS004112": 0.51388,
+      "PGS004128": 0.521271,
+      "PGS004142": 0.523887,
+      "PGS004158": 0.52775,
+      "PGS004224": 0.521242,
+      "PGS004491": 0.521662,
+      "PGS004492": 0.530869,
+      "PGS004561": 0.556962,
+      "PGS004562": 0.567051,
+      "PGS004889": 0.521632,
+      "PGS005090": 0.491478,
+      "PGS005113": 0.521807
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS004562"
+      ],
+      "2": [
+        "PGS004562",
+        "PGS004561"
+      ],
+      "3": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708"
+      ],
+      "4": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708",
+        "PGS004492"
+      ],
+      "5": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708",
+        "PGS004492",
+        "PGS004158"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS004562",
+        "PGS004561"
+      ],
+      "10": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708"
+      ],
+      "15": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708",
+        "PGS004492",
+        "PGS004158"
+      ],
+      "20": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708",
+        "PGS004492",
+        "PGS004158",
+        "PGS004058"
+      ],
+      "25": [
+        "PGS004562",
+        "PGS004561",
+        "PGS000708",
+        "PGS004492",
+        "PGS004158",
+        "PGS004058",
+        "PGS004016"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS004128",
+      "PGS004158",
+      "PGS004562",
+      "PGS004112",
+      "PGS000728",
+      "PGS000708",
+      "PGS004101",
+      "PGS004004",
+      "PGS004142",
+      "PGS002757",
+      "PGS004492",
+      "PGS005113",
+      "PGS005090",
+      "PGS004491",
+      "PGS004224",
+      "PGS002237",
+      "PGS004889",
+      "PGS004016",
+      "PGS004561",
+      "PGS004058",
+      "PGS003988",
+      "PGS004074",
+      "PGS001272",
+      "PGS004045",
+      "PGS004030",
+      "PGS000859",
+      "PGS004088"
+    ],
+    "recommended_pgs_id": "PGS004562",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: Shortlist focuses on (a) direct kidney-failure endpoint candidates and (b) strongest/cleanest CKD candidates that could plausibly compete in downstream PICK, plus a few \u201cnear-tie\u201d siblings where single-shot selection could be misled by metric packaging differences.\n\n- Direct endpoint (kidney failure / chronic renal failure):\n  - PGS000708: trait_reported kidney failure with time-to-event framing (C-index 0.779; HR reported) and large UKB training/validation; phenotype is a specific subtype (\u201cdiabetic kidney failure\u201d), so keep for directness + strong apparent discrimination even though metrics are full-model.\n  - PGS004492 & PGS004562: both are explicitly N18 chronic renal failure / kidney failure; metrics are sparse (OR only; covariates unknown) but endpoint alignment is maximal and they come from the same study family with different model constructions (LDpred2 vs metaPRS), so they deserve head-to-head comparison to avoid picking the wrong sibling.\n\n- Strong CKD alternatives with substantial predictive evidence (may be near-ties vs direct-endpoint records depending on downstream endpoint mapping):\n  - PGS002237: CKD stage 3+ with strong reported AUROC (~0.78) and OR; multi-ancestry evaluation; covariates include multiple clinical factors (full-model packaging), so it can look strong in a single-shot pick\u2014keep for explicit comparison against cleaner/PRS-only or less-packaged models.\n  - PGS004889: incident CKD (without diabetes) with time-to-event metric (C-index 0.78; HR 1.3) and explicit clinical risk score packaging; could be misleadingly strong due to covariate bundling, but still important predictive evidence.\n  - PGS005090: AFR-focused CKD stage 3+ with very high reported AUROC/R2 (full-model) and large validation N; could dominate on headline metrics but may not be PRS-only\u2014keep for careful downstream scrutiny.\n  - PGS005113: CKD with strong OR (1.35) and relatively clean conventional covariates; no AUC reported, but effect size strength and recent CKDGen context make it a plausible contender.\n\n- Cleaner-metric / PRS-only anchor for calibration:\n  - PGS001272: provides both PRS-only and full-model metrics (PRS-only AUROC ~0.536; incremental AUROC reported). Even if weaker, it is valuable as a \u201cclean axis\u201d comparator when other candidates report only full-model performance.\n\n- Best-in-family from the 2023 multi-method CKD-or-dialysis benchmark set:\n  - PGS004158: among that sibling set, it has the highest reported AUROC/R2 (full-model, covariates listed as 0), making it the natural representative for downstream comparison; including only the top sibling avoids overloading the shortlist while still preserving this family\u2019s strongest option.\n\nWatchlist rationale (kept as plausible alternatives / potential traps):\n- Same Commun Biol family but wrong endpoint for target: PGS004491 & PGS004561 are N17 acute renal failure; could be mistakenly selected due to shared paper/method/variant count.\n- Additional CKD scores with weaker or incomplete performance reporting but plausible: PGS002757 (OR only), PGS003988 (lower AUROC), and the remaining 2023 sibling methods (PGS004030/004045/004074/004058/004142/004016/004088/004101/004128/004112) which are near-tied internally and could matter if downstream PICK prioritizes method/variant-count/implementation considerations.\n- Proxy/adjacent phenotype: PGS000728 is eGFR-based (not failure endpoint) with limited validation N and non-standard effect direction; keep only as a proxy option.\n- Interaction/exposure-packaged endpoint: PGS004224 is framed around secondhand smoke exposure + PRS; not a standalone CKD predictor.\n- Clearly off-target: PGS000859 is tied to a diabetes subtype with CKD label and near-null OR; included only to prevent accidental selection by label matching. Uncertainty: Endpoint heterogeneity is substantial across candidates (kidney failure vs CKD stage thresholds vs CKD-or-dialysis vs biomarker proxy vs subtype-restricted incident definitions). Many top-looking metrics are full-model and/or include bundled clinical risk factors or unspecified covariates, so headline AUROC/C-index values are not directly comparable across records. The Commun Biol N18 candidates have maximal endpoint alignment but minimal metric detail, creating a trade-off between directness and evaluability that downstream comparison must resolve. LEGACY_PROPOSAL: Direct-match candidates for the target trait (kidney failure) are present, notably PGS000708 (trait_reported: Kidney failure; phenotyping_reported: Diabetic kidney failure in all) and the ICD-coded chronic renal failure models PGS004492/PGS004562 (trait_efo: kidney failure; phenotyping_reported: N18 Chronic renal failure). Among these, PGS004562 is preferred because it aligns to chronic renal failure (a close operationalization of kidney failure) and uses a multi-score aggregation method (RFDiseasemetaPRS), which domain guidance indicates is a positive structural signal versus single-score construction; it also shows a stronger reported per-SD effect size (OR 1.39548) than the sibling LDpred2 model PGS004492 (OR 1.1708). However, the overall evidence remains limited: key PRS-comparable performance metrics (PGS-only AUROC/R\u00b2) are not reported for PGS004562, covariates are listed as Unknown (reducing comparability assessment), and the other exact-label kidney-failure candidate PGS000708 has a different, restricted endpoint (diabetic kidney failure) and reports only a full-model C-index (0.779) that is not directly comparable to PRS-only performance. These limitations prevent a high-confidence, clearly best-supported selection. PICK: Keep the legacy proposal. For the target trait kidney failure, the most direct endpoint matches in the full candidate list are PGS004492/PGS004562 (trait_efo: kidney failure; phenotyping_reported: N18 chronic renal failure) and PGS000708 (trait_reported: Kidney failure but phenotyping_reported: diabetic kidney failure, i.e., a restricted subtype). Among the N18 direct-match siblings, PGS004562 is better-supported than PGS004492 on the visible predictive evidence because it reports a materially stronger effect size (OR 1.39548 vs OR 1.1708) while sharing the same study family, ancestry (EUR dev/eval), and similarly sparse metric packaging (no AUC/R2; covariates unknown). PGS000708 has stronger-looking discrimination (full-model C-index 0.779) and large training/validation, but its endpoint is explicitly subtype-restricted (diabetic kidney failure) and its reported performance is full-model time-to-event with covariates, making it less cleanly comparable as a general kidney-failure PRS and not clearly superior across multiple independent axes given the endpoint mismatch. CKD-stage and CKD-or-dialysis candidates (e.g., PGS002237, PGS004158, PGS005090, PGS0040xx family) are not direct matches to kidney failure and therefore should not displace a direct kidney-failure endpoint record absent clearly stronger, directly aligned evidence. Overall, the selection remains sub-optimal because PGS004562 lacks PRS-only discrimination metrics and has unknown covariates, but within the direct-match set it remains the most defensible pick. CRITIC: No clear mistake found in the proposed_pick (PGS004562), and the legacy_with_domain_proposal is identical and defensible.\n\nVisible-record check:\n- Target trait is kidney failure. The most direct endpoint-aligned candidates in the provided records are:\n  - PGS004492 / PGS004562: trait_efo = kidney failure; phenotyping_reported = N18 (Chronic renal failure).\n  - PGS000708: trait_reported = Kidney failure, but phenotyping_reported explicitly restricts to \u201cDiabetic kidney failure in all\u201d.\n- Between the two N18 siblings, PGS004562 has stronger visible effect size evidence (OR 1.39548) than PGS004492 (OR 1.1708), with otherwise similar sparse reporting (no AUC/R2; covariates unknown; same EUR dev/eval; same paper family). Picking PGS004562 over PGS004492 is therefore supported by the visible evidence.\n\nPotential alternative check (to see if there is a concrete contradiction requiring revision):\n- PGS000708 shows a strong-looking full-model C-index (0.779) with large UKB training/validation and HR 1.19, but it is subtype-restricted (diabetic kidney failure) and its reported discrimination is full-model with covariates, so it is not a clearly superior, directly comparable general kidney-failure PRS on the visible fields.\n- CKD-focused models with stronger-looking AUROC (e.g., PGS002237 AUROC 0.78; PGS004889 C-index 0.78; PGS005090 AUROC 0.9) are not direct kidney-failure endpoints in the visible records, and several are clearly full-model/clinically packaged; none presents a direct, visibly better-supported kidney-failure endpoint alternative that would force overturning the direct N18 choice.\n\nSkill guidance consistency:\n- The selection appropriately prioritizes endpoint fidelity among direct matches and uses within-family comparison (PGS004562 vs PGS004492) rather than over-weighting cleaner metric packaging from non-direct endpoints.\n\nConclusion: keep PGS004562; no revision warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/27"
+  },
+  {
+    "ontology": "late-onset alzheimer's disease",
+    "trial": 1,
+    "n_models": 5,
+    "benchmark_ranked_ids": [
+      "PGS000054",
+      "PGS002289",
+      "PGS000334",
+      "PGS004918",
+      "PGS000053"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000053": 0.434612,
+      "PGS000054": 0.569046,
+      "PGS000334": 0.514411,
+      "PGS002289": 0.5203,
+      "PGS004918": 0.511351
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS000054"
+      ],
+      "2": [
+        "PGS000054",
+        "PGS002289"
+      ],
+      "3": [
+        "PGS000054",
+        "PGS002289",
+        "PGS000334"
+      ],
+      "4": [
+        "PGS000054",
+        "PGS002289",
+        "PGS000334",
+        "PGS004918"
+      ],
+      "5": [
+        "PGS000054",
+        "PGS002289",
+        "PGS000334",
+        "PGS004918",
+        "PGS000053"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS000054"
+      ],
+      "10": [
+        "PGS000054"
+      ],
+      "15": [
+        "PGS000054"
+      ],
+      "20": [
+        "PGS000054"
+      ],
+      "25": [
+        "PGS000054",
+        "PGS002289"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS004918",
+      "PGS000054",
+      "PGS000334",
+      "PGS002289",
+      "PGS000053"
+    ],
+    "recommended_pgs_id": "PGS000054",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: Shortlist focuses on candidates that (a) directly target late-onset Alzheimer\u2019s disease endpoints and (b) provide at least some interpretable predictive evidence for that endpoint, even if not perfectly PRS-only.\n\n- PGS000053 / PGS000054: Same publication/family (21 genome-wide significant variants; covariates age/sex) with direct familial LOAD phenotyping and interpretable effect-size evidence (OR per unit/SD as reported). They are easy to over- or under-value in a single-shot pick because they lack AUC/R\u00b2 but do provide clear association strength; also they differ by evaluation ancestry (EUR vs AMR), so downstream comparison should explicitly decide whether ancestry-match or effect-size magnitude is being prioritized.\n\n- PGS000334: Direct late-onset AD phenotype with an explicit variance-explained metric (R\u00b2 reported as full-model/other metric) and a different construction approach (C+T, 22 variants). Could be a near-tie with the genome-wide-significant-variant scores because it has a more model-like performance summary but unclear covariate packaging (\u201cUnknown\u201d), so it deserves head-to-head comparison rather than being dismissed.\n\n- PGS004918: Direct late-onset AD phenotype with an explicit AUROC (0.731) but very small training/validation samples (train n=439; eval n=136) and a pathway-restricted 8-variant design. This combination can mislead a single-shot picker (good-looking AUC but potentially unstable/overfit and narrow variant scope), so it should be compared closely against the larger multi-cohort-derived scores.\n\nWatchlist:\n- PGS002289: Trait label is late-onset AD, but the reported phenotyping/performance is on a cognitive-test-by-age interaction outcome rather than an AD case/control endpoint, and the metric is not a standard discrimination/variance metric for AD prediction. Very large evaluation N could mislead a single-shot picker into over-weighting it; keep as a plausible alternative only if downstream selection allows proxy/intermediate endpoints or if other candidates\u2019 endpoint metrics are too weak/absent. Uncertainty: Key uncertainty is metric comparability: most candidates lack PRS-only AUC/R\u00b2, and reported metrics mix ORs, R\u00b2, and full-model AUROC with unknown covariate packaging. Also, PGS000053 vs PGS000054 is primarily an ancestry/transportability choice within the same model family, while PGS004918\u2019s attractive AUROC is counterbalanced by very small evaluation N and narrow variant scope. PGS002289\u2019s endpoint mismatch may or may not be acceptable depending on downstream rules for proxy outcomes. LEGACY_PROPOSAL: All 5 candidates are direct matches on concept (`trait_efo` = late-onset Alzheimer's disease). Endpoint fidelity is strongest for PGS000053/PGS000054/PGS000334/PGS004918, which all report a direct LOAD diagnosis endpoint (or familial LOAD, which remains aligned to late-onset AD). PGS002289 is less endpoint-faithful because its `phenotyping_reported` is a cognition-by-age interaction outcome rather than AD diagnosis, despite the same `trait_efo`, so it is deprioritized.\n\nAmong the endpoint-faithful set, only PGS000053 and PGS000054 provide a PRS-comparable effect size (OR per SD). PGS000054 shows a stronger association (OR 1.73, 95% CI 1.57\u20131.93) than PGS000053 (OR 1.29, 1.21\u20131.37), which is supportive evidence of better discriminative signal given otherwise near-identical construction (both 21 genome-wide significant variants; same publication family; similar covariates: age, sex). PGS000334 reports an R\u00b2=0.191 but it is not clearly PRS-only and is unusually high for a simple C+T score with unknown covariates, making it hard to compare reliably from the visible metadata. PGS004918 reports only a full-model AUROC (0.731) with unknown covariates and very small validation (n=136), so its metric is not clearly attributable to the PRS alone.\n\nMain limitation: the evidence does not include PRS-only AUROC/R\u00b2 for any candidate, and PGS000054\u2019s evaluation ancestry is AMR (Hispanic/Latin American) rather than EUR like most others, so cross-candidate comparability and generalizability cannot be resolved from the provided context alone. PICK: Keep the legacy proposal. All candidates share a direct concept match via trait_efo (late-onset Alzheimer's disease), but they differ materially in endpoint fidelity and strength/interpretability of the visible predictive evidence.\n\nPGS000054 remains the best-supported direct-endpoint option on the metadata shown: it uses a straightforward genome-wide-significant-variant score (21 variants) with conventional covariates (age, sex) and reports a clear effect size for the LOAD diagnosis endpoint (familial late-onset AD), with a stronger association (OR 1.73, 95% CI 1.57\u20131.93) than its near-identical sibling PGS000053 (OR 1.29, 1.21\u20131.37). Given the otherwise similar construction/publication family, that stronger effect estimate is meaningful visible evidence in favor of PGS000054.\n\nAlternatives are not clearly better across multiple independent axes:\n- PGS000053 is the closest runner-up (same design/covariates, direct endpoint) but has weaker reported association.\n- PGS000334 reports an R\u00b2=0.191 for late-onset AD, but covariates are unknown and the metric is not clearly PRS-only vs packaged, making it hard to compare reliably against the OR-based siblings.\n- PGS004918 reports AUROC=0.731 but only as a full-model metric with unknown covariates and very small development/validation samples (train n=439; eval n=136), so the apparent discrimination is less robustly supported from the visible record.\n- PGS002289 is deprioritized because its phenotyping/performance is on a cognition-by-age interaction outcome rather than an AD case/control endpoint, despite the same trait_efo.\n\nMain limitation (hence DIRECT_SUB_OPTIMAL): none of the candidates provide clean PRS-only AUC/R\u00b2 here, and PGS000054\u2019s evaluation ancestry is AMR (Hispanic/Latin American) rather than EUR like most others, so transportability vs ancestry-match cannot be resolved from the provided metadata alone. CRITIC: No clear visible contradiction in keeping PGS000054. All candidates have trait_efo matching late-onset Alzheimer\u2019s disease, but PGS002289\u2019s phenotyping/performance is clearly not an AD diagnosis endpoint (cognition-by-age interaction), so deprioritizing it is defensible. PGS004918 has a direct endpoint and an AUROC=0.731, but it is explicitly a full-model AUROC with unknown covariates and very small eval n=136 (and train n=439), so it is not better-supported than the larger multi-cohort familial LOAD scores on the visible evidence. PGS000334 reports R\u00b2=0.191 with unknown covariates and unclear PRS-only vs packaged context; without clearer metric packaging it is not a concrete better-supported alternative. Between the sibling records PGS000053 (EUR eval) and PGS000054 (AMR eval), both are direct familial LOAD with age/sex covariates and ORs; choosing PGS000054 based on the stronger reported OR (1.73 vs 1.29) is defensible, and there is no rule in the visible context requiring EUR-only evaluation for this target. The legacy_with_domain_proposal and proposed_pick agree on PGS000054; no revision warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
+  },
+  {
+    "ontology": "nasal cavity polyp",
+    "trial": 1,
+    "n_models": 2,
+    "benchmark_ranked_ids": [
+      "PGS004465",
+      "PGS004535"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS004465": 0.556776,
+      "PGS004535": 0.549841
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS004465"
+      ],
+      "2": [
+        "PGS004465",
+        "PGS004535"
+      ],
+      "3": [
+        "PGS004465",
+        "PGS004535"
+      ],
+      "4": [
+        "PGS004465",
+        "PGS004535"
+      ],
+      "5": [
+        "PGS004465",
+        "PGS004535"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS004465"
+      ],
+      "10": [
+        "PGS004465"
+      ],
+      "15": [
+        "PGS004465"
+      ],
+      "20": [
+        "PGS004465"
+      ],
+      "25": [
+        "PGS004465"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS004465",
+      "PGS004535"
+    ],
+    "recommended_pgs_id": "PGS004535",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "TRIAGE: Only two candidates exist and they are tightly matched on endpoint fidelity and study context: both target J33 (Nasal polyp) / EFO Nasal Cavity Polyp, come from the same 2024 Commun Biol paper, use the same UKB-based training scale (n=174,489) and the same EUR-only dev/eval ancestry distribution, have the same very large variant count (~1,059,939), and the same validation sample size (n=56,192). The main visible differentiator is model structure/method (LDpred2 vs RFDiseasemetaPRS) and the reported effect size magnitude (OR ~1.60 for PGS004535 vs ~1.35 for PGS004465). Because neither record exposes PRS-only AUC/R2 (or even full-model AUC/R2) and covariates are listed as Unknown, a single-shot picker could be misled by relying on OR alone without knowing the scaling (per SD? per quantile? adjusted vs unadjusted) or whether the reported ORs are directly comparable across the two performance records. Therefore both should be carried forward for head-to-head comparison downstream, with emphasis on retrieving/inspecting the underlying PPM performance entries (PPM020650 vs PPM020580) for metric definitions, covariates, and evaluation design details. Uncertainty: High: performance reporting is sparse (no AUC/R2; covariates Unknown), and the only quantitative discriminator is an OR that may not be on a comparable scale across records. Method labels suggest different model constructions (single-trait LDpred2 vs integrated/metaPRS), but without explicit metric packaging and covariate details it is unclear whether one is a cleaner standalone PRS or a packaged predictor. LEGACY_PROPOSAL: Two direct-match candidates are present (PGS004465, PGS004535), both aligned to the target via trait_efo=\"Nasal Cavity Polyp\" and phenotyping_reported=\"J33 (Nasal polyp)\", with identical publication context, EUR-only development/evaluation, identical variant count (1,059,939), and the same reported training (UKB; n=174,489) and validation size (n=56,192). With no PRS-comparable AUC/R2 reported for either model, the main differentiator in the visible evidence is effect size: PGS004535 reports a stronger per-SD OR (1.600668) than PGS004465 (1.3496), which is supportive of better discriminative signal. However, confidence is limited because covariates are \"Unknown\" for both and the catalog record lacks PRS-only discrimination metrics (AUC/R2), making the superiority inference rely largely on a single effect-size field and method-name differences that cannot be validated against comparable performance metrics here. PICK: Both candidates are direct matches to the target trait with identical endpoint labeling (trait_efo=\"Nasal Cavity Polyp\"; phenotyping_reported=\"J33 (Nasal polyp)\") and come from the same publication with the same EUR-only dev/eval context, same training size (n=174,489), same validation size (n=56,192), and same variant count (1,059,939). Neither record provides PRS-only (or full-model) AUC/R2, and covariates are listed as Unknown for both, so the visible comparative evidence is limited. Given that constraint, the main differentiator is the reported effect size, where PGS004535 shows a stronger OR (1.600668) than PGS004465 (1.3496) under otherwise highly similar record context, making the legacy choice defensible. The pick remains DIRECT_SUB_OPTIMAL because the catalog-visible performance reporting is sparse and does not allow a clean discrimination-metric comparison. CRITIC: Both candidates are direct matches on the visible endpoint fields (trait_efo=\"Nasal Cavity Polyp\", phenotyping_reported=\"J33 (Nasal polyp)\") and share the same publication, release date, EUR-only dev/eval, identical training size (n=174,489), validation size (n=56,192), and variant count (1,059,939). Neither exposes PRS-only or full-model AUC/R2, and covariates are Unknown for both, so there is no visible contradiction in choosing based on the only quantitative discriminator shown: the reported OR is higher for PGS004535 (1.600668) than PGS004465 (1.3496). Given the tight match otherwise and lack of cleaner comparable metrics, keeping PGS004535 is defensible. The legacy_with_domain_proposal also selects PGS004535 and is likewise defensible; no revision warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 2,
+    "recommended_rank_label": "2/2"
+  },
+  {
+    "ontology": "obesity",
+    "trial": 1,
+    "n_models": 10,
+    "benchmark_ranked_ids": [
+      "PGS005235",
+      "PGS005154",
+      "PGS003959",
+      "PGS002033",
+      "PGS005145",
+      "PGS004447",
+      "PGS001825",
+      "PGS001298",
+      "PGS003400",
+      "PGS004517"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS001298": 0.560493,
+      "PGS001825": 0.566557,
+      "PGS002033": 0.58325,
+      "PGS003400": 0.555253,
+      "PGS003959": 0.590944,
+      "PGS004447": 0.56936,
+      "PGS004517": 0.546894,
+      "PGS005145": 0.577116,
+      "PGS005154": 0.633142,
+      "PGS005235": 0.647945
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS005235"
+      ],
+      "2": [
+        "PGS005235",
+        "PGS005154"
+      ],
+      "3": [
+        "PGS005235",
+        "PGS005154",
+        "PGS003959"
+      ],
+      "4": [
+        "PGS005235",
+        "PGS005154",
+        "PGS003959",
+        "PGS002033"
+      ],
+      "5": [
+        "PGS005235",
+        "PGS005154",
+        "PGS003959",
+        "PGS002033",
+        "PGS005145"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS005235"
+      ],
+      "10": [
+        "PGS005235"
+      ],
+      "15": [
+        "PGS005235",
+        "PGS005154"
+      ],
+      "20": [
+        "PGS005235",
+        "PGS005154"
+      ],
+      "25": [
+        "PGS005235",
+        "PGS005154",
+        "PGS003959"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS001825",
+      "PGS005235",
+      "PGS005145",
+      "PGS004517",
+      "PGS002033",
+      "PGS001298",
+      "PGS003400",
+      "PGS003959",
+      "PGS004447",
+      "PGS005154"
+    ],
+    "recommended_pgs_id": "PGS005235",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: Shortlist focuses on candidates with (a) direct obesity/overweight endpoints and/or (b) comparatively interpretable predictive evidence, while preserving near-ties and \u201cmetric packaging\u201d contrasts for downstream head-to-head comparison.\n\n- PGS001298: Strong for downstream comparison because it reports clean PRS-only and full-model discrimination/variance metrics (AUROC/R\u00b2) with explicit covariates and a large UKB training set; phenotype is time-to-event obesity, which is close but not identical to cross-sectional obesity definitions\u2014worth comparing against ICD/phecode obesity candidates.\n\n- PGS002033 vs PGS001825 (same portability study family, same endpoint label): Both have comparable evaluation framing and covariates and report partial correlation with CIs; PGS002033 shows higher partial-r than PGS001825, but both should be kept because method/variant-count differences (LDpred2 vs penalized regression) can create misleading single-shot picks if only one is considered.\n\n- PGS005235: Directly evaluated on an obesity phecode endpoint with conventional covariates and a large validation N; reports an OR (not AUROC/R\u00b2), so it\u2019s not directly comparable to PGS001298\u2019s AUROC but could still represent strong endpoint-aligned predictive evidence. Keep for head-to-head against other obesity case/control-style definitions.\n\n- PGS004447 vs PGS004517 (same publication family, same endpoint E66 obesity, same validation N): Both report only ORs and have \u201cunknown\u201d covariates, but they are direct ICD-coded obesity endpoints and are sibling models (LDpred2 vs metaPRS integration). Keeping both avoids being misled by choosing one without checking whether the integration approach changes apparent effect size.\n\n- PGS005145 vs PGS005154: Both are evaluated in East Asian samples with similar covariates and validation N and report effect sizes (betas). Keep both as plausible near-ties and because their GWAS ancestry composition differs (EAS-only vs mixed EUR/EAS), which can matter for portability; downstream comparison can decide which is better supported for EAS contexts.\n\nWatchlist retains candidates with weaker/less comparable performance reporting but potentially large-scale validation or endpoint adjacency:\n\n- PGS003400: Very large validation sample size and reports an R\u00b2, but phenotype appears BMI-based and covariates are unknown; also a sparse GWS SNP score. Could look deceptively strong/weak depending on how R\u00b2 was computed and what model it reflects.\n\n- PGS003959: Reports a beta with extensive covariate adjustment (including baseline anthropometrics), which risks interpretability/packaging issues for standalone PGS comparison; still obesity-labeled and could mislead a single-shot picker if the adjusted association is mistaken for pure PRS predictive performance. Uncertainty: Many candidates lack directly comparable PRS-only AUROC/R\u00b2, so downstream comparison must reconcile heterogeneous metric types (partial-r, OR, beta, R\u00b2) and differing endpoint definitions (time-to-event obesity, phecode obesity, ICD E66 obesity, overweight/obesity composite, BMI-based phenotyping). Covariates are missing/unknown for some direct-endpoint candidates (notably PGS004447/PGS004517 and PGS003400), which could hide packaging differences; these are kept to avoid prematurely discarding potentially strong direct-endpoint scores. LEGACY_PROPOSAL: All 10 candidates are direct matches at the concept level (trait_efo includes obesity). Prioritizing endpoint fidelity, PGS005235 is the most explicitly diagnosis-anchored obesity endpoint via phenotyping_reported = \"Obesity (phecode: 278.1)\", which is a direct clinical-code instantiation of obesity and is favored over broader administrative bundles (PGS001825/PGS002033: \"Overweight, obesity and other hyperalimentation\") and over proxy/ambiguous phenotype descriptions (PGS003400: phenotyping_reported=\"BMI\" despite trait_reported=\"Obesity\"). Compared with the pan-trait UKB framework time-to-event model (PGS001298; \"across 813 traits\"), PGS005235 also avoids the framework-study penalty and avoids a time-to-event endpoint mismatch. However, the overall evidence remains limited because most candidates (including PGS005235) lack PRS-comparable performance metrics (PGS-only AUROC/R\u00b2), and several alternatives are plausible depending on intended ancestry (e.g., EAS-only evaluated models PGS005145/PGS005154) or effect-size preference (PGS004447 reports OR\u22481.36 but has unknown covariates). This missing/heterogeneous performance evidence prevents a clearly high-confidence single best choice. PICK: Keep the legacy proposal. Across the full candidate list, PGS005235 remains a defensible best-supported direct-match because it is explicitly evaluated on an obesity case/control-style endpoint (phenotyping_reported: \"Obesity (phecode: 278.1)\") with conventional covariates (age, sex, batch, PCs) and a large validation sample (n=100,960), and it reports a substantial association signal (OR\u22481.97). No alternative is clearly better-supported across multiple independent visible axes while being at least as endpoint-direct.\n\nKey comparisons:\n- PGS001298 has the cleanest comparable PRS-only and full-model AUROC/R\u00b2 reporting and very large training/validation, but its phenotype is time-to-event obesity (endpoint mismatch vs typical obesity diagnosis/definition) and its discrimination is modest (PGS-only AUROC\u22480.576; full-model AUROC\u22480.596). This is strong as a metrics-clean runner-up, but not clearly superior overall given endpoint fidelity.\n- PGS002033/PGS001825 target a broader composite (\"Overweight, obesity and other hyperalimentation\") rather than obesity alone; they report partial-r (PGS002033 higher than PGS001825), but the endpoint is less specific than PGS005235.\n- PGS004447/PGS004517 are direct ICD-coded obesity endpoints (E66) but provide only ORs with unknown covariates and smaller validation N than PGS005235; their visible evidence is not clearly stronger.\n- PGS003400 is obesity-labeled but phenotyping_reported is BMI with unknown covariates; PGS003959 has heavy covariate adjustment including baseline anthropometrics, making the reported beta less comparable as standalone PGS performance.\n- PGS005145/PGS005154 are direct obesity in East Asian evaluation with minimal covariates, but only betas are shown and they are ancestry-specific; without a stated ancestry target, they are not clearly better-supported overall than PGS005235.\n\nGiven these trade-offs and the instruction to retain the legacy pick unless an alternative is clearly better across multiple visible axes, PGS005235 remains the best-supported direct-match, but still sub-optimal due to heterogeneous/missing comparable performance metrics across candidates. CRITIC: No clear visible contradiction in keeping PGS005235. It is a direct obesity endpoint instantiation (phenotyping_reported: \"Obesity (phecode: 278.1)\") with conventional covariates and the largest validation N among the clearly diagnosis-anchored candidates (n=100,960). It also shows a strong association signal (OR\u22481.97) relative to other OR-only direct-code siblings (PGS004447 OR\u22481.36; PGS004517 OR\u22481.23; both with unknown covariates and smaller validation N). The main plausible alternative is PGS001298 because it uniquely reports clean PRS-only and full-model AUROC/R\u00b2 with large training/validation, but it is explicitly time-to-event obesity and its discrimination is modest; nothing visible makes it clearly better-supported overall than the phecode obesity model. PGS002033/PGS001825 are broader composite endpoints (overweight/obesity/hyperalimentation) with partial-r only; PGS003400 has phenotype ambiguity (phenotyping_reported=\"BMI\") and unknown covariates; PGS003959\u2019s beta is heavily adjusted (including baseline anthropometrics), making it less comparable as standalone PGS performance; PGS005145/PGS005154 are EAS-specific with only betas shown and no stated need to prioritize EAS. Since proposed_pick equals legacy_with_domain_proposal and that legacy proposal is defensible, no revision is warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/10"
+  },
+  {
+    "ontology": "peripheral vascular disease",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS005217",
+      "PGS002055",
+      "PGS005158",
+      "PGS001843"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS001843": 0.512343,
+      "PGS002055": 0.519526,
+      "PGS005158": 0.517625,
+      "PGS005217": 0.58616
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS005217"
+      ],
+      "2": [
+        "PGS005217",
+        "PGS002055"
+      ],
+      "3": [
+        "PGS005217",
+        "PGS002055",
+        "PGS005158"
+      ],
+      "4": [
+        "PGS005217",
+        "PGS002055",
+        "PGS005158",
+        "PGS001843"
+      ],
+      "5": [
+        "PGS005217",
+        "PGS002055",
+        "PGS005158",
+        "PGS001843"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS005217"
+      ],
+      "10": [
+        "PGS005217"
+      ],
+      "15": [
+        "PGS005217"
+      ],
+      "20": [
+        "PGS005217"
+      ],
+      "25": [
+        "PGS005217"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS005217",
+      "PGS001843",
+      "PGS002055",
+      "PGS005158"
+    ],
+    "recommended_pgs_id": "PGS005217",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: Include both endpoint-aligned PAD candidates and the PVD-labeled UKB portability siblings for head-to-head comparison.\n\n- PGS005217: Strong direct-endpoint alignment to incident peripheral artery disease; large multi-ancestry evaluation (n=304,294) and reports predictive evidence (C-index/full-model 0.731; HR 1.66). Metrics are not clean PRS-only, but the endpoint fidelity + scale + effect size make it a must-compare anchor.\n\n- PGS002055 vs PGS001843 (same publication family, same phenotype label \u201cPeripheral vascular disease, unspecified\u201d, same validation N and covariates): near-tie siblings that differ mainly by method/variant count and slightly different partial-r (0.0175 vs 0.0151). Keep both because a single-shot picker could over-interpret method label or variant count; downstream should compare their within-family performance consistency and portability context.\n\n- Cross-family comparison is potentially misleading if done in one shot: PGS005217 has stronger-looking predictive signals but uses full-model/C-index packaging, while PGS001843/PGS002055 provide cleaner PRS-only-style evidence (partial-r adjusted for conventional covariates) but on a broader/unspecified PVD endpoint. Downstream should explicitly weigh endpoint fidelity vs metric cleanliness and study design differences.\n\n- PGS005158: Endpoint is PAD but restricted phenotype context (\u201cPAD in type 2 diabetes\u201d) and uses a very sparse GWS SNP set (19 variants) with HR 1.13 under extensive covariate adjustment (many clinical/lifestyle/medication variables), which could either attenuate or confound interpretability for PRS-only comparison. Keep as watchlist because it is endpoint-adjacent and newer, but its packaging makes it easy to mis-rank without careful context. Uncertainty: Key uncertainty is comparability of reported metrics across families: PGS005217 reports full-model C-index/HR with limited covariates, while PGS001843/PGS002055 report partial-r (PRS contribution conditional on covariates) and no AUC/C-index. Also, PVD (unspecified) vs incident PAD are close but not identical endpoints; downstream should treat this as an explicit trade-off rather than assuming label equivalence. LEGACY_PROPOSAL: All four candidates are direct matches to the target concept (peripheral vascular disease), with two labeled as peripheral vascular disease unspecified (PGS001843, PGS002055; EFO: peripheral vascular disease) and two as peripheral artery disease (PGS005158, PGS005217; EFO: peripheral arterial disease). Given endpoint fidelity emphasis on phenotyping_reported, PGS005217 is best supported: it targets an incident peripheral artery disease endpoint (a clinically coherent manifestation within peripheral vascular disease) and comes from a disease-focused publication (\u201cPolygenic Prediction of Peripheral Artery Disease and Major Adverse Limb Events.\u201d) with basic covariates (age, sex, 10 PCs) and very large multi-ancestry evaluation (n=304,294). It also reports a strong PRS-associated effect size (HR 1.66 per SD, 95% CI 1.61\u20131.71), which is materially stronger evidence of PRS signal than the weak partial correlations reported for the UKB portability-framework PVD-\u2018unspecified\u2019 scores (partial-r ~0.015\u20130.018 for PGS001843/PGS002055). Main limitation: the target is broader (\u201cperipheral vascular disease\u201d) than PAD specifically, and PGS005217 reports a full-model C-index (0.731) rather than a clearly PRS-only AUC/R2, so confidence is not high despite strong endpoint/study/effect-size support. PICK: Keep the legacy proposal. Across the full candidate list, PGS005217 remains the most strongly supported direct-match record on multiple independent visible axes: (1) endpoint/phenotyping is a clean, clinically specific incident peripheral artery disease definition (a direct instantiation within the broader peripheral vascular disease target concept); (2) it is explicitly a prediction-focused PAD study with very large evaluation scale (n=304,294) and multi-ancestry validation; (3) it shows materially stronger visible predictive signal than the UKB portability-framework PVD-\u2018unspecified\u2019 siblings, with HR 1.66 (1.61\u20131.71) and a reported C-index/full-model AUC of 0.731 under ordinary covariates (age, sex, 10 PCs). The main trade-off is that metrics are not presented as PRS-only AUC/R2, but this is not enough to displace it given the stronger discrimination/effect evidence and large validation. \n\nRunner-ups: PGS002055 and PGS001843 are the closest label match (trait_efo peripheral vascular disease; \u2018unspecified\u2019) and have clean PRS-contribution reporting (partial-r adjusted for standard covariates) in the same evaluation setting, but their partial correlations are small (~0.0175 and ~0.0151) and they lack stronger discrimination/effect-size evidence in the visible fields. PGS005158 is PAD but is subpopulation-specific (type 2 diabetes), uses only 19 GWS SNPs, and shows a much smaller HR (1.13) under extensive covariate packaging, making it less compelling as the primary direct-match choice. CRITIC: No clear mistake found; keep PGS005217. Visible evidence supports it as a defensible primary: it targets incident peripheral artery disease with conventional covariates (age/sex/10 PCs), has very large evaluation N (304,294) across multiple ancestries, and shows strong PRS association (HR 1.66, 95% CI 1.61\u20131.71) plus a reported C-index/full-model AUC of 0.731. The main caveat (PAD vs broader PVD; full-model metric packaging rather than PRS-only AUC/R2) is explicitly acknowledged and is not a visible contradiction.\n\nAlternatives do not clearly beat it on visible fields: PGS002055 and PGS001843 match the broader PVD label (trait_efo peripheral vascular disease) but only report small partial correlations (~0.0175 and ~0.0151) and no discrimination metrics; they are from a portability benchmarking paper rather than a PAD/PVD prediction-focused endpoint study. PGS005158 is PAD but restricted to a type 2 diabetes context with extensive covariate packaging and a much smaller HR (1.13).\n\nLegacy proposal and proposed_pick are identical (PGS005217), and that choice remains defensible given the visible records and guidance.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  },
+  {
+    "ontology": "ulcerative colitis",
+    "trial": 1,
+    "n_models": 5,
+    "benchmark_ranked_ids": [
+      "PGS004253",
+      "PGS002066",
+      "PGS001855",
+      "PGS001306",
+      "PGS001307"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS001306": 0.568913,
+      "PGS001307": 0.566493,
+      "PGS001855": 0.584232,
+      "PGS002066": 0.584326,
+      "PGS004253": 0.632381
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS004253"
+      ],
+      "2": [
+        "PGS004253",
+        "PGS002066"
+      ],
+      "3": [
+        "PGS004253",
+        "PGS002066",
+        "PGS001855"
+      ],
+      "4": [
+        "PGS004253",
+        "PGS002066",
+        "PGS001855",
+        "PGS001306"
+      ],
+      "5": [
+        "PGS004253",
+        "PGS002066",
+        "PGS001855",
+        "PGS001306",
+        "PGS001307"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS004253"
+      ],
+      "10": [
+        "PGS004253"
+      ],
+      "15": [
+        "PGS004253"
+      ],
+      "20": [
+        "PGS004253"
+      ],
+      "25": [
+        "PGS004253",
+        "PGS002066"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002066",
+      "PGS001855",
+      "PGS001306",
+      "PGS001307",
+      "PGS004253"
+    ],
+    "recommended_pgs_id": "PGS004253",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "TRIAGE: All candidates are nominally direct-endpoint (ulcerative colitis) but split into two main study families plus one newer single-publication score.\n\nShortlist rationale (close comparison set):\n- PGS001306 (snpnet; 179 variants): Direct endpoint with clean PRS-only metrics reported (PGS-only AUROC 0.630; full-model AUROC 0.662 with conventional covariates). Clear packaging and CIs provided; reasonable validation N (24,905). Strong \u201cclean-metric\u201d baseline candidate.\n- PGS001307 (snpnet; 809 variants): Same publication family but time-to-event phenotype (TTE ulcerative colitis). Still directly aligned to the trait but endpoint definition differs; has clean PRS-only AUROC (0.638) and full-model AUROC (0.640) with conventional covariates and larger validation N (67,425). This can look better/worse depending on whether downstream PICK prioritizes strict endpoint matching vs broader event-based definition; keep for head-to-head with PGS001306.\n- PGS004253 (LDpred2-auto; 744,575 variants): Direct endpoint with strong-looking reported effects (OR 1.84) and AUROC 0.66 (with CI 0.64\u20130.68) plus conventional covariates. Although training/validation Ns are smaller than the UKB-wide portability/snpnet studies and metrics are not explicitly PRS-only, the apparent predictive signal is strong enough that it could beat \u201ccleaner\u201d UKB-derived siblings; must be compared directly rather than filtered out.\n\nWatchlist rationale (plausible alternatives / potentially misleading if picked in one shot):\n- PGS001855 (penalized regression bigstatsr; 1,505 variants): Same portability paper as PGS002066; reports partial correlation (partial-r 0.0625 with CI) rather than AUROC/R2, making direct comparison tricky. Larger training N (391,124) and conventional covariates; could be competitive but metric axis mismatch could mislead either direction.\n- PGS002066 (LDpred2; 566,637 variants): Same portability paper; reports AUROC 0.57 and OR 1.11 (CI crosses 1) with covariates listed as \u201cUnknown,\u201d which raises packaging comparability uncertainty. Very large variant count and training N, but the visible predictive evidence looks weaker; keep as a sanity-check comparator for the portability-family scores and to avoid overvaluing variant count/training scale alone.\n\nDownstream comparison should explicitly separate: (i) endpoint definition differences (standard vs TTE), (ii) PRS-only vs full-model metric reporting, and (iii) covariate transparency/packaging differences across publication families. Uncertainty: Key uncertainty is metric comparability: PGS004253 reports full-model AUROC and OR (not clearly PRS-only), while PGS001306/PGS001307 provide both PRS-only and full-model AUROC/R2; PGS001855 uses partial-r; PGS002066 has \u201cUnknown\u201d covariates. Also, PGS001307\u2019s time-to-event phenotype may not be interchangeable with the standard case/control endpoint depending on downstream PICK\u2019s endpoint-fidelity preference. LEGACY_PROPOSAL: All 5 candidates are direct matches to ulcerative colitis by trait_efo, and most also by phenotyping_reported. PGS004253 is preferred because it is endpoint-aligned (phenotyping_reported: Ulcerative colitis), uses a genome-wide shrinkage method (LDpred2-auto) with very large variant count (744,575), and provides supportive validation evidence including a reported AUROC of 0.66 (European) and a strong per-SD effect size (OR 1.84, 95% CI 1.76\u20131.93). The main limitation is that the reported AUROC appears to be a full-model metric (no explicit PGS-only AUROC/R\u00b2 shown), and the validation sample is relatively small (n=5,735), making cross-model performance comparability uncertain\u2014especially versus other direct-match models that report PRS-only metrics (e.g., PGS001306/PGS001307) but come from pan-trait UKB framework work that domain guidance flags as less reliable for external generalization. PICK: Keep the legacy proposal. All candidates are direct matches by trait_efo/trait_reported, but PGS004253 has the strongest visible predictive evidence on multiple independent axes while remaining endpoint-aligned and conventionally packaged: it reports AUROC 0.66 with a tight CI (0.64\u20130.68) and a strong per-SD effect (OR 1.84, 95% CI 1.76\u20131.93) with standard covariates (age, sex, array, PCs). Although its reported AUROC is not explicitly PRS-only and validation N is smaller (n=5,735), the magnitude/precision of both discrimination and effect-size signals is clearly stronger than the portability-paper alternatives (PGS002066 AUROC 0.57; OR 1.11 with CI crossing 1; covariates unknown; PGS001855 only partial-r 0.0625) and is at least competitive with the snpnet UKB pan-trait scores (PGS001306 PGS-only AUROC 0.630; full-model AUROC 0.662; PGS001307 is time-to-event with full-model AUROC ~0.640). Given the instruction not to revise away merely for cleaner PRS-only reporting, there is not a clearly better-supported alternative across endpoint fidelity + overall predictive evidence; thus PGS004253 remains defensible as best-supported direct-match, with DIRECT_SUB_OPTIMAL reflecting metric comparability uncertainty (PRS-only vs full-model) and smaller validation scale. CRITIC: No clear visible contradiction with picking PGS004253. All candidates are direct matches on trait_efo/trait_reported; PGS004253 is also directly endpoint-labeled in phenotyping_reported (Ulcerative colitis) and uses conventional covariates (age, sex, array, PCs). It has the strongest visible predictive evidence among candidates: AUROC 0.66 with tight CI (0.64\u20130.68) plus a strong OR 1.84 (1.76\u20131.93). Alternatives do not show clearly superior evidence: PGS001306 has clean PRS-only metrics but lower PGS-only AUROC (0.630) and similar full-model AUROC (0.662) with different packaging; PGS001307 is explicitly time-to-event (endpoint mismatch vs standard case/control) and has lower full-model AUROC (~0.640) despite larger validation N; PGS002066 shows weaker AUROC (0.57) and OR near null with CI crossing 1 and unknown covariates; PGS001855 reports only partial-r (0.0625) which is not directly comparable and does not visibly dominate. The main limitation for PGS004253 remains metric comparability (AUROC appears full-model; no explicit PGS-only AUROC/R2) and smaller validation N, so DIRECT_SUB_OPTIMAL is appropriate. The legacy_with_domain_proposal and proposed_pick agree and are both defensible; no revision warranted.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/5"
+  }
+]

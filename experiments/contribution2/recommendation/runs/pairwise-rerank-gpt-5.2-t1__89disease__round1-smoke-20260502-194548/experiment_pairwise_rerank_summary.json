@@ -1,0 +1,1169 @@
+{
+  "experiment": "without_domain_batch_formal",
+  "domain_knowledge": false,
+  "strict_llm_only": true,
+  "cross_disease_enabled": false,
+  "batch_mode": true,
+  "run_tag": null,
+  "model": "gpt-5.2",
+  "total_ontologies": 2,
+  "trials_per_ontology": 1,
+  "union_csv": "experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__89disease.csv",
+  "ground_truth_dir": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union",
+  "majority_vote_hits": 2,
+  "majority_vote_accuracy": 1.0,
+  "modal_hit_at_k": {
+    "1": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "2": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "3": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "4": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "5": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    }
+  },
+  "modal_percentile_hit": {
+    "5": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "10": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "15": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "20": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "25": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    }
+  },
+  "baseline": {
+    "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
+    "available": 1,
+    "coverage": 0.5,
+    "hits": 1,
+    "accuracy": 0.5,
+    "hit_at_k": {
+      "1": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "2": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "3": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "4": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "5": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      }
+    },
+    "percentile_hit": {
+      "5": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "10": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "15": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "20": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      },
+      "25": {
+        "hits": 1,
+        "eligible": 2,
+        "accuracy": 0.5,
+        "available": 1,
+        "coverage": 0.5
+      }
+    }
+  },
+  "diagnostics": {
+    "total_trials": 2,
+    "trial_hits": 2,
+    "trial_hit_rate": 1.0,
+    "valid_outputs": 2,
+    "valid_output_rate": 1.0
+  },
+  "trial_hit_at_k": {
+    "1": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "2": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "3": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "4": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "5": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    }
+  },
+  "trial_percentile_hit": {
+    "5": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "10": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "15": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "20": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    },
+    "25": {
+      "hits": 2,
+      "eligible": 2,
+      "accuracy": 1.0
+    }
+  },
+  "per_disease": [
+    {
+      "ontology": "abdominal aortic aneurysm",
+      "n_models": 6,
+      "benchmark_ranked_ids": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753",
+        "PGS002054"
+      ],
+      "benchmark_auc_by_id": {
+        "PGS000753": 0.538848,
+        "PGS001784": 0.561756,
+        "PGS002054": 0.524981,
+        "PGS003429": 0.634083,
+        "PGS003972": 0.631193,
+        "PGS003973": 0.637363
+      },
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS003973"
+        ],
+        "2": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "3": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972"
+        ],
+        "4": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784"
+        ],
+        "5": [
+          "PGS003973",
+          "PGS003429",
+          "PGS003972",
+          "PGS001784",
+          "PGS000753"
+        ]
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS003973"
+        ],
+        "10": [
+          "PGS003973"
+        ],
+        "15": [
+          "PGS003973"
+        ],
+        "20": [
+          "PGS003973",
+          "PGS003429"
+        ],
+        "25": [
+          "PGS003973",
+          "PGS003429"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "candidate_model_ids": [
+        "PGS003972",
+        "PGS002054",
+        "PGS003973",
+        "PGS003429",
+        "PGS000753",
+        "PGS001784"
+      ],
+      "candidate_models_visible_to_llm": [
+        {
+          "id": "PGS000753",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "Pruning and Thresholding (P+T)",
+          "variants_number": 29,
+          "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: AFR (25%), EUR (75%)",
+          "publication": {
+            "title": "Genetic Architecture of Abdominal Aortic Aneurysm in the Million Veteran Program.",
+            "journal": "Circulation"
+          },
+          "date_release": "2021-04-07",
+          "samples_training": "n=8,772",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM001912",
+            "selected_validation_ancestry": "European",
+            "record_count": 7,
+            "classification_metrics": [],
+            "other_metrics": [],
+            "effect_sizes": [
+              {
+                "name_long": "Odds Ratio",
+                "name_short": "OR",
+                "estimate": 1.37,
+                "ci_lower": 1.3,
+                "ci_upper": 1.44
+              }
+            ]
+          },
+          "phenotyping_reported": "Prevalent abdominal aortic aneurysm",
+          "covariates": "Age, sex, PCs (1-5)",
+          "training_development_cohorts": [
+            "MAYO-VDB",
+            "MVP"
+          ],
+          "validation_sample_size": "n=46,564"
+        },
+        {
+          "id": "PGS001784",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "PRS-CS-auto",
+          "variants_number": 911440,
+          "ancestry_distribution": "GWAS: AFR (60%), EAS (17%), EUR (82%), OTH (90%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Global Biobank analyses provide lessons for developing polygenic risk scores across diverse cohorts.",
+            "journal": "Cell Genom"
+          },
+          "date_release": "2022-09-08",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": 0.014661,
+            "pgs_only_auc": null,
+            "pgs_only_r2": 0.014661,
+            "full_model_auc": 0.868,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM009288",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [
+              {
+                "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+                "name_short": "AUROC",
+                "estimate": 0.868
+              }
+            ],
+            "other_metrics": [
+              {
+                "name_long": "Nagelkerke's R2 (covariates regressed out)",
+                "name_short": "Nagelkerke's R2 (covariates regressed out)",
+                "estimate": 0.014661
+              }
+            ],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "sex,age,age2,age*sex,age^2*sex, 20PCs",
+          "training_development_cohorts": [
+            "BBJ",
+            "BioMe",
+            "BioVU",
+            "CCPM",
+            "EB",
+            "FinnGen",
+            "HUNT",
+            "MGBB",
+            "MGI",
+            "deCODE"
+          ],
+          "validation_sample_size": "n=350,767"
+        },
+        {
+          "id": "PGS002054",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "LDpred2 (bigsnpr)",
+          "variants_number": 592187,
+          "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+          "publication": {
+            "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+            "journal": "Am J Hum Genet"
+          },
+          "date_release": "2022-01-10",
+          "samples_training": "n=391,124",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM011294",
+            "selected_validation_ancestry": "European",
+            "record_count": 8,
+            "classification_metrics": [],
+            "other_metrics": [
+              {
+                "name_long": "Partial Correlation (partial-r)",
+                "name_short": "Partial Correlation (partial-r)",
+                "estimate": 0.0144
+              }
+            ],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+          "training_development_cohorts": [
+            "UKB"
+          ],
+          "validation_sample_size": "n=19,545"
+        },
+        {
+          "id": "PGS003429",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "shaPRS + LDpred2",
+          "variants_number": 831447,
+          "ancestry_distribution": "GWAS: EUR (89%), MAE (11%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Evaluating the cost-effectiveness of polygenic risk score-stratified screening for abdominal aortic aneurysm.",
+            "journal": "Nat Commun"
+          },
+          "date_release": "2023-12-15",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": 0.708,
+            "full_model_r2": 0.00547,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM017103",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [
+              {
+                "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+                "name_short": "AUROC",
+                "estimate": 0.708,
+                "ci_lower": 0.691,
+                "ci_upper": 0.725
+              }
+            ],
+            "other_metrics": [
+              {
+                "name_long": "Proportion of the variance explained",
+                "name_short": "R\u00b2",
+                "estimate": 0.00547
+              }
+            ],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "Unknown",
+          "training_development_cohorts": [
+            "UKB"
+          ],
+          "validation_sample_size": "n=91,731"
+        },
+        {
+          "id": "PGS003972",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "PRS-CS",
+          "variants_number": 1118997,
+          "ancestry_distribution": "GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.",
+            "journal": "Nat Genet"
+          },
+          "date_release": "2023-11-01",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": 0.69,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM019134",
+            "selected_validation_ancestry": "European",
+            "record_count": 3,
+            "classification_metrics": [
+              {
+                "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+                "name_short": "AUROC",
+                "estimate": 0.69
+              }
+            ],
+            "other_metrics": [],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "Unknown",
+          "training_development_cohorts": [
+            "ARIC",
+            "CHB",
+            "CHIP",
+            "HUNT",
+            "MAYO-VDB",
+            "MGI",
+            "MVP",
+            "MyCode",
+            "NZ",
+            "PMB",
+            "TABS",
+            "UKAGS",
+            "UKB",
+            "VIVA",
+            "deCODE",
+            "eMERGE"
+          ],
+          "validation_sample_size": "n=6,940"
+        },
+        {
+          "id": "PGS003973",
+          "trait_reported": "Abdominal aortic aneurysm",
+          "trait_efo": "Abdominal Aortic Aneurysm",
+          "method_name": "PRS-CS",
+          "variants_number": 1118997,
+          "ancestry_distribution": "GWAS: AFR (8%), EUR (92%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Genome-wide association meta-analysis identifies risk loci for abdominal aortic aneurysm and highlights PCSK9 as a therapeutic target.",
+            "journal": "Nat Genet"
+          },
+          "date_release": "2023-11-01",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": 0.882,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM019137",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [
+              {
+                "name_long": "Concordance Statistic",
+                "name_short": "C-index",
+                "estimate": 0.882,
+                "ci_lower": 0.872,
+                "ci_upper": 0.892
+              }
+            ],
+            "other_metrics": [],
+            "effect_sizes": []
+          },
+          "phenotyping_reported": "Abdominal aortic aneurysm",
+          "covariates": "Age, Age^2, Sex",
+          "training_development_cohorts": [
+            "ARIC",
+            "CHB",
+            "CHIP",
+            "HUNT",
+            "MAYO-VDB",
+            "MGI",
+            "MVP",
+            "MyCode",
+            "NZ",
+            "PMB",
+            "TABS",
+            "deCODE",
+            "eMERGE"
+          ],
+          "validation_sample_size": "n=7,517"
+        }
+      ],
+      "trial_hits": 1,
+      "trial_hit_rate": 1.0,
+      "trial_hit_counts_at_k": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      },
+      "trial_percentile_hit_counts": {
+        "5": 1,
+        "10": 1,
+        "15": 1,
+        "20": 1,
+        "25": 1
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
+      },
+      "valid_outputs": 1,
+      "valid_output_rate": 1.0,
+      "errors": 0,
+      "modal_recommendation": "PGS003973",
+      "modal_recommendation_count": 1,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/6",
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "modal_recommendation_in_target_topk": true,
+      "trial_recommendations": [
+        "PGS003973"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS003973",
+          "rank": 1,
+          "rank_label": "1/6",
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
+          },
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS003973",
+          "count": 1,
+          "rank": 1,
+          "rank_label": "1/6"
+        }
+      ],
+      "feature_mentions": {
+        "ancestry": 1,
+        "auc": 1,
+        "covariates": 1,
+        "method": 1,
+        "r2": 1,
+        "sample_size": 1,
+        "trait_match": 1
+      },
+      "baseline": {
+        "pgs_id": "PGS003973",
+        "reported_auc": 0.882,
+        "tier": "full_model_auroc",
+        "trait_reported": "Abdominal aortic aneurysm",
+        "method_name": "PRS-CS",
+        "validation_sample_size": "n=7,517",
+        "rank": 1,
+        "rank_label": "1/6"
+      },
+      "baseline_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "baseline_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "baseline_in_target_topk": true
+    },
+    {
+      "ontology": "alcohol dependence",
+      "n_models": 4,
+      "benchmark_ranked_ids": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "benchmark_auc_by_id": {
+        "PGS000201": 0.576196,
+        "PGS000202": 0.574157,
+        "PGS002738": 0.60511,
+        "PGS002739": 0.522355
+      },
+      "benchmark_topk_ids": {
+        "1": [
+          "PGS002738"
+        ],
+        "2": [
+          "PGS002738",
+          "PGS000201"
+        ],
+        "3": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202"
+        ],
+        "4": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202",
+          "PGS002739"
+        ],
+        "5": [
+          "PGS002738",
+          "PGS000201",
+          "PGS000202",
+          "PGS002739"
+        ]
+      },
+      "benchmark_top_percent_ids": {
+        "5": [
+          "PGS002738"
+        ],
+        "10": [
+          "PGS002738"
+        ],
+        "15": [
+          "PGS002738"
+        ],
+        "20": [
+          "PGS002738"
+        ],
+        "25": [
+          "PGS002738"
+        ]
+      },
+      "eligible_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "candidate_model_ids": [
+        "PGS002739",
+        "PGS002738",
+        "PGS000202",
+        "PGS000201"
+      ],
+      "candidate_models_visible_to_llm": [
+        {
+          "id": "PGS000201",
+          "trait_reported": "Problematic alcohol use",
+          "trait_efo": "alcohol dependence measurement",
+          "method_name": "PRS-CS",
+          "variants_number": 1094954,
+          "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Using polygenic scores for identifying individuals at increased risk of substance use disorders in clinical and population samples.",
+            "journal": "Transl Psychiatry"
+          },
+          "date_release": "2020-07-01",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM000626",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [],
+            "other_metrics": [
+              {
+                "name_long": "\u0394R-squared (vs. covariates alone)",
+                "name_short": "\u0394R-squared (vs. covariates alone)",
+                "estimate": 0.01192
+              }
+            ],
+            "effect_sizes": [
+              {
+                "name_long": "Beta",
+                "name_short": "\u03b2",
+                "estimate": 0.099,
+                "se": 0.01
+              }
+            ]
+          },
+          "phenotyping_reported": "Alcohol use disorder (DSM-5 criteria count, log-transformed)",
+          "covariates": "sex, age of last observation, 10 Genetic PCs, genotyping array, data collection site",
+          "training_development_cohorts": [
+            "UKB"
+          ],
+          "validation_sample_size": "n=7,599"
+        },
+        {
+          "id": "PGS000202",
+          "trait_reported": "Problematic alcohol use",
+          "trait_efo": "alcohol dependence measurement",
+          "method_name": "PRS-CS",
+          "variants_number": 1083002,
+          "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Using polygenic scores for identifying individuals at increased risk of substance use disorders in clinical and population samples.",
+            "journal": "Transl Psychiatry"
+          },
+          "date_release": "2020-07-01",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM000629",
+            "selected_validation_ancestry": "European",
+            "record_count": 1,
+            "classification_metrics": [],
+            "other_metrics": [
+              {
+                "name_long": "\u0394R-squared (vs. covariates alone)",
+                "name_short": "\u0394R-squared (vs. covariates alone)",
+                "estimate": 0.00456
+              }
+            ],
+            "effect_sizes": [
+              {
+                "name_long": "Beta",
+                "name_short": "\u03b2",
+                "estimate": 0.043,
+                "se": 0.019
+              }
+            ]
+          },
+          "phenotyping_reported": "Alcohol use disorder (DSM-5 criteria count, log-transformed)",
+          "covariates": "sex, age of last observation, 10 Genetic PCs",
+          "training_development_cohorts": [
+            "UKB"
+          ],
+          "validation_sample_size": "n=1,251"
+        },
+        {
+          "id": "PGS002738",
+          "trait_reported": "Alcohol use disorder",
+          "trait_efo": "alcohol dependence",
+          "method_name": "PRS-CS",
+          "variants_number": 326000,
+          "ancestry_distribution": "GWAS: AFR (14%), AMR (4%), EAS (30%), EUR (82%), SAS (5%) | EVAL: EUR (100%)",
+          "publication": {
+            "title": "Evaluating risk for alcohol use disorder: Polygenic risk scores and family history.",
+            "journal": "Alcohol Clin Exp Res"
+          },
+          "date_release": "2022-08-03",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM014841",
+            "selected_validation_ancestry": "European",
+            "record_count": 4,
+            "classification_metrics": [],
+            "other_metrics": [
+              {
+                "name_long": "Odds Ratio (OR top 10% vs rest)",
+                "name_short": "Odds Ratio (OR top 10% vs rest)",
+                "estimate": 1.96,
+                "ci_lower": 1.54,
+                "ci_upper": 2.51
+              }
+            ],
+            "effect_sizes": [
+              {
+                "name_long": "Beta",
+                "name_short": "\u03b2",
+                "estimate": 3.17,
+                "se": 1.87
+              }
+            ]
+          },
+          "phenotyping_reported": "Alcohol use disorder",
+          "covariates": "Unknown",
+          "training_development_cohorts": [
+            "MVP",
+            "UKB"
+          ],
+          "validation_sample_size": "n=7,900"
+        },
+        {
+          "id": "PGS002739",
+          "trait_reported": "Alcohol use disorder",
+          "trait_efo": "alcohol dependence",
+          "method_name": "PRS-CSx (gene-based)",
+          "variants_number": 858,
+          "ancestry_distribution": "GWAS: AFR (12%), EUR (88%) | EVAL: AFR (100%)",
+          "publication": {
+            "title": "Gene-based polygenic risk scores analysis of alcohol use disorder in African Americans.",
+            "journal": "Transl Psychiatry"
+          },
+          "date_release": "2022-08-03",
+          "samples_training": "N/A",
+          "performance_metrics": {
+            "auc": null,
+            "r2": null,
+            "pgs_only_auc": null,
+            "pgs_only_r2": null,
+            "full_model_auc": null,
+            "full_model_r2": null,
+            "incremental_auc": null,
+            "selected_performance_id": "PPM014842",
+            "selected_validation_ancestry": "African American or Afro-Caribbean",
+            "record_count": 1,
+            "classification_metrics": [],
+            "other_metrics": [
+              {
+                "name_long": "Odds Ratio (OR top 10% vs rest)",
+                "name_short": "Odds Ratio (OR top 10% vs rest)",
+                "estimate": 1.76,
+                "ci_lower": 1.32,
+                "ci_upper": 2.34
+              }
+            ],
+            "effect_sizes": [
+              {
+                "name_long": "Beta",
+                "name_short": "\u03b2",
+                "estimate": 0.17,
+                "se": 0.03
+              }
+            ]
+          },
+          "phenotyping_reported": "Alcohol use disorder",
+          "covariates": "Unknown",
+          "training_development_cohorts": [
+            "MVP",
+            "PGC",
+            "UKB"
+          ],
+          "validation_sample_size": "n=6,315"
+        }
+      ],
+      "trial_hits": 1,
+      "trial_hit_rate": 1.0,
+      "trial_hit_counts_at_k": {
+        "1": 1,
+        "2": 1,
+        "3": 1,
+        "4": 1,
+        "5": 1
+      },
+      "trial_hit_rates_at_k": {
+        "1": 1.0,
+        "2": 1.0,
+        "3": 1.0,
+        "4": 1.0,
+        "5": 1.0
+      },
+      "trial_percentile_hit_counts": {
+        "5": 1,
+        "10": 1,
+        "15": 1,
+        "20": 1,
+        "25": 1
+      },
+      "trial_percentile_hit_rates": {
+        "5": 1.0,
+        "10": 1.0,
+        "15": 1.0,
+        "20": 1.0,
+        "25": 1.0
+      },
+      "valid_outputs": 1,
+      "valid_output_rate": 1.0,
+      "errors": 0,
+      "modal_recommendation": "PGS002738",
+      "modal_recommendation_count": 1,
+      "modal_recommendation_rank": 1,
+      "modal_recommendation_rank_label": "1/4",
+      "modal_recommendation_hit_at_k": {
+        "1": true,
+        "2": true,
+        "3": true,
+        "4": true,
+        "5": true
+      },
+      "modal_recommendation_percentile_hit": {
+        "5": true,
+        "10": true,
+        "15": true,
+        "20": true,
+        "25": true
+      },
+      "modal_recommendation_in_target_topk": true,
+      "trial_recommendations": [
+        "PGS002738"
+      ],
+      "trial_recommendations_detailed": [
+        {
+          "trial": 1,
+          "pgs_id": "PGS002738",
+          "rank": 1,
+          "rank_label": "1/4",
+          "hit_at_k": {
+            "1": true,
+            "2": true,
+            "3": true,
+            "4": true,
+            "5": true
+          },
+          "percentile_hit": {
+            "5": true,
+            "10": true,
+            "15": true,
+            "20": true,
+            "25": true
+          },
+          "in_target_topk": true
+        }
+      ],
+      "recommended_model_counts": [
+        {
+          "pgs_id": "PGS002738",
+          "count": 1,
+          "rank": 1,
+          "rank_label": "1/4"
+        }
+      ],
+      "feature_mentions": {
+        "ancestry": 1,
+        "auc": 1,
+        "covariates": 1,
+        "r2": 1,
+        "sample_size": 1,
+        "trait_match": 1
+      },
+      "baseline": null,
+      "baseline_hit_at_k": {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false
+      },
+      "baseline_percentile_hit": {
+        "5": false,
+        "10": false,
+        "15": false,
+        "20": false,
+        "25": false
+      },
+      "baseline_in_target_topk": false
+    }
+  ],
+  "nrs": {
+    "modal_mean": 1.0,
+    "modal_count": 2,
+    "trial_mean": 1.0,
+    "trial_count": 2,
+    "baseline_mean": 1.0,
+    "baseline_count": 1,
+    "modal_mean_nrs": 1.0,
+    "trial_mean_nrs": 1.0
+  },
+  "hit_at_k_definition": {
+    "k_values": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "eligible_only_denominator": false,
+    "k_exceeds_candidate_count_uses_all_available_models": true,
+    "tie_aware_cutoff": true,
+    "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
+    "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"
+  },
+  "percentile_hit_definition": {
+    "percentiles": [
+      5,
+      10,
+      15,
+      20,
+      25
+    ],
+    "cutoff_formula": "c_q = max(1, ceil(q/100 * M))",
+    "fixed_denominator": true,
+    "tie_aware_cutoff": true,
+    "ranked_benchmark_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/top_k_pgs_per_ontology.json",
+    "benchmark_auc_source": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/ground-truth__selected_diseases_contribution2_current_union/benchmark_auc_per_ontology.json"
+  },
+  "execution_mode": "pairwise_rerank_chat_completions",
+  "pairwise_rerank": {
+    "stage1_count": 2,
+    "stage2_count": 6,
+    "borda_revised_count": 1,
+    "ontologies_with_invalid_top3_alternatives": 0,
+    "borda_scores_by_ontology": {
+      "abdominal aortic aneurysm": {
+        "PGS000753": 0,
+        "PGS003972": 1,
+        "PGS003973": 2
+      },
+      "alcohol dependence": {
+        "PGS002738": 2,
+        "PGS000201": 1,
+        "PGS000202": 0
+      }
+    },
+    "top3_by_ontology": {
+      "abdominal aortic aneurysm": [
+        "PGS000753",
+        "PGS003972",
+        "PGS003973"
+      ],
+      "alcohol dependence": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ]
+    }
+  }
+}

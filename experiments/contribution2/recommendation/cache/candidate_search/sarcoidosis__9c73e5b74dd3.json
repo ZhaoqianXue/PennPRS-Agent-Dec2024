@@ -1,0 +1,239 @@
+{
+  "cache_version": "v4",
+  "ontology": "sarcoidosis",
+  "candidate_model_ids": [
+    "PGS000923",
+    "PGS000922",
+    "PGS001872",
+    "PGS002084"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS000922",
+      "trait_reported": "Sarcoidosis",
+      "trait_efo": "sarcoidosis",
+      "method_name": "snpnet",
+      "variants_number": 12,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.64282,
+        "r2": 0.01741,
+        "pgs_only_auc": 0.64282,
+        "pgs_only_r2": 0.01741,
+        "full_model_auc": 0.6486,
+        "full_model_r2": 0.01916,
+        "incremental_auc": 0.09187,
+        "selected_performance_id": "PPM007443",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6486,
+            "ci_lower": 0.60932,
+            "ci_upper": 0.68789
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01916
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.09187
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01741
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.64282,
+            "ci_lower": 0.60353,
+            "ci_upper": 0.68211
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Sarcoidosis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS000923",
+      "trait_reported": "Sarcoidosis (time-to-event)",
+      "trait_efo": "sarcoidosis",
+      "method_name": "snpnet",
+      "variants_number": 22,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.64561,
+        "r2": 0.018,
+        "pgs_only_auc": 0.64561,
+        "pgs_only_r2": 0.018,
+        "full_model_auc": 0.65455,
+        "full_model_r2": 0.02088,
+        "incremental_auc": 0.09004,
+        "selected_performance_id": "PPM007447",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65455,
+            "ci_lower": 0.6217,
+            "ci_upper": 0.6874
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02088
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.09004
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.018
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.64561,
+            "ci_lower": 0.61168,
+            "ci_upper": 0.67954
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE sarcoidosis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001872",
+      "trait_reported": "Sarcoidosis",
+      "trait_efo": "skin sarcoidosis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 79,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009865",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0199,
+            "ci_lower": 0.0059,
+            "ci_upper": 0.0338
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Sarcoidosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,670"
+    },
+    {
+      "id": "PGS002084",
+      "trait_reported": "Sarcoidosis",
+      "trait_efo": "skin sarcoidosis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 403417,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011533",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0184,
+            "ci_lower": 0.0044,
+            "ci_upper": 0.0324
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Sarcoidosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,670"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000923",
+    "reported_auc": 0.6456,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Sarcoidosis (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

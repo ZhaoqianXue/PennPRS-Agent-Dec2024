@@ -1,0 +1,28 @@
+[
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "decision": {
+      "excluded_pgs_id": "PGS002738",
+      "runners_up": [
+        "PGS000201",
+        "PGS000202"
+      ],
+      "rationale": "With PGS002738 excluded, the remaining candidates are PGS000201, PGS000202, and PGS002739. For an alcohol dependence target, PGS000201 and PGS000202 have acceptable concept alignment via EFO (alcohol dependence measurement) and a closely related endpoint (DSM-5 alcohol use disorder criteria count), use a strong genome-wide shrinkage method (PRS-CS) with very large variant sets (~1.08\u20131.09M), and report PRS-attributable incremental signal (\u0394R\u00b2 vs covariates). Between them, PGS000201 is the stronger runner-up because it shows higher \u0394R\u00b2 (0.01192 vs 0.00456), a larger effect size (\u03b2=0.099 vs 0.043), and a much larger validation sample (7,599 vs 1,251) with broadly similar basic covariates. PGS002739 is a direct AUD endpoint but is evaluated only in African American/AFR and is a very sparse gene-based PRS-CSx score (858 variants) with unknown covariates, making it less supported as a general runner-up compared to the cleaner, genome-wide PRS-CS siblings with explicit incremental R\u00b2 evidence."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "decision": {
+      "excluded_pgs_id": "PGS000753",
+      "runners_up": [
+        "PGS001784",
+        "PGS002054"
+      ],
+      "rationale": "Top runners-up prioritize direct endpoint match (all remaining candidates are abdominal aortic aneurysm case/control) and PRS-comparable performance evidence. PGS001784 (PRS-CS-auto; genome-wide) reports an explicit PRS-only/covariates-regressed-out Nagelkerke R2=0.014661 in EUR evaluation (n=350,767) with basic demographic+PC covariates; this is the cleanest comparable PRS metric among the remaining options and is below the local h2_liability ceiling (~0.02), supporting plausibility. PGS002054 (LDpred2; genome-wide; UKB portability framework) provides a PRS-comparable partial correlation (partial-r=0.0144) with explicit basic covariates and large training (UKB n=391,124); despite framework/portability penalty, it has clearer PRS-only-style metric evidence than the remaining disease-focused candidates that report only full-model AUROC with unknown covariates. PGS003973/PGS003429/PGS003972 are deprioritized because their reported AUROC/C-index are full-model metrics with unknown or non-PRS-isolating covariates, making cross-model PRS ranking less reliable."
+    },
+    "error": null
+  }
+]

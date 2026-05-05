@@ -1,0 +1,220 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "trial": 1,
+    "n_models": 6,
+    "benchmark_ranked_ids": [
+      "PGS003973",
+      "PGS003429",
+      "PGS003972",
+      "PGS001784",
+      "PGS000753",
+      "PGS002054"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000753": 0.538848,
+      "PGS001784": 0.561756,
+      "PGS002054": 0.524981,
+      "PGS003429": 0.634083,
+      "PGS003972": 0.631193,
+      "PGS003973": 0.637363
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS003973"
+      ],
+      "2": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "3": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972"
+      ],
+      "4": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784"
+      ],
+      "5": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS003973"
+      ],
+      "10": [
+        "PGS003973"
+      ],
+      "15": [
+        "PGS003973"
+      ],
+      "20": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "25": [
+        "PGS003973",
+        "PGS003429"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS003972",
+      "PGS002054",
+      "PGS003973",
+      "PGS003429",
+      "PGS000753",
+      "PGS001784"
+    ],
+    "recommended_pgs_id": "PGS000753",
+    "recommendation_type": "CONFIRM",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": false,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "Heritability sanity-check does not reveal a flaw in the picker\u2019s choice. The best-matched EUR LDSC estimate for abdominal aortic aneurysm is very low on the observed scale (h2_obs ~0.0003; liability h2 ~0.02), so very high full-model discrimination metrics in the pool (e.g., C-index 0.882 for PGS003973; AUROC 0.868 for PGS001784) are plausibly dominated by age/sex and other covariates rather than PRS signal, and should not be treated as PRS-comparable evidence. Among candidates, PGS000753 provides a clean, standalone PRS signal via an OR per SD of 1.37 (95% CI 1.30\u20131.44) with only basic covariates (age/sex/PCs), avoiding obvious clinical-risk packaging. The main competitor, PGS001784, does report a PRS-comparable Nagelkerke R2 (covariates regressed out) of ~0.0147, which remains below the liability-scale h2 ceiling and is therefore not heritability-incoherent; however, this does not create an h2-anchored contradiction that would force revising away from PGS000753, given the overall comparability limitations and covariate-heavy full-model AUROC reporting across the rest of the pool.",
+    "rationale_features": [
+      "auc",
+      "r2",
+      "heritability",
+      "ancestry",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 5,
+    "recommended_rank_label": "5/6"
+  },
+  {
+    "ontology": "alcohol dependence",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000201": 0.576196,
+      "PGS000202": 0.574157,
+      "PGS002738": 0.60511,
+      "PGS002739": 0.522355
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002738"
+      ],
+      "2": [
+        "PGS002738",
+        "PGS000201"
+      ],
+      "3": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ],
+      "4": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "5": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002738"
+      ],
+      "10": [
+        "PGS002738"
+      ],
+      "15": [
+        "PGS002738"
+      ],
+      "20": [
+        "PGS002738"
+      ],
+      "25": [
+        "PGS002738"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002739",
+      "PGS002738",
+      "PGS000202",
+      "PGS000201"
+    ],
+    "recommended_pgs_id": "PGS002738",
+    "recommendation_type": "CONFIRM",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "CONFIRM pick of PGS002738. The heritability lookup for alcohol dependence shows low-to-moderate SNP h2 in EUR (best local match h2_obs\u22480.036; other nearby records up to ~0.098), which mainly serves as a sanity ceiling for PRS-only R2/AUC. None of the four candidates report PRS-only R2/AUC that could be checked against this ceiling, so h2 does not reveal a contradiction or covariate-driven inflation that would undermine the picker\u2019s choice. Given the available evidence, PGS002738 remains the most defensible direct-endpoint option: it matches alcohol dependence/AUD at the trait_efo level and provides the strongest visible PRS-linked discrimination-style signal (OR top 10% vs rest = 1.96 in EUR evaluation, n=7,900). The remaining limitations noted by the picker still apply (unknown covariates for PGS002738/PGS002739; PGS000201/PGS000202 only small \u0394R\u00b2 on a DSM-5 criteria-count phenotype), keeping confidence at Moderate rather than High.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "heritability",
+      "sample_size",
+      "ancestry",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  }
+]

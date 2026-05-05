@@ -1,0 +1,47 @@
+{
+  "batch_id": "batch_69f6bb771b0c8190a1965699e64ce3a8",
+  "input_file_id": "file-26CqNPGBguyRYPcrS6As6u",
+  "request_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/react-agent-batch-gpt-5.2-t1__89disease__round18-true-react-batch-evidence-sufficiency-fresh1-cur89-20260502-230523/experiment_react_agent_batch_iter0_requests.jsonl",
+  "status": "completed",
+  "batch": {
+    "id": "batch_69f6bb771b0c8190a1965699e64ce3a8",
+    "completion_window": "24h",
+    "created_at": 1777777527,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-26CqNPGBguyRYPcrS6As6u",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1777777746,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1777863927,
+    "failed_at": null,
+    "finalizing_at": 1777777736,
+    "in_progress_at": 1777777529,
+    "metadata": {
+      "experiment": "contribution2_true_react_agent",
+      "iteration": "0"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-G9iarD43gYXhG9yVMHYP7j",
+    "request_counts": {
+      "completed": 89,
+      "failed": 0,
+      "total": 89
+    },
+    "usage": {
+      "input_tokens": 876626,
+      "input_tokens_details": {
+        "cached_tokens": 31104
+      },
+      "output_tokens": 8024,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 884650
+    }
+  }
+}

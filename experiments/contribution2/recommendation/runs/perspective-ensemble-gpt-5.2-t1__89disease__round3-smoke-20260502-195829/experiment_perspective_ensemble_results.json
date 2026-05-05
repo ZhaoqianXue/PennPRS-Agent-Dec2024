@@ -1,0 +1,221 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "trial": 1,
+    "n_models": 6,
+    "benchmark_ranked_ids": [
+      "PGS003973",
+      "PGS003429",
+      "PGS003972",
+      "PGS001784",
+      "PGS000753",
+      "PGS002054"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000753": 0.538848,
+      "PGS001784": 0.561756,
+      "PGS002054": 0.524981,
+      "PGS003429": 0.634083,
+      "PGS003972": 0.631193,
+      "PGS003973": 0.637363
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS003973"
+      ],
+      "2": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "3": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972"
+      ],
+      "4": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784"
+      ],
+      "5": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS003973"
+      ],
+      "10": [
+        "PGS003973"
+      ],
+      "15": [
+        "PGS003973"
+      ],
+      "20": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "25": [
+        "PGS003973",
+        "PGS003429"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS003972",
+      "PGS002054",
+      "PGS003973",
+      "PGS003429",
+      "PGS000753",
+      "PGS001784"
+    ],
+    "recommended_pgs_id": "PGS000753",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": false,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "All 6 candidates are direct matches on trait_reported/trait_efo and have acceptable endpoint alignment (AAA diagnosis; one is explicitly prevalent). Under the requested perspective focus, the main differentiators are (i) covariate cleanliness/packaging and (ii) whether reported discrimination is plausibly PRS-driven vs covariate-driven, sanity-checked against the very low local heritability ceiling (h2_liability\u22480.02).\n\nPGS000753 is preferred because it has the cleanest, most interpretable covariate set (age, sex, PCs) and reports a PRS-driven effect size (OR per SD 1.37, 95% CI 1.30\u20131.44) rather than relying on a high full-model AUROC that could be dominated by age/sex. Several other candidates report only full-model AUROC/C-index (e.g., 0.882, 0.708, 0.69) with missing PGS-only AUROC/incremental AUROC, making it hard to attribute performance to the PRS; this is especially concerning given the low heritability ceiling and domain guidance not to substitute full-model AUROC for PRS-only metrics.\n\nTop alternatives: PGS003973 is a strong runner-up because its covariates are still relatively clean (Age, Age^2, Sex) and it comes from a disease-focused AAA GWAS meta-analysis publication family, but its headline metric is a full-model C-index (0.882) without PRS-only metrics, so PRS contribution is unclear. PGS001784 is next because it provides a PRS-comparable metric (Nagelkerke R2 with covariates regressed out = 0.014661), which is below the h2_liability ceiling (~0.02) and thus sanity-consistent; however, it is from a global biobank framework-style paper and includes a heavier demographic/interaction covariate set (age2, interactions, 20 PCs) plus a very high full-model AUROC (0.868) that is likely largely covariate-driven.\n\nOverall outcome is DIRECT_SUB_OPTIMAL because across the pool there is limited PRS-only discrimination reporting (no PGS-only AUROC; incremental AUROC absent), and several candidates\u2019 reported high full-model metrics are not reliably PRS-attributable under the heritability-ceiling sanity-check guidance. | Borda re-rank promoted PGS000753 via cross-perspective consensus.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "heritability",
+      "ancestry",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 5,
+    "recommended_rank_label": "5/6"
+  },
+  {
+    "ontology": "alcohol dependence",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000201": 0.576196,
+      "PGS000202": 0.574157,
+      "PGS002738": 0.60511,
+      "PGS002739": 0.522355
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002738"
+      ],
+      "2": [
+        "PGS002738",
+        "PGS000201"
+      ],
+      "3": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ],
+      "4": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "5": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002738"
+      ],
+      "10": [
+        "PGS002738"
+      ],
+      "15": [
+        "PGS002738"
+      ],
+      "20": [
+        "PGS002738"
+      ],
+      "25": [
+        "PGS002738"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002739",
+      "PGS002738",
+      "PGS000202",
+      "PGS000201"
+    ],
+    "recommended_pgs_id": "PGS002738",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "All four candidates are direct-match in concept, but all lack clean PRS-only AUC/R2 (pgs_only_auc/pgs_only_r2 are null throughout), so metric cleanliness is limited and forces reliance on endpoint fidelity plus the available PRS-proximal effect/association summaries. PGS002738 has the strongest endpoint alignment to the target (trait_efo = alcohol dependence; trait_reported/phenotyping_reported = alcohol use disorder) and provides a PRS-relevant discrimination proxy (OR top 10% vs rest = 1.96 with CI), which is more directly interpretable for PRS signal than the small \u0394R2 values reported for PGS000201/PGS000202. Its development cohorts (MVP, UKB) also suggest a more disease-focused, multi-cohort basis than the UKB-only siblings. Main limitation: it still does not report PRS-only AUC/R2 and covariates are unknown, reducing comparability/cleanliness confidence.\n\nRunners-up: PGS000201 and PGS000202 are very similar siblings (same paper, same phenotyping_reported: DSM-5 AUD criteria count log-transformed; same trait_efo: alcohol dependence measurement; same method: PRS-CS; EUR eval). They at least report incremental \u0394R2 vs covariates (0.01192 for PGS000201; 0.00456 for PGS000202), but these are not PRS-only R2 and are small; between them, PGS000201 is better supported by the larger \u0394R2 and larger validation n (7,599 vs 1,251). PGS002739 is not selected as a runner-up despite reporting an OR (top 10% vs rest = 1.76) because its evaluation is AFR-only and it is gene-based with very low variant count (858), making it less directly comparable for a generic (unspecified-ancestry) target under a PRS-metric-cleanliness focus.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  }
+]

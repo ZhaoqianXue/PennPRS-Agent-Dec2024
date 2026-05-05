@@ -1,0 +1,203 @@
+{
+  "cache_version": "v4",
+  "ontology": "crohn's disease",
+  "candidate_model_ids": [
+    "PGS001330",
+    "PGS001331",
+    "PGS004254"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS001330",
+      "trait_reported": "Crohn's disease [regional enteritis] (time-to-event)",
+      "trait_efo": "Crohn disease",
+      "method_name": "snpnet",
+      "variants_number": 220,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.57593,
+        "r2": 0.00621,
+        "pgs_only_auc": 0.57593,
+        "pgs_only_r2": 0.00621,
+        "full_model_auc": 0.60269,
+        "full_model_r2": 0.01102,
+        "incremental_auc": 0.02413,
+        "selected_performance_id": "PPM009139",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.60269,
+            "ci_lower": 0.55209,
+            "ci_upper": 0.65328
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01102
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02413
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00621
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.57593,
+            "ci_lower": 0.52318,
+            "ci_upper": 0.62867
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE crohn's disease [regional enteritis]",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001331",
+      "trait_reported": "Crohn's disease",
+      "trait_efo": "Crohn disease",
+      "method_name": "snpnet",
+      "variants_number": 257,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.57919,
+        "r2": 0.00677,
+        "pgs_only_auc": 0.57919,
+        "pgs_only_r2": 0.00677,
+        "full_model_auc": 0.61269,
+        "full_model_r2": 0.01161,
+        "incremental_auc": 0.02705,
+        "selected_performance_id": "PPM009143",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.61269,
+            "ci_lower": 0.55802,
+            "ci_upper": 0.66736
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.01161
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.02705
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00677
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.57919,
+            "ci_lower": 0.52051,
+            "ci_upper": 0.63786
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Crohns disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS004254",
+      "trait_reported": "Crohn's disease",
+      "trait_efo": "Crohn disease",
+      "method_name": "LDpred2-auto",
+      "variants_number": 744682,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk score for ulcerative colitis predicts immune checkpoint inhibitor-mediated colitis.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=12,331",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.72,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020322",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.72,
+            "ci_lower": 0.7,
+            "ci_upper": 0.73
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 2.18,
+            "ci_lower": 2.05,
+            "ci_upper": 2.32
+          }
+        ]
+      },
+      "phenotyping_reported": "Crohn's disease",
+      "covariates": "age, sex, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=22,296"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001331",
+    "reported_auc": 0.5792,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Crohn's disease",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

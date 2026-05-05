@@ -1,0 +1,224 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "trial": 1,
+    "n_models": 6,
+    "benchmark_ranked_ids": [
+      "PGS003973",
+      "PGS003429",
+      "PGS003972",
+      "PGS001784",
+      "PGS000753",
+      "PGS002054"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000753": 0.538848,
+      "PGS001784": 0.561756,
+      "PGS002054": 0.524981,
+      "PGS003429": 0.634083,
+      "PGS003972": 0.631193,
+      "PGS003973": 0.637363
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS003973"
+      ],
+      "2": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "3": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972"
+      ],
+      "4": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784"
+      ],
+      "5": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS003973"
+      ],
+      "10": [
+        "PGS003973"
+      ],
+      "15": [
+        "PGS003973"
+      ],
+      "20": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "25": [
+        "PGS003973",
+        "PGS003429"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS003972",
+      "PGS002054",
+      "PGS003973",
+      "PGS003429",
+      "PGS000753",
+      "PGS001784"
+    ],
+    "recommended_pgs_id": "PGS001784",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "All candidates are direct matches for abdominal aortic aneurysm by trait_reported/trait_efo/phenotyping_reported, so selection hinges on PRS-comparable performance evidence, covariate cleanliness, and structural/model-quality signals.\n\nPGS001784 is preferred because it is the only candidate with an explicit PRS-comparable metric (Nagelkerke\u2019s R\u00b2 with covariates regressed out = 0.014661) in a large European evaluation sample (n=350,767), and it uses a genome-wide shrinkage method (PRS-CS-auto) with very broad variant coverage (911,440). Its covariates are standard demographic + PCs (age/sex terms and 20 PCs), which is not strong clinical leakage.\n\nAlternatives are weaker on the visible evidence: PGS000753 is very sparse (29 variants, P+T) despite a moderate OR=1.37; PGS002054 has only a partial correlation (~0.0144) and comes from a portability benchmarking study; PGS003429/PGS003972/PGS003973 report only full-model AUROC/C-index with unknown or basic covariates, making their discrimination less comparable to PRS-only performance.\n\nHeritability records available are only approximate matches (aortic aneurysm/dissection) with low/unstable h2 estimates, so they do not provide a strong ceiling check here; nonetheless, the reported PRS-only R\u00b2 for PGS001784 is modest and plausible rather than suggestive of covariate-driven inflation.\n\nConfidence is Moderate because several candidates lack PRS-only metrics (so direct PRS-to-PRS comparability is limited), and some reported full-model AUROCs (e.g., 0.882) cannot be fairly compared without PRS-only decomposition.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "heritability",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/6"
+  },
+  {
+    "ontology": "alcohol dependence",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000201": 0.576196,
+      "PGS000202": 0.574157,
+      "PGS002738": 0.60511,
+      "PGS002739": 0.522355
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002738"
+      ],
+      "2": [
+        "PGS002738",
+        "PGS000201"
+      ],
+      "3": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ],
+      "4": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "5": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002738"
+      ],
+      "10": [
+        "PGS002738"
+      ],
+      "15": [
+        "PGS002738"
+      ],
+      "20": [
+        "PGS002738"
+      ],
+      "25": [
+        "PGS002738"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002739",
+      "PGS002738",
+      "PGS000202",
+      "PGS000201"
+    ],
+    "recommended_pgs_id": "PGS002738",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "Target trait is alcohol dependence. Direct-match candidates are those with trait_efo alcohol dependence and phenotyping_reported alcohol use disorder: PGS002738 and PGS002739 (PGS000201/PGS000202 are labeled problematic alcohol use, though their phenotyping is also AUD criteria count). PGS002738 is preferred because it is evaluated in Europeans (n=7,900) matching the typical deployment/benchmark context implied by the other EUR-evaluated candidates, and it reports a reasonably strong discrimination-style effect size (OR top 10% vs rest = 1.96, 95% CI 1.54\u20132.51), which is more directly interpretable for case/control risk stratification than the small incremental \u0394R\u00b2 values reported for PGS000201/PGS000202. PGS002739 is evaluated only in African American/Afro-Caribbean samples (n=6,315) and is gene-based with very low variant count (858), making it less comparable/portable to the EUR-focused candidate set here. Confidence is not High because none of the candidates report clean PRS-only AUC or PRS-only R\u00b2, covariates are unknown for PGS002738, and the available heritability estimates for alcohol dependence are modest (h2 ~0.10 observed; liability ~0.18), limiting expectations for large PRS-only R\u00b2.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "heritability",
+      "sample_size",
+      "ancestry",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  }
+]

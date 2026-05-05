@@ -1,0 +1,47 @@
+{
+  "batch_id": "batch_69f6c0604f1c8190b91a11674ab5eb20",
+  "input_file_id": "file-R4MV8CRPp2pX8JzssCnkfS",
+  "request_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/react-agent-batch-gpt-5.2-t1__89disease__round20-true-react-batch-balanced-skill-h2-fresh1-cur89-20260502-232621/experiment_react_agent_batch_iter0_requests.jsonl",
+  "status": "completed",
+  "batch": {
+    "id": "batch_69f6c0604f1c8190b91a11674ab5eb20",
+    "completion_window": "24h",
+    "created_at": 1777778784,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-R4MV8CRPp2pX8JzssCnkfS",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1777778876,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1777865184,
+    "failed_at": null,
+    "finalizing_at": 1777778870,
+    "in_progress_at": 1777778785,
+    "metadata": {
+      "experiment": "contribution2_true_react_agent",
+      "iteration": "0"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-TfLo2c46x5Nt7Tumq78KNA",
+    "request_counts": {
+      "completed": 89,
+      "failed": 0,
+      "total": 89
+    },
+    "usage": {
+      "input_tokens": 890154,
+      "input_tokens_details": {
+        "cached_tokens": 29440
+      },
+      "output_tokens": 5849,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 896003
+    }
+  }
+}

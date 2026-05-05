@@ -1,0 +1,40 @@
+[
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS001784",
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches by trait_reported/trait_efo and have phenotype-aligned endpoints (all report abdominal aortic aneurysm; one is explicitly prevalent AAA but still aligned). The strongest directly PRS-comparable performance evidence in the metadata is for PGS001784, which reports a PRS-only Nagelkerke R\u00b2 (covariates regressed out) of 0.014661 in Europeans; other candidates either report only full-model discrimination (e.g., AUROC/C-index) or non-R\u00b2 metrics (e.g., partial-r) without an explicit PRS-only AUC/R\u00b2. However, the overall evidence remains limited/partly non-comparable across the set: several models lack PRS-only metrics entirely, and some reported high full-model metrics (e.g., C-index 0.882 for PGS003973) are likely covariate-driven and not directly comparable to PRS-only performance. Therefore a direct-match exists but the best choice is supported only moderately well from the visible metadata."
+    },
+    "tool_call_log": [
+      {
+        "iteration": 0,
+        "kind": "json_terminal",
+        "content_preview": "{\"outcome\":\"DIRECT_SUB_OPTIMAL\",\"best_model_id\":\"PGS001784\",\"confidence\":\"Moderate\",\"rationale\":\"All 6 candidates are direct matches by trait_reported/trait_efo and have phenotype-aligned endpoints (a"
+      }
+    ],
+    "iterations_used": 1,
+    "error": null
+  },
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS002738",
+      "confidence": "Moderate",
+      "rationale": "All four candidates are direct/near-direct matches to the target alcohol dependence via alcohol use disorder / alcohol dependence measurement. PGS002738 is the most endpoint-faithful (trait_reported and phenotyping_reported both explicitly alcohol use disorder; trait_efo = alcohol dependence) and provides the strongest visible discrimination evidence among the set via an OR(top 10% vs rest)=1.96 (95% CI 1.54\u20132.51) in a European evaluation sample (n=7,900), which is more directly interpretable for case/control risk stratification than the two problematic-alcohol-use models that only report small \u0394R\u00b2 values (0.01192 and 0.00456) on a DSM-5 criteria count outcome. However, confidence is limited because none of the candidates report PRS-only AUC/R\u00b2, covariates are unknown for PGS002738 (reducing comparability), and PGS000201 has a similar EUR validation size with cleaner disclosed covariates but a less direct (quantitative criteria-count) endpoint and weaker incremental-metric evidence."
+    },
+    "tool_call_log": [
+      {
+        "iteration": 0,
+        "kind": "json_terminal",
+        "content_preview": "{\n  \"outcome\": \"DIRECT_SUB_OPTIMAL\",\n  \"best_model_id\": \"PGS002738\",\n  \"confidence\": \"Moderate\",\n  \"rationale\": \"All four candidates are direct/near-direct matches to the target alcohol dependence via"
+      }
+    ],
+    "iterations_used": 1,
+    "error": null
+  }
+]

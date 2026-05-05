@@ -1,0 +1,410 @@
+{
+  "cache_version": "v4",
+  "ontology": "multiple sclerosis",
+  "candidate_model_ids": [
+    "PGS002038",
+    "PGS004699",
+    "PGS001270",
+    "PGS001831",
+    "PGS002726",
+    "PGS000809",
+    "PGS001271"
+  ],
+  "total_found": 8,
+  "candidate_models": [
+    {
+      "id": "PGS000809",
+      "trait_reported": "Multiple sclerosis",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "Clumping of variants associated with multiple sclerosis",
+      "variants_number": 127,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Contribution of common risk variants to multiple sclerosis in Orkney and Shetland.",
+        "journal": "Eur J Hum Genet"
+      },
+      "date_release": "2021-07-02",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.765,
+        "full_model_r2": 0.069,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002139",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.765,
+            "se": 0.042
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.069
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Multiple Sclerosis",
+      "covariates": "Age, sex, PCs(1-2)",
+      "training_development_cohorts": [
+        "ANZgene",
+        "B58C",
+        "BWH",
+        "BayerScheringPharma",
+        "CAHRES",
+        "CHOP",
+        "EGEA",
+        "GAS",
+        "GENMETS",
+        "Gene_MSA_CH",
+        "Gene_MSA_NL",
+        "Gene_MSA_US",
+        "HYPERGENES",
+        "IMSGC",
+        "IMSGC_UK",
+        "IMSGC_US",
+        "Illumina_iControlDB",
+        "KORA",
+        "MG_GWAS",
+        "NBBS",
+        "POPGEN",
+        "PROCARDIS",
+        "WTCCC"
+      ],
+      "validation_sample_size": "n=8,370"
+    },
+    {
+      "id": "PGS001270",
+      "trait_reported": "Multiple sclerosis",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "snpnet",
+      "variants_number": 41,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.65856,
+        "r2": 0.02904,
+        "pgs_only_auc": 0.65856,
+        "pgs_only_r2": 0.02904,
+        "full_model_auc": 0.69658,
+        "full_model_r2": 0.04105,
+        "incremental_auc": 0.08355,
+        "selected_performance_id": "PPM008853",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69658,
+            "ci_lower": 0.66502,
+            "ci_upper": 0.72814
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.04105
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.08355
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02904
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.65856,
+            "ci_lower": 0.62428,
+            "ci_upper": 0.69284
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple sclerosis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001271",
+      "trait_reported": "Multiple sclerosis (time-to-event)",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "snpnet",
+      "variants_number": 36,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.64688,
+        "r2": 0.02562,
+        "pgs_only_auc": 0.64688,
+        "pgs_only_r2": 0.02562,
+        "full_model_auc": 0.6895,
+        "full_model_r2": 0.03906,
+        "incremental_auc": 0.07145,
+        "selected_performance_id": "PPM008857",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6895,
+            "ci_lower": 0.65926,
+            "ci_upper": 0.71974
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03906
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.07145
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02562
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.64688,
+            "ci_lower": 0.61364,
+            "ci_upper": 0.68013
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE multiple sclerosis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001831",
+      "trait_reported": "Multiple sclerosis",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 491,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009541",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0367,
+            "ci_lower": 0.0226,
+            "ci_upper": 0.0508
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple sclerosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,299"
+    },
+    {
+      "id": "PGS002038",
+      "trait_reported": "Multiple sclerosis",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 129077,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011171",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0396,
+            "ci_lower": 0.0255,
+            "ci_upper": 0.0536
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple sclerosis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,299"
+    },
+    {
+      "id": "PGS002726",
+      "trait_reported": "Multiple sclerosis",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 476399,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk score association with multiple sclerosis susceptibility and phenotype in Europeans.",
+        "journal": "Brain"
+      },
+      "date_release": "2022-06-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.8,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014750",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.8,
+            "ci_lower": 0.76,
+            "ci_upper": 0.82
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, top 10% vs median)",
+            "name_short": "Odds ratio (OR, top 10% vs median)",
+            "estimate": 15.0,
+            "ci_lower": 10.4,
+            "ci_upper": 24.0
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple sclerosis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "IMSGC"
+      ],
+      "validation_sample_size": "n=938"
+    },
+    {
+      "id": "PGS004699",
+      "trait_reported": "Multiple sclerosis",
+      "trait_efo": "multiple sclerosis",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 307,
+      "ancestry_distribution": "GWAS: MAE (100%) | EVAL: NR (25%), MAE (75%)",
+      "publication": {
+        "title": "Applying a genetic risk score model to enhance prediction of future multiple sclerosis diagnosis at first presentation with optic neuritis.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.752,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020918",
+        "selected_validation_ancestry": "European, Not reported",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.752,
+            "ci_lower": 0.75,
+            "ci_upper": 0.755
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple sclerosis",
+      "covariates": "Age at recruitment, sex, Townsend Deprivation Index, 4 PCs",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=483,480"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001270",
+    "reported_auc": 0.6586,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Multiple sclerosis",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

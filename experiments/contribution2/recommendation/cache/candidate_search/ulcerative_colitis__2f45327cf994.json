@@ -1,0 +1,297 @@
+{
+  "cache_version": "v4",
+  "ontology": "ulcerative colitis",
+  "candidate_model_ids": [
+    "PGS002066",
+    "PGS001855",
+    "PGS001306",
+    "PGS001307",
+    "PGS004253"
+  ],
+  "total_found": 5,
+  "candidate_models": [
+    {
+      "id": "PGS001306",
+      "trait_reported": "Ulcerative colitis",
+      "trait_efo": "ulcerative colitis",
+      "method_name": "snpnet",
+      "variants_number": 179,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.63006,
+        "r2": 0.02036,
+        "pgs_only_auc": 0.63006,
+        "pgs_only_r2": 0.02036,
+        "full_model_auc": 0.66162,
+        "full_model_r2": 0.03336,
+        "incremental_auc": 0.04247,
+        "selected_performance_id": "PPM009026",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66162,
+            "ci_lower": 0.6277,
+            "ci_upper": 0.69554
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03336
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04247
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02036
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.63006,
+            "ci_lower": 0.5958,
+            "ci_upper": 0.66432
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ulcerative colitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001307",
+      "trait_reported": "Ulcerative colitis (time-to-event)",
+      "trait_efo": "ulcerative colitis",
+      "method_name": "snpnet",
+      "variants_number": 809,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.63847,
+        "r2": 0.02383,
+        "pgs_only_auc": 0.63847,
+        "pgs_only_r2": 0.02383,
+        "full_model_auc": 0.63965,
+        "full_model_r2": 0.02376,
+        "incremental_auc": 0.1085,
+        "selected_performance_id": "PPM009033",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.63965,
+            "ci_lower": 0.62036,
+            "ci_upper": 0.65895
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02376
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.1085
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02383
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.63847,
+            "ci_lower": 0.61861,
+            "ci_upper": 0.65833
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE ulcerative colitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001855",
+      "trait_reported": "Ulcerative colitis",
+      "trait_efo": "ulcerative colitis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 1505,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009730",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0625,
+            "ci_lower": 0.0471,
+            "ci_upper": 0.0778
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Ulcerative colitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=16,188"
+    },
+    {
+      "id": "PGS002066",
+      "trait_reported": "Ulcerative colitis",
+      "trait_efo": "ulcerative colitis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 566637,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (22%), EAS (11%), EUR (44%), GME (11%), SAS (11%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.57,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021728",
+        "selected_validation_ancestry": "European",
+        "record_count": 9,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.57
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.11,
+            "ci_lower": 0.97,
+            "ci_upper": 1.28
+          }
+        ]
+      },
+      "phenotyping_reported": "Ulcerative colitis",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,417"
+    },
+    {
+      "id": "PGS004253",
+      "trait_reported": "Ulcerative colitis",
+      "trait_efo": "ulcerative colitis",
+      "method_name": "LDpred2-auto",
+      "variants_number": 744575,
+      "ancestry_distribution": "GWAS: MAE (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk score for ulcerative colitis predicts immune checkpoint inhibitor-mediated colitis.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2024-03-28",
+      "samples_training": "n=13,382",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.66,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020319",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66,
+            "ci_lower": 0.64,
+            "ci_upper": 0.68
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.84,
+            "ci_lower": 1.76,
+            "ci_upper": 1.93
+          }
+        ]
+      },
+      "phenotyping_reported": "Ulcerative colitis",
+      "covariates": "age at diagnosis/enrollment, sex, genotyping array, 10 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=5,735"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001307",
+    "reported_auc": 0.6385,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Ulcerative colitis (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

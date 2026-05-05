@@ -1,0 +1,56 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "candidate_a_id": "PGS000753",
+    "candidate_b_id": "PGS003973",
+    "winner_model_id": "PGS003973",
+    "confidence": "Moderate",
+    "rationale": "Both candidates match the target trait well (same trait_reported/trait_efo). However, PGS003973 has stronger structural support for a complex disease PRS: it uses a genome-wide shrinkage method (PRS-CS) with ~1.1M variants and is developed across many cohorts, whereas PGS000753 is a sparse P+T score with only 29 variants. Neither reports PRS-only AUC/R2, so the only performance-like evidence is PGS000753\u2019s moderate OR=1.37 per SD; PGS003973\u2019s reported C-index=0.882 is a full-model metric (age/age^2/sex) and not directly comparable as PRS performance. Endpoint-wise, PGS000753 is explicitly \u2018prevalent\u2019 AAA (potentially less general than a generic AAA definition), while PGS003973 uses a generic AAA phenotype. Given the lack of PRS-only metrics, the method/variant-count advantage and broader multi-cohort development make PGS003973 better-supported overall.",
+    "error": null
+  },
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "candidate_a_id": "PGS000753",
+    "candidate_b_id": "PGS003972",
+    "winner_model_id": "PGS003972",
+    "confidence": "Moderate",
+    "rationale": "Both candidates match the target trait (AAA) at trait_reported/trait_efo, but PGS003972 has stronger structural support for a polygenic disease: genome-wide PRS-CS with ~1.12M variants and development across many AAA-relevant cohorts/biobanks (multi-cohort meta-analysis context), whereas PGS000753 is a sparse P+T score with only 29 variants and a prevalent-case endpoint. Neither reports PRS-only AUC/R2, and PGS003972\u2019s only visible AUROC (0.69) is full-model and thus not PRS-comparable; however PGS000753 at least provides an OR=1.37 (moderate) while PGS003972 provides no effect size. Overall, the much stronger method/variant coverage and broader disease-focused cohort basis in PGS003972 outweigh the limited effect-size-only evidence for the very sparse PGS000753, with some uncertainty due to unknown covariates and lack of PRS-only metrics in PGS003972.",
+    "error": null
+  },
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "candidate_a_id": "PGS003972",
+    "candidate_b_id": "PGS003973",
+    "winner_model_id": "PGS003973",
+    "confidence": "Low",
+    "rationale": "Both candidates are near-clones for the target trait (identical trait_reported/trait_efo/phenotyping_reported = abdominal aortic aneurysm), same method (PRS-CS), same variant count (1,118,997), same GWAS ancestry mix and EUR-only evaluation, and same publication family\u2014so endpoint fidelity and structural signals do not differentiate. Neither reports PRS-only AUC/R2, so full-model metrics are only weakly informative; however PGS003973 at least discloses basic demographic covariates (Age, Age^2, Sex) and reports a higher concordance (C-index 0.882 with CI) versus PGS003972\u2019s lower AUROC 0.69 with unknown covariates. Given the lack of PRS-only metrics and non-comparability of full-model AUC/C-index, this is a weak edge, hence low confidence.",
+    "error": null
+  },
+  {
+    "ontology": "alcohol dependence",
+    "candidate_a_id": "PGS002738",
+    "candidate_b_id": "PGS000201",
+    "winner_model_id": "PGS002738",
+    "confidence": "Moderate",
+    "rationale": "PGS002738 is the better match to the target trait alcohol dependence on endpoint fidelity: its trait_efo is exactly \"alcohol dependence\" and both trait_reported/phenotyping_reported are a direct clinical diagnosis construct (Alcohol use disorder). It also shows stronger PRS signal in the available comparable metric (OR top 10% vs rest = 1.96 [1.54\u20132.51]), whereas PGS000201 is for \"Problematic alcohol use\" with trait_efo \"alcohol dependence measurement\" and reports only a small \u0394R\u00b2 (0.01192), suggesting weaker incremental PRS contribution. Both use PRS-CS and have similar EUR-only evaluation with similar validation N, but PGS000201\u2019s heavier explicit covariate set (age/PCs/array/site) makes its reported metric more model-dependent, while PGS002738\u2019s covariates are unknown (lowering confidence) yet it is developed across MVP+UKB and remains more directly aligned to alcohol dependence.",
+    "error": null
+  },
+  {
+    "ontology": "alcohol dependence",
+    "candidate_a_id": "PGS002738",
+    "candidate_b_id": "PGS000202",
+    "winner_model_id": "PGS002738",
+    "confidence": "Moderate",
+    "rationale": "PGS002738 is the better-supported match to the target trait alcohol dependence because its endpoint is directly aligned: trait_efo is exactly \"alcohol dependence\" and both trait_reported and phenotyping_reported are \"Alcohol use disorder\" (a close clinical synonym/instantiation of dependence). It also shows stronger PRS signal in the available comparable evidence (OR top 10% vs rest = 1.96 [1.54\u20132.51]) than PGS000202\u2019s very small incremental variance explained (\u0394R\u00b2 = 0.00456) and small beta (0.043). While PGS002738 has unknown covariates and lacks PRS-only AUC/R\u00b2, PGS000202\u2019s phenotype is less faithful to the target (trait_reported \"Problematic alcohol use\" and trait_efo \"alcohol dependence measurement\" with a DSM-5 criteria count), making it more of a quantitative/problem-use construct than a dependence diagnosis. Both are EUR-evaluated and use PRS-CS, so endpoint fidelity and stronger effect-size evidence favor PGS002738.",
+    "error": null
+  },
+  {
+    "ontology": "alcohol dependence",
+    "candidate_a_id": "PGS000201",
+    "candidate_b_id": "PGS000202",
+    "winner_model_id": "PGS000201",
+    "confidence": "Moderate",
+    "rationale": "Both candidates are near-clones: same reported trait (\u201cProblematic alcohol use\u201d), same EFO mapping (\u201calcohol dependence measurement\u201d), same phenotyping (\u201cAlcohol use disorder (DSM-5 criteria count, log-transformed)\u201d), same method (PRS-CS), and EUR-only GWAS/EVAL. With endpoint fidelity essentially tied, the differentiators are PRS-attributable performance and supporting evidence: PGS000201 shows a larger incremental signal (\u0394R\u00b2 vs covariates 0.01192 vs 0.00456 for PGS000202) and a stronger effect size (\u03b2=0.099, SE=0.01 vs \u03b2=0.043, SE=0.019), consistent with better PRS contribution. Variant counts are similar and not decisive. Although PGS000201 uses a slightly heavier but still basic covariate set (adds array/site), this is not strong leakage and does not outweigh its materially stronger PRS incremental performance; validation N differences are a weak tie-break.",
+    "error": null
+  }
+]

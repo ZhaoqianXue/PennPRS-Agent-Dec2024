@@ -1,0 +1,219 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "trial": 1,
+    "n_models": 6,
+    "benchmark_ranked_ids": [
+      "PGS003973",
+      "PGS003429",
+      "PGS003972",
+      "PGS001784",
+      "PGS000753",
+      "PGS002054"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000753": 0.538848,
+      "PGS001784": 0.561756,
+      "PGS002054": 0.524981,
+      "PGS003429": 0.634083,
+      "PGS003972": 0.631193,
+      "PGS003973": 0.637363
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS003973"
+      ],
+      "2": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "3": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972"
+      ],
+      "4": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784"
+      ],
+      "5": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS003973"
+      ],
+      "10": [
+        "PGS003973"
+      ],
+      "15": [
+        "PGS003973"
+      ],
+      "20": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "25": [
+        "PGS003973",
+        "PGS003429"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS003972",
+      "PGS002054",
+      "PGS003973",
+      "PGS003429",
+      "PGS000753",
+      "PGS001784"
+    ],
+    "recommended_pgs_id": "PGS001784",
+    "recommendation_type": "DIRECT_HIGH_QUALITY",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": false,
+      "2": false,
+      "3": false,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": false,
+      "10": false,
+      "15": false,
+      "20": false,
+      "25": false
+    },
+    "in_target_topk": false,
+    "rationale": "All candidates directly match abdominal aortic aneurysm, but PGS001784 is the only one reporting a clearly PRS-comparable metric (Nagelkerke R\u00b2 with covariates regressed out = 0.014661) in a large European evaluation (n=350,767) using a modern genome-wide Bayesian method (PRS-CS-auto). Alternatives either lack PRS-only metrics entirely (PGS002054 only partial-r; PGS003429/PGS003972/PGS003973 report full-model AUROC/C-index with unknown/basic covariates) or are a very sparse P+T score with limited variants and only an OR per SD (PGS000753).",
+    "rationale_features": [
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "variants",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 4,
+    "recommended_rank_label": "4/6"
+  },
+  {
+    "ontology": "alcohol dependence",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000201": 0.576196,
+      "PGS000202": 0.574157,
+      "PGS002738": 0.60511,
+      "PGS002739": 0.522355
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002738"
+      ],
+      "2": [
+        "PGS002738",
+        "PGS000201"
+      ],
+      "3": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ],
+      "4": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "5": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002738"
+      ],
+      "10": [
+        "PGS002738"
+      ],
+      "15": [
+        "PGS002738"
+      ],
+      "20": [
+        "PGS002738"
+      ],
+      "25": [
+        "PGS002738"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002739",
+      "PGS002738",
+      "PGS000202",
+      "PGS000201"
+    ],
+    "recommended_pgs_id": "PGS002738",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "For the target trait alcohol dependence, PGS002738 is the closest direct match: it is explicitly for alcohol use disorder with trait_efo alcohol dependence and shows a meaningful risk gradient (OR top 10% vs rest = 1.96) in a European validation sample (n=7,900). The alternatives (PGS000201/PGS000202) are for problematic alcohol use/AUD symptom count and report only small incremental \u0394R\u00b2, while PGS002739 is evaluated only in African-ancestry samples and is less directly applicable without a specified target ancestry; covariates are unknown for PGS002738, lowering confidence.",
+    "rationale_features": [
+      "trait_match",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  }
+]

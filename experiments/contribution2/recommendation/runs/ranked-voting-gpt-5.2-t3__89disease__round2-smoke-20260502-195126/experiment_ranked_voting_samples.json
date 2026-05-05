@@ -1,0 +1,98 @@
+[
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "sample_idx": 2,
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS000753",
+      "top_alternatives": [
+        "PGS003973",
+        "PGS003972"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches (trait_reported/trait_efo and phenotyping_reported all indicate abdominal aortic aneurysm). PGS000753 is preferred because it provides the clearest PRS-comparable evidence in this list via an explicit per-SD effect size (OR=1.37, 95% CI 1.30\u20131.44) alongside a direct AAA endpoint (\u201cPrevalent abdominal aortic aneurysm\u201d) and basic covariates (age/sex/PCs), whereas several others report only full-model discrimination (AUROC/C-index) without PRS-only AUC/R2. The main limitation is that PGS000753 lacks PRS-only AUC/R2 and uses a sparse P+T model with only 29 variants, so overall strength remains uncertain.\n\nRunners-up: PGS003973 and PGS003972 come from a disease-focused AAA GWAS meta-analysis publication (Nat Genet) with direct AAA phenotyping; both report only full-model discrimination (C-index 0.882 for PGS003973; AUROC 0.69 for PGS003972) and have unknown/limited PRS-only metrics, but they benefit from coherent disease-specific multi-cohort development and genome-wide shrinkage (PRS-CS). Between them, PGS003973 is ranked higher due to the stronger reported discrimination metric and clearly basic covariates (Age, Age^2, Sex), while PGS003972 has a lower AUROC and unknown covariates."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "sample_idx": 1,
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS003972",
+      "top_alternatives": [
+        "PGS003973",
+        "PGS000753"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches (trait_reported/trait_efo and phenotyping_reported all indicate abdominal aortic aneurysm; one is explicitly prevalent but still endpoint-faithful). Best-supported is PGS003972 because it comes from a disease-focused AAA GWAS meta-analysis publication (Nat Genet), uses a genome-wide shrinkage method (PRS-CS) with a large variant set (1,118,997), and reports a representative European validation discrimination metric (AUROC=0.69). Runner-up PGS003973 is from the same disease-focused study family with the same method/variant count and EUR evaluation, but its reported discrimination is a full-model C-index (0.882) with basic covariates (Age, Age^2, Sex); per the provided domain guidance, full-model metrics are not reliably comparable to PRS-only performance and should be discounted, keeping it just behind the sibling with a more conventional AUROC report. Second runner-up PGS000753 is also disease-focused (AAA in the MVP; Circulation) and provides an interpretable PRS effect size (OR per SD=1.37, moderate), but it is a sparse P+T score with only 29 variants and lacks PRS-comparable AUC/R2, making it less structurally and metrically supported than the genome-wide PRS-CS meta-analysis models. Overall outcome is sub-optimal because across the pool, key PRS-comparable metrics (PGS-only AUROC/incremental AUROC) are mostly missing or mixed with full-model metrics, and two candidates (PGS001784, PGS002054) come from framework/portability-style studies where reported full-model AUROC or partial-r provides limited standalone PRS comparability."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "sample_idx": 0,
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS002738",
+      "top_alternatives": [
+        "PGS000201",
+        "PGS002739"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 4 candidates are direct-match for the target concept (alcohol dependence/alcohol use disorder), but none reports PRS-only AUROC/R2; performance evidence is therefore limited and not fully comparable. PGS002738 is best supported because it has the closest mapped concept alignment to the target (trait_efo=\"alcohol dependence\"; trait_reported/phenotyping_reported=\"Alcohol use disorder\") and provides a relatively strong, interpretable effect size metric (OR top 10% vs rest = 1.96, 95% CI 1.54\u20132.51) in a sizable EUR evaluation sample (n=7,900), with disease-focused multi-cohort development (MVP, UKB). Runner-up PGS000201 has good endpoint fidelity via phenotyping_reported=\"Alcohol use disorder (DSM-5 criteria count, log-transformed)\" and reports a larger incremental \u0394R\u00b2 vs covariates (0.01192) than its sibling PGS000202, but it is mapped to a measurement EFO rather than the disease EFO. Second runner-up PGS002739 remains a direct AUD model and reports OR top 10% vs rest = 1.76 (1.32\u20132.34), but its evaluation is AFR-only (African American or Afro-Caribbean), making it less broadly supported in this context than the EUR-evaluated options. Overall confidence is moderate because key PRS-comparable metrics (PGS-only AUROC/R\u00b2) and covariate details are missing/uneven across candidates (notably unknown covariates for PGS002738/PGS002739)."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "sample_idx": 0,
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS000753",
+      "top_alternatives": [
+        "PGS003972",
+        "PGS003973"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches (trait_reported/trait_efo/phenotyping_reported all indicate abdominal aortic aneurysm). PGS000753 is preferred because it comes from a disease-focused AAA genetics study (Circulation; MVP/MAYO-VDB), uses basic covariates (age, sex, PCs), and provides a PRS-comparable effect size (OR per SD 1.37, 95% CI 1.30\u20131.44), which is more directly interpretable for PRS strength than the other candidates\u2019 mostly full-model AUROC/C-index values. Main limitation: it is a sparse P+T score with only 29 variants and lacks PRS-only AUC/R2, so strength relative to genome-wide shrinkage scores remains uncertain. Runners-up: PGS003972 and PGS003973 are from a coherent, disease-focused GWAS meta-analysis (Nat Genet) with the same AAA endpoint and PRS-CS genome-wide construction; however, their reported discrimination is primarily full-model (AUROC 0.69; C-index 0.882) with unclear PRS-only contribution and unknown/limited covariate transparency (PGS003972 covariates unknown; PGS003973 uses age/sex only), so they are supportive but not decisively better than the OR-supported PGS000753. Framework-style portability models (PGS001784; PGS002054) are deprioritized because their evidence is more benchmark/framework-derived and their PRS-comparable metrics are modest (R2 ~0.014\u20130.015), while PGS003429 appears to be screening cost-effectiveness packaging with unknown covariates and only full-model AUROC (0.708), which is not a substitute for PRS-only performance."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "sample_idx": 1,
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS002738",
+      "top_alternatives": [
+        "PGS000201",
+        "PGS000202"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All four candidates are direct matches to the target trait (alcohol dependence / alcohol use disorder), with strong endpoint alignment driven primarily by phenotyping_reported (PGS000201/PGS000202: DSM-5 alcohol use disorder criteria count; PGS002738/PGS002739: alcohol use disorder) and trait_efo mapping to alcohol dependence/alcohol dependence measurement. PGS002738 is best supported because it is explicitly mapped to trait_efo = alcohol dependence, uses a modern genome-wide shrinkage method (PRS-CS), has a reasonably large evaluation sample (n=7,900, EUR), and reports a clear discriminative effect size (OR top 10% vs rest = 1.96, 95% CI 1.54\u20132.51), which is supportive performance evidence when PRS-only AUC/R2 are absent. The main limitation is that no candidate reports PRS-only AUC/R2; covariates are unknown for PGS002738/PGS002739, and the OR is not directly comparable to the \u0394R\u00b2 reported by PGS000201/PGS000202, so the ranking remains somewhat uncertain. For runners-up, PGS000201 and PGS000202 are closely matched siblings (same paper, same phenotype definition, same method PRS-CS, similar variant counts) and provide PRS-specific incremental \u0394R\u00b2; PGS000201 ranks ahead of PGS000202 due to higher \u0394R\u00b2 (0.01192 vs 0.00456) and a larger validation sample (n=7,599 vs n=1,251). PGS002739 is deprioritized as a runner-up because it is evaluated only in African American/Afro-Caribbean participants (AFR 100%) and uses a very small gene-based variant set (858), making it less broadly supported for a generic, ancestry-unspecified target in this context despite being a direct match."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "sample_idx": 2,
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS002738",
+      "top_alternatives": [
+        "PGS000201",
+        "PGS000202"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All four candidates are direct matches to the target concept (alcohol dependence / alcohol use disorder), with strongest endpoint fidelity in models explicitly mapped to EFO \u201calcohol dependence\u201d (PGS002738, PGS002739) and near-direct fidelity in \u201calcohol dependence measurement\u201d models whose phenotyping is still DSM-5 AUD criteria count (PGS000201, PGS000202). PGS002738 is best supported because it is explicitly aligned to alcohol dependence (trait_efo), uses a direct AUD phenotype, and reports a relatively strong discriminative signal via OR (top 10% vs rest) = 1.96 (1.54\u20132.51) in a European evaluation sample (n=7,900), which is more directly interpretable for risk stratification than the small \u0394R\u00b2 values available for PGS000201/PGS000202. However, overall evidence remains limited (no PGS-only AUC/R\u00b2 for any model; covariates are unknown for PGS002738/PGS002739), so the selection is not high-confidence. Runners-up: PGS000201 and PGS000202 are from the same publication with closely matched DSM-5 AUD criteria phenotyping and explicit covariates; among them PGS000201 is better supported than PGS000202 due to higher incremental \u0394R\u00b2 (0.01192 vs 0.00456) and larger validation sample (7,599 vs 1,251). PGS002739 is deprioritized as a runner-up mainly because it is evaluated only in African American/Afro-Caribbean samples (AFR 100%), making it less broadly supported in this context than the EUR-evaluated alternatives, despite being a direct-match AUD model and having OR evidence (1.76 [1.32\u20132.34])."
+    },
+    "error": null
+  }
+]

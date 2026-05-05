@@ -139,7 +139,10 @@ def _pgs_quality_block(cfg, *, stage: str) -> str:
     explicitly states this so the LLM does not treat the skill as a
     deterministic rule set.
     """
-    if not getattr(cfg, "enable_pgs_quality_skill", False):
+    if not (
+        getattr(cfg, "enable_pgs_quality_skill", False)
+        and getattr(cfg, "enable_pgs_quality_prompt_block", False)
+    ):
         return ""
     if stage == "triage":
         stage_guidance = (

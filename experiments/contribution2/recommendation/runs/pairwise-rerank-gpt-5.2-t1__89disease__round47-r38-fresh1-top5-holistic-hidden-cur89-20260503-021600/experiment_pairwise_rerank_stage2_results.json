@@ -1,0 +1,1180 @@
+[
+  {
+    "ontology": "angina pectoris",
+    "ranked_candidate_ids": [
+      "PGS001262",
+      "PGS001261",
+      "PGS001260",
+      "PGS005048",
+      "PGS005052"
+    ],
+    "winner_model_id": "PGS001262",
+    "confidence": "Moderate",
+    "rationale": "All candidates map to angina pectoris, but PGS001262 has the cleanest PRS-comparable evidence: it reports explicit PGS-only AUROC/R2 (0.5868 / 0.0130) with only basic covariates, and its PRS-only R2 is plausible relative to the provided heritability ceiling (h2_obs ~0.009\u20130.014). Versus the strongest runner-up PGS001261 (also snpnet/UKB), PGS001262 has slightly better PRS-only AUROC/R2 and a larger European validation sample (49,472 vs 24,905), while avoiding the time-to-event endpoint framing that can reduce comparability. The MVP PheCode scores (PGS005048/PGS005052) lack PRS-only metrics (only full-model C-index plus OR), making them less directly comparable here despite their genome-wide shrinkage method and multi-ancestry context.",
+    "error": null
+  },
+  {
+    "ontology": "atrial flutter",
+    "ranked_candidate_ids": [
+      "PGS001263",
+      "PGS001339",
+      "PGS002050",
+      "PGS001841"
+    ],
+    "winner_model_id": "PGS001263",
+    "confidence": "Moderate",
+    "rationale": "PGS001263 is the only candidate with a direct atrial flutter endpoint across trait_reported/trait_efo/phenotyping_reported, whereas the others are composite atrial fibrillation+flutter (PGS002050/PGS001841) or a time-to-event composite (PGS001339), which is a weaker endpoint match for the target. It also reports clean PRS-only metrics (PGS-only AUROC=0.617 and R2=0.025) with only basic covariates; the PRS-only R2 is plausible relative to the provided heritability ceiling (h2_obs\u22480.0157) and provides more directly comparable evidence than the partial-correlation-only reporting in PGS002050/PGS001841. Versus the strongest runner-up PGS001339 (same snpnet framework and similar PRS-only AUROC/R2), PGS001263 has better phenotype fidelity (not TTE and not AF+flutter combined) and slightly higher PRS-only AUROC/R2, so it is the best-supported direct match despite all candidates coming from UKB framework-style studies.",
+    "error": null
+  },
+  {
+    "ontology": "chronic obstructive pulmonary disease",
+    "ranked_candidate_ids": [
+      "PGS001783",
+      "PGS001788",
+      "PGS001332",
+      "PGS001333",
+      "PGS001334"
+    ],
+    "winner_model_id": "PGS001783",
+    "confidence": "Moderate",
+    "rationale": "PGS001783 and PGS001788 are near-clone COPD scores from the same Global Biobank PRS-CS-auto study family with the same endpoint (trait_reported/efo/phenotyping all COPD) and EUR-only evaluation, so the clean PRS-comparable metric is the main differentiator. PGS001783 has substantially higher PRS-only (covariates-regressed-out) Nagelkerke R2 (0.0381) than PGS001788 (0.0163) while remaining consistent with the provided COPD heritability ceiling (h2_liability\u22480.0388), making it the best-supported direct-match in this shortlist. The UKB snpnet alternatives (PGS001332/333/334) are pan-trait sparse framework scores with much lower PGS-only R2 (~0.002\u20130.003) and less endpoint fidelity (algorithmic/time-to-event variants), so they are weaker despite reporting PGS-only AUROC.",
+    "error": null
+  },
+  {
+    "ontology": "congenital vitamin k-dependent coagulation factors deficiency",
+    "ranked_candidate_ids": [
+      "PGS002034",
+      "PGS001826"
+    ],
+    "winner_model_id": "PGS002034",
+    "confidence": "Moderate",
+    "rationale": "Both candidates are near-clones on endpoint fidelity (same trait_reported/trait_efo/phenotyping_reported), publication/study archetype (same UKB portability paper), training cohort/size, covariates, ancestry distribution, and validation sample size. With no PRS-only AUC/R2 for either, the only meaningful differentiators are structural: PGS002034 uses a genome-wide shrinkage approach (LDpred2) with far broader variant coverage (32,552 vs 45) and has a marginally higher partial correlation (0.0563 vs 0.0562) with essentially identical CIs. Given the otherwise indistinguishable evidence, the higher-coverage LDpred2 score is the better-supported pick over the very sparse penalized-regression sibling.",
+    "error": null
+  },
+  {
+    "ontology": "bipolar disorder",
+    "ranked_candidate_ids": [
+      "PGS002786",
+      "PGS002787",
+      "PGS002788"
+    ],
+    "winner_model_id": "PGS002786",
+    "confidence": "Low",
+    "rationale": "PGS002786 is the only candidate whose trait_reported/trait_efo directly matches the target trait (bipolar disorder), whereas PGS002787 and PGS002788 are subtype scores (bipolar I and bipolar II) with phenotyping_reported fields that are not direct bipolar diagnosis endpoints. All three are otherwise near-clones (same publication, SDPR method, PGC training cohort, EUR-only GWAS/EVAL, similar variant counts, and only small full-model partial R\u00b2 values that are not PRS-only metrics), so endpoint/label alignment is the main differentiator; the slightly higher partial R\u00b2 for PGS002788 is not enough to outweigh the broader direct-match framing of PGS002786.",
+    "error": null
+  },
+  {
+    "ontology": "corneal dystrophy",
+    "ranked_candidate_ids": [
+      "PGS002042",
+      "PGS001835"
+    ],
+    "winner_model_id": "PGS002042",
+    "confidence": "Moderate",
+    "rationale": "Both candidates are near-clones from the same UKB portability paper with identical trait/phenotyping (corneal dystrophy), covariates (age/sex/PCs etc.), training cohort/size, and the same evaluation setting/ancestry mix, so the decision hinges on within-family performance and structural properties. PGS002042 shows higher PRS signal in the selected European validation record (partial-r 0.0471 vs 0.0384 for PGS001835) and uses a genome-wide shrinkage approach with far more variants (59,944 vs 38), which is a positive structural signal when endpoints and covariates are otherwise identical. Neither reports PRS-only AUC/R2, so partial-r plus the much richer variant coverage makes PGS002042 the better-supported pick.",
+    "error": null
+  },
+  {
+    "ontology": "blood coagulation disease",
+    "ranked_candidate_ids": [
+      "PGS001033",
+      "PGS002034",
+      "PGS001826"
+    ],
+    "winner_model_id": "PGS001033",
+    "confidence": "Moderate",
+    "rationale": "PGS001033 is the only candidate that directly maps to the target EFO concept (trait_efo = \"blood coagulation disease\") and it provides clean PRS-comparable performance (PGS-only AUROC=0.634 and PGS-only R2=0.0578) with only basic covariates, plus broader multi-ancestry evaluation. The main runner-up (PGS002034) targets a narrower congenital clotting-factor deficiency EFO (not the generic blood coagulation disease umbrella) and reports only partial correlation (no PRS-only AUROC/R2), making its evidence less directly comparable; PGS001826 is essentially the same as PGS002034 with slightly weaker partial-r and far fewer variants, so it is not preferred.",
+    "error": null
+  },
+  {
+    "ontology": "autism spectrum disorder",
+    "ranked_candidate_ids": [
+      "PGS000327",
+      "PGS002790"
+    ],
+    "winner_model_id": "PGS000327",
+    "confidence": "High",
+    "rationale": "PGS000327 is the clearer direct-match ASD PRS: trait_reported/trait_efo/phenotyping_reported all align to \u201cAutism spectrum disorder,\u201d and it comes from a disease-focused ASD GWAS meta-analysis context with multi-cohort development and basic covariates (PCs, genotyping wave). It also provides supportive PRS signal via OR=1.33 per SD and a higher reported R\u00b2 (0.0245) than the alternative. In contrast, PGS002790 has an explicit endpoint mismatch in phenotyping_reported (\u201cPsychiatric behavior (withdrawn)\u201d), weaker reported partial R\u00b2 (~0.0055), smaller validation N, and lacks effect-size support\u2014so despite a more advanced method/greater variant count, its phenotype fidelity and performance evidence are clearly inferior here.",
+    "error": null
+  },
+  {
+    "ontology": "arthritis",
+    "ranked_candidate_ids": [
+      "PGS001135",
+      "PGS004547",
+      "PGS004477",
+      "PGS001290",
+      "PGS001882"
+    ],
+    "winner_model_id": "PGS001135",
+    "confidence": "Moderate",
+    "rationale": "PGS001135 is the only candidate that is a direct match to the target trait at the EFO level (trait_efo=arthritis) and also provides clean PRS-only performance metrics (PGS-only AUROC=0.539 and PGS-only R2=0.00291) with basic covariates, allowing a comparable PRS signal assessment and a heritability-ceiling sanity check. The strongest runner-up is PGS004547 (also trait_efo=arthritis, M13 other arthritis) which is more specific diagnostically but reports no PRS-comparable AUC/R2 and appears to be part of a risk-factor integration study with unknown covariates, making its standalone PRS strength less supported; its OR=1.26 per SD suggests only modest discrimination and does not clearly outweigh PGS001135\u2019s explicit PRS-only metrics. The osteoarthritis candidates (PGS001290, PGS001882) are endpoint-mismatched to the broader arthritis target.",
+    "error": null
+  },
+  {
+    "ontology": "atopic eczema",
+    "ranked_candidate_ids": [
+      "PGS002755",
+      "PGS004587",
+      "PGS001773",
+      "PGS003486",
+      "PGS003459"
+    ],
+    "winner_model_id": "PGS002755",
+    "confidence": "Moderate",
+    "rationale": "PGS002755 is the strongest direct-match for atopic eczema/atopic dermatitis with the best structural properties among the endpoint-faithful candidates: it uses a genome-wide shrinkage method (PRS-CS) with ~1.09M variants and is evaluated on a large EUR cohort (n=337,910) for incident atopic dermatitis. The closest runner-up is PGS004587, which matches the same incident endpoint and evaluation setting but is a sparse 23-SNP genome-wide-significant score with a weaker reported HR (1.153 vs 1.249 high-vs-low PRS), making it less likely to rank highest in external benchmarks for a polygenic trait. The other candidates are either endpoint-mismatched (paradoxical eczema in biologic-treated psoriasis: PGS003486/PGS003459) or target a narrower severity subtype with small validation and likely covariate-inflated full-model metrics (PGS001773).",
+    "error": null
+  },
+  {
+    "ontology": "alcohol dependence",
+    "ranked_candidate_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "winner_model_id": "PGS002738",
+    "confidence": "Moderate",
+    "rationale": "PGS002738 is the best direct match to the target trait (trait_efo=alcohol dependence; phenotyping_reported=Alcohol use disorder) and shows the strongest available discriminative evidence among the alcohol-dependence-aligned candidates via OR(top 10% vs rest)=1.96 (vs 1.76 for PGS002739). It is also evaluated in EUR (100%), aligning with the provided EUR heritability context, and uses a genome-wide shrinkage method (PRS-CS) with substantial variant coverage (326k). The main runner-up is PGS002739, which is also alcohol dependence-aligned but is evaluated only in African American samples and uses a much smaller gene-based score (858 variants) with a weaker OR; the other two candidates (PGS000201/PGS000202) are for \u2018problematic alcohol use\u2019/measurement rather than alcohol dependence and thus have lower endpoint fidelity despite reporting \u0394R\u00b2.",
+    "error": null
+  },
+  {
+    "ontology": "cirrhosis of liver",
+    "ranked_candidate_ids": [
+      "PGS004621",
+      "PGS000726",
+      "PGS000704",
+      "PGS000776",
+      "PGS001777"
+    ],
+    "winner_model_id": "PGS004621",
+    "confidence": "Moderate",
+    "rationale": "PGS004621 is the strongest direct match to the target (trait_efo=cirrhosis of liver; phenotyping_reported=Cirrhosis) and has the most robust structural/study support: a genome-wide PRS-CS score (~1.09M variants) developed across multiple major biobanks and evaluated in a very large European validation (n=1,153,995) with only basic covariates (age, sex, PCs), reducing leakage concerns. The main runner-up is PGS000726, which is also endpoint-aligned but is a sparse 12-variant GWS score with weaker structural polygenic capture and no comparable PRS-only metrics; its reported top-vs-bottom OR is supportive but does not outweigh PGS004621\u2019s genome-wide method and broader multi-cohort development/validation context. Other candidates are subtype/endpoint mismatches (alcoholic cirrhosis or NAFLD-at-risk incident time-to-event) and/or much smaller validation, making them less faithful to generic cirrhosis of liver.",
+    "error": null
+  },
+  {
+    "ontology": "bilirubin metabolism disease",
+    "ranked_candidate_ids": [
+      "PGS001824",
+      "PGS002032",
+      "PGS000924"
+    ],
+    "winner_model_id": "PGS002032",
+    "confidence": "Moderate",
+    "rationale": "PGS002032 and PGS001824 are near-clone direct matches: same trait_reported/trait_efo/phenotyping_reported (\"Disorders of bilirubin excretion\"), same UKB portability study family, same training size (n=391,124), same covariates, same multi-ancestry evaluation mix, and essentially identical reported partial-r (~0.0716) in the selected European validation record. In this near-tie, PGS002032 has a clear structural advantage (LDpred2 genome-wide shrinkage with 19,768 variants vs 22-variant penalized regression), which is the most defensible tie-break given indistinguishable endpoint and performance evidence. PGS000924 is less endpoint-faithful (time-to-event composite including porphyrin metabolism) and comes from a pan-trait sparse UKB framework; its very high reported PGS-only R2/AUROC is also inconsistent with the provided heritability ceiling (h2_obs~0.089), making it less reliable despite cleaner metric fields.",
+    "error": null
+  },
+  {
+    "ontology": "ankylosing spondylitis",
+    "ranked_candidate_ids": [
+      "PGS002089",
+      "PGS001267",
+      "PGS001268",
+      "PGS001876",
+      "PGS003420"
+    ],
+    "winner_model_id": "PGS001267",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches on trait_efo/phenotyping except PGS001268 which is explicitly time-to-event (a mild endpoint mismatch for a generic disease target). Among the remaining direct case/control-style scores, PGS001267 is the only one reporting clean PRS-only discrimination metrics (PGS-only AUROC=0.7265; PGS-only R2=0.0988) with basic covariates, and these are plausibly below the provided heritability ceiling (h2_liability~0.40). The strongest runner-up is PGS002089 (same endpoint, stronger genome-wide shrinkage method and many more variants, plus multi-ancestry eval), but it lacks PRS-comparable AUC/R2 and only reports partial-r=0.0919, making its performance evidence less directly benchmark-comparable than PGS001267. PGS001876 is similar to PGS002089 but has weaker partial-r (0.0797), and PGS003420 reports only a full-model AUROC in a small EAS-only sample with unknown covariates, so it is less reliable for general benchmarking.",
+    "error": null
+  },
+  {
+    "ontology": "celiac disease",
+    "ranked_candidate_ids": [
+      "PGS000316",
+      "PGS001301",
+      "PGS000040",
+      "PGS000042",
+      "PGS000041"
+    ],
+    "winner_model_id": "PGS000316",
+    "confidence": "Moderate",
+    "rationale": "PGS000316 is the best direct-match, disease-focused coeliac disease score in the shortlist, with phenotype fields aligned to the target (trait_reported/trait_efo/phenotyping_reported all coeliac disease) and development across named non-UKB cohorts (B58C, UKBS), which is more indicative of external transportability than the UKB-only pan-trait framework score. The strongest runner-up is PGS001301 because it reports clean PRS-only AUROC/R2 (PGS-only AUROC 0.8287; PGS-only R2 0.1422), but it is explicitly from the '813 traits in UK Biobank' sparse framework (UKB-only development) and uses a broader/administrative endpoint label ('Malabsorption/coeliac disease'), which domain guidance flags as typically underperforming disease-focused scores in external benchmarks unless it has a clear multi-field advantage. The remaining candidates (PGS000040/41/42) either lack PRS-only metrics and have much smaller validation, or are restricted to HLA-DQ2.5 carriers (endpoint mismatch for generic celiac disease), making them weaker direct-match choices.",
+    "error": null
+  },
+  {
+    "ontology": "depressive disorder",
+    "ranked_candidate_ids": [
+      "PGS002759",
+      "PGS003333",
+      "PGS003580",
+      "PGS003578",
+      "PGS003576"
+    ],
+    "winner_model_id": "PGS003578",
+    "confidence": "Moderate",
+    "rationale": "All candidates are endpoint-aligned to major depressive disorder, but PGS003578 is part of the coherent MDD (lifetime) score family with multi-ancestry evaluation (AFR/AMR/ASN/EAS/EUR) and reports the strongest available comparable performance signal among its near-clone siblings (full-model R\u00b2 0.0257 vs 0.0254 for PGS003580 and 0.0241 for PGS003576) with the same PRSice-2 approach and covariates (PCs 1\u201310). Compared with the top-ranked PGS002759, which has only EUR evaluation and no AUC/R\u00b2 (just OR=1.26), PGS003578 provides a more directly benchmarkable quantitative performance metric while maintaining close phenotype fidelity, making it the best-supported direct-match in this shortlist.",
+    "error": null
+  },
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "ranked_candidate_ids": [
+      "PGS000753",
+      "PGS003973",
+      "PGS003972",
+      "PGS002054",
+      "PGS001784"
+    ],
+    "winner_model_id": "PGS000753",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct AAA matches, but PGS000753 is the only disease-focused AAA score in the shortlist that reports a PRS-informative effect size (OR per SD = 1.37, moderate signal) with basic covariates (age/sex/PCs) and a reasonably sized evaluation (n=46,564) including some non-EUR, suggesting more standalone PRS evidence than the others. The strongest runner-up is PGS003973 (same endpoint, genome-wide PRS-CS, multi-cohort GWAS meta-analysis), but it reports only a full-model C-index (0.882) with age/age^2/sex and no PRS-only metric or effect size, making its apparent performance largely non-comparable for PRS ranking. The remaining options are framework/portability-style (PGS002054, PGS001784) or have weaker/less clear metric context (PGS003972), so they are less likely to outperform a dedicated AAA PRS in an external benchmark despite larger variant counts or validation N.",
+    "error": null
+  },
+  {
+    "ontology": "aortic stenosis",
+    "ranked_candidate_ids": [
+      "PGS005252",
+      "PGS005254",
+      "PGS005255",
+      "PGS005256",
+      "PGS004911"
+    ],
+    "winner_model_id": "PGS005252",
+    "confidence": "Moderate",
+    "rationale": "All top candidates except PGS004911 are aligned to aortic stenosis, but PGS005252 has the strongest endpoint fidelity (trait_reported/trait_efo both aortic stenosis; phenotyping_reported incident aortic stenosis cases) and the strongest available effect-size signal (HR=1.92 vs 1.64 for PGS005254 and 1.53 for PGS005255/PGS005256) in the same EUR-only evaluation context. Although PGS005252 reports only a full-model C-index/AUC=0.87 (not PRS-only) and uses heavier clinical covariates (comorbidities, BMI, smoking, renal failure) than PGS005254\u2019s basic age/sex/PC adjustment, none of the candidates provide PRS-only AUC/R2, so the most comparable discriminative evidence is the per-SD HR; on that basis PGS005252 is best-supported. PGS005254 is the strongest runner-up due to cleaner covariates and larger training n, but its weaker HR and lack of any PRS-only metric do not clearly beat PGS005252\u2019s stronger genetic effect signal.",
+    "error": null
+  },
+  {
+    "ontology": "dilated cardiomyopathy",
+    "ranked_candidate_ids": [
+      "PGS004862",
+      "PGS004861",
+      "PGS004951",
+      "PGS004949",
+      "PGS004947"
+    ],
+    "winner_model_id": "PGS004951",
+    "confidence": "Moderate",
+    "rationale": "PGS004951 is the only candidate in the shortlist with an explicit PRS-only discrimination metric (Univariate PRS-only AUC=0.67, with CI) plus a strong per-SD effect size (OR=1.93), while maintaining a direct clinical endpoint (\u201cClinical dilated cardiomyopathy\u201d). This makes its performance evidence more PRS-comparable than the top-ranked PGS004862, which reports only full-model AUROC/R\u00b2 (0.71/0.05) that cannot be treated as PRS-only. Compared with the other MTAG siblings (PGS004949/PGS004947), PGS004951 has similarly strong OR but is evaluated in EUR (matching the heritability reference population) and provides cleaner PRS-only AUC evidence; the others are MAE-evaluated and have subtype wording (\u201cNon-ischemic\u201d) that is slightly narrower than the generic target.",
+    "error": null
+  },
+  {
+    "ontology": "breast carcinoma",
+    "ranked_candidate_ids": [
+      "PGS004153",
+      "PGS004040",
+      "PGS004025",
+      "PGS004083",
+      "PGS004069"
+    ],
+    "winner_model_id": "PGS004153",
+    "confidence": "Moderate",
+    "rationale": "All candidates are near-clones for endpoint fidelity (trait_reported/trait_efo/phenotyping_reported all breast cancer/breast carcinoma), come from the same publication, have the same training cohort (UKB), same training N (12,483), same evaluation ancestry mix (EUR/SAS), same validation N (48,968), and all lack PRS-only AUC/R\u00b2 (only full-model metrics and per-SD effect sizes are shown). In this tie-like setting, PGS004153 has the clearest multi-field edge: it is the only ensemble/multi-score model (UKBB-EUR.MultiPRS.CV), which is a positive structural signal versus single-method scores, and it also has the strongest reported performance within this family (highest full-model AUROC 0.6625 and R\u00b2 0.0764, and highest OR per SD 1.826). The strongest runner-up is PGS004040 (LDpred2.CV), which is very close but is a single-score method and has slightly weaker AUROC/R\u00b2/OR in the same validation context.",
+    "error": null
+  },
+  {
+    "ontology": "atrial fibrillation",
+    "ranked_candidate_ids": [
+      "PGS005168",
+      "PGS002814",
+      "PGS005313",
+      "PGS000016",
+      "PGS000331"
+    ],
+    "winner_model_id": "PGS005313",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches for atrial fibrillation, but PGS005313 has the strongest PRS-quality signal among the top-ranked options without obvious risk-wrapper leakage: it uses a cross-ancestry shrinkage method (PRS-CSx) with very large genome-wide coverage (1,271,239 variants) and reports a strong per-SD effect size (OR=1.82, 95% CI 1.79\u20131.85), which is a key predictor of real-world PRS discrimination when PRS-only AUC/R2 are absent. The main runner-up, PGS005168, is also from a large disease-focused meta-analysis and uses PRS-CS with strong HR (1.67), but its reported performance is a high full-model C-index (0.8718) paired with explicit CHARGE-AF covariate packaging, which domain guidance flags as a strong negative for standalone PRS comparability; it also lacks PRS-only metrics. Older PGS000016 has a clean PRS-only R2 (0.029) but comes from a single-biobank framework-style study and shows weaker variance explained relative to newer multi-cohort AF efforts, making it less likely to top an external benchmark than the stronger-effect, modern multi-cohort PRS005313.",
+    "error": null
+  },
+  {
+    "ontology": "asthma",
+    "ranked_candidate_ids": [
+      "PGS002727",
+      "PGS001782",
+      "PGS001787",
+      "PGS001344",
+      "PGS001341"
+    ],
+    "winner_model_id": "PGS002727",
+    "confidence": "Moderate",
+    "rationale": "PGS002727 is the only clearly disease-focused score in the shortlist (\"Multiancestral polygenic risk score for pediatric asthma\"), with endpoint fidelity anchored by an explicit asthma diagnosis phenotype (pediatric asthma) and strong PRS signal via OR=1.57 per SD. It also shows broad multi-ancestry evaluation (AFR/AMR/EAS/EUR/SAS) and very large evaluation N (391,820), supporting transportability/robustness. The main runner-up is PGS001782 (Cell Genom global biobank framework), which has a clean PRS-comparable Nagelkerke R2=0.0488 but is a portability/framework archetype and is evaluated only in EUR with much smaller validation N (7,128). Given domain guidance that disease-focused models typically outperform framework scores unless the framework has clearly superior endpoint+metric evidence, PGS002727\u2019s disease-specific design plus strong effect size and broader evaluation outweigh the framework R2 advantage, though confidence is tempered because PGS002727 reports only full-model AUROC/R2 (no explicit PGS-only AUC/R2).",
+    "error": null
+  },
+  {
+    "ontology": "dementia",
+    "ranked_candidate_ids": [
+      "PGS005170",
+      "PGS000823",
+      "PGS004281",
+      "PGS004284",
+      "PGS004318"
+    ],
+    "winner_model_id": "PGS005170",
+    "confidence": "Moderate",
+    "rationale": "PGS005170 is the strongest direct match for the target trait (dementia) with coherent endpoint fidelity (incident all-cause dementia; trait_efo=dementia) and the most robust, disease-focused construction: an explicit integrative/ensemble PRS combining 24 component PRSs (genome-wide scale: 1,320,229 variants) with multi-ancestry evaluation (AFR/AMR/EAS/EUR), which is supportive for transportability. Its covariates are mostly basic plus APOE \u03b52/\u03b54 dosage (not a broad clinical risk-package), and it reports an HR per SD of 1.25. The strongest runner-up is the UKB-only GenoBoost family (PGS004281/PGS004284), which matches the phenotype but provides only full-model AUROC/pseudo-R2 (no PRS-only metrics) in a single-biobank EUR setting; their very high AUROC is likely largely covariate-driven and is not directly comparable as PRS performance. PGS000823 is Alzheimer\u2019s-specific (not all-cause dementia) and sparse (23 variants), and PGS004318 is embedded in an exposure-focused study with heavy clinical covariate adjustment, making its HR less comparable to standalone PRS performance.",
+    "error": null
+  },
+  {
+    "ontology": "cervical carcinoma",
+    "ranked_candidate_ids": [
+      "PGS003428",
+      "PGS000073",
+      "PGS000784",
+      "PGS005165",
+      "PGS003389"
+    ],
+    "winner_model_id": "PGS003428",
+    "confidence": "Moderate",
+    "rationale": "PGS003428 is the strongest direct-match because it comes from a cervical-phenotypes GWAS meta-analysis explicitly aimed at cervical cancer risk stratification, uses a genome-wide shrinkage method (LDpred) with very large variant coverage (~2.9M), and reports a moderate PRS effect size (HR=1.33 per SD) with only light covariate adjustment (age, smoking). The main runner-up is PGS000073/PGS000784, which show higher full-model AUROC (~0.745) but are sparse 10-variant portability-style scores evaluated in cross-/pan-cancer risk-factor integration settings with heavier covariate bundles; since no candidate provides clean PRS-only AUC/R2, those full-model AUROCs are not reliable evidence that the PRS itself is better than the disease-focused genome-wide score. PGS003389 has clearly weaker discrimination (AUROC 0.563; R\u00b2 0.00158), and PGS005165 is EAS-only with lower C-index (0.566), making them less likely to top an external benchmark for the generic cervical carcinoma target.",
+    "error": null
+  },
+  {
+    "ontology": "cholelithiasis",
+    "ranked_candidate_ids": [
+      "PGS002072",
+      "PGS001861",
+      "PGS004546",
+      "PGS004476",
+      "PGS001174"
+    ],
+    "winner_model_id": "PGS002072",
+    "confidence": "Moderate",
+    "rationale": "PGS002072 is the best-supported direct match given the shortlist because it combines a closely aligned endpoint (cholelithiasis explicitly included; phenotyping is a direct diagnosis label rather than a time-to-event framing) with a methodologically strong genome-wide shrinkage approach (LDpred2 with 428,587 variants) and broad multi-ancestry evaluation (including EUR plus AFR/EAS/SAS/GME), which is supportive for portability. The strongest runner-up is PGS001174, which has clean PRS-only AUROC/R2 reported, but it comes from a pan-trait sparse-score framework (snpnet, 970 variants) and uses a time-to-event phenotype; despite acceptable PRS-only R2 (0.028) relative to the local h2_obs ceiling (~0.021) and AUROC 0.623, the framework+sparsity+TTE packaging makes it less likely to transfer as well as a genome-wide LDpred2 score in external benchmarks. PGS001861 is similar to PGS002072 in endpoint and study family but is much sparser (2,059 variants) and has slightly weaker partial-r (0.0948 vs 0.098), so it does not beat PGS002072. The 2024 K80-only scores (PGS004546/PGS004476) match the target ICD10 label but provide only modest OR-per-SD evidence (1.30/1.22) with unknown covariates and no PRS-comparable metrics, so they are less supported than the portability LDpred2 candidate.",
+    "error": null
+  },
+  {
+    "ontology": "basal cell carcinoma",
+    "ranked_candidate_ids": [
+      "PGS000452",
+      "PGS000454",
+      "PGS000456",
+      "PGS000458",
+      "PGS000730"
+    ],
+    "winner_model_id": "PGS000452",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct phenotype matches for basal cell carcinoma and none reports PRS-only AUC/R2, so full-model AUROC differences are not a reliable cross-model discriminator. Within the coherent Cancer PRSweb sibling cluster (PGS000452/454/456/458) with identical endpoint, ancestry (EUR), covariates (age/sex/batch/PCs), training cohort (MGI) and validation size (n=11,322), PGS000452 is the upstream top-ranked and has essentially tied full-model AUROC (0.632) with the best sibling plus strong per-SD effect size (OR 1.663). The main runner-up is PGS000454, which is near-identical and only marginally differs (Nagelkerke R\u00b2 0.0489 vs 0.0487; OR per SD 1.661 vs 1.663), not a clear multi-field advantage. PGS000730 has much larger validation (n=88,924) but weaker reported AUROC (0.624), lower per-SD OR (1.57), unknown covariates, and lacks training sample details, so it does not clearly beat the well-specified PRSweb cluster.",
+    "error": null
+  },
+  {
+    "ontology": "chronic kidney disease",
+    "ranked_candidate_ids": [
+      "PGS002237",
+      "PGS005090",
+      "PGS005113",
+      "PGS004889",
+      "PGS002757"
+    ],
+    "winner_model_id": "PGS002237",
+    "confidence": "Moderate",
+    "rationale": "PGS002237 is the most disease-focused, endpoint-faithful CKD score in the shortlist: it targets CKD stage \u22653 with a clear clinical definition (eGFR <45) and is explicitly designed to predict CKD across ancestries, with multi-ancestry evaluation reported (AFR/AMR/ASN/EUR/MAE). Its per-SD effect size is also the strongest among the candidates shown (OR 1.47), supporting meaningful PRS signal. The main runner-up is PGS005090, which has a very high reported AUROC (0.90) but this is a full-model metric (not PRS-only) and is evaluated only in African-ancestry contexts, making it less likely to be the best general direct-match CKD PRS for an unspecified benchmark population; its OR (1.41) is also slightly weaker. Other candidates are either more packaged/endpoint-restricted (PGS004889 incident CKD without diabetes with a clinical risk-score covariate bundle) or appear more auxiliary/framework-like with weaker effect sizes (PGS002757 OR 1.15) or comorbidity/proteomics framing (PGS005113).",
+    "error": null
+  },
+  {
+    "ontology": "alcoholic liver cirrhosis",
+    "ranked_candidate_ids": [
+      "PGS004913",
+      "PGS001777",
+      "PGS000704"
+    ],
+    "winner_model_id": "PGS004913",
+    "confidence": "Moderate",
+    "rationale": "PGS004913 is the most direct, disease-focused match to the target: both trait_reported and phenotyping_reported are explicitly alcohol-associated liver cirrhosis, with basic covariates (age/sex/PCs) and a dedicated study in heavy drinkers. It also provides PRS-relevant effect evidence (OR top vs bottom deciles 4.4) and an R\u00b2=0.029 that is plausibly within the trait\u2019s heritability ceiling context. The strongest runner-up is PGS000704, which has a much larger UKB-based development/evaluation and a higher full-model C-index (0.711), but it comes from a broad biomarker genetics framework paper and reports only full-model time-to-event discrimination (no PRS-only AUC/R\u00b2), making its apparent performance less directly attributable to the PRS. PGS001777 is similarly endpoint-aligned but is an extremely sparse 3-variant score with unknown covariates and only full-model AUROC, making it less robust than PGS004913.",
+    "error": null
+  },
+  {
+    "ontology": "crohn's disease",
+    "ranked_candidate_ids": [
+      "PGS004254",
+      "PGS001331",
+      "PGS001330"
+    ],
+    "winner_model_id": "PGS004254",
+    "confidence": "Moderate",
+    "rationale": "PGS004254 is the strongest direct-match Crohn\u2019s disease PRS in this shortlist because it is a disease-focused, genome-wide shrinkage score (LDpred2-auto; 744,682 variants) with basic covariates (age/sex/PCs) and a strong reported effect size (OR=2.18), which is more indicative of meaningful PRS discrimination than the modest PRS-only AUROCs (~0.576\u20130.579) and very low PRS-only R\u00b2 (~0.006\u20130.007) reported by the snpnet sparse UKB framework scores. The main runner-up is PGS001331 (slightly higher PRS-only AUROC/R\u00b2 than PGS001330 and non\u2013time-to-event endpoint), but both PGS001331/PGS001330 come from the \u2018813 traits\u2019 pan-trait sparse-model archetype that domain guidance flags as less reliable for external performance; their PRS-only R\u00b2 values are also far below the Crohn\u2019s heritability ceiling (h2_obs\u22480.0122), suggesting weak signal. PGS004254 lacks explicit PRS-only AUC/R\u00b2 (only full-model AUROC=0.72), which lowers confidence, but its endpoint fidelity and much stronger PRS effect-size evidence plus method/variant coverage provide a clearer multi-field advantage over the framework alternatives.",
+    "error": null
+  },
+  {
+    "ontology": "iron metabolism disease",
+    "ranked_candidate_ids": [
+      "PGS002031",
+      "PGS001823"
+    ],
+    "winner_model_id": "PGS002031",
+    "confidence": "Moderate",
+    "rationale": "Both candidates are near-clones from the same UKB portability paper with identical trait_reported/trait_efo/phenotyping_reported, covariates, training cohort (UKB), training N, and the same multi-ancestry evaluation setup; neither reports PRS-only AUC/R2, only partial correlation. In this like-for-like context, PGS002031 has a small but consistent edge in the selected European validation partial-r (0.1355 vs 0.1307) and uses a genome-wide shrinkage approach (LDpred2) with substantially more variants (6713 vs 654), which is a favorable structural signal when endpoints and covariates are otherwise identical.",
+    "error": null
+  },
+  {
+    "ontology": "coronary artery disease",
+    "ranked_candidate_ids": [
+      "PGS003725",
+      "PGS003726",
+      "PGS003727",
+      "PGS002244",
+      "PGS000018"
+    ],
+    "winner_model_id": "PGS003725",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct CAD matches and none reports clean PRS-only AUC/R2, so the decision rests on endpoint fidelity plus effect-size strength and study/transport context. PGS003725/3726/3727 are near-clones from the same Nat Med multi-ancestry CAD PRS study with similarly clean covariates (age/sex/10 PCs) and identical validation size (n=308,264). Within this sibling set, PGS003725 shows the strongest reported discriminative effect sizes (HR per SD 1.75 and OR 2.14) versus PGS003726 (HR 1.73 only) and PGS003727 (HR 1.67), making it the best-supported of the cluster. Compared with the strongest non-sibling runner-up PGS002244 (Cell Genom framework-style \u2018common diseases across ancestries\u2019 score; OR 1.64), PGS003725 has materially stronger effect-size evidence while maintaining equally direct CAD phenotyping and basic covariates, so it is more likely to transfer well in external benchmarking.",
+    "error": null
+  },
+  {
+    "ontology": "glaucoma",
+    "ranked_candidate_ids": [
+      "PGS004944",
+      "PGS001792",
+      "PGS001797",
+      "PGS002761",
+      "PGS000137"
+    ],
+    "winner_model_id": "PGS001792",
+    "confidence": "Moderate",
+    "rationale": "PGS001792 is the strongest direct-match for the target glaucoma shortlist because it combines high endpoint fidelity (Primary open-angle glaucoma) with the cleanest PRS-comparable performance evidence: a covariates-regressed-out/PGS-only Nagelkerke R2=0.03209 (below the glaucoma h2_liability ceiling ~0.0556, so plausible) in a very large European validation (n=347,396). The main runner-up is PGS004944, which has a large multi-ancestry evaluation and reports a strong OR (1.74), but its only discrimination metric is a full-model AUROC=0.748 (not PRS-only) and the phenotype is self-reported POAG, making its apparent performance less directly comparable. Between the two near-clone Global Biobank scores, PGS001792 also edges PGS001797 by slightly higher PRS-only R2 and far larger validation size.",
+    "error": null
+  },
+  {
+    "ontology": "juvenile idiopathic arthritis",
+    "ranked_candidate_ids": [
+      "PGS000114",
+      "PGS000325",
+      "PGS000326",
+      "PGS000324"
+    ],
+    "winner_model_id": "PGS000114",
+    "confidence": "Moderate",
+    "rationale": "PGS000114 is the only candidate whose trait_reported/trait_efo/phenotyping_reported all align to the broad target endpoint \u201cjuvenile idiopathic arthritis,\u201d whereas PGS000325/PGS000326/PGS000324 are JIA subtype-specific (oligoarticular, RF-negative polyarticular, enthesitis-related) and thus are less direct matches for a generic JIA target. All four are from the same disease-focused publication, same method (SparSNP), same basic covariates (sex, PCs 1\u201310), and EUR-only development/evaluation, and none reports PRS-only AUC/R2\u2014so the very high full-model AUROC for PGS000324 (0.93) is not sufficient to outweigh the endpoint mismatch. Against the strongest runner-up (PGS000324), PGS000114 wins on endpoint fidelity, with otherwise comparable study archetype and covariate cleanliness.",
+    "error": null
+  },
+  {
+    "ontology": "gout",
+    "ranked_candidate_ids": [
+      "PGS004160",
+      "PGS004047",
+      "PGS004018",
+      "PGS004076",
+      "PGS004032"
+    ],
+    "winner_model_id": "PGS004160",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches for gout with identical phenotype fields, training cohort (UKB), training N (6,704), evaluation ancestry mix, and no covariates reported, and none provides PRS-only AUC/R2\u2014so selection falls to within-family performance/effect-size differences. PGS004160 (UKBB-EUR.MultiPRS.CV) has the strongest reported validation metrics among the near-clone set (highest full-model AUROC 0.694 and R\u00b2 0.089) and the largest effect size (OR per SD 2.05 vs 2.00 for the closest runner-up PGS004047), consistent with the domain guidance that multi-score aggregation is a positive structural signal when endpoints/covariates are otherwise identical. Compared to PGS004047 (LDpred2.CV), PGS004160 has a clear, albeit modest, advantage across AUROC, R\u00b2, and OR in the same validation context.",
+    "error": null
+  },
+  {
+    "ontology": "diverticular disease",
+    "ranked_candidate_ids": [
+      "PGS004614",
+      "PGS004544",
+      "PGS004474",
+      "PGS000997",
+      "PGS000996"
+    ],
+    "winner_model_id": "PGS004614",
+    "confidence": "Moderate",
+    "rationale": "PGS004614 is the strongest direct-match, disease-focused candidate: it targets diverticular disease with coherent phenotype fields and uses a genome-wide shrinkage approach (SBayesR) with very large variant coverage (~1.08M), and it is evaluated across multiple ancestries (AFR/EUR/SAS), supporting transportability. The main runner-up is PGS004544/PGS004474 (same Commun Biol study, same ICD10 K57 endpoint, similar variant counts), but those provide only modest per-SD ORs (~1.31\u20131.32) with unknown covariates and no PRS-comparable AUC/R2, offering weaker performance evidence than PGS004614\u2019s reported AUROC (though it appears full-model and includes family history, so it is discounted). The older UKB framework snpnet scores (PGS000997/PGS000996) do report PRS-only AUC/R2, but they come from a pan-trait sparse framework and show only modest PRS-only performance (AUC ~0.59 / R2 ~0.018 at best), making them less likely to outperform a newer disease-specific genome-wide score in external benchmarks.",
+    "error": null
+  },
+  {
+    "ontology": "dupuytren contracture",
+    "ranked_candidate_ids": [
+      "PGS002092",
+      "PGS001880",
+      "PGS001254"
+    ],
+    "winner_model_id": "PGS002092",
+    "confidence": "Moderate",
+    "rationale": "All three candidates are direct phenotype matches (Dupuytren contracture / palmar fascia contracture; same EFO). The strongest head-to-head comparison is between the two near-clones from the same portability paper (PGS002092 vs PGS001880): they share identical training cohort (UKB), training N, covariates, and multi-ancestry evaluation context, so the small but consistent edge in the selected PRS-comparable metric favors PGS002092 (partial-r 0.0797 vs 0.0783) and it also uses a genome-wide shrinkage approach with far more variants (484,484 vs 2,443), a structural advantage likely to transfer better. PGS001254 reports clean PGS-only AUROC/R2, but it comes from the pan-trait sparse UKB framework (813 traits) with an extremely sparse 11-variant model, which is a known weaker archetype for external generalization versus the genome-wide portability scores here; its reported AUROC is also only modest. Therefore PGS002092 is the best-supported choice over the strongest runner-up PGS001880.",
+    "error": null
+  },
+  {
+    "ontology": "hip osteoarthritis",
+    "ranked_candidate_ids": [
+      "PGS002763",
+      "PGS002728",
+      "PGS004478",
+      "PGS004548",
+      "PGS004882"
+    ],
+    "winner_model_id": "PGS002763",
+    "confidence": "Moderate",
+    "rationale": "PGS002763 is the strongest direct match on endpoint fidelity and PRS construction: both trait_reported and phenotyping_reported are explicitly \u201cHip osteoarthritis\u201d (not a proxy like total hip replacement), and it uses a genome-wide shrinkage method (PRS-CS) with ~1.05M variants, which is structurally better supported for a polygenic disease than the 44-variant GWAS-hits score (PGS002728). While none of the candidates report clean PRS-only AUC/R2, PGS002763 provides a reasonably strong per-SD effect size (OR=1.38, 95% CI 1.31\u20131.46) with only basic covariates (age, sex, PCs, technical), whereas the closest runner-up PGS002728 has a less faithful endpoint (total hip replacement) and only a full-model AUROC (0.66) that is not PRS-comparable. The 2024 framework-style candidates (PGS004478/PGS004548/PGS004882) either have unknown covariates and weaker ORs or are packaged as incident/time-to-event with only full-model C-index, making them less directly supported as standalone hip OA PRS despite larger validation sizes.",
+    "error": null
+  },
+  {
+    "ontology": "nasal cavity polyp",
+    "ranked_candidate_ids": [
+      "PGS004535",
+      "PGS004465"
+    ],
+    "winner_model_id": "PGS004535",
+    "confidence": "Moderate",
+    "rationale": "Both candidates are near-clones for endpoint fidelity (ICD10 J33 nasal polyp; EFO Nasal Cavity Polyp), ancestry (EUR dev/eval), cohorts (UKB), training/validation sizes, and both lack PRS-comparable AUC/R2, so performance must be inferred from effect sizes and model structure. PGS004535 reports a materially stronger per-SD OR (1.60 vs 1.35 for PGS004465), which is a meaningful discriminator when AUC/R2 are absent. Its method (RFDiseasemetaPRS) also suggests multi-score aggregation/integration, which is a positive structural signal versus the single-score LDpred2 sibling, aligning with the publication\u2019s risk-factor+disease integration framing.",
+    "error": null
+  },
+  {
+    "ontology": "melanoma",
+    "ranked_candidate_ids": [
+      "PGS000813",
+      "PGS000743",
+      "PGS002247",
+      "PGS002246",
+      "PGS000766"
+    ],
+    "winner_model_id": "PGS000813",
+    "confidence": "Moderate",
+    "rationale": "PGS000813 is the strongest direct-match overall because it combines coherent melanoma endpoint alignment with comparatively strong PRS signal evidence: it reports a large per-SD effect (OR=2.12) and strong risk stratification (top 10% vs middle 20% OR=5.7) alongside a full-model AUROC 0.77 using only basic covariates (age, sex), reducing concern that performance is driven by heavy clinical packaging. The closest runner-up, PGS002247, has a clean incident invasive melanoma endpoint and similarly light covariates, but shows materially weaker discrimination (full-model AUROC ~0.691) and no effect-size evidence. PGS000743 is penalized by very heavy traditional risk-factor covariates (including family history), making its AUROC less informative for standalone PRS quality, and PGS000766 includes treatment and PRS*treatment terms plus a lower C-index.",
+    "error": null
+  },
+  {
+    "ontology": "hypertension",
+    "ranked_candidate_ids": [
+      "PGS004236",
+      "PGS004234",
+      "PGS001320",
+      "PGS004934",
+      "PGS004193"
+    ],
+    "winner_model_id": "PGS004236",
+    "confidence": "Moderate",
+    "rationale": "PGS004236 and PGS004234 are near-clone siblings from the same Nat Commun multi-ethnic hypertension study with the same endpoint framing (prevalent hypertension), identical covariate set (age/age^2, sex, PCs plus standard risk factors like smoking and BMI), and the same large multi-ancestry evaluation sample (n=39,035; MAE). With no PRS-only AUC/R2 reported for either, the best differentiator is within-family performance/effect-size evidence: PGS004236 has a slightly higher full-model AUROC (0.764 vs 0.763) and, importantly, reports a strong OR=2.1 (1.99\u20132.21) supporting meaningful PRS signal, whereas PGS004234 provides no effect size. The main runner-up is PGS001320 because it reports clean PRS-only metrics (PGS-only AUROC 0.629; R2 0.0649), but it comes from a pan-trait UKB framework paper (\"813 traits\") that is penalized for weaker external generalization relative to a disease-focused multi-cohort score; thus it does not clearly beat the better-supported disease-focused multi-ethnic study candidate.",
+    "error": null
+  },
+  {
+    "ontology": "follicular lymphoma",
+    "ranked_candidate_ids": [
+      "PGS002304",
+      "PGS000644",
+      "PGS000643",
+      "PGS003455"
+    ],
+    "winner_model_id": "PGS002304",
+    "confidence": "Moderate",
+    "rationale": "PGS002304 is the most endpoint-faithful and internally coherent match to the target: trait_reported, trait_efo, and phenotyping_reported all align to follicular lymphoma, whereas the closest alternatives have notable phenotype/label issues (PGS000643/PGS000644 report/phenotype \u201cNodular lymphoma\u201d despite mapping to follicular lymphoma; PGS003455 has phenotyping_reported \u201cChronic lymphocytic leukemia,\u201d a clear endpoint mismatch). Although PGS002304 only reports a full-model AUROC (0.61) rather than PRS-only metrics, it comes from a disease-focused multi-cohort cancer evaluation context and avoids the explicit phenotype incoherence seen in PGS003455; compared with the PRSweb siblings (PGS000644/PGS000643), its direct follicular lymphoma endpoint fidelity outweighs their modest full-model AUROCs (~0.53) and large-variant methods given the shortlist\u2019s lack of PRS-only AUC/R2 across all candidates.",
+    "error": null
+  },
+  {
+    "ontology": "hashimoto's thyroiditis",
+    "ranked_candidate_ids": [
+      "PGS005271",
+      "PGS005270",
+      "PGS005272"
+    ],
+    "winner_model_id": "PGS005271",
+    "confidence": "Moderate",
+    "rationale": "All three candidates are near-clones for endpoint fidelity (trait_efo=Hashimoto's thyroiditis; phenotyping_reported=lymphocytic thyroiditis) and come from the same publication family with the same validation sample size (n=94,651) and similar multi-ancestry evaluation context, and none reports PRS-only AUC/R2 (only full-model AUROC, which is not a reliable differentiator). In this setting, effect-size strength and structural properties are the best tie-breakers: PGS005271 (PRSCS, ~1.09M variants) shows the strongest per-SD effect (OR\u22481.55) versus the strongest runner-up PGS005270 (P+T, 55 variants) with a near-null OR\u22481.04 despite a slightly higher full-model AUROC (0.639 vs 0.630), which is likely covariate-driven/less comparable. PGS005272 has lower full-model AUROC (0.605) and weaker OR than PGS005271. Therefore PGS005271 is the best-supported direct-match choice.",
+    "error": null
+  },
+  {
+    "ontology": "heart failure",
+    "ranked_candidate_ids": [
+      "PGS001790",
+      "PGS005097",
+      "PGS005083",
+      "PGS005077",
+      "PGS005076"
+    ],
+    "winner_model_id": "PGS005097",
+    "confidence": "Moderate",
+    "rationale": "PGS005097 is the strongest direct heart-failure match in a disease-focused heart-failure genetics study (Nat Genet; architecture of heart failure) using a cross-ancestry shrinkage method (PRS-CSx) with a large genome-wide variant set, and it reports calibrated discrimination metrics (AUROC 0.72 with CI plus Brier skill score) under basic covariates (age/sex/PCs). The main runner-up is PGS001790, which has an exact HF endpoint and a clean PRS-only R2 (0.006981; below the heritability ceiling), but it comes from a global biobank PRS framework paper and its prominent AUROC (0.75) is full-model/covariate-driven rather than PRS-only; overall, the disease-focused HF-specific study context and stronger model archetype support PGS005097 despite missing explicit PRS-only R2/AUC.",
+    "error": null
+  },
+  {
+    "ontology": "multiple sclerosis",
+    "ranked_candidate_ids": [
+      "PGS002726",
+      "PGS000809",
+      "PGS002038",
+      "PGS001831",
+      "PGS004699"
+    ],
+    "winner_model_id": "PGS002726",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches for multiple sclerosis, but PGS002726 is the most disease-focused MS-specific score in the shortlist and is the upstream top pick. It reports the strongest discrimination signal among the MS-focused candidates (full-model AUROC 0.80 with CI 0.76\u20130.82) plus a very large risk gradient (OR top 10% vs median = 15.0), which is stronger supporting evidence than PGS000809\u2019s lower AUROC (0.765) and modest R2 (0.069). The UKB portability-framework scores (PGS002038/PGS001831) provide only weak partial-correlation metrics (~0.04) and come from a pan-trait portability setting that is typically less reliable than a disease-focused MS study when a direct MS model exists. PGS004699 is partly packaged around an optic neuritis presentation context and only shows a lower full-model AUROC (0.752), making it less directly comparable for generic MS susceptibility than PGS002726.",
+    "error": null
+  },
+  {
+    "ontology": "kidney cancer",
+    "ranked_candidate_ids": [
+      "PGS004908",
+      "PGS000076",
+      "PGS000787",
+      "PGS000722",
+      "PGS004690"
+    ],
+    "winner_model_id": "PGS004908",
+    "confidence": "Moderate",
+    "rationale": "PGS004908 is the strongest direct-match package overall: it is kidney-cancer specific (phenotyping_reported and trait_reported both \u201cKidney cancer\u201d), comes from a large disease-focused multi-ancestry GWAS meta-analysis (BBJ/FinnGen/NCI; GWAS ancestries spanning AFR/AMR/EAS/EUR) and, crucially versus the other candidates, it reports a materially stronger PRS effect size (OR per SD 1.50, 95% CI 1.43\u20131.58), indicating substantially better standalone genetic discrimination than the older cross-cancer incident-only scores (PGS000076/PGS000787; HR ~1.15\u20131.16). Although all candidates lack clean PGS-only AUC/R2 and the reported AUROCs are full-model and thus not directly comparable, PGS004908\u2019s stronger effect-size evidence plus disease-focused GWAS support outweighs the near-clone older 19-variant incident models; PGS004690\u2019s genome-wide method is offset by weaker full-model AUROC (~0.56) and much smaller validation (n=40,841) with unknown covariates, and PGS000722 shows clearly weaker discrimination (AUROC 0.567).",
+    "error": null
+  },
+  {
+    "ontology": "lupus erythematosus",
+    "ranked_candidate_ids": [
+      "PGS002082",
+      "PGS001870",
+      "PGS000328",
+      "PGS000754",
+      "PGS000196"
+    ],
+    "winner_model_id": "PGS002082",
+    "confidence": "Moderate",
+    "rationale": "PGS002082 is the best-supported direct match within the shortlist because it aligns to the target umbrella trait (trait_efo=lupus erythematosus; reported/phenotyping include both localized and systemic lupus) and, among the two near-clone candidates from the same UKB portability study family (PGS002082 vs PGS001870), it shows stronger PRS signal in the only PRS-comparable metric provided (partial-r 0.0212 vs 0.0184 in European validation). The other candidates (PGS000328/PGS000754/PGS000196) are restricted to systemic lupus erythematosus and report only full-model AUROC (not PRS-only), with additional endpoint restrictions (e.g., early-onset <20, arthritis outpatient context) that reduce fidelity to the generic \u2018lupus erythematosus\u2019 target.",
+    "error": null
+  },
+  {
+    "ontology": "hypothyroidism",
+    "ranked_candidate_ids": [
+      "PGS005218",
+      "PGS004935",
+      "PGS002766",
+      "PGS000965",
+      "PGS001181"
+    ],
+    "winner_model_id": "PGS005218",
+    "confidence": "Moderate",
+    "rationale": "PGS005218 is the strongest direct-match, disease-focused hypothyroidism score in the shortlist: exact trait alignment (trait_reported/trait_efo both hypothyroidism) with an incident hypothyroidism endpoint, genome-wide PRS-CS construction (~1.11M variants), and a much broader multi-cohort development context (23andMe, FinnGen, UKB, deCODE, etc.) with very large evaluation (n=441,692 EUR). The main runner-up on metric cleanliness is PGS000965 (PRS-only AUROC/R2 reported), but it comes from the pan-trait UKB sparse-score framework (\u201c813 traits\u201d) and uses a mixed label (hypothyroidism/myxoedema), which domain guidance flags as typically underperforming disease-focused multi-cohort models in external benchmarks. PGS005218\u2019s reported AUROC is full-model and biomarker-inflated (TSH/T4/anti-TPO), so confidence is not high, but overall study archetype + endpoint fidelity + genome-wide method support it over the framework/portability alternatives.",
+    "error": null
+  },
+  {
+    "ontology": "hypertrophic cardiomyopathy",
+    "ranked_candidate_ids": [
+      "PGS004911",
+      "PGS004910",
+      "PGS000739",
+      "PGS000778"
+    ],
+    "winner_model_id": "PGS004911",
+    "confidence": "High",
+    "rationale": "PGS004911 is the strongest direct-match within the most relevant near-clone family: it targets the same EFO/phenotype (hypertrophic cardiomyopathy), uses a genome-wide shrinkage method (PRS-CS) with very high variant count (~374k), and is evaluated in a large EUR sample (n=343,182) with only basic covariates (age/sex/PCs), avoiding the heavy clinical-risk-factor/rare-variant packaging seen in PGS000739. Versus its closest sibling runner-up PGS004910 (same paper, endpoint, covariates, ancestry, and validation size), PGS004911 shows consistently stronger reported performance/effect evidence (higher full-model AUROC 0.80 vs 0.73; higher R\u00b2 0.048 vs 0.031; slightly stronger HR/OR), making it the better-supported choice. PGS000778 is endpoint-mismatched (events among pathogenic sarcomeric variant carriers) and tiny validation (n=368), so it is less generalizable for population HCM risk.",
+    "error": null
+  },
+  {
+    "ontology": "lymphoid leukemia",
+    "ranked_candidate_ids": [
+      "PGS000788",
+      "PGS000077",
+      "PGS000645",
+      "PGS002305",
+      "PGS003453"
+    ],
+    "winner_model_id": "PGS000788",
+    "confidence": "Moderate",
+    "rationale": "PGS000788 and PGS000077 are the strongest direct matches: both target lymphocytic leukemia with the same incident endpoint, similar basic covariates (age/sex/array/PCs), and the same large EUR validation sample size (n=391,338). With endpoint and evaluation context essentially matched, PGS000788 has the clearer performance advantage in the selected record (higher full-model AUROC 0.738 vs 0.719; higher C-index 0.756 vs 0.735) and a materially stronger per-SD effect size (HR 1.70 vs 1.45), which is a meaningful discriminator when PRS-only AUC/R2 are absent for both. Other candidates are weaker: PGS000645 and PGS002305 show much lower AUROC (~0.57\u20130.58) on far smaller validations, and PGS003453 is a narrower CLL EFO with no AUC/R2 reported despite a strong OR, making it less directly comparable to the broader lymphoid leukemia target than the incident lymphocytic leukemia models.",
+    "error": null
+  },
+  {
+    "ontology": "lung cancer",
+    "ranked_candidate_ids": [
+      "PGS004860",
+      "PGS000078",
+      "PGS000789",
+      "PGS000740",
+      "PGS000721"
+    ],
+    "winner_model_id": "PGS004860",
+    "confidence": "Moderate",
+    "rationale": "PGS004860 is the strongest direct-match lung cancer PRS in this shortlist on structural grounds: it uses a genome-wide shrinkage approach (LDpred2) with ~1.14M variants, which is typically more predictive for polygenic disease risk than the sparse GWAS-hit scores (PGS000078/PGS000789 at 109 SNPs; PGS000721 at 19 SNPs). Endpoint fidelity is also clean (incident lung cancer; lung carcinoma EFO) and evaluation is EUR, matching the target context. Although its reported AUROC (0.893) is a full-model metric and likely boosted by smoking covariates (so not directly comparable as PRS-only), the main runner-up PGS000078/PGS000789 also only report full-model discrimination and additionally include heavier risk-factor packaging (family history, PM2.5, detailed smoking interactions), making their metrics even less indicative of standalone PRS performance. PGS000740 is further penalized by an explicit endpoint restriction (early-onset <50 years), and PGS000721 has much weaker reported discrimination and tiny validation. Overall, PGS004860 has the clearest combination of correct endpoint and strongest PRS construction signal among the candidates.",
+    "error": null
+  },
+  {
+    "ontology": "multiple myeloma",
+    "ranked_candidate_ids": [
+      "PGS002281",
+      "PGS002306",
+      "PGS000653",
+      "PGS000654",
+      "PGS000652"
+    ],
+    "winner_model_id": "PGS002281",
+    "confidence": "Moderate",
+    "rationale": "All candidates are endpoint-faithful (multiple myeloma / plasma cell myeloma; EUR eval) and none reports a clean PRS-only AUC/R2, so full-model AUROC is only weakly comparable. Between the top two, PGS002281 has a much larger validation sample (n=2,395 vs n=290 for PGS002306) and reports a strong risk-gradient (OR highest vs lowest quintile 3.18), with only basic covariates (age/sex/region) suggesting limited covariate leakage. PGS002306\u2019s higher full-model AUROC (0.69 vs 0.644) comes from a much smaller evaluation and unknown covariates, making it less reliable as a benchmark-transfer signal. The older PRSweb scores (PGS000652/653/654) show materially lower full-model AUROC (~0.55\u20130.58) and only moderate per-SD OR (~1.24\u20131.33), so they are less supported than PGS002281.",
+    "error": null
+  },
+  {
+    "ontology": "myocardial infarction",
+    "ranked_candidate_ids": [
+      "PGS005039",
+      "PGS005035",
+      "PGS005045",
+      "PGS005044",
+      "PGS005038"
+    ],
+    "winner_model_id": "PGS005039",
+    "confidence": "Moderate",
+    "rationale": "All candidates are near-clones for endpoint fidelity (MI PheCode 411.2; EFO myocardial infarction; phenotyping_reported myocardial infarction), covariates (age, sex, 20 PCs), training cohort (MVP), ancestry distribution, and validation sample size (n=30,379), and none reports PRS-only AUC/R2\u2014only full-model C-index/AUC plus per-SD OR. In this same-study, same-endpoint setting, the best tie-break is the strongest within-family empirical signal: PGS005039 has the highest reported full-model C-index (0.78484 vs ~0.78309\u20130.78385 for others) and the strongest effect size (OR 1.578 vs 1.53\u20131.554), giving it a consistent (if small) advantage over the closest runner-up PGS005045 (OR 1.554; C-index 0.78385).",
+    "error": null
+  },
+  {
+    "ontology": "knee osteoarthritis",
+    "ranked_candidate_ids": [
+      "PGS002767",
+      "PGS002729",
+      "PGS004549",
+      "PGS004479",
+      "PGS004883"
+    ],
+    "winner_model_id": "PGS002767",
+    "confidence": "Moderate",
+    "rationale": "PGS002767 is the strongest direct-match knee osteoarthritis PRS in the shortlist: it has exact endpoint alignment (trait_reported and phenotyping_reported both \u201cKnee osteoarthritis\u201d, EFO matches), uses a genome-wide shrinkage method (PRS-CS) with very large variant coverage (~1.05M), and reports a moderate per-SD effect size (OR=1.35, 95% CI 1.30\u20131.40) with only basic covariates (age, sex, PCs, technical), which is less prone to covariate-driven inflation. The closest runner-up is PGS002729, which is disease-focused and multi-cohort but is a sparse 24-variant GWS score and its only visible discrimination is a full-model AUROC=0.66 with BMI included (not PRS-only and less comparable), plus phenotyping is broader (\u201cClinical osteoarthritis\u201d) rather than knee-specific. The 2024 Commun Biol scores (PGS004549/PGS004479) have similar ORs but use an ICD-code framing (M17) with unknown covariates and no additional performance metrics, and PGS004883 is a framework/time-to-event packaging (incident KOA, C-index 0.6) with very small training (n=404), making it less reliable as a standalone disease PRS.",
+    "error": null
+  },
+  {
+    "ontology": "hodgkins lymphoma",
+    "ranked_candidate_ids": [
+      "PGS000639",
+      "PGS000638",
+      "PGS000637",
+      "PGS000640",
+      "PGS003449"
+    ],
+    "winner_model_id": "PGS000639",
+    "confidence": "Moderate",
+    "rationale": "PGS000639 is the best-supported direct match: it has coherent endpoint alignment for Hodgkin\u2019s disease/lymphoma (trait_reported and phenotyping_reported both \u201cHodgkin\u2019s disease\u201d, trait_efo \u201cHodgkins lymphoma\u201d), basic non-leaky covariates (age, sex, batch, PCs), and it is the top-ranked member of a near-clone sibling set from the same Cancer PRSweb study with identical ancestry/training/validation context. Within that near-clone set, it shows the strongest available performance/effect evidence (highest reported AUROC 0.62 and highest per-SD OR 1.476) versus the strongest runner-up PGS000638 (AUROC 0.601; OR 1.377). PGS003449 is penalized despite the similar trait label because its phenotyping_reported is explicitly mismatched (\u201cChronic lymphocytic leukemia\u201d) and it provides weak effect size (OR ~1.02) with no comparable discrimination metrics.",
+    "error": null
+  },
+  {
+    "ontology": "osteoporosis",
+    "ranked_candidate_ids": [
+      "PGS001273",
+      "PGS001274",
+      "PGS002768",
+      "PGS004565",
+      "PGS004560"
+    ],
+    "winner_model_id": "PGS001273",
+    "confidence": "Moderate",
+    "rationale": "PGS001273 is the cleanest direct-match to the generic target trait \u201costeoporosis\u201d with explicit PRS-only metrics (PGS AUROC(no covariates)=0.5685; PGS R2(no covariates)=0.00688) under basic covariates only (age, sex, array, PCs) and a coherent osteoporosis endpoint in phenotyping_reported. The strongest runner-up is PGS001274, which has slightly better PRS-only AUROC/R2 but is a narrower time-to-event subtype endpoint (\u201costeoporosis without pathological fracture\u201d), making it a less faithful match to the broad target. The other candidates (PGS002768, PGS004565, PGS004560) lack PRS-comparable AUC/R2 and/or introduce endpoint narrowing (M81) or risk-factor metaPRS packaging with unknown covariates, so they are less well-supported for benchmark-style standalone osteoporosis PRS selection.",
+    "error": null
+  },
+  {
+    "ontology": "kidney failure",
+    "ranked_candidate_ids": [
+      "PGS000708",
+      "PGS004562",
+      "PGS004492",
+      "PGS002237",
+      "PGS004158"
+    ],
+    "winner_model_id": "PGS000708",
+    "confidence": "Moderate",
+    "rationale": "PGS000708 is the only candidate with an exact target-trait label (trait_reported/trait_efo both \u201cKidney failure\u201d) and it reports a time-to-event discrimination metric (C-index 0.779) plus an HR per SD of 1.19 with basic covariates (age time-scale, sex, PCs, batch), avoiding obvious clinical risk-packaging. The strongest runner-up is PGS004562/PGS004492 (same ICD N18 chronic renal failure endpoint), but both lack any AUC/R2 and have unknown covariates; between them, PGS004562 has a higher OR (1.395 vs 1.171) yet still provides less overall evaluable evidence than PGS000708. PGS002237 and PGS004158 are CKD (not kidney failure) endpoints and include either heavier clinical covariates (PGS002237) or much weaker full-model AUROC (PGS004158), making them less direct matches for kidney failure.",
+    "error": null
+  },
+  {
+    "ontology": "nicotine dependence",
+    "ranked_candidate_ids": [
+      "PGS002037",
+      "PGS001830"
+    ],
+    "winner_model_id": "PGS002037",
+    "confidence": "Moderate",
+    "rationale": "Both candidates are near-clones from the same UKB portability paper with identical endpoint framing (trait_reported/phenotyping_reported: Tobacco use disorder; trait_efo: nicotine dependence), same training cohort/size (UKB, n=391,124), same basic covariates, and same validation sample size (n=19,400), and neither reports PRS-only AUC/R2. The main differentiator is the representative PRS-comparable metric available: PGS002037 has higher partial correlation (partial-r 0.0741, CI 0.0601\u20130.0881) than PGS001830 (0.0557, CI 0.0416\u20130.0697), and it uses a genome-wide shrinkage approach with far more variants (847,691 vs 13,838), which is a supportive structural advantage when endpoints and study context are otherwise the same.",
+    "error": null
+  },
+  {
+    "ontology": "obesity",
+    "ranked_candidate_ids": [
+      "PGS005235",
+      "PGS004447",
+      "PGS005154",
+      "PGS005145",
+      "PGS004517"
+    ],
+    "winner_model_id": "PGS005235",
+    "confidence": "Moderate",
+    "rationale": "PGS005235 is the strongest direct-match obesity candidate on endpoint fidelity and PRS signal: although labeled broadly as \u201cAdiposity,\u201d its phenotyping is explicitly obesity (phecode 278.1) with basic covariates (age/sex/batch/PCs) and it shows a much stronger per-SD effect size (OR\u22481.97) than the closest EUR runner-up PGS004447 (OR\u22481.36) and PGS004517 (OR\u22481.23), which come from a risk-factor integration paper with unknown covariates (greater comparability uncertainty). The EAS-only candidates (PGS005154/PGS005145) are less compatible for a generic obesity target absent an EAS deployment context, and they provide only beta effect sizes without clearer cross-ancestry support. With no PRS-only AUC/R2 reported for any candidate, the combination of clean obesity phecode endpoint + basic covariates + materially stronger OR makes PGS005235 the best-supported choice.",
+    "error": null
+  },
+  {
+    "ontology": "hyperthyroidism",
+    "ranked_candidate_ids": [
+      "PGS005265",
+      "PGS005266",
+      "PGS005264",
+      "PGS001043",
+      "PGS001042"
+    ],
+    "winner_model_id": "PGS005265",
+    "confidence": "Moderate",
+    "rationale": "PGS005265 is the best-supported direct match for hyperthyroidism because Graves\u2019 disease is explicitly noted (in the provided domain knowledge) as the clinically dominant autoimmune form of hyperthyroidism, and this score comes from a disease-focused global multi-biobank study with large multi-ancestry evaluation (MAE 100%) and a strong per-SD effect size (OR=1.63), indicating meaningful PRS signal. The strongest runner-up is PGS001042/PGS001043, which are exact-label hyperthyroidism/thyrotoxicosis scores but come from a pan-trait UKB sparse-framework (snpnet) setting that is penalized for weaker external transportability despite reporting clean PGS-only AUC/R2 (~0.634; R2~0.022). Within the Graves\u2019 disease sibling set (PGS005265 vs PGS005266 vs PGS005264), PGS005265 has the highest reported discrimination (full-model AUROC 0.665 vs 0.664/0.659) and the strongest OR, so it is the best pick from the most relevant disease-focused cluster.",
+    "error": null
+  },
+  {
+    "ontology": "macular degeneration",
+    "ranked_candidate_ids": [
+      "PGS004606",
+      "PGS004952",
+      "PGS004607",
+      "PGS002269",
+      "PGS001013"
+    ],
+    "winner_model_id": "PGS004606",
+    "confidence": "Moderate",
+    "rationale": "PGS004606 is the strongest direct-match, disease-focused AMD PRS in the shortlist: it targets age-related macular degeneration with a direct AMD phenotype, uses a genome-wide PRS-CS construction (~1.0M variants), is trained in the AMD consortium context (IAMDGC), and is evaluated in Europeans with a very large validation sample (n=163,011) and strong per-SD effect size (OR=1.76). The closest runner-up is PGS004952, which reports a much higher full-model AUROC (~0.84) but is a sparse 52-SNP score on a narrower endpoint (late AMD clinical classification) with a much smaller validation (n=1,232) and weaker effect size (OR=1.41); its AUROC is also not PRS-only, so it is less reliable as evidence of standalone PRS strength. PGS004607 is disadvantaged by AFR-only GWAS training with EUR evaluation and weaker performance (full-model AUROC 0.65; OR 1.48), while PGS001013 is a pan-trait UKB framework score with low PRS-only AUROC/R2, and PGS002269 is not endpoint-aligned (retinal layer thickness biomarker rather than AMD diagnosis).",
+    "error": null
+  },
+  {
+    "ontology": "nodular goiter",
+    "ranked_candidate_ids": [
+      "PGS005262",
+      "PGS005273",
+      "PGS005274",
+      "PGS005263",
+      "PGS005261"
+    ],
+    "winner_model_id": "PGS005262",
+    "confidence": "Moderate",
+    "rationale": "PGS005262 is the best direct match to the target trait (benign nodular goiter / nodular goiter) with coherent phenotype fields, and it sits in the same disease-focused multi-biobank study family and evaluation setting as the other candidates. Among the direct-match siblings (PGS005262, PGS005263, PGS005261), it has the strongest available empirical signals: highest reported effect size (OR per SD 1.41 vs 1.36 and 1.05) and the highest reported AUROC (0.593 vs 0.588 and 0.585), while also using a genome-wide shrinkage method (PRS-CS) rather than sparse P+T. The higher-AUROC thyroid-carcinoma-vs-goiter contrast scores (PGS005273/PGS005274) are not endpoint-faithful to nodular goiter risk because they target a differential diagnosis contrast rather than goiter itself, so they are weaker direct matches despite slightly higher full-model AUROC.",
+    "error": null
+  },
+  {
+    "ontology": "late-onset alzheimer's disease",
+    "ranked_candidate_ids": [
+      "PGS000054",
+      "PGS000053",
+      "PGS000334",
+      "PGS004918",
+      "PGS002289"
+    ],
+    "winner_model_id": "PGS000054",
+    "confidence": "Moderate",
+    "rationale": "PGS000054 is the strongest direct-match because it has clean endpoint fidelity to the target (trait_reported and trait_efo both late-onset Alzheimer\u2019s disease; phenotyping_reported explicitly familial late-onset LOAD) and, unlike the other candidates, it provides a strong PRS-discrimination proxy via effect size (OR per SD = 1.73, 95% CI 1.57\u20131.93) with only basic covariates (age, sex), suggesting meaningful standalone PRS signal. The closest runner-up is its near-clone sibling PGS000053 from the same publication/cohort family and same 21-variant GWAS-hits construction, but it shows materially weaker effect size (OR 1.29), making PGS000054 better supported within the same context. Other alternatives are less compelling: PGS000334 reports only a full-model/ambiguous R\u00b2=0.191 with unknown covariates (not PRS-only and potentially non-comparable), PGS004918 reports only a full-model AUROC=0.731 on a very small validation (n=136) with unknown covariates, and PGS002289\u2019s phenotyping_reported is cognition/age-interaction rather than AD case-control, so it is not a clean endpoint match despite the label.",
+    "error": null
+  },
+  {
+    "ontology": "preeclampsia",
+    "ranked_candidate_ids": [
+      "PGS003586",
+      "PGS003587",
+      "PGS004593"
+    ],
+    "winner_model_id": "PGS003586",
+    "confidence": "Moderate",
+    "rationale": "PGS003586 is the strongest direct match for the target trait preeclampsia: it has exact trait alignment (trait_reported \u201cPre-eclampsia\u201d, trait_efo preeclampsia) and endpoint-consistent phenotyping (\u201cPre-eclampsia/eclampsia\u201d) from a disease-focused multi-cohort Nat Med study, with only basic covariates (maternal age, age^2, PCs). Versus its closest sibling runner-up PGS003587 (same paper, method, covariates, EUR evaluation), PGS003586 shows materially stronger PRS effect size (OR 1.31 vs 1.20 per SD), which is the main differentiator given both lack PRS-only AUC/R2. PGS004593 has weaker endpoint fidelity (phenotyping_reported is gestational hypertension, not preeclampsia) and a weaker effect size signal (HR 1.16), so despite larger validation N it is less directly matched and less supported for preeclampsia PRS performance.",
+    "error": null
+  },
+  {
+    "ontology": "ovarian neoplasm",
+    "ranked_candidate_ids": [
+      "PGS000549",
+      "PGS000550",
+      "PGS000793",
+      "PGS000082",
+      "PGS003385"
+    ],
+    "winner_model_id": "PGS000550",
+    "confidence": "Moderate",
+    "rationale": "PGS000550 is the best-supported direct match to the target EFO concept (ovarian neoplasm) among the exact-label candidates, and it has a clear within-family advantage over the strongest runner-up PGS000549: same endpoint wording (malignant neoplasm of ovary), same UKB-based development/validation context and covariates, but a materially stronger PRS construction (PRS-CS genome-wide shrinkage with 1,115,189 variants vs 16 GWAS hits) and slightly better reported discrimination/effect size (AUROC 0.568 vs 0.567; OR per SD 1.286 vs 1.263; higher pseudo-R\u00b2 0.0113 vs 0.00996). The other candidates (PGS000082/PGS000793) are ovarian cancer/ovarian carcinoma incident endpoints with heavy non-genetic covariate packaging (including family history and multiple risk factors), making their higher full-model AUROC less comparable to standalone PRS performance for the broad \u2018ovarian neoplasm\u2019 target; PGS003385 is subtype-specific (ovarian serous carcinoma), which is a narrower endpoint than the target umbrella.",
+    "error": null
+  },
+  {
+    "ontology": "otosclerosis",
+    "ranked_candidate_ids": [
+      "PGS002046",
+      "PGS001255"
+    ],
+    "winner_model_id": "PGS002046",
+    "confidence": "Moderate",
+    "rationale": "Both candidates map to otosclerosis (trait_efo matches), but PGS002046 has the cleaner endpoint framing (phenotyping_reported: Otosclerosis) versus PGS001255\u2019s time-to-event packaging (phenotyping_reported: TTE otosclerosis), which is a noted warning signal for generic disease-risk PRS selection. PGS002046 also uses a genome-wide shrinkage approach (LDpred2) with far broader variant coverage (570,308 vs 213), and comes from a portability-focused evaluation with multi-ancestry assessment; while it lacks PRS-only AUC/R2, its reported partial-r (0.0182) is at least a PRS-comparable signal. PGS001255\u2019s advantage is explicit PRS-only AUROC/R2 (0.6319; R2=0.01341, below the heritability ceiling), but it is from the \u2018813 traits\u2019 sparse UKB framework (snpnet) which is penalized for generalization, and its endpoint is less directly aligned due to TTE framing. Net: PGS002046\u2019s endpoint fidelity + method/coverage advantage outweighs PGS001255\u2019s modest PRS-only metric edge.",
+    "error": null
+  },
+  {
+    "ontology": "pancreatic carcinoma",
+    "ranked_candidate_ids": [
+      "PGS000083",
+      "PGS000794",
+      "PGS000663",
+      "PGS000725",
+      "PGS002264"
+    ],
+    "winner_model_id": "PGS000083",
+    "confidence": "Moderate",
+    "rationale": "PGS000083 is the strongest direct-match choice because it targets the same disease concept (incident pancreatic cancer; EFO exocrine pancreatic carcinoma) and is supported by a very large European evaluation sample (n=391,491) with consistent effect-size evidence (HR=1.49) in a multi-cohort cancer PRS evaluation setting. The closest runner-up is PGS000794, which is essentially a near-clone built from the same 22 variants but explicitly uses inverse variant weights; its reported discrimination/effect size are effectively identical (AUROC ~0.745; HR=1.49) and it adds no clear endpoint or validation advantage, so the upstream-ranked original (PGS000083) is preferred. PGS002264\u2019s higher AUROC (0.83) is heavily discounted because it is a packaged clinical-risk model including diabetes-related clinical predictors and family history with non-reported evaluation ancestry, making the metric non-comparable to a standalone PRS; PGS000663/PGS000725 show materially weaker AUROC and/or much smaller validation support.",
+    "error": null
+  },
+  {
+    "ontology": "parkinson disease",
+    "ranked_candidate_ids": [
+      "PGS000903",
+      "PGS000902",
+      "PGS003763",
+      "PGS000123",
+      "PGS001353"
+    ],
+    "winner_model_id": "PGS000903",
+    "confidence": "Moderate",
+    "rationale": "PGS000903 is the strongest direct-match disease PRS in the shortlist: it targets Parkinson\u2019s disease with coherent phenotype fields (trait_reported/trait_efo/phenotyping_reported all PD), comes from a large disease-focused multi-cohort GWAS meta-analysis (same Lancet Neurol study family as PGS000902), uses a more polygenic construction (C+T with 1,805 variants vs 90 GWAS hits), and shows stronger validation evidence within that near-clone family (higher reported AUROC 0.692 vs 0.651 and a large risk gradient OR top vs bottom quartile 6.25). The main runner-up is PGS000902 (same endpoint/covariates/validation N), but it is a much sparser score with weaker reported discrimination. Other candidates are either much older/sparser with limited performance reporting (PGS000123), incident/time-to-event framing without clear PRS discrimination metrics (PGS003763), or ancestry-restricted to Asian evaluation with heavier covariate packaging (PGS001353), making them less likely to top an external benchmark for generic PD risk.",
+    "error": null
+  },
+  {
+    "ontology": "prostate cancer",
+    "ranked_candidate_ids": [
+      "PGS004155",
+      "PGS004042",
+      "PGS004139",
+      "PGS004027",
+      "PGS004001"
+    ],
+    "winner_model_id": "PGS004155",
+    "confidence": "Moderate",
+    "rationale": "All candidates are near-clones from the same publication/family with identical endpoint alignment (trait_reported/trait_efo/phenotyping_reported all prostate cancer/carcinoma), identical training cohort (UKB), identical covariates field (0), and the same evaluation ancestry mix and validation N. With no PRS-only AUC/R2 available for any candidate, the best tie-break is within-family empirical performance: PGS004155 (UKBB-EUR.MultiPRS.CV) has the highest reported AUROC (0.7049 vs 0.7003 for the closest runner-up PGS004139) and the strongest effect size (OR 2.166 vs ~2.109), consistent with the domain guidance that multi-score aggregation is a positive structural signal when endpoints/covariates are otherwise matched.",
+    "error": null
+  },
+  {
+    "ontology": "sarcoidosis",
+    "ranked_candidate_ids": [
+      "PGS000922",
+      "PGS000923",
+      "PGS001872",
+      "PGS002084"
+    ],
+    "winner_model_id": "PGS000922",
+    "confidence": "Moderate",
+    "rationale": "PGS000922 is the cleanest direct match to the target trait (trait_efo=sarcoidosis; phenotyping_reported=Sarcoidosis) and reports explicit PRS-only performance (PGS-only AUROC=0.64282; PGS-only R2=0.01741) under basic covariates, with values well below the provided heritability ceiling (h2_liability\u22480.107), supporting metric sanity. The strongest runner-up is PGS000923, which has slightly higher PRS-only AUROC/R2 but is explicitly time-to-event (phenotyping_reported=TTE sarcoidosis; trait_reported includes time-to-event), a mild endpoint mismatch for a generic sarcoidosis target; given the weak prior favoring the first-ranked candidate and the small metric gap, the endpoint-fidelity advantage keeps PGS000922 ahead. PGS001872 and PGS002084 are mapped to skin sarcoidosis (trait_efo=skin sarcoidosis) and only report partial correlation rather than PRS-comparable AUROC/R2, making them less directly supported for the generic sarcoidosis endpoint.",
+    "error": null
+  },
+  {
+    "ontology": "peripheral vascular disease",
+    "ranked_candidate_ids": [
+      "PGS005217",
+      "PGS002055",
+      "PGS001843",
+      "PGS005158"
+    ],
+    "winner_model_id": "PGS005217",
+    "confidence": "Moderate",
+    "rationale": "PGS005217 is the strongest direct-match, disease-focused PAD/PVD candidate: it targets peripheral artery disease with an incident PAD endpoint, uses a genome-wide shrinkage method (LDpred2) with very large variant count (~1.3M), and reports a strong PRS effect size (HR per SD 1.66). It is also evaluated broadly across multiple ancestries with a very large validation sample (n=304,294) and only basic covariates (age/sex/PCs), avoiding the heavy clinical/lifestyle packaging seen in PGS005158 (T2D-restricted endpoint, 19 SNPs, extensive covariates including family history, medications, HbA1c, lifestyle score; weaker HR 1.13). The main runner-up among exact-label PVD candidates (PGS002055/PGS001843) comes from a UKB portability framework with modest partial-r (~0.0175/0.0151) and less disease-specific evidence; despite exact trait_efo match, its weaker performance signal and framework archetype make it less likely to outperform the dedicated PAD model in external benchmarks.",
+    "error": null
+  },
+  {
+    "ontology": "rheumatoid arthritis",
+    "ranked_candidate_ids": [
+      "PGS004163",
+      "PGS004049",
+      "PGS004079",
+      "PGS004064",
+      "PGS004021"
+    ],
+    "winner_model_id": "PGS004163",
+    "confidence": "Moderate",
+    "rationale": "All candidates are near-clones on endpoint fidelity (all map to rheumatoid arthritis with phenotyping_reported = Seropositive RA), study family (same Am J Hum Genet five-biobank evaluation paper), training cohort (UKB), training size (n=820), covariates (0), and validation context (same ancestry mix and n=90,274). With no PRS-only AUC/R2 available for any candidate, the best differentiator is within-family empirical performance: PGS004163 (UKBB-EUR.MultiPRS.CV) has the highest reported AUROC (0.7469 vs 0.7283 for the strongest runner-up PGS004049) and the strongest effect size (OR 2.46 vs 2.37), consistent with the domain guidance that multi-score aggregation is a positive structural signal when endpoints/covariates are identical. Therefore it is the best-supported direct-match choice over the next-best LDpred2.CV sibling.",
+    "error": null
+  },
+  {
+    "ontology": "pulmonary embolism",
+    "ranked_candidate_ids": [
+      "PGS001280",
+      "PGS001277",
+      "PGS001279",
+      "PGS003861",
+      "PGS001278"
+    ],
+    "winner_model_id": "PGS001280",
+    "confidence": "Moderate",
+    "rationale": "PGS001280 is the best direct match to the target trait (pulmonary embolism) because it is PE-specific in both trait_efo and phenotyping_reported (TTE PE), whereas the closest runner-up by metrics (PGS001277) explicitly mixes PE with DVT (trait_efo includes both; phenotyping_reported: PE +/- DVT), reducing endpoint fidelity. Among the PE-focused options, PGS001280 also has clean PRS-only metrics reported (PGS-only AUROC=0.60765; PGS-only R2=0.01403) with basic covariates and a large UKB training set; its PRS-only R2 is well below the EUR heritability ceiling (h2_obs\u22480.0052; h2_liability\u22480.109), so the metric looks plausible. PGS003861 is PE-specific but reports only a full-model AUROC (0.765) with unknown covariates and no PRS-only metrics, making its apparent performance non-comparable and likely covariate-inflated. Given the weak-prior ranked order and the clear phenotype-alignment advantage over PGS001277, PGS001280 is the most defensible winner.",
+    "error": null
+  },
+  {
+    "ontology": "psoriatic arthritis",
+    "ranked_candidate_ids": [
+      "PGS000342",
+      "PGS001287"
+    ],
+    "winner_model_id": "PGS001287",
+    "confidence": "Moderate",
+    "rationale": "Both candidates map to psoriatic arthritis (EFO match), but PGS001287 has substantially stronger PRS-comparable evidence: it reports clean PGS-only AUROC=0.676 and PGS-only R\u00b2=0.0335 (below the provided h2_liability=0.0735 ceiling), with standard non-leaky covariates (age/sex/PCs/array) and large-scale UKB development (n=269,704) plus a sizable European validation record (n=24,905). In contrast, PGS000342 is disease-focused and label-exact, but only provides a full-model AUROC=0.562 with unknown covariates and no PGS-only metrics, making its PRS signal hard to assess and apparently weaker. Despite the general framework-paper penalty for the '813 traits' study, the multi-field advantage in endpoint coherence plus explicit PRS-only performance favors PGS001287 over PGS000342 here.",
+    "error": null
+  },
+  {
+    "ontology": "psoriasis",
+    "ranked_candidate_ids": [
+      "PGS001312",
+      "PGS001313",
+      "PGS002083",
+      "PGS001871",
+      "PGS002293"
+    ],
+    "winner_model_id": "PGS001312",
+    "confidence": "Moderate",
+    "rationale": "PGS001312 is the strongest direct-match in this shortlist because it targets the generic psoriasis endpoint (trait_reported/phenotyping_reported both \u201cPsoriasis\u201d) and provides clean PRS-only performance metrics (PGS AUROC(no covariates)=0.6916; PGS R2(no covariates)=0.0523) with only basic covariates (age, sex, array, PCs), plus a large UKB validation (n=67,425) and multi-ancestry evaluation. The closest runner-up is PGS001313, but it is a time-to-event psoriasis endpoint (phenotyping_reported \u201cTTE psoriasis\u201d) and has weaker PRS-only discrimination (PGS AUROC 0.6729; PGS R2 0.0497). The portability-paper scores (PGS002083/PGS001871) lack PRS-comparable AUC/R2 (only partial-r ~0.063) and PGS002293 is a lifestyle+genetic risk packaging study with GW-significant SNPs and no comparable PRS-only discrimination, making them less benchmark-reliable than PGS001312 given the available evidence.",
+    "error": null
+  },
+  {
+    "ontology": "schizophrenia",
+    "ranked_candidate_ids": [
+      "PGS000136",
+      "PGS000133",
+      "PGS000135",
+      "PGS000134",
+      "PGS002785"
+    ],
+    "winner_model_id": "PGS000136",
+    "confidence": "Moderate",
+    "rationale": "All top four candidates (PGS000136/133/135/134) are near-clones from the same disease-focused paper with identical endpoint fidelity (phenotyping_reported=Schizophrenia), similar basic covariates (age/sex/PCs/batch/platform), same evaluation ancestry (EUR), and same method family (PRS-CS), so the main differentiator is the within-family performance evidence. PGS000136 has the highest reported AUROC among the multi-record siblings (full-model AUROC 0.64 vs 0.60 for PGS000133 and PGS000134) with a similarly strong per-SD OR (~1.7), making it the best-supported choice over the strongest runner-up PGS000133/PGS000134. PGS000135 shows a higher AUROC (0.74) but only in a much smaller validation (n=9,569) with a single record and no effect-size support, so its apparent edge is less reliable. PGS002785 is explicitly endpoint-mismatched (phenotyping_reported is cognitive function, not schizophrenia diagnosis), so it is not a direct-match winner despite having an R\u00b2 field.",
+    "error": null
+  },
+  {
+    "ontology": "skin carcinoma in situ",
+    "ranked_candidate_ids": [
+      "PGS000471",
+      "PGS000470",
+      "PGS000469"
+    ],
+    "winner_model_id": "PGS000471",
+    "confidence": "Moderate",
+    "rationale": "All three candidates are near-clones for endpoint fidelity (trait_reported/trait_efo/phenotyping_reported all match skin carcinoma in situ), ancestry (EUR-only), cohorts (MGI), covariates (age, sex, batch, PCs 1-4), and training/validation sizes, and none reports PRS-only AUC/R2\u2014so full-model AUROC is only a within-family tie-break. PGS000471 shows the strongest empirical signals among siblings: higher full-model AUROC (0.569 vs 0.557 for PGS000470 and 0.524 for PGS000469), higher Nagelkerke R\u00b2 (0.0255 vs 0.0154 vs 0.00141), and stronger effect sizes (OR per SD 1.401 and top-1% OR 3.77) than the closest runner-up PGS000470 (OR 1.308; top-1% OR 2.45). Given identical covariates, these consistent performance/effect-size advantages make PGS000471 the best-supported direct-match choice.",
+    "error": null
+  },
+  {
+    "ontology": "retinal detachment",
+    "ranked_candidate_ids": [
+      "PGS002040",
+      "PGS001833",
+      "PGS001137",
+      "PGS000990"
+    ],
+    "winner_model_id": "PGS002040",
+    "confidence": "Moderate",
+    "rationale": "All candidates are UKB-derived framework scores, so the decision hinges on endpoint fidelity plus within-family performance/structure. PGS002040 is a direct match to the target (trait_efo=retinal detachment; phenotyping_reported=Retinal detachments and defects) and, within the same portability-study family as the strongest runner-up PGS001833 (same phenotype, covariates, training cohort, and evaluation setting), it shows higher PRS signal (partial-r 0.0276 vs 0.0218) and uses a genome-wide shrinkage approach with far broader variant coverage (706,872 vs 3,737), which is a favorable structural indicator when endpoints are identical. The snpnet alternatives (PGS001137/PGS000990) report PRS-only AUROC/R2 but come from the sparse 813-traits framework and one is a time-to-event/breaks composite; their PRS-only R2 values are small and do not clearly outweigh the better-aligned, higher-signal, genome-wide score in the near-clone comparison.",
+    "error": null
+  },
+  {
+    "ontology": "type 2 diabetes mellitus",
+    "ranked_candidate_ids": [
+      "PGS000014",
+      "PGS002308",
+      "PGS003103",
+      "PGS002026",
+      "PGS001781"
+    ],
+    "winner_model_id": "PGS000014",
+    "confidence": "Moderate",
+    "rationale": "PGS000014 is the best-supported direct-match because it is the only candidate in the shortlist with an explicit PRS-comparable metric (pgs_only_r2=0.029) on the target trait (type 2 diabetes mellitus) with basic covariate adjustment, and it is sanity-consistent with the provided heritability ceiling (h2_liability\u22480.219). It also has broad multi-ancestry evaluation listed and large validation (n=288,978), supporting transfer robustness. The strongest runner-up is PGS002308 (trans-ancestry PRS-CSx, disease-focused), but it reports only full-model AUROC/R\u00b2 (0.793/0.092) without PGS-only metrics, making its apparent advantage non-comparable and potentially covariate-driven; thus it lacks the clean PRS-isolated evidence that PGS000014 provides.",
+    "error": null
+  },
+  {
+    "ontology": "type 1 diabetes mellitus",
+    "ranked_candidate_ids": [
+      "PGS000024",
+      "PGS000023",
+      "PGS000022",
+      "PGS001297",
+      "PGS004162"
+    ],
+    "winner_model_id": "PGS000024",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches to type 1 diabetes, but PGS000024 is the strongest disease-focused T1D-specific score in the shortlist with the richest multi-ancestry evaluation footprint (EVAL includes EUR plus multiple non-EUR groups) and a substantially larger validation sample size (n=374,000) than the other disease-focused alternatives (PGS000023 n=57,643; PGS000022 n=1,447). The main runner-up is PGS004162, which has attractive effect-size evidence (OR~2.89) and large evaluation (n=90,274), but its reported metrics are full-model (no PGS-only AUC/R2) and its training sample is very small (n=804), making its apparent performance less clearly attributable to the PRS itself. PGS001297 provides clean PGS-only AUC/R2, but it is a pan-trait UKB framework score (\u201c813 traits\u201d) that domain guidance flags as less reliable for external transfer when a disease-focused alternative exists; its PGS-only R2 (0.0912) is also well below the T1D liability h2 ceiling (0.219), so it does not present an overwhelming metric advantage to justify overriding the disease-focused choice.",
+    "error": null
+  },
+  {
+    "ontology": "squamous cell carcinoma",
+    "ranked_candidate_ids": [
+      "PGS000461",
+      "PGS000120",
+      "PGS000731",
+      "PGS000465",
+      "PGS000463"
+    ],
+    "winner_model_id": "PGS000461",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct phenotype matches (trait_reported/efo/phenotyping all \u2018Squamous cell carcinoma\u2019) and none reports PRS-only AUC/R2, so full-model AUROC differences are only weakly informative. Within the tight PRSWeb sibling cluster (PGS000461/PGS000465/PGS000463) with identical ancestry (EUR), cohorts (MGI), covariates (age/sex/batch/PC1-4), training size (n=8,029) and validation size (n=8,473), PGS000461 has the strongest overall performance/effect evidence: highest full-model AUROC (0.599 vs 0.589/0.593) and the highest Nagelkerke R\u00b2 (0.0304 vs 0.0282/0.0268) with a slightly stronger per-SD OR (1.491 vs 1.457/1.448). PGS000731 has a slightly higher AUROC (0.605) and larger validation N, but has unknown covariates and lacks training/sample detail (N/A), making its metric less comparable and support less complete than the well-specified PRSWeb model; thus PGS000461 is the best-supported direct-match.",
+    "error": null
+  },
+  {
+    "ontology": "urolithiasis",
+    "ranked_candidate_ids": [
+      "PGS002075",
+      "PGS001864",
+      "PGS001250",
+      "PGS004563",
+      "PGS004493"
+    ],
+    "winner_model_id": "PGS002075",
+    "confidence": "Moderate",
+    "rationale": "PGS002075 is the best-supported direct match because it has clean endpoint alignment to the target (trait_efo=urolithiasis; trait/phenotyping_reported=Urinary calculus) and, within the same UKB portability study family as the closest runner-up (PGS001864), it shows stronger PRS signal (higher partial correlation 0.0385 vs 0.0323) while sharing essentially identical training/validation context and covariates. Compared with PGS001250, although that model reports explicit PGS-only AUROC/R2, it is from a pan-trait sparse framework (\"813 traits\") with a time-to-event endpoint and modest PRS-only performance (AUROC 0.5668; R2 0.0059), which is less reliable for external benchmarking than the stronger genome-wide shrinkage score here. The Commun Biol scores (PGS004563/PGS004493) are nephrolithiasis-coded and report only modest per-SD ORs without PRS-comparable metrics and with unknown covariates, providing weaker comparable evidence than PGS002075.",
+    "error": null
+  },
+  {
+    "ontology": "ulcerative colitis",
+    "ranked_candidate_ids": [
+      "PGS004253",
+      "PGS001306",
+      "PGS001307",
+      "PGS001855",
+      "PGS002066"
+    ],
+    "winner_model_id": "PGS004253",
+    "confidence": "Moderate",
+    "rationale": "PGS004253 is the only clearly disease-focused ulcerative-colitis PRS in this shortlist (Nat Commun; endpoint and phenotyping both explicitly ulcerative colitis) and it reports a strong per-SD effect size (OR=1.84, 95% CI 1.76\u20131.93) with only basic covariates (age/sex/array/PCs), which is strong evidence of PRS discriminative signal. The main runner-up is PGS001306 (and its sibling PGS001307), which do provide clean PRS-only AUROC/R2, but they come from a pan-trait UK Biobank sparse-score framework (\u201cacross 813 traits\u201d) that is empirically less reliable for external performance; their PRS-only AUROC (~0.63\u20130.64) and R2 (~0.02\u20130.024) are only modest. PGS001307 also uses a time-to-event phenotype, which is a mild endpoint mismatch versus generic UC status. The portability-paper options (PGS001855/PGS002066) have weaker/less comparable performance evidence here (partial-r only for PGS001855; low AUROC=0.57 and weak OR=1.11 for PGS002066).",
+    "error": null
+  },
+  {
+    "ontology": "vitiligo",
+    "ranked_candidate_ids": [
+      "PGS001536",
+      "PGS000738",
+      "PGS000760"
+    ],
+    "winner_model_id": "PGS001536",
+    "confidence": "Moderate",
+    "rationale": "PGS001536 is the only candidate with coherent vitiligo endpoint metadata (trait_reported vitiligo time-to-event; phenotyping_reported TTE vitiligo) and clean PRS-comparable performance reported (PGS-only AUROC=0.64193; PGS-only R2=0.01621), with basic covariates and a large UKB development/validation setting; its PRS-only R2 is also well below the vitiligo h2 ceiling (h2_obs~0.17), supporting metric plausibility. The strongest runner-up by label is PGS000738, but it has an explicit phenotype mismatch (phenotyping_reported=\"Red hair\") and only a pseudo-R2/full-model-style metric, making it non-comparable and likely metadata-contaminated for vitiligo PRS performance. PGS000760 is also endpoint-mismatched (anti-PD-L1 induced hypothyroidism in cancer patients), so despite an HR it is not a direct vitiligo risk score. Therefore PGS001536 is the best-supported direct-match among the shortlist.",
+    "error": null
+  },
+  {
+    "ontology": "sleep apnea",
+    "ranked_candidate_ids": [
+      "PGS005219",
+      "PGS005220",
+      "PGS003858",
+      "PGS003857",
+      "PGS003213"
+    ],
+    "winner_model_id": "PGS005219",
+    "confidence": "Moderate",
+    "rationale": "PGS005219 is the strongest direct-match, disease-focused obstructive sleep apnea score in the shortlist: it uses a genome-wide shrinkage approach with ~983k variants and is developed across multiple large OSA cohorts (FinnGen, MGBB, MVP) with multi-ancestry validation context, which is structurally more likely to transfer than the sparse GWAS-hit MVP-only scores (PGS003857/PGS003858; 18 and 6 variants). Although none of the candidates report clean PRS-only AUC/R2 (so full-model AUROC is not a decisive comparator), PGS005219 shows a materially stronger per-SD effect size (OR 1.98) than its closest near-clone sibling PGS005220 (OR 1.53) under otherwise essentially identical study/covariate/validation settings, making PGS005219 the better-supported pick within that family. The ExPRSweb framework score (PGS003213) is a weaker archetype for external performance and also shows much lower discrimination (AUROC 0.527).",
+    "error": null
+  },
+  {
+    "ontology": "pulmonary fibrosis",
+    "ranked_candidate_ids": [
+      "PGS001791",
+      "PGS004695",
+      "PGS001030"
+    ],
+    "winner_model_id": "PGS001791",
+    "confidence": "Moderate",
+    "rationale": "PGS001791 is the best-supported direct match because it targets idiopathic pulmonary fibrosis with a genome-wide shrinkage method (PRS-CS-auto; 910,439 variants) and is developed/benchmarked in a large multi-biobank global framework with European evaluation (n=347,350). It reports a PRS-comparable metric (Nagelkerke R2 with covariates regressed out / PGS-only R2=0.005929), which is interpretable and below the provided heritability ceiling (h2_obs\u22480.0039) in the expected small-effect range. The strongest runner-up, PGS001030, has a higher reported PGS-only R2 (0.0142) but comes from the known pan-trait UKB sparse-score framework (\u201c813 traits\u201d snpnet; only 51 variants), which domain guidance flags as less reliable for external transfer than a multi-cohort genome-wide score when endpoint alignment is otherwise similar. PGS004695 is endpoint-aligned but is a 23-SNP GWS score embedded in an exposure-focused incident-IPF study and provides only a quintile HR (no PRS-only AUC/R2), making it less directly comparable and less structurally robust than PGS001791.",
+    "error": null
+  },
+  {
+    "ontology": "thyroid carcinoma",
+    "ranked_candidate_ids": [
+      "PGS000630",
+      "PGS000632",
+      "PGS000631",
+      "PGS000633",
+      "PGS000087"
+    ],
+    "winner_model_id": "PGS000630",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches to thyroid carcinoma with broadly similar, PRSweb-derived sparse architectures and only full-model AUROC/R2 reported (no PRS-only AUC/R2 anywhere), so we should not over-weight small AUROC differences. Between the strongest PRSweb siblings, PGS000630 has the larger training set (n=4,481 vs 2,034 for the UKB-trained siblings) and comparable/basic covariates, and it is evaluated in two independent biobanks with some ancestry breadth (EUR+MAE) at similar validation size, supporting transportability. The main runner-up is PGS000631, which shows slightly higher full-model AUROC (0.636 vs 0.626) and OR per SD (1.651 vs 1.598), but it is trained/validated on smaller UKB-based samples (validation n=1,778) and lacks the cross-biobank/ancestry breadth seen for PGS000630; given that full-model AUROC differences are not decisive and effect-size differences are modest, the broader evaluation context and larger development base make PGS000630 the better-supported pick.",
+    "error": null
+  },
+  {
+    "ontology": "urinary bladder cancer",
+    "ranked_candidate_ids": [
+      "PGS000611",
+      "PGS000613",
+      "PGS000610",
+      "PGS000612",
+      "PGS000723"
+    ],
+    "winner_model_id": "PGS000613",
+    "confidence": "Moderate",
+    "rationale": "All candidates are direct matches for urinary bladder carcinoma and none reports PRS-only AUC/R2, so we rely on within-endpoint comparability (same basic covariates) and effect-size/performance signals. PGS000613 (Cancer PRSweb, UKB-derived, P+T, 15 variants) has the strongest within-family evidence versus the closest runner-up PGS000611: slightly higher full-model AUROC (0.571 vs 0.567), higher Nagelkerke R\u00b2 (0.0125 vs 0.0114), and stronger top-1% vs rest OR (2.91 vs 2.66) with similar per-SD OR (1.301 vs 1.284) under the same covariate set (age, sex, batch, PCs 1-4) and same validation size (n=13,530, EUR). PGS000723 shows a higher AUROC (0.583) and much larger validation (n=400,812) but lacks training details (N/A) and provides less PRS-specific/effect-size support, making its apparent edge less well-supported for PRS quality than the coherent PRSweb sibling set; thus PGS000613 is the best-supported pick.",
+    "error": null
+  },
+  {
+    "ontology": "uterine cancer",
+    "ranked_candidate_ids": [
+      "PGS003381",
+      "PGS000075",
+      "PGS000786",
+      "PGS000541",
+      "PGS000542"
+    ],
+    "winner_model_id": "PGS003381",
+    "confidence": "Moderate",
+    "rationale": "PGS003381 is the best direct match to the target (uterine cancer) via the clinically dominant subtype endpoint: phenotyping_reported and trait_reported are uterine endometrial carcinoma (EFO: endometrial carcinoma), which is strongly aligned to uterine cancer. It also has a much stronger PRS construction signal than the main runner-up PGS000541/PGS000542 (uterine cancer label) by using a genome-wide shrinkage approach (lassosum) with 529,365 variants versus 18\u201320 GWAS-hit/P+T variants, which is typically more predictive for complex traits when endpoints are compatible. Although PGS003381 only reports full-model AUROC/R\u00b2 (0.761/0.11) rather than PRS-only metrics, its covariates are relatively light (age + PCs) compared with PGS000075/PGS000786 which include family history and many epidemiologic factors that inflate full-model discrimination and reduce comparability. Against the exact-label uterine cancer PRSweb scores (PGS000541/PGS000542), the large-variant lassosum model is more likely to transfer better despite the label being endometrial-specific.",
+    "error": null
+  }
+]

@@ -71,8 +71,8 @@ logger = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 # Runtime toggles — module-level baseline (kept for backward compat)
 # ---------------------------------------------------------------------------
-# Defaults mirror v16 final state. Per-run overrides flow through
-# `ToolAblationConfig` (see below) and take precedence over these flags.
+# Module-level compatibility switches remain for legacy v16-style runs. Current
+# paper-facing defaults flow through `ToolAblationConfig` via driver.py.
 ENABLE_BIOLOGY_HELPER = True
 ENABLE_GC_BATCH = True
 
@@ -94,7 +94,7 @@ class ToolAblationConfig:
     # Current contribution3 comparison isolates the prs_model_evaluator
     # skill value over no_all_tools: all evidence tools default off; the
     # production augmentation over no_all_tools is the prs_model_evaluator
-    # skill at PICK / GLOBAL_PRIMARY_RECONCILIATION / CRITIC.
+    # skill as context-only guidance at PGS_TRIAGE / PICK.
     #
     # `enable_skill` (the cross_trait_domain_knowledge KB) is ARCHIVED
     # for production use because paired80 measured zero lift over the
@@ -110,7 +110,8 @@ class ToolAblationConfig:
     enable_biology: bool = False        # gates Scout-time `biology_retrieve_related_bundles` (only entry)
     enable_skill: bool = True           # ARCHIVED: cross_trait_domain_knowledge KB (paired80 zero lift); default kept True for legacy reproducibility only
     enable_skill_reference_lane: bool = False
-    enable_pgs_quality_skill: bool = False  # gates prs_model_evaluator skill at PICK/RECONCILE/CRITIC (production active)
+    enable_pgs_quality_skill: bool = False  # gates prs_model_evaluator skill at PGS_TRIAGE/PICK (production active)
+    enable_pgs_quality_prompt_block: bool = False  # explicit system-prompt declaration; iter12 regressed, default off
     enable_pgs_quality_reference_lane: bool = False  # independent iter11-style no-evidence reference for final LLM arbitration
     enable_h2_global_primary_context: bool = False  # expose h2 records to cross-bundle GP, not upstream selection
 
@@ -176,6 +177,7 @@ def run_transfer_agent(
         "enable_skill": cfg.enable_skill,
         "enable_skill_reference_lane": cfg.enable_skill_reference_lane,
         "enable_pgs_quality_skill": cfg.enable_pgs_quality_skill,
+        "enable_pgs_quality_prompt_block": cfg.enable_pgs_quality_prompt_block,
         "enable_pgs_quality_reference_lane": cfg.enable_pgs_quality_reference_lane,
         "enable_h2_global_primary_context": cfg.enable_h2_global_primary_context,
         "disabled_tools": cfg.disabled_tools(),

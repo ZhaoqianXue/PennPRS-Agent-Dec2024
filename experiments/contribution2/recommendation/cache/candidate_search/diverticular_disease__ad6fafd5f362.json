@@ -1,0 +1,277 @@
+{
+  "cache_version": "v4",
+  "ontology": "diverticular disease",
+  "candidate_model_ids": [
+    "PGS000997",
+    "PGS004614",
+    "PGS004474",
+    "PGS004544",
+    "PGS000996"
+  ],
+  "total_found": 5,
+  "candidate_models": [
+    {
+      "id": "PGS000996",
+      "trait_reported": "Diverticular disease/diverticulitis",
+      "trait_efo": "diverticular disease, diverticulitis",
+      "method_name": "snpnet",
+      "variants_number": 368,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.55186,
+        "r2": 0.00372,
+        "pgs_only_auc": 0.55186,
+        "pgs_only_r2": 0.00372,
+        "full_model_auc": 0.67555,
+        "full_model_r2": 0.03898,
+        "incremental_auc": 0.00841,
+        "selected_performance_id": "PPM007747",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67555,
+            "ci_lower": 0.65884,
+            "ci_upper": 0.69227
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.03898
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00841
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00372
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.55186,
+            "ci_lower": 0.53326,
+            "ci_upper": 0.57047
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Diverticular disease/diverticulitis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS000997",
+      "trait_reported": "Diverticular disease of intestine (time-to-event)",
+      "trait_efo": "diverticular disease",
+      "method_name": "snpnet",
+      "variants_number": 5757,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.59105,
+        "r2": 0.01777,
+        "pgs_only_auc": 0.59105,
+        "pgs_only_r2": 0.01777,
+        "full_model_auc": 0.7155,
+        "full_model_r2": 0.10502,
+        "incremental_auc": 0.01733,
+        "selected_performance_id": "PPM007750",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.7155,
+            "ci_lower": 0.70514,
+            "ci_upper": 0.72586
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.10502
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01733
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.01777
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.59105,
+            "ci_lower": 0.57889,
+            "ci_upper": 0.60321
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE diverticular disease of intestine",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS004474",
+      "trait_reported": "K57 (Diverticular disease of intestine)",
+      "trait_efo": "diverticular disease",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020589",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.31249579458352
+          }
+        ]
+      },
+      "phenotyping_reported": "K57 (Diverticular disease of intestine)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004544",
+      "trait_reported": "K57 (Diverticular disease of intestine)",
+      "trait_efo": "diverticular disease",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020659",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.321028
+          }
+        ]
+      },
+      "phenotyping_reported": "K57 (Diverticular disease of intestine)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004614",
+      "trait_reported": "Diverticular disease",
+      "trait_efo": "diverticular disease",
+      "method_name": "SBayesR",
+      "variants_number": 1082282,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: AFR (33%), EUR (33%), SAS (33%)",
+      "publication": {
+        "title": "150 risk variants for diverticular disease of intestine prioritize cell types and enable polygenic prediction of disease susceptibility.",
+        "journal": "Cell Genom"
+      },
+      "date_release": "2024-02-20",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.76,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020789",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.76,
+            "ci_lower": 0.721,
+            "ci_upper": 0.8
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Diverticular disease",
+      "covariates": "family history, age, and sex",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=7,696"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000997",
+    "reported_auc": 0.591,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Diverticular disease of intestine (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "cache_version": "v4",
+  "ontology": "retinal detachment",
+  "candidate_model_ids": [
+    "PGS001833",
+    "PGS001137",
+    "PGS000990",
+    "PGS002040"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS000990",
+      "trait_reported": "Retinal detachments and breaks (time-to-event)",
+      "trait_efo": "retinal break, retinal detachment",
+      "method_name": "snpnet",
+      "variants_number": 237,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.54152,
+        "r2": 0.00213,
+        "pgs_only_auc": 0.54152,
+        "pgs_only_r2": 0.00213,
+        "full_model_auc": 0.64308,
+        "full_model_r2": 0.02565,
+        "incremental_auc": 0.00606,
+        "selected_performance_id": "PPM007720",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64308,
+            "ci_lower": 0.61279,
+            "ci_upper": 0.67337
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02565
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.00606
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00213
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.54152,
+            "ci_lower": 0.50847,
+            "ci_upper": 0.57457
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE retinal detachments and breaks",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001137",
+      "trait_reported": "Retinal detachment",
+      "trait_efo": "retinal detachment",
+      "method_name": "snpnet",
+      "variants_number": 321,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.57317,
+        "r2": 0.00663,
+        "pgs_only_auc": 0.57317,
+        "pgs_only_r2": 0.00663,
+        "full_model_auc": 0.65311,
+        "full_model_r2": 0.02791,
+        "incremental_auc": 0.01854,
+        "selected_performance_id": "PPM008414",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.65311,
+            "ci_lower": 0.62153,
+            "ci_upper": 0.68468
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.02791
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.01854
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.00663
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.57317,
+            "ci_lower": 0.53771,
+            "ci_upper": 0.60862
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Retinal detachment",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001833",
+      "trait_reported": "Retinal detachments and defects",
+      "trait_efo": "retinal detachment",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 3737,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009556",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0218,
+            "ci_lower": 0.0078,
+            "ci_upper": 0.0359
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Retinal detachments and defects",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,445"
+    },
+    {
+      "id": "PGS002040",
+      "trait_reported": "Retinal detachments and defects",
+      "trait_efo": "retinal detachment",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 706872,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011186",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0276,
+            "ci_lower": 0.0135,
+            "ci_upper": 0.0416
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Retinal detachments and defects",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,445"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001137",
+    "reported_auc": 0.5732,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Retinal detachment",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

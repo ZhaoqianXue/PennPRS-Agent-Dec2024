@@ -1,0 +1,379 @@
+{
+  "cache_version": "v4",
+  "ontology": "multiple myeloma",
+  "candidate_model_ids": [
+    "PGS000653",
+    "PGS002281",
+    "PGS000652",
+    "PGS002306",
+    "PGS000654",
+    "PGS003450"
+  ],
+  "total_found": 6,
+  "candidate_models": [
+    {
+      "id": "PGS000652",
+      "trait_reported": "Multiple myeloma",
+      "trait_efo": "plasma cell myeloma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 27,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=1,067",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.547,
+        "full_model_r2": 0.00945,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001337",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.547,
+            "ci_lower": 0.479,
+            "ci_upper": 0.613
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00945
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0823
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.6,
+            "ci_lower": 0.593,
+            "ci_upper": 11.4
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.24,
+            "ci_lower": 1.005,
+            "ci_upper": 1.529
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.215,
+            "se": 0.107
+          }
+        ]
+      },
+      "phenotyping_reported": "Multiple myeloma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=908"
+    },
+    {
+      "id": "PGS000653",
+      "trait_reported": "Multiple myeloma",
+      "trait_efo": "plasma cell myeloma",
+      "method_name": "GWAS Hits",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=3,377",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.577,
+        "full_model_r2": 0.0145,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001338",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.577,
+            "ci_lower": 0.537,
+            "ci_upper": 0.617
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0145
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0818
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.2,
+            "ci_lower": 0.855,
+            "ci_upper": 5.66
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.327,
+            "ci_lower": 1.165,
+            "ci_upper": 1.511
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.283,
+            "se": 0.0663
+          }
+        ]
+      },
+      "phenotyping_reported": "Multiple myeloma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=2,738"
+    },
+    {
+      "id": "PGS000654",
+      "trait_reported": "Multiple myeloma",
+      "trait_efo": "plasma cell myeloma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 21,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=3,377",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.576,
+        "full_model_r2": 0.0137,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001339",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.576,
+            "ci_lower": 0.536,
+            "ci_upper": 0.616
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0137
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0818
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.2,
+            "ci_lower": 0.854,
+            "ci_upper": 5.66
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.316,
+            "ci_lower": 1.156,
+            "ci_upper": 1.499
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.275,
+            "se": 0.0662
+          }
+        ]
+      },
+      "phenotyping_reported": "Multiple myeloma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=2,738"
+    },
+    {
+      "id": "PGS002281",
+      "trait_reported": "Multiple myeloma",
+      "trait_efo": "plasma cell myeloma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for multiple myeloma risk prediction.",
+        "journal": "Eur J Hum Genet"
+      },
+      "date_release": "2022-04-13",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.644,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012970",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.644,
+            "ci_lower": 0.622,
+            "ci_upper": 0.666
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR, highest vs lowest quintiles)",
+            "name_short": "Odds Ratio (OR, highest vs lowest quintiles)",
+            "estimate": 3.18,
+            "ci_lower": 2.34,
+            "ci_upper": 4.33
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple myeloma",
+      "covariates": "Age, sex, and geographic region of origin",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=2,395"
+    },
+    {
+      "id": "PGS002306",
+      "trait_reported": "Multiple myeloma",
+      "trait_efo": "plasma cell myeloma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 23,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+        "journal": "Int J Cancer"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.69,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013035",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.69,
+            "ci_lower": 0.64,
+            "ci_upper": 0.7
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Multiple myeloma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=290"
+    },
+    {
+      "id": "PGS003450",
+      "trait_reported": "Multiple myeloma",
+      "trait_efo": "plasma cell myeloma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 24,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017229",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.09,
+            "ci_lower": 1.02,
+            "ci_upper": 1.16
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic lymphocytic leukemia",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=20,134"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS002306",
+    "reported_auc": 0.69,
+    "tier": "full_model_auroc",
+    "trait_reported": "Multiple myeloma",
+    "method_name": "Genome-wide significant variants",
+    "validation_sample_size": "n=290"
+  }
+}

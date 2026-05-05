@@ -1,0 +1,245 @@
+{
+  "cache_version": "v4",
+  "ontology": "schizophrenia",
+  "candidate_model_ids": [
+    "PGS000134",
+    "PGS002785",
+    "PGS000136",
+    "PGS000135",
+    "PGS000133"
+  ],
+  "total_found": 5,
+  "candidate_models": [
+    {
+      "id": "PGS000133",
+      "trait_reported": "Schizophrenia",
+      "trait_efo": "schizophrenia",
+      "method_name": "PRS-CS",
+      "variants_number": 604645,
+      "ancestry_distribution": "GWAS: EAS (6%), EUR (94%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Penetrance and Pleiotropy of Polygenic Risk Scores for Schizophrenia in 106,160 Patients Across Four Health Care Systems.",
+        "journal": "Am J Psychiatry"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000413",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6,
+            "ci_lower": 0.55,
+            "ci_upper": 0.66
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.691
+          }
+        ]
+      },
+      "phenotyping_reported": "Schizophrenia",
+      "covariates": "age, sex, 10 PCs of ancestry, genotyping platform, genotyping batch",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=33,694"
+    },
+    {
+      "id": "PGS000134",
+      "trait_reported": "Schizophrenia",
+      "trait_efo": "schizophrenia",
+      "method_name": "PRS-CS",
+      "variants_number": 830589,
+      "ancestry_distribution": "GWAS: EAS (6%), EUR (94%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Penetrance and Pleiotropy of Polygenic Risk Scores for Schizophrenia in 106,160 Patients Across Four Health Care Systems.",
+        "journal": "Am J Psychiatry"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.6,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000414",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.6,
+            "ci_lower": 0.56,
+            "ci_upper": 0.64
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.483
+          }
+        ]
+      },
+      "phenotyping_reported": "Schizophrenia",
+      "covariates": "age, sex, 10 PCs of ancestry, genotyping platform, genotyping batch",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=44,436"
+    },
+    {
+      "id": "PGS000135",
+      "trait_reported": "Schizophrenia",
+      "trait_efo": "schizophrenia",
+      "method_name": "PRS-CS",
+      "variants_number": 972439,
+      "ancestry_distribution": "GWAS: EAS (6%), EUR (94%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Penetrance and Pleiotropy of Polygenic Risk Scores for Schizophrenia in 106,160 Patients Across Four Health Care Systems.",
+        "journal": "Am J Psychiatry"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.74,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000415",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.74,
+            "ci_lower": 0.67,
+            "ci_upper": 0.81
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Schizophrenia",
+      "covariates": "age, sex, 10 PCs of ancestry, genotyping platform, genotyping batch",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=9,569"
+    },
+    {
+      "id": "PGS000136",
+      "trait_reported": "Schizophrenia",
+      "trait_efo": "schizophrenia",
+      "method_name": "PRS-CS",
+      "variants_number": 833502,
+      "ancestry_distribution": "GWAS: EAS (6%), EUR (94%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Penetrance and Pleiotropy of Polygenic Risk Scores for Schizophrenia in 106,160 Patients Across Four Health Care Systems.",
+        "journal": "Am J Psychiatry"
+      },
+      "date_release": "2020-03-27",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.64,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000416",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.64,
+            "ci_lower": 0.6,
+            "ci_upper": 0.69
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.7
+          }
+        ]
+      },
+      "phenotyping_reported": "Schizophrenia",
+      "covariates": "age, sex, 10 PCs of ancestry, genotyping platform, genotyping batch",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=18,461"
+    },
+    {
+      "id": "PGS002785",
+      "trait_reported": "Schizophrenia",
+      "trait_efo": "schizophrenia",
+      "method_name": "SDPR",
+      "variants_number": 964422,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Sex-specific genetic association between psychiatric disorders and cognition, behavior and brain imaging in children and adults.",
+        "journal": "Transl Psychiatry"
+      },
+      "date_release": "2022-09-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.00806226119347736,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM015021",
+        "selected_validation_ancestry": "European",
+        "record_count": 50,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "partial R\u00b2",
+            "name_short": "partial R\u00b2",
+            "estimate": 0.00806226119347736
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cognitive function (Cognitive total)",
+      "covariates": "age, PCs1-3",
+      "training_development_cohorts": [
+        "PGC"
+      ],
+      "validation_sample_size": "n=2,524"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000135",
+    "reported_auc": 0.74,
+    "tier": "full_model_auroc",
+    "trait_reported": "Schizophrenia",
+    "method_name": "PRS-CS",
+    "validation_sample_size": "n=9,569"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "cache_version": "v4",
+  "ontology": "testicular carcinoma",
+  "candidate_model_ids": [
+    "PGS000598",
+    "PGS000599",
+    "PGS000602",
+    "PGS001164",
+    "PGS000796",
+    "PGS000601",
+    "PGS000086",
+    "PGS000603",
+    "PGS000600",
+    "PGS000596",
+    "PGS000604",
+    "PGS000595",
+    "PGS000597"
+  ],
+  "total_found": 0,
+  "candidate_models": [],
+  "baseline": null
+}

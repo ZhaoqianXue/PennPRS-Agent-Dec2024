@@ -1,0 +1,481 @@
+{
+  "cache_version": "v4",
+  "ontology": "celiac disease",
+  "candidate_model_ids": [
+    "PGS000042",
+    "PGS002067",
+    "PGS004930",
+    "PGS000041",
+    "PGS001856",
+    "PGS001301",
+    "PGS000316",
+    "PGS002107",
+    "PGS001894",
+    "PGS000040"
+  ],
+  "total_found": 11,
+  "candidate_models": [
+    {
+      "id": "PGS000040",
+      "trait_reported": "Coeliac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "SparSNP",
+      "variants_number": 228,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Accurate and robust genomic prediction of celiac disease using statistical learning.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "n=6,785",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.9,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000093",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.9
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coeliac disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "B58C"
+      ],
+      "validation_sample_size": "n=2,476"
+    },
+    {
+      "id": "PGS000041",
+      "trait_reported": "Coeliac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "SparSNP",
+      "variants_number": 2513,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genomic prediction of celiac disease targeting HLA-positive individuals.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "n=11,912",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.718,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000100",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.718,
+            "ci_lower": 0.676,
+            "ci_upper": 0.761
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coeliac disease in HLA-DQ2.5 carriers",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,237"
+    },
+    {
+      "id": "PGS000042",
+      "trait_reported": "Coeliac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "SparSNP",
+      "variants_number": 3317,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Genomic prediction of celiac disease targeting HLA-positive individuals.",
+        "journal": "Genome Med"
+      },
+      "date_release": "2019-12-18",
+      "samples_training": "n=5,552",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.73,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000101",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.73,
+            "ci_lower": 0.687,
+            "ci_upper": 0.772
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coeliac disease in HLA-DQ2.5 carriers",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=1,237"
+    },
+    {
+      "id": "PGS000316",
+      "trait_reported": "Coeliac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "Log\u2010additive GRS",
+      "variants_number": 53,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: NR (50%), EUR (50%)",
+      "publication": {
+        "title": "A single nucleotide polymorphism genetic risk score to aid diagnosis of coeliac disease: a pilot study in clinical care.",
+        "journal": "Aliment Pharmacol Ther"
+      },
+      "date_release": "2020-08-19",
+      "samples_training": "n=24,269",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.879,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000804",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.879,
+            "ci_lower": 0.87,
+            "ci_upper": 0.888
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Coeliac disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "B58C",
+        "UKBS"
+      ],
+      "validation_sample_size": "n=379,767"
+    },
+    {
+      "id": "PGS001301",
+      "trait_reported": "Malabsorption/coeliac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "snpnet",
+      "variants_number": 428,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EUR (50%), SAS (25%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.82867,
+        "r2": 0.14224,
+        "pgs_only_auc": 0.82867,
+        "pgs_only_r2": 0.14224,
+        "full_model_auc": 0.83351,
+        "full_model_r2": 0.14905,
+        "incremental_auc": 0.25775,
+        "selected_performance_id": "PPM009004",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.83351,
+            "ci_lower": 0.81372,
+            "ci_upper": 0.85329
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.14905
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.25775
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.14224
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.82867,
+            "ci_lower": 0.80826,
+            "ci_upper": 0.84908
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Malabsorption/coeliac disease",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=67,425"
+    },
+    {
+      "id": "PGS001856",
+      "trait_reported": "Celiac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 1661,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009738",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1196,
+            "ci_lower": 0.1043,
+            "ci_upper": 0.1348
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Celiac disease",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=16,106"
+    },
+    {
+      "id": "PGS001894",
+      "trait_reported": "Diagnosed with coeliac disease or gluten sensitivity",
+      "trait_efo": "celiac disease",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 484,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM010036",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0993,
+            "ci_lower": 0.0763,
+            "ci_upper": 0.1223
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Diagnosed with coeliac disease or gluten sensitivity",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,142"
+    },
+    {
+      "id": "PGS002067",
+      "trait_reported": "Celiac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 58231,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011398",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.1241,
+            "ci_lower": 0.1088,
+            "ci_upper": 0.1393
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Celiac disease",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=16,106"
+    },
+    {
+      "id": "PGS002107",
+      "trait_reported": "Diagnosed with coeliac disease or gluten sensitivity",
+      "trait_efo": "celiac disease",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 39066,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (29%), EUR (43%), GME (14%), SAS (14%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011712",
+        "selected_validation_ancestry": "European",
+        "record_count": 7,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0964,
+            "ci_lower": 0.0733,
+            "ci_upper": 0.1193
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Diagnosed with coeliac disease or gluten sensitivity",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=7,142"
+    },
+    {
+      "id": "PGS004930",
+      "trait_reported": "Celiac disease",
+      "trait_efo": "celiac disease",
+      "method_name": "SnpNet",
+      "variants_number": 463,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Polygenic risk score portability for common diseases across genetically diverse populations.",
+        "journal": "Human Genomics"
+      },
+      "date_release": "2024-09-19",
+      "samples_training": "n=285,899",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021718",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.52,
+            "ci_lower": 1.35,
+            "ci_upper": 1.71
+          }
+        ]
+      },
+      "phenotyping_reported": "Celiac disease",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=8,417"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001301",
+    "reported_auc": 0.8287,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Malabsorption/coeliac disease",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=67,425"
+  }
+}

@@ -1,0 +1,299 @@
+{
+  "cache_version": "v4",
+  "ontology": "cholelithiasis",
+  "candidate_model_ids": [
+    "PGS004476",
+    "PGS002072",
+    "PGS001861",
+    "PGS004546",
+    "PGS005150",
+    "PGS001174"
+  ],
+  "total_found": 6,
+  "candidate_models": [
+    {
+      "id": "PGS001174",
+      "trait_reported": "Cholelithiasis (time-to-event)",
+      "trait_efo": "cholelithiasis",
+      "method_name": "snpnet",
+      "variants_number": 970,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (20%), EAS (20%), EUR (40%), SAS (20%)",
+      "publication": {
+        "title": "Significant sparse polygenic risk scores across 813 traits in UK Biobank.",
+        "journal": "PLoS Genet"
+      },
+      "date_release": "2021-10-21",
+      "samples_training": "n=269,704",
+      "performance_metrics": {
+        "auc": 0.62342,
+        "r2": 0.02808,
+        "pgs_only_auc": 0.62342,
+        "pgs_only_r2": 0.02808,
+        "full_model_auc": 0.66706,
+        "full_model_r2": 0.05295,
+        "incremental_auc": 0.04311,
+        "selected_performance_id": "PPM008582",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.66706,
+            "ci_lower": 0.6514,
+            "ci_upper": 0.68272
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.05295
+          },
+          {
+            "name_long": "Incremental AUROC (full-covars)",
+            "name_short": "Incremental AUROC (full-covars)",
+            "estimate": 0.04311
+          },
+          {
+            "name_long": "PGS R2 (no covariates)",
+            "name_short": "PGS R2 (no covariates)",
+            "estimate": 0.02808
+          },
+          {
+            "name_long": "PGS AUROC (no covariates)",
+            "name_short": "PGS AUROC (no covariates)",
+            "estimate": 0.62342,
+            "ci_lower": 0.60688,
+            "ci_upper": 0.63996
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "TTE cholelithiasis",
+      "covariates": "age, sex, UKB array type, Genotype PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=24,905"
+    },
+    {
+      "id": "PGS001861",
+      "trait_reported": "Cholelithiasis and cholecystitis",
+      "trait_efo": "Cholecystitis, cholelithiasis",
+      "method_name": "Penalized regression (bigstatsr)",
+      "variants_number": 2059,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009777",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.0948,
+            "ci_lower": 0.081,
+            "ci_upper": 0.1085
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cholelithiasis and cholecystitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,908"
+    },
+    {
+      "id": "PGS002072",
+      "trait_reported": "Cholelithiasis and cholecystitis",
+      "trait_efo": "Cholecystitis, cholelithiasis",
+      "method_name": "LDpred2 (bigsnpr)",
+      "variants_number": 428587,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: AFR (25%), EAS (12%), EUR (38%), GME (12%), SAS (12%)",
+      "publication": {
+        "title": "Portability of 245 polygenic scores when derived from the UK Biobank and applied to 9 ancestry groups from the same cohort",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2022-01-10",
+      "samples_training": "n=391,124",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM011437",
+        "selected_validation_ancestry": "European",
+        "record_count": 8,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Partial Correlation (partial-r)",
+            "name_short": "Partial Correlation (partial-r)",
+            "estimate": 0.098,
+            "ci_lower": 0.0842,
+            "ci_upper": 0.1117
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Cholelithiasis and cholecystitis",
+      "covariates": "sex, age, birth date, deprivation index, 16 PCs",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=19,908"
+    },
+    {
+      "id": "PGS004476",
+      "trait_reported": "K80 (Cholelithiasis)",
+      "trait_efo": "cholelithiasis",
+      "method_name": "LDpred2",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020591",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.219425436525
+          }
+        ]
+      },
+      "phenotyping_reported": "K80 (Cholelithiasis)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS004546",
+      "trait_reported": "K80 (Cholelithiasis)",
+      "trait_efo": "cholelithiasis",
+      "method_name": "RFDiseasemetaPRS",
+      "variants_number": 1059939,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Integration of risk factor polygenic risk score with disease polygenic risk score for disease prediction.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=174,489",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020661",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.298622
+          }
+        ]
+      },
+      "phenotyping_reported": "K80 (Cholelithiasis)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=56,192"
+    },
+    {
+      "id": "PGS005150",
+      "trait_reported": "Cholelithiasis",
+      "trait_efo": "cholelithiasis",
+      "method_name": "PRS-CSx",
+      "variants_number": 908465,
+      "ancestry_distribution": "GWAS: EAS (28%), EUR (72%) | EVAL: EAS (100%)",
+      "publication": {
+        "title": "Assessment of polygenic risk score performance in East Asian populations for ten common diseases.",
+        "journal": "Commun Biol"
+      },
+      "date_release": "2025-03-17",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM022370",
+        "selected_validation_ancestry": "East Asian",
+        "record_count": 1,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.1905554941356
+          }
+        ]
+      },
+      "phenotyping_reported": "Cholelithiasis",
+      "covariates": "age, sex",
+      "training_development_cohorts": [
+        "BBJ",
+        "UKB"
+      ],
+      "validation_sample_size": "n=58,628"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS001174",
+    "reported_auc": 0.6234,
+    "tier": "pgs_only_auroc",
+    "trait_reported": "Cholelithiasis (time-to-event)",
+    "method_name": "snpnet",
+    "validation_sample_size": "n=24,905"
+  }
+}

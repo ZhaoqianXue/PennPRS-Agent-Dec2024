@@ -1,0 +1,175 @@
+{
+  "cache_version": "v4",
+  "ontology": "alcoholic liver cirrhosis",
+  "candidate_model_ids": [
+    "PGS004913",
+    "PGS000704",
+    "PGS001777"
+  ],
+  "total_found": 3,
+  "candidate_models": [
+    {
+      "id": "PGS000704",
+      "trait_reported": "Alcoholic cirrhosis",
+      "trait_efo": "alcoholic liver cirrhosis",
+      "method_name": "snpnet (multi-PRS)",
+      "variants_number": 183271,
+      "ancestry_distribution": "DEV: EUR (100%) | EVAL: EUR (67%), MAE (33%)",
+      "publication": {
+        "title": "Genetics of 35 blood and urine biomarkers in the UK Biobank.",
+        "journal": "Nat Genet"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "n=223,327",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.711,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001607",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.711
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.18,
+            "ci_lower": 1.11,
+            "ci_upper": 1.27
+          }
+        ]
+      },
+      "phenotyping_reported": "Alcoholic cirrhosis",
+      "covariates": "Age as time scale, sex, batch, PCs(1-10)",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=135,300"
+    },
+    {
+      "id": "PGS001777",
+      "trait_reported": "Cirrhosis (alcohol related)",
+      "trait_efo": "alcoholic liver cirrhosis",
+      "method_name": "Variants associated with alcohol related cirrhosis",
+      "variants_number": 3,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A genetic risk score and diabetes predict development of alcohol-related cirrhosis in drinkers.",
+        "journal": "J Hepatol"
+      },
+      "date_release": "2021-11-25",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.671,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM009251",
+        "selected_validation_ancestry": "European",
+        "record_count": 14,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.671,
+            "se": 0.016
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Odds Ratio (OR, top 20% vs bottom 20%)",
+            "name_short": "Odds Ratio (OR, top 20% vs bottom 20%)",
+            "estimate": 6.18,
+            "ci_lower": 4.05,
+            "ci_upper": 9.41
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 1.132,
+            "se": 0.116
+          }
+        ]
+      },
+      "phenotyping_reported": "Cirrhosis (males)",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "MyCode"
+      ],
+      "validation_sample_size": "n=1,390"
+    },
+    {
+      "id": "PGS004913",
+      "trait_reported": "Alcohol-associated liver cirrhosis",
+      "trait_efo": "alcoholic liver cirrhosis",
+      "method_name": "PRSice-2",
+      "variants_number": 20,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "A polygenic risk score for alcohol-associated cirrhosis among heavy drinkers with European ancestry.",
+        "journal": "Hepatol Commun"
+      },
+      "date_release": "2024-06-12",
+      "samples_training": "n=3,037",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": 0.029,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM021375",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.029
+          },
+          {
+            "name_long": "Odds ratio (OR, top vs bottom PRS deciles)",
+            "name_short": "Odds ratio (OR, top vs bottom PRS deciles)",
+            "estimate": 4.4,
+            "ci_lower": 1.56,
+            "ci_upper": 12.44
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Alcohol-associated liver cirrhosis",
+      "covariates": "Age, sex, 10 PCs",
+      "training_development_cohorts": [
+        "GenomALC",
+        "NIAAA"
+      ],
+      "validation_sample_size": "n=3,360"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS000704",
+    "reported_auc": 0.711,
+    "tier": "full_model_auroc",
+    "trait_reported": "Alcoholic cirrhosis",
+    "method_name": "snpnet (multi-PRS)",
+    "validation_sample_size": "n=135,300"
+  }
+}

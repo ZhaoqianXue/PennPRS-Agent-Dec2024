@@ -1,0 +1,776 @@
+{
+  "cache_version": "v4",
+  "ontology": "pancreatic carcinoma",
+  "candidate_model_ids": [
+    "PGS000385",
+    "PGS000386",
+    "PGS000794",
+    "PGS000725",
+    "PGS000159",
+    "PGS000663",
+    "PGS002740",
+    "PGS004250",
+    "PGS004693",
+    "PGS000083",
+    "PGS002264"
+  ],
+  "total_found": 11,
+  "candidate_models": [
+    {
+      "id": "PGS000083",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: NR (12%), EUR (87%), MAO (1%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cross-cancer evaluation of polygenic risk scores for 16 cancer types in two large cohorts.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2020-02-12",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002049",
+        "selected_validation_ancestry": "European",
+        "record_count": 3,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.742,
+            "se": 0.012
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.49,
+            "ci_lower": 1.36,
+            "ci_upper": 1.62
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident pancreatic cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), family history of cancer (prostate, breast, lung, bowel), body mass index, cigarette pack-years, smoking status (never vs. former vs. current)",
+      "training_development_cohorts": [
+        "AHS",
+        "ATBC",
+        "CLUEII",
+        "CPSII",
+        "DFCI-GCC",
+        "EPIC",
+        "HPFS",
+        "IARC",
+        "Iowa-Mayo",
+        "JHH",
+        "MAYO",
+        "MCCS",
+        "MDACCS",
+        "MEC",
+        "MSKCC",
+        "NHS",
+        "NYU-WHS",
+        "PACIFIC",
+        "PANDoRA",
+        "PANKRAS-II",
+        "PHS",
+        "PLCO",
+        "QIMR",
+        "SELECT",
+        "SMWHS",
+        "Toronto",
+        "UCSF",
+        "VITAL",
+        "WHI",
+        "WHS",
+        "Yale"
+      ],
+      "validation_sample_size": "n=391,491"
+    },
+    {
+      "id": "PGS000159",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 9,
+      "ancestry_distribution": "GWAS: NR (24%), EAS (40%), EUR (72%), MAO (2%), OTH (1%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Systematic evaluation of cancer-specific genetic risk score for 11 types of cancer in The Cancer Genome Atlas and Electronic Medical Records and Genomics cohorts.",
+        "journal": "Cancer Med"
+      },
+      "date_release": "2020-04-29",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM000479",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Mean realative risk",
+            "name_short": "Mean realative risk",
+            "estimate": 1.13,
+            "ci_lower": 1.07,
+            "ci_upper": 1.18
+          },
+          {
+            "name_long": "Wilcoxon test (case vs. control) p-value",
+            "name_short": "Wilcoxon test (case vs. control) p-value",
+            "estimate": 0.000145
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Pancreatic cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "AHS",
+        "ATBC",
+        "CPSII",
+        "DFCI-GCC",
+        "EPIC",
+        "HPFS",
+        "IARC",
+        "JHH",
+        "MAYO",
+        "MCCS",
+        "MDACCS",
+        "MEC",
+        "MSKCC",
+        "NHS",
+        "PANDoRA",
+        "PANKRAS-II",
+        "PHS",
+        "PLCO",
+        "QIMR",
+        "SELECT",
+        "Toronto",
+        "UCSF",
+        "VITAL",
+        "WHI",
+        "Yale"
+      ],
+      "validation_sample_size": "n=13,590"
+    },
+    {
+      "id": "PGS000385",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "GWAS Hits",
+      "variants_number": 17,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=3,650",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.589,
+        "full_model_r2": 0.019,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001070",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.589,
+            "ci_lower": 0.559,
+            "ci_upper": 0.622
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.019
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.082
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.58,
+            "ci_lower": 1.19,
+            "ci_upper": 5.57
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.384,
+            "ci_lower": 1.235,
+            "ci_upper": 1.552
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.325,
+            "se": 0.0583
+          }
+        ]
+      },
+      "phenotyping_reported": "Pancreatic cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=3,591"
+    },
+    {
+      "id": "PGS000386",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "Pruning and Thresholding (P+T)",
+      "variants_number": 10,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=3,650",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.579,
+        "full_model_r2": 0.0157,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001071",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.579,
+            "ci_lower": 0.548,
+            "ci_upper": 0.611
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.0157
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0822
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.64,
+            "ci_lower": 0.655,
+            "ci_upper": 4.12
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.342,
+            "ci_lower": 1.199,
+            "ci_upper": 1.503
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.294,
+            "se": 0.0577
+          }
+        ]
+      },
+      "phenotyping_reported": "Pancreatic cancer",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "UKB"
+      ],
+      "validation_sample_size": "n=3,591"
+    },
+    {
+      "id": "PGS000663",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: NR (12%), EUR (87%), MAO (1%) | EVAL: EAS (33%), EUR (67%)",
+      "publication": {
+        "title": "Genetic and Circulating Biomarker Data Improve Risk Prediction for Pancreatic Cancer in the General Population.",
+        "journal": "Cancer Epidemiol Biomarkers Prev"
+      },
+      "date_release": "2021-01-07",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.67,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001370",
+        "selected_validation_ancestry": "European",
+        "record_count": 5,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.67
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.44,
+            "ci_lower": 1.25,
+            "ci_upper": 1.67
+          }
+        ]
+      },
+      "phenotyping_reported": "Pancreatic cancer (0-10 years of follow-up)",
+      "covariates": "matching factors, age, cohort (also gender), race/ethnicity, smoking status, fasting status, month/year of blood collection, body mass index, waist-to-hip ratio, diabetic status",
+      "training_development_cohorts": [
+        "AHS",
+        "ATBC",
+        "CLUEII",
+        "CPSII",
+        "DFCI-GCC",
+        "EPIC",
+        "HPFS",
+        "IARC",
+        "Iowa-Mayo",
+        "JHH",
+        "MAYO",
+        "MCCS",
+        "MDACCS",
+        "MEC",
+        "MSKCC",
+        "NHS",
+        "NYU-WHS",
+        "PACIFIC",
+        "PANDoRA",
+        "PANKRAS-II",
+        "PHS",
+        "PLCO",
+        "QIMR",
+        "SELECT",
+        "SMWHS",
+        "Toronto",
+        "UCSF",
+        "VITAL",
+        "WHI",
+        "WHS",
+        "Yale"
+      ],
+      "validation_sample_size": "n=956"
+    },
+    {
+      "id": "PGS000725",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluating the Utility of Polygenic Risk Scores in Identifying High-Risk Individuals for Eight Common Cancers.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2021-02-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.639,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001655",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.639,
+            "ci_lower": 0.613,
+            "ci_upper": 0.664
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident Pancreatic cancer",
+      "covariates": "Genotyping array",
+      "training_development_cohorts": [
+        "AHS",
+        "ATBC",
+        "CLUEII",
+        "CPSII",
+        "DFCI-GCC",
+        "EPIC",
+        "HPFS",
+        "IARC",
+        "JHH",
+        "MAYO",
+        "MCCS",
+        "MDACCS",
+        "MEC",
+        "MSKCC",
+        "NHS",
+        "NYU-WHS",
+        "PANDoRA",
+        "PANKRAS-II",
+        "PHS",
+        "PLCO",
+        "QIMR",
+        "SELECT",
+        "SMWHS",
+        "UCSF",
+        "VITAL",
+        "WHI",
+        "WHS",
+        "Yale"
+      ],
+      "validation_sample_size": "n=400,812"
+    },
+    {
+      "id": "PGS000794",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "22 variants from Graff et al (PGS000083) with inverse variant weights",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: NR (12%), EUR (87%), MAO (1%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Pan-cancer analysis demonstrates that integrating polygenic risk scores with modifiable risk factors improves risk prediction.",
+        "journal": "Nat Commun"
+      },
+      "date_release": "2021-05-28",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.745,
+        "full_model_r2": 0.439,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM002065",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.745
+          },
+          {
+            "name_long": "Concordance Statistic",
+            "name_short": "C-index",
+            "estimate": 0.743,
+            "se": 0.012
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Proportion of the variance explained",
+            "name_short": "R\u00b2",
+            "estimate": 0.439
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.49,
+            "ci_lower": 1.37,
+            "ci_upper": 1.63
+          }
+        ]
+      },
+      "phenotyping_reported": "Incident pancreatic cancer",
+      "covariates": "Age at assessment, sex, genotyping array, PCs(1-15), family history of cancer (prostate, breast, lung, bowel), body mass index, cigarette pack-years, smoking status (never vs. former vs. current)",
+      "training_development_cohorts": [
+        "AHS",
+        "ATBC",
+        "CLUEII",
+        "CPSII",
+        "DFCI-GCC",
+        "EPIC",
+        "HPFS",
+        "IARC",
+        "Iowa-Mayo",
+        "JHH",
+        "MAYO",
+        "MCCS",
+        "MDACCS",
+        "MEC",
+        "MSKCC",
+        "NHS",
+        "NYU-WHS",
+        "PACIFIC",
+        "PANDoRA",
+        "PANKRAS-II",
+        "PANSCAN",
+        "PHS",
+        "PLCO",
+        "QIMR",
+        "SELECT",
+        "SMWHS",
+        "Toronto",
+        "UCSF",
+        "VITAL",
+        "WHI",
+        "WHS",
+        "Yale"
+      ],
+      "validation_sample_size": "n=391,491"
+    },
+    {
+      "id": "PGS002264",
+      "trait_reported": "Pancreatic ductal adenocarcinoma",
+      "trait_efo": "pancreatic ductal adenocarcinoma",
+      "method_name": "Curated variants associated with pancreatic cancer",
+      "variants_number": 49,
+      "ancestry_distribution": "GWAS: EAS (70%), EUR (99%) | EVAL: NR (100%)",
+      "publication": {
+        "title": "Predicting Pancreatic Cancer in the UK Biobank Cohort Using Polygenic Risk Scores and Diabetes Mellitus.",
+        "journal": "Gastroenterology"
+      },
+      "date_release": "2022-03-16",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.83,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM012890",
+        "selected_validation_ancestry": "Not reported",
+        "record_count": 14,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.83,
+            "ci_lower": 0.8,
+            "ci_upper": 0.86
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Incident pancreatic ductal adenocarcinoma",
+      "covariates": "Age of participants at recruitment, age when DM diagnosed, DM onset (No DM, NODM, LSDM), waist circumference (cm), and first-degree family history of digestive cancer (yes/no)., clinical risk",
+      "training_development_cohorts": [
+        "PANDoRA",
+        "UKB"
+      ],
+      "validation_sample_size": "n=11,462"
+    },
+    {
+      "id": "PGS002740",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 22,
+      "ancestry_distribution": "GWAS: NR (10%), EAS (20%), EUR (88%), MAO (90%), OTH (50%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "The age-dependent association of risk factors with pancreatic cancer.",
+        "journal": "Ann Oncol"
+      },
+      "date_release": "2022-08-03",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM014843",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [
+          {
+            "name_long": "Odds ratio (OR, top vs bottom 10%)",
+            "name_short": "Odds ratio (OR, top vs bottom 10%)",
+            "estimate": 4.12,
+            "ci_lower": 3.08,
+            "ci_upper": 5.52
+          }
+        ],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Pancreatic cancer in those aged >70 years",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "AHS",
+        "ATBC",
+        "CLUEII",
+        "CPSII",
+        "DFCI-GCC",
+        "EPIC",
+        "HPFS",
+        "IARC",
+        "Iowa-Mayo",
+        "JHH",
+        "MAYO",
+        "MCCS",
+        "MDACCS",
+        "MEC",
+        "MSKCC",
+        "NHS",
+        "NYU-WHS",
+        "PACIFIC",
+        "PANDoRA",
+        "PANKRAS-II",
+        "PHS",
+        "PLCO",
+        "QIMR",
+        "SELECT",
+        "SMWHS",
+        "Toronto",
+        "UCSF",
+        "VITAL",
+        "WHI",
+        "WHS",
+        "Yale"
+      ],
+      "validation_sample_size": "n=13,952"
+    },
+    {
+      "id": "PGS004250",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "PRSice-2",
+      "variants_number": 19,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Potential utility of risk stratification for multicancer screening with liquid biopsy tests.",
+        "journal": "NPJ Precis Oncol"
+      },
+      "date_release": "2023-12-15",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020307",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Hazard Ratio",
+            "name_short": "HR",
+            "estimate": 1.37,
+            "ci_lower": 1.16,
+            "ci_upper": 1.61
+          }
+        ]
+      },
+      "phenotyping_reported": "Pancreatic cancer",
+      "covariates": "first 10 genetic principal components",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=133,830"
+    },
+    {
+      "id": "PGS004693",
+      "trait_reported": "Pancreatic cancer",
+      "trait_efo": "exocrine pancreatic carcinoma",
+      "method_name": "AnnoPred",
+      "variants_number": 6351686,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Using clinical and genetic risk factors for risk prediction of 8 cancers in the UK Biobank.",
+        "journal": "JNCI Cancer Spectr"
+      },
+      "date_release": "2024-03-18",
+      "samples_training": "n=367,913",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.5426,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM020878",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.5426
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Pancreatic cancer",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "FinnGen",
+        "UKB"
+      ],
+      "validation_sample_size": "n=40,877"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS002264",
+    "reported_auc": 0.83,
+    "tier": "full_model_auroc",
+    "trait_reported": "Pancreatic ductal adenocarcinoma",
+    "method_name": "Curated variants associated with pancreatic cancer",
+    "validation_sample_size": "n=11,462"
+  }
+}

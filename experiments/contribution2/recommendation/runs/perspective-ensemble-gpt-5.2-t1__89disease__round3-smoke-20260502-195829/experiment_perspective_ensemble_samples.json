@@ -1,0 +1,98 @@
+[
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "perspective_id": "perspective_C_covariate_packaging_and_heritability_ceiling",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS000201",
+      "top_alternatives": [
+        "PGS002738",
+        "PGS000202"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All four candidates are direct/near-direct matches to alcohol dependence via alcohol use disorder / alcohol dependence EFO mappings, but none reports PRS-only AUROC/R2, limiting heritability-ceiling sanity checks (h2_obs\u22480.036 EUR) and making PRS-vs-covariate attribution uncertain. Under the covariate-cleanliness focus, PGS000201 is preferred because it has explicitly basic covariates (sex, age, PCs, array, site) without family-history/clinical-risk packaging, and it reports a modest incremental \u0394R2 vs covariates (0.01192), which is plausibly PRS-driven and remains below the heritability ceiling. PGS002738 is a strong runner-up on endpoint fidelity (alcohol use disorder; EFO alcohol dependence) and reports an OR(top 10% vs rest)=1.96, but its covariates are unknown and the publication framing includes family history, raising packaging/leakage concern even if not explicitly in the covariate field. PGS000202 is the cleaner sibling alternative (basic covariates only) but shows weaker incremental signal (\u0394R2=0.00456) and smaller beta than PGS000201. PGS002739 is deprioritized mainly due to evaluation restricted to African American/Afro-Caribbean (less directly comparable to the EUR heritability reference provided) and unknown covariates, despite being a direct AUD model."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "perspective_id": "perspective_B_polygenic_signal_scale_and_transferability",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS003972",
+      "top_alternatives": [
+        "PGS003973",
+        "PGS002054"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches (trait_reported/trait_efo and phenotyping_reported all align to abdominal aortic aneurysm, with one explicitly prevalent). Under the requested focus on polygenic signal scale and transferability, PGS003972 is best supported structurally: it is genome-wide (PRS-CS; 1,118,997 variants) and comes from a disease-focused AAA GWAS meta-analysis with many contributing cohorts (broad multi-cohort development list), which is supportive for robustness/transferability compared with framework/portability-style scores. Its evaluation is EUR-only, which limits demonstrated cross-ancestry transfer, and its reported discrimination is a full-model AUROC (0.69) without PRS-only metrics, so the PRS-specific signal cannot be cleanly compared across candidates\u2014hence DIRECT_SUB_OPTIMAL.\n\nRunner-up PGS003973 is from the same disease-focused study family with the same genome-wide PRS-CS construction and similar cohort context; it reports a high full-model C-index (0.882) with basic covariates (Age, Age^2, Sex), but because this is not explicitly PRS-only and the evaluation remains EUR-only with small validation (n=7,517), it is not clearly superior on PRS-comparable evidence. PGS002054 is a strong structural/transferability alternative because it is genome-wide shrinkage (LDpred2; 592,187 variants) with very large development sample size (n=391,124) and explicitly multi-ancestry evaluation (AFR/EAS/EUR/GME/SAS), but it comes from a UKB portability framework paper and provides only a modest partial-r (0.0144) rather than clearer PRS-only R2/AUC, which weakens confidence despite better ancestry breadth."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "perspective_id": "perspective_A_prs_only_cleanliness_and_endpoint_fidelity",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS001784",
+      "top_alternatives": [
+        "PGS000753",
+        "PGS002054"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches on trait_reported/trait_efo and have endpoint-faithful phenotyping_reported (all are abdominal aortic aneurysm; one is explicitly prevalent AAA but still aligned). Under the PRS-metric cleanliness focus, PGS001784 is best supported because it reports an explicit PRS-comparable metric (pgs_only_r2 = 0.014661; also labeled as covariates-regressed-out Nagelkerke R2), which is interpretable as PRS-only signal and is below the provided heritability ceiling (h2_liability\u22480.02), making it sanity-consistent. Competing models largely lack PRS-only AUC/R2 and instead report only full-model AUROC/C-index (PGS003429/PGS003972/PGS003973) or partial-r without clear PRS-only framing (PGS002054), which are less clean for PRS-only comparison; additionally, the very high full-model discrimination in some records (e.g., C-index 0.882) cannot be treated as PRS-only evidence per the provided guidance.\n\nRunners-up: PGS000753 is selected next because it provides a standalone PRS effect size (OR per SD 1.37, with CI), offering some PRS-specific discrimination evidence despite missing PRS-only AUC/R2. PGS002054 is the second runner-up because it provides a quantitative PRS-associated metric (partial correlation 0.0144), but it is less clearly PRS-only comparable than the explicit pgs_only_r2 in PGS001784 and lacks effect-size reporting. Overall outcome is DIRECT_SUB_OPTIMAL because no candidate reports a clean PGS-only AUROC, several candidates rely on full-model metrics with unknown/variable covariates, and the best candidate (PGS001784) comes from a broad framework-style publication context, which limits certainty despite having the cleanest PRS-only metric in the visible set."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "perspective_id": "perspective_A_prs_only_cleanliness_and_endpoint_fidelity",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS002738",
+      "top_alternatives": [
+        "PGS000201",
+        "PGS000202"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All four candidates are direct-match in concept, but all lack clean PRS-only AUC/R2 (pgs_only_auc/pgs_only_r2 are null throughout), so metric cleanliness is limited and forces reliance on endpoint fidelity plus the available PRS-proximal effect/association summaries. PGS002738 has the strongest endpoint alignment to the target (trait_efo = alcohol dependence; trait_reported/phenotyping_reported = alcohol use disorder) and provides a PRS-relevant discrimination proxy (OR top 10% vs rest = 1.96 with CI), which is more directly interpretable for PRS signal than the small \u0394R2 values reported for PGS000201/PGS000202. Its development cohorts (MVP, UKB) also suggest a more disease-focused, multi-cohort basis than the UKB-only siblings. Main limitation: it still does not report PRS-only AUC/R2 and covariates are unknown, reducing comparability/cleanliness confidence.\n\nRunners-up: PGS000201 and PGS000202 are very similar siblings (same paper, same phenotyping_reported: DSM-5 AUD criteria count log-transformed; same trait_efo: alcohol dependence measurement; same method: PRS-CS; EUR eval). They at least report incremental \u0394R2 vs covariates (0.01192 for PGS000201; 0.00456 for PGS000202), but these are not PRS-only R2 and are small; between them, PGS000201 is better supported by the larger \u0394R2 and larger validation n (7,599 vs 1,251). PGS002739 is not selected as a runner-up despite reporting an OR (top 10% vs rest = 1.76) because its evaluation is AFR-only and it is gene-based with very low variant count (858), making it less directly comparable for a generic (unspecified-ancestry) target under a PRS-metric-cleanliness focus."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "alcohol_dependence__chunk_01",
+    "ontology": "alcohol dependence",
+    "perspective_id": "perspective_B_polygenic_signal_scale_and_transferability",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS002738",
+      "top_alternatives": [
+        "PGS000201",
+        "PGS000202"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All four candidates are direct/near-direct matches to the target (alcohol dependence) via trait_efo and phenotyping_reported, but the evidence is limited by missing PRS-comparable AUC/R2 across the board (only \u0394R\u00b2 or top-decile ORs are shown) and incomplete training sample size metadata.\n\nBest pick (PGS002738): strongest support under the requested focus on polygenic signal scale and transferability. It targets the exact endpoint label (\u201cAlcohol use disorder\u201d, trait_efo=alcohol dependence), is developed from multiple cohorts (MVP, UKB) rather than UKB-only, and reports a relatively strong discrimination-style effect size (OR top 10% vs rest = 1.96, CI 1.54\u20132.51) in a sizable EUR evaluation (n=7,900). Variant coverage (326k) is substantial for PRS-CS and consistent with capturing polygenic signal.\n\nRunners-up: PGS000201 and PGS000202 are UKB-only PRS-CS scores with very large genome-wide variant counts (~1.08\u20131.09M), which is supportive for polygenic signal capture, and they use basic covariates (PCs/array/site). However, their transportability evidence is weaker (GWAS and evaluation both EUR-only; training cohort UKB only), and their reported incremental signal is modest (\u0394R\u00b2 0.01192 for PGS000201; 0.00456 for PGS000202), with PGS000201 preferred over PGS000202 due to higher \u0394R\u00b2 and larger validation n (7,599 vs 1,251).\n\nNot selected as top alternative: PGS002739 shows AFR-only evaluation (n=6,315) which is valuable for ancestry-specific deployment, but its very low variant count (858; gene-based PRS-CSx) suggests narrower polygenic coverage, and it is less directly comparable for general (unspecified) deployment ancestry; without additional multi-ancestry validation metrics, it is harder to rank above the broader-coverage EUR-evaluated options."
+    },
+    "error": null
+  },
+  {
+    "custom_id": "abdominal_aortic_aneurysm__chunk_01",
+    "ontology": "abdominal aortic aneurysm",
+    "perspective_id": "perspective_C_covariate_packaging_and_heritability_ceiling",
+    "decision": {
+      "outcome": "DIRECT_SUB_OPTIMAL",
+      "best_model_id": "PGS000753",
+      "top_alternatives": [
+        "PGS003973",
+        "PGS001784"
+      ],
+      "confidence": "Moderate",
+      "rationale": "All 6 candidates are direct matches on trait_reported/trait_efo and have acceptable endpoint alignment (AAA diagnosis; one is explicitly prevalent). Under the requested perspective focus, the main differentiators are (i) covariate cleanliness/packaging and (ii) whether reported discrimination is plausibly PRS-driven vs covariate-driven, sanity-checked against the very low local heritability ceiling (h2_liability\u22480.02).\n\nPGS000753 is preferred because it has the cleanest, most interpretable covariate set (age, sex, PCs) and reports a PRS-driven effect size (OR per SD 1.37, 95% CI 1.30\u20131.44) rather than relying on a high full-model AUROC that could be dominated by age/sex. Several other candidates report only full-model AUROC/C-index (e.g., 0.882, 0.708, 0.69) with missing PGS-only AUROC/incremental AUROC, making it hard to attribute performance to the PRS; this is especially concerning given the low heritability ceiling and domain guidance not to substitute full-model AUROC for PRS-only metrics.\n\nTop alternatives: PGS003973 is a strong runner-up because its covariates are still relatively clean (Age, Age^2, Sex) and it comes from a disease-focused AAA GWAS meta-analysis publication family, but its headline metric is a full-model C-index (0.882) without PRS-only metrics, so PRS contribution is unclear. PGS001784 is next because it provides a PRS-comparable metric (Nagelkerke R2 with covariates regressed out = 0.014661), which is below the h2_liability ceiling (~0.02) and thus sanity-consistent; however, it is from a global biobank framework-style paper and includes a heavier demographic/interaction covariate set (age2, interactions, 20 PCs) plus a very high full-model AUROC (0.868) that is likely largely covariate-driven.\n\nOverall outcome is DIRECT_SUB_OPTIMAL because across the pool there is limited PRS-only discrimination reporting (no PGS-only AUROC; incremental AUROC absent), and several candidates\u2019 reported high full-model metrics are not reliably PRS-attributable under the heritability-ceiling sanity-check guidance."
+    },
+    "error": null
+  }
+]

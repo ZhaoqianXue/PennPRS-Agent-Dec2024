@@ -1,0 +1,220 @@
+[
+  {
+    "ontology": "abdominal aortic aneurysm",
+    "trial": 1,
+    "n_models": 6,
+    "benchmark_ranked_ids": [
+      "PGS003973",
+      "PGS003429",
+      "PGS003972",
+      "PGS001784",
+      "PGS000753",
+      "PGS002054"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000753": 0.538848,
+      "PGS001784": 0.561756,
+      "PGS002054": 0.524981,
+      "PGS003429": 0.634083,
+      "PGS003972": 0.631193,
+      "PGS003973": 0.637363
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS003973"
+      ],
+      "2": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "3": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972"
+      ],
+      "4": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784"
+      ],
+      "5": [
+        "PGS003973",
+        "PGS003429",
+        "PGS003972",
+        "PGS001784",
+        "PGS000753"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS003973"
+      ],
+      "10": [
+        "PGS003973"
+      ],
+      "15": [
+        "PGS003973"
+      ],
+      "20": [
+        "PGS003973",
+        "PGS003429"
+      ],
+      "25": [
+        "PGS003973",
+        "PGS003429"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS003972",
+      "PGS002054",
+      "PGS003973",
+      "PGS003429",
+      "PGS000753",
+      "PGS001784"
+    ],
+    "recommended_pgs_id": "PGS003973",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "All 6 candidates are direct matches (trait_reported/trait_efo and phenotyping_reported all indicate abdominal aortic aneurysm; one is explicitly prevalent AAA but still aligned). Best-supported is PGS000753 because it is from a disease-focused AAA genetics study (Circulation; MVP/MAYO-VDB), reports a PRS-comparable effect size (OR per SD 1.37, 95% CI 1.30\u20131.44) with basic covariates (age, sex, PCs), and avoids reliance on full-model AUROC as a proxy for PRS performance (its AUC/R2 are not reported). Runners-up are the two Nat Genet meta-analysis PRS-CS models (PGS003972/PGS003973) due to strong disease-focused multi-cohort development and direct AAA endpoint; however, their reported discrimination is only via full-model AUROC/C-index (0.69 and 0.882) with no PGS-only metrics, and the very high C-index for PGS003973 is likely covariate-driven (age/age^2/sex), limiting comparability. Overall outcome is DIRECT_SUB_OPTIMAL because across the pool, PRS-only AUC is absent and the available metrics are heterogeneous (effect size vs partial-r vs covariate-heavy full-model AUROC), leaving meaningful uncertainty in ranking. | Borda re-rank promoted runner-up to primary.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "method",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/6"
+  },
+  {
+    "ontology": "alcohol dependence",
+    "trial": 1,
+    "n_models": 4,
+    "benchmark_ranked_ids": [
+      "PGS002738",
+      "PGS000201",
+      "PGS000202",
+      "PGS002739"
+    ],
+    "benchmark_auc_by_id": {
+      "PGS000201": 0.576196,
+      "PGS000202": 0.574157,
+      "PGS002738": 0.60511,
+      "PGS002739": 0.522355
+    },
+    "benchmark_topk_ids": {
+      "1": [
+        "PGS002738"
+      ],
+      "2": [
+        "PGS002738",
+        "PGS000201"
+      ],
+      "3": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202"
+      ],
+      "4": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ],
+      "5": [
+        "PGS002738",
+        "PGS000201",
+        "PGS000202",
+        "PGS002739"
+      ]
+    },
+    "benchmark_top_percent_ids": {
+      "5": [
+        "PGS002738"
+      ],
+      "10": [
+        "PGS002738"
+      ],
+      "15": [
+        "PGS002738"
+      ],
+      "20": [
+        "PGS002738"
+      ],
+      "25": [
+        "PGS002738"
+      ]
+    },
+    "eligible_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "candidate_model_ids": [
+      "PGS002739",
+      "PGS002738",
+      "PGS000202",
+      "PGS000201"
+    ],
+    "recommended_pgs_id": "PGS002738",
+    "recommendation_type": "DIRECT_SUB_OPTIMAL",
+    "recommendation_confidence": "Moderate",
+    "valid_output": true,
+    "hit_at_k": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true
+    },
+    "percentile_hit": {
+      "5": true,
+      "10": true,
+      "15": true,
+      "20": true,
+      "25": true
+    },
+    "in_target_topk": true,
+    "rationale": "All four candidates are direct matches to the target concept (alcohol dependence/AUD): PGS002738 and PGS002739 map to trait_efo=\"alcohol dependence\" with phenotyping_reported=\"Alcohol use disorder\"; PGS000201/PGS000202 map to \"alcohol dependence measurement\" but their phenotyping_reported is also AUD DSM-5 criteria count. PGS002738 is best supported because it has the most endpoint-faithful labeling (trait_reported=\"Alcohol use disorder\", trait_efo=\"alcohol dependence\") and provides a clear discriminative effect size (OR top 10% vs rest = 1.96, 95% CI 1.54\u20132.51) in a reasonably sized EUR evaluation (n=7,900), with development cohorts including MVP and UKB. The main limitation is that none of the candidates report PRS-only AUC/R2, and PGS002738 has covariates listed as Unknown, reducing comparability and keeping confidence below High. Runners-up: PGS000201 and PGS000202 are from the same publication family with the same AUD DSM-5 criteria endpoint and explicit incremental \u0394R\u00b2; PGS000201 ranks above PGS000202 due to higher \u0394R\u00b2 (0.01192 vs 0.00456), larger validation size (7,599 vs 1,251), and stronger beta (0.099 vs 0.043). PGS002739 is deprioritized as a runner-up despite being a direct AUD score because it is evaluated only in African American/Afro-Caribbean ancestry (EVAL: AFR 100%), making it less broadly supported as a general direct-match choice in this context compared with the EUR-evaluated alternatives.",
+    "rationale_features": [
+      "trait_match",
+      "auc",
+      "r2",
+      "sample_size",
+      "ancestry",
+      "covariates"
+    ],
+    "error": null,
+    "recommended_rank": 1,
+    "recommended_rank_label": "1/4"
+  }
+]

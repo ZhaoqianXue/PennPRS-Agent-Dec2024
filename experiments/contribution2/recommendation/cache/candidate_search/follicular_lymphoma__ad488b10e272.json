@@ -1,0 +1,274 @@
+{
+  "cache_version": "v4",
+  "ontology": "follicular lymphoma",
+  "candidate_model_ids": [
+    "PGS002304",
+    "PGS003455",
+    "PGS000643",
+    "PGS000644"
+  ],
+  "total_found": 4,
+  "candidate_models": [
+    {
+      "id": "PGS000643",
+      "trait_reported": "Nodular lymphoma",
+      "trait_efo": "follicular lymphoma",
+      "method_name": "PRS-CS",
+      "variants_number": 1048780,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=3,696",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.532,
+        "full_model_r2": 0.00282,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001328",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.532,
+            "ci_lower": 0.497,
+            "ci_upper": 0.568
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00282
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 2.49,
+            "ci_lower": 1.1,
+            "ci_upper": 5.65
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.133,
+            "ci_lower": 1.005,
+            "ci_upper": 1.277
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.125,
+            "se": 0.061
+          }
+        ]
+      },
+      "phenotyping_reported": "Nodular lymphoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=3,256"
+    },
+    {
+      "id": "PGS000644",
+      "trait_reported": "Nodular lymphoma",
+      "trait_efo": "follicular lymphoma",
+      "method_name": "lassosum",
+      "variants_number": 2209179,
+      "ancestry_distribution": "GWAS: EUR (100%) | DEV: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Cancer PRSweb: An Online Repository with Polygenic Risk Scores for Major Cancer Traits and Their Evaluation in Two Independent Biobanks.",
+        "journal": "Am J Hum Genet"
+      },
+      "date_release": "2020-12-15",
+      "samples_training": "n=3,696",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.538,
+        "full_model_r2": 0.00349,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM001329",
+        "selected_validation_ancestry": "European",
+        "record_count": 1,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.538,
+            "ci_lower": 0.504,
+            "ci_upper": 0.573
+          }
+        ],
+        "other_metrics": [
+          {
+            "name_long": "Nagelkerke's Pseudo-R\u00b2",
+            "name_short": "Nagelkerke's Pseudo-R\u00b2",
+            "estimate": 0.00349
+          },
+          {
+            "name_long": "Brier score",
+            "name_short": "Brier score",
+            "estimate": 0.0825
+          },
+          {
+            "name_long": "Odds Ratio (OR, top 1% vs. Rest)",
+            "name_short": "Odds Ratio (OR, top 1% vs. Rest)",
+            "estimate": 1.48,
+            "ci_lower": 0.538,
+            "ci_upper": 4.05
+          }
+        ],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.149,
+            "ci_lower": 1.021,
+            "ci_upper": 1.294
+          },
+          {
+            "name_long": "Beta",
+            "name_short": "\u03b2",
+            "estimate": 0.139,
+            "se": 0.0606
+          }
+        ]
+      },
+      "phenotyping_reported": "Nodular lymphoma",
+      "covariates": "age, sex, batch PCs 1-4",
+      "training_development_cohorts": [
+        "MGI"
+      ],
+      "validation_sample_size": "n=3,256"
+    },
+    {
+      "id": "PGS002304",
+      "trait_reported": "Follicular lymphoma",
+      "trait_efo": "follicular lymphoma",
+      "method_name": "Genome-wide significant variants",
+      "variants_number": 6,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Evaluating polygenic risk scores in assessing risk of nine solid and hematologic cancers in European descendants.",
+        "journal": "Int J Cancer"
+      },
+      "date_release": "2022-06-09",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": 0.61,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM013033",
+        "selected_validation_ancestry": "European",
+        "record_count": 2,
+        "classification_metrics": [
+          {
+            "name_long": "Area Under the Receiver-Operating Characteristic Curve",
+            "name_short": "AUROC",
+            "estimate": 0.61,
+            "ci_lower": 0.59,
+            "ci_upper": 0.63
+          }
+        ],
+        "other_metrics": [],
+        "effect_sizes": []
+      },
+      "phenotyping_reported": "Follicular lymphoma",
+      "covariates": "Unknown",
+      "training_development_cohorts": [
+        "ATBC",
+        "BCCA",
+        "CPSII",
+        "ELCCS",
+        "EPIC",
+        "EpiLymph",
+        "HPFS",
+        "Iowa-Mayo",
+        "Italian_GxE",
+        "MAYO",
+        "MCCS",
+        "MSKCC",
+        "NCI-SEER",
+        "NHS",
+        "NYU-WHS",
+        "PLCO",
+        "SCALE",
+        "UCSF2",
+        "WHI",
+        "Yale"
+      ],
+      "validation_sample_size": "n=197"
+    },
+    {
+      "id": "PGS003455",
+      "trait_reported": "Follicular lymphoma",
+      "trait_efo": "follicular lymphoma",
+      "method_name": "Genome-wide significant SNPs",
+      "variants_number": 7,
+      "ancestry_distribution": "GWAS: EUR (100%) | EVAL: EUR (100%)",
+      "publication": {
+        "title": "Distinct germline genetic susceptibility profiles identified for common non-Hodgkin lymphoma subtypes.",
+        "journal": "Leukemia"
+      },
+      "date_release": "2023-03-24",
+      "samples_training": "N/A",
+      "performance_metrics": {
+        "auc": null,
+        "r2": null,
+        "pgs_only_auc": null,
+        "pgs_only_r2": null,
+        "full_model_auc": null,
+        "full_model_r2": null,
+        "incremental_auc": null,
+        "selected_performance_id": "PPM017226",
+        "selected_validation_ancestry": "European",
+        "record_count": 4,
+        "classification_metrics": [],
+        "other_metrics": [],
+        "effect_sizes": [
+          {
+            "name_long": "Odds Ratio",
+            "name_short": "OR",
+            "estimate": 1.07,
+            "ci_lower": 0.98,
+            "ci_upper": 1.17
+          }
+        ]
+      },
+      "phenotyping_reported": "Chronic lymphocytic leukemia",
+      "covariates": "Unknown",
+      "training_development_cohorts": [],
+      "validation_sample_size": "n=20,134"
+    }
+  ],
+  "baseline": {
+    "pgs_id": "PGS002304",
+    "reported_auc": 0.61,
+    "tier": "full_model_auroc",
+    "trait_reported": "Follicular lymphoma",
+    "method_name": "Genome-wide significant variants",
+    "validation_sample_size": "n=197"
+  }
+}

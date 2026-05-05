@@ -104,58 +104,74 @@ def _cfg_key(cfg) -> tuple:
         cfg.enable_h2,
         cfg.enable_ot,
         cfg.enable_gc_batch,
+        cfg.enable_ot_late_batch,
         cfg.enable_biology,
         cfg.enable_skill,
         cfg.enable_skill_reference_lane,
+        cfg.enable_pgs_quality_skill,
+        cfg.enable_pgs_quality_prompt_block,
+        cfg.enable_pgs_quality_reference_lane,
+        cfg.enable_h2_global_primary_context,
+    )
+
+
+def _cfg_from_key(key: tuple):
+    from experiments.contribution3.transfer.agent import ToolAblationConfig
+
+    return ToolAblationConfig(
+        enable_h2=key[0],
+        enable_ot=key[1],
+        enable_gc_batch=key[2],
+        enable_ot_late_batch=key[3],
+        enable_biology=key[4],
+        enable_skill=key[5],
+        enable_skill_reference_lane=key[6],
+        enable_pgs_quality_skill=key[7],
+        enable_pgs_quality_prompt_block=key[8],
+        enable_pgs_quality_reference_lane=key[9],
+        enable_h2_global_primary_context=key[10],
     )
 
 
 @lru_cache(maxsize=16)
 def _scout_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_scout_prompt(cfg), ScoutDirective)
 
 
 @lru_cache(maxsize=16)
 def _gather_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_gather_prompt(cfg), RoundDirective)
 
 
 @lru_cache(maxsize=16)
 def _judge_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_judge_prompt(cfg), BundleRanking)
 
 
 @lru_cache(maxsize=16)
 def _pick_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_pick_prompt(cfg), ModelFrontier)
 
 
 @lru_cache(maxsize=16)
 def _pgs_triage_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_pgs_triage_prompt(cfg), PGSTriageSelection)
 
 
 @lru_cache(maxsize=16)
 def _global_primary_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_global_primary_prompt(cfg), GlobalPrimaryDecision)
 
 
 @lru_cache(maxsize=16)
 def _critic_chain_for_key(key: tuple):
-    from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg = ToolAblationConfig(*key)
+    cfg = _cfg_from_key(key)
     return _build_chain(make_critic_prompt(cfg), CritiqueDecision)
 
 

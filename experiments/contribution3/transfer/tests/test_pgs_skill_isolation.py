@@ -31,6 +31,7 @@ from experiments.contribution3.transfer.prompts.transfer_prompt import (
     make_scout_prompt,
 )
 from experiments.contribution3.transfer.tools import prs_model_evaluator_skill
+from experiments.contribution3.transfer.llm_chains import _cfg_from_key, _cfg_key
 
 
 PGS_SKILL_OFF_CFG = ToolAblationConfig(
@@ -42,6 +43,12 @@ PGS_SKILL_ON_CFG = ToolAblationConfig(
     enable_h2=False, enable_ot=False, enable_gc_batch=False,
     enable_biology=False, enable_skill=False,
     enable_pgs_quality_skill=True,
+)
+PGS_SKILL_PROMPT_DECLARED_CFG = ToolAblationConfig(
+    enable_h2=False, enable_ot=False, enable_gc_batch=False,
+    enable_biology=False, enable_skill=False,
+    enable_pgs_quality_skill=True,
+    enable_pgs_quality_prompt_block=True,
 )
 
 PGS_SKILL_PROMPT_TERMS = (
@@ -69,25 +76,27 @@ def test_pgs_skill_off_omits_block_everywhere() -> None:
         _assert_no_pgs_skill_terms(factory(PGS_SKILL_OFF_CFG))
 
 
-def test_pgs_skill_on_injects_block_at_active_stages_only() -> None:
-    """The skill is injected at the within-bundle PGS-selection stages
-    (PGS_TRIAGE, PICK) and nowhere else.
+def test_pgs_skill_default_is_context_only_not_prompt_declared() -> None:
+    """The production skill path injects `pgs_quality_guidance` in context_json,
+    not as explicit system-prompt weighting.
 
-    Active stages — they handle PGS-quality decisions within a fixed
-    bundle:
-      - PGS_TRIAGE (iter8): keeps the surviving ~15-candidate set
-        diverse and quality-balanced for downstream PICK.
-      - PICK (iter3): picks the within-bundle primary.
+    Iter12 measured that declaring the skill field in the system prompt
+    over-weighted it and regressed paired80 top-tail metrics. The default
+    keeps the Skill available as advisory context only.
+    """
+    for factory in (
+        make_scout_prompt, make_gather_prompt, make_judge_prompt,
+        make_pgs_triage_prompt, make_pick_prompt,
+        make_global_primary_prompt, make_critic_prompt,
+    ):
+        _assert_no_pgs_skill_terms(factory(PGS_SKILL_ON_CFG))
 
-    Excluded stages — different decision layer:
-      - SCOUT / GATHER / JUDGE: bundle-level decisions, not PGS quality.
-      - GLOBAL_PRIMARY_RECONCILIATION / CRITIC: iter0 paired80
-        measurement showed skill at these cross-bundle stages caused
-        bundle-level regressions (LLM switched primaries to bundles
-        whose source-trait endpoints looked cleaner but transferred
-        worse)."""
+
+def test_pgs_skill_prompt_declared_experiment_injects_block_at_active_stages_only() -> None:
+    """Explicit prompt declaration remains available as a reproducible
+    experiment, but is not the production default."""
     for factory in (make_pgs_triage_prompt, make_pick_prompt):
-        text = factory(PGS_SKILL_ON_CFG)
+        text = factory(PGS_SKILL_PROMPT_DECLARED_CFG)
         assert "pgs_quality_guidance" in text, (
             f"{factory.__name__} must advertise pgs_quality_guidance"
         )
@@ -95,7 +104,28 @@ def test_pgs_skill_on_injects_block_at_active_stages_only() -> None:
         make_scout_prompt, make_gather_prompt, make_judge_prompt,
         make_global_primary_prompt, make_critic_prompt,
     ):
-        _assert_no_pgs_skill_terms(factory(PGS_SKILL_ON_CFG))
+        _assert_no_pgs_skill_terms(factory(PGS_SKILL_PROMPT_DECLARED_CFG))
+
+
+def test_llm_chain_cfg_key_preserves_pgs_skill_flag() -> None:
+    """Chain-cache keys must round-trip every prompt-relevant ablation flag.
+
+    This catches silent regressions where a skill-enabled run injects
+    `pgs_quality_guidance` into context_json but the cached chain is built
+    from a cfg that does not advertise the field in the system prompt.
+    """
+    off_roundtrip = _cfg_from_key(_cfg_key(PGS_SKILL_OFF_CFG))
+    on_roundtrip = _cfg_from_key(_cfg_key(PGS_SKILL_ON_CFG))
+
+    prompt_roundtrip = _cfg_from_key(_cfg_key(PGS_SKILL_PROMPT_DECLARED_CFG))
+
+    assert off_roundtrip.enable_pgs_quality_skill is False
+    assert on_roundtrip.enable_pgs_quality_skill is True
+    assert on_roundtrip.enable_pgs_quality_prompt_block is False
+    assert prompt_roundtrip.enable_pgs_quality_prompt_block is True
+    _assert_no_pgs_skill_terms(make_pick_prompt(off_roundtrip))
+    _assert_no_pgs_skill_terms(make_pick_prompt(on_roundtrip))
+    assert "pgs_quality_guidance" in make_pick_prompt(prompt_roundtrip)
 
 
 def test_pgs_skill_loader_disabled_when_cfg_off() -> None:

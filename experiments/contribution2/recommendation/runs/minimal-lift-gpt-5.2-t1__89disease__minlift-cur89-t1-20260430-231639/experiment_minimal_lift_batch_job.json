@@ -1,0 +1,53 @@
+{
+  "batch_id": "batch_69f41b256e70819090ebde557f19b2ea",
+  "status": "completed",
+  "input_file_id": "file-AcmBgoteJJ1x26QazUjriH",
+  "output_file_id": "file-1zC2xBNhDuSEid9xv6vajv",
+  "error_file_id": null,
+  "request_counts": {
+    "completed": 89,
+    "failed": 0,
+    "total": 89
+  },
+  "batch": {
+    "id": "batch_69f41b256e70819090ebde557f19b2ea",
+    "completion_window": "24h",
+    "created_at": 1777605413,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-AcmBgoteJJ1x26QazUjriH",
+    "object": "batch",
+    "status": "completed",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": 1777605598,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1777691813,
+    "failed_at": null,
+    "finalizing_at": 1777605588,
+    "in_progress_at": 1777605475,
+    "metadata": {
+      "experiment": "contribution2_with_domain",
+      "manifest_file": "experiment_minimal_lift_batch_manifest.json"
+    },
+    "model": "gpt-5.2-2025-12-11",
+    "output_file_id": "file-1zC2xBNhDuSEid9xv6vajv",
+    "request_counts": {
+      "completed": 89,
+      "failed": 0,
+      "total": 89
+    },
+    "usage": {
+      "input_tokens": 1146699,
+      "input_tokens_details": {
+        "cached_tokens": 33536
+      },
+      "output_tokens": 24755,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 1171454
+    }
+  }
+}

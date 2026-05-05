@@ -1,0 +1,48 @@
+{
+  "batch_id": "batch_69f42b70b08c8190a1bc928cd85b963e",
+  "input_file_id": "file-1xUZiy8pojTJnLGFjPL6vE",
+  "request_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/minimal-lift-gpt-5.2-t5__89disease__iterG-trials5-t03-cur89-20260501-002610/experiment_minimal_lift_batch_requests.jsonl",
+  "manifest_file": "/Users/zhaoqianxue/Desktop/UPenn/PennPRS_Agent/experiments/contribution2/recommendation/runs/minimal-lift-gpt-5.2-t5__89disease__iterG-trials5-t03-cur89-20260501-002610/experiment_minimal_lift_batch_manifest.json",
+  "status": "validating",
+  "batch": {
+    "id": "batch_69f42b70b08c8190a1bc928cd85b963e",
+    "completion_window": "24h",
+    "created_at": 1777609584,
+    "endpoint": "/v1/chat/completions",
+    "input_file_id": "file-1xUZiy8pojTJnLGFjPL6vE",
+    "object": "batch",
+    "status": "validating",
+    "cancelled_at": null,
+    "cancelling_at": null,
+    "completed_at": null,
+    "error_file_id": null,
+    "errors": null,
+    "expired_at": null,
+    "expires_at": 1777695984,
+    "failed_at": null,
+    "finalizing_at": null,
+    "in_progress_at": null,
+    "metadata": {
+      "experiment": "contribution2_with_domain",
+      "manifest_file": "experiment_minimal_lift_batch_manifest.json"
+    },
+    "model": null,
+    "output_file_id": null,
+    "request_counts": {
+      "completed": 0,
+      "failed": 0,
+      "total": 0
+    },
+    "usage": {
+      "input_tokens": 0,
+      "input_tokens_details": {
+        "cached_tokens": 0
+      },
+      "output_tokens": 0,
+      "output_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "total_tokens": 0
+    }
+  }
+}
