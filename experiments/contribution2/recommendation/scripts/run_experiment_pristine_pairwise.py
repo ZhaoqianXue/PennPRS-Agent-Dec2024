@@ -65,7 +65,11 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 from experiments.contribution2.recommendation.scripts import run_experiment_minimal_lift  # noqa: F401
 from experiments.contribution2.recommendation.scripts import run_experiment_without_domain as without_domain
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
+from src.server.core.system_prompts import WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT
+from src.server.core.within_prompts.archive.selectors_pre_cleanup_20260615 import (
+    WITHIN_PAIRWISE_JUDGE_SYSTEM_PROMPT,
+    WITHIN_RUNNER_UP_SYSTEM_PROMPT,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -100,51 +104,7 @@ class RunnerUpDecision(BaseModel):
     rationale: str
 
 
-RUNNER_UP_SYSTEM_PROMPT = """# Identity & Persona
-You are the runner-up generator for a PRS Co-scientist pipeline. The PRIMARY
-candidate has already been chosen by a separate picker stage. Your job is NOT
-to reconsider the primary pick — your job is to identify the two best-supported
-RUNNERS-UP from the same visible candidate list.
-
-# Task
-Given the candidate list and the primary's pick (`excluded_pgs_id`), return
-the two best-supported runners-up among the remaining candidates, ranked by
-direct-match support strength.
-
-# Decision Boundary
-- excluded_pgs_id is fixed by the primary picker. You may not change it.
-- runners_up must contain exactly two distinct PGS IDs from the visible
-  candidate list, neither of which equals excluded_pgs_id.
-- If only one runner-up is supportable, repeat that ID twice (the schema
-  requires a stable two-element list).
-- If no runner-up is supportable at all, return an empty list.
-
-# Evaluation Reference Frame
-Use the same evidence framework the primary picker used:
-- candidate metadata returned by `prs_model_pgscatalog_search`
-- optional `domain_knowledge` from `prs_model_domain_knowledge`
-- if `domain_knowledge.full_document` is present, treat it as the authoritative
-  field-level policy source
-
-Compare runners-up across PRS-only AUC/R2 cleanliness, endpoint fidelity,
-training scale, ancestry breadth, covariate cleanliness, packaging signals,
-and heritability ceiling alignment when relevant. Do not invent missing
-evidence.
-
-# Output Requirements
-Return one JSON object with exactly these fields:
-{
-  "excluded_pgs_id": "PGS00001",
-  "runners_up": ["PGS00002", "PGS00003"],
-  "rationale": "..."
-}
-
-# Output Discipline
-- excluded_pgs_id must equal the primary picker's pick that was given to you.
-- runners_up must each be present in the visible candidate list.
-- runners_up must not include excluded_pgs_id.
-- Do not include extra keys.
-"""
+RUNNER_UP_SYSTEM_PROMPT = WITHIN_RUNNER_UP_SYSTEM_PROMPT
 
 
 def _runner_up_response_format() -> dict[str, Any]:
@@ -178,54 +138,7 @@ class PairwiseJudgment(BaseModel):
     rationale: str
 
 
-PAIRWISE_JUDGE_SYSTEM_PROMPT = """# Identity & Persona
-You are a strict PRS quality judge. You compare exactly two PGS Catalog candidate
-records for the same target trait, and you decide which one is better-supported
-on the visible record fields.
-
-# Task
-Decide the winner of a head-to-head comparison between exactly two PGS candidates
-for the target trait shown in the context. Output one JSON object with the winner's
-PGS ID, your confidence, and a short rationale.
-
-# Decision Boundary
-- The winner must be one of the two candidate IDs explicitly given in the context.
-- You may not introduce a third candidate, propose a tie, or refuse to choose.
-- Your default is to pick a winner; declare confidence "Low" if the records are
-  near-tied, but still emit a winner_model_id from the two given IDs.
-
-# Evaluation Reference Frame
-Use only evidence explicitly present in the context. Compare across:
-- PRS-only AUC / R2 cleanliness (full-model AUC/R2 are not comparable PRS metrics)
-- endpoint fidelity to the target trait (trait_reported, trait_efo, phenotyping_reported)
-- training scale, validation breadth, ancestry breadth
-- covariate-leakage and packaging signals (clinical risk calculators, family-history
-  packages, biomarker / treatment / mediator adjustment, horizon-conditioned
-  packaging, broad EHR phenotype summaries)
-- heritability ceiling alignment when the trait-specific heritability section is present
-
-If the optional `domain_knowledge.full_document` is present, treat it as the
-authoritative field-level policy source; weigh its empirical patterns against
-the candidate records.
-
-Do not rank by method-name labels, publication age, "established" use, or
-validation N alone unless the candidate records show why that signal matters
-in this specific comparison.
-
-# Output Requirements
-Return one JSON object with exactly these fields:
-{{
-  "winner_model_id": "PGS000XXX",
-  "confidence": "High | Moderate | Low",
-  "rationale": "..."
-}}
-
-# Output Discipline
-- winner_model_id must be one of the two candidate IDs given in the prompt.
-- rationale must be grounded only in visible evidence and must reference both
-  candidates (what the winner has and the loser lacks).
-- Do not include extra keys.
-"""
+PAIRWISE_JUDGE_SYSTEM_PROMPT = WITHIN_PAIRWISE_JUDGE_SYSTEM_PROMPT
 
 
 def _pairwise_response_format() -> dict[str, Any]:
@@ -316,7 +229,7 @@ def _extract_context_json(request: dict[str, Any]) -> str:
 def _stage1a_messages(context_json: str) -> list[dict[str, str]]:
     """EXACT iterD-final messages — produced from the same body."""
     return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
+        {"role": "system", "content": WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT},
         {
             "role": "user",
             "content": (

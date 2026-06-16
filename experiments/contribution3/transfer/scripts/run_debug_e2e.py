@@ -45,7 +45,7 @@ from experiments.contribution3.transfer.driver import (  # noqa: E402
 
 
 def _resolve_target_source(target_id: str, benchmark_family: str) -> str:
-    """Determine 'rootcode_main_analysis' vs 'extend_trait' for a target_id.
+    """Determine 'rootcode_main_analysis' vs 'nontarget_pgs' for a target_id.
 
     The benchmark selection CSV carries the `target_source` column which
     decides which AUC matrix to load. We look the row up by input_icd.

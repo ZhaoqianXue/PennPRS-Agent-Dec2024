@@ -1,11 +1,11 @@
 """
-Build a canonicalized current-method union from the latest rootcode and childrencode
-selection logic without touching the frozen 30-disease benchmark union.
+Build the current-method disease list without touching the frozen 30-disease
+benchmark union.
 
 Usage:
   python experiments/contribution2/disease_selection/configs/build_current_method_union.py
   python experiments/contribution2/disease_selection/configs/build_current_method_union.py --require-qc1
-  python experiments/contribution2/disease_selection/configs/build_current_method_union.py --min-n-models 3
+  python experiments/contribution2/disease_selection/configs/build_current_method_union.py --source-mode union --min-n-models 2 --require-mean-auc
 """
 
 from __future__ import annotations
@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import sys
+from typing import Iterable
 
 import pandas as pd
 
@@ -26,6 +27,10 @@ from experiments.contribution2.disease_selection.configs import select_diseases_
 OUTPUT_RUNS_DIR = Path(__file__).parent.parent / "runs"
 OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
 DEFAULT_REQUIRE_QC1 = False
+DEFAULT_MIN_N_MODELS = 6
+DEFAULT_SOURCE_MODE = "rootcode"
+DEFAULT_REQUIRE_MEAN_AUC = False
+DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES = frozenset({"varicose veins"})
 CURRENT_UNION_STEM_PREFIX = "selected_diseases_contribution2_current_union"
 
 # Keep the broader canonical disease label for each merge group.
@@ -45,8 +50,10 @@ CANONICAL_MERGE_GROUPS: dict[str, set[str]] = {
 
 def _compute_selected_raw(
     use_childrencode: bool,
-    min_n_models: int,
+    min_n_models: int = DEFAULT_MIN_N_MODELS,
     require_qc1: bool = DEFAULT_REQUIRE_QC1,
+    require_mean_auc: bool = DEFAULT_REQUIRE_MEAN_AUC,
+    released_blacklist_ontologies: Iterable[str] = DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES,
 ) -> pd.DataFrame:
     suffix = "childrencode" if use_childrencode else "rootcode"
     trait_col = "icd" if use_childrencode else "icd_root"
@@ -108,6 +115,11 @@ def _compute_selected_raw(
     if df.empty:
         return df
 
+    released_blacklist = {
+        base._normalize_ontology_name(name)
+        for name in released_blacklist_ontologies
+    }
+
     gap_cols = [f"top{i}_vs_rest_gap" for i in range(1, base.QC1_TOP_K + 1)]
     max_gap = df[gap_cols].fillna(-1).max(axis=1)
     df["c1_distinguishable"] = (max_gap >= base.MIN_TOP_VS_REST_GAP) | (df["n_models"] == 2)
@@ -123,11 +135,14 @@ def _compute_selected_raw(
         name_lower = base._normalize_ontology_name(name)
         return (
             name_lower not in base.BLACKLIST_EXEMPT_ONTOLOGIES
+            and name_lower not in released_blacklist
             and any(k in name_lower for k in base.NICHE_EXCLUSION_KEYWORDS)
         )
 
     df["c2_exception_allowlist"] = df["ontology"].apply(_qc2_exception_allow)
-    df["c3_auc_ok"] = (df["mean_auc"] >= base.MIN_MEAN_AUC) & (df["top1_auc"] >= base.MIN_TOP1_AUC)
+    df["c3_auc_ok"] = df["top1_auc"] >= base.MIN_TOP1_AUC
+    if require_mean_auc:
+        df["c3_auc_ok"] = df["c3_auc_ok"] & (df["mean_auc"] >= base.MIN_MEAN_AUC)
 
     if require_qc1:
         pool = df[df["c2_exception_allowlist"] | df["c1_distinguishable"]]
@@ -200,22 +215,58 @@ def _default_current_union_stem(union_count: int) -> str:
     return f"{CURRENT_UNION_STEM_PREFIX}{_default_current_union_suffix(union_count)}"
 
 
-def build_current_method_union(
+def _normalized_set(values: Iterable[str]) -> set[str]:
+    return {base._normalize_ontology_name(value) for value in values}
+
+
+def _source_modes(source_mode: str) -> list[bool]:
+    if source_mode == "rootcode":
+        return [False]
+    if source_mode == "childrencode":
+        return [True]
+    if source_mode == "union":
+        return [False, True]
+    raise ValueError(f"Unknown source_mode: {source_mode}")
+
+
+def _is_default_current_union_run(
     min_n_models: int,
-    require_qc1: bool = DEFAULT_REQUIRE_QC1,
-) -> tuple[pd.DataFrame, pd.DataFrame]:
-    root_df = _compute_selected_raw(
-        use_childrencode=False,
-        min_n_models=min_n_models,
-        require_qc1=require_qc1,
-    )
-    child_df = _compute_selected_raw(
-        use_childrencode=True,
-        min_n_models=min_n_models,
-        require_qc1=require_qc1,
+    require_qc1: bool,
+    source_mode: str,
+    require_mean_auc: bool,
+    released_blacklist_ontologies: Iterable[str],
+) -> bool:
+    return (
+        min_n_models == DEFAULT_MIN_N_MODELS
+        and require_qc1 == DEFAULT_REQUIRE_QC1
+        and source_mode == DEFAULT_SOURCE_MODE
+        and require_mean_auc == DEFAULT_REQUIRE_MEAN_AUC
+        and _normalized_set(released_blacklist_ontologies) == _normalized_set(DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES)
     )
 
-    combined = pd.concat([root_df, child_df], ignore_index=True)
+
+def build_current_method_union(
+    min_n_models: int = DEFAULT_MIN_N_MODELS,
+    require_qc1: bool = DEFAULT_REQUIRE_QC1,
+    source_mode: str = DEFAULT_SOURCE_MODE,
+    require_mean_auc: bool = DEFAULT_REQUIRE_MEAN_AUC,
+    released_blacklist_ontologies: Iterable[str] = DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+    selected_frames = [
+        _compute_selected_raw(
+            use_childrencode=use_childrencode,
+            min_n_models=min_n_models,
+            require_qc1=require_qc1,
+            require_mean_auc=require_mean_auc,
+            released_blacklist_ontologies=released_blacklist_ontologies,
+        )
+        for use_childrencode in _source_modes(source_mode)
+    ]
+    selected_frames = [frame for frame in selected_frames if not frame.empty]
+    combined = pd.concat(selected_frames, ignore_index=True) if selected_frames else pd.DataFrame()
+    if combined.empty:
+        return pd.DataFrame(), pd.DataFrame()
+
     combined["canonical_ontology"] = combined["ontology"].apply(_canonical_name)
     combined = base._apply_ontology_overlap_rules(combined, "canonical_ontology")
 
@@ -231,7 +282,7 @@ def build_current_method_union(
         output_rows.append({
             "Ontology": canonical,
             "ICD": icd_value,
-            "N Models": int(representative["n_models"]),
+            "N Models": int(representative["n_with_auc"]),
             "Max": representative["max_auc"],
             "Mean": representative["mean_auc"],
             "Median": representative["median_auc"],
@@ -253,7 +304,8 @@ def build_current_method_union(
             "Representative Source": representative["source"],
             "Merged Ontologies": "; ".join(merged_ontologies),
             "ICD": icd_value,
-            "N Models": int(representative["n_models"]),
+            "N Models": int(representative["n_with_auc"]),
+            "Raw PGS Models": int(representative["n_models"]),
             "N With AUC": int(representative["n_with_auc"]),
             "Max": representative["max_auc"],
             "Mean": representative["mean_auc"],
@@ -276,17 +328,32 @@ def build_current_method_union(
 def _output_suffix(
     min_n_models: int,
     require_qc1: bool,
+    source_mode: str,
+    require_mean_auc: bool,
+    released_blacklist_ontologies: Iterable[str],
     union_count: int | None = None,
 ) -> str:
-    if min_n_models == base.DEFAULT_MIN_N_MODELS and not require_qc1:
+    if _is_default_current_union_run(
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+        source_mode=source_mode,
+        require_mean_auc=require_mean_auc,
+        released_blacklist_ontologies=released_blacklist_ontologies,
+    ):
         if union_count is None:
             raise ValueError("union_count is required for the default current-method union naming.")
         return _default_current_union_suffix(union_count)
     suffix_parts: list[str] = []
-    if min_n_models != base.DEFAULT_MIN_N_MODELS:
+    if source_mode != DEFAULT_SOURCE_MODE:
+        suffix_parts.append(source_mode)
+    if min_n_models != DEFAULT_MIN_N_MODELS:
         suffix_parts.append(f"min{min_n_models}")
     if require_qc1:
         suffix_parts.append("qc1required")
+    if require_mean_auc:
+        suffix_parts.append("meanauc")
+    if _normalized_set(released_blacklist_ontologies) != _normalized_set(DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES):
+        suffix_parts.append("customblacklist")
     return f"__{'_'.join(suffix_parts)}" if suffix_parts else ""
 
 
@@ -294,6 +361,7 @@ def _cleanup_default_current_union_outputs(
     keep_csv_path: Path,
     keep_detail_csv_path: Path,
     keep_report_path: Path,
+    keep_txt_path: Path,
 ) -> None:
     (OUTPUT_INTERMEDIATE_DIR / f"{CURRENT_UNION_STEM_PREFIX}_details.csv").unlink(missing_ok=True)
     (OUTPUT_RUNS_DIR / f"{CURRENT_UNION_STEM_PREFIX}_report.md").unlink(missing_ok=True)
@@ -310,56 +378,88 @@ def _cleanup_default_current_union_outputs(
         if stale_path != keep_report_path:
             stale_path.unlink(missing_ok=True)
 
+    for stale_path in OUTPUT_RUNS_DIR.glob(f"{CURRENT_UNION_STEM_PREFIX}__*disease.txt"):
+        if stale_path != keep_txt_path:
+            stale_path.unlink(missing_ok=True)
 
-def main(min_n_models: int, require_qc1: bool = DEFAULT_REQUIRE_QC1) -> None:
+
+def main(
+    min_n_models: int = DEFAULT_MIN_N_MODELS,
+    require_qc1: bool = DEFAULT_REQUIRE_QC1,
+    source_mode: str = DEFAULT_SOURCE_MODE,
+    require_mean_auc: bool = DEFAULT_REQUIRE_MEAN_AUC,
+    released_blacklist_ontologies: Iterable[str] = DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES,
+) -> None:
     OUTPUT_RUNS_DIR.mkdir(parents=True, exist_ok=True)
     OUTPUT_INTERMEDIATE_DIR.mkdir(parents=True, exist_ok=True)
 
-    root_df = _compute_selected_raw(
-        use_childrencode=False,
-        min_n_models=min_n_models,
-        require_qc1=require_qc1,
-    )
-    child_df = _compute_selected_raw(
-        use_childrencode=True,
-        min_n_models=min_n_models,
-        require_qc1=require_qc1,
-    )
-    raw_union_count = len(set(root_df["ontology"]).union(set(child_df["ontology"])))
+    raw_frames = [
+        _compute_selected_raw(
+            use_childrencode=use_childrencode,
+            min_n_models=min_n_models,
+            require_qc1=require_qc1,
+            require_mean_auc=require_mean_auc,
+            released_blacklist_ontologies=released_blacklist_ontologies,
+        )
+        for use_childrencode in _source_modes(source_mode)
+    ]
+    raw_frames = [frame for frame in raw_frames if not frame.empty]
+    raw_union_count = len(set().union(*(set(frame["ontology"]) for frame in raw_frames))) if raw_frames else 0
 
     union_df, detail_df = build_current_method_union(
         min_n_models=min_n_models,
         require_qc1=require_qc1,
+        source_mode=source_mode,
+        require_mean_auc=require_mean_auc,
+        released_blacklist_ontologies=released_blacklist_ontologies,
     )
     out_suffix = _output_suffix(
         min_n_models=min_n_models,
         require_qc1=require_qc1,
+        source_mode=source_mode,
+        require_mean_auc=require_mean_auc,
+        released_blacklist_ontologies=released_blacklist_ontologies,
         union_count=len(union_df),
     )
-    csv_dir = OUTPUT_RUNS_DIR if min_n_models == base.DEFAULT_MIN_N_MODELS else OUTPUT_INTERMEDIATE_DIR
-    if min_n_models == base.DEFAULT_MIN_N_MODELS:
+    is_default_run = _is_default_current_union_run(
+        min_n_models=min_n_models,
+        require_qc1=require_qc1,
+        source_mode=source_mode,
+        require_mean_auc=require_mean_auc,
+        released_blacklist_ontologies=released_blacklist_ontologies,
+    )
+    csv_dir = OUTPUT_RUNS_DIR if is_default_run else OUTPUT_INTERMEDIATE_DIR
+    if is_default_run:
         csv_path = csv_dir / f"{_default_current_union_stem(len(union_df))}.csv"
     else:
         csv_path = csv_dir / f"{CURRENT_UNION_STEM_PREFIX}{out_suffix}.csv"
     detail_csv_path = OUTPUT_INTERMEDIATE_DIR / f"{CURRENT_UNION_STEM_PREFIX}_details{out_suffix}.csv"
     report_path = OUTPUT_RUNS_DIR / f"{CURRENT_UNION_STEM_PREFIX}_report{out_suffix}.md"
+    txt_path = OUTPUT_RUNS_DIR / f"{CURRENT_UNION_STEM_PREFIX}{out_suffix}.txt"
 
-    if min_n_models == base.DEFAULT_MIN_N_MODELS and not require_qc1:
+    if is_default_run:
         _cleanup_default_current_union_outputs(
             keep_csv_path=csv_path,
             keep_detail_csv_path=detail_csv_path,
             keep_report_path=report_path,
+            keep_txt_path=txt_path,
         )
 
     union_df.to_csv(csv_path, index=False)
     detail_df.to_csv(detail_csv_path, index=False)
+    txt_path.write_text("\n".join(union_df["Ontology"].astype(str).tolist()) + "\n", encoding="utf-8")
 
     merged_groups = detail_df[detail_df["Merged Ontologies"].str.contains("; ", regex=False)].copy()
+    released_list = ", ".join(sorted(_normalized_set(released_blacklist_ontologies))) or "none"
     report_lines = [
         "# Current-Method Canonical Union",
         "",
+        f"- Source mode: `{source_mode}`",
         f"- Base eligibility: `min_n_models = {min_n_models}`",
         f"- QC1 gate: `{'enabled (pool = QC1 OR QC2 allowlist)' if require_qc1 else 'disabled (QC1 retained as diagnostic column only)'}`",
+        f"- AUC gate: `Top-1 AUC >= {base.MIN_TOP1_AUC}`"
+        + (f" and `Mean AUC >= {base.MIN_MEAN_AUC}`" if require_mean_auc else " only; mean AUC gate disabled"),
+        f"- Released blacklist ontologies: `{released_list}`",
         f"- Raw current-method ontology union size (before canonical merge): `{raw_union_count}`",
         f"- Canonical merged union size: `{len(union_df)}`",
         f"- Output CSV can be used directly by `recommendation/configs/generate_evaluated_pgs_list.py`; manual `Target_TopK` annotation is no longer required.",
@@ -398,13 +498,36 @@ if __name__ == "__main__":
     parser.add_argument(
         "--min-n-models",
         type=int,
-        default=base.DEFAULT_MIN_N_MODELS,
-        help=f"Minimum number of candidate PGS models required to enter disease selection (default: {base.DEFAULT_MIN_N_MODELS}).",
+        default=DEFAULT_MIN_N_MODELS,
+        help=f"Minimum number of candidate PGS models with valid AUC required to enter disease selection (default: {DEFAULT_MIN_N_MODELS}).",
+    )
+    parser.add_argument(
+        "--source-mode",
+        choices=["rootcode", "childrencode", "union"],
+        default=DEFAULT_SOURCE_MODE,
+        help=f"Which Contribution1 source to use (default: {DEFAULT_SOURCE_MODE}).",
     )
     parser.add_argument(
         "--require-qc1",
         action="store_true",
         help="Require QC1 or QC2 allowlist to enter the pool. Default current union keeps QC1 as a diagnostic column only.",
     )
+    parser.add_argument(
+        "--require-mean-auc",
+        action="store_true",
+        help=f"Require mean AUC >= {base.MIN_MEAN_AUC}. Default current list only requires Top-1 AUC >= {base.MIN_TOP1_AUC}.",
+    )
+    parser.add_argument(
+        "--release-blacklist-ontology",
+        action="append",
+        default=list(DEFAULT_RELEASED_BLACKLIST_ONTOLOGIES),
+        help="Ontology label to release from the niche blacklist. May be repeated.",
+    )
     args = parser.parse_args()
-    main(min_n_models=args.min_n_models, require_qc1=args.require_qc1)
+    main(
+        min_n_models=args.min_n_models,
+        require_qc1=args.require_qc1,
+        source_mode=args.source_mode,
+        require_mean_auc=args.require_mean_auc,
+        released_blacklist_ontologies=args.release_blacklist_ontology,
+    )

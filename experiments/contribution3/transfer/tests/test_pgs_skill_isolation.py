@@ -36,17 +36,17 @@ from experiments.contribution3.transfer.llm_chains import _cfg_from_key, _cfg_ke
 
 PGS_SKILL_OFF_CFG = ToolAblationConfig(
     enable_h2=False, enable_ot=False, enable_gc_batch=False,
-    enable_biology=False, enable_skill=False,
+    enable_biology=False,
     enable_pgs_quality_skill=False,
 )
 PGS_SKILL_ON_CFG = ToolAblationConfig(
     enable_h2=False, enable_ot=False, enable_gc_batch=False,
-    enable_biology=False, enable_skill=False,
+    enable_biology=False,
     enable_pgs_quality_skill=True,
 )
 PGS_SKILL_PROMPT_DECLARED_CFG = ToolAblationConfig(
     enable_h2=False, enable_ot=False, enable_gc_batch=False,
-    enable_biology=False, enable_skill=False,
+    enable_biology=False,
     enable_pgs_quality_skill=True,
     enable_pgs_quality_prompt_block=True,
 )

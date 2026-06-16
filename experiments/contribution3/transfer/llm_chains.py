@@ -13,9 +13,10 @@ the same cfg multiple times reuses the same compiled chain. Switching
 ablations within one process spins up a new chain on first use and
 caches it for reuse.
 
-Skill text is delivered only through the JSON `cross_trait_guidance`
-field in `context_json`. Prompt files contain procedural instructions;
-empirical heuristics live in the sealed skill file.
+The shared prs_model_evaluator skill is delivered through
+`pgs_quality_guidance` in `context_json` when enabled. Prompt files
+contain procedural instructions; PGS-evaluation heuristics live in the
+sealed shared skill folder.
 """
 from __future__ import annotations
 
@@ -106,12 +107,12 @@ def _cfg_key(cfg) -> tuple:
         cfg.enable_gc_batch,
         cfg.enable_ot_late_batch,
         cfg.enable_biology,
-        cfg.enable_skill,
-        cfg.enable_skill_reference_lane,
         cfg.enable_pgs_quality_skill,
         cfg.enable_pgs_quality_prompt_block,
         cfg.enable_pgs_quality_reference_lane,
         cfg.enable_h2_global_primary_context,
+        cfg.enable_breadth_floor_no_ot_fallback,
+        cfg.enable_dossier_coverage_floor,
     )
 
 
@@ -124,12 +125,12 @@ def _cfg_from_key(key: tuple):
         enable_gc_batch=key[2],
         enable_ot_late_batch=key[3],
         enable_biology=key[4],
-        enable_skill=key[5],
-        enable_skill_reference_lane=key[6],
-        enable_pgs_quality_skill=key[7],
-        enable_pgs_quality_prompt_block=key[8],
-        enable_pgs_quality_reference_lane=key[9],
-        enable_h2_global_primary_context=key[10],
+        enable_pgs_quality_skill=key[5],
+        enable_pgs_quality_prompt_block=key[6],
+        enable_pgs_quality_reference_lane=key[7],
+        enable_h2_global_primary_context=key[8],
+        enable_breadth_floor_no_ot_fallback=key[9],
+        enable_dossier_coverage_floor=key[10],
     )
 
 

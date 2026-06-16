@@ -13,11 +13,37 @@ import { ProgressBar } from "./ProgressBar";
 
 export type ViewType = 'mode_selection' | 'disease_selection' | 'model_grid' | 'downstream_options' | 'train_type_selection' | 'train_config' | 'train_multi_config' | 'ancestry_selection' | 'search_summary' | 'coming_soon' | 'protein_mode_selection' | 'protein_search' | 'protein_grid' | 'protein_search_summary' | 'protein_train_type_selection' | 'protein_train_config' | 'protein_train_multi_config' | 'model_actions' | 'my_models';
 
+interface TraitSelectionFlow {
+    title: string;
+    label: string;
+    description: string;
+    example: string;
+    exampleTrait: string;
+    tone: 'blue' | 'amber' | 'rose';
+}
+
+export interface SummaryTraitSwitch {
+    active: 'source' | 'target';
+    sourceTrait: string;
+    targetTrait: string;
+    sourceModelCount: number;
+    targetModelCount: number;
+    onShowSource: () => void;
+    onShowTarget: () => void;
+}
+
 interface CanvasAreaProps {
     view: ViewType;
     trait: string | null;
     models: ModelData[];
     downstreamOps: { modelId: string; trait: string; options: string[] } | null;
+    moduleTitle?: string;
+    moduleDescription?: string;
+    traitSelectionTitle?: string;
+    traitSelectionDescription?: string;
+    searchLoadingTitle?: string;
+    traitSelectionFlows?: TraitSelectionFlow[];
+    summaryTraitSwitch?: SummaryTraitSwitch | null;
     onSelectDisease: (trait: string) => void;
     onSelectModel: (modelId: string) => void;
     onTrainNew: () => void;
@@ -48,6 +74,45 @@ interface CanvasAreaProps {
     isTrainingSubmitting?: boolean;
 }
 
+function SummaryTraitSwitcher({ summaryTraitSwitch }: { summaryTraitSwitch: SummaryTraitSwitch }) {
+    const optionClass = (active: boolean) =>
+        `flex min-w-0 items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${active
+            ? "bg-blue-600 text-white shadow-sm"
+            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+        }`;
+
+    return (
+        <div className="mb-4 flex flex-col gap-3 rounded-xl border border-blue-100 bg-white px-4 py-3 shadow-sm dark:border-blue-900/50 dark:bg-gray-800 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">
+                    Cross-trait summary view
+                </div>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    Showing the transfer source trait by default; switch back to the original target trait when needed.
+                </p>
+            </div>
+            <div className="grid w-full grid-cols-1 gap-1 rounded-xl bg-gray-50 p-1 dark:bg-gray-900/60 sm:w-auto sm:min-w-[360px] sm:grid-cols-2">
+                <button
+                    type="button"
+                    onClick={summaryTraitSwitch.onShowSource}
+                    className={optionClass(summaryTraitSwitch.active === 'source')}
+                >
+                    <span className="truncate">{summaryTraitSwitch.sourceTrait}</span>
+                    <span className="shrink-0 text-xs opacity-80">{summaryTraitSwitch.sourceModelCount}</span>
+                </button>
+                <button
+                    type="button"
+                    onClick={summaryTraitSwitch.onShowTarget}
+                    className={optionClass(summaryTraitSwitch.active === 'target')}
+                >
+                    <span className="truncate">Back to {summaryTraitSwitch.targetTrait}</span>
+                    <span className="shrink-0 text-xs opacity-80">{summaryTraitSwitch.targetModelCount}</span>
+                </button>
+            </div>
+        </div>
+    );
+}
+
 export default function CanvasArea({
     view,
     trait,
@@ -75,7 +140,14 @@ export default function CanvasArea({
     onGoToModelGrid,
     canGoForward,
     onGoForward,
-    isTrainingSubmitting
+    isTrainingSubmitting,
+    moduleTitle = "Disease PRS Module",
+    moduleDescription = "Choose how you want to proceed with your Polygenic Risk Score analysis.",
+    traitSelectionTitle = "Select a Target Disease",
+    traitSelectionDescription = "Select a phenotype to view available models.",
+    searchLoadingTitle = "Searching Models...",
+    traitSelectionFlows,
+    summaryTraitSwitch
 }: CanvasAreaProps) {
 
     return (
@@ -99,10 +171,10 @@ export default function CanvasArea({
                     <div className="flex flex-col items-center justify-center min-h-[70vh] animate-in fade-in zoom-in-95 duration-500">
                         <div className="text-center space-y-4 mb-12">
                             <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl text-gray-900 dark:text-white">
-                                Disease PRS Module
+                                {moduleTitle}
                             </h1>
                             <p className="text-lg text-gray-500 dark:text-gray-400 max-w-lg mx-auto">
-                                Choose how you want to proceed with your Polygenic Risk Score analysis.
+                                {moduleDescription}
                             </p>
                         </div>
 
@@ -305,9 +377,9 @@ export default function CanvasArea({
                             <div className="absolute inset-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center animate-in fade-in duration-300">
                                 <div className="text-center space-y-6 max-w-md">
                                     <div>
-                                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Searching Models...</h2>
+                                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{searchLoadingTitle}</h2>
                                         <p className="text-gray-500 dark:text-gray-400">
-                                            Retrieving PRS models from PGS Catalog and PennPRS for <span className="font-semibold text-blue-600">"{trait}"</span>
+                                            Retrieving PRS models from PGS Catalog and PennPRS for <span className="font-semibold text-blue-600">&quot;{trait}&quot;</span>
                                         </p>
                                     </div>
                                     <ProgressBar
@@ -322,12 +394,51 @@ export default function CanvasArea({
 
                         <div className="text-center space-y-2 pt-12">
                             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-                                Select a Target Disease
+                                {traitSelectionTitle}
                             </h1>
                             <p className="text-gray-500 dark:text-gray-400">
-                                Select a phenotype to view available models.
+                                {traitSelectionDescription}
                             </p>
                         </div>
+                        {traitSelectionFlows && traitSelectionFlows.length > 0 && (
+                            <div className="w-full max-w-5xl">
+                                <div className="mb-3 text-center">
+                                    <span className="text-sm font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
+                                        PennPRS Agent Workflow Paths
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                                    {traitSelectionFlows.map((flow) => {
+                                        const toneClasses = {
+                                            blue: "border-blue-200 bg-blue-50/70 text-blue-700 hover:border-blue-400 hover:bg-blue-50 dark:border-blue-900/60 dark:bg-blue-950/20 dark:text-blue-300",
+                                            amber: "border-amber-200 bg-amber-50/80 text-amber-800 hover:border-amber-400 hover:bg-amber-50 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-300",
+                                            rose: "border-rose-200 bg-rose-50/80 text-rose-800 hover:border-rose-400 hover:bg-rose-50 dark:border-rose-900/60 dark:bg-rose-950/20 dark:text-rose-300",
+                                        }[flow.tone];
+                                        return (
+                                            <button
+                                                key={flow.title}
+                                                type="button"
+                                                onClick={() => onSelectDisease(flow.exampleTrait)}
+                                                className="group rounded-2xl border border-gray-200 bg-white p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-700 dark:bg-gray-800"
+                                            >
+                                                <div className={`mb-4 inline-flex rounded-full border px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${toneClasses}`}>
+                                                    {flow.label}
+                                                </div>
+                                                <h2 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+                                                    {flow.title}
+                                                </h2>
+                                                <p className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                                                    {flow.description}
+                                                </p>
+                                                <div className="mt-4 rounded-lg bg-gray-50 px-3 py-2 text-xs text-gray-600 dark:bg-gray-900/60 dark:text-gray-300">
+                                                    Example: <span className="font-semibold text-gray-900 dark:text-white">{flow.example}</span>
+                                                </div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
                         <div className="w-full max-w-4xl">
                             <DiseaseGrid onSelect={onSelectDisease} />
                         </div>
@@ -367,6 +478,7 @@ export default function CanvasArea({
                                 <span className="text-sm font-medium">Back</span>
                             </button>
                         </div>
+                        {summaryTraitSwitch && <SummaryTraitSwitcher summaryTraitSwitch={summaryTraitSwitch} />}
                         <SearchSummaryView
                             trait={trait}
                             models={models}
@@ -644,7 +756,7 @@ export default function CanvasArea({
                                                             Evaluate on Cohort(s)
                                                         </h2>
                                                         <p className="text-gray-500 dark:text-gray-400 leading-relaxed">
-                                                            Validate the model's performance by evaluating it on your own cohorts or external datasets. Compare predictions across different populations.
+                                                            Validate the model&apos;s performance by evaluating it on your own cohorts or external datasets. Compare predictions across different populations.
                                                         </p>
                                                         <div className="mt-4 flex items-center gap-2 text-sm font-medium text-teal-600 dark:text-teal-400">
                                                             <span>Start Evaluation</span>

@@ -70,6 +70,7 @@ def test_strict_llm_only_raises_when_report_generation_fails():
         mock_step1_chain.return_value.invoke.return_value = Step1Decision(
             outcome="DIRECT_HIGH_QUALITY",
             best_model_id="PGS000001",
+            top_alternatives=[],
             confidence="Moderate",
             rationale="Choose the direct model.",
         )

@@ -237,22 +237,20 @@ def _legacy_proposal(
 
 
 def _system_prompt(stage: str) -> str:
+    # Boundary discipline (see prs-model-recommendation/README.md, two-axis model):
+    # this system prompt carries only the agent's functional role, the I/O frame,
+    # and a one-line reasoning posture. Project labels (codenames, harness names)
+    # are developer-facing and stay out of model context. The appraisal knowledge
+    # itself — the advisory patterns, the trait-agnostic/LLM-led posture in full,
+    # and calibrations like "do not turn metric cleanliness into a veto" — lives in
+    # the skill supplied in context, not duplicated here.
     return (
-        "You are the Contribution2 PRS recommendation PEV harness, "
-        f"stage={stage}. Compare candidate PGS Catalog records for one fixed "
-        "target trait. Use only visible context. Stay trait-agnostic: do not "
-        "special-case diseases, ICD codes, organ systems, or disease families. "
-        "Stay LLM-led: do not apply hardcoded weights, ranking formulas, "
-        "numeric thresholds, or deterministic vetoes. The skill and tool outputs "
-        "are advisory evidence; weigh them case-by-case. For Contribution2 "
-        "direct-match selection, do not turn metric cleanliness into an implicit "
-        "veto: PRS-only metrics are cleaner when available, but full-model "
-        "AUC/C-index/R2, OR/HR, validation scale, endpoint alignment, and method "
-        "context can still be meaningful predictive evidence when the visible "
-        "covariates are conventional or similarly packaged across candidates. "
-        "A cleaner but visibly weaker sibling is not automatically preferable "
-        "to a strong direct-endpoint candidate with less perfectly separated "
-        "metric reporting."
+        "You select the single best polygenic score (PGS) for one fixed target "
+        "trait by comparing the candidate PGS Catalog records on their "
+        f"record-visible evidence. Current step: {stage}. Use only the visible "
+        "context provided. Weigh the supplied appraisal guidance holistically — "
+        "it is advisory evidence, not a set of hard rules — and do not "
+        "special-case specific diseases."
     )
 
 

@@ -14,6 +14,24 @@ TissueLab/
 .cache/
 node_modules/
 .next/
+.venv_pptx/
+
+# Local generated artifacts and scratch work
+tmp/
+outputs/
+deliverables/
+results/
+writing/
+Genetic_Agent copy/
+.ipynb_checkpoints/
+
+# Binary deliverables / manuscript assets should stay out of git unless explicitly tracked.
+*.docx
+*.pdf
+*.pptx
+*.xlsx
+~$*
+
 # Large data files
 *.tsv
 *.gz
@@ -33,6 +51,8 @@ output/logs/download/*.txt
 
 # Tool-calling run outputs (large; keep locally, not in remote)
 experiments/contribution3/transfer/runs/
+experiments/**/runs/
+experiments/**/cache/
 
 # Presentation large generated assets (keep locally)
 experiments/contribution3/presentation/presentation_data.json

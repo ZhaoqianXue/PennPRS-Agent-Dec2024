@@ -183,7 +183,7 @@ def _get_heritability_records_safe(trait: str, *, format_like_iterd: bool = Fals
     Round 8 lever: `format_like_iterd=True` returns the EXACT iterD-final
     `_format_heritability_section` markdown layout (best record + sanity-check
     usage rules + top 3 matches), reproducing the framing the iterD-final
-    runner pre-feeds in `domain_knowledge.full_document`. This isolates whether
+    runner pre-feeds in `skill_context.full_text`. This isolates whether
     the gap between Round 7 (raw records) and iterD-final is the tool-observation
     formatting (per Anthropic context engineering: tool observations should be
     in the exact shape the model expects, not raw API dumps).
@@ -389,83 +389,10 @@ def _tool_schemas() -> list[dict[str, Any]]:
 # and consulted only ~1.5 references on average.
 def _build_system_prompt(json_schema_terminal: bool = False) -> str:
     skill_overview = SKILL_MD_PATH.read_text(encoding="utf-8")
-    if json_schema_terminal:
-        terminal_section = (
-            "# Termination contract (this run uses JSON-schema terminal output)\n"
-            "- Tool catalog: read_skill_section, get_heritability_records (only).\n"
-            "- When you have gathered enough evidence, STOP calling tools and emit\n"
-            "  a single JSON object with the schema:\n"
-            "  {\"outcome\": \"DIRECT_HIGH_QUALITY|DIRECT_SUB_OPTIMAL|NO_MATCH_FOUND\",\n"
-            "   \"best_model_id\": \"PGS00...\" or null,\n"
-            "   \"confidence\": \"High|Moderate|Low\",\n"
-            "   \"rationale\": \"...\"}\n"
-            "- best_model_id MUST be one of the visible candidate IDs. Use null only\n"
-            "  when outcome=NO_MATCH_FOUND.\n"
-            "- The harness terminates the loop the first time you emit the JSON.\n"
-        )
-    else:
-        terminal_section = (
-            "# Termination contract (this run uses tool-call terminal output)\n"
-            "- Tool catalog: read_skill_section, get_heritability_records,\n"
-            "  submit_recommendation. Call submit_recommendation exactly once to end.\n"
-        )
-    return f"""# Identity
-You are a PRS Co-scientist running as a single-agent ReAct loop. Your task is
-to recommend exactly one polygenic-score (PGS) candidate from a fixed visible
-candidate list for a fixed target trait, grounded only in visible evidence.
-
-{terminal_section}
-
-# Anchor framework (always available — read this first, do NOT re-fetch via tools)
-The procedural overview from the prs_model_evaluator Agent Skill is reproduced
-below verbatim. It is your default evaluation framework. The reference sections
-listed in its table of contents are loaded on-demand via read_skill_section.
-
-<skill_overview>
-{skill_overview}
-</skill_overview>
-
-# Tool catalog (3 tools)
-- read_skill_section(section_id): on-demand access to one of the 9 reference
-  sections of the prs_model_evaluator skill (table of contents above). Use
-  when the candidate comparison hinges on a specific evaluation dimension
-  whose detail catalog the procedural overview defers to a reference file.
-- get_heritability_records(trait): on-demand h2 lookup for the target trait.
-  Use BEFORE deciding whenever you intend to weigh reported AUC / R^2 — the
-  trait's heritability ceiling is the single most useful sanity-check for
-  whether a candidate's metric is PRS-driven or covariate-driven, and the
-  procedural overview's "Sanity-check usage" rules are designed around it.
-- submit_recommendation(...): your terminal action. Call this exactly once
-  to record your final pick and end the loop.
-
-# Loop discipline
-- Inspect the candidate list first. Then consult the anchor framework above to
-  decide which dimensions matter for the specific candidate cluster.
-- read_skill_section: invoke for any dimension where the procedural overview
-  defers detail to a reference file (e.g. covariate-leakage / packaging
-  catalog lives in the performance_metrics reference; endpoint-fidelity rules
-  live in the trait_labels reference).
-- get_heritability_records: invoke whenever AUC/R^2 interpretation is in play.
-- Hard budget: 12 tool calls. Always end with submit_recommendation.
-
-# Decision contract (carried over from c2 production)
-- Direct-match assessment for the named target trait only. Do not expand to
-  cross-disease reasoning. Outcome labels:
-  - DIRECT_HIGH_QUALITY: at least one direct-match candidate is the
-    best-supported choice from the visible evidence without major unresolved
-    conflict.
-  - DIRECT_SUB_OPTIMAL: direct-match candidates are present but the evidence
-    is limited, conflicted, or insufficient.
-  - NO_MATCH_FOUND: no direct-match candidates are present.
-- best_model_id must be exactly one of the visible candidate IDs.
-- Compare candidates on PRS-only metric cleanliness, endpoint fidelity,
-  training scale, ancestry breadth, covariate cleanliness, packaging signals,
-  heritability ceiling alignment when relevant.
-- Do not assign numeric weights, scoring formulas, or deterministic vetoes.
-  Empirical patterns from the skill are advisory.
-- If multiple candidates are near-tied on the visible evidence, lower
-  confidence rather than picking arbitrarily.
-"""
+    return build_within_react_agent_system_prompt(
+        skill_overview=skill_overview,
+        json_schema_terminal=json_schema_terminal,
+    )
 
 
 SYSTEM_PROMPT_TOOL = _build_system_prompt(json_schema_terminal=False)
@@ -475,7 +402,7 @@ SYSTEM_PROMPT_JSON = _build_system_prompt(json_schema_terminal=True)
 def _build_full_skill_corpus() -> str:
     """Reproduce the iterD-final pre-fed evidence shape: SKILL.md procedural
     overview + all 9 reference sections concatenated. Matches the byte layout
-    of iterD's `domain_knowledge.full_document` field as closely as possible.
+    of iterD's pre-fed `skill_context.full_text` field as closely as possible.
     """
     parts: list[str] = [SKILL_MD_PATH.read_text(encoding="utf-8")]
     for sid, (path, _) in SECTION_INDEX.items():
@@ -501,7 +428,7 @@ def _initial_user_message(
 
     inline_full_skill=True (Round 6 production design per user directive):
         Embed the full SKILL.md + reference catalog into the user message's
-        `domain_knowledge.full_document` field — bytewise compatible with
+        `skill_context.full_text` field — bytewise compatible with
         iterD-final's pre-fed evidence shape. This is the priming that
         Rounds 1-3 confirmed is load-bearing: when given a choice, gpt-5.2
         systematically under-fetches skill sections (Round 3 picked the
@@ -513,7 +440,7 @@ def _initial_user_message(
     """
     if inline_full_skill:
         # Production Round 6/7 shape: iterD-equivalent context structure + the
-        # FULL skill corpus in domain_knowledge.full_document. Tools are still
+        # FULL skill corpus in skill_context.full_text. Tools are still
         # available for the agent's autonomy lever (h2).
         # Round 7 lever (force_h2_first): in Round 6 the agent never invoked
         # get_heritability_records (0 / 89). iterD-final pre-feeds a formatted
@@ -529,9 +456,10 @@ def _initial_user_message(
                 "after_filter": len(candidate_models),
                 "models": candidate_models,
             },
-            "domain_knowledge": {
+            "skill_context": {
+                "name": "prs-model-recommendation",
                 "query": target_trait,
-                "full_document": _build_full_skill_corpus(),
+                "full_text": _build_full_skill_corpus(),
                 "snippets": [],
                 "source_type": "local",
             },
@@ -743,10 +671,10 @@ def _run_react_loop(
     """
     candidate_id_set = {str(m.get("id")) for m in candidate_models if m.get("id")}
     if iterd_mirror or inline_full_skill:
-        # Use iterD-final's exact CO_SCIENTIST_STEP1_PROMPT system prompt;
+        # Use iterD-final's exact WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT system prompt;
         # tools are still available but the user-message framing matches iterD.
-        from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
-        sys_prompt = CO_SCIENTIST_STEP1_PROMPT
+        from src.server.core.system_prompts import WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT
+        sys_prompt = WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT
     else:
         sys_prompt = SYSTEM_PROMPT_JSON if json_schema_terminal else SYSTEM_PROMPT_TOOL
     messages: list[dict[str, Any]] = [
@@ -1197,8 +1125,8 @@ def main() -> int:
                         "and user-message wording.")
     parser.add_argument("--inline-full-skill", action="store_true",
                         help="Round 6 production lever: pre-feed the FULL SKILL.md + "
-                        "reference catalog into the user message's domain_knowledge."
-                        "full_document field — bytewise compatible with iterD-final's "
+                        "reference catalog into the user message's skill_context."
+                        "full_text field — bytewise compatible with iterD-final's "
                         "evidence shape, addressing the LLM-systematically-under-fetches "
                         "failure mode observed in Rounds 1-3.")
     parser.add_argument("--h2-only-tool-surface", action="store_true",

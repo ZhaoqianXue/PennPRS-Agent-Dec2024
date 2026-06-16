@@ -238,6 +238,7 @@ LEGAL_SOURCE_PREFIXES: tuple[str, ...] = (
     "llm:stage_5",
     "harness:drop_invalid_id",
     "harness:breadth_floor",
+    "harness:dossier_coverage",
     "harness:skill_reference_lane",
 )
 

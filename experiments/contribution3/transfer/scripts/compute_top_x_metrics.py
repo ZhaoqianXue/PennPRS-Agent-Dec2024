@@ -37,7 +37,7 @@ from experiments.contribution3.transfer.common import (  # noqa: E402
 )
 
 
-ROOT = PROJECT_ROOT / "experiments" / "contribution1" / "result"
+ROOT = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "legacy_no_aou_pgs"
 
 
 def _col_to_pgs(c: str) -> str:

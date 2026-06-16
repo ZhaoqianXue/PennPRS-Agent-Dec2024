@@ -47,7 +47,6 @@ from experiments.contribution3.transfer.state import (
 )
 from experiments.contribution3.transfer.tools import (
     biology_retrieve_related_bundles,
-    cross_trait_domain_knowledge,  # ARCHIVED: see tools/__init__.py
     describe_pgs_model,
     genetic_correlation_batch_estimator,
     get_heritability,
@@ -82,7 +81,7 @@ ENABLE_GC_BATCH = True
 # ---------------------------------------------------------------------------
 @dataclass
 class ToolAblationConfig:
-    """Per-run toggles for the 4 evidence-channel tools and sealed skill.
+    """Per-run toggles for the 4 evidence-channel tools and shared PGS skill.
 
     Each flag governs both the LLM-callable surface (Gather dispatcher) and
     any harness-orchestrated invocation of the same tool, so an ablated
@@ -91,29 +90,20 @@ class ToolAblationConfig:
     observe the corresponding EvidenceRegistry slot as None.
     """
 
-    # Current contribution3 comparison isolates the prs_model_evaluator
-    # skill value over no_all_tools: all evidence tools default off; the
-    # production augmentation over no_all_tools is the prs_model_evaluator
-    # skill as context-only guidance at PGS_TRIAGE / PICK.
-    #
-    # `enable_skill` (the cross_trait_domain_knowledge KB) is ARCHIVED
-    # for production use because paired80 measured zero lift over the
-    # `no_all_tools` baseline (skill_only top_0.5%=0.325 == no_all_tools
-    # top_0.5%=0.325; mean_rank, mean_gpr, hit_at_k all bit-identical).
-    # The default value remains True ONLY for historical reproducibility
-    # of pre-archive batch runs; production ablation labels added after
-    # the archive (see driver.py) explicitly set `enable_skill=False`.
+    # Current contribution3 paper-facing path is tuned Harness Only V1:
+    # evidence tools default off and the breadth_floor no-OT fallback is
+    # enabled by the selected ablation label.
     enable_h2: bool = False
     enable_ot: bool = False             # gates `get_open_targets_overlap` in Gather (LLM-callable)
     enable_gc_batch: bool = False       # gates Stage 3.5 `genetic_correlation_batch_estimator`
     enable_ot_late_batch: bool = False  # harness OT audit after Pick candidate set is known
     enable_biology: bool = False        # gates Scout-time `biology_retrieve_related_bundles` (only entry)
-    enable_skill: bool = True           # ARCHIVED: cross_trait_domain_knowledge KB (paired80 zero lift); default kept True for legacy reproducibility only
-    enable_skill_reference_lane: bool = False
     enable_pgs_quality_skill: bool = False  # gates prs_model_evaluator skill at PGS_TRIAGE/PICK (production active)
     enable_pgs_quality_prompt_block: bool = False  # explicit system-prompt declaration; iter12 regressed, default off
-    enable_pgs_quality_reference_lane: bool = False  # independent iter11-style no-evidence reference for final LLM arbitration
+    enable_pgs_quality_reference_lane: bool = False  # independent no-evidence reference for final LLM arbitration
     enable_h2_global_primary_context: bool = False  # expose h2 records to cross-bundle GP, not upstream selection
+    enable_breadth_floor_no_ot_fallback: bool = False  # HARNESS-COMMON: when OT is disabled, allow breadth_floor to qualify probed bundles by n_models alone (instead of requiring OT shared_targets). Reactivates the existing breadth_floor safety net under no-OT conditions; trait-agnostic; affects HO and skill-on equally when set.
+    enable_dossier_coverage_floor: bool = False  # HARNESS-ONLY: expose a small trait-agnostic coverage slice from the dossier to Scout/Pick so late-dossier proxies are not lost before LLM comparison.
 
     def disabled_tools(self) -> list[str]:
         out: list[str] = []
@@ -125,12 +115,14 @@ class ToolAblationConfig:
             out.append("genetic_correlation_batch_estimator")
         if not self.enable_biology:
             out.append("biology")
-        if not self.enable_skill:
-            out.append("cross_trait_domain_knowledge")
         if not self.enable_pgs_quality_skill:
             out.append("prs_model_evaluator_skill")
         if not self.enable_pgs_quality_reference_lane:
             out.append("pgs_quality_reference_lane")
+        if not self.enable_breadth_floor_no_ot_fallback:
+            out.append("breadth_floor_no_ot_fallback")
+        if not self.enable_dossier_coverage_floor:
+            out.append("dossier_coverage_floor")
         if self.enable_h2 and not self.enable_h2_global_primary_context:
             out.append("h2_global_primary_context")
         return out
@@ -151,7 +143,6 @@ def run_transfer_agent(
     stop_after: Optional[str] = None,
     benchmark_family: str = "unified",
     tool_ablation: Optional[ToolAblationConfig] = None,
-    skill_reference_override: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     """Run the full five-stage LLM-led transfer agent for one target.
 
@@ -174,35 +165,17 @@ def run_transfer_agent(
         "enable_gc_batch": cfg.enable_gc_batch,
         "enable_ot_late_batch": cfg.enable_ot_late_batch,
         "enable_biology": cfg.enable_biology,
-        "enable_skill": cfg.enable_skill,
-        "enable_skill_reference_lane": cfg.enable_skill_reference_lane,
         "enable_pgs_quality_skill": cfg.enable_pgs_quality_skill,
         "enable_pgs_quality_prompt_block": cfg.enable_pgs_quality_prompt_block,
         "enable_pgs_quality_reference_lane": cfg.enable_pgs_quality_reference_lane,
         "enable_h2_global_primary_context": cfg.enable_h2_global_primary_context,
+        "enable_breadth_floor_no_ot_fallback": cfg.enable_breadth_floor_no_ot_fallback,
+        "enable_dossier_coverage_floor": cfg.enable_dossier_coverage_floor,
         "disabled_tools": cfg.disabled_tools(),
     }
 
     skill_reference: Optional[dict[str, Any]] = None
-    if cfg.enable_skill_reference_lane and stop_after != "bundle_posterior":
-        if skill_reference_override:
-            skill_reference = _normalize_skill_reference(
-                skill_reference_override,
-                dossier=dossier,
-            )
-        else:
-            skill_reference = _run_skill_reference_lane(
-                dossier=dossier,
-                cfg=cfg,
-                max_tool_calls=max_tool_calls,
-                stale_rounds=stale_rounds,
-                max_gather_rounds=max_gather_rounds,
-                model_frontier_budget_per_bundle=model_frontier_budget_per_bundle,
-                enable_critic=enable_critic,
-                benchmark_family=benchmark_family,
-            )
-        trace.skill_reference_json = skill_reference
-    elif cfg.enable_pgs_quality_reference_lane and stop_after != "bundle_posterior":
+    if cfg.enable_pgs_quality_reference_lane and stop_after != "bundle_posterior":
         skill_reference = _run_pgs_quality_reference_lane(
             dossier=dossier,
             max_tool_calls=max_tool_calls,
@@ -248,6 +221,22 @@ def run_transfer_agent(
         "rationale": scout_out.rationale,
         "dropped_invalid_ids": dropped,
     }
+    dossier_coverage_ids: list[str] = []
+    if cfg.enable_dossier_coverage_floor:
+        probe_ids, dossier_coverage_ids = _augment_probe_pool_with_dossier_coverage(
+            probe_ids=probe_ids,
+            candidates=dossier.candidates,
+            max_additions=36,
+        )
+        trace.scout_directive_json["probe_bundle_ids"] = probe_ids
+        trace.scout_directive_json["dossier_coverage_supplement_ids"] = dossier_coverage_ids
+        for bid in dossier_coverage_ids:
+            trace.provenance.tag(
+                field_path=f"scout.probe_bundle_ids[{bid}]",
+                value=bid,
+                source="harness:dossier_coverage",
+                detail="trait-agnostic dossier coverage supplement",
+            )
     if skill_reference:
         ref_bundle_id = skill_reference.get("reference_bundle_id")
         if ref_bundle_id in known_ids and ref_bundle_id not in probe_ids:
@@ -377,7 +366,7 @@ def run_transfer_agent(
     # The relevance filter avoids injecting unrelated huge bundles
     # (e.g., neuroimaging into a dermatology target) which would
     # waste LLM tokens and PGS Catalog API budget.
-    BREADTH_FLOOR = 3
+    BREADTH_FLOOR = 5 if cfg.enable_dossier_coverage_floor else 3
     BREADTH_MIN_N_MODELS = 30
     already_in_topk = {rb.bundle_id for rb in top_k_bundles}
 
@@ -387,15 +376,34 @@ def run_transfer_agent(
             return 0
         return int((ev.ot or {}).get("shared_target_count_total") or len((ev.ot or {}).get("shared_targets") or []))
 
+    # HARNESS-COMMON Track A (OT-off breadth fallback): when OT was not
+    # collected this run, the original gate `_has_ot_overlap > 0` evaluates
+    # to 0 for every bundle and silently disables the safety net. With the
+    # `enable_breadth_floor_no_ot_fallback` flag set, the breadth selection
+    # falls back to n_models alone (the OT signal is genuinely unavailable,
+    # not negative). Trait-agnostic; uses LLM-collected dossier metadata
+    # only; no scoring formula or trait predicate. Affects HO and skill-on
+    # identically when set.
+    _ot_was_collected = bool(getattr(cfg, "enable_ot", False) or getattr(cfg, "enable_ot_late_batch", False))
+    _breadth_no_ot_fallback = bool(getattr(cfg, "enable_breadth_floor_no_ot_fallback", False)) and (not _ot_was_collected)
+
+    def _qualifies_for_breadth(bid: str) -> bool:
+        if bid not in bundle_lookup or bid in already_in_topk:
+            return False
+        if int(bundle_lookup[bid].n_models or 0) < BREADTH_MIN_N_MODELS:
+            return False
+        if _breadth_no_ot_fallback:
+            # OT not collected; n_models alone qualifies. Probe-pool
+            # membership (the LLM Scout already chose to probe this bundle)
+            # is the relevance signal in lieu of OT shared_targets.
+            return True
+        # Original behavior: require OT shared_targets > 0.
+        return _has_ot_overlap(bid) > 0
+
     probed_breadth_candidates = [
         bundle_lookup[bid]
         for bid in probe_ids
-        if (
-            bid in bundle_lookup
-            and bid not in already_in_topk
-            and int(bundle_lookup[bid].n_models or 0) >= BREADTH_MIN_N_MODELS
-            and _has_ot_overlap(bid) > 0
-        )
+        if _qualifies_for_breadth(bid)
     ]
     probed_breadth_candidates.sort(
         key=lambda b: (-int(b.n_models or 0), -_has_ot_overlap(b.bundle_id), b.bundle_id),
@@ -419,6 +427,42 @@ def run_transfer_agent(
             detail=f"n_models={bundle.n_models}",
         )
         next_rank += 1
+
+    # Dossier coverage floor: the no-tool path can lose viable transfer
+    # sources because Scout/Judge naturally favor close labels. This floor
+    # exposes a small, fixed-size slice of the dossier's high-volume and
+    # position-stratified candidates to Pick. It does not score candidates,
+    # inspect target-row AUCs, or choose a primary; Pick and Global Primary
+    # remain the decision layers.
+    if cfg.enable_dossier_coverage_floor and dossier_coverage_ids:
+        already_in_topk = {rb.bundle_id for rb in top_k_bundles}
+        COVERAGE_FLOOR = 7
+        for bid in dossier_coverage_ids:
+            if len([rb for rb in top_k_bundles if rb.rationale.startswith("harness:dossier_coverage")]) >= COVERAGE_FLOOR:
+                break
+            bundle = bundle_lookup.get(bid)
+            if bundle is None or bid in already_in_topk:
+                continue
+            top_k_bundles.append(
+                RankedBundle(
+                    bundle_id=bundle.bundle_id,
+                    rank=next_rank,
+                    confidence="Low",
+                    rationale=(
+                        "harness:dossier_coverage — trait-agnostic dossier "
+                        "coverage candidate exposed for LLM comparison."
+                    ),
+                    evidence_cited=[],
+                )
+            )
+            trace.provenance.tag(
+                field_path=f"judge.ranked_bundles[{bundle.bundle_id}]",
+                value=bundle.bundle_id,
+                source="harness:dossier_coverage",
+                detail=f"n_models={bundle.n_models}",
+            )
+            already_in_topk.add(bundle.bundle_id)
+            next_rank += 1
 
     # Complement the high-n breadth floor with a small mechanism floor:
     # some highly target-relevant bundles have few PGSs, so they are not
@@ -599,6 +643,77 @@ def run_transfer_agent(
 # Stage 1 — SCOUT
 # ---------------------------------------------------------------------------
 
+def _augment_probe_pool_with_dossier_coverage(
+    *,
+    probe_ids: list[str],
+    candidates: list[TraitBundle],
+    max_additions: int = 36,
+) -> tuple[list[str], list[str]]:
+    """Add a small trait-agnostic coverage slice from the dossier.
+
+    The slice has two components:
+    - high-volume bundles by n_models, because broad well-powered sources are
+      often useful in cross-trait transfer;
+    - fixed quantile windows over dossier order, because late-dossier proxies
+      should still get occasional LLM exposure.
+
+    This is exposure only. It does not inspect benchmark target-row AUCs, does
+    not score target fit, and does not choose or reorder final models.
+    """
+    if not candidates or max_additions <= 0:
+        return probe_ids, []
+
+    known = {bundle.bundle_id for bundle in candidates}
+    merged: list[str] = []
+    seen: set[str] = set()
+    for bid in probe_ids:
+        if bid in known and bid not in seen:
+            merged.append(bid)
+            seen.add(bid)
+
+    additions: list[str] = []
+
+    def add(bundle: TraitBundle | None) -> None:
+        if bundle is None:
+            return
+        if len(additions) >= max_additions:
+            return
+        bid = bundle.bundle_id
+        if bid in seen:
+            return
+        seen.add(bid)
+        additions.append(bid)
+        merged.append(bid)
+
+    # High-volume supplement.
+    for bundle in sorted(
+        candidates,
+        key=lambda b: (-int(b.n_models or 0), b.bundle_id),
+    )[:12]:
+        add(bundle)
+
+    # Position-stratified windows. Fractions are fixed and target-agnostic.
+    n = len(candidates)
+    fractions = (0.20, 0.30, 0.45, 0.60, 0.75, 0.90)
+    radius = 4
+    for fraction in fractions:
+        if len(additions) >= max_additions:
+            break
+        center = int(round((n - 1) * fraction))
+        window: list[tuple[int, TraitBundle]] = []
+        for idx in range(max(0, center - radius), min(n, center + radius + 1)):
+            window.append((idx, candidates[idx]))
+        # Preserve closeness to the quantile center while using n_models as
+        # a compactness tie-breaker inside the small local window.
+        window.sort(key=lambda item: (abs(item[0] - center), -int(item[1].n_models or 0), item[1].bundle_id))
+        for _, bundle in window:
+            add(bundle)
+            if len(additions) >= max_additions:
+                break
+
+    return merged, additions
+
+
 def _run_scout(
     *,
     target,
@@ -623,14 +738,6 @@ def _run_scout(
         }
         for b in bundle_lookup.values()
     ]
-    _scout_dk = cross_trait_domain_knowledge(
-        stage="scout",
-        query=(
-            f"target_trait: {target.target_label}; "
-            f"aliases: {','.join(list(target.aliases or [])[:6])}"
-        ),
-        cfg=prompt_cfg,
-    )
     context: dict[str, Any] = {
         "target_label": target.target_label,
         "target_aliases": list(target.aliases or []),
@@ -638,8 +745,6 @@ def _run_scout(
         "bundle_universe_size": len(universe),
         "bundle_universe": universe,
     }
-    if prompt_cfg.enable_skill:
-        context["cross_trait_guidance"] = _scout_dk.primary_section
     try:
         directive: ScoutDirective = scout_chain(prompt_cfg).invoke(
             {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
@@ -1139,14 +1244,6 @@ def _build_gather_context(
             row["has_h2_source"] = ev.h2_source is not None
             row["has_h2_candidate"] = ev.h2_candidate is not None
         coverage.append(row)
-    _gather_dk = cross_trait_domain_knowledge(
-        stage="gather",
-        query=(
-            f"target_trait: {target.target_label}; "
-            f"aliases: {','.join(list(target.aliases or [])[:6])}"
-        ),
-        cfg=cfg,
-    )
     out: dict[str, Any] = {
         "target": {
             "target_label": target.target_label,
@@ -1159,8 +1256,6 @@ def _build_gather_context(
         "probe_coverage": coverage,
         "recent_raw_tool_outputs": registry.round_tool_outputs,
     }
-    if cfg.enable_skill:
-        out["cross_trait_guidance"] = _gather_dk.primary_section
     return out
 
 
@@ -1184,14 +1279,6 @@ def _run_judge(
     """
     cfg = cfg or ToolAblationConfig()
     prompt_cfg = replace(cfg, enable_h2=False, enable_gc_batch=False)
-    _judge_dk = cross_trait_domain_knowledge(
-        stage="judge",
-        query=(
-            f"target_trait: {target.target_label}; "
-            f"aliases: {','.join(list(target.aliases or [])[:6])}"
-        ),
-        cfg=prompt_cfg,
-    )
     context: dict[str, Any] = {
         "target": {
             "target_id": target.target_id,
@@ -1203,8 +1290,6 @@ def _run_judge(
         "evidence_registry_digest": json.loads(registry.compress_for_prompt(cfg=prompt_cfg)),
         "budget_hint": picker_budget_hint,
     }
-    if prompt_cfg.enable_skill:
-        context["cross_trait_guidance"] = _judge_dk.primary_section
     try:
         result: BundleRanking = judge_chain(prompt_cfg).invoke(
             {"context_json": json.dumps(context, ensure_ascii=False, default=str)}
@@ -1274,15 +1359,6 @@ def _run_pick(
         if len(full_pgs_list) > TRIAGE_THRESHOLD:
             triage_candidates = [compact_pgs_summary(pid) for pid in full_pgs_list]
             triage_candidates = [c for c in triage_candidates if c.get("pgs_id")]
-            _triage_dk = cross_trait_domain_knowledge(
-                stage="pgs_triage",
-                query=(
-                    f"target_trait: {target.target_label}; "
-                    f"supporting_bundle: {bundle.canonical_label}; "
-                    f"transfer multi-ancestry validation"
-                ),
-                cfg=prompt_cfg,
-            )
             _triage_pgs_skill = prs_model_evaluator_skill(stage="pgs_triage", cfg=prompt_cfg)
             triage_context: dict[str, Any] = {
                 "target": {
@@ -1297,8 +1373,6 @@ def _run_pick(
                 "compact_summaries": triage_candidates,
                 "max_selected": FULL_HYDRATE_CAP,
             }
-            if prompt_cfg.enable_skill:
-                triage_context["cross_trait_guidance"] = _triage_dk.primary_section
             if _triage_pgs_skill.enabled:
                 # Advisory text from prs_model_evaluator skill at TRIAGE.
                 #
@@ -1363,10 +1437,9 @@ def _run_pick(
         # v16: Pick stage does NOT see `gc` — rg is bundle-level signal
         # appropriate for cross-bundle reconciliation (Global Primary)
         # and orthogonal-axis verification (Critic), not for within-bundle
-        # PGS selection. Including it here in v15 added noise to the
-        # frontier (verified on v15 80-target: in_frontier 21→19,
-        # frontier_hit 53→52, top_2.5% −4 vs v11). Global Primary still
-        # sees rg via `per_bundle_evidence`; Critic via per_axis_top3.
+        # PGS selection. Earlier ablations showed that adding it here
+        # increased frontier noise. Global Primary still sees rg via
+        # `per_bundle_evidence`; Critic via per_axis_top3.
         evidence_dump: dict[str, Any] = {
             "notes": {str(k): v for k, v in (bundle_evidence.notes or {}).items()}
             if bundle_evidence
@@ -1374,15 +1447,6 @@ def _run_pick(
         }
         if cfg.enable_ot:
             evidence_dump["ot"] = bundle_evidence.ot if bundle_evidence else None
-        _pick_dk = cross_trait_domain_knowledge(
-            stage="pick",
-            query=(
-                f"target_trait: {target.target_label}; "
-                f"supporting_bundle: {bundle.canonical_label}; "
-                f"transfer multi-ancestry validation"
-            ),
-            cfg=prompt_cfg,
-        )
         _pick_pgs_skill = prs_model_evaluator_skill(stage="pick", cfg=prompt_cfg)
         context: dict[str, Any] = {
             "target": {
@@ -1399,8 +1463,6 @@ def _run_pick(
             "model_records": pgs_records,
             "model_frontier_budget": frontier_budget_per_bundle,
         }
-        if prompt_cfg.enable_skill:
-            context["cross_trait_guidance"] = _pick_dk.primary_section
         if _pick_pgs_skill.enabled:
             # Advisory text from prs_model_evaluator skill. Source-of-truth
             # corpus shared with contribution2 (loader does not modify).
@@ -1597,35 +1659,35 @@ def _run_global_primary_reconciliation(
         perf_summary = _summarize_pgs_performance_for_gp(record)
         pub_date = (record.get("publication") or {}).get("date")
         bundle = bundle_lookup.get(fm.bundle_id)
-        candidates_ctx.append(
-            {
-                "pgs_id": fm.pgs_id,
-                "source_bundle_id": fm.bundle_id,
-                "source_bundle_label": bundle.canonical_label if bundle else None,
-                "per_bundle_rank": judge_ranks.get(fm.bundle_id),
-                "method_name": record.get("method_name"),
-                "variants_number": record.get("variants_number"),
-                "reported_trait": record.get("reported_trait"),
-                "trait_efo": _compact_trait_terms(record.get("trait_efo") or []),
-                "trait_mapped": _compact_trait_terms(record.get("trait_mapped") or []),
-                "training_ancestry_distribution": record.get("training_ancestry_distribution") or {},
-                "publication_year": (pub_date or "")[:4] if pub_date else None,
-                "training_sample_total": total_training,
-                "performance_summary": perf_summary["summary"],
-                "performance_digest": perf_summary["digest"],
-                "bundle_evidence_ref": fm.bundle_id,
-                "is_pick_primary_for_bundle": pick_primary_by_bundle.get(fm.bundle_id) == fm.pgs_id,
-                "pick_rank_within_bundle": pick_rank_by_bundle_pgs.get((fm.bundle_id, fm.pgs_id)),
-                "is_skill_only_reference_primary": (
-                    bool(reference_primary_pgs_id) and fm.pgs_id == reference_primary_pgs_id
-                ),
-                "is_tool_lane_primary_before_arbitration": (
-                    bool(tool_lane_primary_pgs_id) and fm.pgs_id == tool_lane_primary_pgs_id
-                ),
-                "pick_stage_rationale": (fm.rationale or "")[:500],
-                "pick_stage_confidence": fm.confidence,
-            }
-        )
+        candidate_row = {
+            "pgs_id": fm.pgs_id,
+            "source_bundle_id": fm.bundle_id,
+            "source_bundle_label": bundle.canonical_label if bundle else None,
+            "per_bundle_rank": judge_ranks.get(fm.bundle_id),
+            "method_name": record.get("method_name"),
+            "variants_number": record.get("variants_number"),
+            "reported_trait": record.get("reported_trait"),
+            "trait_efo": _compact_trait_terms(record.get("trait_efo") or []),
+            "trait_mapped": _compact_trait_terms(record.get("trait_mapped") or []),
+            "training_ancestry_distribution": record.get("training_ancestry_distribution") or {},
+            "publication_year": (pub_date or "")[:4] if pub_date else None,
+            "training_sample_total": total_training,
+            "performance_summary": perf_summary["summary"],
+            "performance_digest": perf_summary["digest"],
+            "record_quality_audit": perf_summary["audit"],
+            "bundle_evidence_ref": fm.bundle_id,
+            "is_pick_primary_for_bundle": pick_primary_by_bundle.get(fm.bundle_id) == fm.pgs_id,
+            "pick_rank_within_bundle": pick_rank_by_bundle_pgs.get((fm.bundle_id, fm.pgs_id)),
+            "is_pgs_quality_reference_primary": (
+                bool(reference_primary_pgs_id) and fm.pgs_id == reference_primary_pgs_id
+            ),
+            "is_tool_lane_primary_before_arbitration": (
+                bool(tool_lane_primary_pgs_id) and fm.pgs_id == tool_lane_primary_pgs_id
+            ),
+            "pick_stage_rationale": (fm.rationale or "")[:500],
+            "pick_stage_confidence": fm.confidence,
+        }
+        candidates_ctx.append(candidate_row)
 
     context = {
         "target": {
@@ -1637,12 +1699,7 @@ def _run_global_primary_reconciliation(
         "bundle_evidence_by_id": bundle_evidence_ctx,
     }
     if skill_reference:
-        reference_key = (
-            "pgs_quality_reference"
-            if getattr(cfg, "enable_pgs_quality_reference_lane", False)
-            else "skill_only_reference"
-        )
-        context[reference_key] = {
+        context["pgs_quality_reference"] = {
             "reference_primary_pgs_id": skill_reference.get("reference_primary_pgs_id"),
             "reference_bundle_id": skill_reference.get("reference_bundle_id"),
             "reference_bundle_label": skill_reference.get("reference_bundle_label"),
@@ -1650,16 +1707,6 @@ def _run_global_primary_reconciliation(
             "reference_rationale": skill_reference.get("reference_rationale") or "",
             "reference_lane_description": skill_reference.get("reference_lane_description") or "",
         }
-    _gp_dk = cross_trait_domain_knowledge(
-        stage="global_primary",
-        query=(
-            f"target_trait: {target.target_label}; "
-            "cross-bundle primary reconciliation"
-        ),
-        cfg=gp_cfg,
-    )
-    if gp_cfg.enable_skill:
-        context["cross_trait_guidance"] = _gp_dk.primary_section
     # NOTE: pgs_model_evaluator skill is intentionally NOT injected at
     # GLOBAL_PRIMARY_RECONCILIATION. Iteration-0 paired80 measurement
     # showed skill at this stage caused the LLM to switch primaries to
@@ -1712,10 +1759,12 @@ def _run_global_primary_reconciliation(
         source="llm:stage_4",
         detail=decision.rationale[:200],
     )
+
+    rationale = f"Global reconciliation. {decision.rationale}"
     return ModelFrontier(
         frontier=reordered,
         primary_pgs_id=decision.primary_pgs_id,
-        rationale=f"Global reconciliation. {decision.rationale}",
+        rationale=rationale,
     )
 
 
@@ -1728,16 +1777,75 @@ def _summarize_pgs_performance_for_gp(record: dict[str, Any]) -> dict[str, Any]:
     largest_sample_count = 0
     summed_sample_count = 0
     records_with_metrics = 0
+    largest_case_count = 0
+    records_with_case_counts = 0
+    metric_name_examples: list[str] = []
+    covariate_examples: list[str] = []
+    metric_flags = {
+        "has_incremental_metric": False,
+        "has_pgs_only_metric": False,
+        "has_no_covariate_metric": False,
+        "has_full_model_metric": False,
+        "has_effect_size_metric": False,
+    }
+
+    def _metric_names(metrics: Any) -> list[str]:
+        names: list[str] = []
+        if not isinstance(metrics, dict):
+            return names
+        for group, entries in metrics.items():
+            if not isinstance(entries, list):
+                continue
+            for entry in entries:
+                if not isinstance(entry, dict):
+                    continue
+                label = " ".join(
+                    str(part or "")
+                    for part in (entry.get("name_long"), entry.get("name_short"), group)
+                ).strip()
+                if label:
+                    names.append(label[:160])
+        return names
+
     for rec in records:
         if not isinstance(rec, dict):
             continue
         sample_count = 0
+        case_count = 0
+        has_case_count = False
         for sample in rec.get("samples") or []:
             try:
                 sample_count += int(sample.get("sample_number") or 0)
             except (AttributeError, TypeError, ValueError):
                 continue
+            try:
+                case_raw = sample.get("sample_cases")
+                if case_raw is not None:
+                    case_count += int(float(case_raw))
+                    has_case_count = True
+            except (AttributeError, TypeError, ValueError):
+                pass
         metrics = rec.get("performance_metrics") or rec.get("performance_metric") or {}
+        names = _metric_names(metrics)
+        for name in names:
+            lower = name.lower()
+            if "incremental" in lower:
+                metric_flags["has_incremental_metric"] = True
+            if "pgs" in lower and ("only" in lower or "no covariate" in lower or "no-covariate" in lower):
+                metric_flags["has_pgs_only_metric"] = True
+            if "no covariate" in lower or "no-covariate" in lower:
+                metric_flags["has_no_covariate_metric"] = True
+            if "full model" in lower or "full-covar" in lower or "full covar" in lower:
+                metric_flags["has_full_model_metric"] = True
+            if "effect_sizes" in lower or "odds ratio" in lower or "hazard ratio" in lower:
+                metric_flags["has_effect_size_metric"] = True
+            if name not in metric_name_examples and len(metric_name_examples) < 8:
+                metric_name_examples.append(name)
+        if isinstance(metrics, dict) and metrics.get("effect_sizes"):
+            metric_flags["has_effect_size_metric"] = True
+        covariates = str(rec.get("covariates") or "").strip()
+        if covariates and covariates not in covariate_examples and len(covariate_examples) < 4:
+            covariate_examples.append(covariates[:180])
         auc = _metric_max(metrics, is_auc=True)
         r2 = _metric_max(metrics, is_auc=False)
         ancestry = rec.get("ancestry_broad")
@@ -1755,6 +1863,9 @@ def _summarize_pgs_performance_for_gp(record: dict[str, Any]) -> dict[str, Any]:
                 ancestries.add(text)
         summed_sample_count += sample_count
         largest_sample_count = max(largest_sample_count, sample_count)
+        if has_case_count:
+            records_with_case_counts += 1
+            largest_case_count = max(largest_case_count, case_count)
         if auc is not None:
             best_auc = auc if best_auc is None else max(best_auc, auc)
         if r2 is not None:
@@ -1766,8 +1877,11 @@ def _summarize_pgs_performance_for_gp(record: dict[str, Any]) -> dict[str, Any]:
                 {
                     "ancestry_broad": ancestry,
                     "sample_count": sample_count,
+                    "case_count": case_count if has_case_count else None,
                     "best_auc": auc,
                     "best_r2": r2,
+                    "metric_names": names[:4],
+                    "covariates": covariates[:160] if covariates else None,
                 }
             )
 
@@ -1782,7 +1896,14 @@ def _summarize_pgs_performance_for_gp(record: dict[str, Any]) -> dict[str, Any]:
         "best_auc": summary.get("best_auc", best_auc),
         "best_r2": summary.get("best_r2", best_r2),
     }
-    return {"summary": summary, "digest": digest}
+    audit = {
+        "records_with_case_counts": records_with_case_counts,
+        "largest_case_count": largest_case_count if records_with_case_counts else None,
+        "metric_name_flags": metric_flags,
+        "metric_name_examples": metric_name_examples,
+        "covariate_examples": covariate_examples,
+    }
+    return {"summary": summary, "digest": digest, "audit": audit}
 
 
 def _compact_trait_terms(items: Any, cap: int = 4) -> list[Any]:
@@ -1917,27 +2038,12 @@ def _run_critic(
         "per_axis_top3": per_axis_top3,
     }
     if skill_reference:
-        reference_key = (
-            "pgs_quality_reference"
-            if getattr(cfg, "enable_pgs_quality_reference_lane", False)
-            else "skill_only_reference"
-        )
-        context[reference_key] = {
+        context["pgs_quality_reference"] = {
             "reference_primary_pgs_id": skill_reference.get("reference_primary_pgs_id"),
             "reference_bundle_id": skill_reference.get("reference_bundle_id"),
             "reference_bundle_label": skill_reference.get("reference_bundle_label"),
             "reference_frontier_pgs_ids": skill_reference.get("reference_frontier_pgs_ids") or [],
         }
-    _critic_dk = cross_trait_domain_knowledge(
-        stage="critic",
-        query=(
-            f"target_trait: {target.target_label}; "
-            "critic revision; orthogonal evidence contradiction"
-        ),
-        cfg=cfg,
-    )
-    if cfg.enable_skill:
-        context["cross_trait_guidance"] = _critic_dk.primary_section
     # NOTE: pgs_model_evaluator skill is intentionally NOT injected at
     # CRITIC. Critic's job is to flag clear orthogonal-evidence
     # contradictions of the proposed primary. Adding the long PGS-quality
@@ -2250,95 +2356,8 @@ def _normalize_skill_reference(
     normalized.setdefault("outcome", "MATCHED")
     normalized.setdefault("reference_frontier_pgs_ids", [])
     normalized.setdefault("reference_rationale", "")
-    normalized["reference_source"] = normalized.get("reference_source") or "frozen_no_skill_baseline"
+    normalized["reference_source"] = normalized.get("reference_source") or "pgs_quality_reference_lane"
     return normalized
-
-
-def _run_skill_reference_lane(
-    *,
-    dossier: CandidateBundleDossier,
-    cfg: ToolAblationConfig,
-    max_tool_calls: int,
-    stale_rounds: int,
-    max_gather_rounds: int,
-    model_frontier_budget_per_bundle: int,
-    enable_critic: bool,
-    benchmark_family: str,
-) -> Optional[dict[str, Any]]:
-    """Run an independent no-skill pass and return its primary candidate.
-
-    This is a reference for the final LLM reconciliation, not a deterministic
-    selection rule. The skill-guided lane must still choose the final primary.
-    """
-    ref_cfg = ToolAblationConfig(
-        enable_h2=False,
-        enable_ot=False,
-        enable_gc_batch=False,
-        enable_biology=False,
-        enable_skill=False,
-        enable_skill_reference_lane=False,
-    )
-    try:
-        result = run_transfer_agent(
-            dossier=dossier,
-            max_tool_calls=0 if max_tool_calls <= 0 else max_tool_calls,
-            stale_rounds=stale_rounds,
-            max_gather_rounds=max_gather_rounds,
-            model_frontier_budget_per_bundle=model_frontier_budget_per_bundle,
-            enable_critic=enable_critic,
-            stop_after=None,
-            benchmark_family=benchmark_family,
-            tool_ablation=ref_cfg,
-        )
-    except Exception as exc:  # noqa: BLE001
-        logger.warning("No-skill reference lane failed: %s", exc)
-        return {"error": f"no_skill_reference_lane_error:{exc}"}
-
-    decision = result.get("decision") or {}
-    ref_bundle_id = decision.get("best_bundle_id") or decision.get("primary_bundle_id")
-    ref_pgs_id = decision.get("best_model_id")
-    if not ref_bundle_id or not ref_pgs_id:
-        return {
-            "outcome": decision.get("outcome"),
-            "reference_bundle_id": ref_bundle_id,
-            "reference_primary_pgs_id": ref_pgs_id,
-            "skipped_reason": "no_no_skill_reference_primary",
-        }
-
-    known_bundle = next((b for b in dossier.candidates if b.bundle_id == ref_bundle_id), None)
-    if known_bundle is None or ref_pgs_id not in set(known_bundle.candidate_pgs_ids or []):
-        # The assembled decision can carry a stale primary_bundle_id after
-        # cross-bundle reconciliation. Resolve by PGS membership in the current
-        # dossier so the reference candidate remains available for LLM
-        # arbitration. This is identity hygiene only, not a ranking rule.
-        containing_bundle = next(
-            (b for b in dossier.candidates if ref_pgs_id in set(b.candidate_pgs_ids or [])),
-            None,
-        )
-        if containing_bundle is None:
-            return {
-                "outcome": decision.get("outcome"),
-                "reference_bundle_id": ref_bundle_id,
-                "reference_primary_pgs_id": ref_pgs_id,
-                "skipped_reason": "reference_pgs_not_in_dossier",
-            }
-        known_bundle = containing_bundle
-        ref_bundle_id = containing_bundle.bundle_id
-
-    return _normalize_skill_reference({
-        "outcome": decision.get("outcome"),
-        "reference_bundle_id": ref_bundle_id,
-        "reference_bundle_label": known_bundle.canonical_label,
-        "reference_primary_pgs_id": ref_pgs_id,
-        "reference_frontier_pgs_ids": list(decision.get("recommended_model_ids") or []),
-        "reference_rationale": (
-            (decision.get("stage2") or {}).get("decision_rationale")
-            or (decision.get("stage2") or {}).get("rationale")
-            or decision.get("selection_reason")
-            or ""
-        ),
-        "reference_source": "internal_no_skill_reference_lane",
-    }, dossier=dossier)
 
 
 def _run_pgs_quality_reference_lane(
@@ -2362,8 +2381,6 @@ def _run_pgs_quality_reference_lane(
         enable_ot_late_batch=False,
         enable_gc_batch=False,
         enable_biology=False,
-        enable_skill=False,
-        enable_skill_reference_lane=False,
         enable_pgs_quality_skill=True,
         enable_pgs_quality_reference_lane=False,
     )

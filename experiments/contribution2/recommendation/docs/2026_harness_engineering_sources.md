@@ -9,6 +9,36 @@ URLs were fetched directly via WebFetch / WebSearch tools — they are
 The architectural claims most directly load-bearing for c2's Round 5
 production candidate are flagged in **bold**.
 
+## 2026 paper anchors for PRS Agent Methods architecture
+
+These are the higher-weight sources to cite or emulate when writing the
+Nature Genetics Methods architecture. They should take priority over blog
+terminology when manuscript wording and figure labels are chosen.
+
+- **[CellVoyager: AI CompBio agent generates new insights by autonomously analyzing biological data](https://www.nature.com/articles/s41592-026-03029-6)** — Nature Methods 2026. Supports a single-agent scientific pattern in which an LLM-driven system generates and executes computational biology analyses in an executable environment. Use as an anchor for `LLM orchestration layer` and task execution in scientific software.
+- **[An agentic system for rare disease diagnosis with traceable reasoning](https://www.nature.com/articles/s41586-025-10097-9)** — Nature 2026. Supports traceable evidence, specialized tools, and ranked biomedical outputs. Use as a contrast case: DeepRare is explicitly multi-agent, so do not borrow its `central host agent` naming for PRS Agent.
+- **[A cognitive layer architecture to support large-language model performance in psychotherapy interactions](https://www.nature.com/articles/s41591-026-04278-w)** — Nature Medicine 2026. Supports layer/scaffold language for domain reasoning components that augment a general-purpose LLM.
+- **[AstaBench: Rigorous Benchmarking of AI Agents with a Scientific Research Suite](https://openreview.net/forum?id=M7TNf5J26u)** — ICLR 2026 Oral. Supports standardized tools, interfaces, agent classes, traces, and controlled scientific-agent evaluation.
+- **[Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation](https://hal.cs.princeton.edu/)** — ICLR 2026. Supports treating the harness/scaffold as part of the evaluated system, with cost-aware comparison and trace logging.
+- **[Tools are under-documented: Simple Document Expansion Boosts Tool Retrieval](https://openreview.net/forum?id=g9D9MgG7iW)** — ICLR 2026 Poster. Supports explicit tool documentation and tool-retrieval boundaries as first-class engineering choices.
+- **[SR-Scientist: Scientific Equation Discovery With Agentic AI](https://openreview.net/forum?id=KBN6oUx5uL)** — ICLR 2026 Poster. Supports long-horizon, tool-driven scientific agents that write code, analyze data, evaluate hypotheses, and optimize from feedback.
+- **[PolySkill: Learning Generalizable Skills Through Polymorphic Abstraction For Continual Learning](https://openreview.net/forum?id=KdEsujyiSV)** — ICLR 2026 Poster. Supports reusable skills and the separation between a skill's abstract goal and execution.
+- [SkillsBench: Benchmarking How Well Skills Work Across Diverse Tasks](https://www.skillsbench.ai/) — 2026 benchmark/resource. Useful for the skills / agent harness / model abstraction split; treat as a current resource rather than a Nature/ICLR anchor unless venue-final status changes.
+- [SoK: Agentic Skills -- Beyond Tool Use in LLM Agents](https://arxiv.org/abs/2602.20867) — 2026 preprint. Useful for skill terminology: reusable procedural capability, applicability conditions, execution policies, termination criteria, and reusable interfaces. Use as lower-weight support because it is not venue-final.
+
+Recommended architecture vocabulary derived from these sources:
+
+```text
+PRS Agent
+├── LLM orchestration layer
+├── task-specific harness layer
+└── PRS tool-and-skill layer
+```
+
+Do not mix `layer, layer, harnesses` in final manuscript prose. Either call all
+three `layers` in architecture documentation or write "three architectural
+components" in the paper opening while preserving the same order.
+
 ## Anthropic engineering blog (2026)
 
 - **[Harness design for long-running application development](https://www.anthropic.com/engineering/harness-design-long-running-apps)** — three-agent (planner / generator / evaluator) architecture; "stock LLM is a poor evaluator of its own work"; separated-evaluator principle.

@@ -11,6 +11,7 @@ from src.server.modules.disease.workflow import app as workflow_app
 from src.server.modules.protein.workflow import app as protein_workflow_app
 from src.server.modules.heritability.router import router as heritability_router
 from src.server.modules.genetic_correlation.router import router as genetic_correlation_router
+from src.server.modules.pennprs_agent.router import router as pennprs_agent_router
 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -22,6 +23,8 @@ app = FastAPI(title="PennPRS Agent")
 app.include_router(heritability_router)
 # Include genetic correlation API routes
 app.include_router(genetic_correlation_router)
+# Include PennPRS Agent API routes
+app.include_router(pennprs_agent_router)
 
 
 app.add_middleware(
@@ -47,7 +50,7 @@ class RecommendationRequest(BaseModel):
     request_id: Optional[str] = None  # Optional for progress tracking
 
 
-# ========== Co-Scientist UI Helpers (PRS model previews) ==========
+# ========== PennPRS Agent UI Helpers (PRS model previews) ==========
 
 class PgsModelCardRequest(BaseModel):
     pgs_id: str
@@ -137,7 +140,7 @@ def invoke_agent(req: AgentRequest):
 @app.post("/agent/recommend")
 def recommend_models_endpoint(req: RecommendationRequest):
     """
-    Generate a PRS model recommendation report using the co-scientist agent.
+    Generate a PRS model recommendation report using the legacy recommendation agent.
     """
     from src.server.modules.disease.recommendation_agent import recommend_models
 
@@ -154,7 +157,7 @@ def recommend_models_endpoint(req: RecommendationRequest):
             "models_successful": 0,
             "current_action": "Initializing recommendation workflow...",
             # Ensure frontend can render the STEP 1 panel immediately.
-            # If this is None, the CoScientist page can appear stuck at "Initializing..."
+            # If this is None, the recommendation page can appear stuck at "Initializing..."
             # until deeper workflow code updates `current_step`.
             "current_step": "step-1"
         }
@@ -580,4 +583,3 @@ async def submit_training_job(req: TrainingJobRequest):
 
 if __name__ == "__main__":
     uvicorn.run("src.server.main:app", host="0.0.0.0", port=8000, reload=True)
-

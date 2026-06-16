@@ -57,7 +57,7 @@ SELECTION_CONDITIONS: list[dict[str, Any]] = [
         "key": "cross_modality",
         "description": "Non-primary input type (e.g. endophenotype / continuous target)",
         "filter": lambda row: str(row.get("input_type") or "").strip().upper() not in {"A", ""}
-        or str(row.get("target_source") or "").strip().lower() == "extend_trait",
+        or str(row.get("target_source") or "").strip().lower() in {"nontarget_pgs", "extend_trait"},
     },
 ]
 

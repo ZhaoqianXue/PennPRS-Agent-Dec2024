@@ -77,7 +77,11 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 from experiments.contribution2.recommendation.scripts import run_experiment_minimal_lift  # noqa: F401
 from experiments.contribution2.recommendation.scripts import run_experiment_without_domain as without_domain
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
+from src.server.core.system_prompts import WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT
+from src.server.core.within_prompts.archive.selectors_pre_cleanup_20260615 import (
+    WITHIN_PAIRWISE_JUDGE_SYSTEM_PROMPT,
+    WITHIN_STAGE1_TOP2_USER_INSTRUCTION,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -104,7 +108,7 @@ def _stage0_response_format() -> dict[str, Any]:
 
 def _stage0_messages(context_json: str) -> list[dict[str, str]]:
     return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
+        {"role": "system", "content": WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT},
         {
             "role": "user",
             "content": (
@@ -129,23 +133,13 @@ class Step1RankedDecision(BaseModel):
     rationale: str
 
 
-_STAGE1_USER_INSTRUCTION = (
-    "Perform direct-match assessment only. Use the context JSON below to select the "
-    "best supported direct-match candidate AND the two best-supported runners-up "
-    "from the SAME visible candidate list. Return one JSON object with exactly the "
-    "fields: outcome, best_model_id, top_alternatives, confidence, rationale.\n\n"
-    "top_alternatives must contain exactly two PGS IDs drawn from the same visible "
-    "candidate list, ranked by remaining direct-match support after best_model_id, "
-    "and must not repeat best_model_id. If only one runner-up is supportable, "
-    "emit the single best supported runner-up twice (a stable two-element list is "
-    "required by schema). If no direct-match candidate exists, set best_model_id "
-    "to null and top_alternatives to []."
-)
+_STAGE1_USER_INSTRUCTION = WITHIN_STAGE1_TOP2_USER_INSTRUCTION
+
 
 
 def _stage1_messages(context_json: str) -> list[dict[str, str]]:
     return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
+        {"role": "system", "content": WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT},
         {
             "role": "user",
             "content": f"{_STAGE1_USER_INSTRUCTION}\n\nContext:\n{context_json}",
@@ -174,67 +168,7 @@ class PairwiseJudgment(BaseModel):
     rationale: str
 
 
-PAIRWISE_JUDGE_SYSTEM_PROMPT = """# Identity & Persona
-You are a strict PRS quality judge. You compare exactly two PGS Catalog candidate
-records for the same target trait, and you decide which one is better-supported
-on the visible record fields.
-
-# Task
-Decide the winner of a head-to-head comparison between exactly two PGS candidates
-for the target trait shown in the context. Output one JSON object with the winner's
-PGS ID, your confidence, and a short rationale.
-
-# Decision Boundary
-- The winner must be one of the two candidate IDs explicitly given in the context.
-- You may not introduce a third candidate, propose a tie, or refuse to choose.
-- Your default is to pick a winner; declare confidence "Low" if the records are
-  near-tied, but still emit a winner_model_id from the two given IDs.
-
-# Evaluation Reference Frame
-Use only evidence explicitly present in the context. Compare across:
-- PRS-only AUC / R2 cleanliness (full-model AUC/R2 are not comparable PRS metrics)
-- endpoint fidelity to the target trait (trait_reported, trait_efo, phenotyping_reported)
-- training scale, validation breadth, ancestry breadth
-- covariate-leakage and packaging signals (clinical risk calculators, family-history
-  packages, biomarker / treatment / mediator adjustment, horizon-conditioned
-  packaging, broad EHR phenotype summaries)
-- heritability ceiling alignment when the trait-specific heritability section is present
-
-If the optional `domain_knowledge.full_document` is present, treat it as the
-authoritative field-level policy source; weigh its empirical patterns against
-the candidate records.
-
-Metric discipline:
-- The presence of a clean PRS-only AUC/R2 is not itself sufficient to beat the
-  other candidate. A candidate with PRS-only metrics should win only when that
-  metric evidence is compatible with endpoint fidelity, study design, validation
-  context, ancestry/sample context, and publication/study archetype.
-- Do not demote an otherwise stronger disease-focused or higher-ranked candidate
-  solely because its PRS-only metric is absent while the other candidate reports
-  one. Missing PRS-only metrics mean "less directly comparable", not "worse".
-- In the pair payload, candidate_a is usually earlier in the upstream shortlist.
-  Treat that ordering as a weak prior. Choosing candidate_b is appropriate when
-  candidate_b has a clear multi-field advantage, not merely a single cleaner
-  reported metric.
-
-Do not rank by method-name labels, publication age, "established" use, or
-validation N alone unless the candidate records show why that signal matters
-in this specific comparison.
-
-# Output Requirements
-Return one JSON object with exactly these fields:
-{{
-  "winner_model_id": "PGS000XXX",
-  "confidence": "High | Moderate | Low",
-  "rationale": "..."
-}}
-
-# Output Discipline
-- winner_model_id must be one of the two candidate IDs given in the prompt.
-- rationale must be grounded only in visible evidence and must reference both
-  candidates (what the winner has and the loser lacks).
-- Do not include extra keys.
-"""
+PAIRWISE_JUDGE_SYSTEM_PROMPT = WITHIN_PAIRWISE_JUDGE_SYSTEM_PROMPT
 
 
 def _pairwise_response_format() -> dict[str, Any]:

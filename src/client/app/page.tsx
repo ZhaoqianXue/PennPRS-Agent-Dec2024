@@ -3,11 +3,11 @@
 import { useState } from "react";
 import DiseasePage from "../components/DiseasePage";
 import ProteinPage from "../components/ProteinPage";
-import CoScientistPage from "../components/CoScientistPage";
+import PennPRSAgentPage from "../components/PennPRSAgentPage";
 import { BriefcaseMedical, Dna, Brain, ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 
-type ModuleType = 'disease' | 'protein' | 'image' | 'coscientist' | null;
+type ModuleType = 'disease' | 'protein' | 'image' | 'agent' | null;
 
 export default function Home() {
   const [selectedModule, setSelectedModule] = useState<ModuleType>(null);
@@ -21,8 +21,8 @@ export default function Home() {
     return <ProteinPage onBack={() => setSelectedModule(null)} />;
   }
 
-  if (selectedModule === 'coscientist') {
-    return <CoScientistPage onBack={() => setSelectedModule(null)} />;
+  if (selectedModule === 'agent') {
+    return <PennPRSAgentPage onBack={() => setSelectedModule(null)} />;
   }
 
   // Otherwise, render the Main Selection Landing Page
@@ -59,9 +59,9 @@ export default function Home() {
           className="w-full max-w-5xl"
         >
           <div className="flex flex-col items-center gap-6">
-            {/* PennPRS co scientist Button - Wide and flat style */}
+            {/* PennPRS Agent Button - Wide and flat style */}
             <button
-              onClick={() => setSelectedModule('coscientist')}
+              onClick={() => setSelectedModule('agent')}
               className="group relative flex flex-row items-center gap-6 px-8 py-6 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden w-full max-w-5xl"
             >
               <div className="absolute inset-0 bg-gradient-to-r from-blue-900/5 to-blue-800/5 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -72,9 +72,9 @@ export default function Home() {
                 </div>
 
                 <div className="flex-1 flex flex-col items-start text-left">
-                  <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">PennPRS co scientist</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">PennPRS Agent</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm">
-                    Your intelligent co-scientist for PRS research and analysis
+                    Unified same-trait baseline and conditional cross-trait transfer workflow
                   </p>
                 </div>
 

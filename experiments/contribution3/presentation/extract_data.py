@@ -23,11 +23,10 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 TRANSFER_RUNS = PROJECT_ROOT / "experiments" / "contribution3" / "transfer" / "runs" / "tool_calling_agent"
 BUNDLE_INDEX_JSON = TRANSFER_RUNS / "trait_bundle_index.json"
-RUN_DIR_NAME = "all-tools__paired80_pgs_skill_iter11_repeat2_20260430_024834_w20"
+RUN_DIR_NAME = "all-tools__paired80_legacy_no_aou_tuned_HO_breadth_20260509_w20"
 EVAL_DIR_NAME = f"evaluation__{RUN_DIR_NAME.split('__', 1)[1]}"  # mirrors the run timestamp
-# Some run families nest both the run dir and eval dir under an extra parent
-# (e.g. ablation__no_all_tools_plus_pgs_skill/). Set to "" for top-level runs.
-RUN_PARENT_SUBDIR = "ablation__no_all_tools_plus_pgs_skill"
+# Run and eval dirs are nested under the retained ablation parent.
+RUN_PARENT_SUBDIR = "ablation__no_all_tools_tuned_breadth"
 RESULTS_JSON = TRANSFER_RUNS / "unified" / RUN_PARENT_SUBDIR / RUN_DIR_NAME / "results.json"
 DOSSIER_JSON = TRANSFER_RUNS / "unified" / "candidate_dossiers.json"
 BENCHMARK_DIR = (
@@ -43,7 +42,7 @@ B2C_SELECTION_CSV = BENCHMARK_DIR / "binary_to_continuous" / "target_selection.c
 EVAL_DETAIL_CSV = (
     TRANSFER_RUNS / "unified" / RUN_PARENT_SUBDIR / EVAL_DIR_NAME / "all-tools__end_to_end_eval_detail.csv"
 )
-PGS_METADATA_CSV = PROJECT_ROOT / "Genetic_Agent" / "disease_preprocess" / "pgs_metadata_binary_combined.csv"
+PGS_METADATA_CSV = PROJECT_ROOT / "experiments" / "contribution1" / "disease_preprocess" / "pgs_metadata_260217.csv"
 OUT_DIR = Path(__file__).resolve().parent
 OUT_JSON = OUT_DIR / "presentation_data.json"
 OUT_JS = OUT_DIR / "data.js"
@@ -135,7 +134,7 @@ def _as_text(v):
 def _load_pgs_metadata_map() -> dict[str, dict]:
     """Map pgs_id -> GWAS-sample metadata for the tooltip.
 
-    Layered, first-wins: Genetic_Agent's curated binary + measurement CSVs
+    Layered, first-wins: Contribution1's curated binary + measurement CSVs
     (which use a uniform schema) cover ~3060 / 3196 PGS in the contribution3
     matrix; the remaining ~140 PGS fall back to the upstream PGS Catalog dump
     (`data/pgs_all_metadata/`) so every bar in the chart has hover info.
@@ -175,7 +174,7 @@ def _load_pgs_metadata_map() -> dict[str, dict]:
     _add_genetic_agent_csv(PGS_METADATA_CSV)
     # Layer 2: continuous-measurement traits — same schema, sibling directory.
     _add_genetic_agent_csv(
-        PROJECT_ROOT / "Genetic_Agent" / "measurement_preprocess" / "pgs_metadata_260225.csv"
+        PROJECT_ROOT / "experiments" / "contribution1" / "measurement_preprocess" / "pgs_metadata_260225.csv"
     )
 
     # Layer 3: PGS Catalog dump — only used to fill PGS that the curated CSVs

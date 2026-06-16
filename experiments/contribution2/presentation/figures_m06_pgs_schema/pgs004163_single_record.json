@@ -1,0 +1,69 @@
+{
+  "id": "PGS004163",
+  "predicted_trait": {
+    "trait_reported": "Rheumatoid arthritis",
+    "trait_efo": [
+      {
+        "label": "rheumatoid arthritis",
+        "id": "MONDO_0008383"
+      }
+    ]
+  },
+  "performance_metrics": {
+    "phenotyping_reported": "Seropositive RA",
+    "covariates": "0",
+    "metrics": {
+      "pgs_only_r2": null,
+      "pgs_only_auroc": null,
+      "full_model_auroc": 0.65279323,
+      "c_index": null,
+      "effect_sizes": [
+        {
+          "name_short": "OR",
+          "estimate": 1.7540178,
+          "ci_lower": 1.71840512,
+          "ci_upper": 1.79036854
+        }
+      ]
+    },
+    "evaluation_sample": {
+      "sample_numbers": {
+        "individuals": 388890,
+        "cases": 9332,
+        "controls": 379558
+      },
+      "ancestry": "European",
+      "cohorts": [
+        "FinnGen"
+      ]
+    }
+  },
+  "source_of_variant_associations_gwas": {
+    "sample_numbers": {
+      "individuals": 311292,
+      "cases": null,
+      "controls": null
+    },
+    "ancestry": "European, East Asian",
+    "cohorts": []
+  },
+  "score_development_training": {
+    "sample_numbers": {
+      "individuals": 820,
+      "cases": null,
+      "controls": null
+    },
+    "ancestry": "European"
+  },
+  "development_method": {
+    "method_name": "UKBB-EUR.MultiPRS.CV"
+  },
+  "variants": {
+    "variants_number": 778275
+  },
+  "pgs_source": {
+    "publication_title": "Evaluation of polygenic scoring methods in five biobanks shows larger variation between biobanks than methods and finds benefits of ensemble learning.",
+    "publication_journal": "Am J Hum Genet",
+    "date_release": "2023-12-19"
+  }
+}

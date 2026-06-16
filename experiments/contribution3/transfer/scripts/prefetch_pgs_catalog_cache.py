@@ -40,8 +40,8 @@ CACHE_FILE = CACHE_DIR / "pgs_catalog_cache.pkl"
 # restrict the dev cache to exactly these so the one-time pre-fetch cost is
 # ~3196 fetches instead of ~5276 (the superset in the trait_bundle_index).
 AUC_MATRIX_PATHS = [
-    ROOT / "experiments/contribution1/result/aou_extend_trait/prs_adjauc_matrix_binary_extend_qc.csv",
-    ROOT / "experiments/contribution1/result/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv",
+    ROOT / "experiments/contribution1/result/legacy_no_aou_pgs/aou_extend_trait/prs_adjauc_matrix_binary_extend_qc.csv",
+    ROOT / "experiments/contribution1/result/legacy_no_aou_pgs/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv",
 ]
 
 

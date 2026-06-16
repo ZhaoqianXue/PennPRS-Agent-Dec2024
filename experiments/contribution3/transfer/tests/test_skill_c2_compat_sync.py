@@ -29,6 +29,22 @@ import hashlib
 import sys
 from pathlib import Path
 
+import pytest
+
+# RETIRED 2026-06 (kept for traceability, not deleted). This file enforced the
+# byte-equality invariant between the legacy canonical corpus
+# (prs_model_domain_knowledge.md) and the concatenated
+# prs_model_evaluator/reference/*.md. Production within (contribution2) has
+# migrated to the reworked prs-model-recommendation skill via
+# load_recommendation_view(), whose content is DELIBERATELY not byte-equal to
+# the legacy corpus, so this invariant no longer describes the running system.
+# The replacement contract lives in test_recommendation_view.py.
+pytestmark = pytest.mark.skip(
+    reason="legacy c2 byte-equality contract retired; production within now "
+    "reads the prs-model-recommendation skill (load_recommendation_view). "
+    "Kept for traceability; see test_recommendation_view.py."
+)
+
 REPO_ROOT = Path(__file__).resolve().parents[4]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))

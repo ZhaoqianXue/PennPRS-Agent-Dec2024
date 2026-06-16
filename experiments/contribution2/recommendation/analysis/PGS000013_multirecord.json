@@ -1,0 +1,156 @@
+{
+  "id": "PGS000013",
+  "predicted_trait": {
+    "trait_reported": "Coronary artery disease",
+    "trait_efo": [
+      {
+        "label": "coronary artery disorder",
+        "id": "MONDO_0005010"
+      }
+    ]
+  },
+  "performance_metrics": {
+    "records": [
+      {
+        "performance_id": "PPM000022",
+        "sample_set_id": "PSS000015",
+        "phenotyping_reported": "Coronary artery disease",
+        "covariates": "age; sex; Ancestry PC 1-4; genotyping chip",
+        "metrics": {
+          "pgs_only_r2": 0.04,
+          "full_model_auroc": 0.81
+        },
+        "evaluation_sample": {
+          "sample_numbers": {
+            "individuals": 288978,
+            "cases": 8676,
+            "controls": 280302
+          },
+          "ancestry": "European",
+          "cohorts": [
+            "UKB"
+          ]
+        }
+      },
+      {
+        "performance_id": "PPM001745",
+        "sample_set_id": "PSS000900",
+        "phenotyping_reported": "Coronary artery disease",
+        "covariates": "PCs(1-4)",
+        "metrics": {
+          "effect_sizes": [
+            {
+              "name_short": "OR",
+              "estimate": 1.6,
+              "ci_lower": 1.44,
+              "ci_upper": 1.78
+            }
+          ]
+        },
+        "evaluation_sample": {
+          "sample_numbers": {
+            "individuals": 474498,
+            "cases": 26462,
+            "controls": 448036
+          },
+          "ancestry": "European",
+          "cohorts": [
+            "UKB",
+            "PHB",
+            "VIRGO",
+            "MESA",
+            "BioMe"
+          ]
+        }
+      },
+      {
+        "performance_id": "PPM000928",
+        "sample_set_id": "PSS000468",
+        "phenotyping_reported": "Incident coronary artery disease",
+        "covariates": "age, sex, PCs (1-10)",
+        "metrics": {
+          "c_index": 0.759
+        },
+        "evaluation_sample": {
+          "sample_numbers": {
+            "individuals": 5685,
+            "cases": 815,
+            "controls": 4870
+          },
+          "ancestry": "European",
+          "cohorts": [
+            "MDC-CC"
+          ]
+        }
+      }
+    ]
+  },
+  "source_of_variant_associations_gwas": {
+    "sample_numbers": {
+      "individuals": 187599
+    },
+    "ancestry": "African American or Afro-Caribbean, East Asian, European, Greater Middle Eastern (Middle Eastern, North African or Persian), Hispanic or Latin American, South Asian",
+    "cohorts": [
+      "ADVANCE",
+      "AGES",
+      "AIDHS",
+      "ARIC",
+      "BAS",
+      "BioMe",
+      "CARDIOGENICS",
+      "CAS",
+      "CCGB",
+      "COROGENE",
+      "DUKE_2",
+      "EGCUT",
+      "FGENTCARD",
+      "FHS",
+      "FINRISK",
+      "FamHS",
+      "GENRIC",
+      "GerMIFS",
+      "GoDARTS",
+      "HPS",
+      "HSDS",
+      "HSIEA",
+      "ITH",
+      "LIFE-HEART",
+      "LOLIPOP",
+      "LURIC",
+      "MAYO-VDB",
+      "MIGen",
+      "MedSTAR",
+      "OHGS",
+      "PIVUS",
+      "PROCARDIS",
+      "PROMIS",
+      "PROSPER",
+      "PennCATH",
+      "RS",
+      "SDS",
+      "TwinGene",
+      "ULSAM",
+      "WGHS",
+      "WTCCC"
+    ]
+  },
+  "score_development_training": {
+    "sample_numbers": {
+      "individuals": 120280,
+      "cases": 3963,
+      "controls": 116317
+    },
+    "ancestry": "European"
+  },
+  "development_method": {
+    "method_name": "LDpred"
+  },
+  "variants": {
+    "variants_number": 6630150
+  },
+  "pgs_source": {
+    "publication_title": "Genome-wide polygenic scores for common diseases identify individuals with risk equivalent to monogenic mutations.",
+    "publication_journal": "Nat Genet",
+    "date_release": "2019-10-14"
+  }
+}

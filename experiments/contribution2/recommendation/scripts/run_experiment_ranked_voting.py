@@ -60,7 +60,10 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 from experiments.contribution2.recommendation.scripts import run_experiment_minimal_lift  # noqa: F401
 from experiments.contribution2.recommendation.scripts import run_experiment_without_domain as without_domain
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
+from src.server.core.system_prompts import WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT
+from src.server.core.within_prompts.archive.selectors_pre_cleanup_20260615 import (
+    WITHIN_STAGE1_TOP2_USER_INSTRUCTION,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -76,23 +79,13 @@ class Step1RankedDecision(BaseModel):
     rationale: str
 
 
-_STAGE1_USER_INSTRUCTION = (
-    "Perform direct-match assessment only. Use the context JSON below to select the "
-    "best supported direct-match candidate AND the two best-supported runners-up "
-    "from the SAME visible candidate list. Return one JSON object with exactly the "
-    "fields: outcome, best_model_id, top_alternatives, confidence, rationale.\n\n"
-    "top_alternatives must contain exactly two PGS IDs drawn from the same visible "
-    "candidate list, ranked by remaining direct-match support after best_model_id, "
-    "and must not repeat best_model_id. If only one runner-up is supportable, "
-    "emit the single best supported runner-up twice (a stable two-element list is "
-    "required by schema). If no direct-match candidate exists, set best_model_id "
-    "to null and top_alternatives to []."
-)
+_STAGE1_USER_INSTRUCTION = WITHIN_STAGE1_TOP2_USER_INSTRUCTION
+
 
 
 def _stage1_messages(context_json: str) -> list[dict[str, str]]:
     return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
+        {"role": "system", "content": WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT},
         {
             "role": "user",
             "content": f"{_STAGE1_USER_INSTRUCTION}\n\nContext:\n{context_json}",

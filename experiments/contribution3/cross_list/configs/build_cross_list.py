@@ -20,7 +20,7 @@ Selection criterion:
 
   Target traits here are restricted to the same set as Contribution2 main analysis:
   ICD root rows with include_in_analysis == 1 in
-  `contribution1/result/aou_binary/prs_adjauc_metadata_binary_combined_rootcode.csv`
+  `contribution1/result/aou_icd_260217/prs_adjauc_metadata_260217_rootcode.csv`
   (case_count >= 200 in Contribution1 QC).
 
 PGS models with unknown source ontology are excluded (cannot build disease-level mapping).
@@ -58,16 +58,16 @@ BINARY_TO_CONTINUOUS_RUNS_DIR = RUNS_DIR / "binary_to_continuous"
 CONTINUOUS_TO_BINARY_RUNS_DIR = RUNS_DIR / "continuous_to_binary"
 CONTINUOUS_TO_CONTINUOUS_RUNS_DIR = RUNS_DIR / "continuous_to_continuous"
 
-# Primary binary (disease) AoU adjAUC matrices: refreshed binary-combined rootcode outputs
-# under contribution1/result (not the legacy aou_icd_260217 snapshot).
+# Primary binary (disease) AoU adjAUC matrices from the current Contribution1
+# ICD snapshot.
 CONTRIB1_RESULT_DIR = (
     CROSS_LIST_DIR.parent.parent
     / "contribution1"
     / "result"
-    / "aou_binary"
+    / "aou_icd_260217"
 )
-CONTRIB1_ROOTCODE_ADJ_AUC_MATRIX_NAME = "prs_adjauc_matrix_binary_combined_rootcode.csv"
-CONTRIB1_ROOTCODE_ADJ_AUC_METADATA_NAME = "prs_adjauc_metadata_binary_combined_rootcode.csv"
+CONTRIB1_ROOTCODE_ADJ_AUC_MATRIX_NAME = "prs_adjauc_matrix_260217_rootcode.csv"
+CONTRIB1_ROOTCODE_ADJ_AUC_METADATA_NAME = "prs_adjauc_metadata_260217_rootcode.csv"
 CONTRIB1_LOINC_RESULT_DIR = (
     CROSS_LIST_DIR.parent.parent
     / "contribution1"

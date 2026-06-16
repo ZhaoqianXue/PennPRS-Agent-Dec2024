@@ -27,8 +27,13 @@ import pandas as pd
 # Paths
 # ---------------------------------------------------------------------------
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
-CONTRIB1_BINARY_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_binary"
-CONTRIB1_LEGACY_ICD_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
+CONTRIB1_ICD_RESULT_DIR = (
+    CONTRIB2_DIR.parent
+    / "contribution1"
+    / "result"
+    / "legacy_no_aou_pgs"
+    / "aou_binary"
+)
 DISEASE_SELECTION_DIR = Path(__file__).parent.parent
 OUTPUT_RUNS_DIR = DISEASE_SELECTION_DIR / "runs"
 OUTPUT_INTERMEDIATE_DIR = OUTPUT_RUNS_DIR / "intermediate"
@@ -36,19 +41,16 @@ OUTPUT_METRICS_DIR = DISEASE_SELECTION_DIR / "metrics"
 
 CONTRIB1_ADJAUC_INPUTS = {
     "rootcode": {
-        "matrix": CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv",
-        "metadata": CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_metadata_binary_combined_rootcode.csv",
-        "case_count": CONTRIB1_BINARY_RESULT_DIR / "trait_case_count_binary_combined_rootcode.csv",
-        "label": "aou_binary/binary_combined_rootcode",
+        "matrix": CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv",
+        "metadata": CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_metadata_binary_combined_rootcode.csv",
+        "case_count": CONTRIB1_ICD_RESULT_DIR / "trait_case_count_binary_combined_rootcode.csv",
+        "label": "legacy_no_aou_pgs/aou_binary/rootcode",
     },
-    # The colleague update includes a refreshed child-code case-count file, but
-    # not the matching child-code AUC matrix/metadata. Keep child-code selection
-    # on the legacy paired files until those refreshed inputs exist.
     "childrencode": {
-        "matrix": CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv",
-        "metadata": CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_metadata_260217_childrencode.csv",
-        "case_count": CONTRIB1_LEGACY_ICD_RESULT_DIR / "trait_case_count_260217_childrencode.csv",
-        "label": "aou_icd_260217/childrencode",
+        "matrix": CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_matrix_binary_combined_childrencode.csv",
+        "metadata": CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_metadata_binary_combined_childrencode.csv",
+        "case_count": CONTRIB1_ICD_RESULT_DIR / "trait_case_count_binary_combined_childrencode.csv",
+        "label": "legacy_no_aou_pgs/aou_binary/childrencode",
     },
 }
 

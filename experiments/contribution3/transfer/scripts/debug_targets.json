@@ -25,7 +25,7 @@
     "oracle_in_model_frontier": "False",
     "benchmark_family": "unified",
     "input_type": "A",
-    "target_source": "extend_trait",
+    "target_source": "nontarget_pgs",
     "selected_model_rank_fraction": "0.0851063829787234",
     "benchmark_top_model_id": "PGS004536"
   },
@@ -40,7 +40,7 @@
     "oracle_in_model_frontier": "False",
     "benchmark_family": "unified",
     "input_type": "A",
-    "target_source": "extend_trait",
+    "target_source": "nontarget_pgs",
     "selected_model_rank_fraction": "0.731226533166458",
     "benchmark_top_model_id": "PGS005203"
   },
@@ -55,7 +55,7 @@
     "oracle_in_model_frontier": "False",
     "benchmark_family": "unified",
     "input_type": "A",
-    "target_source": "extend_trait",
+    "target_source": "nontarget_pgs",
     "selected_model_rank_fraction": "0.05131414267834793",
     "benchmark_top_model_id": "PGS004760"
   },
@@ -70,7 +70,7 @@
     "oracle_in_model_frontier": "False",
     "benchmark_family": "unified",
     "input_type": "A",
-    "target_source": "extend_trait",
+    "target_source": "nontarget_pgs",
     "selected_model_rank_fraction": "0.17334167709637047",
     "benchmark_top_model_id": "PGS005199"
   }

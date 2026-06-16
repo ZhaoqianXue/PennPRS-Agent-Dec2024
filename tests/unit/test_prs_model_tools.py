@@ -5,6 +5,21 @@ Implements TDD for sop.md L356-462 tool specifications.
 """
 import pytest
 
+
+@pytest.fixture(autouse=True)
+def clear_pgs_catalog_test_caches():
+    """PGS Catalog mock clients in this file reuse IDs; production caches must not leak between tests."""
+    from src.server.core.tools import prs_model_tools as tools
+
+    with tools._PGS_CACHE_LOCK:
+        tools._PGS_DETAILS_CACHE.clear()
+        tools._PGS_PERFORMANCE_CACHE.clear()
+    yield
+    with tools._PGS_CACHE_LOCK:
+        tools._PGS_DETAILS_CACHE.clear()
+        tools._PGS_PERFORMANCE_CACHE.clear()
+
+
 class TestDomainKnowledge:
     """Test prs_model_domain_knowledge tool."""
     
@@ -12,17 +27,20 @@ class TestDomainKnowledge:
         """Test domain knowledge search returns relevant content."""
         from src.server.core.tools.prs_model_tools import prs_model_domain_knowledge
         
-        result = prs_model_domain_knowledge(query="LDpred2 best for")
-        
+        result = prs_model_domain_knowledge(query="genome-wide shrinkage method family")
+
         assert result is not None
         assert hasattr(result, 'query')
         assert hasattr(result, 'full_document')
         assert hasattr(result, 'snippets')
         assert result.full_document
         assert len(result.snippets) > 0
-        # LDpred2 content should be found
-        assert "PRS Model Domain Knowledge" in result.full_document
-        assert any("ldpred2" in s.content.lower() or "ldpred2" in result.full_document.lower() for s in result.snippets)
+        # Reworked within view = prs-model-recommendation SKILL.md + appraisal corpus.
+        assert "PGS Evidence Appraisal" in result.full_document
+        assert (
+            any("shrinkage" in s.content.lower() for s in result.snippets)
+            or "shrinkage" in result.full_document.lower()
+        )
     
     def test_search_ancestry_considerations(self):
         """Test search finds ancestry-related content."""
@@ -32,7 +50,11 @@ class TestDomainKnowledge:
         
         assert len(result.snippets) > 0
         assert any(
-            s.section == "6. ancestry_distribution"
+            s.section
+            in {
+                "3. source_of_variant_associations_gwas",
+                "4. score_development_training",
+            }
             or "ancestry" in s.content.lower()
             for s in result.snippets
         )
@@ -71,10 +93,12 @@ class TestDomainKnowledge:
         assert len(result.snippets) > 0
         assert any(
             (
-                s.section == "1. trait_reported / trait_efo / phenotyping_reported"
-                or s.section == "2. performance_metrics.auc / performance_metrics.r2 / covariates"
-                or s.section == "4. training_development_cohorts / samples_training"
-                or s.section == "5. method_name"
+                s.section == "2. predicted_trait"
+                or s.section == "8. performance_metrics"
+                or s.section.startswith("Metrics and the usable-axis")
+                or s.section == "Covariates"
+                or s.section == "3. development_method"
+                or s.section == "6. source_of_variant_associations_gwas"
             )
             for s in result.snippets
         )
@@ -431,3 +455,89 @@ class TestPGSCatalogSearch:
 
         assert "Trait-Specific Heritability" not in result.full_document
         assert not any(snippet.section == "Trait-Specific Heritability" for snippet in result.snippets)
+
+
+class TestRepresentativeRecordSelection:
+    """Single-record selection: endpoint containment + comparable-axis priority.
+
+    Exercised directly (not through prs_model_pgscatalog_search) to avoid the
+    module-level lru_cache that cross-contaminates the search-level tests.
+    """
+
+    @staticmethod
+    def _rec(rid, trait, *, ancestry="European", n=1000, class_acc=None,
+             othermetrics=None, effect_sizes=None):
+        return {
+            "id": rid,
+            "phenotyping_reported": trait,
+            "sampleset": {"samples": [{"sample_number": n, "ancestry_broad": ancestry}]},
+            "performance_metrics": {
+                "class_acc": class_acc or [],
+                "othermetrics": othermetrics or [],
+                "effect_sizes": effect_sizes or [],
+            },
+        }
+
+    def test_containment_excludes_off_target_endpoint(self):
+        from src.server.core.tools.prs_model_tools import _select_representative_performance_record
+        # Off-target record has a STRONGER metric (PRS-only R2, tier 4) and far larger n,
+        # so only the endpoint gate can keep it from being chosen.
+        off = self._rec("PPM_OFF", "Coronary artery calcium score > 100", n=500000,
+                        othermetrics=[{"name_short": "PGS R2 (no covariates)", "estimate": 0.10}])
+        on = self._rec("PPM_ON", "Coronary artery disease", n=5000,
+                       effect_sizes=[{"name_short": "OR", "estimate": 1.8}])
+
+        with_gate = _select_representative_performance_record(
+            [off, on], predicted_trait="Coronary artery disease")
+        assert with_gate["id"] == "PPM_ON"   # off-target dropped despite stronger metric
+
+        without_gate = _select_representative_performance_record([off, on])
+        assert without_gate["id"] == "PPM_OFF"  # proves the gate (not the metric) flipped it
+
+    def test_effect_sizes_beat_full_model_auroc(self):
+        from src.server.core.tools.prs_model_tools import _select_representative_performance_record
+        auroc = self._rec("PPM_AUROC", "Coronary artery disease", n=500000,
+                          class_acc=[{"name_short": "AUROC", "estimate": 0.90}])
+        odds = self._rec("PPM_OR", "Coronary artery disease", n=2000,
+                         effect_sizes=[{"name_short": "OR", "estimate": 1.5}])
+        # OR (tier 3) must beat full-model AUROC (tier 1) even with 250x smaller n.
+        sel = _select_representative_performance_record([auroc, odds])
+        assert sel["id"] == "PPM_OR"
+
+    def test_full_model_auroc_only_is_still_selectable(self):
+        from src.server.core.tools.prs_model_tools import _select_representative_performance_record
+        auroc = self._rec("PPM_AUROC", "Coronary artery disease",
+                          class_acc=[{"name_short": "AUROC", "estimate": 0.78}])
+        # AUROC-only record is real signal -> kept, not dropped.
+        sel = _select_representative_performance_record([auroc])
+        assert sel is not None and sel["id"] == "PPM_AUROC"
+
+    def test_metric_parser_accepts_llm_schema_metric_name(self):
+        from src.server.core.tools.prs_model_tools import _extract_metric_summary_from_metrics_dict
+
+        summary = _extract_metric_summary_from_metrics_dict({
+            "class_acc": [{"metric_name": "AUROC", "estimate": 0.78}],
+            "othermetrics": [{"metric_name": "PGS R2 (no covariates)", "estimate": 0.05}],
+            "effect_sizes": [],
+        })
+
+        assert summary["genuine_full_model_auc"] == 0.78
+        assert summary["pgs_only_r2"] == 0.05
+
+    def test_containment_falls_back_when_no_record_matches(self):
+        from src.server.core.tools.prs_model_tools import _select_representative_performance_record
+        rec = self._rec("PPM_X", "Some unrelated phenotype",
+                        effect_sizes=[{"name_short": "OR", "estimate": 1.4}])
+        # No record contains the predicted trait -> never return nothing.
+        sel = _select_representative_performance_record([rec], predicted_trait="Coronary artery disease")
+        assert sel is not None and sel["id"] == "PPM_X"
+
+    def test_european_preference_still_dominates(self):
+        from src.server.core.tools.prs_model_tools import _select_representative_performance_record
+        afr = self._rec("PPM_AFR", "Coronary artery disease", ancestry="African unspecified",
+                        n=99999, othermetrics=[{"name_short": "PGS R2 (no covariates)", "estimate": 0.2}])
+        eur = self._rec("PPM_EUR", "Coronary artery disease", ancestry="European",
+                        n=1000, effect_sizes=[{"name_short": "OR", "estimate": 1.3}])
+        # EUR record wins even though AFR has a stronger axis and larger n.
+        sel = _select_representative_performance_record([afr, eur])
+        assert sel["id"] == "PPM_EUR"

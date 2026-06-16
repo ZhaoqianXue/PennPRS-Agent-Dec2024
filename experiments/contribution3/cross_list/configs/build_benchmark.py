@@ -17,7 +17,7 @@ from the original build_cross_list.py:
 
 4. Refined target selection criteria:
    - Benchmark CSV outputs include:
-       * Type A targets from contribution1/aou_nontarget_pgs
+       * Type A targets from contribution1/result/aou_nontarget_pgs
        * Type B targets from the main rootcode adjAUC matrix
    - The markdown report remains Type B only
    - Disease-level assessment (n_qualifying_diseases, not n_qualifying_models)
@@ -1126,7 +1126,7 @@ def generate_type_a_report(
     lines = [
         "# Cross-Trait Transfer Benchmark Report (Type A)",
         "",
-        "_This report summarizes Type A targets only. These targets come from the explicit `contribution1/aou_nontarget_pgs` universe._",
+        "_This report summarizes Type A targets only. These targets come from the explicit `contribution1/result/aou_nontarget_pgs` universe._",
         "",
         "## Selection Rules",
         "",
@@ -1210,7 +1210,7 @@ def generate_combined_report(
     lines = [
         "# Cross-Trait Transfer Benchmark Report (All Targets)",
         "",
-        "_This report summarizes explicit Type A targets from `contribution1/aou_nontarget_pgs` together with Type B targets from the main rootcode adjAUC benchmark universe._",
+        "_This report summarizes explicit Type A targets from `contribution1/result/aou_nontarget_pgs` together with Type B targets from the main rootcode adjAUC benchmark universe._",
         "",
         "## Selection Rules",
         "",

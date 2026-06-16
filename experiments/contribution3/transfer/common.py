@@ -26,12 +26,12 @@ BENCHMARK_DIR = (
     / "experiments"
     / "contribution3"
     / "cross_list"
-    / "benchmark_contrib1_latest"
+    / "benchmark_legacy_no_aou_pgs"
 )
 DEFAULT_BENCHMARK_FAMILY = "unified"
 BENCHMARK_FAMILIES = ("binary_to_binary", "binary_to_continuous", "unified")
 LEGACY_FULL_ABLATION = "full"
-DEFAULT_TRANSFER_ABLATION = "no_all_tools_plus_pgs_skill"
+DEFAULT_TRANSFER_ABLATION = "no_all_tools_tuned_breadth"
 BUNDLE_INDEX_JSON = RUNS_DIR / "trait_bundle_index.json"
 PGS_SCORES_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_scores.csv"
 PGS_EFO_TRAITS_CSV = PROJECT_ROOT / "data" / "pgs_all_metadata" / "pgs_all_metadata_efo_traits.csv"
@@ -45,6 +45,7 @@ ROOTCODE_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
+    / "legacy_no_aou_pgs"
     / "aou_binary"
     / "prs_adjauc_matrix_binary_combined_rootcode.csv"
 )
@@ -53,6 +54,7 @@ NONTARGET_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
+    / "legacy_no_aou_pgs"
     / "aou_extend_trait"
     / "prs_adjauc_matrix_binary_extend_qc.csv"
 )

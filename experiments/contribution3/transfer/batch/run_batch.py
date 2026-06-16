@@ -35,6 +35,11 @@ from experiments.contribution3.transfer.common import (
     write_candidate_dossiers,
     write_trait_bundle_index,
 )
+from experiments.contribution3.transfer.direct_baseline import (
+    DIRECT_BASELINE_CONDITION,
+    run_direct_baseline,
+    write_direct_artifacts,
+)
 
 
 def cmd_prepare_assets(_: argparse.Namespace) -> None:
@@ -93,42 +98,10 @@ def _split_ablation_list(raw: str | None) -> list[str]:
     return ordered or list(TRANSFER_ABLATIONS)
 
 
-def _extract_skill_reference(row: dict[str, Any]) -> dict[str, Any]:
-    decision = row.get("decision") or {}
-    stage2 = decision.get("stage2") or {}
-    return {
-        "outcome": decision.get("outcome"),
-        "reference_bundle_id": decision.get("best_bundle_id") or decision.get("primary_bundle_id"),
-        "reference_bundle_label": decision.get("best_cross_trait"),
-        "reference_primary_pgs_id": decision.get("best_model_id") or stage2.get("primary_model_id"),
-        "reference_frontier_pgs_ids": list(decision.get("recommended_model_ids") or []),
-        "reference_rationale": stage2.get("decision_rationale") or decision.get("selection_reason") or "",
-        "reference_source": "frozen_no_skill_baseline",
-    }
-
-
-def _load_skill_reference_results(raw_path: str | None) -> dict[str, dict[str, Any]]:
-    if not raw_path:
-        return {}
-    path = Path(raw_path).expanduser()
-    if not path.exists():
-        raise FileNotFoundError(f"Skill reference results not found: {path}")
-    rows = json.loads(path.read_text())
-    out: dict[str, dict[str, Any]] = {}
-    for row in rows:
-        target = row.get("target") or {}
-        target_id = str(target.get("target_id") or target.get("target_code") or "").strip()
-        if not target_id:
-            continue
-        out[target_id] = _extract_skill_reference(row)
-    return out
-
-
 def cmd_run(args: argparse.Namespace) -> None:
     _, dossiers = _ensure_assets(args.benchmark_family)
     run_id = _resolve_run_id(getattr(args, "run_id", None))
     ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
-    skill_reference_map = _load_skill_reference_results(getattr(args, "skill_reference_results", None))
     target_filter = {
         target_id.strip()
         for target_id in (args.target_ids.split(",") if args.target_ids else [])
@@ -163,7 +136,6 @@ def cmd_run(args: argparse.Namespace) -> None:
                     benchmark_family=args.benchmark_family,
                     ablation=ablation,
                     stop_after=stop_after,
-                    skill_reference_override=skill_reference_map.get(dossier.target.target_id),
                 )
                 results.append(result)
                 print(
@@ -186,7 +158,6 @@ def cmd_run(args: argparse.Namespace) -> None:
                     benchmark_family=args.benchmark_family,
                     ablation=ablation,
                     stop_after=stop_after,
-                    skill_reference_override=skill_reference_map.get(dossier.target.target_id),
                 )
 
             print(
@@ -338,7 +309,6 @@ def cmd_offline_unified(args: argparse.Namespace) -> None:
         run_id=run_id,
         workers=getattr(args, "workers", 1),
         ablation=ablation,
-        skill_reference_results=getattr(args, "skill_reference_results", ""),
     )
     cmd_run(run_args)
 
@@ -394,10 +364,71 @@ def cmd_offline_ablation_sweep(args: argparse.Namespace) -> None:
             workers=getattr(args, "workers", 1),
             run_id=base_run_id,
             ablation=ablation,
-            skill_reference_results=getattr(args, "skill_reference_results", ""),
             skip_prepare_assets=True,
         )
         cmd_offline_unified(offline_args)
+
+
+def cmd_offline_direct_baseline(args: argparse.Namespace) -> None:
+    """Run the strict single-shot GPT-only no-harness unified baseline."""
+    from experiments.contribution3.transfer.eval.evaluate_end_to_end import (
+        evaluate_end_to_end_condition,
+    )
+
+    _, dossiers = _ensure_assets("unified")
+    run_id = _resolve_run_id(getattr(args, "run_id", None))
+    ablation = _resolve_ablation(getattr(args, "ablation", DEFAULT_TRANSFER_ABLATION))
+    condition = getattr(args, "condition", DIRECT_BASELINE_CONDITION) or DIRECT_BASELINE_CONDITION
+
+    target_filter = {
+        target_id.strip()
+        for target_id in (args.target_ids.split(",") if args.target_ids else [])
+        if target_id.strip()
+    }
+    if target_filter:
+        dossiers = [dossier for dossier in dossiers if dossier.target.target_id in target_filter]
+
+    results_path = condition_results_json(
+        condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    if results_path.exists():
+        raise FileExistsError(
+            f"Refusing to overwrite existing direct baseline output: {results_path}. "
+            "Choose a new --run-id or remove the existing run directory."
+        )
+
+    results = run_direct_baseline(
+        dossiers,
+        condition=condition,
+        workers=getattr(args, "workers", 1),
+    )
+    results_path, recommendations_path = write_direct_artifacts(
+        results,
+        condition=condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    summary = evaluate_end_to_end_condition(
+        condition=condition,
+        benchmark_family="unified",
+        run_id=run_id,
+        ablation=ablation,
+    )
+    eval_root = evaluation_dir("unified", run_id=run_id, ablation=ablation)
+    print(
+        f"[offline-direct-baseline][{ablation}] completed run_id={run_id}\n"
+        f"results={results_path}\n"
+        f"recommendations={recommendations_path}\n"
+        f"evaluation_dir={eval_root}\n"
+        f"coverage={summary.get('coverage'):.4f} "
+        f"mean_gpr={summary.get('official_metrics', {}).get('mean_gpr')} "
+        f"hit@0.5%={summary.get('official_metrics', {}).get('hit_at_percent', {}).get('top_0_5pct')}",
+        flush=True,
+    )
 
 
 def cmd_generate_docs(_: argparse.Namespace) -> None:
@@ -477,19 +508,10 @@ def build_parser() -> argparse.ArgumentParser:
             "Used for fast Stage-A (cross-trait) iteration."
         ),
     )
-    run_parser.add_argument(
-        "--skill-reference-results",
-        default="",
-        help=(
-            "Optional path to a frozen no-skill/no-tool results.json. "
-            "Skill-enabled ablations use this as the paired reference lane."
-        ),
-    )
-
     recommend_parser = subparsers.add_parser("recommend")
     recommend_parser.add_argument(
         "--condition",
-        choices=list(CONDITION_TOOLS.keys()),
+        choices=[*CONDITION_TOOLS.keys(), DIRECT_BASELINE_CONDITION],
         default="all-tools",
     )
     recommend_parser.add_argument(
@@ -512,7 +534,7 @@ def build_parser() -> argparse.ArgumentParser:
     eval_parser = subparsers.add_parser("evaluate-end-to-end")
     eval_parser.add_argument(
         "--condition",
-        choices=list(CONDITION_TOOLS.keys()),
+        choices=[*CONDITION_TOOLS.keys(), DIRECT_BASELINE_CONDITION],
         default="all-tools",
     )
     eval_parser.add_argument(
@@ -566,15 +588,6 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip prepare-assets if bundle index and candidate dossiers are already materialized.",
     )
-    offline_unified_parser.add_argument(
-        "--skill-reference-results",
-        default="",
-        help=(
-            "Optional path to a frozen no-skill/no-tool results.json. "
-            "Skill-enabled ablations use this as the paired reference lane."
-        ),
-    )
-
     offline_ablation_parser = subparsers.add_parser("offline-ablation-sweep")
     offline_ablation_parser.add_argument(
         "--condition",
@@ -608,15 +621,35 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Skip prepare-assets if bundle index and candidate dossiers are already materialized.",
     )
-    offline_ablation_parser.add_argument(
-        "--skill-reference-results",
-        default="",
-        help=(
-            "Optional path to a frozen no-skill/no-tool results.json. "
-            "Skill-enabled ablations use this as the paired reference lane."
-        ),
-    )
 
+    offline_direct_parser = subparsers.add_parser("offline-direct-baseline")
+    offline_direct_parser.add_argument(
+        "--condition",
+        default=DIRECT_BASELINE_CONDITION,
+        help="Output condition label for the strict direct baseline.",
+    )
+    offline_direct_parser.add_argument(
+        "--target-ids",
+        default="",
+        help="Optional comma-separated subset of target IDs for focused direct-baseline runs.",
+    )
+    offline_direct_parser.add_argument(
+        "--run-id",
+        default="",
+        help="Optional run id reused across run/recommend/evaluate artifacts.",
+    )
+    offline_direct_parser.add_argument(
+        "--workers",
+        type=int,
+        default=1,
+        help="Parallel worker count for direct GPT calls. Default 1.",
+    )
+    offline_direct_parser.add_argument(
+        "--ablation",
+        choices=TRANSFER_ABLATIONS,
+        default=DEFAULT_TRANSFER_ABLATION,
+        help="Artifact namespace used for comparison against tuned harness outputs.",
+    )
     subparsers.add_parser("generate-docs")
     return parser
 
@@ -636,6 +669,8 @@ def main() -> None:
         cmd_offline_unified(args)
     elif args.command == "offline-ablation-sweep":
         cmd_offline_ablation_sweep(args)
+    elif args.command == "offline-direct-baseline":
+        cmd_offline_direct_baseline(args)
     elif args.command == "generate-docs":
         cmd_generate_docs(args)
     else:

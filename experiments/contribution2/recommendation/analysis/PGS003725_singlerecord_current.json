@@ -1,0 +1,87 @@
+{
+  "id": "PGS003725",
+  "predicted_trait": {
+    "trait_reported": "Coronary artery disease",
+    "trait_efo": [
+      {
+        "label": "coronary artery disorder",
+        "id": "MONDO_0005010"
+      }
+    ]
+  },
+  "performance_metrics": {
+    "phenotyping_reported": "Coronary artery disease",
+    "covariates": "age, sex and the first ten principal components of genetic ancestry",
+    "metrics": {
+      "pgs_only_r2": null,
+      "pgs_only_auroc": null,
+      "full_model_auroc": null,
+      "c_index": null,
+      "effect_sizes": [
+        {
+          "name_short": "HR",
+          "estimate": 1.75,
+          "ci_lower": 1.71,
+          "ci_upper": 1.78
+        },
+        {
+          "name_short": "OR",
+          "estimate": 2.14,
+          "ci_lower": 2.1,
+          "ci_upper": 2.19
+        }
+      ]
+    },
+    "evaluation_sample": {
+      "sample_numbers": {
+        "individuals": 308264,
+        "cases": 10492,
+        "controls": 297772
+      },
+      "ancestry": "European",
+      "cohorts": [
+        "UKB"
+      ]
+    }
+  },
+  "source_of_variant_associations_gwas": {
+    "sample_numbers": {
+      "individuals": 1443386,
+      "cases": 269521,
+      "controls": 1173865
+    },
+    "ancestry": "African unspecified, East Asian, European, Hispanic or Latin American, South Asian",
+    "cohorts": [
+      "AGENT2D",
+      "BBJ",
+      "CARDIoGRAMplusC4D",
+      "DIAMANTE",
+      "FinnGen",
+      "G&H",
+      "GBMI",
+      "GIANT",
+      "GLGC",
+      "MEGASTROKE",
+      "MVP"
+    ]
+  },
+  "score_development_training": {
+    "sample_numbers": {
+      "individuals": 116649,
+      "cases": 4412,
+      "controls": 112237
+    },
+    "ancestry": "European"
+  },
+  "development_method": {
+    "method_name": "LDpred2"
+  },
+  "variants": {
+    "variants_number": 1296172
+  },
+  "pgs_source": {
+    "publication_title": "A multi-ancestry polygenic risk score improves risk prediction for coronary artery disease.",
+    "publication_journal": "Nat Med",
+    "date_release": "2023-07-05"
+  }
+}

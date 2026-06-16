@@ -12,13 +12,13 @@ Outputs:
 
 Usage:
   python generate_evaluated_pgs_list.py
-  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__89disease.csv
+  python generate_evaluated_pgs_list.py --union-csv experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_current_union__76disease.csv
 
 Requirements:
-  - experiments/contribution1/result/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv
-  - experiments/contribution1/result/aou_binary/prs_adjauc_metadata_binary_combined_rootcode.csv
-  - experiments/contribution1/result/aou_icd_260217/prs_adjauc_matrix_260217_childrencode.csv
-  - experiments/contribution1/result/aou_icd_260217/prs_adjauc_metadata_260217_childrencode.csv
+  - experiments/contribution1/result/legacy_no_aou_pgs/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv
+  - experiments/contribution1/result/legacy_no_aou_pgs/aou_binary/prs_adjauc_metadata_binary_combined_rootcode.csv
+  - experiments/contribution1/result/legacy_no_aou_pgs/aou_binary/prs_adjauc_matrix_binary_combined_childrencode.csv
+  - experiments/contribution1/result/legacy_no_aou_pgs/aou_binary/prs_adjauc_metadata_binary_combined_childrencode.csv
   - experiments/contribution2/disease_selection/runs/selected_diseases_contribution2_union__30disease.csv
 
 If Contribution1 files are missing, prints a clear message and exits.
@@ -37,8 +37,13 @@ import pandas as pd
 # Paths
 # ---------------------------------------------------------------------------
 CONTRIB2_DIR = Path(__file__).parent.parent.parent
-CONTRIB1_BINARY_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_binary"
-CONTRIB1_LEGACY_ICD_RESULT_DIR = CONTRIB2_DIR.parent / "contribution1" / "result" / "aou_icd_260217"
+CONTRIB1_ICD_RESULT_DIR = (
+    CONTRIB2_DIR.parent
+    / "contribution1"
+    / "result"
+    / "legacy_no_aou_pgs"
+    / "aou_binary"
+)
 RECOMMENDATION_DIR = Path(__file__).parent.parent
 DEFAULT_UNION_CSV = CONTRIB2_DIR / "disease_selection" / "runs" / "selected_diseases_contribution2_union__30disease.csv"
 DEFAULT_OUTPUT_DIR = RECOMMENDATION_DIR / "runs" / "ground-truth__contribution1"
@@ -175,13 +180,12 @@ def main() -> None:
         print("Union CSV is empty.")
         return
 
-    # Load Contribution1 data. Root-code uses the refreshed binary-combined
-    # results; child-code falls back to the legacy paired matrix/metadata because
-    # the colleague update does not include refreshed child-code AUC inputs.
-    rootcode_matrix_path = CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv"
-    rootcode_meta_path = CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_metadata_binary_combined_rootcode.csv"
-    childrencode_matrix_path = CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
-    childrencode_meta_path = CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_metadata_260217_childrencode.csv"
+    # Load the legacy target universe with only no-AoU PGS columns retained.
+    # Root-code and child-code ground truth must come from the same artifact.
+    rootcode_matrix_path = CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv"
+    rootcode_meta_path = CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_metadata_binary_combined_rootcode.csv"
+    childrencode_matrix_path = CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_matrix_binary_combined_childrencode.csv"
+    childrencode_meta_path = CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_metadata_binary_combined_childrencode.csv"
 
     missing = []
     for p in [rootcode_matrix_path, rootcode_meta_path, childrencode_matrix_path, childrencode_meta_path]:

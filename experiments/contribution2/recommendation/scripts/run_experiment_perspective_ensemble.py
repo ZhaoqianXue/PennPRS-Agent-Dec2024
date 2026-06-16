@@ -67,7 +67,14 @@ load_dotenv(PROJECT_ROOT / ".env")
 
 from experiments.contribution2.recommendation.scripts import run_experiment_minimal_lift  # noqa: F401
 from experiments.contribution2.recommendation.scripts import run_experiment_without_domain as without_domain
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
+from src.server.core.system_prompts import WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT
+from src.server.core.within_prompts.archive.selectors_pre_cleanup_20260615 import (
+    WITHIN_PERSPECTIVE_A_FOCUS,
+    WITHIN_PERSPECTIVE_B_FOCUS,
+    WITHIN_PERSPECTIVE_C_FOCUS,
+    WITHIN_PERSPECTIVE_USER_INSTRUCTION,
+    build_within_perspective_prompt,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -92,74 +99,16 @@ class Step1RankedDecision(BaseModel):
 
 
 def _perspective_prompt(focus_block: str) -> str:
-    return (
-        CO_SCIENTIST_STEP1_PROMPT
-        + "\n\n# Perspective Focus (this run)\n"
-        + focus_block
-        + "\n\n# Perspective Discipline\n"
-        "- The other evaluation dimensions still apply; you may not ignore them.\n"
-        "- Within this perspective, weigh the listed focus dimensions more heavily\n"
-        "  than the others when the candidate records support that emphasis.\n"
-        "- You may not introduce numeric weights, scoring formulas, or deterministic\n"
-        "  vetoes. The empirical patterns remain advisory, not hard rules.\n"
-        "- Output the ranked top-3 candidates as best_model_id + top_alternatives\n"
-        "  (the two best-supported runners-up). All three IDs must be drawn from\n"
-        "  the visible candidate list in the context.\n"
+    return build_within_perspective_prompt(
+        base_prompt=WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT,
+        focus_block=focus_block,
     )
 
 
-PERSPECTIVE_A_FOCUS = """
-Focus this run on PRS-only metric cleanliness and endpoint fidelity.
-
-Weigh the following factors more heavily when the candidate records support it:
-- PRS-only AUC / R2 cleanliness (full-model AUC/R2 are not comparable PRS axes)
-- endpoint fidelity to the target trait — phenotyping_reported, trait_reported,
-  trait_efo alignment with the target
-- consistency between PRS-only and full-model metrics on the same record
-- whether the record reports a clean stand-alone PGS metric vs. only a
-  full-model / nested metric
-"""
-
-PERSPECTIVE_B_FOCUS = """
-Focus this run on polygenic signal scale and transferability.
-
-Weigh the following factors more heavily when the candidate records support it:
-- training sample size and number of contributing cohorts
-- variant coverage breadth
-- training and validation ancestry breadth
-- consistency of performance across multiple validation cohorts
-- method-family fit to the polygenic signal in the training data (without
-  ranking method labels in isolation)
-"""
-
-PERSPECTIVE_C_FOCUS = """
-Focus this run on covariate cleanliness, packaging, and heritability-ceiling alignment.
-
-Weigh the following factors more heavily when the candidate records support it:
-- covariate cleanliness in the performance records (presence / absence of
-  clinical-risk packaging, family-history bundling, biomarker / treatment /
-  mediator adjustment, horizon-conditioned packaging, broad EHR phenotype
-  summaries — these are advisory red flags, never deterministic vetoes)
-- alignment with the trait-specific heritability ceiling reported in the
-  context (when present): full-model AUROC vs. h2-implied PRS-only AUROC,
-  whether incremental AUROC is small relative to h2
-- evidence that the reported metric is PRS-driven rather than covariate-driven
-"""
-
-
-_USER_INSTRUCTION = (
-    "Perform direct-match assessment under the perspective focus described in "
-    "the system prompt. Use the context JSON below to select the best supported "
-    "direct-match candidate AND the two best-supported runners-up from the SAME "
-    "visible candidate list. Return one JSON object with exactly the fields: "
-    "outcome, best_model_id, top_alternatives, confidence, rationale.\n\n"
-    "top_alternatives must contain exactly two PGS IDs drawn from the same visible "
-    "candidate list, ranked by remaining direct-match support after best_model_id, "
-    "and must not repeat best_model_id. If only one runner-up is supportable, emit "
-    "the single best supported runner-up twice (a stable two-element list is "
-    "required by schema). If no direct-match candidate exists, set best_model_id "
-    "to null and top_alternatives to []."
-)
+PERSPECTIVE_A_FOCUS = WITHIN_PERSPECTIVE_A_FOCUS
+PERSPECTIVE_B_FOCUS = WITHIN_PERSPECTIVE_B_FOCUS
+PERSPECTIVE_C_FOCUS = WITHIN_PERSPECTIVE_C_FOCUS
+_USER_INSTRUCTION = WITHIN_PERSPECTIVE_USER_INSTRUCTION
 
 
 PERSPECTIVES: list[tuple[str, str]] = [

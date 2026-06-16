@@ -47,36 +47,15 @@ CONDITION_TOOLS: dict[str, list[str]] = {
 }
 
 TRANSFER_ABLATIONS: tuple[str, ...] = (
-    # Paper-facing default: iter11-family PRS Skill harness, no extra evidence
-    # tools, archived cross-trait KB off.
+    # Paper-facing C3 result: tuned Harness Only V1.
     DEFAULT_TRANSFER_ABLATION,
+    # Formal comparator for the V1 result.
+    "no_all_tools",
     # Legacy top-level label retained for archived full-tool runs only.
     LEGACY_FULL_ABLATION,
-    # ARCHIVED — cross_trait_domain_knowledge skill labels.
-    # paired80 (skilltask_final3 vs skilltask_final2) measured zero lift
-    # over the no_all_tools baseline: top_0.5%=0.325 in both, mean_rank
-    # bit-identical at 510.70625, hit_at_k all identical. Kept here for
-    # reproducibility of pre-archive batch runs; new ablations should
-    # use `no_all_tools_plus_pgs_skill` instead.
-    "skill_only",
-    "no_all_tools_plus_skill",
     "no_critic",
     "all_evidence_tools",
-    # ACTIVE experiments — prs_model_evaluator skill plus selected evidence
-    # tools. The archived cross_trait_domain_knowledge skill remains off.
-    "pgs_skill_plus_h2",
-    "pgs_skill_plus_h2_gp",
-    "pgs_skill_plus_h2_ref",
-    "pgs_skill_plus_ot",
-    "pgs_skill_plus_ot_late",
-    "pgs_skill_plus_gc",
-    "pgs_skill_plus_h2_ot",
-    "pgs_skill_plus_h2_gc",
-    "pgs_skill_plus_ot_gc",
-    "pgs_skill_plus_all",
-    # Legacy additive tool labels. Current production comparisons should use
-    # `no_all_tools` vs the default `no_all_tools_plus_pgs_skill`; `full` is
-    # retained only for reproducing archived runs.
+    # Archived evidence-tool ablations.
     "add_h2_tool",
     "add_ot_tool",
     "add_gc_tool",
@@ -91,13 +70,10 @@ TRANSFER_ABLATIONS: tuple[str, ...] = (
     "add_h2_ot_biology_tools",
     "add_h2_gc_biology_tools",
     "add_ot_gc_biology_tools",
-    # Legacy tool-level leave-one-out ablations.
     "no_h2_tool",
     "no_ot_tool",
     "no_gc_tool",
     "no_biology_tool",
-    "no_all_tools",
-    "no_skill",
 )
 
 
@@ -106,78 +82,24 @@ TRANSFER_ABLATIONS: tuple[str, ...] = (
 # ---------------------------------------------------------------------------
 
 _TOOL_ABLATION_CONFIGS: dict[str, ToolAblationConfig] = {
-    # ARCHIVED — cross_trait skill production labels.
-    # paired80 verified zero lift over `no_all_tools` for these labels.
-    # New production work should use `no_all_tools_plus_pgs_skill` (below).
-    # These configs remain only for reproducing pre-archive batch runs.
-    LEGACY_FULL_ABLATION: ToolAblationConfig(enable_skill_reference_lane=True),
-    "skill_only":              ToolAblationConfig(enable_skill_reference_lane=True),
-    "no_all_tools_plus_skill": ToolAblationConfig(enable_skill_reference_lane=True),
-    "no_critic":               ToolAblationConfig(),
-    "all_evidence_tools":      ToolAblationConfig(enable_h2=True, enable_ot=True, enable_gc_batch=True, enable_biology=True),
-    # ACTIVE — prs_model_evaluator skill over the no_all_tools baseline.
-    # All evidence tools off; cross_trait skill explicitly off (archived);
-    # prs_model_evaluator skill on as context-only guidance at PGS_TRIAGE /
-    # PICK. This is the production label for the c3 paper's headline
-    # cross-trait result going forward.
+    # Paper-facing C3 result: tuned Harness Only V1.
+    # Reactivates the existing breadth_floor safety net under no-OT
+    # conditions by allowing high-n_models probed bundles to qualify
+    # without OT overlap. Trait-agnostic, harness-common, no PRS skill text.
     DEFAULT_TRANSFER_ABLATION: ToolAblationConfig(
         enable_h2=False, enable_ot=False, enable_gc_batch=False, enable_biology=False,
-        enable_skill=False,                  # cross_trait skill off (archived)
-        enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,       # prs_model_evaluator skill on
+        enable_breadth_floor_no_ot_fallback=True,
+        enable_dossier_coverage_floor=True,
     ),
-    "pgs_skill_plus_h2": ToolAblationConfig(
-        enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
+    # Formal comparator for V1.
+    "no_all_tools": ToolAblationConfig(
+        enable_h2=False, enable_ot=False, enable_gc_batch=False, enable_biology=False,
     ),
-    "pgs_skill_plus_h2_gp": ToolAblationConfig(
-        enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True, enable_h2_global_primary_context=True,
-    ),
-    "pgs_skill_plus_h2_ref": ToolAblationConfig(
-        enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True, enable_pgs_quality_reference_lane=True,
-    ),
-    "pgs_skill_plus_ot": ToolAblationConfig(
-        enable_h2=False, enable_ot=True, enable_gc_batch=False, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    "pgs_skill_plus_ot_late": ToolAblationConfig(
-        enable_h2=False, enable_ot=False, enable_ot_late_batch=True,
-        enable_gc_batch=False, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    "pgs_skill_plus_gc": ToolAblationConfig(
-        enable_h2=False, enable_ot=False, enable_gc_batch=True, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    "pgs_skill_plus_h2_ot": ToolAblationConfig(
-        enable_h2=True, enable_ot=True, enable_gc_batch=False, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    "pgs_skill_plus_h2_gc": ToolAblationConfig(
-        enable_h2=True, enable_ot=False, enable_gc_batch=True, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    "pgs_skill_plus_ot_gc": ToolAblationConfig(
-        enable_h2=False, enable_ot=True, enable_gc_batch=True, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    "pgs_skill_plus_all": ToolAblationConfig(
-        enable_h2=True, enable_ot=True, enable_gc_batch=True, enable_biology=False,
-        enable_skill=False, enable_skill_reference_lane=False,
-        enable_pgs_quality_skill=True,
-    ),
-    # Additive tool conditions over no_all_tools.
+    # Legacy full-tool labels.
+    LEGACY_FULL_ABLATION: ToolAblationConfig(enable_h2=True, enable_ot=True, enable_gc_batch=True, enable_biology=True),
+    "no_critic":               ToolAblationConfig(),
+    "all_evidence_tools":      ToolAblationConfig(enable_h2=True, enable_ot=True, enable_gc_batch=True, enable_biology=True),
+    # Archived additive tool conditions over no_all_tools.
     "add_h2_tool":             ToolAblationConfig(enable_h2=True,  enable_ot=False, enable_gc_batch=False, enable_biology=False),
     "add_ot_tool":             ToolAblationConfig(enable_h2=False, enable_ot=True,  enable_gc_batch=False, enable_biology=False),
     "add_gc_tool":             ToolAblationConfig(enable_h2=False, enable_ot=False, enable_gc_batch=True,  enable_biology=False),
@@ -196,14 +118,7 @@ _TOOL_ABLATION_CONFIGS: dict[str, ToolAblationConfig] = {
     "no_ot_tool":              ToolAblationConfig(enable_h2=True, enable_ot=False, enable_gc_batch=True, enable_biology=False),
     "no_gc_tool":              ToolAblationConfig(enable_h2=True, enable_ot=False, enable_gc_batch=False, enable_biology=False),
     "no_biology_tool":         ToolAblationConfig(enable_h2=True, enable_ot=False, enable_gc_batch=True, enable_biology=False),
-    "no_all_tools":            ToolAblationConfig(
-        enable_h2=False, enable_ot=False, enable_gc_batch=False, enable_biology=False, enable_skill=False,
-    ),
-    "no_skill":                ToolAblationConfig(
-        enable_h2=False, enable_ot=False, enable_gc_batch=False, enable_biology=False, enable_skill=False,
-    ),
 }
-
 
 def _tool_ablation_for_label(label: str) -> ToolAblationConfig:
     return _TOOL_ABLATION_CONFIGS.get(label, ToolAblationConfig())
@@ -234,7 +149,6 @@ def run_cross_trait_agent(
     benchmark_family: str = "unified",
     ablation: str = DEFAULT_TRANSFER_ABLATION,
     stop_after: Optional[Literal["bundle_posterior"]] = None,
-    skill_reference_override: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     """Preserve the old entrypoint signature; delegate to the LLM-led agent.
 
@@ -268,7 +182,6 @@ def run_cross_trait_agent(
         stop_after=stop_after,
         benchmark_family=benchmark_family,
         tool_ablation=tool_ablation,
-        skill_reference_override=skill_reference_override,
     )
 
 

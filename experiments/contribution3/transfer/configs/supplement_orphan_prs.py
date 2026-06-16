@@ -6,7 +6,7 @@ from pgs_all_metadata_scores.csv (metadata snapshot version mismatch), so the
 bundle builder never assigned them to any bundle. This script:
 
   1. Identifies orphan PRS (in AUC matrix, not in any bundle)
-  2. Maps them to disease traits via Genetic_Agent/disease_preprocess/pgs_id_list_binary_combined.csv
+  2. Maps them to disease traits via contribution1/disease_preprocess/pgs_id_list_260217.csv
   3. Maps 2 blood-pressure PRS via the measurement preprocess pgs_id_list CSV
   4. Adds each orphan PRS to the matching existing bundle(s)
   5. Writes updated trait_bundle_index.json
@@ -35,27 +35,32 @@ BUNDLE_INDEX = (
 )
 ROOTCODE_MATRIX = (
     PROJECT_ROOT
-    / "Genetic_Agent"
+    / "experiments"
+    / "contribution1"
     / "result"
+    / "legacy_no_aou_pgs"
     / "aou_binary"
     / "prs_adjauc_matrix_binary_combined_rootcode.csv"
 )
 EXTEND_MATRIX = (
     PROJECT_ROOT
-    / "Genetic_Agent"
+    / "experiments"
+    / "contribution1"
     / "result"
+    / "legacy_no_aou_pgs"
     / "aou_extend_trait"
     / "prs_adjauc_matrix_binary_extend.csv"
 )
 DISEASE_ID_LIST = (
     PROJECT_ROOT
-    / "Genetic_Agent"
+    / "experiments"
+    / "contribution1"
     / "disease_preprocess"
-    / "pgs_id_list_binary_combined.csv"
+    / "pgs_id_list_260217.csv"
 )
 
 # ── Curated mapping: disease preprocess ontology name → existing bundle_id(s) ──
-# Built by matching ontology names in pgs_id_list_binary_combined.csv to
+# Built by matching ontology names in pgs_id_list_260217.csv to
 # canonical_label values in trait_bundle_index.json.
 ONTOLOGY_TO_BUNDLES: dict[str, list[str]] = {
     "aortic stenosis": ["efo_0009531"],                      # aortic valve disease

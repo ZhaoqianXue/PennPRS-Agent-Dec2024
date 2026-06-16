@@ -54,7 +54,8 @@ def test_recommendation_agent_uses_local_graph_selected_neighbors():
     mock_pgs_client.search_traits.return_value = []
     mock_pgs_client.get_score_details.return_value = {}
 
-    with patch("src.server.modules.disease.recommendation_agent.PGSCatalogClient", return_value=mock_pgs_client), \
+    with patch.dict(os.environ, {"PENNPRS_CONTRIB2_EVALUATED_PGS_JSON": ""}, clear=False), \
+         patch("src.server.modules.disease.recommendation_agent.PGSCatalogClient", return_value=mock_pgs_client), \
          patch("src.server.modules.disease.recommendation_agent.OpenTargetsClient", return_value=Mock()), \
          patch("src.server.modules.disease.recommendation_agent.PheWASClient", return_value=Mock()), \
          patch("src.server.modules.disease.recommendation_agent.KnowledgeGraphService", return_value=Mock()), \
@@ -91,6 +92,7 @@ def test_recommendation_agent_uses_local_graph_selected_neighbors():
         mock_step1_chain.return_value.invoke.return_value = Step1Decision(
             outcome="NO_MATCH_FOUND",
             best_model_id=None,
+            top_alternatives=[],
             confidence="Low",
             rationale="No direct models.",
         )
@@ -121,6 +123,7 @@ def test_step1_disable_domain_knowledge_skips_tool_call():
         mock_step1_chain.return_value.invoke.return_value = Step1Decision(
             outcome="DIRECT_HIGH_QUALITY",
             best_model_id=None,
+            top_alternatives=[],
             confidence="Low",
             rationale="Forced test path.",
         )

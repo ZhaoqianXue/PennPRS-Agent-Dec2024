@@ -93,7 +93,9 @@ def format_pgs_score_for_ui(
     """
     Convert raw PGS score details/performance to the frontend ModelData shape.
     """
-    perf_summary, _ = _build_selected_performance_summary(performance)
+    perf_summary, _ = _build_selected_performance_summary(
+        performance, details.get("trait_reported")
+    )
     auc = perf_summary.get("auc")
     r2 = perf_summary.get("r2")
     sample_size = _extract_sample_size(details)

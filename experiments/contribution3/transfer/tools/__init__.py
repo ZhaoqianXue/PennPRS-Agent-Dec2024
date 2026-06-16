@@ -4,14 +4,8 @@ Each tool returns **raw fields** consumed directly by the LLM. Derived
 scores, confidence tiers, priority rankings, and threshold flags are
 FORBIDDEN here — see REFACTOR_PLAN.md §5.
 
-Skills (advisory text only; LLM-led decision-making preserved):
+Skill (advisory text only; LLM-led decision-making preserved):
 
-- `cross_trait_domain_knowledge` — ARCHIVED FOR PRODUCTION. Empirically
-  verified to provide zero lift on top of `no_all_tools` baseline on
-  paired80 (skill_only top_0.5%=0.325 == no_all_tools top_0.5%=0.325).
-  Kept importable for historical reproducibility and ablation parity;
-  default ablations should not enable it. See driver.py for the
-  archived ablation labels.
 - `prs_model_evaluator_skill` — ACTIVE. Stage-aware loader for the
   Anthropic Agent Skill at src/server/core/skills/prs_model_evaluator/.
   Reads SKILL.md procedural overview and slices the source corpus
@@ -27,7 +21,6 @@ Legal imports:
         get_open_targets_overlap,
         describe_pgs_model,
         biology_retrieve_related_bundles,
-        cross_trait_domain_knowledge,        # archived; see note above
         prs_model_evaluator_skill,           # active
     )
 
@@ -35,9 +28,6 @@ Legal imports:
 Pick-stage PGS hydration, but NOT registered as an LLM-callable tool
 in the Gather dispatcher (the LLM cannot invoke it directly).
 """
-from experiments.contribution3.transfer.tools.cross_trait_domain_knowledge import (
-    cross_trait_domain_knowledge,
-)
 from experiments.contribution3.transfer.tools.gc_batch import (
     GCBatchResult,
     GCCandidateEstimate,
@@ -66,7 +56,6 @@ __all__ = [
     "describe_pgs_model",
     "compact_pgs_summary",
     "biology_retrieve_related_bundles",
-    "cross_trait_domain_knowledge",
     "prs_model_evaluator_skill",
     "PgsModelEvaluatorResult",
 ]

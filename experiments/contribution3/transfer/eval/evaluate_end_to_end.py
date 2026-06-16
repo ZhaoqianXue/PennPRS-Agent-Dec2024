@@ -30,6 +30,7 @@ ROOTCODE_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
+    / "legacy_no_aou_pgs"
     / "aou_binary"
     / "prs_adjauc_matrix_binary_combined_rootcode.csv"
 )
@@ -38,6 +39,7 @@ NONTARGET_AUC_MATRIX = (
     / "experiments"
     / "contribution1"
     / "result"
+    / "legacy_no_aou_pgs"
     / "aou_extend_trait"
     / "prs_adjauc_matrix_binary_extend_qc.csv"
 )

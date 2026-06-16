@@ -20,8 +20,8 @@ from typing import Any
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[4]
-ROOTCODE_AUC_MATRIX = PROJECT_ROOT / "experiments/contribution1/result/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv"
-NONTARGET_AUC_MATRIX = PROJECT_ROOT / "experiments/contribution1/result/aou_extend_trait/prs_adjauc_matrix_binary_extend_qc.csv"
+ROOTCODE_AUC_MATRIX = PROJECT_ROOT / "experiments/contribution1/result/legacy_no_aou_pgs/aou_binary/prs_adjauc_matrix_binary_combined_rootcode.csv"
+NONTARGET_AUC_MATRIX = PROJECT_ROOT / "experiments/contribution1/result/legacy_no_aou_pgs/aou_extend_trait/prs_adjauc_matrix_binary_extend_qc.csv"
 BUNDLE_INDEX = PROJECT_ROOT / "experiments/contribution3/transfer/runs/tool_calling_agent/trait_bundle_index.json"
 
 

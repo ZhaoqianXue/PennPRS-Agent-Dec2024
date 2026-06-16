@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Within-Trait PRS 推荐 · CAD Worked Example</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Hanken+Grotesk:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================================
+   COBALT GRID — two-color risograph editorial system
+   Cream paper (#F0EBDE) + electric cobalt (#1F2BE0) ONLY. No other colors.
+   Fixed 1920×1080 stage scaled uniformly to the viewport.
+   =========================================================================== */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --paper:#F0EBDE;
+  --paper-2:#E6E0CE;
+  --ink:#1F2BE0;
+  --ink-soft:#5560E5;
+  --grid:rgba(31,43,224,0.10);
+  --ink-faint:rgba(31,43,224,0.18);
+
+  --font-display:"Newsreader","Noto Serif SC",Georgia,serif;
+  --font-body:"Hanken Grotesk","Noto Serif SC",sans-serif;
+  --font-cjk:"Noto Serif SC","Newsreader",serif;
+  --font-mono:"DM Mono",ui-monospace,monospace;
+
+  --edge:80px;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+
+/* ---- FIXED 16:9 STAGE: mandatory base styles (viewport-base.css) ---- */
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#cfc9ba;}
+.deck-viewport{position:fixed;inset:0;overflow:hidden;background:#cfc9ba;}
+.deck-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;transform-origin:0 0;background:var(--paper);}
+.slide{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;display:block;visibility:hidden;opacity:0;pointer-events:none;background:transparent;transition:opacity .28s ease;}
+.slide.active,.slide.visible{visibility:visible;opacity:1;pointer-events:auto;z-index:2;}
+img,video,canvas,svg{max-width:100%;max-height:100%;}
+@media print{html,body{width:1920px;height:auto;overflow:visible;background:#fff;}.deck-viewport{position:static;overflow:visible;}.deck-stage{position:static;width:auto;height:auto;transform:none!important;}.slide{position:relative;display:block!important;visibility:visible!important;opacity:1!important;width:1920px;height:1080px;break-after:page;page-break-after:always;}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.2s!important;}}
+
+/* ---- PERMANENT GRAPH-PAPER GRID (lives on the stage, behind every slide) ---- */
+.deck-stage::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(to right,var(--grid) 1px,transparent 1px),linear-gradient(to bottom,var(--grid) 1px,transparent 1px);
+  background-size:40px 40px;}
+
+/* ---- UNIVERSAL CHROME: top/bottom hairlines + nav hint (same on every slide) ---- */
+.chrome-frame{position:absolute;inset:0;z-index:5;pointer-events:none;}
+.chrome-frame .hair{position:absolute;left:var(--edge);right:var(--edge);height:1.5px;background:var(--ink);}
+.chrome-frame .hair.top{top:30px;}
+.chrome-frame .hair.bot{bottom:26px;}
+.chrome-frame .nav{position:absolute;left:var(--edge);bottom:46px;font-family:var(--font-mono);font-size:15px;letter-spacing:0.08em;color:var(--ink);opacity:.4;}
+.chrome-frame .deck-id{position:absolute;left:var(--edge);top:46px;font-family:var(--font-mono);font-size:15px;letter-spacing:0.06em;color:var(--ink);}
+.chrome-frame .deck-id .soft{color:var(--ink-soft);}
+
+/* page number — per slide */
+.pageno{position:absolute;right:var(--edge);bottom:44px;z-index:6;font-family:var(--font-mono);font-size:15px;letter-spacing:0.06em;color:var(--ink);}
+.tick{position:absolute;right:var(--edge);top:46px;z-index:6;font-family:var(--font-mono);font-size:15px;letter-spacing:0.06em;color:var(--ink);text-align:right;}
+
+/* content wrapper inside the chrome frame */
+.wrap{position:absolute;top:118px;left:var(--edge);right:var(--edge);bottom:120px;z-index:3;}
+
+/* ---- TOPBAR (section header): Newsreader headline left + mono lab-tag right + rule ---- */
+.topbar{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5px solid var(--ink);padding-bottom:18px;}
+.topbar h2{font-family:var(--font-cjk);font-weight:600;font-size:60px;line-height:1;color:var(--ink);letter-spacing:0;}
+.topbar h2 .en{font-family:var(--font-display);font-weight:400;}
+.topbar .labtag{font-family:var(--font-mono);font-size:16px;letter-spacing:0.05em;color:var(--ink);text-align:right;padding-bottom:8px;white-space:nowrap;}
+
+/* ---- TYPE HELPERS ---- */
+.lab{font-family:var(--font-body);font-weight:600;font-size:16px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink);}
+.lab-cjk{font-family:var(--font-body);font-weight:600;font-size:17px;letter-spacing:0;color:var(--ink);}
+.mono{font-family:var(--font-mono);font-size:16px;letter-spacing:0.04em;color:var(--ink);}
+.body{font-family:var(--font-body);font-weight:400;font-size:22px;line-height:1.7;color:var(--ink);}
+.lede{font-family:var(--font-body);font-weight:400;font-size:26px;line-height:1.65;color:var(--ink);}
+.serif{font-family:var(--font-cjk);font-weight:500;color:var(--ink);}
+.dim{color:var(--ink-soft);}
+em{font-style:italic;}
+b{font-weight:700;}
+
+/* tag pills: filled = LLM judgment, outline = deterministic code, ghost = skill */
+.pill{display:inline-block;font-family:var(--font-mono);font-size:13px;letter-spacing:0.04em;padding:3px 10px;border:1.5px solid var(--ink);color:var(--ink);white-space:nowrap;}
+.pill.fill{background:var(--ink);color:var(--paper);}
+.pill.skill{border-style:dashed;}
+
+/* verdict tags */
+.vd{font-family:var(--font-mono);font-size:14px;letter-spacing:0.04em;padding:2px 8px;border:1.5px solid var(--ink);}
+.vd.sig{background:var(--ink);color:var(--paper);}
+.vd.noise{color:var(--ink);opacity:.55;}
+.vd.mix{color:var(--ink);}
+
+/* ---- LEDGER / INDEX ROWS ---- */
+.ledger{display:flex;flex-direction:column;margin-top:34px;}
+.lrow{display:grid;align-items:center;gap:26px;padding:16px 0;border-bottom:1px solid var(--ink-faint);}
+.lrow .num{font-family:var(--font-mono);font-size:18px;color:var(--ink);}
+.lrow .nm{font-family:var(--font-cjk);font-weight:500;font-size:26px;line-height:1.15;color:var(--ink);}
+.lrow .nm .en{font-family:var(--font-display);font-weight:400;}
+.lrow .ds{font-family:var(--font-body);font-weight:400;font-size:19px;line-height:1.5;color:var(--ink);}
+.lrow.head{border-bottom:1.5px solid var(--ink);padding-bottom:12px;}
+.lrow.head span{font-family:var(--font-body);font-weight:600;font-size:14px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);}
+
+/* big numeral */
+.bignum{font-family:var(--font-display);font-weight:400;font-size:230px;line-height:.86;color:var(--ink);letter-spacing:-0.015em;}
+.midnum{font-family:var(--font-display);font-weight:400;font-size:120px;line-height:.9;color:var(--ink);letter-spacing:-0.01em;}
+
+/* two-column split */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:34px;}
+.col h3{font-family:var(--font-cjk);font-weight:600;font-size:30px;color:var(--ink);margin-bottom:6px;}
+
+/* spec sheet (field card) */
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0 60px;margin-top:30px;}
+.srow{display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--ink-faint);}
+.srow .k{font-family:var(--font-mono);font-size:15px;letter-spacing:0.02em;color:var(--ink-soft);}
+.srow .v{font-family:var(--font-body);font-weight:400;font-size:19px;line-height:1.4;color:var(--ink);}
+.srow .v b{font-weight:700;}
+.srow .sect{display:inline-block;font-family:var(--font-mono);font-size:12px;border:1.5px solid var(--ink);padding:0 6px;margin-left:8px;color:var(--ink);}
+
+/* callout box */
+.note{margin-top:26px;border-left:3px solid var(--ink);padding:6px 0 6px 22px;}
+.note .body{font-size:21px;}
+
+/* pixel-glitch column (CSS) */
+.glitch{position:absolute;display:flex;flex-direction:column;gap:9px;z-index:1;pointer-events:none;}
+.glitch span{display:block;height:24px;background:var(--ink);}
+.glitch.r{right:0;top:0;}
+.glitch.l{left:0;top:0;}
+.glitch span:nth-child(1){width:150px}.glitch span:nth-child(2){width:96px}.glitch span:nth-child(3){width:128px}
+.glitch span:nth-child(4){width:60px}.glitch span:nth-child(5){width:110px}.glitch span:nth-child(6){width:84px}
+.glitch span:nth-child(7){width:140px}.glitch span:nth-child(8){width:70px}
+
+/* QR block 8x8 */
+.qr{display:grid;grid-template-columns:repeat(8,12px);grid-template-rows:repeat(8,12px);gap:1.5px;background:var(--paper);padding:5px;box-shadow:0 0 0 1.5px var(--paper);}
+.qr i{background:transparent;}
+.qr i.on{background:var(--ink);}
+
+/* pixel-stack bar chart */
+.bars{display:flex;align-items:flex-end;gap:30px;margin-top:30px;height:340px;border-bottom:1.5px solid var(--ink);padding-bottom:0;}
+.bar{display:flex;flex-direction:column-reverse;gap:4px;width:120px;}
+.bar .cell{height:16px;background:var(--grid);}
+.bar .cell.on{background:var(--ink);}
+.bar .cap{margin-top:14px;}
+
+/* ---- COVER ---- */
+.cover h1{font-family:var(--font-cjk);font-weight:600;font-size:150px;line-height:.96;color:var(--ink);letter-spacing:0;}
+.cover h1 em{font-style:italic;color:var(--ink-soft);}
+.cover .kick{display:inline-block;font-family:var(--font-mono);font-size:20px;letter-spacing:0.1em;color:var(--ink);border-bottom:1.5px solid var(--ink);padding-bottom:10px;margin-bottom:30px;}
+.cover .sub{font-family:var(--font-body);font-weight:400;font-size:28px;line-height:1.6;color:var(--ink);max-width:1180px;margin-top:42px;}
+.cover .sub b{font-weight:700;}
+
+/* ---- ANIMATION: staggered reveal on active slide ---- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.slide.visible .reveal{opacity:1;transform:translateY(0);}
+.slide.visible .reveal:nth-child(1){transition-delay:.06s}
+.slide.visible .reveal:nth-child(2){transition-delay:.14s}
+.slide.visible .reveal:nth-child(3){transition-delay:.22s}
+.slide.visible .reveal:nth-child(4){transition-delay:.30s}
+.slide.visible .reveal:nth-child(5){transition-delay:.38s}
+.slide.visible .reveal:nth-child(6){transition-delay:.46s}
+.d-late{transition-delay:.5s!important;}
+
+/* edit mode */
+.edit-hotzone{position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;}
+.edit-toggle{position:fixed;top:16px;left:16px;z-index:10001;font-size:20px;background:var(--ink);color:var(--paper);border:none;width:44px;height:44px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s;}
+.edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto;}
+.editing [contenteditable]{outline:1.5px dashed var(--ink-soft);outline-offset:3px;cursor:text;}
+</style>
+</head>
+<body>
+<div class="deck-viewport">
+  <main class="deck-stage" id="deckStage">
+
+    <!-- global chrome: grid is on .deck-stage::before; hairlines + nav here -->
+    <div class="chrome-frame">
+      <span class="hair top"></span>
+      <span class="hair bot"></span>
+      <span class="deck-id">PENNPRS AGENT <span class="soft">·</span> CONTRIBUTION 2 <span class="soft">·</span> WITHIN-TRAIT</span>
+      <span class="nav">← / → · SPACE</span>
+    </div>
+
+    <!-- ============================ 01 · COVER ============================ -->
+    <section class="slide cover active visible">
+      <span class="tick">CAD WORKED EXAMPLE · 2026</span>
+      <span class="pageno">01</span>
+      <div class="glitch r" style="top:300px;right:80px;"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="wrap" style="display:flex;flex-direction:column;justify-content:center;">
+        <span class="kick reveal">Within-Trait · PRS Model Recommendation</span>
+        <h1 class="reveal">同病种 PRS 推荐<br>的<em>完整流程</em></h1>
+        <p class="sub reveal">以 <b>Coronary Artery Disease（CAD）</b>为例，逐字段还原 PRS Agent 如何把 81 个候选 PGS
+          收敛为 1 个推荐 —— 并讲清 Skill 在每个字段判断中如何工作。</p>
+      </div>
+    </section>
+
+    <!-- ===================== 02 · 流程总览 / PIPELINE ===================== -->
+    <section class="slide">
+      <span class="tick">PIPELINE OVERVIEW</span>
+      <span class="pageno">02</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>流程总览<span class="en" style="font-size:36px;color:var(--ink-soft);">　Within-Trait Pipeline</span></h2><span class="labtag">INPUT CAD → 1 PICK</span></div>
+        <div class="ledger reveal" style="margin-top:24px;">
+          <div class="lrow head" style="grid-template-columns:60px 1fr 1.5fr 150px;"><span>步骤</span><span>环节</span><span>发生了什么</span><span>类型</span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;"><span class="num">01</span><span class="nm">输入 → 取回候选</span><span class="ds">目标疾病 CAD → 从 PGS Catalog 取回同病种 81 个候选 PGS（限定 Contribution1 评测池）</span><span><span class="pill">代码</span></span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;"><span class="num">02</span><span class="nm">字段抽取</span><span class="ds">每个候选取回 ~15 个 PGS Catalog 字段（trait / method / performance / variants …）</span><span><span class="pill">代码</span></span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;"><span class="num">03</span><span class="nm">代表性记录选取</span><span class="ds">一个 PGS 多条验证记录 → 确定性挑出唯一一条（不跨记录混字段）</span><span><span class="pill">代码</span></span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;"><span class="num">04</span><span class="nm">序列化为 Agent 视图</span><span class="ds">字段渲染成结构化文本卷宗（7 个标签小节）—— 这是 LLM 唯一能读到的东西</span><span><span class="pill">代码</span></span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;"><span class="num">05</span><span class="nm">Stage 1 · 全局排序</span><span class="ds">注入 <b>Skill</b> + 卷宗 → 单轮读完 81 个，产出 top-5 shortlist</span><span><span class="pill fill">LLM</span> <span class="pill skill">Skill</span></span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;"><span class="num">06</span><span class="nm">Stage 2 · pairwise</span><span class="ds">top-3 两两对决 + Borda 计票 → 锁定 top-1（不能翻盘到 shortlist 之外）</span><span><span class="pill fill">LLM</span></span></div>
+          <div class="lrow" style="grid-template-columns:60px 1fr 1.5fr 150px;padding:11px 0;border-bottom:none;"><span class="num">07</span><span class="nm">输出推荐</span><span class="ds">PGS003725 · AoU benchmark <b>rank 1/81</b> · Hit@1</span><span><span class="pill fill">LLM</span></span></div>
+        </div>
+        <p class="mono reveal" style="margin-top:22px;"><span class="pill">代码</span> 确定性预处理　　<span class="pill fill">LLM</span> 模型判断　　<span class="pill skill">Skill</span> 领域知识注入点</p>
+      </div>
+    </section>
+
+    <!-- ===================== 03 · INPUT → 候选池 ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 01 · INPUT</span>
+      <span class="pageno">03</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>输入 → 候选池</h2><span class="labtag">SAME-TRAIT POOL</span></div>
+        <div style="display:grid;grid-template-columns:0.9fr 1.1fr;gap:70px;align-items:center;margin-top:40px;">
+          <div class="reveal">
+            <div class="bignum">81</div>
+            <p class="lab-cjk" style="margin-top:10px;">个同病种候选 PGS · CANDIDATE POOL</p>
+          </div>
+          <div class="reveal">
+            <p class="lede" style="margin-bottom:26px;">任务很简单也很难：<b>从 81 个里选 1 个</b>，让它在真实人群里判别力最强。</p>
+            <div class="ledger" style="margin-top:0;">
+              <div class="lrow" style="grid-template-columns:40px 1fr;gap:18px;"><span class="num">·</span><span class="ds" style="font-size:21px;">候选池 = PGS Catalog 中标注为 CAD 的模型，限定在 Contribution1 评测过的同一模型宇宙（公平可比）</span></div>
+              <div class="lrow" style="grid-template-columns:40px 1fr;gap:18px;"><span class="num">·</span><span class="ds" style="font-size:21px;">Agent <b>看不到</b> All of Us 的实测 AUC —— 那是标准答案，只能看 PGS Catalog 的元数据</span></div>
+              <div class="lrow" style="grid-template-columns:40px 1fr;gap:18px;border-bottom:none;"><span class="num">·</span><span class="ds" style="font-size:21px;">这一步和你手动 review 候选 PGS 是同一件事 —— 只是要让机器做判断</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 04 · 字段卡 (PGS003725) ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 02 · FIELDS READ</span>
+      <span class="pageno">04</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>取回了哪些字段<span class="en" style="font-size:34px;color:var(--ink-soft);">　one candidate, fully read</span></h2><span class="labtag">PGS003725 · 15 FIELDS</span></div>
+        <div class="spec reveal">
+          <div>
+            <div class="srow"><span class="k">trait_reported</span><span class="v">Coronary artery disease<span class="sect">§1</span></span></div>
+            <div class="srow"><span class="k">trait_efo</span><span class="v">coronary artery disease</span></div>
+            <div class="srow"><span class="k">phenotyping_reported</span><span class="v">Coronary artery disease</span></div>
+            <div class="srow"><span class="k">method_name</span><span class="v">LDpred2<span class="sect">§5</span></span></div>
+            <div class="srow"><span class="k">variants_number</span><span class="v"><b>1,296,172</b><span class="sect">§7</span></span></div>
+            <div class="srow"><span class="k">samples_training</span><span class="v">116,649<span class="sect">§4</span></span></div>
+            <div class="srow"><span class="k">validation_sample_size</span><span class="v">308,264<span class="sect">§3</span></span></div>
+          </div>
+          <div>
+            <div class="srow"><span class="k">perf · PRS-only AUC/R²</span><span class="v"><b>N/A</b>　（无纯 PRS 指标）<span class="sect">§2</span></span></div>
+            <div class="srow"><span class="k">perf · effect_sizes</span><span class="v"><b>OR 2.14</b> · <b>HR 1.75</b></span></div>
+            <div class="srow"><span class="k">covariates</span><span class="v">age, sex, 10 PCs</span></div>
+            <div class="srow"><span class="k">ancestry_distribution</span><span class="v">GWAS MAE · EVAL 多祖先<span class="sect">§4</span></span></div>
+            <div class="srow"><span class="k">publication</span><span class="v">Nat Med · 2023<span class="sect">§6</span></span></div>
+            <div class="srow"><span class="k">title</span><span class="v">…multi-ancestry PRS improves CAD risk prediction</span></div>
+            <div class="srow"><span class="k">record_count</span><span class="v">11　条验证记录　→　见下一页</span></div>
+          </div>
+        </div>
+        <div class="note reveal"><p class="body">这些字段你们都认识 —— 这正是手动评 PGS 时会看的东西。要点破的是：<b>Agent 只看到被取出的这些字段，没取的等于不存在</b>。右上角 §1–§7 标记预告了 Skill 的 7 个知识文件。</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== 05 · 代表性记录 [CODE] ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 03 · RECORD SELECT</span>
+      <span class="pageno">05</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>一个 PGS，多条验证记录</h2><span class="labtag">DETERMINISTIC · 代码</span></div>
+        <div style="display:grid;grid-template-columns:0.7fr 1.3fr;gap:64px;margin-top:42px;align-items:center;">
+          <div class="reveal" style="text-align:center;">
+            <div class="midnum">11 → 1</div>
+            <p class="lab-cjk" style="margin-top:14px;">条记录 → 一条代表性记录</p>
+            <p class="mono" style="margin-top:24px;"><span class="pill">代码 · 非 LLM</span></p>
+          </div>
+          <div class="reveal">
+            <p class="lede" style="margin-bottom:22px;">PGS003725 有 11 条 performance record（不同队列 / 祖先）。系统先用<b>确定性规则</b>挑出唯一一条 —— 这一步不是 LLM：</p>
+            <div class="ledger" style="margin-top:0;">
+              <div class="lrow" style="grid-template-columns:48px 1fr;gap:18px;"><span class="num">A</span><span class="ds" style="font-size:21px;">优先<b>最高结果的 European 验证记录</b>，否则取整体最高</span></div>
+              <div class="lrow" style="grid-template-columns:48px 1fr;gap:18px;"><span class="num">B</span><span class="ds" style="font-size:21px;">“最高结果”先认 <b>PRS-only / 协变量回归后</b>的指标，都没有才退回 full-model</span></div>
+              <div class="lrow" style="grid-template-columns:48px 1fr;gap:18px;border-bottom:none;"><span class="num">C</span><span class="ds" style="font-size:21px;"><b>绝不跨记录混字段</b>（不会把 A 记录的 AUC 配 B 记录的样本量）</span></div>
+            </div>
+            <div class="note" style="margin-top:22px;"><p class="body">这就是你们熟悉的“<b>多个验证估计该信哪个</b>”问题 —— 这里由代码定死，把判断负担留给后面的 LLM。</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 06 · 序列化 / Agent 视图 ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 04 · AGENT VIEW</span>
+      <span class="pageno">06</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>字段 → Agent 视图<span class="en" style="font-size:34px;color:var(--ink-soft);">　serialization</span></h2><span class="labtag">LLM READS TEXT, NOT A DATAFRAME</span></div>
+        <div class="cols reveal">
+          <div class="col">
+            <h3>关键事实（讲给不懂 LLM 的人）</h3>
+            <div class="ledger" style="margin-top:14px;">
+              <div class="lrow" style="grid-template-columns:40px 1fr;gap:16px;"><span class="num">1</span><span class="ds" style="font-size:20px;">LLM <b>只读文本</b>，不能像查数据库那样中途 SELECT 字段</span></div>
+              <div class="lrow" style="grid-template-columns:40px 1fr;gap:16px;"><span class="num">2</span><span class="ds" style="font-size:20px;">所以要先把 81×字段<b>“打印成一份卷宗”</b>喂进去</span></div>
+              <div class="lrow" style="grid-template-columns:40px 1fr;gap:16px;border-bottom:none;"><span class="num">3</span><span class="ds" style="font-size:20px;">每个候选组织成 <b>7 个带标签的小节</b>（trait / performance / validation / training-ancestry / method / publication / variants）</span></div>
+            </div>
+          </div>
+          <div class="col">
+            <h3>类比 · 给评审专家一份 dossier</h3>
+            <p class="body" style="margin-top:14px;">他只能基于纸面信息判断。由此推出两个必须接受的事实：</p>
+            <div class="note" style="margin-top:18px;"><p class="body"><b>① 没被序列化进来的字段，模型根本看不到。</b></p></div>
+            <div class="note" style="margin-top:14px;"><p class="body"><b>② 这份卷宗的“排版方式”本身是可设计的 —— 这就引出 Skill。</b></p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 07 · WHAT is the Skill ===================== -->
+    <section class="slide">
+      <span class="tick">WHAT · DEFINITION</span>
+      <span class="pageno">07</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>What is the PRS Skill</h2><span class="labtag">SKILL.md + 8 REFERENCE FILES</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:60px;margin-top:30px;">
+          <div class="reveal">
+            <p class="lede" style="margin-bottom:18px;"><b>不是</b>评分公式、<b>不是</b>回归、<b>不是</b>硬过滤器。</p>
+            <p class="body" style="margin-bottom:20px;">Skill 是一份注入 Agent 卷宗、<b>按字段组织的“专家阅读手册”</b>：逐字段告诉模型这个字段对真实世界 PRS 质量意味着什么、该不该信。</p>
+            <div class="ledger" style="margin-top:8px;">
+              <div class="lrow" style="grid-template-columns:200px 1fr;gap:18px;"><span class="nm" style="font-size:22px;">SKILL.md</span><span class="ds" style="font-size:19px;">程序总览 6 步 + 3 条约束（常驻）</span></div>
+              <div class="lrow" style="grid-template-columns:200px 1fr;gap:18px;border-bottom:none;"><span class="nm" style="font-size:22px;">reference/ ×8</span><span class="ds" style="font-size:19px;">字段级经验规则，<b>按需调阅</b>（progressive disclosure）</span></div>
+            </div>
+            <p class="mono" style="margin-top:18px;">类比：期刊给审稿人的“审稿指南” / 一份 SOP</p>
+          </div>
+          <div class="reveal">
+            <p class="lab-cjk" style="margin-bottom:8px;">字段 ↔ Skill 知识文件（一一对应）</p>
+            <div class="ledger" style="margin-top:6px;">
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;"><span class="num">§1</span><span class="ds" style="font-size:18px;">trait / efo / phenotyping　—　端点保真度</span></div>
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;"><span class="num">§2</span><span class="ds" style="font-size:18px;">performance / covariates　—　判别证据（决定性）</span></div>
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;"><span class="num">§3</span><span class="ds" style="font-size:18px;">validation_sample_size　—　很弱的信号</span></div>
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;"><span class="num">§4</span><span class="ds" style="font-size:18px;">training / ancestry　—　可迁移性</span></div>
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;"><span class="num">§5</span><span class="ds" style="font-size:18px;">method_name　—　方法家族</span></div>
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;"><span class="num">§6</span><span class="ds" style="font-size:18px;">publication　—　弱背景</span></div>
+              <div class="lrow" style="grid-template-columns:60px 1fr;gap:14px;padding:9px 0;border-bottom:none;"><span class="num">§7</span><span class="ds" style="font-size:18px;">variants_number　—　结构信号</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 08 · HOW field-by-field ledger ===================== -->
+    <section class="slide">
+      <span class="tick">HOW · FIELD-BY-FIELD</span>
+      <span class="pageno">08</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>How the Skill reads each field</h2><span class="labtag">SIGNAL / NOISE / MIXED</span></div>
+        <div class="ledger reveal" style="margin-top:22px;">
+          <div class="lrow head" style="grid-template-columns:70px 1.1fr 130px 2fr;"><span>§</span><span>字段</span><span>判定</span><span>Skill 的核心规则（PGS 语言）</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1.1fr 130px 2fr;padding:12px 0;"><span class="num">§1</span><span class="nm" style="font-size:22px;">trait / phenotyping</span><span><span class="vd sig">SIGNAL</span></span><span class="ds" style="font-size:18px;">端点保真度优先；CHD≈CAD 同义/拼写差异不扣分；优势亚型不当 mismatch 惩罚</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1.1fr 130px 2fr;padding:12px 0;"><span class="num">§2</span><span class="nm" style="font-size:22px;">performance / cov</span><span><span class="vd sig">DECISIVE</span></span><span class="ds" style="font-size:18px;">PRS-only vs full-model；<b>OR/HR per SD ≥1.5 有力，且比自报 AUC 更可信</b>；缺 PRS 指标用效应量补；<b>不因“有显式指标”自动加分</b></span></div>
+          <div class="lrow" style="grid-template-columns:70px 1.1fr 130px 2fr;padding:12px 0;"><span class="num">§3</span><span class="nm" style="font-size:22px;">validation_n</span><span><span class="vd noise">NOISE</span></span><span class="ds" style="font-size:18px;">很弱的信号，只配做最后 tiebreak</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1.1fr 130px 2fr;padding:12px 0;"><span class="num">§4</span><span class="nm" style="font-size:22px;">training / ancestry</span><span><span class="vd mix">MIXED</span></span><span class="ds" style="font-size:18px;">samples_training 几乎无预测力；但祖先广度 = 可迁移性</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1.1fr 130px 2fr;padding:12px 0;"><span class="num">§5</span><span class="nm" style="font-size:22px;">method_name</span><span><span class="vd mix">WEAK</span></span><span class="ds" style="font-size:18px;">全基因组连续收缩通常更好；但<b>同研究家族内实证 &gt; 方法标签</b></span></div>
+          <div class="lrow" style="grid-template-columns:70px 1.1fr 130px 2fr;padding:12px 0;"><span class="num">§7</span><span class="nm" style="font-size:22px;">variants_number</span><span><span class="vd mix">MIXED</span></span><span class="ds" style="font-size:18px;">同方法家族 ≥1.5× 差 = 结构信号；少变异 GWAS-hits 在某些病（AMD/自免）有竞争力</span></div>
+        </div>
+        <p class="mono reveal" style="margin-top:18px;">Skill 的作用 = 告诉 Agent <b>哪些字段是信号、哪些是噪声</b>，以及字段冲突时怎么裁决。规则是“文字建议”，不是权重数字。</p>
+      </div>
+    </section>
+
+    <!-- ===================== 09 · the decisive rule (effect sizes) ===================== -->
+    <section class="slide">
+      <span class="tick">HOW · DECISIVE RULE §2</span>
+      <span class="pageno">09</span>
+      <div class="glitch r" style="top:300px;right:80px;opacity:.5;"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>胜负手 · effect sizes 规则</h2><span class="labtag">reference / §2</span></div>
+        <div class="reveal" style="margin-top:34px;border-left:3px solid var(--ink);padding-left:30px;max-width:1500px;">
+          <p class="serif" style="font-size:36px;line-height:1.4;">“候选只报 effect sizes 而无 AUROC/R² 时，把效应量当作支持性 PRS 质量信号；<em>OR per SD 是比自报 AUC 更强的真实表现预测因子</em>；per-SD OR/HR ≥ 1.5 即为有力证据。<em>不要因为指标类型就自动加分。</em>”</p>
+        </div>
+        <div class="cols reveal" style="margin-top:38px;">
+          <div class="col">
+            <h3>应用到 PGS003725</h3>
+            <p class="body" style="margin-top:10px;">OR per SD <b>2.14</b>、HR <b>1.75</b>（均 ≥1.5），但 <b>没有</b> PRS-only AUC/R² → Skill 判定：这是强判别证据。</p>
+          </div>
+          <div class="col">
+            <h3>避开的陷阱 · PGS000013</h3>
+            <p class="body" style="margin-top:10px;">有干净的显式 <b>PRS-only R²=0.04</b>，但更老、无更强判别信号。朴素直觉“显式指标更安全”会选它 —— 而它实测 <b>rank 27/81</b>。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 10 · WHY a skill, not hardcode ===================== -->
+    <section class="slide">
+      <span class="tick">WHY · NOT A FORMULA</span>
+      <span class="pageno">10</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>为什么是 Skill，不是评分公式</h2><span class="labtag">LLM-LED · TRAIT-AGNOSTIC · ADVISORY</span></div>
+        <p class="lede reveal" style="margin-top:26px;">你们一定会问：这些字段，为什么不直接拟合一个加权评分 / 回归？四条理由：</p>
+        <div class="ledger reveal" style="margin-top:14px;">
+          <div class="lrow" style="grid-template-columns:70px 1fr;gap:22px;"><span class="num">1</span><span class="ds" style="font-size:21px;"><b>指标跨记录不可比</b> → 根本没有干净的数值特征可喂回归</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1fr;gap:22px;"><span class="num">2</span><span class="ds" style="font-size:21px;"><b>规则之间会冲突、无固定优先级</b> → 需要逐案判断，不是一个固定权重向量</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1fr;gap:22px;"><span class="num">3</span><span class="ds" style="font-size:21px;"><b>trait-agnostic（规则不出现任何病名）→ 泛化到没见过的病</b>，不做 per-disease 调参 —— 即你们最熟的“避免 overfitting”</span></div>
+          <div class="lrow" style="grid-template-columns:70px 1fr;gap:22px;border-bottom:none;"><span class="num">4</span><span class="ds" style="font-size:21px;"><b>advisory / 可推翻</b> → 对 PGS Catalog 脏数据稳健</span></div>
+        </div>
+        <div class="note reveal" style="margin-top:24px;"><p class="body"><b>一句话：</b>硬编码评分 = 对当前疾病集过拟合；Skill = 把领域先验写成可泛化、可逐案权衡的判断规则。</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== 11 · Stage 1 in action ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 05 · STAGE 1</span>
+      <span class="pageno">11</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>Stage 1 · 读完 81 → shortlist</h2><span class="labtag">STRUCTURED OUTPUT · 1 LLM CALL</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1.2fr;gap:60px;margin-top:32px;">
+          <div class="reveal">
+            <p class="body" style="margin-bottom:20px;">一次 LLM 调用，输入 = 系统提示 + <b>Skill</b> + 81 个候选的卷宗；输出被强制为<b>固定表单（结构化 JSON）</b>，下游代码才能解析。</p>
+            <p class="mono" style="margin-bottom:18px;">类比 CRF / case report form：填表，不写散文。</p>
+            <p class="lab-cjk" style="margin-bottom:8px;">CAD · Stage-1 输出</p>
+            <div class="ledger" style="margin-top:4px;">
+              <div class="lrow" style="grid-template-columns:130px 1fr;gap:16px;"><span class="num">best</span><span class="ds" style="font-size:20px;"><b>PGS003725</b></span></div>
+              <div class="lrow" style="grid-template-columns:130px 1fr;gap:16px;"><span class="num">alts</span><span class="ds" style="font-size:20px;">PGS003726 · PGS003727 · PGS004696 · PGS000013</span></div>
+              <div class="lrow" style="grid-template-columns:130px 1fr;gap:16px;border-bottom:none;"><span class="num">conf</span><span class="ds" style="font-size:20px;">Moderate</span></div>
+            </div>
+          </div>
+          <div class="reveal">
+            <p class="lab-cjk" style="margin-bottom:10px;">rationale（命中 §2 规则的原句）</p>
+            <div style="border-left:3px solid var(--ink);padding-left:26px;">
+              <p class="serif" style="font-size:27px;line-height:1.5;">“…reports strong per-SD effect sizes (<em>HR 1.75; OR 2.14</em>), which is a key PRS-quality signal <em>when PRS-only AUC/R2 are not provided</em>…”</p>
+            </div>
+            <p class="body" style="margin-top:22px;">第一轮像专家粗筛：读完 81 个，应用手册，收敛到 5 个最可能的 —— 并把陷阱项 PGS000013 降到末位。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 12 · Stage 2 pairwise ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 06 · STAGE 2</span>
+      <span class="pageno">12</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>Stage 2 · pairwise → top-1</h2><span class="labtag">3 HEAD-TO-HEADS · BORDA</span></div>
+        <div style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:60px;margin-top:32px;">
+          <div class="reveal">
+            <p class="body" style="margin-bottom:18px;">一次性给 81 个排全序不可靠 → 取 top-3 做 <b>3 场两两对决</b>，各为一次独立 LLM 判断（严格“二选一、只比 PRS 质量”），<b>Borda 计票</b>聚合，不能选到 top-3 之外。</p>
+            <p class="mono" style="margin-bottom:8px;">你们熟的桥：pairwise comparison = Bradley–Terry；配对比更稳。</p>
+            <div class="ledger" style="margin-top:16px;">
+              <div class="lrow" style="grid-template-columns:1fr 130px;gap:16px;"><span class="ds" style="font-size:20px;">PGS003725　vs　PGS003726</span><span class="num">3725 ✓</span></div>
+              <div class="lrow" style="grid-template-columns:1fr 130px;gap:16px;"><span class="ds" style="font-size:20px;">PGS003725　vs　PGS003727</span><span class="num">3725 ✓</span></div>
+              <div class="lrow" style="grid-template-columns:1fr 130px;gap:16px;border-bottom:none;"><span class="ds" style="font-size:20px;">PGS003726　vs　PGS003727</span><span class="num">3726 ✓</span></div>
+            </div>
+          </div>
+          <div class="reveal" style="display:flex;flex-direction:column;justify-content:center;align-items:center;border-left:1px solid var(--ink-faint);">
+            <p class="lab-cjk" style="margin-bottom:6px;">Borda 胜出</p>
+            <div class="midnum" style="font-size:96px;">PGS003725</div>
+            <p class="body" style="margin-top:14px;">confidence · Moderate</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 13 · CAD with vs without skill ===================== -->
+    <section class="slide">
+      <span class="tick">STEP 07 · OUTCOME</span>
+      <span class="pageno">13</span>
+      <div class="wrap">
+        <div class="topbar reveal"><h2>落到 CAD · with vs without the Skill</h2><span class="labtag">SAME FIELDS, DIFFERENT READING</span></div>
+        <div class="cols reveal" style="margin-top:28px;">
+          <div class="col">
+            <h3 class="dim">Baseline LLM<span style="font-size:18px;"> · 无 Skill / 无 harness</span></h3>
+            <div class="midnum" style="font-size:80px;color:var(--ink-soft);">rank 27<span style="font-size:34px;">/81</span></div>
+            <p class="body" style="margin-top:10px;">选 <b>PGS000013</b>（有显式 R²）。rationale：看见效应量却判定“evidence insufficiently consistent”，退回默认 → miss。</p>
+          </div>
+          <div class="col">
+            <h3>PRS Agent<span style="font-size:18px;"> · Skill + harness</span></h3>
+            <div class="midnum" style="font-size:80px;">rank 1<span style="font-size:34px;">/81</span> · Hit@1</div>
+            <p class="body" style="margin-top:10px;">选 <b>PGS003725</b>。靠 §2 规则正确加权 OR 2.14 / HR 1.75，把陷阱项降级。</p>
+          </div>
+        </div>
+        <div class="note reveal" style="margin-top:26px;border-color:var(--ink);">
+          <p class="body">字段相同，差别只在<b>“会不会读”</b>。聚合（82 病）：Baseline Hit@1 <b>26.8%</b> → PRS Agent <b>43.9%</b>。
+          <span class="dim">　诚实标注：CAD 的 27→1 是 Skill + harness 合力；两段 rationale 的差异在文本上明确归于 Skill。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 14 · COLOPHON / closing ===================== -->
+    <section class="slide">
+      <span class="tick">SUMMARY</span>
+      <span class="pageno">14</span>
+      <div class="glitch l" style="top:300px;left:80px;"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="wrap" style="display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right;">
+        <span class="kick reveal" style="display:inline-block;font-family:var(--font-mono);font-size:18px;letter-spacing:0.1em;color:var(--ink);border-bottom:1.5px solid var(--ink);padding-bottom:8px;margin-bottom:28px;">THE CAUSAL CHAIN</span>
+        <h1 class="reveal serif" style="font-size:66px;line-height:1.32;max-width:1480px;">不可比的 catalog 元数据<br>→ <em>Skill 重整为专家加权证据</em><br>→ harness 收敛 top-1<br>→ CAD 从 rank 27 到 <b>rank 1 / 81</b></h1>
+        <p class="body reveal" style="margin-top:36px;max-width:1100px;">Skill 就是教 Agent 怎么读字段的那本手册 —— 它的贡献是可解释性，以及与 harness 的交互增益。</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- inline editing affordance -->
+<div class="edit-hotzone"></div>
+<button class="edit-toggle" id="editToggle" title="编辑模式 (E)">✏️</button>
+
+<script>
+/* ===========================================================================
+   SLIDE CONTROLLER — fixed-stage scaling + keyboard / touch / wheel nav
+   =========================================================================== */
+class SlidePresentation{
+  constructor(){
+    this.slides=[...document.querySelectorAll('.slide')];
+    this.stage=document.getElementById('deckStage');
+    this.i=0;
+    this.scale();window.addEventListener('resize',()=>this.scale());
+    this.keys();this.touch();this.wheel();
+    this.show(0);
+  }
+  scale(){
+    const f=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+    const x=(window.innerWidth-1920*f)/2, y=(window.innerHeight-1080*f)/2;
+    this.stage.style.transform=`translate(${x}px,${y}px) scale(${f})`;
+  }
+  show(n){
+    this.i=Math.max(0,Math.min(n,this.slides.length-1));
+    this.slides.forEach((s,k)=>{const a=k===this.i;s.classList.toggle('active',a);s.classList.toggle('visible',a);});
+  }
+  next(){this.show(this.i+1);} prev(){this.show(this.i-1);}
+  keys(){document.addEventListener('keydown',e=>{
+    if(e.target.getAttribute&&e.target.getAttribute('contenteditable'))return;
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();this.next();}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();this.prev();}
+    else if(e.key==='Home'){this.show(0);} else if(e.key==='End'){this.show(this.slides.length-1);}
+  });}
+  touch(){let x0=null;const v=document.querySelector('.deck-viewport');
+    v.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+    v.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50){dx<0?this.next():this.prev();}x0=null;},{passive:true});}
+  wheel(){let lock=false;document.querySelector('.deck-viewport').addEventListener('wheel',e=>{
+    if(lock)return;if(Math.abs(e.deltaY)<24)return;lock=true;e.deltaY>0?this.next():this.prev();setTimeout(()=>lock=false,650);},{passive:true});}
+}
+const deck=new SlidePresentation();
+
+/* ===========================================================================
+   INLINE EDITING — hover hotzone (400ms grace) + E key; localStorage persist
+   =========================================================================== */
+const editor={isActive:false,
+  toggle(){this.isActive=!this.isActive;document.body.classList.toggle('editing',this.isActive);
+    const t=document.getElementById('editToggle');t.classList.toggle('active',this.isActive);
+    document.querySelectorAll('.slide h1,.slide h2,.slide h3,.slide p,.slide span.ds,.slide span.nm').forEach(el=>{
+      el.contentEditable=this.isActive;});
+    if(!this.isActive)this.save();},
+  save(){try{const m={};document.querySelectorAll('[data-eid]').forEach(el=>m[el.dataset.eid]=el.innerHTML);localStorage.setItem('cad_deck_edits',JSON.stringify(m));}catch(e){}}
+};
+(function(){
+  const hz=document.querySelector('.edit-hotzone'),tb=document.getElementById('editToggle');let to=null;
+  const showT=()=>{clearTimeout(to);tb.classList.add('show');};
+  const hideT=()=>{to=setTimeout(()=>{if(!editor.isActive)tb.classList.remove('show');},400);};
+  hz.addEventListener('mouseenter',showT);hz.addEventListener('mouseleave',hideT);
+  tb.addEventListener('mouseenter',showT);tb.addEventListener('mouseleave',hideT);
+  tb.addEventListener('click',()=>editor.toggle());hz.addEventListener('click',()=>editor.toggle());
+  document.addEventListener('keydown',e=>{if((e.key==='e'||e.key==='E')&&!(e.target.getAttribute&&e.target.getAttribute('contenteditable')))editor.toggle();});
+})();
+</script>
+</body>
+</html>

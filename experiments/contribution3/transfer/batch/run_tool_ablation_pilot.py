@@ -1,15 +1,14 @@
 """Tool-ablation pilot driver: loop over tool/skill ablations and aggregate results.
 
 Conditions (all run on the unified benchmark family with --condition all-tools):
-  - full              -> baseline (h2/OT/GC/biology on; skill on)
-  - add_*             -> skill on; start from no_all_tools and enable only
-                         the named evidence channel(s)
+  - full              -> legacy full-tool baseline (h2/OT/GC/biology on)
+  - add_*             -> start from no_all_tools and enable only the named
+                         evidence channel(s)
   - no_h2_tool        -> get_heritability disabled
   - no_ot_tool        -> get_open_targets_overlap disabled
   - no_gc_tool        -> genetic_correlation_batch_estimator disabled
   - no_biology_tool   -> Scout-time biology_retrieve_related_bundles disabled (only entry)
-  - no_skill          -> cross_trait_domain_knowledge KB injection disabled (tools still on)
-  - no_all_tools      -> all evidence tools off (skill still on)
+  - no_all_tools      -> all evidence tools off
 
 For each condition: runs the agent, derives Stage 2 recommendations, then
 runs evaluate_end_to_end_condition. Finally aggregates a single comparison

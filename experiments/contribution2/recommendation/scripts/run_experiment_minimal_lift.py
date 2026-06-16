@@ -2,20 +2,20 @@
 
 Hypothesis (post-codex PEV regression diagnosis):
 - The legacy with-domain runner sends ~59K chars of skill text to the LLM
-  (54.7K full_document + 4.4K snippets). c3 iter1-vs-iter3 measurement
+  (54.7K full_text + 4.4K snippets). c3 iter1-vs-iter3 measurement
   showed bulk-loading the corpus biases the LLM and crowds out attention
   on the candidate records.
 - Codex's PEV runner introduced TRIAGE / PICK / CRITIC stages on top of
   this and lost 5 rank-1 picks because multi-stage revisions over-corrected.
 - Minimal lift: keep the legacy single-shot architecture, but replace
-  full_document (~55K) with the SKILL.md procedural overview (~8K) and
+  full_text (~55K) with the SKILL.md procedural overview (~8K) and
   inject raw heritability records as a section, single shot.
 
 Architecture:
-  domain_knowledge.full_document = SKILL.md procedural overview + appended
-                                   "## Trait-Specific Heritability" section
-                                   built from get_heritability_records.
-  domain_knowledge.snippets       = keyword-ranked snippets (kept).
+  skill_context.full_text = SKILL.md procedural overview + appended
+                            "## Trait-Specific Heritability" section
+                            built from get_heritability_records.
+  skill_context.snippets  = keyword-ranked snippets (kept).
   Single-shot LLM call, no TRIAGE / PICK / CRITIC stages.
 
 Reuses:
@@ -166,11 +166,12 @@ def _step1_context(
     ontology: str,
     candidate_models: list[Any],
     total_found: int,
+    target_ancestry: str,
 ) -> dict[str, Any]:
     """Single-shot c2 context — ADDITIVE design.
 
     Empirical finding (paired80 89-disease t=1, same day as codex baseline):
-    - REPLACING the legacy 55K full_document with an 8K SKILL.md procedural
+    - REPLACING the legacy 55K full_text with an 8K SKILL.md procedural
       overview hurt Hit@1 by 4.5pp and Hit@2 by 14.6pp. c2's same-trait
       selection task is well-aligned to the original empirical corpus, so
       shrinking that corpus loses signal that the LLM was using.
@@ -180,15 +181,17 @@ def _step1_context(
       same-trait (corpus aligned) and single-shot.
 
     Additive design:
-    - domain_knowledge.full_document = SKILL.md procedural overview as
+    - skill_context.full_text = SKILL.md procedural overview as
       PREAMBLE + the legacy 55K corpus + a "Trait-Specific Heritability"
       section appended from get_heritability_records. This is a strict
       superset of the legacy baseline content with two added structures
       (procedural overview, raw heritability evidence).
-    - domain_knowledge.snippets are kept unchanged.
-    - All other fields match the with-domain context shape.
+    - skill_context.snippets are kept unchanged.
+    - All other fields match the with-domain context shape, including
+      target_ancestry and the unrestricted id-plus-seven-evidence-section
+      candidate schema.
     """
-    query = wd._domain_query(ontology)
+    query = wd._domain_query(ontology, target_ancestry)
     base_domain = prs_model_domain_knowledge(query, max_snippets=8).model_dump()
 
     heritability_records = get_heritability_records(ontology, ancestry="EUR")
@@ -204,30 +207,33 @@ def _step1_context(
     legacy_corpus = (base_domain.get("full_document") or "").strip()
     if legacy_corpus:
         parts.append(legacy_corpus)
-    full_document = "\n\n".join(parts) if parts else ""
+    full_text = "\n\n".join(parts) if parts else ""
 
-    # Field order MUST match Pydantic DomainKnowledgeResult model_dump():
-    #   query, full_document, snippets, source_type.
+    # Preserve the legacy retrieval order while exposing it through the
+    # current Agent Skill context field:
+    #   name, query, full_text, snippets, source_type.
     # JSON serialisation preserves dict insertion order; field order
     # affects the textual sequence the LLM reads. Verified empirically
-    # that reversing this order (snippets before full_document) hurt
+    # that reversing this order (snippets before full_text) hurt
     # Hit@1 by ~6pp on 89-disease t=1.
-    domain = {
+    skill_context = {
+        "name": "prs-model-recommendation",
         "query": base_domain.get("query"),
-        "full_document": full_document,
+        "full_text": full_text,
         "snippets": base_domain.get("snippets", []),
         "source_type": base_domain.get("source_type", "local"),
     }
 
     return {
         "target_trait": ontology,
+        "target_ancestry": target_ancestry,
         "direct_models": {
             "query_trait": ontology,
             "total_found": total_found,
             "after_filter": len(candidate_models),
-            "models": [without_domain._summarize_model_for_llm(m) for m in candidate_models],
+            "models": [without_domain._candidate_view_for_llm(m) for m in candidate_models],
         },
-        "domain_knowledge": domain,
+        "skill_context": skill_context,
         "todo_recitation_path": "N/A",
         "todo_recitation": "",
     }
@@ -303,7 +309,7 @@ def _patched_prepare_manifest(
         ontology_filter=ontology_filter,
     )
     manifest["experiment"] = "minimal_lift_batch_formal"
-    manifest["domain_knowledge"] = True
+    manifest["skill_context"] = True
     manifest["minimal_lift_skill_chars"] = len(_SKILL_PROCEDURAL_OVERVIEW)
     return manifest
 

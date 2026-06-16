@@ -37,6 +37,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 REPO_ROOT = Path(__file__).resolve().parents[4]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
@@ -81,7 +83,7 @@ def test_two_views_produce_different_content() -> None:
     """The two views, called on the same folder, return different text.
     This is what '获取到的却是不同的内容（部分相同但部分不同）' means."""
     from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg_on = ToolAblationConfig(enable_pgs_quality_skill=True, enable_skill=False)
+    cfg_on = ToolAblationConfig(enable_pgs_quality_skill=True)
     c2_text = load_c2_view()
     c3_text = load_c3_view("pick", cfg=cfg_on).primary_section
     assert c2_text, "c2 view returned empty"
@@ -119,7 +121,7 @@ def test_c3_view_does_not_bulk_load_reference_at_any_stage() -> None:
     they're how c3 layers specific guidance from the corpus without
     flooding the prompt."""
     from experiments.contribution3.transfer.agent import ToolAblationConfig
-    cfg_on = ToolAblationConfig(enable_pgs_quality_skill=True, enable_skill=False)
+    cfg_on = ToolAblationConfig(enable_pgs_quality_skill=True)
     MAX_REFERENCE_SECTIONS_PER_STAGE = 3
     for stage in ("pick", "reconcile", "critic"):
         result = load_c3_view(stage, cfg=cfg_on)
@@ -135,6 +137,11 @@ def test_c3_view_does_not_bulk_load_reference_at_any_stage() -> None:
 # c2 view byte-equality (the load-bearing guarantee)
 # ---------------------------------------------------------------------------
 
+@pytest.mark.skip(
+    reason="legacy c2 byte-equality contract retired; production within migrated "
+    "to load_recommendation_view (deliberately not byte-equal). load_c2_view is "
+    "kept only for legacy ablation scripts. See test_recommendation_view.py."
+)
 def test_c2_view_byte_equals_legacy_canonical_corpus() -> None:
     """`load_c2_view()` returns content **byte-equal** to the legacy
     canonical `prs_model_domain_knowledge.md`.
@@ -211,6 +218,11 @@ def test_c2_view_unchanged_when_overrides_c3_is_added(tmp_path) -> None:
 # Migration-readiness check
 # ---------------------------------------------------------------------------
 
+@pytest.mark.skip(
+    reason="retired: c2 migrated to load_recommendation_view (the reworked "
+    "prs-model-recommendation skill), NOT to load_c2_view. The legacy drop-in "
+    "contract no longer describes the system. See test_recommendation_view.py."
+)
 def test_c2_view_is_drop_in_for_c2_legacy_md_read() -> None:
     """When c2 migrates, its read path swaps from `open(c2_md)` to
     `load_c2_view()`. Asserting drop-in equivalence here means the
@@ -275,7 +287,7 @@ def test_c3_can_modify_shared_section_via_omit_and_add_without_touching_c2(tmp_p
         "are first-class signals.\n"
     )
 
-    cfg_on = ToolAblationConfig(enable_pgs_quality_skill=True, enable_skill=False)
+    cfg_on = ToolAblationConfig(enable_pgs_quality_skill=True)
     original_ref_files = central.STAGE_TO_REFERENCE_FILES.copy()
     original_override_files = central.STAGE_TO_OVERRIDE_FILES.copy()
     canonical_md_before = LEGACY_C2_CORPUS_PATH.read_text(encoding="utf-8")

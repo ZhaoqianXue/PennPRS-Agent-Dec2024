@@ -1,0 +1,86 @@
+# Machine-checkable mirror of the prose appraisal skill (src/server/core/skills/
+# prs-model-recommendation/references/pgs_evidence_appraisal.md). The PROSE skill
+# still drives the LLM; this YAML is the deterministic ATTRIBUTION ORACLE that
+# reconstructs which appraisal rule converts an evidence delta into a preference
+# — independent of the model's (unfaithful) self-narration.
+#
+# Each rule is a predicate over the single-record schema fields, with a signed
+# transparency weight and a verbatim citation back into the frozen skill. The
+# weight is a TRANSPARENCY PROXY for legibility/LORO, NOT the model's scorer.
+#
+# Polarity: positive = supports picking this candidate; negative = discounts it.
+
+meta:
+  mirrors: src/server/core/skills/prs-model-recommendation/references/pgs_evidence_appraisal.md
+  axis_ordering: "PRS-only R2/AUROC > per-SD OR/HR > c_index > full_model_auroc > none"
+
+rules:
+  - id: "§2.pgs_only_present"
+    axis: pgs_only_auroc_or_r2
+    predicate: "pgs_only_auroc is not null OR pgs_only_r2 is not null"
+    polarity: +3
+    section: "§2"
+    cite: "PRS-only R²/AUROC are the most reliable performance indicators when present (strongest usable axis)."
+
+  - id: "§2.or_hr_strong"
+    axis: effect_size
+    predicate: "or_per_sd >= 1.5 OR hr_per_sd >= 1.5"
+    polarity: +2
+    section: "§2"
+    cite: "OR per SD is a strong predictor of real-world PRS performance — stronger than reported AUC; OR/HR ≥ 1.5 indicates strong PRS discriminative power."
+
+  - id: "§2.or_hr_moderate"
+    axis: effect_size
+    predicate: "1.3 <= max(or_per_sd,hr_per_sd) < 1.5"
+    polarity: +1
+    section: "§2"
+    cite: "OR 1.3–1.5 or HR 1.2–1.5 per SD is moderate PRS signal."
+
+  - id: "§2.full_auroc_not_primary"
+    axis: full_model_auroc
+    predicate: "full_model_auroc is not null AND pgs_only_auroc is null AND pgs_only_r2 is null"
+    polarity: -1
+    section: "§2"
+    cite: "full_model_auroc is covariate-inflated, ranks lowest among usable axes, and is not the primary cross-candidate ranking metric."
+
+  - id: "§2.headline_auroc_no_clean_effect"
+    axis: full_model_auroc
+    predicate: "full_model_auroc is not null AND or_per_sd is null AND hr_per_sd is null AND pgs_only_auroc is null AND pgs_only_r2 is null"
+    polarity: -2
+    section: "§2"
+    cite: "A candidate whose only evidence is full_model_auroc (no PRS-only metric, no effect size) rests entirely on the weakest covariate-inflated axis; metric-availability is not superiority."
+
+  - id: "§2.auroc_gap_noise"
+    axis: full_model_auroc
+    predicate: "abs(full_model_auroc_delta_vs_best) < 0.05"
+    polarity: 0
+    section: "§2"
+    cite: "A full-model-AUROC difference under ~0.05 is not a meaningful differentiator (noise)."
+
+  - id: "§2.covariate_clean"
+    axis: covariates
+    predicate: "covariate_class in {none, basic}"
+    polarity: +1
+    section: "§2"
+    cite: "Basic demographic/PC adjustment is not heavy clinical leakage; cleaner covariates make reported discrimination more comparable."
+
+  - id: "§2.covariate_leakage"
+    axis: covariates
+    predicate: "covariate_class in {heavy_clinical, near_outcome_biomarker}"
+    polarity: -2
+    section: "§2"
+    cite: "Family history, treatment-aware terms, disease biomarkers, and risk-calculator packaging heavily discount reported full-model discrimination."
+
+  - id: "§5.ensemble_favorable"
+    axis: method
+    predicate: "method_is_ensemble == true"
+    polarity: +1
+    section: "§5 Principle A"
+    cite: "Multi-score aggregation/ensembling captures complementary genetic signal and achieves stronger external validation."
+
+  - id: "§3.multi_cohort_robust"
+    axis: cohorts
+    predicate: "n_eval_cohorts >= 2"
+    polarity: +1
+    section: "§2/§3"
+    cite: "Consistent performance across several independent cohorts is a robustness signal stronger than the highest single-cohort metric."

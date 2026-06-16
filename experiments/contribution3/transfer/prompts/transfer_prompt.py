@@ -101,35 +101,9 @@ FORBIDDEN_PROMPT_PHRASES: tuple[str, ...] = (
 # ---------------------------------------------------------------------------
 
 
-def _domain_knowledge_block(cfg, *, stage_text: str = "") -> str:
-    """Return the '# Domain knowledge' prompt section, or empty if skill is disabled.
-
-    When `cfg.enable_skill=False`, the entire `# Domain knowledge` section is
-    omitted — the LLM is not even told that a `cross_trait_guidance` field
-    exists. This is required for strict ablation: leaving the section in
-    while delivering empty `cross_trait_guidance` would tell the LLM to
-    "look at the rules" while there are no rules, biasing behavior.
-
-    NOTE: ARCHIVED for production use. The cross_trait_domain_knowledge
-    skill provides zero lift over the no_all_tools baseline on paired80
-    (skill_only top_0.5%=0.325 == no_all_tools top_0.5%=0.325). Kept for
-    historical reproducibility of pre-archive batch runs.
-    """
-    if not getattr(cfg, "enable_skill", True):
-        return ""
-    return (
-        "# Domain knowledge\n"
-        "The `cross_trait_guidance` field at the top of your input context\n"
-        "contains the sealed skill guidance"
-        + (f" for {stage_text}" if stage_text else " for this stage") +
-        ". Read it before writing your decision.\n\n"
-    )
-
-
 def _pgs_quality_block(cfg, *, stage: str) -> str:
     """Return the '# PGS quality skill' prompt section, or empty if disabled.
 
-    Mirrors `_domain_knowledge_block` for the prs_model_evaluator skill.
     Strict-ablation contract: when `cfg.enable_pgs_quality_skill=False`,
     the entire section is omitted so the LLM is not told a
     `pgs_quality_guidance` field exists.
@@ -231,9 +205,13 @@ def make_scout_prompt(cfg) -> str:
         "- probe_bundle_ids: list of bundle_ids. Favor breadth — include candidates\n"
         "  whenever uncertain; the downstream Gather stage will filter with\n"
         "  evidence.\n"
+        "- Include a mixed probe set: close-label bundles, broader/narrower label\n"
+        "  relatives, risk-factor-like constructs, quantitative measurements,\n"
+        "  and high-model-count generalist bundles when they could plausibly\n"
+        "  carry transferable inherited signal. Downstream stages will compare\n"
+        "  them; this stage should not be narrow.\n"
         + bio_output_lines +
         "- rationale: one short paragraph.\n\n"
-        + _domain_knowledge_block(cfg) +
         "# Constraints\n"
         "- Do NOT assign scores, tiers, weights, or ranks here.\n"
         "- Do NOT reference specific ICD codes, trait names, or disease categories\n"
@@ -351,7 +329,6 @@ def make_gather_prompt(cfg) -> str:
         + strategy_block + "\n\n"
         "# Halting policy\n"
         + halt_block + "\n\n"
-        + _domain_knowledge_block(cfg, stage_text="evaluating evidence at this stage") +
         "# Constraints\n"
         "- No ICD codes, no trait-name rules, no weighting formulas in your reasoning.\n"
         "- You may write per-bundle observations, but do NOT compute scores or tiers.\n"
@@ -414,7 +391,6 @@ def make_judge_prompt(cfg) -> str:
         "# Output discipline\n"
         "- `evidence_cited` must list dot-paths into the digest you used: e.g.\n"
         "  " + _judge_evidence_cited_examples(cfg) + ".\n\n"
-        + _domain_knowledge_block(cfg) +
         "# Constraints\n"
         "- No ICD-specific / disease-family / trait-name rules.\n"
         "- No numeric scoring formulas.\n"
@@ -427,8 +403,8 @@ def make_pick_prompt(cfg) -> str:
 
     PICK doesn't reference OT/GC/h2/biology directly in its instructions
     (just hands `bundle_evidence` to the LLM, constructed by the harness),
-    but the `# Domain knowledge` block must be conditional on
-    `cfg.enable_skill` for the strict-ablation contract.
+    PGS-quality skill prompt declaration remains conditional on
+    `cfg.enable_pgs_quality_prompt_block` for the strict-ablation contract.
     """
     return (
         "# Role\n"
@@ -449,7 +425,6 @@ def make_pick_prompt(cfg) -> str:
         "  the hydrated set contains more plausibly-transferable models.\n"
         "- primary_pgs_id: the single best pick.\n"
         "- rationale: overall reasoning.\n\n"
-        + _domain_knowledge_block(cfg)
         + _pgs_quality_block(cfg, stage="pick") +
         "# Constraints\n"
         "- No disease-specific rules.\n"
@@ -461,8 +436,8 @@ def make_pick_prompt(cfg) -> str:
 def make_pgs_triage_prompt(cfg) -> str:
     """PGS_TRIAGE prompt — independent of evidence-channel ablations.
 
-    Skill block is conditional on `cfg.enable_skill` for strict-ablation
-    contract.
+    PGS-quality skill prompt declaration remains conditional on
+    `cfg.enable_pgs_quality_prompt_block` for the strict-ablation contract.
     """
     return (
         "# Role\n"
@@ -491,7 +466,6 @@ def make_pgs_triage_prompt(cfg) -> str:
         "  that span method families, training-cohort diversity, and validation\n"
         "  breadth, not only those whose source-trait label most narrowly\n"
         "  matches the bundle's canonical label.\n\n"
-        + _domain_knowledge_block(cfg)
         + _pgs_quality_block(cfg, stage="triage") +
         "# Constraints\n"
         "- Do NOT invent IDs; only return IDs present in the input list.\n"
@@ -513,6 +487,9 @@ def make_global_primary_prompt(cfg) -> str:
     reference_candidate_field = ""
     reference_input = ""
     reference_guidance = ""
+    quality_candidate_field = ""
+    quality_input = ""
+    quality_guidance = ""
     h2_guidance = ""
     if cfg.enable_h2:
         h2_guidance = (
@@ -525,7 +502,7 @@ def make_global_primary_prompt(cfg) -> str:
         )
     if getattr(cfg, "enable_pgs_quality_reference_lane", False):
         reference_candidate_field = (
-            ", is_skill_only_reference_primary, "
+            ", is_pgs_quality_reference_primary, "
             "is_tool_lane_primary_before_arbitration"
         )
         reference_input = (
@@ -550,44 +527,9 @@ def make_global_primary_prompt(cfg) -> str:
             "  more transferable.\n"
             "- Use `is_tool_lane_primary_before_arbitration` to identify the current\n"
             "  tool-assisted primary, and compare it explicitly with\n"
-            "  `is_skill_only_reference_primary` before choosing.\n"
-        )
-    elif getattr(cfg, "enable_skill_reference_lane", False):
-        reference_candidate_field = (
-            ", is_skill_only_reference_primary, "
-            "is_tool_lane_primary_before_arbitration"
-        )
-        reference_input = (
-            "- skill_only_reference: optional {reference_primary_pgs_id,\n"
-            "  reference_bundle_id, reference_bundle_label,\n"
-            "  reference_frontier_pgs_ids, reference_rationale}. This is an\n"
-            "  independent no-skill LLM pass with all evidence tools disabled.\n"
-        )
-        reference_guidance = (
-            "- When `skill_only_reference` is present, treat this as an arbitration\n"
-            "  between two LLM judgments: the no-skill baseline reference lane\n"
-            "  and the skill-guided challenger lane. The reference is the default\n"
-            "  control anchor, not a weak hint. Start from preserving it.\n"
-            "- Override the no-skill reference only when the candidate records support\n"
-            "  a general, target-relevant improvement that would survive without\n"
-            "  knowing any specific disease category: for example a visibly more\n"
-            "  direct source fit, a generic/truncated/ambiguous reference source, or\n"
-            "  a same-source PGS with clearly stronger reported-trait alignment and\n"
-            "  model-quality evidence.\n"
-            "- Keep the no-skill reference when the challenger mainly changes to a\n"
-            "  different broad source/proxy/measurement class, publication recency,\n"
-            "  validation breadth, larger training size, or rationale wording without\n"
-            "  a clearer target-relevant source/model advantage.\n"
-            "- For same-source PGS switches, do not move away from the reference unless\n"
-            "  the challenger record itself shows a clearer transferable model. A\n"
-            "  different PGS from the same source is not automatically an upgrade.\n"
-            "- Use `is_tool_lane_primary_before_arbitration` to identify the current\n"
-            "  challenger primary, and compare it explicitly with\n"
-            "  `is_skill_only_reference_primary` before choosing.\n"
+            "  `is_pgs_quality_reference_primary` before choosing.\n"
         )
     decision_inputs = "the candidate fields and bundle evidence"
-    if getattr(cfg, "enable_skill", True):
-        decision_inputs = "the candidate fields, bundle evidence, and sealed skill guidance"
 
     return (
         "# Role\n"
@@ -609,18 +551,18 @@ def make_global_primary_prompt(cfg) -> str:
         "  best_r2}], bundle_evidence_ref,\n"
         "  per_bundle_rank (Judge's rank of this bundle),\n"
         "  is_pick_primary_for_bundle, pick_rank_within_bundle"
-        + reference_candidate_field + "}\n"
+        + reference_candidate_field + quality_candidate_field + "}\n"
         "- bundle_evidence_by_id: dict keyed by bundle_id. Each value is a compact\n"
         "  raw evidence summary with fields " + pbe_summary + ". Use\n"
         "  candidates[i].bundle_evidence_ref to look up the supporting evidence.\n\n"
         + reference_input +
+        quality_input +
         "# Output (GlobalPrimaryDecision)\n"
         "- primary_pgs_id: the single best PGS across ALL candidates.\n"
         "- ordered_frontier_pgs_ids: all candidate pgs_ids in your preferred\n"
         "  order, primary first. Retain every candidate — you are reordering,\n"
         "  not filtering.\n"
         "- rationale: one paragraph citing the key evidence that decided primary.\n\n"
-        + _domain_knowledge_block(cfg) +
         # NOTE: _pgs_quality_block intentionally NOT included here — see
         # agent.py:_run_global_primary_reconciliation comment.
         "# Decision guidance\n"
@@ -631,9 +573,17 @@ def make_global_primary_prompt(cfg) -> str:
         "  revise within the same bundle only when the candidate records make\n"
         "  another model clearly better for this target.\n"
         "- Decide the source bundle from target fit plus enabled bundle evidence;\n"
-        "  use model metadata to break ties within that source, not to replace\n"
-        "  bundle-level relevance by generic validation breadth alone.\n"
+        "  use model metadata to break ties within that source. Do not choose the\n"
+        "  closest-looking source label automatically: if that candidate has a\n"
+        "  weak, broad, tiny, or poorly validated PGS record, compare it directly\n"
+        "  against less direct candidates whose records show cleaner standalone\n"
+        "  signal and a plausible construct bridge.\n"
+        "- Conversely, do not choose a less direct candidate on scale, recency,\n"
+        "  method branding, or validation breadth alone. The record must be\n"
+        "  visibly stronger and the source must still be a coherent transfer\n"
+        "  source for the target.\n"
         + h2_guidance
+        + quality_guidance
         + reference_guidance +
         "- Do NOT refer to specific ICD codes, trait names, or disease families\n"
         "  in rules. Reasoning must generalize.\n\n"
@@ -673,17 +623,6 @@ def make_critic_prompt(cfg) -> str:
             "  change. If the evidence is broad, indirect, or neutral, keep the\n"
             "  proposed frontier rather than using this stage for a new search.\n"
         )
-    elif getattr(cfg, "enable_skill_reference_lane", False):
-        reference_input = (
-            "- skill_only_reference: optional no-skill reference primary from an\n"
-            "  independent no-skill LLM pass.\n"
-        )
-        reference_guidance = (
-            "- If the proposed primary differs from the no-skill reference,\n"
-            "  check whether the skill-guided candidate frontier actually supports\n"
-            "  the change; revise only when the contradiction is clear from the\n"
-            "  supplied frontier or raw evidence axes.\n"
-        )
 
     return (
         "# Role\n"
@@ -699,10 +638,9 @@ def make_critic_prompt(cfg) -> str:
         + axis_block + "\n"
         "  Each entry has the bundle's raw evidence fields.\n\n"
         + reference_input
-        + _domain_knowledge_block(cfg) +
         # NOTE: _pgs_quality_block intentionally NOT included here — see
         # agent.py:_run_critic comment.
-        "# Output contract (CritiqueDecision)\n"
+        + "# Output contract (CritiqueDecision)\n"
         "- kept: True if the proposed frontier stands; False if you are revising.\n"
         "- revised_frontier / revised_primary_pgs_id: populated only when kept=False.\n"
         "- rationale: state which evidence axis motivated the decision. If\n"

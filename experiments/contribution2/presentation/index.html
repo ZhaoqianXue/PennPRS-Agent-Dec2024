@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contribution2 PRS Selection</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="data.js?v=20260505-r38-skill-ablation"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#0b0f19;color:#e3eaf4;scroll-behavior:smooth}
+body{overflow-x:hidden}
+.page{min-height:100vh;padding:44px 36px}
+.wrap{max-width:1240px;margin:0 auto}
+.hero{display:flex;align-items:center;background:
+  radial-gradient(ellipse 90% 72% at 78% 20%,rgba(92,208,154,.12),transparent 56%),
+  radial-gradient(ellipse 120% 78% at 46% -10%,rgba(108,140,255,.16),transparent 55%),
+  #0b0f19}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:42px;align-items:center}
+.eyebrow{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#6c8cff;font-weight:850;margin-bottom:10px}
+h1{font-size:clamp(2.1rem,5.1vw,4.4rem);line-height:.98;font-weight:850;letter-spacing:-.035em;max-width:940px}
+h2{font-size:1.58rem;font-weight:800;letter-spacing:-.02em;margin-bottom:8px;color:#f0f5ff}
+h3{font-size:1.02rem;font-weight:760;color:#d4deee;margin-bottom:5px}
+.lead{max-width:760px;color:#9aa9bd;font-size:1rem;line-height:1.62;margin-top:18px}
+.hero-panel{background:linear-gradient(160deg,#121a2b,#101827 58%,#0b111d);border:1px solid rgba(108,140,255,.22);border-radius:10px;padding:22px;box-shadow:0 18px 56px rgba(0,0,0,.38)}
+.badge{display:inline-flex;align-items:center;height:25px;padding:0 10px;border-radius:999px;background:rgba(92,208,154,.17);border:1px solid rgba(92,208,154,.34);color:#a8edc6;font-size:.64rem;font-weight:850;text-transform:uppercase;letter-spacing:.08em}
+.badge.warn{background:rgba(240,200,120,.13);border-color:rgba(240,200,120,.32);color:#f0d28c}
+.hero-metrics{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.metric-card{background:#0d1422;border:1px solid #1f2c45;border-radius:8px;padding:16px}
+.metric-num{font-size:2.1rem;font-weight:850;color:#edf4ff;line-height:1;font-variant-numeric:tabular-nums}
+.metric-label{font-size:.77rem;color:#8fa2bb;margin-top:8px;line-height:1.35}
+.metric-sub{font-size:.68rem;color:#6f8098;margin-top:3px;line-height:1.35}
+.section{background:#0f1522}
+.summary-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:24px 0}
+.summary-card,.block,.trait-card{background:#111827;border:1px solid #1e2940;border-radius:10px}
+.summary-card{padding:18px}
+.summary-card .big{font-size:2rem;line-height:1;font-weight:830;color:#c8d8f3;font-variant-numeric:tabular-nums}
+.summary-card .label{font-size:.78rem;color:#8aa0b8;margin-top:8px;line-height:1.35}
+.block{padding:22px;margin-top:22px}
+.block-sub{font-size:.82rem;color:#7c8da6;line-height:1.5;margin-bottom:16px}
+.table-wrap{overflow-x:auto;border:1px solid #1e2940;border-radius:8px;background:#0d1220}
+table{width:100%;min-width:860px;border-collapse:collapse;font-size:.78rem}
+th,td{padding:10px 11px;border-bottom:1px solid rgba(30,41,64,.9);vertical-align:middle}
+th{font-size:.67rem;text-transform:uppercase;letter-spacing:.07em;color:#7f94b1;background:#101827;text-align:right}
+th:first-child,td:first-child{text-align:left}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.current{background:rgba(92,208,154,.055)}
+.run-label{display:flex;align-items:center;gap:8px;color:#dce6f3;font-weight:770;white-space:nowrap}
+.run-note{display:block;color:#7586a2;font-size:.69rem;margin-top:3px;line-height:1.25}
+.num{text-align:right;font-variant-numeric:tabular-nums;color:#c3d0e0}
+.num.best{color:#9ee6bd;font-weight:850;background:rgba(92,208,154,.08)}
+.num.weak{color:#8fa0b8}
+.delta{font-size:.68rem;margin-left:4px;color:#9fb0c5}
+.delta.neg{color:#ff9b9b}
+.delta.pos{color:#9ee6bd}
+.note{font-size:.76rem;color:#7c8da6;line-height:1.55;margin-top:12px;border-top:1px dashed #26324a;padding-top:12px}
+.chart-shell{height:360px;margin-top:16px}
+.architecture{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.step{background:#0d1422;border:1px solid #1f2c45;border-radius:8px;padding:16px}
+.step-num{font-size:.72rem;font-weight:900;color:#6c8cff;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.step p{font-size:.8rem;color:#9badc2;line-height:1.5}
+
+/* Detail cards */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:20px 0}
+.search{flex:1 1 260px;min-width:220px;background:#0d1422;border:1px solid #26344f;border-radius:8px;color:#d9e4f4;padding:10px 12px;font-size:.86rem}
+.select{background:#0d1422;border:1px solid #26344f;border-radius:8px;color:#d9e4f4;padding:10px 12px;font-size:.84rem}
+.count{color:#8394ad;font-size:.8rem;margin-left:auto}
+.cards{display:grid;grid-template-columns:1fr;gap:16px}
+.trait-card{padding:18px}
+.card-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;margin-bottom:12px}
+.trait-title{font-size:1rem;font-weight:780;color:#eef4ff}
+.trait-meta{font-size:.76rem;color:#7c8da6;margin-top:4px;line-height:1.45}
+.rank-badge{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;font-size:.72rem;font-weight:850;border:1px solid #2d3b56;background:#0d1422;color:#aabbd2}
+.rank-badge.hit1{color:#a8edc6;border-color:rgba(92,208,154,.38);background:rgba(92,208,154,.12)}
+.rank-badge.hit5{color:#c4dcff;border-color:rgba(108,140,255,.38);background:rgba(108,140,255,.11)}
+.bar-wrap{height:300px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:.72rem;color:#8fa2bb}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.footer{padding:22px 40px 42px;color:#677893;font-size:.75rem;text-align:center;background:#0f1522}
+@media(max-width:900px){
+  .page{padding:34px 18px}
+  .hero-grid,.summary-row,.architecture{grid-template-columns:1fr}
+}
+@media(max-width:540px){
+  .hero-metrics{grid-template-columns:1fr}
+  h1{font-size:2.3rem}
+  table{min-width:760px}
+}
+</style>
+</head>
+<body>
+<section class="page hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Contribution2 · Same-trait PRS model selection</div>
+      <h1>Best refreshed result: GPT-5.2 Harness + PRS Model Skill</h1>
+      <p class="lead">
+        The ablation view compares GPT-5.2 (Baseline), GPT-5.2 Harness Only, and
+        GPT-5.2 Harness + PRS Model Skill on the refreshed current76 benchmark.
+      </p>
+    </div>
+    <div class="hero-panel">
+      <span class="badge">best</span>
+      <div class="hero-metrics" id="hero-metrics"></div>
+    </div>
+  </div>
+</section>
+
+<section class="page section" id="summary">
+  <div class="wrap">
+    <div class="eyebrow">Summary</div>
+    <h2>Current76 best result</h2>
+    <p class="block-sub">
+      The refreshed GPT-5.2 Harness + PRS Model Skill run is shown as the main result and as the
+      final row in the ablation below.
+    </p>
+    <div class="summary-row" id="summary-row"></div>
+
+    <div class="block">
+      <h3>PRS Model Skill ablation</h3>
+      <p class="block-sub">
+        This compares pure GPT-5.2, the harness without PRS Model Skill, and the harness with PRS Model Skill.
+        The PRS Model Skill row is the refreshed Contribution2 best result.
+      </p>
+      <div class="table-wrap">
+        <table id="ablation-table"></table>
+      </div>
+      <p class="note">
+        Higher Hit@K is better. Deltas are relative to the GPT-5.2 baseline row. The final row
+        uses the current 76-disease Contribution2 result.
+      </p>
+    </div>
+
+    <div class="block">
+      <h3>GPT-5.2, Harness Only, and PRS Model Skill Hit@K profile</h3>
+      <p class="block-sub">The refreshed PRS Model Skill result lifts every Hit@K over the harness-only baseline.</p>
+      <div class="chart-shell">
+        <canvas id="hit-chart"></canvas>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Best architecture</h3>
+      <div class="architecture">
+        <div class="step">
+          <div class="step-num">Evidence</div>
+          <h3>PRS Model Skill substrate</h3>
+          <p>Uses the shared PRS model evaluator context and candidate metadata.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Paths</div>
+          <h3>Evaluator variants</h3>
+          <p>Uses the same top-5 hidden-benchmark rerank harness across the no-skill and PRS Model Skill manifests.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">Consensus</div>
+          <h3>Fixed comparison</h3>
+          <p>Keeps GPT-5.2, current76, and the rerank objective fixed across the three displayed rows.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page section" id="detail">
+  <div class="wrap">
+    <div class="eyebrow">Target Disease Detail</div>
+    <h2>Interactive candidate PGS AUC bars</h2>
+    <p class="block-sub">
+      Detail view uses the refreshed GPT-5.2 Harness + PRS Model Skill run. Each card shows benchmark AUC-ranked PGS models;
+      the selected model is highlighted against the oracle and top-5 benchmark candidates.
+    </p>
+    <div class="toolbar">
+      <input class="search" id="search" type="search" placeholder="Search disease or PGS ID">
+      <select class="select" id="filter">
+        <option value="all">All diseases</option>
+        <option value="hit1">Hit@1 only</option>
+        <option value="hit5">Hit@5 only</option>
+        <option value="miss5">Miss@5</option>
+      </select>
+      <select class="select" id="sort">
+        <option value="rank">Sort by selected rank</option>
+        <option value="name">Sort by disease name</option>
+        <option value="models">Sort by candidate pool size</option>
+      </select>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<div class="footer">
+  Sources: current76 GPT-5.2 baseline, harness-only baseline, and PRS Model Skill summaries under
+  <code>experiments/contribution2/recommendation/runs/</code>.
+</div>
+
+<script>
+const DATA = C2_PRESENTATION_DATA;
+const chartInstances = [];
+
+function pct(v) { return `${(v * 100).toFixed(1)}%`; }
+function fixed(v) { return v == null ? '—' : v.toFixed(4); }
+function pp(v) {
+  if (Math.abs(v) < 0.0001) return '0.0pp';
+  const s = v > 0 ? '+' : '';
+  return `${s}${(v * 100).toFixed(1)}pp`;
+}
+
+function buildHero() {
+  const c = DATA.current_best;
+  const h = c.hit_at_k;
+  const harness = DATA.skill_ablation.rows.find(r => r.key === 'gpt52_harness_only');
+  document.getElementById('hero-metrics').innerHTML = [
+    { num: fixed(h.h1), label: 'Hit@1', sub: `${pp(h.h1 - harness.h1)} vs Harness Only` },
+    { num: fixed(h.h5), label: 'Hit@5', sub: `${pp(h.h5 - harness.h5)} vs Harness Only` },
+    { num: `${c.hit_counts.h1}/${c.n}`, label: 'Hit@1 count', sub: c.run_label },
+    { num: String(c.n), label: 'Diseases evaluated', sub: `${c.n}-disease benchmark` },
+  ].map(m => `
+    <div class="metric-card">
+      <div class="metric-num">${m.num}</div>
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-sub">${m.sub}</div>
+    </div>
+  `).join('');
+}
+
+function buildSummary() {
+  const c = DATA.current_best;
+  const h = c.hit_at_k;
+  const harness = DATA.skill_ablation.rows.find(r => r.key === 'gpt52_harness_only');
+  document.getElementById('summary-row').innerHTML = [
+    { big: pct(h.h1), label: 'Hit@1', sub: `${pp(h.h1 - harness.h1)} vs Harness Only` },
+    { big: pct(h.h2), label: 'Hit@2', sub: `${pp(h.h2 - harness.h2)} vs Harness Only` },
+    { big: pct(h.h5), label: 'Hit@5', sub: `${pp(h.h5 - harness.h5)} vs Harness Only` },
+    { big: `${c.hit_counts.h5}/${c.n}`, label: 'Hit@5 count', sub: c.run_label },
+  ].map(k => `
+    <div class="summary-card">
+      <div class="big">${k.big}</div>
+      <div class="label">${k.label}</div>
+      <div class="metric-sub">${k.sub}</div>
+    </div>
+  `).join('');
+}
+
+function buildAblationTable() {
+  const rows = DATA.skill_ablation.rows;
+  const baseline = rows.find(r => r.key === 'gpt52_baseline');
+  const cols = [
+    { key: 'h1', label: 'Hit@1' },
+    { key: 'h2', label: 'Hit@2' },
+    { key: 'h3', label: 'Hit@3' },
+    { key: 'h4', label: 'Hit@4' },
+    { key: 'h5', label: 'Hit@5' },
+  ];
+  const table = document.getElementById('ablation-table');
+  const head = `
+    <thead>
+      <tr>
+        <th>Condition</th>
+        <th>N</th>
+        ${cols.map(c => `<th>${c.label}</th>`).join('')}
+      </tr>
+    </thead>
+  `;
+  const body = rows.map(row => {
+    const cells = cols.map(col => {
+      const delta = row[col.key] - baseline[col.key];
+      const deltaCls = delta < -0.0001 ? 'neg' : (delta > 0.0001 ? 'pos' : '');
+      const isBest = row[col.key] === Math.max(...rows.map(r => r[col.key]));
+      return `
+        <td class="num ${isBest ? 'best' : 'weak'}">
+          ${pct(row[col.key])}
+          ${row.key === 'gpt52_baseline' ? '' : `<span class="delta ${deltaCls}">${pp(delta)}</span>`}
+        </td>
+      `;
+    }).join('');
+    return `
+      <tr class="${row.current ? 'current' : ''}">
+        <td>
+          <span class="run-label">
+            ${row.current ? '<span class="badge">best</span>' : ''}
+            <span>${row.label}</span>
+          </span>
+          <span class="run-note">${row.setup}</span>
+        </td>
+        <td class="num">${row.n}</td>
+        ${cells}
+      </tr>
+    `;
+  }).join('');
+  table.innerHTML = head + `<tbody>${body}</tbody>`;
+}
+
+function buildHitChart() {
+  const rows = DATA.skill_ablation.rows;
+  const keys = ['h1', 'h2', 'h3', 'h4', 'h5'];
+  new Chart(document.getElementById('hit-chart'), {
+    type: 'line',
+    data: {
+      labels: ['Hit@1', 'Hit@2', 'Hit@3', 'Hit@4', 'Hit@5'],
+      datasets: rows.map(row => ({
+        label: row.label,
+        data: keys.map(k => row[k]),
+        borderColor: row.current ? '#5cd09a' : '#7f94b1',
+        backgroundColor: row.current ? 'rgba(92,208,154,.12)' : 'rgba(127,148,177,.08)',
+        borderWidth: row.current ? 3 : 2,
+        pointRadius: row.current ? 4 : 3,
+        tension: .25,
+      })),
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { labels: { color: '#b9c7dc', usePointStyle: true, boxWidth: 8 } },
+        tooltip: { callbacks: { label: item => `${item.dataset.label}: ${fixed(item.raw)}` } },
+      },
+      scales: {
+        x: { ticks: { color: '#8fa2bb' }, grid: { color: 'rgba(255,255,255,.05)' } },
+        y: { min: 0, max: .84, ticks: { color: '#8fa2bb', callback: v => Number(v).toFixed(2) }, grid: { color: 'rgba(255,255,255,.06)' } },
+      },
+    },
+  });
+}
+
+function visibleDiseases() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const filter = document.getElementById('filter').value;
+  const sort = document.getElementById('sort').value;
+  let arr = DATA.diseases.filter(d => {
+    const hay = `${d.ontology} ${d.selected_pgs} ${d.bars.map(b => b.pgs_id).join(' ')}`.toLowerCase();
+    if (q && !hay.includes(q)) return false;
+    if (filter === 'hit1' && !d.hit_at_1) return false;
+    if (filter === 'hit5' && !d.hit_at_5) return false;
+    if (filter === 'miss5' && d.hit_at_5) return false;
+    return true;
+  });
+  arr.sort((a, b) => {
+    if (sort === 'name') return a.ontology.localeCompare(b.ontology);
+    if (sort === 'models') return b.n_models - a.n_models;
+    return (a.selected_rank || 9999) - (b.selected_rank || 9999);
+  });
+  return arr;
+}
+
+function destroyDetailCharts() {
+  while (chartInstances.length) {
+    const chart = chartInstances.pop();
+    chart.destroy();
+  }
+}
+
+function rankClass(d) {
+  if (d.hit_at_1) return 'hit1';
+  if (d.hit_at_5) return 'hit5';
+  return '';
+}
+
+function buildCards() {
+  destroyDetailCharts();
+  const diseases = visibleDiseases();
+  document.getElementById('count').textContent = `${diseases.length} / ${DATA.diseases.length} diseases`;
+  const container = document.getElementById('cards');
+  container.innerHTML = diseases.map((d, idx) => `
+    <article class="trait-card">
+      <div class="card-head">
+        <div>
+          <div class="trait-title">${d.ontology}</div>
+          <div class="trait-meta">
+            ${d.n_models} candidate PGS models · selected ${d.selected_pgs || '—'}
+            ${d.selected_auc == null ? '' : `· AUC ${d.selected_auc.toFixed(4)}`}
+          </div>
+        </div>
+        <span class="rank-badge ${rankClass(d)}">Selected rank ${d.selected_rank || '—'} / ${d.full_count}</span>
+      </div>
+      <div class="bar-wrap"><canvas id="disease-chart-${idx}"></canvas></div>
+      <div class="legend">
+        <span><span class="sw" style="background:#5cd09a"></span>Benchmark #1</span>
+        <span><span class="sw" style="background:#ff7c7c"></span>Best selected</span>
+        <span><span class="sw" style="background:#6c8cff"></span>Benchmark top 5</span>
+        <span><span class="sw" style="background:#445268"></span>Other visible candidates</span>
+      </div>
+    </article>
+  `).join('');
+  diseases.forEach((d, idx) => renderDiseaseChart(d, `disease-chart-${idx}`));
+}
+
+function renderDiseaseChart(d, canvasId) {
+  const labels = d.bars.map(b => `${b.rank}. ${b.pgs_id}`);
+  const colors = d.bars.map(b => {
+    if (b.selected) return '#ff7c7c';
+    if (b.oracle) return '#5cd09a';
+    if (b.top5) return '#6c8cff';
+    return '#445268';
+  });
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ label: 'AoU benchmark AUC', data: d.bars.map(b => b.auc), backgroundColor: colors, borderColor: colors, borderWidth: 1 }],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: items => items[0].label,
+            label: item => {
+              const b = d.bars[item.dataIndex];
+              const tags = [b.oracle ? 'benchmark #1' : null, b.selected ? 'best selected' : null, b.top5 ? 'top 5' : null].filter(Boolean).join(', ');
+              return `AUC ${b.auc.toFixed(4)}${tags ? ` · ${tags}` : ''}`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: { ticks: { color: '#8fa2bb', maxRotation: 65, minRotation: 45, autoSkip: true, maxTicksLimit: 24 }, grid: { display: false } },
+        y: { ticks: { color: '#8fa2bb' }, grid: { color: 'rgba(255,255,255,.06)' }, title: { display: true, text: 'AUC', color: '#8fa2bb' } },
+      },
+    },
+  });
+  chartInstances.push(chart);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  buildHero();
+  buildSummary();
+  buildAblationTable();
+  buildHitChart();
+  buildCards();
+  ['search', 'filter', 'sort'].forEach(id => document.getElementById(id).addEventListener('input', buildCards));
+});
+</script>
+</body>
+</html>
