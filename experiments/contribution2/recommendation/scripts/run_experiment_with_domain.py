@@ -212,9 +212,10 @@ def _configure_without_domain_module(model: str, trials: int, run_tag: Optional[
     _set_domain_artifact_paths()
 
 
-def _domain_query(ontology: str) -> str:
+def _domain_query(ontology: str, target_ancestry: str) -> str:
     return (
-        f"target_trait: {ontology}; PRS clinical thresholds AUC R2 heritability ceiling sanity-check must-pass gates "
+        f"target_trait: {ontology}; target_ancestry: {target_ancestry}; "
+        "PRS clinical thresholds AUC R2 heritability ceiling sanity-check must-pass gates "
         "phenotype alignment endpoint specificity external transfer reliability "
         "ancestry compatibility ranking features penalties method priors "
         "validation sample size tie-break time-to-event horizon-specific "
@@ -223,22 +224,38 @@ def _domain_query(ontology: str) -> str:
     )
 
 
+def _skill_context_from_domain_result(domain: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "name": "prs-model-recommendation",
+        "query": domain.get("query", ""),
+        "full_text": domain.get("full_document", ""),
+        "snippets": domain.get("snippets", []),
+        "source_type": domain.get("source_type", "local"),
+    }
+
+
 def _step1_context(
     ontology: str,
     candidate_models: list[Any],
     total_found: int,
+    target_ancestry: str,
 ) -> dict[str, Any]:
-    query = _domain_query(ontology)
+    query = _domain_query(ontology, target_ancestry)
     domain = prs_model_domain_knowledge(query, max_snippets=8).model_dump()
+    skill_context = _skill_context_from_domain_result(domain)
     return {
         "target_trait": ontology,
+        "target_ancestry": target_ancestry,
         "direct_models": {
             "query_trait": ontology,
             "total_found": total_found,
             "after_filter": len(candidate_models),
-            "models": [without_domain._summarize_model_for_llm(model) for model in candidate_models],
+            "models": [
+                without_domain._candidate_view_for_llm(model)
+                for model in candidate_models
+            ],
         },
-        "domain_knowledge": domain,
+        "skill_context": skill_context,
         "todo_recitation_path": "N/A",
         "todo_recitation": "",
     }
@@ -261,7 +278,7 @@ def _prepare_manifest(
         ontology_filter=ontology_filter,
     )
     manifest["experiment"] = "with_domain_batch_formal"
-    manifest["domain_knowledge"] = True
+    manifest["skill_context"] = True
     manifest["model"] = without_domain._model_name()
     return manifest
 
@@ -273,7 +290,7 @@ def _build_summary_and_results(
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     trial_results, summary = without_domain._build_summary_and_results(manifest, parsed_outputs, error_map)
     summary["experiment"] = "with_domain_batch_formal"
-    summary["domain_knowledge"] = True
+    summary["skill_context"] = True
     summary["model"] = manifest["model"]
     return trial_results, summary
 
@@ -437,7 +454,7 @@ def _build_comparison_doc_value(
 
 def _load_optional_summary(path: Path) -> Optional[dict[str, Any]]:
     """Load and return a summary JSON if the file exists, else None."""
-    if not path.exists():
+    if not path.exists() or not path.is_file():
         return None
     summary = json.loads(path.read_text(encoding="utf-8"))
     without_domain._ensure_summary_hit_metrics(summary)
@@ -479,7 +496,7 @@ def _write_per_disease_comparison_doc(
     without_domain_summary_path: Path,
     prompt_only_summary_path: Optional[Path] = None,
 ) -> Optional[Path]:
-    if not without_domain_summary_path.exists():
+    if not without_domain_summary_path.exists() or not without_domain_summary_path.is_file():
         return None
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
@@ -836,7 +853,7 @@ def _write_comparison_report(
     without_domain_summary_path: Path,
     prompt_only_summary_path: Optional[Path] = None,
 ) -> Optional[Path]:
-    if not without_domain_summary_path.exists():
+    if not without_domain_summary_path.exists() or not without_domain_summary_path.is_file():
         return None
 
     without_domain_summary = json.loads(without_domain_summary_path.read_text(encoding="utf-8"))
@@ -1151,7 +1168,7 @@ def _regenerate_baseline(
 def _quick_eval(without_domain_summary_path: Path, prompt_only_summary_path: Optional[Path] = None) -> dict[str, Any]:
     summary = without_domain._quick_eval()
     summary["experiment"] = "with_domain_formal"
-    summary["domain_knowledge"] = True
+    summary["skill_context"] = True
     summary["batch_mode"] = False
     summary["cost"] = without_domain._estimate_quick_eval_cost_from_artifacts(
         manifest=without_domain._load_json(BATCH_MANIFEST_JSON),
@@ -1209,6 +1226,21 @@ def main() -> int:
         help="Ignore experiment-local prepare cache and refetch candidate metadata",
     )
     parser.add_argument(
+        "--candidate-order",
+        choices=without_domain.CANDIDATE_ORDER_CHOICES,
+        default=without_domain.DEFAULT_CANDIDATE_ORDER,
+        help=(
+            "LLM-visible candidate order. Default stable_hash_shuffle avoids "
+            "benchmark-order leakage; benchmark/reverse_benchmark are ablation-only."
+        ),
+    )
+    parser.add_argument(
+        "--candidate-order-seed",
+        type=str,
+        default=without_domain.DEFAULT_CANDIDATE_ORDER_SEED,
+        help="Seed string for stable_hash_shuffle candidate ordering.",
+    )
+    parser.add_argument(
         "--without-domain-summary",
         type=str,
         default=None,
@@ -1237,6 +1269,7 @@ def main() -> int:
         union_csv=args.union_csv,
         ground_truth_dir=args.ground_truth_dir,
     )
+    without_domain._set_candidate_order(args.candidate_order, args.candidate_order_seed)
     _configure_without_domain_module(model=args.model, trials=args.trials, run_tag=args.run_tag)
     without_domain_summary_path = (
         Path(args.without_domain_summary)

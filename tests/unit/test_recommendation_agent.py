@@ -127,3 +127,37 @@ def test_ensure_follow_up_options_inserts_train_option():
         option.action == "TRIGGER_PENNPRS_CONFIG"
         for option in updated.follow_up_options
     )
+
+
+def test_live_step1_decision_schema_matches_shortlist_prompt_contract():
+    from src.server.modules.disease.recommendation_agent import Step1Decision
+
+    schema = Step1Decision.model_json_schema()
+
+    assert "top_alternatives" in schema["properties"]
+    assert "top_alternatives" in schema["required"]
+    assert schema["properties"]["top_alternatives"]["maxItems"] == 9
+
+
+def test_live_step1_context_uses_skill_context_not_legacy_domain_knowledge():
+    from src.server.core.tool_schemas import DomainKnowledgeResult
+    from src.server.modules.disease.recommendation_agent import _build_step1_context
+
+    context = _build_step1_context(
+        target_trait="coronary artery disease",
+        direct_models_inline={"models": []},
+        direct_models_artifact=None,
+        skill_knowledge=DomainKnowledgeResult(
+            query="target_trait: coronary artery disease",
+            full_document="PGS Model Recommendation",
+            snippets=[],
+            source_type="local",
+        ),
+        todo_recitation_path="/tmp/todo.md",
+        todo_recitation="- [ ] Step 1",
+    )
+
+    assert "skill_context" in context
+    assert "domain_knowledge" not in context
+    assert context["skill_context"]["name"] == "prs-model-recommendation"
+    assert context["skill_context"]["full_text"] == "PGS Model Recommendation"

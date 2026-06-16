@@ -91,6 +91,31 @@ LEGACY_C2_CORPUS_PATH = (
     PROJECT_ROOT / "src" / "server" / "core" / "knowledge" / "prs_model_domain_knowledge.md"
 )
 
+# ---------------------------------------------------------------------------
+# New per-capability skill folders (skills/ layout).
+#
+# The legacy single `prs_model_evaluator/` folder above is RETIRED (kept on
+# disk for traceability, still served by the legacy `load_c2_view`). The
+# reworked skills live as one folder per downstream capability:
+#   - prs-model-recommendation  (within-phenotype recommendation; this module's
+#     `load_recommendation_view` is the production within read path)
+#   - prs-model-transfer        (cross-phenotype transfer; consumed by the
+#     contribution3 pipeline. Its SKILL.md body is byte-identical to the
+#     legacy SKILL.md, so `load_c3_view` keeps reading the legacy folder for
+#     now; the literal source move is folded into the c3-revalidation pass.)
+# ---------------------------------------------------------------------------
+
+RECOMMENDATION_SKILL_DIR = (
+    PROJECT_ROOT / "src" / "server" / "core" / "skills" / "prs-model-recommendation"
+)
+RECOMMENDATION_SKILL_MD_PATH = RECOMMENDATION_SKILL_DIR / "SKILL.md"
+RECOMMENDATION_CORPUS_PATH = RECOMMENDATION_SKILL_DIR / "references" / "pgs_evidence_appraisal.md"
+
+TRANSFER_SKILL_DIR = (
+    PROJECT_ROOT / "src" / "server" / "core" / "skills" / "prs-model-transfer"
+)
+TRANSFER_SKILL_MD_PATH = TRANSFER_SKILL_DIR / "SKILL.md"
+
 
 # ---------------------------------------------------------------------------
 # c3 view types
@@ -127,15 +152,7 @@ STAGE_TO_REFERENCE_FILES: dict[PgsSkillStage, tuple[str, ...]] = {
 # experiments/contribution3/transfer/skill_overrides/ and are never
 # read by load_c2_view, so they are safe for c3-only experiments.
 #
-# Iteration history:
-# - iter4: ("pick_transfer_decision_aids.md",) at PICK -> WORSE than
-#   iter3 (mean_gpr 0.8198, top_0.5% 0.25). The hand-crafted
-#   prescriptive override over-corrected: oracle_in_model_frontier
-#   dropped from iter3's 0.2625 to 0.2375, indicating PICK was being
-#   pushed away from endpoint-faithful candidates even when those
-#   were the right pick. The override file is retained on disk as
-#   a documented experiment but is no longer wired in.
-# - iter5: () at every stage (rolled back to no overrides).
+# No c3 override file is wired into the retained C3 path.
 STAGE_TO_OVERRIDE_FILES: dict[PgsSkillStage, tuple[str, ...]] = {
     "pgs_triage": (),
     "pick":       (),
@@ -267,9 +284,14 @@ def list_override_files() -> List[str]:
 # ---------------------------------------------------------------------------
 
 def load_c2_view() -> str:
-    """Return content **byte-equal** to the legacy
-    `prs_model_domain_knowledge.md` file by concatenating
-    `reference/*.md` in filename-sort order.
+    """LEGACY (retired). Return content **byte-equal** to the legacy
+    `prs_model_domain_knowledge.md` file by concatenating the retired
+    `prs_model_evaluator/reference/*.md` in filename-sort order.
+
+    Production within (contribution2) no longer uses this — it reads
+    `load_recommendation_view()` (the reworked prs-model-recommendation
+    skill). This function and the folder it reads are kept on disk for
+    traceability and for legacy ablation scripts; do not add new callers.
 
     This view is **frozen against c3-only edits**:
     - Edits to SKILL.md never affect this output.
@@ -292,6 +314,38 @@ def load_c2_view() -> str:
     return "".join(
         (REFERENCE_DIR / fname).read_text(encoding="utf-8") for fname in files
     )
+
+
+def load_recommendation_view() -> str:
+    """Production within-phenotype recommendation view.
+
+    Returns the `prs-model-recommendation` skill's procedural SKILL.md body
+    with YAML frontmatter stripped, followed by the separated field-level
+    evidence-appraisal reference.
+
+    This replaces the legacy `load_c2_view()` for contribution2:
+    - within now reads its OWN SKILL.md (previously SKILL.md was dead
+      code for within, and the procedure/guidance was duplicated inline
+      in the harness system prompt), and
+    - the schema-aligned appraisal corpus stays in the recommendation skill
+      folder as a separate reference file.
+
+    Output is intentionally NOT byte-equal to the legacy corpus — the
+    content was deliberately migrated, so the old byte-equality contract
+    is retired and within performance must be re-validated by eval.
+    """
+    parts: list[str] = []
+    if RECOMMENDATION_SKILL_MD_PATH.exists():
+        _, body = _split_yaml_frontmatter(
+            RECOMMENDATION_SKILL_MD_PATH.read_text(encoding="utf-8")
+        )
+        if body.strip():
+            parts.append(body.strip())
+    if RECOMMENDATION_CORPUS_PATH.exists():
+        corpus = RECOMMENDATION_CORPUS_PATH.read_text(encoding="utf-8").strip()
+        if corpus:
+            parts.append(corpus)
+    return "\n\n".join(parts)
 
 
 # ---------------------------------------------------------------------------
@@ -330,7 +384,6 @@ def load_c3_view(
 
     reference_filenames = STAGE_TO_REFERENCE_FILES.get(stage, ())
     override_filenames = STAGE_TO_OVERRIDE_FILES.get(stage, ())
-
     frontmatter, skill_body = _load_skill_md()
     if not skill_body:
         return PgsModelEvaluatorResult(stage=stage, enabled=False)

@@ -112,7 +112,9 @@ def _fetch_formatted_models(trait: str, request_id: str = None):
         pid = res.get('id')
         details = pgs_details_map.get(pid, {})
         perf_data = pgs_performance_map.get(pid, [])
-        selected_perf_summary, _ = _build_selected_performance_summary(perf_data)
+        selected_perf_summary, _ = _build_selected_performance_summary(
+            perf_data, details.get("trait_reported")
+        )
         metrics = details.get("metrics", {}) or {}
         if not isinstance(metrics, dict):
             metrics = {}

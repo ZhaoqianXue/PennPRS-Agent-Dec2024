@@ -4,13 +4,13 @@ import logging
 from typing import Any, Dict, List, Optional, Literal, Callable, Tuple, Set
 
 from langchain_core.prompts import ChatPromptTemplate
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 
 from src.server.core.llm_config import get_llm
 from src.server.core.system_prompts import (
-    CO_SCIENTIST_STEP1_PROMPT,
+    WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT,
     CO_SCIENTIST_REPORT_PROMPT
 )
 from src.server.core.pgs_catalog_client import PGSCatalogClient
@@ -61,6 +61,7 @@ from src.server.modules.disease.local_graph_reranker import (
 class Step1Decision(BaseModel):
     outcome: Literal["DIRECT_HIGH_QUALITY", "DIRECT_SUB_OPTIMAL", "NO_MATCH_FOUND"]
     best_model_id: Optional[str] = None
+    top_alternatives: List[str] = Field(..., max_length=9)
     confidence: Literal["High", "Moderate", "Low"]
     rationale: str
 
@@ -269,6 +270,54 @@ def _empty_domain_knowledge(query: str, source_type: str = "disabled") -> Domain
     return DomainKnowledgeResult(query=query, full_document="", snippets=[], source_type=source_type)
 
 
+def _skill_context_from_domain_knowledge(knowledge: Any) -> Dict[str, Any]:
+    if isinstance(knowledge, DomainKnowledgeResult):
+        data = knowledge.model_dump()
+    elif isinstance(knowledge, dict):
+        data = knowledge
+    elif callable(getattr(knowledge, "model_dump", None)):
+        dumped = knowledge.model_dump()
+        data = dumped if isinstance(dumped, dict) else {}
+    else:
+        data = {}
+
+    snippets = data.get("snippets") or []
+    if not isinstance(snippets, list):
+        snippets = []
+    normalized_snippets = [
+        snippet.model_dump() if isinstance(snippet, BaseModel) else snippet
+        for snippet in snippets
+        if isinstance(snippet, (dict, BaseModel))
+    ]
+
+    return {
+        "name": "prs-model-recommendation",
+        "query": data.get("query", ""),
+        "full_text": data.get("full_text", data.get("full_document", "")),
+        "snippets": normalized_snippets,
+        "source_type": data.get("source_type", "missing"),
+    }
+
+
+def _build_step1_context(
+    *,
+    target_trait: str,
+    direct_models_inline: Dict[str, Any],
+    direct_models_artifact: Optional[Dict[str, Any]],
+    skill_knowledge: DomainKnowledgeResult,
+    todo_recitation_path: str,
+    todo_recitation: str,
+) -> Dict[str, Any]:
+    return {
+        "target_trait": target_trait,
+        "direct_models": direct_models_inline,
+        "direct_models_artifact": direct_models_artifact,
+        "skill_context": _skill_context_from_domain_knowledge(skill_knowledge),
+        "todo_recitation_path": todo_recitation_path,
+        "todo_recitation": todo_recitation,
+    }
+
+
 def _extract_step1_rationale_features(rationale: str) -> List[str]:
     text = (rationale or "").lower()
     features: List[str] = []
@@ -297,6 +346,7 @@ def _fallback_step1_decision(
     return Step1Decision(
         outcome="NO_MATCH_FOUND" if pgs_result.after_filter == 0 else "DIRECT_SUB_OPTIMAL",
         best_model_id=pgs_result.models[0].id if pgs_result.models else None,
+        top_alternatives=[],
         confidence="Low",
         rationale=f"Fallback decision due to Step 1 failure: {error_message}"
     )
@@ -674,11 +724,11 @@ def _build_step1_chain(use_native_prompt: bool = False):
     _ = use_native_prompt
     llm = get_llm("disease_workflow")
     prompt = ChatPromptTemplate.from_messages([
-        ("system", CO_SCIENTIST_STEP1_PROMPT),
+        ("system", WITHIN_STAGE1_SHORTLIST_SYSTEM_PROMPT),
         ("human", (
             "Perform direct-match assessment only. Use the context JSON below to select the best "
             "supported direct-match candidate and return exactly one JSON object with fields: "
-            "outcome, best_model_id, confidence, rationale.\n\n"
+            "outcome, best_model_id, top_alternatives, confidence, rationale.\n\n"
             "Context:\n{context_json}"
         ))
     ])
@@ -838,14 +888,14 @@ def recommend_models(
         summary_builder=lambda _: _summarize_search_result_for_llm(pgs_result, top_n=TOP_MODELS_INLINE)
     )
 
-    step1_context = {
-        "target_trait": target_trait,
-        "direct_models": direct_models_inline,
-        "direct_models_artifact": direct_models_artifact.model_dump() if direct_models_artifact else None,
-        "domain_knowledge": knowledge.model_dump(),
-        "todo_recitation_path": str(todo_path),
-        "todo_recitation": todo.render()
-    }
+    step1_context = _build_step1_context(
+        target_trait=target_trait,
+        direct_models_inline=direct_models_inline,
+        direct_models_artifact=direct_models_artifact.model_dump() if direct_models_artifact else None,
+        skill_knowledge=knowledge,
+        todo_recitation_path=str(todo_path),
+        todo_recitation=todo.render(),
+    )
 
     step1_decision = None
     step1_shadow_decision: Optional[Step1Decision] = None
@@ -857,6 +907,7 @@ def recommend_models(
         step1_decision = Step1Decision(
             outcome=force_step1_outcome,
             best_model_id=pgs_result.models[0].id if pgs_result.models else None,
+            top_alternatives=[],
             confidence="Low",
             rationale=f"FORCED for testing: {force_step1_outcome}"
         )
@@ -891,7 +942,7 @@ def recommend_models(
                 shadow_label = "without_domain_shadow"
 
             shadow_context = dict(step1_context)
-            shadow_context["domain_knowledge"] = shadow_domain.model_dump()
+            shadow_context["skill_context"] = _skill_context_from_domain_knowledge(shadow_domain)
             shadow_chain = _build_step1_chain()
             step1_shadow_decision, shadow_step1_error = _invoke_step1_chain(
                 chain=shadow_chain,
@@ -913,6 +964,7 @@ def recommend_models(
             step1_decision = Step1Decision(
                 outcome="DIRECT_SUB_OPTIMAL",
                 best_model_id=step1_decision.best_model_id or (pgs_result.models[0].id if pgs_result.models else None),
+                top_alternatives=step1_decision.top_alternatives,
                 confidence=step1_decision.confidence,
                 rationale=f"[Contribution2 override] Models exist (after_filter={pgs_result.after_filter}); "
                 f"NO_MATCH_FOUND invalid. Overridden to DIRECT_SUB_OPTIMAL. Original: {step1_decision.rationale}"

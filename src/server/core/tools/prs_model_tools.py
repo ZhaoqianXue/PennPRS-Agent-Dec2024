@@ -278,7 +278,9 @@ def hydrate_pgs_model_summaries(
             date_release = "Unknown"
             samples_training = "N/A"
 
-        performance_summary, selected_performance = _build_selected_performance_summary(performance)
+        performance_summary, selected_performance = _build_selected_performance_summary(
+            performance, trait_reported if details else None
+        )
         phenotyping_reported = "Unknown"
         covariates = "Unknown"
         validation_sample_size: Optional[str] = None
@@ -457,7 +459,7 @@ def _as_unit_interval(x: Any) -> Optional[float]:
 
 
 def _metric_name(entry: Dict[str, Any]) -> str:
-    return str(entry.get("name_short") or entry.get("name_long") or "").strip()
+    return str(entry.get("metric_name") or entry.get("name_short") or entry.get("name_long") or "").strip()
 
 
 def _metric_name_upper(entry: Dict[str, Any]) -> str:
@@ -592,6 +594,11 @@ def _extract_metric_summary_from_metrics_dict(metrics_dict: Dict[str, Any]) -> D
         if _is_full_model_r2_metric(entry):
             best_full_model_r2 = _metric_max(best_full_model_r2, value)
 
+    # Genuine full-model AUROC captured before the c-index fallback below, so
+    # representative-record axis ranking can tell a real full-model AUROC apart
+    # from a C-index that was surfaced under `full_model_auc` for display.
+    genuine_full_model_auc = best_full_model_auc
+
     if best_full_model_auc is None and best_c_index is not None:
         best_full_model_auc = best_c_index
 
@@ -603,6 +610,8 @@ def _extract_metric_summary_from_metrics_dict(metrics_dict: Dict[str, Any]) -> D
         "full_model_auc": best_full_model_auc,
         "full_model_r2": best_full_model_r2,
         "incremental_auc": best_incremental_auc,
+        "c_index": best_c_index,
+        "genuine_full_model_auc": genuine_full_model_auc,
     }
 
 
@@ -645,55 +654,94 @@ def _format_validation_sample_size(sample_count: int) -> Optional[str]:
     return f"n={sample_count:,}"
 
 
+# Comparable-axis priority for representative-record selection. PRS-only metrics are
+# the cleanest cross-model axis; per-SD effect sizes are strong; C-index is a focused
+# time-to-event axis; full-model AUROC carries real but covariate-inflated signal so it
+# ranks lowest (kept, never preferred over the above).
+_AXIS_PRIORITY = {
+    "PRS_R2": 4,
+    "PRS_AUROC": 4,
+    "OR": 3,
+    "HR": 3,
+    "C_INDEX": 2,
+    "FULL_MODEL_AUROC": 1,
+}
+
+
+def _representative_axis_rank(
+    metrics_dict: Dict[str, Any], metric_summary: Dict[str, Optional[float]]
+) -> Tuple[int, int]:
+    """Comparable-axis profile of one validation record.
+
+    Returns ``(strongest_axis_tier, axis_count)`` per ``_AXIS_PRIORITY``. Used to pick
+    the most informative representative record: a record carrying a PRS-only metric or a
+    per-SD OR/HR beats one whose only discrimination evidence is a covariate-inflated
+    full-model AUROC.
+    """
+    axes: set = set()
+    if metric_summary.get("pgs_only_r2") is not None:
+        axes.add("PRS_R2")
+    if metric_summary.get("pgs_only_auc") is not None:
+        axes.add("PRS_AUROC")
+    if metric_summary.get("c_index") is not None:
+        axes.add("C_INDEX")
+    if metric_summary.get("genuine_full_model_auc") is not None:
+        axes.add("FULL_MODEL_AUROC")
+    for entry in metrics_dict.get("effect_sizes") or []:
+        if not isinstance(entry, dict):
+            continue
+        name = _metric_name(entry)
+        upper = name.upper()
+        lower = name.lower()
+        if upper == "OR" or "odds ratio" in lower:
+            axes.add("OR")
+        elif upper == "HR" or "hazard ratio" in lower:
+            axes.add("HR")
+    strongest = max((_AXIS_PRIORITY[a] for a in axes), default=0)
+    return strongest, len(axes)
+
+
 def _select_representative_performance_record(
-    performance_records: List[Dict[str, Any]]
+    performance_records: List[Dict[str, Any]],
+    predicted_trait: Optional[str] = None,
 ) -> Optional[Dict[str, Any]]:
     """
     Select one representative validation record for agent-facing reasoning.
 
     Rule:
+    0. Endpoint containment (only when ``predicted_trait`` is supplied): keep records
+       whose reported phenotype contains the score's predicted trait, so an off-target
+       evaluation (e.g. a CAC-score or non-Hodgkin record under a Hodgkin score) is not
+       chosen. If no record matches, fall back to all records (never return nothing).
     1. Prefer records with European validation ancestry.
-    2. Within EUR records, choose the highest-result record.
-    3. If no EUR record exists, choose the highest-result record overall.
+    2. Within the pool, rank by comparable-axis profile (strongest axis tier, then axis
+       count), then validation sample size.
 
-    "Highest-result" is determined by:
-    - PRS-comparable AUC first
-    - then PRS-comparable R²
-    - then full-model AUC
-    - then full-model R²
-    - then validation sample size
+    Axis tiers (`_AXIS_PRIORITY`): PRS-only R2/AUROC (4) > per-SD OR/HR (3) >
+    C-index (2) > full-model AUROC (1, covariate-inflated but real) > none (0).
     """
-    ranked: List[Tuple[int, int, float, int, int, Dict[str, Any]]] = []
-    for idx, record in enumerate(performance_records or []):
-        if not isinstance(record, dict):
-            continue
+    records = [r for r in (performance_records or []) if isinstance(r, dict)]
+    if predicted_trait:
+        needle = str(predicted_trait).strip().lower()
+        if needle:
+            faithful = [
+                r for r in records
+                if needle in str(r.get("phenotyping_reported") or "").lower()
+            ]
+            if faithful:
+                records = faithful
+
+    ranked: List[Tuple[int, int, int, int, int, Dict[str, Any]]] = []
+    for idx, record in enumerate(records):
         metrics_dict = record.get("performance_metrics") or {}
         if not isinstance(metrics_dict, dict):
             metrics_dict = {}
         metric_summary = _extract_metric_summary_from_metrics_dict(metrics_dict)
-        comparable_auc = metric_summary.get("auc")
-        comparable_r2 = metric_summary.get("r2")
-        full_model_auc = metric_summary.get("full_model_auc")
-        full_model_r2 = metric_summary.get("full_model_r2")
-        if comparable_auc is not None:
-            metric_tier = 4
-            metric_value = comparable_auc
-        elif comparable_r2 is not None:
-            metric_tier = 3
-            metric_value = comparable_r2
-        elif full_model_auc is not None:
-            metric_tier = 2
-            metric_value = full_model_auc
-        elif full_model_r2 is not None:
-            metric_tier = 1
-            metric_value = full_model_r2
-        else:
-            metric_tier = 0
-            metric_value = -1.0
+        axis_tier, axis_count = _representative_axis_rank(metrics_dict, metric_summary)
         ancestries = _extract_validation_ancestries(record)
         eur_flag = 1 if any(_is_european_ancestry(a) for a in ancestries) else 0
         sample_n = _extract_validation_sample_count(record)
-        ranked.append((eur_flag, metric_tier, metric_value, sample_n, -idx, record))
+        ranked.append((eur_flag, axis_tier, axis_count, sample_n, -idx, record))
 
     if not ranked:
         return None
@@ -704,9 +752,12 @@ def _select_representative_performance_record(
 
 
 def _build_selected_performance_summary(
-    performance_records: List[Dict[str, Any]]
+    performance_records: List[Dict[str, Any]],
+    predicted_trait: Optional[str] = None,
 ) -> Tuple[Dict[str, Any], Optional[Dict[str, Any]]]:
-    selected = _select_representative_performance_record(performance_records)
+    selected = _select_representative_performance_record(
+        performance_records, predicted_trait
+    )
     if not selected:
         return {
             "auc": None,
@@ -766,10 +817,12 @@ def _extract_cohorts(details: Dict[str, Any]) -> List[str]:
 
 # --- Domain Knowledge Tool ---
 
-# Default path to the legacy canonical corpus. The runtime read path below now
-# uses `load_c2_view()` so contribution2 consumes the shared
-# prs-model-evaluator skill folder; this constant remains for compatibility and
-# for byte-equality tests that compare the historical file to the skill view.
+# Default path to the legacy canonical corpus (RETIRED — kept on disk for
+# traceability, not deleted). The runtime read path below now uses
+# `load_recommendation_view()` so contribution2 consumes the reworked
+# prs-model-recommendation skill (its SKILL.md procedural overview + the merged
+# `pgs_evidence_appraisal.md` corpus). This constant remains only for explicit
+# `knowledge_file=` ablation calls that still want the historical corpus.
 KNOWLEDGE_BASE_PATH = os.path.join(
     os.path.dirname(__file__), "..", "knowledge", "prs_model_domain_knowledge.md"
 )
@@ -805,9 +858,11 @@ def prs_model_domain_knowledge(
     # `knowledge_file` calls are kept for contribution2 ablation variants.
     try:
         if knowledge_file is None:
-            from src.server.core.tools.prs_model_evaluator_skill import load_c2_view
+            from src.server.core.tools.prs_model_evaluator_skill import (
+                load_recommendation_view,
+            )
 
-            content = load_c2_view()
+            content = load_recommendation_view()
         else:
             with open(kb_path, 'r', encoding='utf-8') as f:
                 content = f.read()

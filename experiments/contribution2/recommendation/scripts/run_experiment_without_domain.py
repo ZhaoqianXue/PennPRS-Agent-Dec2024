@@ -86,8 +86,12 @@ if eval_pgs_path.exists():
     os.environ["PENNPRS_CONTRIB2_EVALUATED_PGS_JSON"] = str(eval_pgs_path)
 
 from src.server.core.llm_config import get_config
-from src.server.core.system_prompts import CO_SCIENTIST_STEP1_PROMPT
+from src.server.core.within_prompts.archive.selectors_pre_cleanup_20260615 import (
+    GENERAL_BIOMEDICAL_STAGE1_SYSTEM_PROMPT,
+    GENERAL_LLM_BASELINE_SYSTEM_PROMPT,
+)
 from src.server.core.tools.prs_model_tools import (
+    hydrate_pgs_model_summaries,
     prs_model_pgscatalog_search,
 )
 from src.server.core.pgs_catalog_client import PGSCatalogClient
@@ -105,11 +109,22 @@ BENCHMARK_RANKED_JSON = GROUND_TRUTH_DIR / "top_k_pgs_per_ontology.json"
 TOP_K_JSON = BENCHMARK_RANKED_JSON
 EVALUATED_JSON = GROUND_TRUTH_DIR / "evaluated_pgs_per_ontology.json"
 BENCHMARK_AUC_JSON = GROUND_TRUTH_DIR / "benchmark_auc_per_ontology.json"
-CONTRIB1_BINARY_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_binary"
-CONTRIB1_LEGACY_ICD_RESULT_DIR = PROJECT_ROOT / "experiments" / "contribution1" / "result" / "aou_icd_260217"
-CHILDCODE_AUC_MATRIX = CONTRIB1_LEGACY_ICD_RESULT_DIR / "prs_adjauc_matrix_260217_childrencode.csv"
-ROOTCODE_AUC_MATRIX = CONTRIB1_BINARY_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv"
-PREPARE_CACHE_VERSION = "v4"
+CONTRIB1_ICD_RESULT_DIR = (
+    PROJECT_ROOT
+    / "experiments"
+    / "contribution1"
+    / "result"
+    / "legacy_no_aou_pgs"
+    / "aou_binary"
+)
+CHILDCODE_AUC_MATRIX = CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_matrix_binary_combined_childrencode.csv"
+ROOTCODE_AUC_MATRIX = CONTRIB1_ICD_RESULT_DIR / "prs_adjauc_matrix_binary_combined_rootcode.csv"
+PREPARE_CACHE_VERSION = "v5"
+# The within-trait task input is (target_trait, target_ancestry). This experiment
+# is fixed to European because the AoU benchmark is a European evaluation; the
+# prompt/skill stay ancestry-general and only treat the target as European because
+# the runner explicitly injects this value into every request context.
+EXPERIMENT_TARGET_ANCESTRY = "European"
 BENCHMARK_HIT_KS = (1, 2, 3, 4, 5)
 PERCENTILE_HIT_PCTS = (5, 10, 15, 20, 25)
 PROMPT_ONLY_LABEL = "Prompt-Only Baseline"
@@ -119,6 +134,11 @@ DOMAIN_KNOWLEDGE_LABEL = "Catalog Search + Domain Knowledge"
 ACTIVE_RUN_DIR: Optional[Path] = None
 ACTIVE_RUN_TAG: Optional[str] = None
 ACTIVE_BENCHMARK_LABEL: Optional[str] = None
+DEFAULT_CANDIDATE_ORDER = os.getenv("PENNPRS_CANDIDATE_ORDER", "stable_hash_shuffle")
+DEFAULT_CANDIDATE_ORDER_SEED = os.getenv("PENNPRS_CANDIDATE_ORDER_SEED", "pennprs-order-v1")
+CANDIDATE_ORDER_CHOICES = ("stable_hash_shuffle", "lexicographic", "benchmark", "reverse_benchmark")
+ACTIVE_CANDIDATE_ORDER = DEFAULT_CANDIDATE_ORDER
+ACTIVE_CANDIDATE_ORDER_SEED = DEFAULT_CANDIDATE_ORDER_SEED
 RESULTS_JSON = Path()
 SUMMARY_JSON = Path()
 REPORT_MD = Path()
@@ -144,6 +164,18 @@ BATCH_PRICING_PER_MILLION_USD = {
         "cached_input": 0.125,
         "output": 7.5,
     },
+    # gpt-5.4-mini Batch-tier prices (developers.openai.com/api/docs/pricing, 2026-06).
+    "gpt-5.4-mini": {
+        "input": 0.375,
+        "cached_input": 0.0375,
+        "output": 2.25,
+    },
+    # gpt-5.4-nano Batch-tier prices (developers.openai.com pricing, 2026-06).
+    "gpt-5.4-nano": {
+        "input": 0.10,
+        "cached_input": 0.01,
+        "output": 0.625,
+    },
     "gpt-5-mini": {
         "input": 0.125,
         "cached_input": 0.0125,
@@ -152,6 +184,17 @@ BATCH_PRICING_PER_MILLION_USD = {
 }
 STANDARD_PRICING_PER_MILLION_USD = {
     # Official OpenAI Standard-tier prices as of 2026-03-06.
+    "gpt-5.4-mini": {
+        # developers.openai.com/api/docs/pricing, 2026-06.
+        "input": 0.75,
+        "cached_input": 0.075,
+        "output": 4.50,
+    },
+    "gpt-5.4": {
+        "input": 2.50,
+        "cached_input": 0.25,
+        "output": 15.0,
+    },
     "gpt-5.2": {
         "input": 1.75,
         "cached_input": 0.175,
@@ -320,6 +363,89 @@ def _whitelist_digest(candidate_model_ids: list[str]) -> str:
     return hashlib.sha1(joined.encode("utf-8")).hexdigest()[:12]
 
 
+def _set_candidate_order(candidate_order: str, candidate_order_seed: Optional[str] = None) -> None:
+    global ACTIVE_CANDIDATE_ORDER, ACTIVE_CANDIDATE_ORDER_SEED
+    if candidate_order not in CANDIDATE_ORDER_CHOICES:
+        raise ValueError(
+            f"Unsupported candidate order {candidate_order!r}; "
+            f"expected one of {', '.join(CANDIDATE_ORDER_CHOICES)}"
+        )
+    ACTIVE_CANDIDATE_ORDER = candidate_order
+    ACTIVE_CANDIDATE_ORDER_SEED = candidate_order_seed or DEFAULT_CANDIDATE_ORDER_SEED
+
+
+def _order_candidate_ids_for_llm(
+    *,
+    ontology: str,
+    candidate_model_ids: list[str],
+    benchmark_ranked_ids: list[str],
+    candidate_order: str,
+    candidate_order_seed: str,
+) -> list[str]:
+    """Return the LLM-visible candidate order without changing the candidate set."""
+    ids = [pgs_id for pgs_id in candidate_model_ids if pgs_id]
+    if candidate_order == "benchmark":
+        return ids
+    if candidate_order == "lexicographic":
+        return sorted(ids)
+    if candidate_order == "reverse_benchmark":
+        candidate_set = set(ids)
+        reversed_ranked = [pgs_id for pgs_id in reversed(benchmark_ranked_ids) if pgs_id in candidate_set]
+        ranked_set = set(reversed_ranked)
+        extras = sorted(pgs_id for pgs_id in ids if pgs_id not in ranked_set)
+        return reversed_ranked + extras
+    if candidate_order == "stable_hash_shuffle":
+        return sorted(
+            ids,
+            key=lambda pgs_id: (
+                hashlib.sha256(
+                    f"{candidate_order_seed}\0{ontology}\0{pgs_id}".encode("utf-8")
+                ).hexdigest(),
+                pgs_id,
+            ),
+        )
+    raise ValueError(f"Unsupported candidate order: {candidate_order}")
+
+
+def _candidate_order_metadata(
+    *,
+    candidate_model_ids: list[str],
+    benchmark_ranked_ids: list[str],
+    candidate_order: str,
+    candidate_order_seed: str,
+) -> dict[str, Any]:
+    top1 = benchmark_ranked_ids[0] if benchmark_ranked_ids else None
+    top1_position = None
+    if top1 in candidate_model_ids:
+        top1_position = candidate_model_ids.index(top1) + 1
+    return {
+        "candidate_order_source": candidate_order,
+        "candidate_order_seed": candidate_order_seed,
+        "candidate_order_matches_benchmark_order": list(candidate_model_ids) == list(benchmark_ranked_ids),
+        "benchmark_top1_position_in_candidate_order": top1_position,
+    }
+
+
+def _candidate_summaries_in_order(
+    candidate_model_summaries: list[dict[str, Any]],
+    candidate_model_ids: list[str],
+) -> list[dict[str, Any]]:
+    by_id: dict[str, dict[str, Any]] = {}
+    for summary in candidate_model_summaries:
+        pgs_id = str(summary.get("id") or "")
+        if pgs_id and pgs_id not in by_id:
+            by_id[pgs_id] = summary
+    ordered = [by_id[pgs_id] for pgs_id in candidate_model_ids if pgs_id in by_id]
+    if len(ordered) == len(candidate_model_summaries):
+        return ordered
+    ordered_ids = {str(summary.get("id") or "") for summary in ordered}
+    extras = [
+        summary for summary in candidate_model_summaries
+        if str(summary.get("id") or "") not in ordered_ids
+    ]
+    return ordered + extras
+
+
 def _model_name() -> str:
     config = get_config("disease_workflow")
     return os.getenv("OPENAI_MODEL") or config.model
@@ -360,6 +486,40 @@ def _model_from_summary(summary: dict[str, Any]) -> Any:
     return SimpleNamespace(**summary)
 
 
+# ---------------------------------------------------------------------------
+# LLM-facing candidate view = the unrestricted id-plus-seven-evidence-section
+# PGS schema, built directly from the full PGS Catalog REST dump so each
+# candidate's field vocabulary matches the prs-model-recommendation skill. See
+# src/server/core/tools/pgs_single_record.py and single_record_rule_spec.md.
+# Both the General-LLM arm and the Agent arm use this identical candidate view;
+# only the injected domain-knowledge skill differs. Trait-agnostic.
+# ---------------------------------------------------------------------------
+
+def _candidate_view_for_llm(model: Any) -> dict[str, Any]:
+    """Return the unrestricted candidate schema, built from the REST dump by PGS id.
+    Falls back to a near-empty record if the PGS is absent from the dump (should
+    not happen for the AoU candidate pool)."""
+    from src.server.core.tools.pgs_single_record import build_single_record
+
+    pgs_id = getattr(model, "id", None)
+    if pgs_id is None and isinstance(model, dict):
+        pgs_id = model.get("id")
+    if pgs_id:
+        record = build_single_record(str(pgs_id))
+        if record is not None:
+            return record
+    return {
+        "id": pgs_id,
+        "predicted_trait": {"trait_reported": None, "trait_efo": []},
+        "performance_metrics": [],
+        "source_of_variant_associations_gwas": [],
+        "score_development_training": [],
+        "development_method": {"method_name": None},
+        "variants": {"variants_number": None},
+        "pgs_source": {"publication_title": None, "publication_journal": None, "date_release": None},
+    }
+
+
 def _candidate_cache_path(ontology: str, candidate_model_ids: list[str]) -> Path:
     return (
         LOCAL_CACHE_DIR
@@ -383,7 +543,10 @@ def _load_cached_candidate_bundle(
         return None
     if payload.get("ontology") != ontology:
         return None
-    if list(payload.get("candidate_model_ids") or []) != list(candidate_model_ids):
+    payload_ids = list(payload.get("candidate_model_ids") or [])
+    if set(payload_ids) != set(candidate_model_ids) or len(payload_ids) != len(candidate_model_ids):
+        return None
+    if candidate_model_ids and not (payload.get("candidate_models") or []):
         return None
     return payload
 
@@ -932,43 +1095,66 @@ def _sort_disease_rows(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def _tiered_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
+    """Reported-max baseline (NO LLM): within the candidate pool, pick the PGS
+    with the highest disease-consistent PGS-Catalog-reported discrimination
+    (AUROC or C-index).
+
+    Each candidate's reported discrimination is the best of its visible
+    full-model AUROC, PGS-only AUROC, and C-index across the unrestricted
+    performance records (the catalog's reported numbers, taken at face value —
+    this is the naive 'trust the reported metric' floor). The candidate with the
+    highest such value wins; ties resolve to first seen.
     """
-    Tiered baseline: Tier 1 uses PGS-only AUROC; Tier 2 falls back to full-model AUROC
-    when no candidate has PGS-comparable AUROC. Achieves ~100% coverage.
-    """
+    from src.server.core.tools.pgs_single_record import build_single_record
+    from src.server.core.tools.prs_model_tools import _extract_metric_summary_from_metrics_dict
+
     best_model = None
     best_score = None
-    tier_used = None
-
-    # Tier 1: PGS-only AUROC (PRS-comparable)
+    best_metric = None
     for model in models:
-        perf = getattr(model, "performance_metrics", {}) or {}
-        auc = _safe_float(perf.get("auc"))
-        if auc is None:
+        pgs_id = getattr(model, "id", None)
+        if not pgs_id:
             continue
-        if best_score is None or auc > best_score:
-            best_model = model
-            best_score = auc
-            tier_used = "pgs_only_auroc"
-
-    # Tier 2: full-model AUROC when Tier 1 has no coverage
-    if best_model is None:
-        for model in models:
-            perf = getattr(model, "performance_metrics", {}) or {}
-            full_auc = _safe_float(perf.get("full_model_auc"))
-            if full_auc is None:
+        record = build_single_record(str(pgs_id))
+        if not record:
+            continue
+        performance_records = record.get("performance_metrics") or []
+        if isinstance(performance_records, dict):
+            performance_records = [performance_records]
+        scored = []
+        for performance_record in performance_records:
+            if not isinstance(performance_record, dict):
                 continue
-            if best_score is None or full_auc > best_score:
-                best_model = model
-                best_score = full_auc
-                tier_used = "full_model_auroc"
+            metrics = _extract_metric_summary_from_metrics_dict(
+                {
+                    "effect_sizes": performance_record.get("effect_sizes") or [],
+                    "class_acc": performance_record.get("classification_metrics") or [],
+                    "othermetrics": performance_record.get("other_metrics") or [],
+                }
+            )
+            scored.extend(
+                (v, k)
+                for v, k in (
+                    (_safe_float(metrics.get("genuine_full_model_auc")), "full_model_auroc"),
+                    (_safe_float(metrics.get("pgs_only_auc")), "pgs_only_auroc"),
+                    (_safe_float(metrics.get("c_index")), "c_index"),
+                )
+                if v is not None
+            )
+        if not scored:
+            continue
+        value, metric = max(scored, key=lambda t: t[0])
+        if best_score is None or value > best_score:
+            best_model = model
+            best_score = value
+            best_metric = metric
 
     if best_model is None or best_score is None:
         return None
     return {
         "pgs_id": getattr(best_model, "id", None),
         "reported_auc": round(best_score, 4),
-        "tier": tier_used,
+        "tier": best_metric,
         "trait_reported": getattr(best_model, "trait_reported", None),
         "method_name": getattr(best_model, "method_name", None),
         "validation_sample_size": getattr(best_model, "validation_sample_size", None),
@@ -976,7 +1162,7 @@ def _tiered_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
 
 
 def _best_reported_pgs_only_auc_baseline(models: list[Any]) -> Optional[dict[str, Any]]:
-    """Alias for tiered baseline (backward compatible)."""
+    """Alias for the reported-max baseline (backward-compatible call site)."""
     return _tiered_baseline(models)
 
 
@@ -1116,34 +1302,50 @@ def _step1_context(
     ontology: str,
     candidate_models: list[Any],
     total_found: int,
+    target_ancestry: str,
 ) -> dict[str, Any]:
+    # target_ancestry is a required part of the task input; the runner injects the
+    # experiment-fixed value (EXPERIMENT_TARGET_ANCESTRY).
     return {
         "target_trait": ontology,
+        "target_ancestry": target_ancestry,
         "direct_models": {
             "query_trait": ontology,
             "total_found": total_found,
             "after_filter": len(candidate_models),
-            "models": [_summarize_model_for_llm(model) for model in candidate_models],
+            "models": [_candidate_view_for_llm(model) for model in candidate_models],
         },
-        "domain_knowledge": {
-            "query": "",
-            "snippets": [],
-            "source_type": "disabled_by_ablation",
-        },
-        "todo_recitation_path": "N/A",
-        "todo_recitation": "",
     }
 
 
 def _step1_messages(context_json: str) -> list[dict[str, str]]:
+    # System-prompt routing (single deterministic seam shared by three arms):
+    #  - The pure "general llm" baseline (this runner) injects NO skill: its
+    #    context has no skill_context / domain_knowledge key, so it gets a true
+    #    general-LLM baseline prompt -- a domain-expert persona with NO PRS
+    #    appraisal rubric, single-stage, no benchmark/objective leakage.
+    #  - The skill-augmented reusers (run_experiment_with_domain via monkeypatch,
+    #    run_experiment_pev_with_skill via direct call) inject skill_context /
+    #    domain_knowledge into the context; they keep the ORIGINAL
+    #    GENERAL_BIOMEDICAL_STAGE1 prompt unchanged, so this change does not
+    #    alter those arms.
+    skill_augmented = (
+        '"skill_context"' in context_json or '"domain_knowledge"' in context_json
+    )
+    system_prompt = (
+        GENERAL_BIOMEDICAL_STAGE1_SYSTEM_PROMPT
+        if skill_augmented
+        else GENERAL_LLM_BASELINE_SYSTEM_PROMPT
+    )
     return [
-        {"role": "system", "content": CO_SCIENTIST_STEP1_PROMPT},
+        {"role": "system", "content": system_prompt},
         {
             "role": "user",
             "content": (
-                "Perform direct-match assessment only. Use the context JSON below to select the "
-                "best supported direct-match candidate and return exactly one JSON object with "
-                "fields: outcome, best_model_id, confidence, rationale.\n\n"
+                "Use the context JSON below to select the best-supported visible PGS "
+                "candidate for the target trait and target ancestry (see the context's "
+                "`target_trait` and `target_ancestry` fields). Return exactly "
+                "one JSON object with fields: outcome, best_model_id, confidence, rationale.\n\n"
                 f"Context:\n{context_json}"
             ),
         },
@@ -1210,9 +1412,11 @@ def _pricing_for_model(
     pricing_table: dict[str, dict[str, float]],
 ) -> tuple[Optional[str], Optional[dict[str, float]]]:
     lower = str(model_name or "").lower()
-    for prefix, pricing in pricing_table.items():
+    # Longest-prefix-first so a specific id (e.g. gpt-5.4-nano) is not shadowed
+    # by a shorter key (e.g. gpt-5.4) and mispriced.
+    for prefix in sorted(pricing_table, key=len, reverse=True):
         if lower.startswith(prefix):
-            return prefix, pricing
+            return prefix, pricing_table[prefix]
     return None, None
 
 
@@ -1452,7 +1656,20 @@ def _prepare_manifest(
         benchmark_auc_by_id = dict(benchmark_auc_data.get(key) or {})
         benchmark_topk_ids = _benchmark_topk_ids(target_ranked_ids, benchmark_auc_by_id)
         benchmark_top_percent_ids = _benchmark_top_percent_ids(target_ranked_ids, benchmark_auc_by_id)
-        candidate_model_ids = list(evaluated_data[key])
+        evaluated_candidate_model_ids = list(evaluated_data[key])
+        candidate_model_ids = _order_candidate_ids_for_llm(
+            ontology=ontology,
+            candidate_model_ids=evaluated_candidate_model_ids,
+            benchmark_ranked_ids=target_ranked_ids,
+            candidate_order=ACTIVE_CANDIDATE_ORDER,
+            candidate_order_seed=ACTIVE_CANDIDATE_ORDER_SEED,
+        )
+        candidate_order_metadata = _candidate_order_metadata(
+            candidate_model_ids=candidate_model_ids,
+            benchmark_ranked_ids=target_ranked_ids,
+            candidate_order=ACTIVE_CANDIDATE_ORDER,
+            candidate_order_seed=ACTIVE_CANDIDATE_ORDER_SEED,
+        )
         candidate_id_set = set(candidate_model_ids)
 
         print(f"[{index}/{len(rows)}] preparing {ontology} (candidate models={n_models}, trials={trials})")
@@ -1463,19 +1680,33 @@ def _prepare_manifest(
         )
         if cached_bundle:
             total_found = _safe_int(cached_bundle.get("total_found"))
-            candidate_model_summaries = list(cached_bundle.get("candidate_models") or [])
+            candidate_model_summaries = _candidate_summaries_in_order(
+                list(cached_bundle.get("candidate_models") or []),
+                candidate_model_ids,
+            )
             candidate_models = [_model_from_summary(summary) for summary in candidate_model_summaries]
             baseline = cached_bundle.get("baseline")
             print(f"  using local cache ({len(candidate_models)} models)")
         else:
-            candidate_result = prs_model_pgscatalog_search(
-                pgs_client,
-                ontology,
-                evaluated_pgs_whitelist=candidate_id_set,
+            if candidate_model_ids:
+                candidate_models = hydrate_pgs_model_summaries(
+                    pgs_client,
+                    candidate_model_ids,
+                )
+                total_found = len(candidate_models)
+            else:
+                candidate_result = prs_model_pgscatalog_search(
+                    pgs_client,
+                    ontology,
+                    evaluated_pgs_whitelist=candidate_id_set,
+                )
+                candidate_models = list(candidate_result.models)
+                total_found = candidate_result.total_found
+            candidate_model_summaries = _candidate_summaries_in_order(
+                [_summarize_model_for_llm(model) for model in candidate_models],
+                candidate_model_ids,
             )
-            candidate_models = list(candidate_result.models)
-            total_found = candidate_result.total_found
-            candidate_model_summaries = [_summarize_model_for_llm(model) for model in candidate_models]
+            candidate_models = [_model_from_summary(summary) for summary in candidate_model_summaries]
             baseline = _best_reported_pgs_only_auc_baseline(candidate_models)
             _write_cached_candidate_bundle(
                 ontology=ontology,
@@ -1488,6 +1719,7 @@ def _prepare_manifest(
             ontology=ontology,
             candidate_models=candidate_models,
             total_found=total_found,
+            target_ancestry=EXPERIMENT_TARGET_ANCESTRY,
         )
         context_json = json.dumps(context, separators=(",", ":"), ensure_ascii=False)
         slug = _slugify(ontology)
@@ -1496,6 +1728,7 @@ def _prepare_manifest(
             "ontology": ontology,
             "ontology_key": key,
             "ontology_slug": slug,
+            "target_ancestry": EXPERIMENT_TARGET_ANCESTRY,
             "n_models": n_models,
             "benchmark_ranked_ids": target_ranked_ids,
             "benchmark_auc_by_id": benchmark_auc_by_id,
@@ -1503,7 +1736,16 @@ def _prepare_manifest(
             "benchmark_top_percent_ids": benchmark_top_percent_ids,
             "eligible_at_k": _eligible_at_k_map(len(target_ranked_ids) or n_models),
             "candidate_model_ids": candidate_model_ids,
-            "candidate_models_visible_to_llm": candidate_model_summaries,
+            **candidate_order_metadata,
+            # The exact candidate JSON shown to the LLM: the unrestricted
+            # id-plus-seven-evidence-section schema (build_single_record), identical
+            # to _step1_context's `models`. NOT the flat _summarize_model_for_llm summary.
+            "candidate_models_visible_to_llm": [
+                _candidate_view_for_llm(model) for model in candidate_models
+            ],
+            # Flat per-model summaries retained for the reported-max baseline and
+            # the per-disease field tables (FIELD_ROWS); these are NOT the LLM input.
+            "candidate_model_summaries": candidate_model_summaries,
             "baseline": baseline,
             "total_found": total_found,
         })
@@ -1521,6 +1763,7 @@ def _prepare_manifest(
                 "benchmark_topk_ids": benchmark_topk_ids,
                 "benchmark_top_percent_ids": benchmark_top_percent_ids,
                 "candidate_model_ids": candidate_model_ids,
+                **candidate_order_metadata,
                 "request": _build_batch_request(
                     custom_id=custom_id,
                     context_json=context_json,
@@ -1539,6 +1782,8 @@ def _prepare_manifest(
         "ontology_filter": sorted(ontology_filter) if ontology_filter else None,
         "union_csv": str(UNION_CSV),
         "ground_truth_dir": str(GROUND_TRUTH_DIR),
+        "candidate_order": ACTIVE_CANDIDATE_ORDER,
+        "candidate_order_seed": ACTIVE_CANDIDATE_ORDER_SEED,
         "disease_metadata": disease_metadata,
         "requests": requests,
     }
@@ -1971,7 +2216,7 @@ def _build_summary_and_results(
             for feature in trial.get("rationale_features", [])
         )
         # Recompute baseline using tiered logic (PGS-only AUC, then full-model AUC fallback)
-        candidate_summaries = disease.get("candidate_models_visible_to_llm") or []
+        candidate_summaries = disease.get("candidate_model_summaries") or []
         if candidate_summaries:
             candidate_models = [_model_from_summary(s) for s in candidate_summaries]
             baseline = _tiered_baseline(candidate_models)
@@ -2094,6 +2339,7 @@ def _build_summary_and_results(
             "eligible_at_k": disease["eligible_at_k"],
             "candidate_model_ids": disease["candidate_model_ids"],
             "candidate_models_visible_to_llm": disease["candidate_models_visible_to_llm"],
+            "candidate_model_summaries": disease.get("candidate_model_summaries") or [],
             "trial_hits": hit_count,
             "trial_hit_rate": round(hit_rate, 4),
             "trial_hit_counts_at_k": trial_hit_counts_at_k,
@@ -2140,7 +2386,7 @@ def _build_summary_and_results(
 
     summary = {
         "experiment": "without_domain_batch_formal",
-        "domain_knowledge": False,
+        "skill_context": False,
         "strict_llm_only": True,
         "cross_disease_enabled": False,
         "batch_mode": True,
@@ -2155,7 +2401,7 @@ def _build_summary_and_results(
         "modal_hit_at_k": modal_hit_metrics,
         "modal_percentile_hit": modal_percentile_hit_metrics,
         "baseline": {
-            "name": "tiered_baseline_pgs_only_auc_then_full_model_auroc",
+            "name": "reported_max_auroc_or_c_index_disease_consistent",
             "available": baseline_available,
             "coverage": round(baseline_available / total_ontologies, 4) if total_ontologies else 0.0,
             "hits": baseline_hits,
@@ -2221,9 +2467,11 @@ def _load_aou_auc_lookup() -> dict[str, dict[str, float]]:
 
 
 def _model_map(row: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    # FIELD_ROWS reads flat per-model summary fields, so map over the flat
+    # candidate_model_summaries, not the unrestricted LLM view.
     return {
         str(model.get("id")): model
-        for model in (row.get("candidate_models_visible_to_llm") or [])
+        for model in (row.get("candidate_model_summaries") or [])
         if model.get("id")
     }
 
@@ -2351,7 +2599,7 @@ def _recompute_baseline_in_summary(summary: dict[str, Any]) -> dict[str, Any]:
     total_ontologies = len(per_disease)
 
     for row in per_disease:
-        candidate_summaries = row.get("candidate_models_visible_to_llm") or []
+        candidate_summaries = row.get("candidate_model_summaries") or []
         if not candidate_summaries:
             continue
         candidate_models = [_model_from_summary(s) for s in candidate_summaries]
@@ -2718,6 +2966,21 @@ def main() -> int:
         action="store_true",
         help="Ignore experiment-local prepare cache and refetch candidate metadata",
     )
+    parser.add_argument(
+        "--candidate-order",
+        choices=CANDIDATE_ORDER_CHOICES,
+        default=DEFAULT_CANDIDATE_ORDER,
+        help=(
+            "LLM-visible candidate order. Default stable_hash_shuffle avoids "
+            "benchmark-order leakage; benchmark/reverse_benchmark are ablation-only."
+        ),
+    )
+    parser.add_argument(
+        "--candidate-order-seed",
+        type=str,
+        default=DEFAULT_CANDIDATE_ORDER_SEED,
+        help="Seed string for stable_hash_shuffle candidate ordering.",
+    )
     args = parser.parse_args()
 
     if not os.getenv("OPENAI_API_KEY"):
@@ -2729,6 +2992,7 @@ def main() -> int:
 
     ontology_filter = _load_ontology_filter(args.ontology, args.ontologies_file)
     _configure_benchmark_sources(union_csv=args.union_csv, ground_truth_dir=args.ground_truth_dir)
+    _set_candidate_order(args.candidate_order, args.candidate_order_seed)
     _set_run_paths(trials=args.trials, model=args.model, run_tag=args.run_tag)
 
     try:
